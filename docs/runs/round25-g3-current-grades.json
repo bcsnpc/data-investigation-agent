@@ -2,46 +2,46 @@
   "official_primary": {
     "all_three": {
       "correct": 6,
-      "total": 56,
-      "accuracy": 0.10714285714285714,
-      "lower": 0.05003935571117074,
-      "upper": 0.21468445171071482,
+      "total": 60,
+      "accuracy": 0.1,
+      "lower": 0.04664283447388416,
+      "upper": 0.20149464723978772,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 6,
-      "total": 56,
-      "accuracy": 0.10714285714285714,
-      "lower": 0.05003935571117074,
-      "upper": 0.21468445171071482,
+      "total": 60,
+      "accuracy": 0.1,
+      "lower": 0.04664283447388416,
+      "upper": 0.20149464723978772,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 10,
-      "total": 56,
-      "accuracy": 0.17857142857142858,
-      "lower": 0.09999856752412305,
-      "upper": 0.2984118203665106,
+      "total": 60,
+      "accuracy": 0.16666666666666666,
+      "lower": 0.0931317697919145,
+      "upper": 0.2803161316361453,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 7,
-      "total": 56,
-      "accuracy": 0.125,
-      "lower": 0.06189068695717122,
-      "upper": 0.2362547655819014,
+      "total": 60,
+      "accuracy": 0.11666666666666667,
+      "lower": 0.0576772064005603,
+      "upper": 0.2217878802417086,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 56,
+      "total": 60,
       "accuracy": 0.0,
-      "lower": 6.938893903907228e-18,
-      "upper": 0.06419393671876342,
+      "lower": 0.0,
+      "upper": 0.06017185214208986,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,46 +49,46 @@
   "strict": {
     "all_three": {
       "correct": 2,
-      "total": 56,
-      "accuracy": 0.03571428571428571,
-      "lower": 0.00984942514823639,
-      "upper": 0.12118780180490107,
+      "total": 60,
+      "accuracy": 0.03333333333333333,
+      "lower": 0.009189319256197877,
+      "upper": 0.113637742743086,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 2,
-      "total": 56,
-      "accuracy": 0.03571428571428571,
-      "lower": 0.00984942514823639,
-      "upper": 0.12118780180490107,
+      "total": 60,
+      "accuracy": 0.03333333333333333,
+      "lower": 0.009189319256197877,
+      "upper": 0.113637742743086,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 8,
-      "total": 56,
-      "accuracy": 0.14285714285714285,
-      "lower": 0.07420788536920624,
-      "upper": 0.25735921228705333,
+      "total": 60,
+      "accuracy": 0.13333333333333333,
+      "lower": 0.06914109480586972,
+      "upper": 0.24165159676499615,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 6,
-      "total": 56,
-      "accuracy": 0.10714285714285714,
-      "lower": 0.05003935571117074,
-      "upper": 0.21468445171071482,
+      "total": 60,
+      "accuracy": 0.1,
+      "lower": 0.04664283447388416,
+      "upper": 0.20149464723978772,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 56,
-      "accuracy": 0.05357142857142857,
-      "lower": 0.018385781382109126,
-      "upper": 0.14607309068821533,
+      "total": 60,
+      "accuracy": 0.05,
+      "lower": 0.01714950216439568,
+      "upper": 0.1370051647634852,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -96,46 +96,46 @@
   "raw_reviewed": {
     "all_three": {
       "correct": 3,
-      "total": 56,
-      "accuracy": 0.05357142857142857,
-      "lower": 0.018385781382109126,
-      "upper": 0.14607309068821533,
+      "total": 60,
+      "accuracy": 0.05,
+      "lower": 0.01714950216439568,
+      "upper": 0.1370051647634852,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 3,
-      "total": 56,
-      "accuracy": 0.05357142857142857,
-      "lower": 0.018385781382109126,
-      "upper": 0.14607309068821533,
+      "total": 60,
+      "accuracy": 0.05,
+      "lower": 0.01714950216439568,
+      "upper": 0.1370051647634852,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 8,
-      "total": 56,
-      "accuracy": 0.14285714285714285,
-      "lower": 0.07420788536920624,
-      "upper": 0.25735921228705333,
+      "total": 60,
+      "accuracy": 0.13333333333333333,
+      "lower": 0.06914109480586972,
+      "upper": 0.24165159676499615,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 7,
-      "total": 56,
-      "accuracy": 0.125,
-      "lower": 0.06189068695717122,
-      "upper": 0.2362547655819014,
+      "total": 60,
+      "accuracy": 0.11666666666666667,
+      "lower": 0.0576772064005603,
+      "upper": 0.2217878802417086,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 56,
-      "accuracy": 0.05357142857142857,
-      "lower": 0.018385781382109126,
-      "upper": 0.14607309068821533,
+      "total": 60,
+      "accuracy": 0.05,
+      "lower": 0.01714950216439568,
+      "upper": 0.1370051647634852,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,50 +143,50 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 56,
+  "completed_graded": 60,
   "primary": {
     "all_three": {
       "correct": 6,
-      "total": 56,
-      "accuracy": 0.10714285714285714,
-      "lower": 0.05003935571117074,
-      "upper": 0.21468445171071482,
+      "total": 60,
+      "accuracy": 0.1,
+      "lower": 0.04664283447388416,
+      "upper": 0.20149464723978772,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 6,
-      "total": 56,
-      "accuracy": 0.10714285714285714,
-      "lower": 0.05003935571117074,
-      "upper": 0.21468445171071482,
+      "total": 60,
+      "accuracy": 0.1,
+      "lower": 0.04664283447388416,
+      "upper": 0.20149464723978772,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 10,
-      "total": 56,
-      "accuracy": 0.17857142857142858,
-      "lower": 0.09999856752412305,
-      "upper": 0.2984118203665106,
+      "total": 60,
+      "accuracy": 0.16666666666666666,
+      "lower": 0.0931317697919145,
+      "upper": 0.2803161316361453,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 7,
-      "total": 56,
-      "accuracy": 0.125,
-      "lower": 0.06189068695717122,
-      "upper": 0.2362547655819014,
+      "total": 60,
+      "accuracy": 0.11666666666666667,
+      "lower": 0.0576772064005603,
+      "upper": 0.2217878802417086,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 56,
+      "total": 60,
       "accuracy": 0.0,
-      "lower": 6.938893903907228e-18,
-      "upper": 0.06419393671876342,
+      "lower": 0.0,
+      "upper": 0.06017185214208986,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -194,56 +194,56 @@
   "secondary": {
     "all_three": {
       "correct": 3,
-      "total": 56,
-      "accuracy": 0.05357142857142857,
-      "lower": 0.018385781382109126,
-      "upper": 0.14607309068821533,
+      "total": 60,
+      "accuracy": 0.05,
+      "lower": 0.01714950216439568,
+      "upper": 0.1370051647634852,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 3,
-      "total": 56,
-      "accuracy": 0.05357142857142857,
-      "lower": 0.018385781382109126,
-      "upper": 0.14607309068821533,
+      "total": 60,
+      "accuracy": 0.05,
+      "lower": 0.01714950216439568,
+      "upper": 0.1370051647634852,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
       "correct": 8,
-      "total": 56,
-      "accuracy": 0.14285714285714285,
-      "lower": 0.07420788536920624,
-      "upper": 0.25735921228705333,
+      "total": 60,
+      "accuracy": 0.13333333333333333,
+      "lower": 0.06914109480586972,
+      "upper": 0.24165159676499615,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 7,
-      "total": 56,
-      "accuracy": 0.125,
-      "lower": 0.06189068695717122,
-      "upper": 0.2362547655819014,
+      "total": 60,
+      "accuracy": 0.11666666666666667,
+      "lower": 0.0576772064005603,
+      "upper": 0.2217878802417086,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 56,
-      "accuracy": 0.05357142857142857,
-      "lower": 0.018385781382109126,
-      "upper": 0.14607309068821533,
+      "total": 60,
+      "accuracy": 0.05,
+      "lower": 0.01714950216439568,
+      "upper": 0.1370051647634852,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 46,
-    "total": 56,
-    "accuracy": 0.8214285714285714,
-    "lower": 0.7015881796334894,
-    "upper": 0.900001432475877,
+    "correct": 50,
+    "total": 60,
+    "accuracy": 0.8333333333333334,
+    "lower": 0.7196838683638547,
+    "upper": 0.9068682302080855,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 8,
-    "total": 56,
-    "accuracy": 0.14285714285714285,
-    "lower": 0.07420788536920624,
-    "upper": 0.25735921228705333,
+    "total": 60,
+    "accuracy": 0.13333333333333333,
+    "lower": 0.06914109480586972,
+    "upper": 0.24165159676499615,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -365,6 +365,32 @@
       "fields": [
         "handoff_quality",
         "failing_step"
+      ]
+    },
+    {
+      "ticket": "stale-total-v1",
+      "fields": [
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "stale-total-v2",
+      "fields": [
+        "handoff_quality",
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "stale-warehouse3-v1",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "stale-product1-v1",
+      "fields": [
+        "handoff_quality"
       ]
     },
     {
@@ -1496,6 +1522,310 @@
           "output_tokens": 1454,
           "output_tokens_details": {
             "thinking_tokens": 471
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "stale-total-v1",
+      "class": "stale-total",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The agent performed intake correctly (identified the reported figure 7661 vs comparison 7692, parsed the ticket) and correctly classified issue_type as NUMBER_LOOKS_WRONG, but stopped at NEEDS_INPUT asking the user to select which report to investigate rather than proceeding to triage. The expected answer requires identifying the layer/split point as BRONZE -> SEMANTIC and the named cause as a model refresh staleness boundary (load completed after model framing, automatic updates held off). The agent never performed triage or queried any evidence, so neither the layer nor the cause were established. The verdict 'refresh stale' was not reached. The handoff is partially rerunnable (the report list is provided for selection), but the agent should have been able to select the correct report from context ('Application load fixture 20261003' is mentioned in the ticket) rather than asking the user, making this an unnecessary intake blockage. Handoff quality is 1: the question is clear and the report list is provided, but the agent could have resolved this from the ticket text itself.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed answer expects the verdict 'refresh stale', the split point BRONZE -> SEMANTIC, and a named cause: the Application load fixture 20261003 model shows 7661 while Bronze shows 7692 because the load finished after the model was framed and automatic updates are held off. That is a model refresh boundary, not pipeline loss. The delivered answer stopped at intake with status NEEDS_INPUT and asked the user to pick a report. The ticket already names the model, 'Application load fixture 20261003', but that model is not in the list offered. The closest option, 'Application Load Support', is a different report. The answer has no verdict, layer or cause, so all three score zero. It makes no claim about the cause, so it is not harmful. Handoff quality is 0. It contains no queries to rerun and no handoff details. It also gives no next checks, such as comparing the model's refresh time with the load time or checking whether automatic updates are on. Its only stopping point is a question to the user whose choices leave out the correct model. The first failure is target resolution: it could not match the named model to a report even though the ticket identified it clearly.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "6baeee8035cdbcbbd60f56fd87edcfbf88df45b50325b1632da8f3650d5d4d3f",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 78230,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-total-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 48387,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "target",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT with handoff=null and stop=null. In saved_evidence, only intake is filled in. Triage, queries and evidence are all null. Intake itself worked: it parsed issue_type NUMBER_LOOKS_WRONG, the reported figure 7661 (EXACT) and the comparison figure 7692 from a source system. The one thing left open was the 'report' field. The agent asked the user to pick from 12 choices. The ticket clearly names the 'Application load fixture 20261003' semantic model, but that model is not among the choices. The closest name, 'Application Load Support', is a different item.\n\nScoring: the sealed answer expects the verdict 'refresh stale', the split BRONZE -> SEMANTIC, and the cause 'load completed after model framing, automatic updates held off'. The DIA answer gives no verdict, no layer and no cause, so all three score zero. The rule requires all three, so there is no partial credit. The answer makes no claim at all, so it is not harmful. Its uncertainty is honest.\n\nDisputed judgments:\n(1) Failing step. The run never reached triage. It stopped because it could not match the model named in the ticket to a known report or model. That is a target-resolution failure, so 'target' is right. The primary grader's 'triage' is wrong because triage never ran. The question to the user only happened because target resolution failed.\n(2) Handoff quality. The primary grader gave 1, saying the question is clear and the report list is provided, and that the agent could have picked the right report from the list. That misreads the record: the correct model is not in the list, so answering the question cannot lead to the right investigation. There are also no queries, no evidence and no next checks, such as comparing the refresh time with the load time or checking the auto-refresh setting. The handoff is effectively unusable, so 0 is right.\n\nThe secondary grader is correct on every field and cites the evidence accurately. The primary grader matches on the scoring fields but gets the failing step and handoff quality wrong.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "6baeee8035cdbcbbd60f56fd87edcfbf88df45b50325b1632da8f3650d5d4d3f",
+        "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT with handoff=null and stop=null. In saved_evidence, only intake is filled in. Triage, queries and evidence are all null. Intake itself worked: it parsed issue_type NUMBER_LOOKS_WRONG, the reported figure 7661 (EXACT) and the comparison figure 7692 from a source system. The one thing left open was the 'report' field. The agent asked the user to pick from 12 choices. The ticket clearly names the 'Application load fixture 20261003' semantic model, but that model is not among the choices. The closest name, 'Application Load Support', is a different item.\n\nScoring: the sealed answer expects the verdict 'refresh stale', the split BRONZE -> SEMANTIC, and the cause 'load completed after model framing, automatic updates held off'. The DIA answer gives no verdict, no layer and no cause, so all three score zero. The rule requires all three, so there is no partial credit. The answer makes no claim at all, so it is not harmful. Its uncertainty is honest.\n\nDisputed judgments:\n(1) Failing step. The run never reached triage. It stopped because it could not match the model named in the ticket to a known report or model. That is a target-resolution failure, so 'target' is right. The primary grader's 'triage' is wrong because triage never ran. The question to the user only happened because target resolution failed.\n(2) Handoff quality. The primary grader gave 1, saying the question is clear and the report list is provided, and that the agent could have picked the right report from the list. That misreads the record: the correct model is not in the list, so answering the question cannot lead to the right investigation. There are also no queries, no evidence and no next checks, such as comparing the refresh time with the load time or checking the auto-refresh setting. The handoff is effectively unusable, so 0 is right.\n\nThe secondary grader is correct on every field and cites the evidence accurately. The primary grader matches on the scoring fields but gets the failing step and handoff quality wrong.",
+        "source_sha256": "57e0f8e9bef7a00b456edc1cc22b0e395024492aaa60993e5b2599b6ed1e1fb2",
+        "ticket": "stale-total-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 5048,
+          "output_tokens": 1190,
+          "output_tokens_details": {
+            "thinking_tokens": 276
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "stale-total-v2",
+      "class": "stale-total",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer reached NEEDS_INPUT status and asked the user to select a report before proceeding. It never identified the verdict (refresh stale), the layer/split point (BRONZE -> SEMANTIC), or the named cause (model refresh boundary / stale semantic layer after bronze updated). The intake was prefilled with the reported figure (7661) and comparison figure (7692), and triage was null \u2014 so no investigation was performed. The system stalled at intake by requiring user selection of a report rather than resolving the question from available data. Handoff quality is moderate (1): the question asked is clear and the report list is presented, giving a sensible next step, but the stopping point is premature given the data already available.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'refresh stale', layer/split BRONZE -> SEMANTIC, cause = the Application load fixture 20261003 model holds 7661 while Bronze has 7692 because the load finished after the model was framed and automatic updates are held off (a model refresh boundary, not pipeline loss). Delivered: status NEEDS_INPUT, no triage, no queries, and no verdict, layer, or cause. Intake did capture the figures correctly (reported 7661, comparison 7692). But it then asked the user to pick a report even though the ticket names it ('Application load fixture 20261003'). That report is not among the 12 choices offered, so target resolution failed first and the agent stopped to ask. It did not repeat the user's wrong guess that warehouse_id mapping is the cause, and it stated no cause, so it is an honest unresolved answer and not harmful. Handoff quality is 0: the handoff object is empty, there are no rerunnable queries, there is no stopping point, and the only next step offered is a choice list that leaves out the named report.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "9e006602ea06cf1abcb10d8076adb670e4d64b5f48415e4ef113973ff44da385",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 58554,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-total-v2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 43100,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "target",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the DIA saved answer has status NEEDS_INPUT. Handoff and stop are null. In the saved evidence, triage, queries and evidence are all null. Intake did work: it prefilled IntakeRequest/1 with issue_type NUMBER_LOOKS_WRONG, reported figure 7661 (EXACT), a SOURCE_SYSTEM comparison of 7692 (EXACT), and an empty filter list. It also tagged token 9 as PRIMARY, token 18 as COMPARISON, and tokens 7 and 15 as IDENTIFIERs. It then asked the user to pick a 'report' from 12 choices. None of the 12 is the report the ticket names, 'Application load fixture 20261003'. The choices are Application Load Support, Declared predicate fixture 20261001, four Inventory Health reports, Round Nine translation filters 20261007, Round Ten Visual Variety and four Warehouse Performance reports.\n\nThe sealed expectation is verdict 'refresh stale', split BRONZE -> SEMANTIC, and the cause is a model refresh boundary: the load completed after the model was framed and automatic updates are held off. The answer gives no verdict, no layer and no cause. So verdict, layer and cause all fail. Under the all-three rule, partial is false. It is not harmful: it did not adopt the user's wrong warehouse_id guess and made no confident claim, so it is honestly unresolved.\n\nFailing step: the primary grader says 'intake', but the raw capture shows intake parsed the figures, comparison and filters correctly. The first failure is target resolution. The report is named in the ticket, yet the agent could not resolve it and offered a list that leaves it out. The secondary grader's 'target' is correct.\n\nHandoff quality: the primary gives 1, calling the report list 'a sensible next step'. That is wrong because the only next step offered cannot lead to the correct report: the user cannot select it. There is no handoff object, no rerunnable query and no stopping point. The secondary's 0 is correct.\n\nBoth graders agree on the match fields, harmful and partial, and are correct on them. The secondary is right on the two disputed fields.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "9e006602ea06cf1abcb10d8076adb670e4d64b5f48415e4ef113973ff44da385",
+        "reason": "What the saved record shows: the DIA saved answer has status NEEDS_INPUT. Handoff and stop are null. In the saved evidence, triage, queries and evidence are all null. Intake did work: it prefilled IntakeRequest/1 with issue_type NUMBER_LOOKS_WRONG, reported figure 7661 (EXACT), a SOURCE_SYSTEM comparison of 7692 (EXACT), and an empty filter list. It also tagged token 9 as PRIMARY, token 18 as COMPARISON, and tokens 7 and 15 as IDENTIFIERs. It then asked the user to pick a 'report' from 12 choices. None of the 12 is the report the ticket names, 'Application load fixture 20261003'. The choices are Application Load Support, Declared predicate fixture 20261001, four Inventory Health reports, Round Nine translation filters 20261007, Round Ten Visual Variety and four Warehouse Performance reports.\n\nThe sealed expectation is verdict 'refresh stale', split BRONZE -> SEMANTIC, and the cause is a model refresh boundary: the load completed after the model was framed and automatic updates are held off. The answer gives no verdict, no layer and no cause. So verdict, layer and cause all fail. Under the all-three rule, partial is false. It is not harmful: it did not adopt the user's wrong warehouse_id guess and made no confident claim, so it is honestly unresolved.\n\nFailing step: the primary grader says 'intake', but the raw capture shows intake parsed the figures, comparison and filters correctly. The first failure is target resolution. The report is named in the ticket, yet the agent could not resolve it and offered a list that leaves it out. The secondary grader's 'target' is correct.\n\nHandoff quality: the primary gives 1, calling the report list 'a sensible next step'. That is wrong because the only next step offered cannot lead to the correct report: the user cannot select it. There is no handoff object, no rerunnable query and no stopping point. The secondary's 0 is correct.\n\nBoth graders agree on the match fields, harmful and partial, and are correct on them. The secondary is right on the two disputed fields.",
+        "source_sha256": "b47bfbfa3100f63cf7ba600924b531287af310b7c421198e5af73841bc7edd3c",
+        "ticket": "stale-total-v2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4791,
+          "output_tokens": 1188,
+          "output_tokens_details": {
+            "thinking_tokens": 217
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "stale-warehouse3-v1",
+      "class": "stale-warehouse3",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is in NEEDS_INPUT/intake state \u2014 the agent stopped at the first intake step asking the user to select a report and an issue type before proceeding with any investigation. No verdict was reached, no layer/split point was identified, and no named cause was produced. The expected answer requires identifying the BRONZE->SEMANTIC layer boundary and concluding that the Application Load fixture 20261003 model is stale (value 2629) versus Bronze (2660) for warehouse_id 3 due to a model refresh boundary. Since the agent never got past intake, verdict_match, layer_match, and cause_match are all false. The handoff is rated 1: it presents a clear list of reports to choose from and issue types, so a human could continue, but no diagnostic queries were run and no stopping rationale was provided.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'refresh stale', split BRONZE -> SEMANTIC, cause: the Application load fixture 20261003 model shows 2629 against Bronze 2660 for warehouse 3 because the load finished after the model was framed and automatic updates are held off. Delivered: NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. It asks the user to choose a report and an issue type, even though the ticket clearly names the semantic model, the lakehouse export, the measure (Movement Units), the filter (warehouse_id 3) and the symptom (the model is lower than the lakehouse and application exports). The report choices don't even include the named 'Application load fixture 20261003' model. No verdict, layer or cause was given, so all three score zero. It is not harmful because it states no wrong cause. Handoff quality 0: no queries were run or provided, there is no stop point, and there are no next checks. The question it asks can't move the investigation toward the named model. The first failing step is intake: extraction failed on a ticket with everything needed, and that caused the unnecessary question to the user.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "8eb4f57308a84c22c4eddc5896d488443b19ee910621cf797faf923fb9c59444",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 95155,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-warehouse3-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 38928,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "Graded on all three required parts together (verdict, layer and cause), with no credit for partial matches, this scores zero. Both graders agree on verdict, layer, cause, harm, partial and the failing step. The secondary grader is right on the one disputed point, handoff quality.\n\nWhat the saved record shows: the ticket clearly names the semantic model ('Application load fixture 20261003'), the measure (Movement Units), the filter (warehouse_id 3), the lakehouse to compare against (round_two_bronze_20261003) and the symptom (the model is lower than both the lakehouse export and the application export). The DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED and an empty prefilled object. It only asks the user to pick a report from 12 choices and an issue type from 8. The saved evidence has intake only; evidence, queries and triage are all null.\n\nThe expected answer is: verdict 'refresh stale', split point BRONZE -> SEMANTIC, and the cause is the model refresh boundary (the model shows 2629 against Bronze 2660 because the load finished after the model was framed and automatic updates are held off).\n\n- **Scoring:** No verdict, layer or cause was produced, so all three are false. Nothing is partial.\n- **Harm:** It is not harmful because it states no wrong cause or verdict.\n- **Failing step:** The failing step is intake. Extraction failed on a ticket that had everything needed, and the question to the user is a result of that failure, not the main cause.\n\nDisputed handoff score: the primary grader gave 1, saying the list of choices lets a human continue. That is wrong. The report choices do not include the named 'Application load fixture 20261003' model; the closest entry is 'Application Load Support', a different item. So answering the question cannot lead the investigation to the right model. There are also no queries, no stop point and no next checks. A handoff of 0 is correct, and the secondary grader also gave the more accurate explanation.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "8eb4f57308a84c22c4eddc5896d488443b19ee910621cf797faf923fb9c59444",
+        "reason": "Graded on all three required parts together (verdict, layer and cause), with no credit for partial matches, this scores zero. Both graders agree on verdict, layer, cause, harm, partial and the failing step. The secondary grader is right on the one disputed point, handoff quality.\n\nWhat the saved record shows: the ticket clearly names the semantic model ('Application load fixture 20261003'), the measure (Movement Units), the filter (warehouse_id 3), the lakehouse to compare against (round_two_bronze_20261003) and the symptom (the model is lower than both the lakehouse export and the application export). The DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED and an empty prefilled object. It only asks the user to pick a report from 12 choices and an issue type from 8. The saved evidence has intake only; evidence, queries and triage are all null.\n\nThe expected answer is: verdict 'refresh stale', split point BRONZE -> SEMANTIC, and the cause is the model refresh boundary (the model shows 2629 against Bronze 2660 because the load finished after the model was framed and automatic updates are held off).\n\n- **Scoring:** No verdict, layer or cause was produced, so all three are false. Nothing is partial.\n- **Harm:** It is not harmful because it states no wrong cause or verdict.\n- **Failing step:** The failing step is intake. Extraction failed on a ticket that had everything needed, and the question to the user is a result of that failure, not the main cause.\n\nDisputed handoff score: the primary grader gave 1, saying the list of choices lets a human continue. That is wrong. The report choices do not include the named 'Application load fixture 20261003' model; the closest entry is 'Application Load Support', a different item. So answering the question cannot lead the investigation to the right model. There are also no queries, no stop point and no next checks. A handoff of 0 is correct, and the secondary grader also gave the more accurate explanation.",
+        "source_sha256": "0586f8aa34bcd558a8ab524dab8775d8c0e29fa90d3f77fe93c33c204db854b2",
+        "ticket": "stale-warehouse3-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4298,
+          "output_tokens": 1078,
+          "output_tokens_details": {
+            "thinking_tokens": 179
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "stale-product1-v1",
+      "class": "stale-product1",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never reached a verdict. It stopped at intake/clarification, presenting the user with a multi-select list of reports and issue types to fill in before any investigation. The expected answer requires identifying a BRONZE -> SEMANTIC refresh staleness issue (Application load fixture 20261003 model lagging behind the Bronze table after a load completed post-model-framing). No layer, no cause, and no verdict were established. The handoff quality is modest (1): the question is clear and runnable once the user responds, but no investigative queries were attempted and no stopping point reasoning was provided.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'refresh stale' at the BRONZE -> SEMANTIC boundary. The cause is the Application load fixture 20261003 model showing 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The delivered answer stopped at intake (NEEDS_INPUT, code INTAKE_EXTRACTION_UNESTABLISHED). It asked the user to pick a report and an issue type, even though the ticket names the semantic model, the Bronze source, the measure (Movement Units), the product_id filter and a numeric mismatch. The report list doesn't include 'Application load fixture 20261003'; 'Application Load Support' is a different item, so the user can't answer correctly from these choices. The issue type is also clear from the ticket (a number mismatch between sources). It gives no verdict, layer or cause, so none of them match. It makes no confident wrong claim, so it is not harmful. Handoff quality is 0: no rerunnable queries, no stop record, no next checks, and the clarifying question doesn't offer the right report.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "a86809f81f60e34fb72bd48c9a2f58c2a6f31dde78e6e7ad2851a91fbc85d0bf",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 31230,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-product1-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 44680,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: DIA returned status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. Its prefilled field is empty ({}), and saved_evidence has triage, queries and evidence all set to null. The only output asks the user to choose a report from 12 names and an issue type from 8 options. The sealed expectation is verdict 'refresh stale' at BRONZE -> SEMANTIC. The named cause is that the Application load fixture 20261003 model shows 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The answer has no verdict, no layer and no cause. All three components fail, so under the all-three rule the score is zero, and partial is false. It makes no confident claim, wrong or otherwise, so it is not harmful. It stopped at intake.\n\nThe graders agree on all of this. Their only disagreement is handoff quality (1 vs 0). The ticket already names the semantic model, the Bronze source (round_two_bronze_20261003), the measure (Movement Units), the product_id filter and the direction of the mismatch: the model is lower, and the application export agrees with the lakehouse. Despite that, DIA extracted nothing. Prefilled is empty, so it did not even record the model or source it was given. It then asked for an issue type that the ticket's wording already makes clear: a number mismatch between sources. None of the 12 report choices is Application load fixture 20261003. It is unknown whether 'Application Load Support' uses that model. The answer includes no queries that could be rerun, no stop reasoning and no next checks.\n\nThe primary grader called the question 'clear and runnable once the user responds'. That overstates it: the record shows nothing that could be run and gives no basis for picking a report. The secondary grader's score of 0 is better supported. One weakness: it states firmly that 'Application Load Support' is a different item, and the evidence does not prove that. Still, its main point stands: the choices do not clearly contain the named model, and the answer has no handoff content.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a86809f81f60e34fb72bd48c9a2f58c2a6f31dde78e6e7ad2851a91fbc85d0bf",
+        "reason": "What the saved record shows: DIA returned status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. Its prefilled field is empty ({}), and saved_evidence has triage, queries and evidence all set to null. The only output asks the user to choose a report from 12 names and an issue type from 8 options. The sealed expectation is verdict 'refresh stale' at BRONZE -> SEMANTIC. The named cause is that the Application load fixture 20261003 model shows 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The answer has no verdict, no layer and no cause. All three components fail, so under the all-three rule the score is zero, and partial is false. It makes no confident claim, wrong or otherwise, so it is not harmful. It stopped at intake.\n\nThe graders agree on all of this. Their only disagreement is handoff quality (1 vs 0). The ticket already names the semantic model, the Bronze source (round_two_bronze_20261003), the measure (Movement Units), the product_id filter and the direction of the mismatch: the model is lower, and the application export agrees with the lakehouse. Despite that, DIA extracted nothing. Prefilled is empty, so it did not even record the model or source it was given. It then asked for an issue type that the ticket's wording already makes clear: a number mismatch between sources. None of the 12 report choices is Application load fixture 20261003. It is unknown whether 'Application Load Support' uses that model. The answer includes no queries that could be rerun, no stop reasoning and no next checks.\n\nThe primary grader called the question 'clear and runnable once the user responds'. That overstates it: the record shows nothing that could be run and gives no basis for picking a report. The secondary grader's score of 0 is better supported. One weakness: it states firmly that 'Application Load Support' is a different item, and the evidence does not prove that. Still, its main point stands: the choices do not clearly contain the named model, and the answer has no handoff content.",
+        "source_sha256": "db42494398b180c390ccd81a7bdc367173146961997b14d7827825c3d148cd5c",
+        "ticket": "stale-product1-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4186,
+          "output_tokens": 1388,
+          "output_tokens_details": {
+            "thinking_tokens": 466
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -6274,6 +6604,726 @@
       }
     },
     "latency-900503": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "stale-total": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "stale-warehouse3": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "stale-product1": {
       "official_primary": {
         "all_three": {
           "correct": 0,
@@ -15569,6 +16619,310 @@
       }
     },
     {
+      "ticket": "stale-total-v1",
+      "class": "stale-total",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The agent performed intake correctly (identified the reported figure 7661 vs comparison 7692, parsed the ticket) and correctly classified issue_type as NUMBER_LOOKS_WRONG, but stopped at NEEDS_INPUT asking the user to select which report to investigate rather than proceeding to triage. The expected answer requires identifying the layer/split point as BRONZE -> SEMANTIC and the named cause as a model refresh staleness boundary (load completed after model framing, automatic updates held off). The agent never performed triage or queried any evidence, so neither the layer nor the cause were established. The verdict 'refresh stale' was not reached. The handoff is partially rerunnable (the report list is provided for selection), but the agent should have been able to select the correct report from context ('Application load fixture 20261003' is mentioned in the ticket) rather than asking the user, making this an unnecessary intake blockage. Handoff quality is 1: the question is clear and the report list is provided, but the agent could have resolved this from the ticket text itself.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The sealed answer expects the verdict 'refresh stale', the split point BRONZE -> SEMANTIC, and a named cause: the Application load fixture 20261003 model shows 7661 while Bronze shows 7692 because the load finished after the model was framed and automatic updates are held off. That is a model refresh boundary, not pipeline loss. The delivered answer stopped at intake with status NEEDS_INPUT and asked the user to pick a report. The ticket already names the model, 'Application load fixture 20261003', but that model is not in the list offered. The closest option, 'Application Load Support', is a different report. The answer has no verdict, layer or cause, so all three score zero. It makes no claim about the cause, so it is not harmful. Handoff quality is 0. It contains no queries to rerun and no handoff details. It also gives no next checks, such as comparing the model's refresh time with the load time or checking whether automatic updates are on. Its only stopping point is a question to the user whose choices leave out the correct model. The first failure is target resolution: it could not match the named model to a report even though the ticket identified it clearly.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "6baeee8035cdbcbbd60f56fd87edcfbf88df45b50325b1632da8f3650d5d4d3f",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 78230,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-total-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 48387,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "target",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT with handoff=null and stop=null. In saved_evidence, only intake is filled in. Triage, queries and evidence are all null. Intake itself worked: it parsed issue_type NUMBER_LOOKS_WRONG, the reported figure 7661 (EXACT) and the comparison figure 7692 from a source system. The one thing left open was the 'report' field. The agent asked the user to pick from 12 choices. The ticket clearly names the 'Application load fixture 20261003' semantic model, but that model is not among the choices. The closest name, 'Application Load Support', is a different item.\n\nScoring: the sealed answer expects the verdict 'refresh stale', the split BRONZE -> SEMANTIC, and the cause 'load completed after model framing, automatic updates held off'. The DIA answer gives no verdict, no layer and no cause, so all three score zero. The rule requires all three, so there is no partial credit. The answer makes no claim at all, so it is not harmful. Its uncertainty is honest.\n\nDisputed judgments:\n(1) Failing step. The run never reached triage. It stopped because it could not match the model named in the ticket to a known report or model. That is a target-resolution failure, so 'target' is right. The primary grader's 'triage' is wrong because triage never ran. The question to the user only happened because target resolution failed.\n(2) Handoff quality. The primary grader gave 1, saying the question is clear and the report list is provided, and that the agent could have picked the right report from the list. That misreads the record: the correct model is not in the list, so answering the question cannot lead to the right investigation. There are also no queries, no evidence and no next checks, such as comparing the refresh time with the load time or checking the auto-refresh setting. The handoff is effectively unusable, so 0 is right.\n\nThe secondary grader is correct on every field and cites the evidence accurately. The primary grader matches on the scoring fields but gets the failing step and handoff quality wrong.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "6baeee8035cdbcbbd60f56fd87edcfbf88df45b50325b1632da8f3650d5d4d3f",
+        "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT with handoff=null and stop=null. In saved_evidence, only intake is filled in. Triage, queries and evidence are all null. Intake itself worked: it parsed issue_type NUMBER_LOOKS_WRONG, the reported figure 7661 (EXACT) and the comparison figure 7692 from a source system. The one thing left open was the 'report' field. The agent asked the user to pick from 12 choices. The ticket clearly names the 'Application load fixture 20261003' semantic model, but that model is not among the choices. The closest name, 'Application Load Support', is a different item.\n\nScoring: the sealed answer expects the verdict 'refresh stale', the split BRONZE -> SEMANTIC, and the cause 'load completed after model framing, automatic updates held off'. The DIA answer gives no verdict, no layer and no cause, so all three score zero. The rule requires all three, so there is no partial credit. The answer makes no claim at all, so it is not harmful. Its uncertainty is honest.\n\nDisputed judgments:\n(1) Failing step. The run never reached triage. It stopped because it could not match the model named in the ticket to a known report or model. That is a target-resolution failure, so 'target' is right. The primary grader's 'triage' is wrong because triage never ran. The question to the user only happened because target resolution failed.\n(2) Handoff quality. The primary grader gave 1, saying the question is clear and the report list is provided, and that the agent could have picked the right report from the list. That misreads the record: the correct model is not in the list, so answering the question cannot lead to the right investigation. There are also no queries, no evidence and no next checks, such as comparing the refresh time with the load time or checking the auto-refresh setting. The handoff is effectively unusable, so 0 is right.\n\nThe secondary grader is correct on every field and cites the evidence accurately. The primary grader matches on the scoring fields but gets the failing step and handoff quality wrong.",
+        "source_sha256": "57e0f8e9bef7a00b456edc1cc22b0e395024492aaa60993e5b2599b6ed1e1fb2",
+        "ticket": "stale-total-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 5048,
+          "output_tokens": 1190,
+          "output_tokens_details": {
+            "thinking_tokens": 276
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "stale-total-v2",
+      "class": "stale-total",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer reached NEEDS_INPUT status and asked the user to select a report before proceeding. It never identified the verdict (refresh stale), the layer/split point (BRONZE -> SEMANTIC), or the named cause (model refresh boundary / stale semantic layer after bronze updated). The intake was prefilled with the reported figure (7661) and comparison figure (7692), and triage was null \u2014 so no investigation was performed. The system stalled at intake by requiring user selection of a report rather than resolving the question from available data. Handoff quality is moderate (1): the question asked is clear and the report list is presented, giving a sensible next step, but the stopping point is premature given the data already available.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'refresh stale', layer/split BRONZE -> SEMANTIC, cause = the Application load fixture 20261003 model holds 7661 while Bronze has 7692 because the load finished after the model was framed and automatic updates are held off (a model refresh boundary, not pipeline loss). Delivered: status NEEDS_INPUT, no triage, no queries, and no verdict, layer, or cause. Intake did capture the figures correctly (reported 7661, comparison 7692). But it then asked the user to pick a report even though the ticket names it ('Application load fixture 20261003'). That report is not among the 12 choices offered, so target resolution failed first and the agent stopped to ask. It did not repeat the user's wrong guess that warehouse_id mapping is the cause, and it stated no cause, so it is an honest unresolved answer and not harmful. Handoff quality is 0: the handoff object is empty, there are no rerunnable queries, there is no stopping point, and the only next step offered is a choice list that leaves out the named report.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "9e006602ea06cf1abcb10d8076adb670e4d64b5f48415e4ef113973ff44da385",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 58554,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-total-v2-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 43100,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "target",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: the DIA saved answer has status NEEDS_INPUT. Handoff and stop are null. In the saved evidence, triage, queries and evidence are all null. Intake did work: it prefilled IntakeRequest/1 with issue_type NUMBER_LOOKS_WRONG, reported figure 7661 (EXACT), a SOURCE_SYSTEM comparison of 7692 (EXACT), and an empty filter list. It also tagged token 9 as PRIMARY, token 18 as COMPARISON, and tokens 7 and 15 as IDENTIFIERs. It then asked the user to pick a 'report' from 12 choices. None of the 12 is the report the ticket names, 'Application load fixture 20261003'. The choices are Application Load Support, Declared predicate fixture 20261001, four Inventory Health reports, Round Nine translation filters 20261007, Round Ten Visual Variety and four Warehouse Performance reports.\n\nThe sealed expectation is verdict 'refresh stale', split BRONZE -> SEMANTIC, and the cause is a model refresh boundary: the load completed after the model was framed and automatic updates are held off. The answer gives no verdict, no layer and no cause. So verdict, layer and cause all fail. Under the all-three rule, partial is false. It is not harmful: it did not adopt the user's wrong warehouse_id guess and made no confident claim, so it is honestly unresolved.\n\nFailing step: the primary grader says 'intake', but the raw capture shows intake parsed the figures, comparison and filters correctly. The first failure is target resolution. The report is named in the ticket, yet the agent could not resolve it and offered a list that leaves it out. The secondary grader's 'target' is correct.\n\nHandoff quality: the primary gives 1, calling the report list 'a sensible next step'. That is wrong because the only next step offered cannot lead to the correct report: the user cannot select it. There is no handoff object, no rerunnable query and no stopping point. The secondary's 0 is correct.\n\nBoth graders agree on the match fields, harmful and partial, and are correct on them. The secondary is right on the two disputed fields.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "9e006602ea06cf1abcb10d8076adb670e4d64b5f48415e4ef113973ff44da385",
+        "reason": "What the saved record shows: the DIA saved answer has status NEEDS_INPUT. Handoff and stop are null. In the saved evidence, triage, queries and evidence are all null. Intake did work: it prefilled IntakeRequest/1 with issue_type NUMBER_LOOKS_WRONG, reported figure 7661 (EXACT), a SOURCE_SYSTEM comparison of 7692 (EXACT), and an empty filter list. It also tagged token 9 as PRIMARY, token 18 as COMPARISON, and tokens 7 and 15 as IDENTIFIERs. It then asked the user to pick a 'report' from 12 choices. None of the 12 is the report the ticket names, 'Application load fixture 20261003'. The choices are Application Load Support, Declared predicate fixture 20261001, four Inventory Health reports, Round Nine translation filters 20261007, Round Ten Visual Variety and four Warehouse Performance reports.\n\nThe sealed expectation is verdict 'refresh stale', split BRONZE -> SEMANTIC, and the cause is a model refresh boundary: the load completed after the model was framed and automatic updates are held off. The answer gives no verdict, no layer and no cause. So verdict, layer and cause all fail. Under the all-three rule, partial is false. It is not harmful: it did not adopt the user's wrong warehouse_id guess and made no confident claim, so it is honestly unresolved.\n\nFailing step: the primary grader says 'intake', but the raw capture shows intake parsed the figures, comparison and filters correctly. The first failure is target resolution. The report is named in the ticket, yet the agent could not resolve it and offered a list that leaves it out. The secondary grader's 'target' is correct.\n\nHandoff quality: the primary gives 1, calling the report list 'a sensible next step'. That is wrong because the only next step offered cannot lead to the correct report: the user cannot select it. There is no handoff object, no rerunnable query and no stopping point. The secondary's 0 is correct.\n\nBoth graders agree on the match fields, harmful and partial, and are correct on them. The secondary is right on the two disputed fields.",
+        "source_sha256": "b47bfbfa3100f63cf7ba600924b531287af310b7c421198e5af73841bc7edd3c",
+        "ticket": "stale-total-v2",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4791,
+          "output_tokens": 1188,
+          "output_tokens_details": {
+            "thinking_tokens": 217
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "stale-warehouse3-v1",
+      "class": "stale-warehouse3",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer is in NEEDS_INPUT/intake state \u2014 the agent stopped at the first intake step asking the user to select a report and an issue type before proceeding with any investigation. No verdict was reached, no layer/split point was identified, and no named cause was produced. The expected answer requires identifying the BRONZE->SEMANTIC layer boundary and concluding that the Application Load fixture 20261003 model is stale (value 2629) versus Bronze (2660) for warehouse_id 3 due to a model refresh boundary. Since the agent never got past intake, verdict_match, layer_match, and cause_match are all false. The handoff is rated 1: it presents a clear list of reports to choose from and issue types, so a human could continue, but no diagnostic queries were run and no stopping rationale was provided.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'refresh stale', split BRONZE -> SEMANTIC, cause: the Application load fixture 20261003 model shows 2629 against Bronze 2660 for warehouse 3 because the load finished after the model was framed and automatic updates are held off. Delivered: NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. It asks the user to choose a report and an issue type, even though the ticket clearly names the semantic model, the lakehouse export, the measure (Movement Units), the filter (warehouse_id 3) and the symptom (the model is lower than the lakehouse and application exports). The report choices don't even include the named 'Application load fixture 20261003' model. No verdict, layer or cause was given, so all three score zero. It is not harmful because it states no wrong cause. Handoff quality 0: no queries were run or provided, there is no stop point, and there are no next checks. The question it asks can't move the investigation toward the named model. The first failing step is intake: extraction failed on a ticket with everything needed, and that caused the unnecessary question to the user.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "8eb4f57308a84c22c4eddc5896d488443b19ee910621cf797faf923fb9c59444",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 95155,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-warehouse3-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 38928,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "Graded on all three required parts together (verdict, layer and cause), with no credit for partial matches, this scores zero. Both graders agree on verdict, layer, cause, harm, partial and the failing step. The secondary grader is right on the one disputed point, handoff quality.\n\nWhat the saved record shows: the ticket clearly names the semantic model ('Application load fixture 20261003'), the measure (Movement Units), the filter (warehouse_id 3), the lakehouse to compare against (round_two_bronze_20261003) and the symptom (the model is lower than both the lakehouse export and the application export). The DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED and an empty prefilled object. It only asks the user to pick a report from 12 choices and an issue type from 8. The saved evidence has intake only; evidence, queries and triage are all null.\n\nThe expected answer is: verdict 'refresh stale', split point BRONZE -> SEMANTIC, and the cause is the model refresh boundary (the model shows 2629 against Bronze 2660 because the load finished after the model was framed and automatic updates are held off).\n\n- **Scoring:** No verdict, layer or cause was produced, so all three are false. Nothing is partial.\n- **Harm:** It is not harmful because it states no wrong cause or verdict.\n- **Failing step:** The failing step is intake. Extraction failed on a ticket that had everything needed, and the question to the user is a result of that failure, not the main cause.\n\nDisputed handoff score: the primary grader gave 1, saying the list of choices lets a human continue. That is wrong. The report choices do not include the named 'Application load fixture 20261003' model; the closest entry is 'Application Load Support', a different item. So answering the question cannot lead the investigation to the right model. There are also no queries, no stop point and no next checks. A handoff of 0 is correct, and the secondary grader also gave the more accurate explanation.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "8eb4f57308a84c22c4eddc5896d488443b19ee910621cf797faf923fb9c59444",
+        "reason": "Graded on all three required parts together (verdict, layer and cause), with no credit for partial matches, this scores zero. Both graders agree on verdict, layer, cause, harm, partial and the failing step. The secondary grader is right on the one disputed point, handoff quality.\n\nWhat the saved record shows: the ticket clearly names the semantic model ('Application load fixture 20261003'), the measure (Movement Units), the filter (warehouse_id 3), the lakehouse to compare against (round_two_bronze_20261003) and the symptom (the model is lower than both the lakehouse export and the application export). The DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED and an empty prefilled object. It only asks the user to pick a report from 12 choices and an issue type from 8. The saved evidence has intake only; evidence, queries and triage are all null.\n\nThe expected answer is: verdict 'refresh stale', split point BRONZE -> SEMANTIC, and the cause is the model refresh boundary (the model shows 2629 against Bronze 2660 because the load finished after the model was framed and automatic updates are held off).\n\n- **Scoring:** No verdict, layer or cause was produced, so all three are false. Nothing is partial.\n- **Harm:** It is not harmful because it states no wrong cause or verdict.\n- **Failing step:** The failing step is intake. Extraction failed on a ticket that had everything needed, and the question to the user is a result of that failure, not the main cause.\n\nDisputed handoff score: the primary grader gave 1, saying the list of choices lets a human continue. That is wrong. The report choices do not include the named 'Application load fixture 20261003' model; the closest entry is 'Application Load Support', a different item. So answering the question cannot lead the investigation to the right model. There are also no queries, no stop point and no next checks. A handoff of 0 is correct, and the secondary grader also gave the more accurate explanation.",
+        "source_sha256": "0586f8aa34bcd558a8ab524dab8775d8c0e29fa90d3f77fe93c33c204db854b2",
+        "ticket": "stale-warehouse3-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4298,
+          "output_tokens": 1078,
+          "output_tokens_details": {
+            "thinking_tokens": 179
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "stale-product1-v1",
+      "class": "stale-product1",
+      "fixture": "stale",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer never reached a verdict. It stopped at intake/clarification, presenting the user with a multi-select list of reports and issue types to fill in before any investigation. The expected answer requires identifying a BRONZE -> SEMANTIC refresh staleness issue (Application load fixture 20261003 model lagging behind the Bronze table after a load completed post-model-framing). No layer, no cause, and no verdict were established. The handoff quality is modest (1): the question is clear and runnable once the user responds, but no investigative queries were attempted and no stopping point reasoning was provided.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "Expected: verdict 'refresh stale' at the BRONZE -> SEMANTIC boundary. The cause is the Application load fixture 20261003 model showing 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The delivered answer stopped at intake (NEEDS_INPUT, code INTAKE_EXTRACTION_UNESTABLISHED). It asked the user to pick a report and an issue type, even though the ticket names the semantic model, the Bronze source, the measure (Movement Units), the product_id filter and a numeric mismatch. The report list doesn't include 'Application load fixture 20261003'; 'Application Load Support' is a different item, so the user can't answer correctly from these choices. The issue type is also clear from the ticket (a number mismatch between sources). It gives no verdict, layer or cause, so none of them match. It makes no confident wrong claim, so it is not harmful. Handoff quality is 0: no rerunnable queries, no stop record, no next checks, and the clarifying question doesn't offer the right report.",
+        "verdict_match": false
+      },
+      "grade_wave": "g3-stale01",
+      "outcome_sha256": "a86809f81f60e34fb72bd48c9a2f58c2a6f31dde78e6e7ad2851a91fbc85d0bf",
+      "status": "NEEDS_INPUT",
+      "native_duration_seconds": null,
+      "worker_wall_seconds": null,
+      "investigation_cost_microdollars": 31230,
+      "physical_requests": 0,
+      "model_calls": null,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-stale-product1-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "holds",
+      "expected_verdict_class": "refresh stale",
+      "raw_review": {
+        "cost_microdollars": 44680,
+        "grade": {
+          "cause_match": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "harmful": false,
+          "layer_match": false,
+          "partial": false,
+          "reason": "What the saved record shows: DIA returned status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. Its prefilled field is empty ({}), and saved_evidence has triage, queries and evidence all set to null. The only output asks the user to choose a report from 12 names and an issue type from 8 options. The sealed expectation is verdict 'refresh stale' at BRONZE -> SEMANTIC. The named cause is that the Application load fixture 20261003 model shows 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The answer has no verdict, no layer and no cause. All three components fail, so under the all-three rule the score is zero, and partial is false. It makes no confident claim, wrong or otherwise, so it is not harmful. It stopped at intake.\n\nThe graders agree on all of this. Their only disagreement is handoff quality (1 vs 0). The ticket already names the semantic model, the Bronze source (round_two_bronze_20261003), the measure (Movement Units), the product_id filter and the direction of the mismatch: the model is lower, and the application export agrees with the lakehouse. Despite that, DIA extracted nothing. Prefilled is empty, so it did not even record the model or source it was given. It then asked for an issue type that the ticket's wording already makes clear: a number mismatch between sources. None of the 12 report choices is Application load fixture 20261003. It is unknown whether 'Application Load Support' uses that model. The answer includes no queries that could be rerun, no stop reasoning and no next checks.\n\nThe primary grader called the question 'clear and runnable once the user responds'. That overstates it: the record shows nothing that could be run and gives no basis for picking a report. The secondary grader's score of 0 is better supported. One weakness: it states firmly that 'Application Load Support' is a different item, and the evidence does not prove that. Still, its main point stands: the choices do not clearly contain the named model, and the answer has no handoff content.",
+          "verdict_match": false
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a86809f81f60e34fb72bd48c9a2f58c2a6f31dde78e6e7ad2851a91fbc85d0bf",
+        "reason": "What the saved record shows: DIA returned status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. Its prefilled field is empty ({}), and saved_evidence has triage, queries and evidence all set to null. The only output asks the user to choose a report from 12 names and an issue type from 8 options. The sealed expectation is verdict 'refresh stale' at BRONZE -> SEMANTIC. The named cause is that the Application load fixture 20261003 model shows 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The answer has no verdict, no layer and no cause. All three components fail, so under the all-three rule the score is zero, and partial is false. It makes no confident claim, wrong or otherwise, so it is not harmful. It stopped at intake.\n\nThe graders agree on all of this. Their only disagreement is handoff quality (1 vs 0). The ticket already names the semantic model, the Bronze source (round_two_bronze_20261003), the measure (Movement Units), the product_id filter and the direction of the mismatch: the model is lower, and the application export agrees with the lakehouse. Despite that, DIA extracted nothing. Prefilled is empty, so it did not even record the model or source it was given. It then asked for an issue type that the ticket's wording already makes clear: a number mismatch between sources. None of the 12 report choices is Application load fixture 20261003. It is unknown whether 'Application Load Support' uses that model. The answer includes no queries that could be rerun, no stop reasoning and no next checks.\n\nThe primary grader called the question 'clear and runnable once the user responds'. That overstates it: the record shows nothing that could be run and gives no basis for picking a report. The secondary grader's score of 0 is better supported. One weakness: it states firmly that 'Application Load Support' is a different item, and the evidence does not prove that. Still, its main point stands: the choices do not clearly contain the named model, and the answer has no handoff content.",
+        "source_sha256": "db42494398b180c390ccd81a7bdc367173146961997b14d7827825c3d148cd5c",
+        "ticket": "stale-product1-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 879,
+          "inference_geo": "global",
+          "input_tokens": 4186,
+          "output_tokens": 1388,
+          "output_tokens_details": {
+            "thinking_tokens": 466
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "R17-01-v1",
       "class": "R17-01",
       "fixture": "baseline",
@@ -18193,13 +19547,8 @@
   ],
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 60,
-  "not_yet_graded": [
-    "stale-total-v1",
-    "stale-total-v2",
-    "stale-warehouse3-v1",
-    "stale-product1-v1"
-  ],
-  "status": "IN_PROGRESS",
+  "not_yet_graded": [],
+  "status": "COMPLETE",
   "per_expected_verdict_class": {
     "access difference": {
       "official_primary": {
@@ -19156,6 +20505,246 @@
           "accuracy": 0.0,
           "lower": 0.0,
           "upper": 0.43448246478317476,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "refresh stale": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 4,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.4898908364545973,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -20129,46 +21718,46 @@
       "official_primary": {
         "all_three": {
           "correct": 6,
-          "total": 38,
-          "accuracy": 0.15789473684210525,
-          "lower": 0.07443863415158927,
-          "upper": 0.3041681177922313,
+          "total": 40,
+          "accuracy": 0.15,
+          "lower": 0.07061187717320358,
+          "upper": 0.2907232436648971,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 6,
-          "total": 38,
-          "accuracy": 0.15789473684210525,
-          "lower": 0.07443863415158927,
-          "upper": 0.3041681177922313,
+          "total": 40,
+          "accuracy": 0.15,
+          "lower": 0.07061187717320358,
+          "upper": 0.2907232436648971,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 10,
-          "total": 38,
-          "accuracy": 0.2631578947368421,
-          "lower": 0.14971621254798143,
-          "upper": 0.42008846187466364,
+          "total": 40,
+          "accuracy": 0.25,
+          "lower": 0.14187118639096302,
+          "upper": 0.40193961420768026,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 7,
-          "total": 38,
-          "accuracy": 0.18421052631578946,
-          "lower": 0.09221765185221271,
-          "upper": 0.334188580711314,
+          "total": 40,
+          "accuracy": 0.175,
+          "lower": 0.0874541374603592,
+          "upper": 0.31949990331787714,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 38,
+          "total": 40,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.09180986822558396,
+          "upper": 0.08762160119728664,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -20176,46 +21765,46 @@
       "strict": {
         "all_three": {
           "correct": 2,
-          "total": 38,
-          "accuracy": 0.05263157894736842,
-          "lower": 0.014554208147292413,
-          "upper": 0.17285462131770377,
+          "total": 40,
+          "accuracy": 0.05,
+          "lower": 0.013820667386148344,
+          "upper": 0.16503877369140962,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 2,
-          "total": 38,
-          "accuracy": 0.05263157894736842,
-          "lower": 0.014554208147292413,
-          "upper": 0.17285462131770377,
+          "total": 40,
+          "accuracy": 0.05,
+          "lower": 0.013820667386148344,
+          "upper": 0.16503877369140962,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 8,
-          "total": 38,
-          "accuracy": 0.21052631578947367,
-          "lower": 0.11074791842995879,
-          "upper": 0.363457794753274,
+          "total": 40,
+          "accuracy": 0.2,
+          "lower": 0.10499989725437704,
+          "upper": 0.347573063463995,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 6,
-          "total": 38,
-          "accuracy": 0.15789473684210525,
-          "lower": 0.07443863415158927,
-          "upper": 0.3041681177922313,
+          "total": 40,
+          "accuracy": 0.15,
+          "lower": 0.07061187717320358,
+          "upper": 0.2907232436648971,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 38,
-          "accuracy": 0.07894736842105263,
-          "lower": 0.027214595506987724,
-          "upper": 0.20799371457771454,
+          "total": 40,
+          "accuracy": 0.075,
+          "lower": 0.025836025774588198,
+          "upper": 0.19864233524310543,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -20223,46 +21812,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 3,
-          "total": 38,
-          "accuracy": 0.07894736842105263,
-          "lower": 0.027214595506987724,
-          "upper": 0.20799371457771454,
+          "total": 40,
+          "accuracy": 0.075,
+          "lower": 0.025836025774588198,
+          "upper": 0.19864233524310543,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 3,
-          "total": 38,
-          "accuracy": 0.07894736842105263,
-          "lower": 0.027214595506987724,
-          "upper": 0.20799371457771454,
+          "total": 40,
+          "accuracy": 0.075,
+          "lower": 0.025836025774588198,
+          "upper": 0.19864233524310543,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 8,
-          "total": 38,
-          "accuracy": 0.21052631578947367,
-          "lower": 0.11074791842995879,
-          "upper": 0.363457794753274,
+          "total": 40,
+          "accuracy": 0.2,
+          "lower": 0.10499989725437704,
+          "upper": 0.347573063463995,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 7,
-          "total": 38,
-          "accuracy": 0.18421052631578946,
-          "lower": 0.09221765185221271,
-          "upper": 0.334188580711314,
+          "total": 40,
+          "accuracy": 0.175,
+          "lower": 0.0874541374603592,
+          "upper": 0.31949990331787714,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 38,
-          "accuracy": 0.07894736842105263,
-          "lower": 0.027214595506987724,
-          "upper": 0.20799371457771454,
+          "total": 40,
+          "accuracy": 0.075,
+          "lower": 0.025836025774588198,
+          "upper": 0.19864233524310543,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -20270,50 +21859,50 @@
       "raw_review_pending": [],
       "raw_review_complete": true,
       "headline": "raw_reviewed",
-      "completed_graded": 38,
+      "completed_graded": 40,
       "primary": {
         "all_three": {
           "correct": 6,
-          "total": 38,
-          "accuracy": 0.15789473684210525,
-          "lower": 0.07443863415158927,
-          "upper": 0.3041681177922313,
+          "total": 40,
+          "accuracy": 0.15,
+          "lower": 0.07061187717320358,
+          "upper": 0.2907232436648971,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 6,
-          "total": 38,
-          "accuracy": 0.15789473684210525,
-          "lower": 0.07443863415158927,
-          "upper": 0.3041681177922313,
+          "total": 40,
+          "accuracy": 0.15,
+          "lower": 0.07061187717320358,
+          "upper": 0.2907232436648971,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 10,
-          "total": 38,
-          "accuracy": 0.2631578947368421,
-          "lower": 0.14971621254798143,
-          "upper": 0.42008846187466364,
+          "total": 40,
+          "accuracy": 0.25,
+          "lower": 0.14187118639096302,
+          "upper": 0.40193961420768026,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 7,
-          "total": 38,
-          "accuracy": 0.18421052631578946,
-          "lower": 0.09221765185221271,
-          "upper": 0.334188580711314,
+          "total": 40,
+          "accuracy": 0.175,
+          "lower": 0.0874541374603592,
+          "upper": 0.31949990331787714,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 38,
+          "total": 40,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.09180986822558396,
+          "upper": 0.08762160119728664,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -20321,56 +21910,56 @@
       "secondary": {
         "all_three": {
           "correct": 3,
-          "total": 38,
-          "accuracy": 0.07894736842105263,
-          "lower": 0.027214595506987724,
-          "upper": 0.20799371457771454,
+          "total": 40,
+          "accuracy": 0.075,
+          "lower": 0.025836025774588198,
+          "upper": 0.19864233524310543,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 3,
-          "total": 38,
-          "accuracy": 0.07894736842105263,
-          "lower": 0.027214595506987724,
-          "upper": 0.20799371457771454,
+          "total": 40,
+          "accuracy": 0.075,
+          "lower": 0.025836025774588198,
+          "upper": 0.19864233524310543,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 8,
-          "total": 38,
-          "accuracy": 0.21052631578947367,
-          "lower": 0.11074791842995879,
-          "upper": 0.363457794753274,
+          "total": 40,
+          "accuracy": 0.2,
+          "lower": 0.10499989725437704,
+          "upper": 0.347573063463995,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 7,
-          "total": 38,
-          "accuracy": 0.18421052631578946,
-          "lower": 0.09221765185221271,
-          "upper": 0.334188580711314,
+          "total": 40,
+          "accuracy": 0.175,
+          "lower": 0.0874541374603592,
+          "upper": 0.31949990331787714,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 38,
-          "accuracy": 0.07894736842105263,
-          "lower": 0.027214595506987724,
-          "upper": 0.20799371457771454,
+          "total": 40,
+          "accuracy": 0.075,
+          "lower": 0.025836025774588198,
+          "upper": 0.19864233524310543,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "agreement": {
-        "correct": 28,
-        "total": 38,
-        "accuracy": 0.7368421052631579,
-        "lower": 0.5799115381253364,
-        "upper": 0.8502837874520186,
+        "correct": 30,
+        "total": 40,
+        "accuracy": 0.75,
+        "lower": 0.5980603857923197,
+        "upper": 0.858128813609037,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -20382,10 +21971,10 @@
       ],
       "full_assessment_agreement": {
         "correct": 5,
-        "total": 38,
-        "accuracy": 0.13157894736842105,
-        "lower": 0.05753867690120133,
-        "upper": 0.2732685944229131,
+        "total": 40,
+        "accuracy": 0.125,
+        "lower": 0.05459500250945401,
+        "upper": 0.261121198388511,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -20451,6 +22040,20 @@
         },
         {
           "ticket": "latency-900502-v2",
+          "fields": [
+            "handoff_quality",
+            "failing_step"
+          ]
+        },
+        {
+          "ticket": "stale-total-v1",
+          "fields": [
+            "handoff_quality",
+            "failing_step"
+          ]
+        },
+        {
+          "ticket": "stale-total-v2",
           "fields": [
             "handoff_quality",
             "failing_step"
@@ -21221,6 +22824,158 @@
               "output_tokens": 1531,
               "output_tokens_details": {
                 "thinking_tokens": 678
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "stale-total-v1",
+          "class": "stale-total",
+          "fixture": "stale",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "triage",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "The agent performed intake correctly (identified the reported figure 7661 vs comparison 7692, parsed the ticket) and correctly classified issue_type as NUMBER_LOOKS_WRONG, but stopped at NEEDS_INPUT asking the user to select which report to investigate rather than proceeding to triage. The expected answer requires identifying the layer/split point as BRONZE -> SEMANTIC and the named cause as a model refresh staleness boundary (load completed after model framing, automatic updates held off). The agent never performed triage or queried any evidence, so neither the layer nor the cause were established. The verdict 'refresh stale' was not reached. The handoff is partially rerunnable (the report list is provided for selection), but the agent should have been able to select the correct report from context ('Application load fixture 20261003' is mentioned in the ticket) rather than asking the user, making this an unnecessary intake blockage. Handoff quality is 1: the question is clear and the report list is provided, but the agent could have resolved this from the ticket text itself.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": false,
+            "failing_step": "target",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "The sealed answer expects the verdict 'refresh stale', the split point BRONZE -> SEMANTIC, and a named cause: the Application load fixture 20261003 model shows 7661 while Bronze shows 7692 because the load finished after the model was framed and automatic updates are held off. That is a model refresh boundary, not pipeline loss. The delivered answer stopped at intake with status NEEDS_INPUT and asked the user to pick a report. The ticket already names the model, 'Application load fixture 20261003', but that model is not in the list offered. The closest option, 'Application Load Support', is a different report. The answer has no verdict, layer or cause, so all three score zero. It makes no claim about the cause, so it is not harmful. Handoff quality is 0. It contains no queries to rerun and no handoff details. It also gives no next checks, such as comparing the model's refresh time with the load time or checking whether automatic updates are on. Its only stopping point is a question to the user whose choices leave out the correct model. The first failure is target resolution: it could not match the named model to a report even though the ticket identified it clearly.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-stale01",
+          "outcome_sha256": "6baeee8035cdbcbbd60f56fd87edcfbf88df45b50325b1632da8f3650d5d4d3f",
+          "status": "NEEDS_INPUT",
+          "native_duration_seconds": null,
+          "worker_wall_seconds": null,
+          "investigation_cost_microdollars": 78230,
+          "physical_requests": 0,
+          "model_calls": null,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-stale-total-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "holds",
+          "expected_verdict_class": "refresh stale",
+          "raw_review": {
+            "cost_microdollars": 48387,
+            "grade": {
+              "cause_match": false,
+              "failing_step": "target",
+              "handoff_quality": 0,
+              "harmful": false,
+              "layer_match": false,
+              "partial": false,
+              "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT with handoff=null and stop=null. In saved_evidence, only intake is filled in. Triage, queries and evidence are all null. Intake itself worked: it parsed issue_type NUMBER_LOOKS_WRONG, the reported figure 7661 (EXACT) and the comparison figure 7692 from a source system. The one thing left open was the 'report' field. The agent asked the user to pick from 12 choices. The ticket clearly names the 'Application load fixture 20261003' semantic model, but that model is not among the choices. The closest name, 'Application Load Support', is a different item.\n\nScoring: the sealed answer expects the verdict 'refresh stale', the split BRONZE -> SEMANTIC, and the cause 'load completed after model framing, automatic updates held off'. The DIA answer gives no verdict, no layer and no cause, so all three score zero. The rule requires all three, so there is no partial credit. The answer makes no claim at all, so it is not harmful. Its uncertainty is honest.\n\nDisputed judgments:\n(1) Failing step. The run never reached triage. It stopped because it could not match the model named in the ticket to a known report or model. That is a target-resolution failure, so 'target' is right. The primary grader's 'triage' is wrong because triage never ran. The question to the user only happened because target resolution failed.\n(2) Handoff quality. The primary grader gave 1, saying the question is clear and the report list is provided, and that the agent could have picked the right report from the list. That misreads the record: the correct model is not in the list, so answering the question cannot lead to the right investigation. There are also no queries, no evidence and no next checks, such as comparing the refresh time with the load time or checking the auto-refresh setting. The handoff is effectively unusable, so 0 is right.\n\nThe secondary grader is correct on every field and cites the evidence accurately. The primary grader matches on the scoring fields but gets the failing step and handoff quality wrong.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "6baeee8035cdbcbbd60f56fd87edcfbf88df45b50325b1632da8f3650d5d4d3f",
+            "reason": "What the saved record shows: the DIA answer has status NEEDS_INPUT with handoff=null and stop=null. In saved_evidence, only intake is filled in. Triage, queries and evidence are all null. Intake itself worked: it parsed issue_type NUMBER_LOOKS_WRONG, the reported figure 7661 (EXACT) and the comparison figure 7692 from a source system. The one thing left open was the 'report' field. The agent asked the user to pick from 12 choices. The ticket clearly names the 'Application load fixture 20261003' semantic model, but that model is not among the choices. The closest name, 'Application Load Support', is a different item.\n\nScoring: the sealed answer expects the verdict 'refresh stale', the split BRONZE -> SEMANTIC, and the cause 'load completed after model framing, automatic updates held off'. The DIA answer gives no verdict, no layer and no cause, so all three score zero. The rule requires all three, so there is no partial credit. The answer makes no claim at all, so it is not harmful. Its uncertainty is honest.\n\nDisputed judgments:\n(1) Failing step. The run never reached triage. It stopped because it could not match the model named in the ticket to a known report or model. That is a target-resolution failure, so 'target' is right. The primary grader's 'triage' is wrong because triage never ran. The question to the user only happened because target resolution failed.\n(2) Handoff quality. The primary grader gave 1, saying the question is clear and the report list is provided, and that the agent could have picked the right report from the list. That misreads the record: the correct model is not in the list, so answering the question cannot lead to the right investigation. There are also no queries, no evidence and no next checks, such as comparing the refresh time with the load time or checking the auto-refresh setting. The handoff is effectively unusable, so 0 is right.\n\nThe secondary grader is correct on every field and cites the evidence accurately. The primary grader matches on the scoring fields but gets the failing step and handoff quality wrong.",
+            "source_sha256": "57e0f8e9bef7a00b456edc1cc22b0e395024492aaa60993e5b2599b6ed1e1fb2",
+            "ticket": "stale-total-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 879
+              },
+              "cache_creation_input_tokens": 879,
+              "cache_read_input_tokens": 0,
+              "inference_geo": "global",
+              "input_tokens": 5048,
+              "output_tokens": 1190,
+              "output_tokens_details": {
+                "thinking_tokens": 276
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "stale-total-v2",
+          "class": "stale-total",
+          "fixture": "stale",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "intake",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "The delivered answer reached NEEDS_INPUT status and asked the user to select a report before proceeding. It never identified the verdict (refresh stale), the layer/split point (BRONZE -> SEMANTIC), or the named cause (model refresh boundary / stale semantic layer after bronze updated). The intake was prefilled with the reported figure (7661) and comparison figure (7692), and triage was null \u2014 so no investigation was performed. The system stalled at intake by requiring user selection of a report rather than resolving the question from available data. Handoff quality is moderate (1): the question asked is clear and the report list is presented, giving a sensible next step, but the stopping point is premature given the data already available.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": false,
+            "failing_step": "target",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "Expected: verdict 'refresh stale', layer/split BRONZE -> SEMANTIC, cause = the Application load fixture 20261003 model holds 7661 while Bronze has 7692 because the load finished after the model was framed and automatic updates are held off (a model refresh boundary, not pipeline loss). Delivered: status NEEDS_INPUT, no triage, no queries, and no verdict, layer, or cause. Intake did capture the figures correctly (reported 7661, comparison 7692). But it then asked the user to pick a report even though the ticket names it ('Application load fixture 20261003'). That report is not among the 12 choices offered, so target resolution failed first and the agent stopped to ask. It did not repeat the user's wrong guess that warehouse_id mapping is the cause, and it stated no cause, so it is an honest unresolved answer and not harmful. Handoff quality is 0: the handoff object is empty, there are no rerunnable queries, there is no stopping point, and the only next step offered is a choice list that leaves out the named report.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-stale01",
+          "outcome_sha256": "9e006602ea06cf1abcb10d8076adb670e4d64b5f48415e4ef113973ff44da385",
+          "status": "NEEDS_INPUT",
+          "native_duration_seconds": null,
+          "worker_wall_seconds": null,
+          "investigation_cost_microdollars": 58554,
+          "physical_requests": 0,
+          "model_calls": null,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-stale-total-v2-result.json",
+          "usage_unavailable": false,
+          "timing_group": "holds",
+          "expected_verdict_class": "refresh stale",
+          "raw_review": {
+            "cost_microdollars": 43100,
+            "grade": {
+              "cause_match": false,
+              "failing_step": "target",
+              "handoff_quality": 0,
+              "harmful": false,
+              "layer_match": false,
+              "partial": false,
+              "reason": "What the saved record shows: the DIA saved answer has status NEEDS_INPUT. Handoff and stop are null. In the saved evidence, triage, queries and evidence are all null. Intake did work: it prefilled IntakeRequest/1 with issue_type NUMBER_LOOKS_WRONG, reported figure 7661 (EXACT), a SOURCE_SYSTEM comparison of 7692 (EXACT), and an empty filter list. It also tagged token 9 as PRIMARY, token 18 as COMPARISON, and tokens 7 and 15 as IDENTIFIERs. It then asked the user to pick a 'report' from 12 choices. None of the 12 is the report the ticket names, 'Application load fixture 20261003'. The choices are Application Load Support, Declared predicate fixture 20261001, four Inventory Health reports, Round Nine translation filters 20261007, Round Ten Visual Variety and four Warehouse Performance reports.\n\nThe sealed expectation is verdict 'refresh stale', split BRONZE -> SEMANTIC, and the cause is a model refresh boundary: the load completed after the model was framed and automatic updates are held off. The answer gives no verdict, no layer and no cause. So verdict, layer and cause all fail. Under the all-three rule, partial is false. It is not harmful: it did not adopt the user's wrong warehouse_id guess and made no confident claim, so it is honestly unresolved.\n\nFailing step: the primary grader says 'intake', but the raw capture shows intake parsed the figures, comparison and filters correctly. The first failure is target resolution. The report is named in the ticket, yet the agent could not resolve it and offered a list that leaves it out. The secondary grader's 'target' is correct.\n\nHandoff quality: the primary gives 1, calling the report list 'a sensible next step'. That is wrong because the only next step offered cannot lead to the correct report: the user cannot select it. There is no handoff object, no rerunnable query and no stopping point. The secondary's 0 is correct.\n\nBoth graders agree on the match fields, harmful and partial, and are correct on them. The secondary is right on the two disputed fields.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "9e006602ea06cf1abcb10d8076adb670e4d64b5f48415e4ef113973ff44da385",
+            "reason": "What the saved record shows: the DIA saved answer has status NEEDS_INPUT. Handoff and stop are null. In the saved evidence, triage, queries and evidence are all null. Intake did work: it prefilled IntakeRequest/1 with issue_type NUMBER_LOOKS_WRONG, reported figure 7661 (EXACT), a SOURCE_SYSTEM comparison of 7692 (EXACT), and an empty filter list. It also tagged token 9 as PRIMARY, token 18 as COMPARISON, and tokens 7 and 15 as IDENTIFIERs. It then asked the user to pick a 'report' from 12 choices. None of the 12 is the report the ticket names, 'Application load fixture 20261003'. The choices are Application Load Support, Declared predicate fixture 20261001, four Inventory Health reports, Round Nine translation filters 20261007, Round Ten Visual Variety and four Warehouse Performance reports.\n\nThe sealed expectation is verdict 'refresh stale', split BRONZE -> SEMANTIC, and the cause is a model refresh boundary: the load completed after the model was framed and automatic updates are held off. The answer gives no verdict, no layer and no cause. So verdict, layer and cause all fail. Under the all-three rule, partial is false. It is not harmful: it did not adopt the user's wrong warehouse_id guess and made no confident claim, so it is honestly unresolved.\n\nFailing step: the primary grader says 'intake', but the raw capture shows intake parsed the figures, comparison and filters correctly. The first failure is target resolution. The report is named in the ticket, yet the agent could not resolve it and offered a list that leaves it out. The secondary grader's 'target' is correct.\n\nHandoff quality: the primary gives 1, calling the report list 'a sensible next step'. That is wrong because the only next step offered cannot lead to the correct report: the user cannot select it. There is no handoff object, no rerunnable query and no stopping point. The secondary's 0 is correct.\n\nBoth graders agree on the match fields, harmful and partial, and are correct on them. The secondary is right on the two disputed fields.",
+            "source_sha256": "b47bfbfa3100f63cf7ba600924b531287af310b7c421198e5af73841bc7edd3c",
+            "ticket": "stale-total-v2",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 879,
+              "inference_geo": "global",
+              "input_tokens": 4791,
+              "output_tokens": 1188,
+              "output_tokens_details": {
+                "thinking_tokens": 217
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -23875,6 +25630,246 @@
           }
         },
         "latency-900502": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 2,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.6576197724933469,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
+        "stale-total": {
           "official_primary": {
             "all_three": {
               "correct": 0,
@@ -29443,46 +31438,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -29490,46 +31485,46 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -29537,46 +31532,46 @@
       "raw_reviewed": {
         "all_three": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -29584,50 +31579,50 @@
       "raw_review_pending": [],
       "raw_review_complete": true,
       "headline": "raw_reviewed",
-      "completed_graded": 18,
+      "completed_graded": 20,
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -29635,55 +31630,55 @@
       "secondary": {
         "all_three": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 18,
+          "total": 20,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.17587922364665765,
+          "upper": 0.16112515805281938,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "agreement": {
-        "correct": 18,
-        "total": 18,
+        "correct": 20,
+        "total": 20,
         "accuracy": 1.0,
-        "lower": 0.8241207763533425,
+        "lower": 0.8388748419471806,
         "upper": 1.0,
         "confidence": 0.95,
         "method": "Wilson"
@@ -29696,10 +31691,10 @@
       ],
       "full_assessment_agreement": {
         "correct": 3,
-        "total": 18,
-        "accuracy": 0.16666666666666666,
-        "lower": 0.05836576805861446,
-        "upper": 0.39222038103915724,
+        "total": 20,
+        "accuracy": 0.15,
+        "lower": 0.052368745896216595,
+        "upper": 0.36041886474075696,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -29740,6 +31735,18 @@
           "fields": [
             "handoff_quality",
             "failing_step"
+          ]
+        },
+        {
+          "ticket": "stale-warehouse3-v1",
+          "fields": [
+            "handoff_quality"
+          ]
+        },
+        {
+          "ticket": "stale-product1-v1",
+          "fields": [
+            "handoff_quality"
           ]
         },
         {
@@ -30101,6 +32108,158 @@
               "output_tokens": 1454,
               "output_tokens_details": {
                 "thinking_tokens": 471
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "stale-warehouse3-v1",
+          "class": "stale-warehouse3",
+          "fixture": "stale",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "intake",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "The delivered answer is in NEEDS_INPUT/intake state \u2014 the agent stopped at the first intake step asking the user to select a report and an issue type before proceeding with any investigation. No verdict was reached, no layer/split point was identified, and no named cause was produced. The expected answer requires identifying the BRONZE->SEMANTIC layer boundary and concluding that the Application Load fixture 20261003 model is stale (value 2629) versus Bronze (2660) for warehouse_id 3 due to a model refresh boundary. Since the agent never got past intake, verdict_match, layer_match, and cause_match are all false. The handoff is rated 1: it presents a clear list of reports to choose from and issue types, so a human could continue, but no diagnostic queries were run and no stopping rationale was provided.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": false,
+            "failing_step": "intake",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "Expected: verdict 'refresh stale', split BRONZE -> SEMANTIC, cause: the Application load fixture 20261003 model shows 2629 against Bronze 2660 for warehouse 3 because the load finished after the model was framed and automatic updates are held off. Delivered: NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. It asks the user to choose a report and an issue type, even though the ticket clearly names the semantic model, the lakehouse export, the measure (Movement Units), the filter (warehouse_id 3) and the symptom (the model is lower than the lakehouse and application exports). The report choices don't even include the named 'Application load fixture 20261003' model. No verdict, layer or cause was given, so all three score zero. It is not harmful because it states no wrong cause. Handoff quality 0: no queries were run or provided, there is no stop point, and there are no next checks. The question it asks can't move the investigation toward the named model. The first failing step is intake: extraction failed on a ticket with everything needed, and that caused the unnecessary question to the user.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-stale01",
+          "outcome_sha256": "8eb4f57308a84c22c4eddc5896d488443b19ee910621cf797faf923fb9c59444",
+          "status": "NEEDS_INPUT",
+          "native_duration_seconds": null,
+          "worker_wall_seconds": null,
+          "investigation_cost_microdollars": 95155,
+          "physical_requests": 0,
+          "model_calls": null,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-stale-warehouse3-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "holds",
+          "expected_verdict_class": "refresh stale",
+          "raw_review": {
+            "cost_microdollars": 38928,
+            "grade": {
+              "cause_match": false,
+              "failing_step": "intake",
+              "handoff_quality": 0,
+              "harmful": false,
+              "layer_match": false,
+              "partial": false,
+              "reason": "Graded on all three required parts together (verdict, layer and cause), with no credit for partial matches, this scores zero. Both graders agree on verdict, layer, cause, harm, partial and the failing step. The secondary grader is right on the one disputed point, handoff quality.\n\nWhat the saved record shows: the ticket clearly names the semantic model ('Application load fixture 20261003'), the measure (Movement Units), the filter (warehouse_id 3), the lakehouse to compare against (round_two_bronze_20261003) and the symptom (the model is lower than both the lakehouse export and the application export). The DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED and an empty prefilled object. It only asks the user to pick a report from 12 choices and an issue type from 8. The saved evidence has intake only; evidence, queries and triage are all null.\n\nThe expected answer is: verdict 'refresh stale', split point BRONZE -> SEMANTIC, and the cause is the model refresh boundary (the model shows 2629 against Bronze 2660 because the load finished after the model was framed and automatic updates are held off).\n\n- **Scoring:** No verdict, layer or cause was produced, so all three are false. Nothing is partial.\n- **Harm:** It is not harmful because it states no wrong cause or verdict.\n- **Failing step:** The failing step is intake. Extraction failed on a ticket that had everything needed, and the question to the user is a result of that failure, not the main cause.\n\nDisputed handoff score: the primary grader gave 1, saying the list of choices lets a human continue. That is wrong. The report choices do not include the named 'Application load fixture 20261003' model; the closest entry is 'Application Load Support', a different item. So answering the question cannot lead the investigation to the right model. There are also no queries, no stop point and no next checks. A handoff of 0 is correct, and the secondary grader also gave the more accurate explanation.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "8eb4f57308a84c22c4eddc5896d488443b19ee910621cf797faf923fb9c59444",
+            "reason": "Graded on all three required parts together (verdict, layer and cause), with no credit for partial matches, this scores zero. Both graders agree on verdict, layer, cause, harm, partial and the failing step. The secondary grader is right on the one disputed point, handoff quality.\n\nWhat the saved record shows: the ticket clearly names the semantic model ('Application load fixture 20261003'), the measure (Movement Units), the filter (warehouse_id 3), the lakehouse to compare against (round_two_bronze_20261003) and the symptom (the model is lower than both the lakehouse export and the application export). The DIA answer is status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED and an empty prefilled object. It only asks the user to pick a report from 12 choices and an issue type from 8. The saved evidence has intake only; evidence, queries and triage are all null.\n\nThe expected answer is: verdict 'refresh stale', split point BRONZE -> SEMANTIC, and the cause is the model refresh boundary (the model shows 2629 against Bronze 2660 because the load finished after the model was framed and automatic updates are held off).\n\n- **Scoring:** No verdict, layer or cause was produced, so all three are false. Nothing is partial.\n- **Harm:** It is not harmful because it states no wrong cause or verdict.\n- **Failing step:** The failing step is intake. Extraction failed on a ticket that had everything needed, and the question to the user is a result of that failure, not the main cause.\n\nDisputed handoff score: the primary grader gave 1, saying the list of choices lets a human continue. That is wrong. The report choices do not include the named 'Application load fixture 20261003' model; the closest entry is 'Application Load Support', a different item. So answering the question cannot lead the investigation to the right model. There are also no queries, no stop point and no next checks. A handoff of 0 is correct, and the secondary grader also gave the more accurate explanation.",
+            "source_sha256": "0586f8aa34bcd558a8ab524dab8775d8c0e29fa90d3f77fe93c33c204db854b2",
+            "ticket": "stale-warehouse3-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 879,
+              "inference_geo": "global",
+              "input_tokens": 4298,
+              "output_tokens": 1078,
+              "output_tokens_details": {
+                "thinking_tokens": 179
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "stale-product1-v1",
+          "class": "stale-product1",
+          "fixture": "stale",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "intake",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "The delivered answer never reached a verdict. It stopped at intake/clarification, presenting the user with a multi-select list of reports and issue types to fill in before any investigation. The expected answer requires identifying a BRONZE -> SEMANTIC refresh staleness issue (Application load fixture 20261003 model lagging behind the Bronze table after a load completed post-model-framing). No layer, no cause, and no verdict were established. The handoff quality is modest (1): the question is clear and runnable once the user responds, but no investigative queries were attempted and no stopping point reasoning was provided.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": false,
+            "failing_step": "intake",
+            "handoff_quality": 0,
+            "harmful": false,
+            "layer_match": false,
+            "partial": false,
+            "reason": "Expected: verdict 'refresh stale' at the BRONZE -> SEMANTIC boundary. The cause is the Application load fixture 20261003 model showing 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The delivered answer stopped at intake (NEEDS_INPUT, code INTAKE_EXTRACTION_UNESTABLISHED). It asked the user to pick a report and an issue type, even though the ticket names the semantic model, the Bronze source, the measure (Movement Units), the product_id filter and a numeric mismatch. The report list doesn't include 'Application load fixture 20261003'; 'Application Load Support' is a different item, so the user can't answer correctly from these choices. The issue type is also clear from the ticket (a number mismatch between sources). It gives no verdict, layer or cause, so none of them match. It makes no confident wrong claim, so it is not harmful. Handoff quality is 0: no rerunnable queries, no stop record, no next checks, and the clarifying question doesn't offer the right report.",
+            "verdict_match": false
+          },
+          "grade_wave": "g3-stale01",
+          "outcome_sha256": "a86809f81f60e34fb72bd48c9a2f58c2a6f31dde78e6e7ad2851a91fbc85d0bf",
+          "status": "NEEDS_INPUT",
+          "native_duration_seconds": null,
+          "worker_wall_seconds": null,
+          "investigation_cost_microdollars": 31230,
+          "physical_requests": 0,
+          "model_calls": null,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-stale-product1-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "holds",
+          "expected_verdict_class": "refresh stale",
+          "raw_review": {
+            "cost_microdollars": 44680,
+            "grade": {
+              "cause_match": false,
+              "failing_step": "intake",
+              "handoff_quality": 0,
+              "harmful": false,
+              "layer_match": false,
+              "partial": false,
+              "reason": "What the saved record shows: DIA returned status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. Its prefilled field is empty ({}), and saved_evidence has triage, queries and evidence all set to null. The only output asks the user to choose a report from 12 names and an issue type from 8 options. The sealed expectation is verdict 'refresh stale' at BRONZE -> SEMANTIC. The named cause is that the Application load fixture 20261003 model shows 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The answer has no verdict, no layer and no cause. All three components fail, so under the all-three rule the score is zero, and partial is false. It makes no confident claim, wrong or otherwise, so it is not harmful. It stopped at intake.\n\nThe graders agree on all of this. Their only disagreement is handoff quality (1 vs 0). The ticket already names the semantic model, the Bronze source (round_two_bronze_20261003), the measure (Movement Units), the product_id filter and the direction of the mismatch: the model is lower, and the application export agrees with the lakehouse. Despite that, DIA extracted nothing. Prefilled is empty, so it did not even record the model or source it was given. It then asked for an issue type that the ticket's wording already makes clear: a number mismatch between sources. None of the 12 report choices is Application load fixture 20261003. It is unknown whether 'Application Load Support' uses that model. The answer includes no queries that could be rerun, no stop reasoning and no next checks.\n\nThe primary grader called the question 'clear and runnable once the user responds'. That overstates it: the record shows nothing that could be run and gives no basis for picking a report. The secondary grader's score of 0 is better supported. One weakness: it states firmly that 'Application Load Support' is a different item, and the evidence does not prove that. Still, its main point stands: the choices do not clearly contain the named model, and the answer has no handoff content.",
+              "verdict_match": false
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "a86809f81f60e34fb72bd48c9a2f58c2a6f31dde78e6e7ad2851a91fbc85d0bf",
+            "reason": "What the saved record shows: DIA returned status NEEDS_INPUT with code INTAKE_EXTRACTION_UNESTABLISHED. Its prefilled field is empty ({}), and saved_evidence has triage, queries and evidence all set to null. The only output asks the user to choose a report from 12 names and an issue type from 8 options. The sealed expectation is verdict 'refresh stale' at BRONZE -> SEMANTIC. The named cause is that the Application load fixture 20261003 model shows 643 while Bronze shows 674 for product 1, because the load finished after the model was framed and automatic updates are held off. The answer has no verdict, no layer and no cause. All three components fail, so under the all-three rule the score is zero, and partial is false. It makes no confident claim, wrong or otherwise, so it is not harmful. It stopped at intake.\n\nThe graders agree on all of this. Their only disagreement is handoff quality (1 vs 0). The ticket already names the semantic model, the Bronze source (round_two_bronze_20261003), the measure (Movement Units), the product_id filter and the direction of the mismatch: the model is lower, and the application export agrees with the lakehouse. Despite that, DIA extracted nothing. Prefilled is empty, so it did not even record the model or source it was given. It then asked for an issue type that the ticket's wording already makes clear: a number mismatch between sources. None of the 12 report choices is Application load fixture 20261003. It is unknown whether 'Application Load Support' uses that model. The answer includes no queries that could be rerun, no stop reasoning and no next checks.\n\nThe primary grader called the question 'clear and runnable once the user responds'. That overstates it: the record shows nothing that could be run and gives no basis for picking a report. The secondary grader's score of 0 is better supported. One weakness: it states firmly that 'Application Load Support' is a different item, and the evidence does not prove that. Still, its main point stands: the choices do not clearly contain the named model, and the answer has no handoff content.",
+            "source_sha256": "db42494398b180c390ccd81a7bdc367173146961997b14d7827825c3d148cd5c",
+            "ticket": "stale-product1-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 0
+              },
+              "cache_creation_input_tokens": 0,
+              "cache_read_input_tokens": 879,
+              "inference_geo": "global",
+              "input_tokens": 4186,
+              "output_tokens": 1388,
+              "output_tokens_details": {
+                "thinking_tokens": 466
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -31995,6 +34154,486 @@
           }
         },
         "latency-900503": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
+        "stale-warehouse3": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
+        "stale-product1": {
           "official_primary": {
             "all_three": {
               "correct": 0,
@@ -34640,17 +37279,17 @@
   },
   "timing_cost": {
     "all": {
-      "tickets": 56,
+      "tickets": 60,
       "native_observed": 13,
-      "native_missing": 43,
+      "native_missing": 47,
       "native_median_seconds": 200.0,
       "native_p90_seconds": 323.0,
       "worker_median_seconds": 171.57637016500007,
       "worker_p90_seconds": 290.7049235129999,
-      "investigation_cost_microdollars_observed": 9367643,
-      "cost_observed": 55,
+      "investigation_cost_microdollars_observed": 9630812,
+      "cost_observed": 59,
       "cost_unavailable": 1,
-      "cost_per_observed_ticket_usd": 0.17032078181818183,
+      "cost_per_observed_ticket_usd": 0.16323410169491523,
       "physical_requests_observed": 297,
       "physical_requests_unavailable": 1
     },
@@ -34685,17 +37324,17 @@
       "physical_requests_unavailable": 0
     },
     "holds": {
-      "tickets": 43,
+      "tickets": 47,
       "native_observed": 0,
-      "native_missing": 43,
+      "native_missing": 47,
       "native_median_seconds": null,
       "native_p90_seconds": null,
       "worker_median_seconds": null,
       "worker_p90_seconds": null,
-      "investigation_cost_microdollars_observed": 3203891,
-      "cost_observed": 42,
+      "investigation_cost_microdollars_observed": 3467060,
+      "cost_observed": 46,
       "cost_unavailable": 1,
-      "cost_per_observed_ticket_usd": 0.07628311904761906,
+      "cost_per_observed_ticket_usd": 0.0753708695652174,
       "physical_requests_observed": 0,
       "physical_requests_unavailable": 1
     }

@@ -1,0 +1,18 @@
+{
+  "ticket": "stale-warehouse3-v1",
+  "failure": "Fixture admission helper AST whitelist rejects CONVERT before dispatch",
+  "submitted": false,
+  "investigation_attempt": false,
+  "original_control_restored": true,
+  "fix": "Owner-control query only: SUM(units) instead of SUM(CONVERT(bigint,units)); same bounded synthetic quantity",
+  "engine_changed": false,
+  "old_outcomes_reused": [
+    "stale-total-v1",
+    "stale-total-v2"
+  ],
+  "new_control": "injections/g3-stale-recovery01",
+  "remaining": [
+    "stale-warehouse3-v1",
+    "stale-product1-v1"
+  ]
+}
