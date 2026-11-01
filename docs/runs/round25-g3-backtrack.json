@@ -1,6 +1,6 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 50,
+  "graded": 56,
   "score": 3,
   "correctness": {
     "verdict_match": 3,
@@ -9,10 +9,10 @@
   },
   "harmful": 3,
   "zero_groups": {
-    "intake": 35,
+    "intake": 38,
     "reading results": 2,
     "conclusion": 7,
-    "target": 3
+    "target": 6
   },
   "zeros": [
     {
@@ -624,6 +624,90 @@
       "class": "failed-billing-load"
     },
     {
+      "ticket": "fourth-design-model-formula-v1",
+      "first_wrong_step": "target",
+      "reason": "What the saved capture shows: the DIA answer has status NEEDS_INPUT. Handoff, stop, triage, queries and evidence are all null. Intake set issue_type to HOW_IS_THIS_CALCULATED and compared_with to NOTHING, then asked the user to \"Choose the missing details so I can check the report.\" The only field it asked for is a report, offered as a list of 12 report names. The sealed expectation is verdict 'as designed', layer SEMANTIC, and the cause \"Movement Units is the declared SUM of Movements[units] under the selected context, reading its DirectLake entity.\" The answer gives no verdict, no layer and no cause, so all three score zero. Partial credit is zero under the all-three rule. Nothing is harmful: the answer makes no wrong claim, only an unresolved request for input.\n\nFailing step: the ticket names a specific semantic model ('Application load fixture 20261003') and a measure ('Movement Units'). That model is not in the picker. The system tried to resolve a report rather than the named model and measure, and it never found the target. Issue classification worked, so 'target' describes the failure better than 'intake'. The primary grader says the agent should have mapped the request to 'Application Load Support'. Nothing in the capture supports that; it is an unsupported guess about which report matches.\n\nHandoff quality: no queries were run and no reason was given for stopping. The question does not mention the named model or measure, and none of the choices is the named model, so a human gets no grounded next check. That makes it 0, not 1.\n\nOn the secondary grader's side remark that the figure mention [20,20] misparsed '20' from the model name: that is speculative but does not matter to the result. Overall the secondary grader's assessment is the better one.",
+      "saved_trace": {
+        "outcome_sha256": "22624dcc2a3fce321fd8cbd9b2b40fe83a6a465e8a2e4b47a2c6e440aef39c3c",
+        "local_outcome": ".local\\round-twenty-five\\g3-fourth-design-model-formula-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Open the named native target and its exact declared upstream routes.",
+      "class": "fourth-design-model-formula"
+    },
+    {
+      "ticket": "fourth-design-model-formula-v2",
+      "first_wrong_step": "target",
+      "reason": "What the raw capture shows: the saved answer has status NEEDS_INPUT, no handoff and no stop. Only intake evidence was saved: triage, queries and evidence are all null. Intake did read the ticket correctly. It set issue_type to HOW_IS_THIS_CALCULATED, copied the description word for word, set compared_with to NOTHING, and flagged the figure mention as an IDENTIFIER. After that it asked the user to choose a 'report' from 12 options. None of those 12 is 'Application load fixture 20261003', the report the ticket names. The nearest names are 'Application Load Support' and other dated fixtures such as 'Declared predicate fixture 20261001' and 'Round Nine translation filters 20261007'.\n\nThe sealed expectation is 'as designed' at the SEMANTIC layer, with the cause that Movement Units is the declared SUM of Movements[units] reading its DirectLake entity. That means the named report exists and should have been resolved. The answer gives no verdict, no layer and no cause, so verdict, layer and cause all score false. Under the all-three rule the score is zero, and partial is false. It is not harmful, because it asserts nothing false as fact.\n\nDisputed judgments:\n- Failing step: the ticket was parsed correctly, so intake itself worked. The first thing that went wrong was matching the named report to a real report, which is target resolution. The secondary grader's 'target' is right. The primary grader's 'intake' is less precise.\n- Handoff quality: the primary grader gave 1 and called the choices 'reasonable'. That misses the key defect: the list leaves out the report the user named, so the user cannot answer the question correctly. No queries were run, no next checks were offered, and nothing explains why the report could not be matched. A handoff the user can't act on correctly earns 0, so the secondary grader's 0 is right.\n\nOne small flaw in the secondary grader: calling 'Application Load Support' the 'closest choice' is speculative. It doesn't change any score. Both graders agree on the three zero matches and on harmful being false. The secondary grader gets the two disputed judgments right, so the secondary grader wins.",
+      "saved_trace": {
+        "outcome_sha256": "c2dae77eb3ecfbe4d03dc865cc2d4f5da26270c3e3b3618a2dfd02f450923f50",
+        "local_outcome": ".local\\round-twenty-five\\g3-fourth-design-model-formula-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Open the named native target and its exact declared upstream routes.",
+      "class": "fourth-design-model-formula"
+    },
+    {
+      "ticket": "older-export-movement-1-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved record shows: DIA returned status NEEDS_INPUT, with handoff=null and stop=null. In saved_evidence, triage, queries and evidence are all null. Only intake ran. Intake filled in record \"movement 1\", approximate_date \"2026-10-20 12:00 UTC\" and reported figure 16 (EXACT), and set compared_with to NOTHING. It also contradicted itself: classified_issue_type is DATA_LOOKS_OLD, but issue_type is SOMETHING_ELSE. It then asked the user to choose a report from 12 dashboard names, such as Application Load Support, Inventory Health and Warehouse Performance. None of them is the ordersops stock movements export the ticket names.\n\nWhat was expected: verdict \"not found\", layer SOURCE. The cause is that the 2026-10-20 snapshot is earlier than the earliest retained native history (2026-10-23T22:43:47). The current value is known, but the earlier quantity cannot be established.\n\nScoring: DIA gave no verdict, layer or cause, so verdict_match, layer_match and cause_match are all false. A partial answer would score zero anyway. Not harmful: DIA stated no value, change, zero or cause as fact. Asking the user isn't harmful in itself, even though it was unnecessary.\n\nDisputed points:\n(1) Failing step. The primary grader says \"triage\", but the record shows triage never ran (triage=null). The failure happened earlier, when DIA chose to stop and ask the user an unnecessary question with irrelevant choices, even though the ticket gave the source, record, figure and exact timestamp. \"Asked the user\" is the most precise label; \"intake\" would be the next best. \"Triage\" is wrong.\n(2) Handoff quality. The primary grader gives 1 because the \"report list is populated\". But there are no queries to rerun, no stop record, no handoff object and no suggested next check, such as finding the movements source's history retention boundary. A list of unrelated reports is not a usable handoff, so the score is 0.\n\nThe secondary grader matches the record on every field. It also correctly notes that intake was inconsistent and that the choices were irrelevant.",
+      "saved_trace": {
+        "outcome_sha256": "85ab32fec221bb0b6ec457020ff2d57fd735fd5bdb6a0cca255a3a7edac9ca74",
+        "local_outcome": ".local\\round-twenty-five\\g3-older-export-movement-1-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "older-export-movement-1"
+    },
+    {
+      "ticket": "older-export-movement-1-v2",
+      "first_wrong_step": "target",
+      "reason": "What the saved record shows: the DIA answer's status is NEEDS_INPUT, and its handoff and stop are both null. In the saved evidence, triage, queries and evidence are all null. Only intake ran. Intake got the ticket details right: record 'movement 1', reported figure 16 (EXACT), approximate_date 2026-10-20T12:00:00Z, and a comparison against the source system. Then it asked the user to pick a 'report' from 12 dashboards (Application Load Support, Inventory Health \u00d74, Warehouse Performance \u00d74, Round Nine/Ten, Declared predicate fixture). None of these is the 'ordersops stock movements export' that the ticket names.\n\nThe sealed expectation is verdict 'not found', layer SOURCE, cause: the requested 2026-10-20 snapshot is older than the earliest retained native history (2026-10-23T22:43:47), so the earlier quantity can't be established. The DIA answer gives no verdict, no layer and no cause, so all three are false and the all-three rule scores it zero. Partial is false, and correct intake fields earn no credit.\n\nHarmful is false: the answer invents no earlier value, change or zero, and makes no confident wrong claim. It just stops.\n\nFailing step: the run never got past intake. Primary's 'triage' is wrong, because triage never ran (it is null). The first real failure was target resolution: intake parsed the fields correctly, but the export named in the ticket was never matched to a target. That is why the question offered a choice list that is missing the right object. Secondary's 'target' fits the evidence.\n\nHandoff quality is 0: there are no queries to rerun, no history or coverage checks are suggested, and the stopping point is a question the user can't answer usefully because the right target isn't among the choices. The prefilled intake fields have some value, but they don't make this a usable handoff. Primary's score of 1 calls the stopping point 'clear' and misses that the list doesn't contain the export.\n\nBoth graders agree on all three matches, harm and partial. Secondary is right on failing step and handoff quality, so secondary wins.",
+      "saved_trace": {
+        "outcome_sha256": "19fcbf3b2f2dec03fc82a498b5b9ddba7f610a2e86cc79d5069b5b6c4017f016",
+        "local_outcome": ".local\\round-twenty-five\\g3-older-export-movement-1-v2-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Open the named native target and its exact declared upstream routes.",
+      "class": "older-export-movement-1"
+    },
+    {
+      "ticket": "older-export-movement-2-v1",
+      "first_wrong_step": "intake",
+      "reason": "What the saved evidence shows: DIA stopped at intake with status NEEDS_INPUT. The saved evidence has intake only. Queries, triage and evidence are all null, and handoff and stop are both null. Intake got most of the ticket right: the record (movement ID 2), the approximate date (2026-10-20 12:00 UTC), the reported figure (exactly 17) and the classified issue type (DATA_LOOKS_OLD). Even so, it set issue_type to SOMETHING_ELSE, compared_with to NOTHING, and asked the user to choose one of 12 dashboard reports. The choices include names like Inventory Health, Warehouse Performance and several fixtures. The ticket names no report. It asks about a data record in the ordersops stock movements section, so no report choice was needed and none of the 12 options fits.\n\nThe sealed expectation is: verdict 'not found', layer SOURCE, and the cause is that the requested 2026-10-20 snapshot is earlier than the oldest kept native history (2026-10-23T22:43:47). DIA gave no verdict, no layer and no cause, so all three scores are 0 and there is no partial credit. Under the all-three rule this counts as wrong. It is not harmful, because DIA claimed nothing: no earlier value, no change and no zero.\n\nThe first failure is at intake. DIA did not turn the ticket into a lookup it could run, and instead asked the user an unneeded question. Both graders agree on all of these points.\n\nThe only disagreement is the handoff score. Primary gave 1, calling the question coherent and the stopping point clear. That is too generous. The question is coherent as text, but it sends the user to irrelevant reports and is a dead end. There are no queries to rerun, the handoff is null, no stop is recorded, and it gives no pointer to the next sensible check: compare movement 2's history coverage with the requested date. Secondary gave 0, which matches the saved evidence. The secondary grader is right.",
+      "saved_trace": {
+        "outcome_sha256": "98c349f20016f3d934ab231e8e310bd2673ce4ea80cec763330ab1cd0440cb31",
+        "local_outcome": ".local\\round-twenty-five\\g3-older-export-movement-2-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "older-export-movement-2"
+    },
+    {
+      "ticket": "older-export-movement-3-v1",
+      "first_wrong_step": "intake",
+      "reason": "Evidence: the saved answer is only an intake result with status NEEDS_INPUT. Queries, triage and evidence are all null, and there is no verdict, layer or cause. The intake read the ticket correctly (record 'movement ID 3', figure 39 EXACT, date '2026-10-20 12:00 UTC', compared_with NOTHING). It labelled the issue DATA_LOOKS_OLD but set issue_type to SOMETHING_ELSE, then asked the user to pick one of 12 reports (Inventory Health and Warehouse Performance variants, fixtures, Round Nine/Ten, Application Load Support). None of these is the ordersops stock-movements history the ticket is about. Expected: 'not found' at SOURCE, because the 2026-10-20 snapshot is older than the earliest retained native history (2026-10-23T22:43:47.9434148), with no earlier value invented. Agreed points: verdict, layer and cause all fail, so the answer scores zero under the all-three rule. Partial is false. Not harmful, because it asserts no wrong cause and invents no value or change. It is a wasted pause, not a confident unsupported claim. Disputed points: (1) Failing step: the run stopped at intake, but the specific failure was an unneeded, off-target question to the user. The ticket already gave the dataset, record, current value and exact timestamp. 'Asked the user' is the more precise label, and the primary grader's own reasoning calls the stop premature. (2) Handoff quality is 0, not 1. The report list is not plausible for this question, and the only usable content is a restatement of the ticket. There are no rerunnable queries and no suggested next check (such as the earliest retained history for movement 3), and the question points the next person in the wrong direction. The secondary grader is right on both disputed points.",
+      "saved_trace": {
+        "outcome_sha256": "ac25087cbe31727e56f4fbfd8ce9b15b1190a6e7b412d363e6f6be034eb1f0fb",
+        "local_outcome": ".local\\round-twenty-five\\g3-older-export-movement-3-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
+      "class": "older-export-movement-3"
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "first_wrong_step": "intake",
       "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT, with handoff null and stop null. Its only output is the question \"Choose the missing details so I can check the report.\" It offers one report choice, \"Subscription Billing\". In the saved evidence, intake classified the ticket as issue_type DATA_LOOKS_OLD with compared_with NOTHING and empty provenance. Triage, queries and evidence are all null, so no query ran. The sealed expectation is verdict \"waiting on job\", layer PIPELINE, and the cause is the named job's freshly observed active RUNNING/QUEUED Wait-control execution, with its pending completion named.\n\nScoring: the answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule, partial is false and scores zero. It is not harmful because it states nothing false as fact: no failure, cause or SLA is invented. The failing step is intake. The ticket asks about a named pipeline job (\"PIPELINE Billing application load\", shown as running on the job history screen), but intake routed it as a stale-report question and asked the user to pick a report. That choice was never needed to look up the job's run status.\n\nThe one real dispute is handoff quality. The primary grader scores 1 and calls the question \"plausible\". That is too generous. The question sends the work down the wrong path: a report choice does nothing to identify the active run, the handoff is null, and nothing from any investigation is passed on. Even though \"Subscription Billing\" probably comes from the word \"Billing\" in the ticket, it is still off-target. So 0 is correct, as the secondary grader says. The primary's other points are fine, apart from its reference to \"available evidence (docs/runs/...)\": that file is the grading reference, not something DIA should have consulted.\n\nThe secondary grader has one small factual error: it quotes \"queries: []\", but the saved value is null. The substance still holds, because no queries ran either way. The secondary wins because its handoff judgment matches the record.",
@@ -760,6 +844,10 @@
     "different-product": 1,
     "different-warehouse": 2,
     "failed-billing-load": 2,
+    "fourth-design-model-formula": 2,
+    "older-export-movement-1": 2,
+    "older-export-movement-2": 1,
+    "older-export-movement-3": 1,
     "waiting-billing-load": 1,
     "waiting-billing-transform": 1,
     "waiting-fixture-load": 2

@@ -1161,3 +1161,6 @@ Owner2026-10-31: source-history harm pause lifted for Round25 practice measureme
 
 
 Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical total17,000, INVESTIGATION14,405, SCAN2,500, RESTORATION95. New Anthropic cycle credit available. Authoritative cloud policy and October model account updated; counters, reservations, protected grading, November $150/9,000 and all identity scopes unchanged. Native before/after: docs/runs/round25-owner-budget-206-20261031.json. Frozen measurement engine unchanged; deployment policy configuration only.
+
+
+Section8 Round25 G3 stale control, owner date2026-10-31 / UTC2026-11-01: existing publisher observed automatic DirectLake updatesON on Application load fixture0c89889c, switchedOFF, closed/reopened model refresh settings and observed persistedOFF. The DirectLake toggle auto-saved asynchronously; schedule Apply stayeddisabled and schedule remainedOFF. No identity, role, secret or connection change. Real+31source/copy cohort follows; restore source/hash/copy, automaticON, ownrefresh/native7661 afterward. Native proof .local/round-twenty-five/injections/g3-stale/automatic-updates-off.json.
