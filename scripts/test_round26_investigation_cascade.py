@@ -4,6 +4,22 @@ from investigator.investigation_cascade import Cascade
 
 
 class InvestigationCascadeTests(unittest.TestCase):
+    def test_generic_cached_layer_schema_never_bypasses_local_admission(self):
+        from investigator.ai_investigation import Investigator
+        from investigator.investigative_queries import Queries
+        from test_round23_reasoning import MemoryCheckpoint
+        from test_round23_intake_queries import sql_objects
+        from jsonschema import ValidationError
+        execute=Mock()
+        queries=Queries({'gold':{'dialect':'T-SQL','objects':sql_objects()}},
+            execute=execute,reserve=Mock(),save=Mock())
+        engine=Investigator(queries=queries,model=Mock(),read_tools={},checkpoint=MemoryCheckpoint(),
+            case_id='local-admission',context={'intake':{},'path':['gold']},triage=[],
+            validate_finding=Mock())
+        with self.assertRaises(ValidationError):
+            engine.dispatch('run_sql',{'layer':'unknown','query':'SELECT 1','purpose':'compare'})
+        execute.assert_not_called()
+
     def test_real_checkpoint_continuation_reuses_native_query_across_models(self):
         from investigator.ai_investigation import Investigator,schema
         from investigator.investigative_queries import Queries

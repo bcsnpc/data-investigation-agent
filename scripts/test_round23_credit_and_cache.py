@@ -34,6 +34,25 @@ class CreditTests(unittest.TestCase):
 
 
 class CacheTests(unittest.TestCase):
+ def test_existing_query_contract_does_not_pin_initial_layer_enum(self):
+  from jsonschema import Draft202012Validator
+  cache=StablePrefix();first=self.body()
+  query={'name':'run_sql','description':'Read admitted layer',
+    'input_schema':{'type':'object','required':['layer','query','purpose'],
+      'properties':{'layer':{'enum':['gold']},'query':{'type':'string'},'purpose':{'enum':['compare']}}}}
+  first['tools'].append(copy.deepcopy(query));a=cache.prepare(first)
+  second=copy.deepcopy(first);second['tools'][-1]['input_schema']['properties']['layer']['enum'].append('source')
+  b=cache.prepare(second)
+  wire=next(t for t in b['tools']if t['name']=='run_sql')['input_schema']
+  args={'layer':'source','query':'SELECT 1','purpose':'compare'}
+  Draft202012Validator(wire).validate(args)
+  Draft202012Validator(second['tools'][-1]['input_schema']).validate(args)
+  self.assertTrue(list(Draft202012Validator(query['input_schema']).iter_errors(args)))
+  self.assertEqual(a['tools'],b['tools'])
+  self.assertIn('source',b['messages'][-1]['content'])
+  self.assertEqual(first['tools'][-1],query)
+  args['layer']='unknown'
+  self.assertTrue(list(Draft202012Validator(second['tools'][-1]['input_schema']).iter_errors(args)))
  def body(self):
   return {'model':'claude-opus-5-5','max_tokens':4000,'system':[{'type':'text','text':'instructions; retained path, schemas, DAX, definitions and triage','cache_control':{'type':'ephemeral'}}],
     'tools':[{'name':'get_lineage','description':'Read path','input_schema':{'type':'object','properties':{'node':{'type':'string'}}}}],

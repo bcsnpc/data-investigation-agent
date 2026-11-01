@@ -40,8 +40,10 @@ def specification(options):
 def execute(plan,context):
     from investigator.normal_audit import normal_context
     from investigator.build_phase import operating_mode
+    from investigator.run_timing import GuidedTiming
     with operating_mode(category='INVESTIGATION'),normal_context(context,plan.get('run_id','guided')) as audit:
-        return run(plan,audit)
+        timed=GuidedTiming(audit)
+        return timed.finish(run(plan,timed))
 
 
 def run(plan,context):

@@ -30,6 +30,12 @@ class StablePrefix:
                     tools.append({'name':name,'description':'Read-only query on a currently admitted layer. Expand lineage first if inactive; exact current identifiers are in the context and current-state messages.',
                         'input_schema':{'type':'object','additionalProperties':False,'required':['layer','query','purpose'],
                             'properties':{'layer':{'type':'string'},'query':{'type':'string','minLength':1},'purpose':{'enum':purposes}}}})
+            for tool in tools:
+                if tool['name'] in ('run_sql','run_dax'):
+                    # The wire schema must not freeze the first path slice's
+                    # layer enum. The investigator validates each call against
+                    # its refreshed local schema before dispatching any read.
+                    tool['input_schema']['properties']['layer']={'type':'string'}
             self.tools=sorted(tools,key=lambda tool:tool['name'])
             self.tools[-1]['cache_control']={'type':'ephemeral'}
         changing={}

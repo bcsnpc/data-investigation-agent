@@ -14,6 +14,15 @@ import test_ledger_investigator as fixtures
 
 
 class HarnessTests(unittest.TestCase):
+    def test_case_log_records_utc_admission_clock_without_changing_ticket(self):
+        from datetime import datetime
+        with tempfile.TemporaryDirectory()as folder:
+            path=Path(folder)/'case.jsonl';log=CaseLog(path);ticket={'id':'original'}
+            log.append('ADMISSION',ticket)
+            event=CaseLog(path).events[0]
+            self.assertEqual(event['value'],ticket)
+            self.assertIsNotNone(datetime.fromisoformat(event['recorded_at_utc']).tzinfo)
+
     def test_submit_failure_retains_safe_diagnostics_and_never_repeats_start(self):
         import subprocess
         user=object.__new__(AzureCLIUser);user.cli=['az'];user.control=Mock()
