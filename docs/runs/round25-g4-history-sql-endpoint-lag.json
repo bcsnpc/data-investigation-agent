@@ -1,0 +1,18 @@
+{
+  "cohort": "G4",
+  "ticket_submitted_only_after_fresh_bronze41": true,
+  "completed_load_end_utc": "2026-11-01T06:15:51.1966667",
+  "last_empty_observed_utc": "2026-11-01T06:35:21.882031+00:00",
+  "first_present_observed_utc": "2026-11-01T06:37:13.959163+00:00",
+  "minimum_endpoint_visibility_lag_seconds": 1170.685365,
+  "native_metadata_refresh_http": 200,
+  "native_table_status": "NotRun",
+  "native_last_successful_sync_utc": "2026-11-01T06:35:34.8776588Z",
+  "refresh_started_utc": "2026-11-01T06:37:16.1935967Z",
+  "causal_claim": "None. Automatic sync preceded manual refresh; first present read also preceded manual refresh.",
+  "recreateTables": false,
+  "physical_control_requests": 1,
+  "documentation": "https://learn.microsoft.com/en-us/rest/api/fabric/sqlendpoint/items/refresh-sql-endpoint-metadata",
+  "engine_changed": false,
+  "identity_or_permission_changed": false
+}

@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 5,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.43448246478317476,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 5,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.43448246478317476,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 5,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.43448246478317476,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,106 +143,106 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 5,
+  "completed_graded": 6,
   "primary": {
     "all_three": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 5,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.43448246478317476,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 5,
-      "total": 5,
+      "correct": 6,
+      "total": 6,
       "accuracy": 1.0,
-      "lower": 0.5655175352168251,
+      "lower": 0.6096657120978346,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 5,
+      "total": 6,
       "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.43448246478317476,
+      "lower": 2.7755575615628914e-17,
+      "upper": 0.3903342879021653,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 5,
-    "total": 5,
+    "correct": 6,
+    "total": 6,
     "accuracy": 1.0,
-    "lower": 0.5655175352168251,
+    "lower": 0.6096657120978346,
     "upper": 1.0,
     "confidence": 0.95,
     "method": "Wilson"
@@ -255,16 +255,22 @@
   ],
   "full_assessment_agreement": {
     "correct": 2,
-    "total": 5,
-    "accuracy": 0.4,
-    "lower": 0.11762077423264783,
-    "upper": 0.769275718723987,
+    "total": 6,
+    "accuracy": 0.3333333333333333,
+    "lower": 0.09677141110578041,
+    "upper": 0.700006684861608,
     "confidence": 0.95,
     "method": "Wilson"
   },
   "assessment_disagreements": [
     {
       "ticket": "v2-failed-billing-transform-v3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-source-history-v3",
       "fields": [
         "handoff_quality"
       ]
@@ -357,6 +363,82 @@
           "speed": "standard"
         },
         "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v2-source-history-v3",
+      "class": "v2-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'source changed history', the layer as the source application table (ordersops app.stock_movements_round_two_20261003), and the named cause as the source row being modified after the load completed (temporal before/after with explicit timestamps: 41 units at 06:12:06 loaded, then changed to 47 units at 06:40:19 after load finished). This matches all three graded dimensions. The cause evidence includes the distinct before/after values and the change timestamp, matching the expectation of 'Temporal native before41/after47 and change timestamp, distinct from business event date; no pipeline arithmetic claim.' The answer makes no incorrect pipeline arithmetic claims. Handoff quality is 0 because there is no unresolved handoff \u2014 the answer is fully resolved with status ANSWERED and no stop/handoff content.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict 'source changed history' matches exactly. Layer: the answer places the change in the source application table (app.stock_movements_round_two_20261003), with bronze and model still holding the earlier copy. That matches the expected 'source application' layer. Cause: the answer shows 41 units before and 47 after. It gives the source change timestamp (source_modified_at_utc 2026-11-01 06:40:19) and keeps it separate from the business event_day 2026-09-18. It also rejects the user's partial-load guess, which matches the expected cause. One difference from the expectation: the expected cause relies on native temporal history. The answer says it read no retained source change history. Instead, it inferred the earlier value from the bronze copy (41 units, modified 06:12:06, row version 0x...15F91) and the current source row (47 units, modified 06:40:19). Because the rows were read directly from the source and bronze tables, the evidence for the 41-then-47 change and its timestamp is still sound. I count this as a substantive match, not a mismatch. The answer makes no row-count arithmetic claim to explain the change. It mentions 361 rows read/written only as run bookkeeping. Every claim is supported by the cited queries or the stated limits, so nothing is harmful. Handoff: the queries are literal and rerunnable, and the limits are stated honestly. But the handoff object is empty and lists no next checks, such as reading the source's temporal history, so the handoff score is 1.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-history01",
+      "outcome_sha256": "d5adfde5910fdee71f6ec03310b3919defa28cef11518672a5b53f754cc115a0",
+      "status": "ANSWERED",
+      "native_duration_seconds": 218.0,
+      "worker_wall_seconds": 192.01957968700003,
+      "investigation_cost_microdollars": 322174,
+      "physical_requests": 27,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-source-history-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "source changed history",
+      "raw_review": {
+        "cost_microdollars": 186251,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer meets all three scoring parts, so it is a full match and not partial.\n\n**What the saved capture shows**\n- **Source row:** Query 1 read app.stock_movements_round_two_20261003 in ordersops at 06:44:36Z. It returned movement 900201 with units = 47, event_day = 2026-09-18 and source_modified_at_utc = 2026-11-01 06:40:19.044432. The row_version is garbled, but it decodes to about 0x...016761. That is higher than the bronze value, which supports the answer calling it newer.\n- **Bronze copy:** Query 2 read dbo.stock_movements_round_two_20261003. It returned units = 41, source_modified_at_utc = 06:12:06.194141 and row_version = 0x0000000000015F91.\n- **Model:** DAX queries 3 and 4 both return 41 units for the record.\n- **Load run:** get_job_runs on node 3bf74ae\u2026 lists run e33442fe as SUCCEEDED from 06:12:15Z to 06:15:51Z with no error. The JOB_RUN fact (warehouse audit) gives rows_read = 361 and rows_written = 361. The bronze row's 06:12:06 timestamp is just before that run started, and the source edit at 06:40:19 comes after it ended.\n- **Schedules:** The pipeline's native schedule list is empty and the model refresh schedule is disabled, so the \"no schedule\" claim holds.\n- **Failed runs:** The FAILED runs (3e941fa6 and others, error 2011, controlled fixture failure) all come before later successful runs.\n\n**How the answer compares with the expectation**\n- **Verdict:** \"source changed history\" matches exactly.\n- **Layer:** The change is placed in the source application table, which matches the expected layer.\n- **Cause:** The answer gives 41 before and 47 after, plus the source change timestamp, and keeps that timestamp separate from the September business date. It rejects the user's partial-load guess and makes no pipeline arithmetic claim; 361 appears only as run bookkeeping.\n- **Temporal history:** The expectation mentions native temporal history, which the answer did not read, and it says so. Its earlier value of 41 comes from the bronze copy and its source timestamp, which is sound evidence for the same before/after change. Both graders were right to count this as a substantive cause match.\n\n**Weaknesses**\n- The phrase \"Direct Lake on the bronze table\" is not backed by the evidence. The CONNECTION_MODE triage check was UNAVAILABLE.\n- The answer also does not explain why the model shows 41 when the last model refresh ended at 04:56Z, before the 06:12 load.\n\nNeither point changes the cause, and neither is a confident wrong claim about the result, so the answer is not harmful. The secondary grader's line that \"every claim is supported\" is slightly too generous because of the Direct Lake claim.\n\n**The disputed point: handoff quality**\n- The answer is ANSWERED and has no handoff object. In substance, it leaves rerunnable literal queries, run IDs and clearly stated limits: no source change history was read, and it can't say which export read which layer.\n- It does not name next checks, such as reading the source's temporal history.\n- That is a middling handoff, so 1 is right. The primary grader gave 0 only because the handoff field was empty, which judges the label and not the substance.\n\nThe graders agree on everything else, so the secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "d5adfde5910fdee71f6ec03310b3919defa28cef11518672a5b53f754cc115a0",
+        "reason": "The answer meets all three scoring parts, so it is a full match and not partial.\n\n**What the saved capture shows**\n- **Source row:** Query 1 read app.stock_movements_round_two_20261003 in ordersops at 06:44:36Z. It returned movement 900201 with units = 47, event_day = 2026-09-18 and source_modified_at_utc = 2026-11-01 06:40:19.044432. The row_version is garbled, but it decodes to about 0x...016761. That is higher than the bronze value, which supports the answer calling it newer.\n- **Bronze copy:** Query 2 read dbo.stock_movements_round_two_20261003. It returned units = 41, source_modified_at_utc = 06:12:06.194141 and row_version = 0x0000000000015F91.\n- **Model:** DAX queries 3 and 4 both return 41 units for the record.\n- **Load run:** get_job_runs on node 3bf74ae\u2026 lists run e33442fe as SUCCEEDED from 06:12:15Z to 06:15:51Z with no error. The JOB_RUN fact (warehouse audit) gives rows_read = 361 and rows_written = 361. The bronze row's 06:12:06 timestamp is just before that run started, and the source edit at 06:40:19 comes after it ended.\n- **Schedules:** The pipeline's native schedule list is empty and the model refresh schedule is disabled, so the \"no schedule\" claim holds.\n- **Failed runs:** The FAILED runs (3e941fa6 and others, error 2011, controlled fixture failure) all come before later successful runs.\n\n**How the answer compares with the expectation**\n- **Verdict:** \"source changed history\" matches exactly.\n- **Layer:** The change is placed in the source application table, which matches the expected layer.\n- **Cause:** The answer gives 41 before and 47 after, plus the source change timestamp, and keeps that timestamp separate from the September business date. It rejects the user's partial-load guess and makes no pipeline arithmetic claim; 361 appears only as run bookkeeping.\n- **Temporal history:** The expectation mentions native temporal history, which the answer did not read, and it says so. Its earlier value of 41 comes from the bronze copy and its source timestamp, which is sound evidence for the same before/after change. Both graders were right to count this as a substantive cause match.\n\n**Weaknesses**\n- The phrase \"Direct Lake on the bronze table\" is not backed by the evidence. The CONNECTION_MODE triage check was UNAVAILABLE.\n- The answer also does not explain why the model shows 41 when the last model refresh ended at 04:56Z, before the 06:12 load.\n\nNeither point changes the cause, and neither is a confident wrong claim about the result, so the answer is not harmful. The secondary grader's line that \"every claim is supported\" is slightly too generous because of the Direct Lake claim.\n\n**The disputed point: handoff quality**\n- The answer is ANSWERED and has no handoff object. In substance, it leaves rerunnable literal queries, run IDs and clearly stated limits: no source change history was read, and it can't say which export read which layer.\n- It does not name next checks, such as reading the source's temporal history.\n- That is a middling handoff, so 1 is right. The primary grader gave 0 only because the handoff field was empty, which judges the label and not the substance.\n\nThe graders agree on everything else, so the secondary grader wins.",
+        "source_sha256": "3769e6501304479f738792e9bd195439b84dc8bd2bbdf50564d0473aed89d119",
+        "ticket": "v2-source-history-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 34144,
+          "output_tokens": 2264,
+          "output_tokens_details": {
+            "thinking_tokens": 876
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
       }
     },
     {
@@ -1233,6 +1315,246 @@
         }
       }
     },
+    "v2-source-history": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v2-latency-record": {
       "official_primary": {
         "all_three": {
@@ -1870,6 +2192,82 @@
       "expected_verdict_class": "failed job"
     },
     {
+      "ticket": "v2-source-history-v3",
+      "class": "v2-source-history",
+      "fixture": "history",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'source changed history', the layer as the source application table (ordersops app.stock_movements_round_two_20261003), and the named cause as the source row being modified after the load completed (temporal before/after with explicit timestamps: 41 units at 06:12:06 loaded, then changed to 47 units at 06:40:19 after load finished). This matches all three graded dimensions. The cause evidence includes the distinct before/after values and the change timestamp, matching the expectation of 'Temporal native before41/after47 and change timestamp, distinct from business event date; no pipeline arithmetic claim.' The answer makes no incorrect pipeline arithmetic claims. Handoff quality is 0 because there is no unresolved handoff \u2014 the answer is fully resolved with status ANSWERED and no stop/handoff content.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict 'source changed history' matches exactly. Layer: the answer places the change in the source application table (app.stock_movements_round_two_20261003), with bronze and model still holding the earlier copy. That matches the expected 'source application' layer. Cause: the answer shows 41 units before and 47 after. It gives the source change timestamp (source_modified_at_utc 2026-11-01 06:40:19) and keeps it separate from the business event_day 2026-09-18. It also rejects the user's partial-load guess, which matches the expected cause. One difference from the expectation: the expected cause relies on native temporal history. The answer says it read no retained source change history. Instead, it inferred the earlier value from the bronze copy (41 units, modified 06:12:06, row version 0x...15F91) and the current source row (47 units, modified 06:40:19). Because the rows were read directly from the source and bronze tables, the evidence for the 41-then-47 change and its timestamp is still sound. I count this as a substantive match, not a mismatch. The answer makes no row-count arithmetic claim to explain the change. It mentions 361 rows read/written only as run bookkeeping. Every claim is supported by the cited queries or the stated limits, so nothing is harmful. Handoff: the queries are literal and rerunnable, and the limits are stated honestly. But the handoff object is empty and lists no next checks, such as reading the source's temporal history, so the handoff score is 1.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-history01",
+      "outcome_sha256": "d5adfde5910fdee71f6ec03310b3919defa28cef11518672a5b53f754cc115a0",
+      "status": "ANSWERED",
+      "native_duration_seconds": 218.0,
+      "worker_wall_seconds": 192.01957968700003,
+      "investigation_cost_microdollars": 322174,
+      "physical_requests": 27,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-source-history-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "source changed history",
+      "raw_review": {
+        "cost_microdollars": 186251,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer meets all three scoring parts, so it is a full match and not partial.\n\n**What the saved capture shows**\n- **Source row:** Query 1 read app.stock_movements_round_two_20261003 in ordersops at 06:44:36Z. It returned movement 900201 with units = 47, event_day = 2026-09-18 and source_modified_at_utc = 2026-11-01 06:40:19.044432. The row_version is garbled, but it decodes to about 0x...016761. That is higher than the bronze value, which supports the answer calling it newer.\n- **Bronze copy:** Query 2 read dbo.stock_movements_round_two_20261003. It returned units = 41, source_modified_at_utc = 06:12:06.194141 and row_version = 0x0000000000015F91.\n- **Model:** DAX queries 3 and 4 both return 41 units for the record.\n- **Load run:** get_job_runs on node 3bf74ae\u2026 lists run e33442fe as SUCCEEDED from 06:12:15Z to 06:15:51Z with no error. The JOB_RUN fact (warehouse audit) gives rows_read = 361 and rows_written = 361. The bronze row's 06:12:06 timestamp is just before that run started, and the source edit at 06:40:19 comes after it ended.\n- **Schedules:** The pipeline's native schedule list is empty and the model refresh schedule is disabled, so the \"no schedule\" claim holds.\n- **Failed runs:** The FAILED runs (3e941fa6 and others, error 2011, controlled fixture failure) all come before later successful runs.\n\n**How the answer compares with the expectation**\n- **Verdict:** \"source changed history\" matches exactly.\n- **Layer:** The change is placed in the source application table, which matches the expected layer.\n- **Cause:** The answer gives 41 before and 47 after, plus the source change timestamp, and keeps that timestamp separate from the September business date. It rejects the user's partial-load guess and makes no pipeline arithmetic claim; 361 appears only as run bookkeeping.\n- **Temporal history:** The expectation mentions native temporal history, which the answer did not read, and it says so. Its earlier value of 41 comes from the bronze copy and its source timestamp, which is sound evidence for the same before/after change. Both graders were right to count this as a substantive cause match.\n\n**Weaknesses**\n- The phrase \"Direct Lake on the bronze table\" is not backed by the evidence. The CONNECTION_MODE triage check was UNAVAILABLE.\n- The answer also does not explain why the model shows 41 when the last model refresh ended at 04:56Z, before the 06:12 load.\n\nNeither point changes the cause, and neither is a confident wrong claim about the result, so the answer is not harmful. The secondary grader's line that \"every claim is supported\" is slightly too generous because of the Direct Lake claim.\n\n**The disputed point: handoff quality**\n- The answer is ANSWERED and has no handoff object. In substance, it leaves rerunnable literal queries, run IDs and clearly stated limits: no source change history was read, and it can't say which export read which layer.\n- It does not name next checks, such as reading the source's temporal history.\n- That is a middling handoff, so 1 is right. The primary grader gave 0 only because the handoff field was empty, which judges the label and not the substance.\n\nThe graders agree on everything else, so the secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "d5adfde5910fdee71f6ec03310b3919defa28cef11518672a5b53f754cc115a0",
+        "reason": "The answer meets all three scoring parts, so it is a full match and not partial.\n\n**What the saved capture shows**\n- **Source row:** Query 1 read app.stock_movements_round_two_20261003 in ordersops at 06:44:36Z. It returned movement 900201 with units = 47, event_day = 2026-09-18 and source_modified_at_utc = 2026-11-01 06:40:19.044432. The row_version is garbled, but it decodes to about 0x...016761. That is higher than the bronze value, which supports the answer calling it newer.\n- **Bronze copy:** Query 2 read dbo.stock_movements_round_two_20261003. It returned units = 41, source_modified_at_utc = 06:12:06.194141 and row_version = 0x0000000000015F91.\n- **Model:** DAX queries 3 and 4 both return 41 units for the record.\n- **Load run:** get_job_runs on node 3bf74ae\u2026 lists run e33442fe as SUCCEEDED from 06:12:15Z to 06:15:51Z with no error. The JOB_RUN fact (warehouse audit) gives rows_read = 361 and rows_written = 361. The bronze row's 06:12:06 timestamp is just before that run started, and the source edit at 06:40:19 comes after it ended.\n- **Schedules:** The pipeline's native schedule list is empty and the model refresh schedule is disabled, so the \"no schedule\" claim holds.\n- **Failed runs:** The FAILED runs (3e941fa6 and others, error 2011, controlled fixture failure) all come before later successful runs.\n\n**How the answer compares with the expectation**\n- **Verdict:** \"source changed history\" matches exactly.\n- **Layer:** The change is placed in the source application table, which matches the expected layer.\n- **Cause:** The answer gives 41 before and 47 after, plus the source change timestamp, and keeps that timestamp separate from the September business date. It rejects the user's partial-load guess and makes no pipeline arithmetic claim; 361 appears only as run bookkeeping.\n- **Temporal history:** The expectation mentions native temporal history, which the answer did not read, and it says so. Its earlier value of 41 comes from the bronze copy and its source timestamp, which is sound evidence for the same before/after change. Both graders were right to count this as a substantive cause match.\n\n**Weaknesses**\n- The phrase \"Direct Lake on the bronze table\" is not backed by the evidence. The CONNECTION_MODE triage check was UNAVAILABLE.\n- The answer also does not explain why the model shows 41 when the last model refresh ended at 04:56Z, before the 06:12 load.\n\nNeither point changes the cause, and neither is a confident wrong claim about the result, so the answer is not harmful. The secondary grader's line that \"every claim is supported\" is slightly too generous because of the Direct Lake claim.\n\n**The disputed point: handoff quality**\n- The answer is ANSWERED and has no handoff object. In substance, it leaves rerunnable literal queries, run IDs and clearly stated limits: no source change history was read, and it can't say which export read which layer.\n- It does not name next checks, such as reading the source's temporal history.\n- That is a middling handoff, so 1 is right. The primary grader gave 0 only because the handoff field was empty, which judges the label and not the substance.\n\nThe graders agree on everything else, so the secondary grader wins.",
+        "source_sha256": "3769e6501304479f738792e9bd195439b84dc8bd2bbdf50564d0473aed89d119",
+        "ticket": "v2-source-history-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 34144,
+          "output_tokens": 2264,
+          "output_tokens_details": {
+            "thinking_tokens": 876
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v2-latency-record-v3",
       "class": "v2-latency-record",
       "fixture": "latency",
@@ -2034,7 +2432,6 @@
     "v2-before-temporal-retention-v3",
     "v2-record-absent-everywhere-v3",
     "v2-record-repeated-gold-v3",
-    "v2-source-history-v3",
     "v2-other-collected-definition-v3",
     "v2-screenshot-record-01-v3",
     "v2-screenshot-record-02-v3",
@@ -2518,6 +2915,246 @@
           "accuracy": 0.0,
           "lower": 0.0,
           "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "source changed history": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -3007,33 +3644,33 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 5,
-      "native_observed": 5,
+      "tickets": 6,
+      "native_observed": 6,
       "native_missing": 0,
-      "native_median_seconds": 180.0,
+      "native_median_seconds": 196.5,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 143.988783629,
+      "worker_median_seconds": 164.80138169249997,
       "worker_p90_seconds": 231.61342242,
-      "investigation_cost_microdollars_observed": 1998068,
-      "cost_observed": 5,
+      "investigation_cost_microdollars_observed": 2320242,
+      "cost_observed": 6,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.39961359999999996,
-      "physical_requests_observed": 129,
+      "cost_per_observed_ticket_usd": 0.386707,
+      "physical_requests_observed": 156,
       "physical_requests_unavailable": 0
     },
     "full_investigation": {
-      "tickets": 4,
-      "native_observed": 4,
+      "tickets": 5,
+      "native_observed": 5,
       "native_missing": 0,
-      "native_median_seconds": 193.5,
+      "native_median_seconds": 213.0,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 162.1269818964999,
+      "worker_median_seconds": 185.61397975599994,
       "worker_p90_seconds": 231.61342242,
-      "investigation_cost_microdollars_observed": 1624710,
-      "cost_observed": 4,
+      "investigation_cost_microdollars_observed": 1946884,
+      "cost_observed": 5,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.4061775,
-      "physical_requests_observed": 110,
+      "cost_per_observed_ticket_usd": 0.38937679999999997,
+      "physical_requests_observed": 137,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {

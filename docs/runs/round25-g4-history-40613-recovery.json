@@ -1,0 +1,10 @@
+{
+  "cohort": "G4",
+  "control": "source-history",
+  "native_error": 40613,
+  "message": "Database ordersops on sql-orderops-9696025.database.windows.net is not currently available; retry connection later",
+  "engine_submitted": false,
+  "original_error_preserved": true,
+  "action": "Read current owned row/version; resume exact guarded41to47 update only when unchanged; keep41landing untilscoredcase thenrestorehash/copy",
+  "identity_permission_engine_changes": false
+}

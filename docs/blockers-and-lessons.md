@@ -738,3 +738,6 @@ Round25 G3 R17-10-v1 start response lost2026-11-01: management.azure.com read ti
 
 
 Round25 November rollover validation: full offline suite on source6c338d3c ran5693tests/50skip and failed11historical enrichment/evaluation stub cases with KeyError model-microdollars:2026-11. Their SQLite fixtures provisioned October accounts while the credit guard read the current month. Pin only those historical test fixtures to their already-declared October clock; production budget code, November accounts and frozen investigator stay unchanged. Focused enrichment24/evaluation7/retainedexamples2 regressions rerun; final coherent full suite required. Original failure log retained privately.
+
+
+G4 history fixture,2026-11-01: real copyCompleted06:15:51.1966667UTC, Bronze SQL control stillreturnedempty06:35:21.882031(>=19m30.685s), first900201=41observed06:37:13.959163. The metadata refresh returned200/NotRun, lastsuccessfulsync06:35:34.8776588, beforeits06:37:16start; no claimthatmanualrefreshcausedrecovery. Native automaticSQL-endpointvisibilitylag isrecorded separatelyfromenginequality; scoredhistoryadmissionwaitedforfreshrow41. Noidentity/permissionchange. APIrecreateTablesfalse,1controlrequest. [Microsoft API](https://learn.microsoft.com/en-us/rest/api/fabric/sqlendpoint/items/refresh-sql-endpoint-metadata); [receipt](runs/round25-g4-history-sql-endpoint-lag.json).

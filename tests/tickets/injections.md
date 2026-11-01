@@ -354,3 +354,9 @@ Round25 latency g4 LATENCY_COHORT_COMPLETED; restoration_required=False. Native 
 
 
 Round25 access g4 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-five\injections\g4-access-admission01\status.json.
+
+
+Round25 history g4 UPDATE47_ATTEMPTED_RECONCILE; restoration_required=True. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-five\injections\g4-history-cohort01\status.json. Temporal history ON; native historical versions retained.
+
+
+Round25 history g4 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-five\injections\g4-history-cohort01\status.json. Temporal history ON; native historical versions retained.

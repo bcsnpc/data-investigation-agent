@@ -1,0 +1,12 @@
+{
+  "source": "f29061f2",
+  "status": "PASS",
+  "tests": 5694,
+  "skipped": 50,
+  "errors": 0,
+  "failures": 0,
+  "seconds": 3032.398,
+  "log": ".local/round-twenty-five/full-premerge-f29061f2.log",
+  "prior_failure_retained": ".local/round-twenty-five/full-premerge-a50c72ee.log",
+  "runtime_engine_changed": false
+}
