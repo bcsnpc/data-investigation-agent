@@ -69,6 +69,10 @@
       "openai": {
         "ceiling_microdollars": 180000000,
         "warning_microdollars": 140000000
+        },
+        "azure_openai": {
+          "ceiling_microdollars": 0,
+          "warning_microdollars": 0
       }
     }
   }

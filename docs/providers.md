@@ -2,6 +2,8 @@
 
 Status: implementation in progress; no new provider has earned investigation support yet.
 
+Azure budget integration is tested through the complete structured-step interface with a fake endpoint and a test-owner-funded offline account. Its installed allowance is zero: no Azure model spend or deployment is approved in this round. A client must explicitly configure its Azure model budget and provision its ledger account before dispatch; the worker never raises either. This does not debit OpenAI credit or alter either approved November allowance.
+
 | Provider | Transport | Live access | Same-dev benchmark | Status |
 |---|---|---|---|---|
 | Anthropic | Existing Messages adapter; cache_control retained | Existing Key Vault reference | pending Round26 | prior live path, Round26 pending |

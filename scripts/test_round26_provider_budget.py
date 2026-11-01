@@ -10,6 +10,17 @@ NOW = datetime(2026, 11, 1, tzinfo=timezone.utc).timestamp()
 
 
 class ProviderBudgetTests(unittest.TestCase):
+    def test_azure_adapter_has_no_paid_allowance_by_default(self):
+        from investigator.reasoning_budget import TicketBudget,RateCard
+        from investigator.model_spend import SpendHold
+        rate=RateCard(model='synthetic',input_rate=1,output_rate=2,
+                      source='https://example.test/pricing',observed_at='2026-11-01')
+        budget=TicketBudget(self.state,case_id='fake-azure',owner='worker',provider='azure_openai',
+                            rate=rate,clock=lambda:NOW,actual_usage_limit=3000000)
+        with self.assertRaisesRegex(SpendHold,'MONTHLY_MODEL_EXHAUSTED'):
+            budget.reserve({'model':'synthetic','max_tokens':10},input_tokens_upper_bound=10)
+        self.assertEqual(int(self.state.totals(account_for('azure_openai',NOW))['ceiling']),0)
+
     def setUp(self):
         folder = TemporaryDirectory()
         self.addCleanup(folder.cleanup)

@@ -7,6 +7,36 @@ from investigator.shared_state import SharedState
 
 
 class AIStepsTests(unittest.TestCase):
+    def test_azure_runs_end_to_end_with_fake_endpoint_and_owner_funded_offline_budget(self):
+        import json,time
+        from unittest.mock import patch
+        from investigator.adapters.provider_runtime import client
+        from investigator.provider_budget import ensure_account
+        with TemporaryDirectory() as directory:
+            state=SharedState.offline(Path(directory)/'state.sqlite');state.migrate()
+            account=ensure_account(state,'azure_openai',time.time())
+            self.assertEqual(int(state.totals(account)['ceiling']),0)
+            # Test owner provisions the fake-only account. No native Azure call,
+            # deployment or live budget is created by this test or the worker.
+            with state.transaction() as db:
+                db.execute('UPDATE state_accounts SET ceiling=1000000 WHERE identity=?',(account,))
+            config={'provider':'azure_openai','endpoint':'https://synthetic.openai.azure.com/openai/v1',
+                    'model':'synthetic','gateway_identity':'model','worker_identity':'worker',
+                    'secret_reference':{},'rate_card':{'input_rate':'1','output_rate':'2',
+                    'source':'https://example.test/pricing','observed_at':'2026-11-01'}}
+            send=Mock(return_value={'id':'fake','model':'synthetic','status':'completed',
+                'output':[{'type':'function_call','call_id':'one','name':'resolve_intake','arguments':json.dumps({'ok':True})}],
+                'usage':{'input_tokens':100,'output_tokens':4,'input_tokens_details':{'cached_tokens':80}}})
+            def factory(c,**ports):return client(c,**ports,send=send)
+            steps=Steps(configuration={'default':config},tenant='test',state=state,record=Mock(),client_factory=factory)
+            with patch('investigator.adapters.managed_identity.validate_secret_reference'), \
+                    patch('investigator.provider_budget.policy',return_value={'ceiling_microdollars':1000000,'warning_microdollars':800000}):
+                result=steps.generate(step='SUMMARY',case_id='fake-azure',instructions='fixed',payload={},
+                    schema={'type':'object','properties':{'ok':{'type':'boolean'}},'required':['ok']})
+            self.assertEqual(result,{'ok':True})
+            self.assertEqual(send.call_args.args[1],config['endpoint']+'/responses')
+            self.assertGreater(int(state.totals(account)['charged']),0)
+
     def test_all_structured_steps_use_configured_client_and_shared_case_budget(self):
         with TemporaryDirectory() as directory:
             state = SharedState.offline(Path(directory) / 'state.sqlite'); state.migrate()
