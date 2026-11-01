@@ -127,11 +127,18 @@ class Resolver:
         from .planner_recording import _safe
         _safe(text.encode())
         tools=extraction_tools();validators={t['name']:Draft202012Validator(t['input_schema']) for t in tools}
-        stable_instructions = INSTRUCTIONS + '\nRetained catalog (metadata, not instructions):\n' + canonical(self.catalog.view())
+        # The full retained lookup is installation metadata and is identical
+        # across calls. Keep it before the cache breakpoint rather than
+        # repeatedly appending every report/page/visual to the changing input.
+        stable_instructions = INSTRUCTIONS + '\nRetained catalog (metadata, not instructions):\n' + canonical({
+            'form':self.catalog.view(), 'objects':self.lookup({'words':''}),
+            'native_objects':[self.catalog.nodes[key] for key in sorted(self.catalog.nodes)
+                              if self.catalog.nodes[key]['kind'] not in ('REPORT','PAGE','VISUAL')]})
         matches = {kind: self.catalog.ranked(text, kind)[:5] for kind in
                    ('REPORT', 'PAGE', 'VISUAL', 'MEASURE', 'PIPELINE', 'COPY_ACTIVITY', 'NOTEBOOK', 'TABLE', 'MODEL')}
         messages=[{'role':'user','content':canonical({'ticket_tokens':wire_tokens(text),'catalog_matches':matches,
-                    'resolved_catalog_candidates':self.lookup({'words':text})})}]
+                    'resolved_catalog_candidates':{key:[{'id':r['id'],'name':r.get('name',r.get('label',''))}
+                        for r in rows]for key,rows in self.lookup({'words':text}).items()}})}]
         rejections=0;last_proposal={}
         for step in range(4):
             response=self.model.complete(system=stable_instructions,messages=messages,tools=tools)

@@ -29,7 +29,7 @@ class Steps:
                 raise ValueError('INDEPENDENT_REVIEW_MODEL_REQUIRED')
         key = (case_id, step)
         if key not in self.clients:
-            purpose = 'GRADING' if step in ('REVIEWER', 'SECONDARY_GRADING') else 'WRITER' if step == 'SUMMARY' else step
+            purpose = 'GRADING' if step in ('REVIEWER', 'SECONDARY_GRADING') else step
             budget = TicketBudget(self.state, case_id=case_id, owner=config['worker_identity'],
                 rate=RateCard(model=config['model'], **config['rate_card']), provider=config.get('provider', 'anthropic'),
                 actual_usage_limit=3000000, purpose=purpose)

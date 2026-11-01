@@ -517,3 +517,6 @@ Code inspection established that GraphRepository.records, path_records and chang
 ## Round26 provider access — 2026-11-01
 
 Owner confirmed openai-api-key stored in existing Key Vault. GET /v1/models returned200 with130 models, including gpt-6-astra; no model charge for listing. One synthetic structured tool check passed, actual1660microdollars charged to the separate OpenAI account; no estate reads. Existing investigator/reader scopes unchanged. Credit expiry remains unconfirmed because the owner reply contains a placeholder. Original provider bytes retained locally; public receipt docs/round-twenty-six-openai-plumbing.json. No quality claim from this check.
+
+
+Round26 owner steer 2026-11-01: separate AI step models and report actual cost for every call. Cheaper GPT-6.1 Terra selected for intake/screenshot/summary, strongest accessible model only for investigator reasoning; same helper routes in both benchmark columns. No budget, identity, permission or secret changes. Original two Astra intake diagnostics remain recorded, not replaced. Previously prepared benchmark image/archives were not admitted; immutable successor inputs will use this steer.

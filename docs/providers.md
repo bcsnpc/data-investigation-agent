@@ -16,3 +16,12 @@ Cross-provider grading, all component routing, stable-prefix assertions and prov
 
 
 2026-11-01: `gpt-6-astra` is the strongest accessible model selected for the required OpenAI benchmark, per the [official model guide](https://developers.openai.com/api/docs/guides/latest-model). Standard rates pinned from the [model card](https://developers.openai.com/api/docs/models/gpt-6-astra): input10USD, output50USD, cached-input1USD and 30-minute cache-write12.5USD per million tokens. Larger-context premiums must be bounded before dispatch. Synthetic transport check0.001660USD; transport access is not investigation quality. Owner confirmed key storage; expiry is still a placeholder, so no exact expiry is asserted.
+
+
+## Owner step-cost steer, 2026-11-01
+
+Use GPT-6.1 Terra for intake extraction, screenshot reading and standalone summaries; reserve Astra or Opus for investigation reasoning. Both benchmark columns use the same helper configuration. Primary grading remains cross-vendor, on a different configured model. Terra is accessible in the recorded project model list and supports image input and tool calling. Official rates: ordinary input USD1/M, cached input USD0.05/M, 30-minute writes USD1.25/M, output USD5/M: https://developers.openai.com/api/docs/models/gpt-6.1-terra . No secret or identity changed.
+
+Observed before this steer: first intake diagnostic 75 Astra calls/USD4.407475, mean USD0.058766 per call, cached-input ratio33.63%; second86 calls/USD10.653160, mean USD0.123874, cached-input ratio18.37%. These are measured usage, not future estimates. The synthetic repeated-prefix check reached98.46% on its second call; it is not the workload ratio. Investigation, screenshot, summary and grading calls have not yet run in Round26, so their actual per-call cost is not established. Native per-call usage and actual cost will be grouped by step/model in the final report.
+
+Intake now places deterministic retained catalog metadata before the cache breakpoint, with ticket tokens and ranked candidate references afterward. A regression asserts an identical prefix across different tickets and retries. Original capture bytes remain unchanged.

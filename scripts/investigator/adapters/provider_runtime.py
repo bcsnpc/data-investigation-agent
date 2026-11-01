@@ -1,7 +1,7 @@
 """Trusted installation routing, shared by all AI steps; never ticket-selected."""
 from copy import deepcopy
 
-STEPS = frozenset(('INVESTIGATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'SECONDARY_GRADING', 'REVIEWER', 'SMOKE'))
+STEPS = frozenset(('INTAKE', 'INVESTIGATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'SECONDARY_GRADING', 'REVIEWER', 'SMOKE'))
 
 
 def select(configuration, *, tenant, step):
@@ -69,7 +69,9 @@ class UnifiedClient:
             writes = parts.get('cache_creation_input_tokens', 0)
             usage = Usage(parts['input_tokens'] + cached + writes, cached, writes, parts['output_tokens'])
         cost = self.transport.budget.rate.usage_price(usage.budget_usage())
+        purpose = getattr(self.transport.budget, 'purpose', 'INVESTIGATOR')
         normalized = {'provider': self.provider, 'model': self.model,
+                      'step': purpose if isinstance(purpose, str) else 'INVESTIGATOR',
                       'normalized_usage': deepcopy(usage.__dict__), 'cost_microdollars': cost,
                       'cache_read_ratio': usage.cache_read_ratio}
         self.record({'event': 'AI_NORMALIZED_USAGE', **normalized})

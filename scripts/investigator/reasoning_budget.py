@@ -61,7 +61,7 @@ class TicketBudget:
         policy(provider)
         self.provider = provider
         purpose=purpose or PURPOSE.get()
-        if purpose not in ('INVESTIGATOR','SCREENSHOT','ENRICHMENT','WRITER','GRADING','SMOKE'):raise ValueError('MODEL_PURPOSE_REQUIRED')
+        if purpose not in ('INTAKE','INVESTIGATOR','SCREENSHOT','SUMMARY','ENRICHMENT','WRITER','GRADING','SMOKE'):raise ValueError('MODEL_PURPOSE_REQUIRED')
         self.purpose=purpose
         self.actual_usage_limit=actual_usage_limit
         self.reservations={}

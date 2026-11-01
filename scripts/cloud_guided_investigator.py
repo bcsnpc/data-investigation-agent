@@ -127,7 +127,7 @@ def run(plan,context):
         admission = admit_operational(submitted, {'candidates': list(catalog.nodes.values())})
         if admission['status'] == 'READY':operational_admission = admission
     if set(submitted)=={'text'} and operational_admission is None:
-        mapped=Resolver(catalog=catalog,model=model(case_id),record=record).resolve(submitted['text'])
+        mapped=Resolver(catalog=catalog,model=model(case_id,'INTAKE'),record=record).resolve(submitted['text'])
         if mapped['status']!='READY':
             business=mapped.get('question','A named choice is needed before investigation.')
             return {'status':'NEEDS_INPUT','business':business,'outputs':{'business':business,'technical':json.dumps(mapped)},
