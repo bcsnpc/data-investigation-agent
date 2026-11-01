@@ -247,7 +247,15 @@ class SharedState:
         return {'revision': row[0], 'body': body}
 
     def get(self, namespace, identity):
-        return self._read_transaction(lambda db:self._get(db,namespace,identity))
+        # Large retained captures must not leave the server idle in a read
+        # transaction while Python decodes and hashes them.
+        row = self._read_transaction(lambda db: self.sql(db,
+            'SELECT revision,body,body_hash FROM state_documents WHERE namespace=? AND identity=?',
+            (namespace, identity)).fetchone())
+        if row is None:raise KeyError(identity)
+        body = json.loads(row[1])
+        if sha(body) != row[2]:raise StateConflict('STATE_DOCUMENT_HASH_DIFFERS')
+        return {'revision': row[0], 'body': body}
 
     def _read_transaction(self,read):
         """Retry this read once on a fresh connection."""
@@ -279,19 +287,21 @@ class SharedState:
         return self._read_transaction(read)
 
     def put(self, namespace, identity, body, *, revision=None):
+        # Prepare immutable bytes before opening a connection or writer lock.
+        # CAS only needs the previous revision, not its potentially huge body.
+        serialized = encoded(body)
+        body_hash = hashlib.sha256(serialized.encode()).hexdigest()
         with self.transaction() as db:
-            try:
-                prior = self._get(db, namespace, identity)
-            except KeyError:
-                prior = None
+            prior = self.sql(db, 'SELECT revision FROM state_documents WHERE namespace=? AND identity=?',
+                             (namespace, identity)).fetchone()
             if prior is None:
                 if revision is not None:
                     raise StateConflict('STATE_REVISION_DIFFERS')
-                self.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)', (namespace, identity, 0, encoded(body), sha(body)))
+                self.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)', (namespace, identity, 0, serialized, body_hash))
                 return {'revision': 0, 'body': body}
-            if type(revision) is not int or revision != prior['revision']:
+            if type(revision) is not int or revision != prior[0]:
                 raise StateConflict('STATE_REVISION_DIFFERS')
-            self.sql(db, 'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?', (revision+1, encoded(body), sha(body), namespace, identity))
+            self.sql(db, 'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?', (revision+1, serialized, body_hash, namespace, identity))
             return {'revision': revision+1, 'body': body}
 
     def update(self, namespace, identity, revision, operation):

@@ -1,10 +1,37 @@
 from copy import deepcopy
 import unittest
-from investigator.guided_intake import Catalog, admit
+from investigator.guided_intake import Catalog, admit, admit_or_question
 from test_round23_intake_queries import graph, request
 
 
 class ComparisonFallbackTests(unittest.TestCase):
+    def test_public_boundary_fuzz_has_no_unhandled_shape_errors(self):
+        catalog = Catalog(graph())
+        forms = [None, [], '', 1, True, {}, request()]
+        for field in request():
+            missing = request(); del missing[field]; forms.append(missing)
+            for malformed in (None, '', [], {}, 0, True):
+                value = request(); value[field] = malformed; forms.append(value)
+        for kind in ('NOTHING', 'SOURCE_SYSTEM', 'ANOTHER_REPORT', 'EXPECTED_NUMBER'):
+            for field in ('target', 'source', 'figure'):
+                for value in (None, {}, [], '', 'unknown', {'report': 'other'}):
+                    form = request(); form['compared_with'] = {'kind': kind, field: value}; forms.append(form)
+        for value in forms:
+            with self.subTest(form=value):
+                result = admit_or_question(value, catalog)
+                self.assertIn(result['status'], ('READY', 'NEEDS_INPUT'))
+
+    def test_malformed_figure_does_not_reask_known_report_page_or_visual(self):
+        value = request(); value['reported_figure'] = {'state': 'NUMBER', 'value': '2'}
+        result = admit_or_question(value, Catalog(graph()))
+        self.assertEqual([f['field'] for f in result['question']['fields']], ['intake_details'])
+        self.assertEqual(result['prefilled']['visual'], 'card')
+
+    def test_unknown_id_choices_are_catalog_names(self):
+        value = request(); value['visual'] = 'invented'
+        result = admit_or_question(value, Catalog(graph()))
+        self.assertEqual(result['question']['fields'][0]['choices'], [{'id': 'card', 'name': 'Card'}])
+
     def test_missing_details_preserve_target_and_reach_recreation(self):
         for kind in ('SOURCE_SYSTEM', 'ANOTHER_REPORT', 'EXPECTED_NUMBER'):
             value = request()

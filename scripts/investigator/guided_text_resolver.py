@@ -60,7 +60,10 @@ class Resolver:
             pages=self.catalog.pages(report['id'])
             result.append({**report,'pages':[{**p,'visuals':self.catalog.visuals(report['id'],p['id'])} for p in pages]})
         return {'reports':result,'measure_matches':self.catalog.ranked(args['words'],'MEASURE')[:10],
-                'visual_matches':self.catalog.ranked(args['words'],'VISUAL')[:10]}
+                'visual_matches':self.catalog.ranked(args['words'],'VISUAL')[:10],
+                'job_matches':[row for kind in ('PIPELINE','COPY_ACTIVITY','DATAFLOW','NOTEBOOK','MODEL','REFRESH_SCHEDULE')
+                               for row in self.catalog.ranked(args['words'],kind)[:5]],
+                'table_matches':self.catalog.ranked(args['words'],'TABLE')[:10]}
 
     def check(self,text,args):
         ts=tokens(text);primaries=[]

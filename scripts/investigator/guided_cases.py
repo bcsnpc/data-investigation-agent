@@ -7,7 +7,7 @@ prevents two workers from executing the same queued case.
 from copy import deepcopy
 from datetime import datetime,timezone
 from .estate_graph_contract import digest
-from .guided_intake import Catalog,admit
+from .guided_intake import Catalog,admit,admit_or_question
 from .shared_state import StateConflict
 
 
@@ -36,22 +36,23 @@ class Cases:
             if checked['status']!='READY':return checked
             resolved=checked
         else:
-            try:resolved=admit(body['intake'],catalog)
-            except ValueError as error:
-                if str(error) not in ('UNKNOWN_REPORT','UNKNOWN_PAGE','PAGE_OUTSIDE_REPORT','VISUAL_OUTSIDE_PAGE','VISUAL_REQUIRES_PAGE'):raise
-                admission_error=str(error);resolved=deepcopy(body['intake'])
+            resolved=admit_or_question(body['intake'],catalog)
+            if resolved.get('status') == 'NEEDS_INPUT':
+                admission_error=resolved.get('reason',resolved['code'])
         identity='guided:'+digest([self.estate,body['request_key']]);fingerprint=digest([body['intake'],origin])
         try:prior=self.state.get(self.namespace,identity)
         except KeyError:prior=None
         if prior:
             if prior['body']['intake_hash']!=fingerprint:raise StateConflict('REQUEST_KEY_DIFFERENT_INTAKE')
             return self.poll(identity)
-        value={'id':identity,'estate':self.estate,'intake_hash':fingerprint,'intake':resolved,
+        value={'id':identity,'estate':self.estate,'intake_hash':fingerprint,
+               'intake':resolved['prefilled'] if admission_error else resolved,
                'source':deepcopy(origin) if origin else {'kind':'FORM'},
                'status':'QUEUED','outcome':None,'created_at':datetime.now(timezone.utc).isoformat()}
         if admission_error:
-            choices=catalog.reports()
-            question={'question':'Which report should I check?','choices':choices,'reason':admission_error}
+            question=deepcopy(resolved['question'])
+            choices=[choice for field in question['fields'] for choice in field['choices']]
+            question.update(question=question['text'],choices=choices,reason=admission_error)
             outcome={'status':'NEEDS_INPUT','business':question['question'],'question':question,
                 'stop':admission_error,'handoff':{'intake':deepcopy(body['intake']),'queries':[],
                     'stopping_point':admission_error,'next_checks':['Resolve the selected target from the catalog choices.'],
