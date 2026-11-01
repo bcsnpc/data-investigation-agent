@@ -1,0 +1,17 @@
+{
+  "at": "2026-11-01T01:26:21.025960+00:00",
+  "ticket": "history-source-900201-v2",
+  "classification": "AZURE_CONTROL_READ_FAILED_BEFORE_START",
+  "exception": "CalledProcessError exit1 at runner_deployment.launch preliminary containerapp job show",
+  "native_http_error": "UNAVAILABLE: nested CLI stderr was not retained by the existing launcher",
+  "dispatch_not_reached": true,
+  "fresh_control_plane_read": {
+    "name": "job-dia-worker",
+    "state": "Succeeded",
+    "timeout": 3600
+  },
+  "engine_attempt_scored": false,
+  "replacement_limit": 1,
+  "source": "original operator traceback and unchanged runner_deployment.py launch order",
+  "frozen_launcher_sha256": "5131ad926d32a0442b3c391af7fb4f919775ab42a0d724cb10902fb4f67b2c8d"
+}

@@ -729,3 +729,6 @@ Round25 G3 initial6cases,2026-10-31: all6 exact original R22 free-text failed-jo
 
 
 Round25 G3 access grader2026-11-01: PostgreSQL25P03 idle-in-transaction timeout occurred inside pre-message budget admission, connection age44.268374s/client observed idle0.009105s. Cause of server idle interval remains unproven. No REASONING_REQUEST and no matching native reservation; archive original started marker, resume same saved grading task without a duplicate message. No budget guard, server setting or frozen engine change. Receipt: runs/round25-g3-access-grader-predispatch-recovery.json.
+
+
+Round25 G3 original-history variant2,2026-11-01: preliminary Azure job-show command exited1 before native start. Its nested HTTP error was not preserved by the existing launcher, so no HTTP code or cause is inferred. Fresh native read shows job-dia-worker exists/Succeeded/3600s. Original attempt is unscored; exactly one authorized plumbing replacement gets a fresh original-ASOF control check. No delivered answer was retried, no current source row changed, and no frozen engine change. Receipt: runs/round25-g3-history-prestart-failure.json.
