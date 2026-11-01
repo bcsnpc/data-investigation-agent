@@ -1,0 +1,1085 @@
+{
+  "kind": "MODEL_ONLY_INTAKE_DIAGNOSTIC_NOT_INVESTIGATION_SCORE",
+  "model": "gpt-6.1-sol",
+  "records": 40,
+  "result": {
+    "ready": 28,
+    "count": 40,
+    "statuses": {
+      "READY": 28,
+      "NEEDS_INPUT": 12
+    },
+    "actual_microdollars": 1520745,
+    "calls": 63,
+    "mean_usd_per_call": 0.024138809523809524,
+    "cache_read_ratio": 0.8804471793959456
+  },
+  "original_environment_affected": "R17-01-v1",
+  "replacement": "R17-01-v1-replacement1",
+  "original_cost_included": true,
+  "estate_reads": 0,
+  "per_call_costs": [
+    {
+      "step": "INTAKE",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "calls": 63,
+      "actual_microdollars": 1520745,
+      "mean_microdollars_per_call": 24138.809523809523,
+      "input_tokens": 4092049,
+      "cached_input_tokens": 3602833,
+      "cache_read_ratio": 0.8804471793959456,
+      "calls_detail": [
+        {
+          "actual_microdollars": 7060,
+          "usage": {
+            "input_tokens": 18110,
+            "cached_input_tokens": 15479,
+            "cache_write_tokens": 0,
+            "output_tokens": 25
+          }
+        },
+        {
+          "actual_microdollars": 12014,
+          "usage": {
+            "input_tokens": 19037,
+            "cached_input_tokens": 15479,
+            "cache_write_tokens": 0,
+            "output_tokens": 335
+          }
+        },
+        {
+          "actual_microdollars": 6938,
+          "usage": {
+            "input_tokens": 18049,
+            "cached_input_tokens": 15479,
+            "cache_write_tokens": 0,
+            "output_tokens": 25
+          }
+        },
+        {
+          "actual_microdollars": 11122,
+          "usage": {
+            "input_tokens": 18976,
+            "cached_input_tokens": 15479,
+            "cache_write_tokens": 0,
+            "output_tokens": 258
+          }
+        },
+        {
+          "actual_microdollars": 18664,
+          "usage": {
+            "input_tokens": 69193,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 411
+          }
+        },
+        {
+          "actual_microdollars": 18234,
+          "usage": {
+            "input_tokens": 68823,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 442
+          }
+        },
+        {
+          "actual_microdollars": 48976,
+          "usage": {
+            "input_tokens": 18753,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 15479,
+            "output_tokens": 373
+          }
+        },
+        {
+          "actual_microdollars": 11086,
+          "usage": {
+            "input_tokens": 18768,
+            "cached_input_tokens": 15479,
+            "cache_write_tokens": 0,
+            "output_tokens": 296
+          }
+        },
+        {
+          "actual_microdollars": 22334,
+          "usage": {
+            "input_tokens": 8480,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 5988,
+            "output_tokens": 238
+          }
+        },
+        {
+          "actual_microdollars": 7229,
+          "usage": {
+            "input_tokens": 8278,
+            "cached_input_tokens": 5988,
+            "cache_write_tokens": 0,
+            "output_tokens": 205
+          }
+        },
+        {
+          "actual_microdollars": 14338,
+          "usage": {
+            "input_tokens": 68870,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 43
+          }
+        },
+        {
+          "actual_microdollars": 21692,
+          "usage": {
+            "input_tokens": 72452,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 62
+          }
+        },
+        {
+          "actual_microdollars": 27244,
+          "usage": {
+            "input_tokens": 73763,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 355
+          }
+        },
+        {
+          "actual_microdollars": 14806,
+          "usage": {
+            "input_tokens": 69174,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 29
+          }
+        },
+        {
+          "actual_microdollars": 22874,
+          "usage": {
+            "input_tokens": 72168,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 237
+          }
+        },
+        {
+          "actual_microdollars": 20120,
+          "usage": {
+            "input_tokens": 69146,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 566
+          }
+        },
+        {
+          "actual_microdollars": 18432,
+          "usage": {
+            "input_tokens": 68927,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 441
+          }
+        },
+        {
+          "actual_microdollars": 15316,
+          "usage": {
+            "input_tokens": 69404,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 34
+          }
+        },
+        {
+          "actual_microdollars": 25880,
+          "usage": {
+            "input_tokens": 72136,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 544
+          }
+        },
+        {
+          "actual_microdollars": 24988,
+          "usage": {
+            "input_tokens": 72710,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 340
+          }
+        },
+        {
+          "actual_microdollars": 14958,
+          "usage": {
+            "input_tokens": 68910,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 97
+          }
+        },
+        {
+          "actual_microdollars": 39456,
+          "usage": {
+            "input_tokens": 79594,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 410
+          }
+        },
+        {
+          "actual_microdollars": 39684,
+          "usage": {
+            "input_tokens": 80033,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 345
+          }
+        },
+        {
+          "actual_microdollars": 15858,
+          "usage": {
+            "input_tokens": 69550,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 59
+          }
+        },
+        {
+          "actual_microdollars": 40300,
+          "usage": {
+            "input_tokens": 80176,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 378
+          }
+        },
+        {
+          "actual_microdollars": 39866,
+          "usage": {
+            "input_tokens": 80584,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 253
+          }
+        },
+        {
+          "actual_microdollars": 14714,
+          "usage": {
+            "input_tokens": 68793,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 96
+          }
+        },
+        {
+          "actual_microdollars": 38018,
+          "usage": {
+            "input_tokens": 79290,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 327
+          }
+        },
+        {
+          "actual_microdollars": 35942,
+          "usage": {
+            "input_tokens": 79647,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 48
+          }
+        },
+        {
+          "actual_microdollars": 40566,
+          "usage": {
+            "input_tokens": 80944,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 251
+          }
+        },
+        {
+          "actual_microdollars": 14618,
+          "usage": {
+            "input_tokens": 69075,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 30
+          }
+        },
+        {
+          "actual_microdollars": 29960,
+          "usage": {
+            "input_tokens": 75021,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 375
+          }
+        },
+        {
+          "actual_microdollars": 14774,
+          "usage": {
+            "input_tokens": 69183,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 24
+          }
+        },
+        {
+          "actual_microdollars": 35784,
+          "usage": {
+            "input_tokens": 79588,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 44
+          }
+        },
+        {
+          "actual_microdollars": 56184,
+          "usage": {
+            "input_tokens": 88383,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 325
+          }
+        },
+        {
+          "actual_microdollars": 16598,
+          "usage": {
+            "input_tokens": 68485,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 346
+          }
+        },
+        {
+          "actual_microdollars": 14962,
+          "usage": {
+            "input_tokens": 68857,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 108
+          }
+        },
+        {
+          "actual_microdollars": 21428,
+          "usage": {
+            "input_tokens": 71220,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 282
+          }
+        },
+        {
+          "actual_microdollars": 16698,
+          "usage": {
+            "input_tokens": 68485,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 356
+          }
+        },
+        {
+          "actual_microdollars": 14772,
+          "usage": {
+            "input_tokens": 68867,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 87
+          }
+        },
+        {
+          "actual_microdollars": 172540,
+          "usage": {
+            "input_tokens": 68501,
+            "cached_input_tokens": 0,
+            "cache_write_tokens": 65175,
+            "output_tokens": 295
+          }
+        },
+        {
+          "actual_microdollars": 14930,
+          "usage": {
+            "input_tokens": 68191,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 238
+          }
+        },
+        {
+          "actual_microdollars": 13350,
+          "usage": {
+            "input_tokens": 68471,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 24
+          }
+        },
+        {
+          "actual_microdollars": 28266,
+          "usage": {
+            "input_tokens": 75429,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 124
+          }
+        },
+        {
+          "actual_microdollars": 16064,
+          "usage": {
+            "input_tokens": 68448,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 300
+          }
+        },
+        {
+          "actual_microdollars": 15356,
+          "usage": {
+            "input_tokens": 68184,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 282
+          }
+        },
+        {
+          "actual_microdollars": 14826,
+          "usage": {
+            "input_tokens": 68164,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 233
+          }
+        },
+        {
+          "actual_microdollars": 13438,
+          "usage": {
+            "input_tokens": 68465,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 34
+          }
+        },
+        {
+          "actual_microdollars": 28264,
+          "usage": {
+            "input_tokens": 75413,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 127
+          }
+        },
+        {
+          "actual_microdollars": 15562,
+          "usage": {
+            "input_tokens": 68432,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 253
+          }
+        },
+        {
+          "actual_microdollars": 14460,
+          "usage": {
+            "input_tokens": 68711,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 87
+          }
+        },
+        {
+          "actual_microdollars": 20774,
+          "usage": {
+            "input_tokens": 71053,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 250
+          }
+        },
+        {
+          "actual_microdollars": 13474,
+          "usage": {
+            "input_tokens": 68468,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 37
+          }
+        },
+        {
+          "actual_microdollars": 27976,
+          "usage": {
+            "input_tokens": 75449,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 91
+          }
+        },
+        {
+          "actual_microdollars": 14358,
+          "usage": {
+            "input_tokens": 68130,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 193
+          }
+        },
+        {
+          "actual_microdollars": 13730,
+          "usage": {
+            "input_tokens": 68676,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 21
+          }
+        },
+        {
+          "actual_microdollars": 28660,
+          "usage": {
+            "input_tokens": 75611,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 127
+          }
+        },
+        {
+          "actual_microdollars": 18680,
+          "usage": {
+            "input_tokens": 69181,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 415
+          }
+        },
+        {
+          "actual_microdollars": 15700,
+          "usage": {
+            "input_tokens": 69626,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 28
+          }
+        },
+        {
+          "actual_microdollars": 31252,
+          "usage": {
+            "input_tokens": 75712,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 366
+          }
+        },
+        {
+          "actual_microdollars": 17986,
+          "usage": {
+            "input_tokens": 68964,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 389
+          }
+        },
+        {
+          "actual_microdollars": 15374,
+          "usage": {
+            "input_tokens": 69383,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 44
+          }
+        },
+        {
+          "actual_microdollars": 31238,
+          "usage": {
+            "input_tokens": 75485,
+            "cached_input_tokens": 65175,
+            "cache_write_tokens": 0,
+            "output_tokens": 410
+          }
+        }
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "R17-01-v1-replacement1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 30.339400299999397,
+      "model_calls": 3,
+      "cost_microdollars": 52988,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-02-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 14.305903500004206,
+      "model_calls": 1,
+      "cost_microdollars": 172540,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-03-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 9.38912830001209,
+      "model_calls": 1,
+      "cost_microdollars": 14930,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-04-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 13.2327554999938,
+      "model_calls": 2,
+      "cost_microdollars": 41616,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-05-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 7.962183199997526,
+      "model_calls": 1,
+      "cost_microdollars": 16064,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-06-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 14.14861689999816,
+      "model_calls": 1,
+      "cost_microdollars": 15356,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-07-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 8.3214844000031,
+      "model_calls": 1,
+      "cost_microdollars": 14826,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-08-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 14.089589399998658,
+      "model_calls": 2,
+      "cost_microdollars": 41702,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-09-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 21.45043070000247,
+      "model_calls": 3,
+      "cost_microdollars": 50796,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-10-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 12.845627700007753,
+      "model_calls": 2,
+      "cost_microdollars": 41450,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-11-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 9.08953699999256,
+      "model_calls": 1,
+      "cost_microdollars": 14358,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-12-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 17.096471299999394,
+      "model_calls": 2,
+      "cost_microdollars": 42390,
+      "estate_reads": 0
+    },
+    {
+      "id": "failed-fixture-load-v1",
+      "estate": "fixture",
+      "fixture": "failed-fixture",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.004063900007167831,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    },
+    {
+      "id": "failed-fixture-load-v2",
+      "estate": "fixture",
+      "fixture": "failed-fixture",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.0010789000079967082,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    },
+    {
+      "id": "failed-billing-transform-v1",
+      "estate": "billing",
+      "fixture": "failed-billing",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.002375299998675473,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    },
+    {
+      "id": "failed-billing-transform-v2",
+      "estate": "billing",
+      "fixture": "failed-billing",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.0012797000090358779,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    },
+    {
+      "id": "failed-billing-load-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.0010276000102749094,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    },
+    {
+      "id": "failed-billing-load-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.0008129999914672226,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    },
+    {
+      "id": "baseline-S01-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 18.477000200000475,
+      "model_calls": 1,
+      "cost_microdollars": 18664,
+      "estate_reads": 0
+    },
+    {
+      "id": "baseline-S01-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 12.561754700000165,
+      "model_calls": 1,
+      "cost_microdollars": 18234,
+      "estate_reads": 0
+    },
+    {
+      "id": "baseline-S02-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 8.254131800000323,
+      "model_calls": 1,
+      "cost_microdollars": 48976,
+      "estate_reads": 0
+    },
+    {
+      "id": "baseline-S02-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 6.556224900006782,
+      "model_calls": 1,
+      "cost_microdollars": 11086,
+      "estate_reads": 0
+    },
+    {
+      "id": "baseline-S03-v1",
+      "estate": "dia-sample-estate",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 5.955148999986704,
+      "model_calls": 1,
+      "cost_microdollars": 22334,
+      "estate_reads": 0
+    },
+    {
+      "id": "baseline-S03-v2",
+      "estate": "dia-sample-estate",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 5.526522799991653,
+      "model_calls": 1,
+      "cost_microdollars": 7229,
+      "estate_reads": 0
+    },
+    {
+      "id": "access-export-1-v1",
+      "estate": "billing",
+      "fixture": "access",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 14.19277689998853,
+      "model_calls": 2,
+      "cost_microdollars": 19074,
+      "estate_reads": 0
+    },
+    {
+      "id": "access-export-1-v2",
+      "estate": "billing",
+      "fixture": "access",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 12.140089499996975,
+      "model_calls": 2,
+      "cost_microdollars": 18060,
+      "estate_reads": 0
+    },
+    {
+      "id": "different-warehouse-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 35.335912700000335,
+      "model_calls": 3,
+      "cost_microdollars": 63274,
+      "estate_reads": 0
+    },
+    {
+      "id": "different-warehouse-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 24.04266620000999,
+      "model_calls": 2,
+      "cost_microdollars": 37680,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900501-v1",
+      "estate": "fixture",
+      "fixture": "latency",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 40.09228810000059,
+      "model_calls": 3,
+      "cost_microdollars": 66184,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900501-v2",
+      "estate": "fixture",
+      "fixture": "latency",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": "INTAKE_EXTRACTION_UNESTABLISHED",
+      "seconds": 30.2992535999947,
+      "model_calls": 3,
+      "cost_microdollars": 94098,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900502-v1",
+      "estate": "fixture",
+      "fixture": "latency",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 39.42430750001222,
+      "model_calls": 3,
+      "cost_microdollars": 96024,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900502-v2",
+      "estate": "fixture",
+      "fixture": "latency",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": "INTAKE_EXTRACTION_UNESTABLISHED",
+      "seconds": 38.016325900011,
+      "model_calls": 4,
+      "cost_microdollars": 129240,
+      "estate_reads": 0
+    },
+    {
+      "id": "history-source-900201-v1",
+      "estate": "fixture",
+      "fixture": "history",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 30.528976200002944,
+      "model_calls": 1,
+      "cost_microdollars": 20120,
+      "estate_reads": 0
+    },
+    {
+      "id": "history-source-900201-v2",
+      "estate": "fixture",
+      "fixture": "history",
+      "status": "READY",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 25.774544500003685,
+      "model_calls": 1,
+      "cost_microdollars": 18432,
+      "estate_reads": 0
+    },
+    {
+      "id": "older-export-movement-1-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 35.12331229999836,
+      "model_calls": 2,
+      "cost_microdollars": 44578,
+      "estate_reads": 0
+    },
+    {
+      "id": "older-export-movement-1-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 36.348472700003185,
+      "model_calls": 3,
+      "cost_microdollars": 106742,
+      "estate_reads": 0
+    },
+    {
+      "id": "stale-total-v1",
+      "estate": "fixture",
+      "fixture": "stale",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": "INTAKE_EXTRACTION_UNESTABLISHED",
+      "seconds": 39.159211699996376,
+      "model_calls": 3,
+      "cost_microdollars": 65632,
+      "estate_reads": 0
+    },
+    {
+      "id": "stale-total-v2",
+      "estate": "fixture",
+      "fixture": "stale",
+      "status": "NEEDS_INPUT",
+      "route": "CALCULATION",
+      "code": null,
+      "seconds": 75.45384420000482,
+      "model_calls": 3,
+      "cost_microdollars": 64598,
+      "estate_reads": 0
+    },
+    {
+      "id": "waiting-fixture-load-v1",
+      "estate": "fixture",
+      "fixture": "waiting",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.0020880999945802614,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    },
+    {
+      "id": "waiting-fixture-load-v2",
+      "estate": "fixture",
+      "fixture": "waiting",
+      "status": "READY",
+      "route": "OPERATIONAL",
+      "code": null,
+      "seconds": 0.0008955999946920201,
+      "model_calls": 0,
+      "cost_microdollars": 0,
+      "estate_reads": 0
+    }
+  ]
+}

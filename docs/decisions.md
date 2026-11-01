@@ -526,3 +526,12 @@ Round26 owner steers 2026-11-01: intake cascade uses Terra first and one Astra f
 
 
 DECIDED WITHOUT REVIEW, Round26 2026-11-01: the Sol investigation stage may use7 of the existing15 tools and up to450 seconds; an unresolved case gives Astra the remaining shared tool/time allowance, within900 seconds total and the existing USD3 actual threshold. Earlier evidence and query caches persist, pending requests/hard stops do not escalate, and no new native read is issued for an identical query. Rejected alternative: give each model15 tools/900 seconds, which would double the approved per-ticket allowance. A real checkpoint-continuation test demonstrates one native query across both models and9 total model calls, not two fresh cases.
+
+
+### 2026-11-01 ? Round 26 owner model-selection steer
+
+Owner requested Sol alongside Astra and Terra, selection by intake readiness first and actual cost second, and investigator columns Sol with Astra escalation only on unresolved tickets, Astra-only, and Claude Opus. No identity, permission, secret or budget ceiling changed. Sol is selected for intake: 28/40, tied with historical Astra 28/40, at $0.024139 versus $0.123874 per generation call; Terra reached 21/40 at $0.010282. Cached-input ratios were 88.04%, 18.37% and 86.74%, respectively. Engine versions differ across cohorts, so this is an observed comparison, not an isolated model-quality experiment. A later retained Terra cohort reached 19/40. Eight cases in each cohort use native operational routing without model calls.
+
+The measured Sol first leg plus one Astra fallback pass reached 29/40 at $7.733820 total, with 13 fallback tickets (including low confidence). Failed original Sol transport-attempt costs remain included. All these intake diagnostics made zero estate reads. Per-ticket model resolution and costs are preserved in the linked acceptance receipts.
+
+All three investigation benchmark columns share selected Sol intake with one Astra fallback, Terra screenshot/summary helpers, unchanged tickets, common image and the $3 actual-usage ticket cap. Investigation escalation shares the same case evidence, requests and step/time allowance rather than granting a second ticket allowance. Anthropic batch pricing will be used for cross-vendor grading where supported; synchronous calls will never be labelled batch-discounted. Investigation-quality results remain pending.

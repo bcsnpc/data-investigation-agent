@@ -1,0 +1,42 @@
+{
+  "kind": "OBSERVED_INTAKE_DIAGNOSTICS_ENGINE_VERSIONS_DIFFER_NOT_CAUSAL_MODEL_BENCHMARK",
+  "selection_rule": "ready rate first, then actual cost",
+  "selected_intake_model": "gpt-6.1-sol",
+  "models": [
+    {
+      "model": "gpt-6-astra",
+      "ready": 28,
+      "records": 40,
+      "calls": 86,
+      "actual_usd": 10.65316,
+      "usd_per_call": 0.12387395348837209,
+      "cache_read_ratio": 0.18373344702838015,
+      "engine": "01a0c710",
+      "source": "round-twenty-six-intake-dry2.json"
+    },
+    {
+      "model": "gpt-6.1-terra",
+      "ready": 21,
+      "records": 40,
+      "calls": 93,
+      "actual_usd": 0.956194,
+      "usd_per_call": 0.010281655913978494,
+      "cache_read_ratio": 0.867413685251826,
+      "engine": "d4c72954",
+      "source": "round-twenty-six-intake-dry3.json"
+    },
+    {
+      "model": "gpt-6.1-sol",
+      "ready": 28,
+      "records": 40,
+      "calls": 63,
+      "actual_usd": 1.520745,
+      "usd_per_call": 0.024138809523809524,
+      "cache_read_ratio": 0.8804471793959456,
+      "engine": "cf80aab8 intake; retry repair during recovery",
+      "source": "round-twenty-six-intake-sol.json"
+    }
+  ],
+  "estate_reads": 0,
+  "note": "All cohorts include eight code-only operational routes with no model calls; original tapes/results unchanged. Intake fixes landed between historical cohorts."
+}
