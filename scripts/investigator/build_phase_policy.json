@@ -69,10 +69,21 @@
       "openai": {
         "ceiling_microdollars": 180000000,
         "warning_microdollars": 140000000
+      },
+      "azure_openai": {
+        "ceiling_microdollars": 0,
+        "warning_microdollars": 0
+      }
+    },
+    "monthly_physical_overrides": {
+      "2026-11": {
+        "total_limit": 14500,
+        "limits": {
+          "SCAN": 2500,
+          "INVESTIGATION": 11905,
+          "RESTORATION": 95
         },
-        "azure_openai": {
-          "ceiling_microdollars": 0,
-          "warning_microdollars": 0
+        "approval": "Owner approved 2026-11-01: 5,500 additional investigation requests; model caps unchanged"
       }
     }
   }

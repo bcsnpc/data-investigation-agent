@@ -540,3 +540,6 @@ All three investigation benchmark columns share selected Sol intake with one Ast
 ### 2026-11-01 ? Round26 waiting control lifetime
 
 Owner PartE requires the native job to remain running through the answer. Increase the reversible Wait-only fixture upper bound from600to3600seconds, preserving removal of all original data activities and guarded restoration. Fourteen fixture scenario tests pass, including a3600second Wait with no copy or writer. Fresh native admission and answer-time status remain required; a finished Wait is a fixture artefact, never an engine failure. This changes practice-control support, not the benchmark investigator or its caps.
+
+
+Owner-approved 2026-11-01 (§8): add 5,500 November investigation requests. Before: total9,000 / investigation6,405. After: total14,500 / investigation11,905. SCAN2,500, restoration95 and all model caps unchanged; usage and reservation rows preserved. Cloud policy read back; December default remains9,000 / investigation6,405. Reason: remaining Round26 required measurements exceed remaining allocation. Receipt: docs/round-twenty-six-request-increase.json. Pinned benchmark image retains its lower source cap until a later tested image; no benchmark engine replacement.

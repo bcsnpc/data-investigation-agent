@@ -226,7 +226,12 @@ def physical_group_rows(groups):
 def round24_limits(now):
     policy=POLICY.get('round24')
     if not policy or now < datetime.fromisoformat(policy['effective_at']).timestamp():return None
-    return policy['october'] if month_window(now)[0]=='2026-10' else policy['default']
+    month = month_window(now)[0]
+    current = policy['october'] if month == '2026-10' else policy['default']
+    override = POLICY.get('round26', {}).get('monthly_physical_overrides', {}).get(month)
+    if override:
+        return {**current, 'total_limit': override['total_limit'], 'limits': dict(override['limits'])}
+    return current
 
 
 def model_ceiling(now):
