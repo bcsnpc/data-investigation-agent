@@ -735,3 +735,6 @@ Round25 G3 original-history variant2,2026-11-01: preliminary Azure job-show comm
 
 
 Round25 G3 R17-10-v1 start response lost2026-11-01: management.azure.com read timeout/WinError10060 inside CLI start; unlike a proven preliminary-GET failure, whether the start POST reached Azure is unestablished. Originalrun9bbed1e7 has0 capture blobs observed; execution-list2024-03-01 returnsBadGateway. Retain original unscored, do not release uncertain exposure; one Part0.3 replacement is separate. Static width1 leaves room for this and the earlier uncertain G2 original within3slots. Never retry the start POST automatically. Receipt: runs/round25-g3-R17-10-lost-start.json.
+
+
+Round25 November rollover validation: full offline suite on source6c338d3c ran5693tests/50skip and failed11historical enrichment/evaluation stub cases with KeyError model-microdollars:2026-11. Their SQLite fixtures provisioned October accounts while the credit guard read the current month. Pin only those historical test fixtures to their already-declared October clock; production budget code, November accounts and frozen investigator stay unchanged. Focused enrichment24/evaluation7/retainedexamples2 regressions rerun; final coherent full suite required. Original failure log retained privately.

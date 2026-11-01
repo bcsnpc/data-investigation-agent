@@ -491,3 +491,6 @@ Owner steer executed2026-11-01UTC (2026-10-31America/Chicago): lift G3 harm paus
 
 
 Round25 grading/reporting correction,2026-11-01: G4 latency native run/audit histories exceeded the existing24,000character primary/secondary grading packet bound before provider dispatch. Extend the existing labelled first-three recent-run sample to native runs and audit_runs, retaining omitted counts and original-list SHA256. Full immutable captures are unchanged and independent disagreement review continues receiving full saved evidence. No grading rule, engine, expectation, ticket or24,000bound changed. Nine focused pool tests pass, including unchanged original evidence and non-history query rows/prose. This is a reporting-only correction permitted by Round25 Part0.3; no engine rerun.
+
+
+Round25 grading transport follow-up: first-three native history samples still exceeded24,000chars on G4 latency. The unsent packet now labels first-one native history samples with omitted counts/list hashes, and shortens reversible opaque address aliases; all literal queries, current fact summaries, quantities and delivered prose are retained. Independent raw review keeps full native histories. No provider request, score or expectation changed during the pre-dispatch correction. Original saved outputs and prior prepared grading packets remain unchanged.

@@ -12,6 +12,8 @@ import test_enrichment as fixtures
 def source():return {'protocol':PROTOCOL,'purpose':'WRITE_TICKETS','case_id':'scenario-1','description':'The displayed total differs from a source total.','labels':['Report','Global total'],'variations':['plain','missing comparison']}
 
 class IndependentEvaluationTests(unittest.TestCase):
+    def setUp(self):
+        fixtures.historical_credit_clock(self)
     def test_guided_writer_catalog_only_and_separate_handoff_grading(self):
         from investigator.adapters.evaluation_anthropic import output_schema
         value={**source(),'purpose':'WRITE_GUIDED_TICKETS','catalog':{'reports':[{'id':'report','name':'Report','pages':[{'id':'page','name':'Page','visuals':[{'id':'visual','name':'Total'}]}]}],'source_systems':[]}}
