@@ -1,20 +1,20 @@
 {
   "scope": "PARTIAL_PROVIDER_BENCHMARK_NOT_ROUND26_HEADLINE",
-  "observed_at_utc": "2026-11-01T23:05:53.245126+00:00",
+  "observed_at_utc": "2026-11-01T23:29:19.363644+00:00",
   "columns": {
     "sol-cascade": {
-      "graded": 24,
+      "graded": 26,
       "correct": 5,
       "harmful": 0
     },
     "openai": {
-      "graded": 25,
-      "correct": 18,
+      "graded": 26,
+      "correct": 19,
       "harmful": 0
     },
     "anthropic": {
-      "graded": 25,
-      "correct": 22,
+      "graded": 26,
+      "correct": 23,
       "harmful": 0
     }
   },
@@ -26,5 +26,5 @@
   "correct_requires": "verdict AND layer AND cause",
   "default_investigator_selected": false,
   "secondary_and_independent_disagreement_review": "NOT_YET_RUN",
-  "subsets_not_identical": true
+  "subsets_not_identical": false
 }
