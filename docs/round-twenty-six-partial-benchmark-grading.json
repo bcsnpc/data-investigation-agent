@@ -1,20 +1,20 @@
 {
   "scope": "PARTIAL_PROVIDER_BENCHMARK_NOT_ROUND26_HEADLINE",
-  "observed_at_utc": "2026-11-01T23:29:19.363644+00:00",
+  "observed_at_utc": "2026-11-01T23:44:40.405177+00:00",
   "columns": {
     "sol-cascade": {
-      "graded": 26,
-      "correct": 5,
+      "graded": 28,
+      "correct": 7,
       "harmful": 0
     },
     "openai": {
-      "graded": 26,
-      "correct": 19,
+      "graded": 28,
+      "correct": 21,
       "harmful": 0
     },
     "anthropic": {
-      "graded": 26,
-      "correct": 23,
+      "graded": 28,
+      "correct": 25,
       "harmful": 0
     }
   },

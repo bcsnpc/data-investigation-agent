@@ -1,5 +1,5 @@
 {
-  "observed_at_utc": "2026-11-01T23:27:02.369128+00:00",
+  "observed_at_utc": "2026-11-01T23:41:46.514168+00:00",
   "drafts": 40,
   "form": 20,
   "text": 20,
@@ -19,7 +19,7 @@
     "native_fact_verification_pending": true
   },
   "original_invalid_address_group_retained": true,
-  "independent_address_replacement_groups": 1,
+  "independent_address_replacement_groups": 2,
   "paid_usage": [
     {
       "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-access-export-provider.jsonl",
@@ -119,6 +119,11 @@
     {
       "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-warehouse-scope-provider.jsonl",
       "sha256": "feec45c093c52ef91ab9ed828741f29a39b22884418d06a9e23fb92c22f0cac5",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-address-replacement1\\v5-billing-invoices-provider.jsonl",
+      "sha256": "ffdd77bc58d5d57ff5827bfadc49db4379d0ded6c603343ff6892ab868f9f00f",
       "normalized_usage_records": 1
     },
     {

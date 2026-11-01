@@ -369,3 +369,9 @@ Round25 g4 stale final restoration: original source row/business-schema hashes m
 
 
 Round26 failed-fixture g1: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-six\injections\g1-failed-fixture\status.json. No grant/identity change.
+
+
+Round26 failed-fixture g1: FAILED_JOB_ESTABLISHED_DEFINITION_HASH_RESTORED. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-six\injections\g1-failed-fixture\status.json. No grant/identity change.
+
+
+Round26 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-six\injections\g1-failed-fixture\status.json. No grant/identity change.
