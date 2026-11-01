@@ -31,7 +31,7 @@ class StablePrefix:
                         'input_schema':{'type':'object','additionalProperties':False,'required':['layer','query','purpose'],
                             'properties':{'layer':{'type':'string'},'query':{'type':'string','minLength':1},'purpose':{'enum':purposes}}}})
             for tool in tools:
-                if tool['name'] in ('run_sql','run_dax'):
+                if tool['name'] in ('run_sql','run_dax') and 'layer' in tool['input_schema'].get('properties',{}):
                     # The wire schema must not freeze the first path slice's
                     # layer enum. The investigator validates each call against
                     # its refreshed local schema before dispatching any read.
