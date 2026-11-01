@@ -1,11 +1,11 @@
 {
   "pass": "Round25 G4 raw-reviewed",
-  "graded": 15,
-  "score": 12,
+  "graded": 19,
+  "score": 16,
   "correctness": {
-    "verdict_match": 13,
-    "layer_match": 14,
-    "cause_match": 13
+    "verdict_match": 17,
+    "layer_match": 18,
+    "cause_match": 17
   },
   "harmful": 0,
   "zero_groups": {

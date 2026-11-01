@@ -1164,3 +1164,6 @@ Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical to
 
 
 Section8 Round25 G3 stale control, owner date2026-10-31 / UTC2026-11-01: existing publisher observed automatic DirectLake updatesON on Application load fixture0c89889c, switchedOFF, closed/reopened model refresh settings and observed persistedOFF. The DirectLake toggle auto-saved asynchronously; schedule Apply stayeddisabled and schedule remainedOFF. No identity, role, secret or connection change. Real+31source/copy cohort follows; restore source/hash/copy, automaticON, ownrefresh/native7661 afterward. Native proof .local/round-twenty-five/injections/g3-stale/automatic-updates-off.json.
+
+
+Section8 Round25 G4 final stale practice control,2026-11-01: existing publisher observed Application load fixture0c89889c automaticupdatesON, switchedOFF andconfirmedpersistedOFFafterclosing/reopeningmodelrefreshsettings. DirectLake switch auto-saved asynchronously; scheduleOFF/Applydisabled unchanged. Approved+31source/realcopy holdsmodelstale throughonescoredG4ticket, thenoriginalsource/hash/copy, automaticON, ownrefresh/native7661restore. Noidentity/role/secret/connectionchange. Nativeproof .local/round-twenty-five/injections/g4-stale/automatic-updates-off.json.

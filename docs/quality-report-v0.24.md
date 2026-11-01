@@ -2,14 +2,14 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-11-01T08:01:12.722118+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 is complete (60/60); G4 remains in progress until all20 are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-11-01T08:28:01.807177+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 is complete (60/60); G4 remains in progress until all20 are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1-97.4%)|34/40 (70.9-92.9%)|35/40 (73.9-94.5%)|2|40|
 |G2|37/60 (49.0-72.9%)|32/60 (40.9-65.4%)|36/60 (47.4-71.4%)|0|60|
 |G3|6/60 (4.7-20.1%)|2/60 (0.9-11.4%)|3/60 (1.7-13.7%)|3|60|
-|G4|13/15 (62.1-96.3%)|11/15 (48.0-89.1%)|12/15 (54.8-93.0%)|0|20|
+|G4|17/19 (68.6-97.1%)|15/19 (56.7-91.5%)|16/19 (62.4-94.5%)|0|20|
 
 ### Same original R22 splits
 
@@ -31,7 +31,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 |G1|37/40 (80.1-97.4%)|8/40 (10.5-34.8%)|35/40 (73.9-94.5%)|35/40 (73.9-94.5%)|35/40 (73.9-94.5%)|0|
 |G2|51/60 (73.9-91.9%)|13/60 (13.1-33.6%)|42/60 (57.5-80.1%)|44/60 (61.0-82.9%)|37/60 (49.0-72.9%)|0|
 |G3|50/60 (72.0-90.7%)|8/60 (6.9-24.2%)|3/60 (1.7-13.7%)|8/60 (6.9-24.2%)|7/60 (5.8-22.2%)|0|
-|G4|12/15 (54.8-93.0%)|2/15 (3.7-37.9%)|13/15 (62.1-96.3%)|14/15 (70.2-98.8%)|13/15 (62.1-96.3%)|0|
+|G4|16/19 (62.4-94.5%)|3/19 (5.5-37.6%)|17/19 (68.6-97.1%)|18/19 (75.4-99.1%)|17/19 (68.6-97.1%)|0|
 
 Operator blinding was partly broken by the earlier two staging/status fragments and an additional G3 access status dump that included saved outcome text. These exposures are disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2-G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -142,8 +142,12 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G4 / v2-record-absent-everywhere|1/1 (20.7-100.0%)|0/1 (0.0-79.3%)|0/1 (0.0-79.3%)|
 |G4 / v2-record-repeated-gold|1/1 (20.7-100.0%)|0/1 (0.0-79.3%)|1/1 (20.7-100.0%)|
 |G4 / v2-screenshot-record-01|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
+|G4 / v2-screenshot-record-02|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
+|G4 / v2-screenshot-record-03|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
+|G4 / v2-screenshot-record-04|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 |G4 / v2-source-history|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 |G4 / v2-waiting-application-load|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
+|G4 / v2-warehouse-scope|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 
 ### Expected verdict classes
 
@@ -182,7 +186,8 @@ Grouping uses exact sealed oracle labels; no expectation or score change. Case f
 |G3 / source changed history|0/4 (0.0-49.0%)|0/4 (0.0-49.0%)|0/4 (0.0-49.0%)|0|
 |G3 / waiting on job|0/4 (0.0-49.0%)|0/4 (0.0-49.0%)|0/4 (0.0-49.0%)|0|
 |G4 / access difference|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|0|
-|G4 / as designed|4/5 (37.6-96.4%)|3/5 (23.1-88.2%)|3/5 (23.1-88.2%)|0|
+|G4 / as designed|7/8 (52.9-97.8%)|6/8 (40.9-92.9%)|6/8 (40.9-92.9%)|0|
+|G4 / different question|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|0|
 |G4 / failed job|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|0|
 |G4 / latency|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|0|
 |G4 / not found|0/1 (0.0-79.3%)|0/1 (0.0-79.3%)|0/1 (0.0-79.3%)|0|
@@ -205,7 +210,7 @@ G2 has 10 unsealed native exceptions with unavailable usage; these remain graded
 
 G3 has 1 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
 
-|G4|12|5.443680|0.453640|66.52%|12 / 0|212.0 / 261.0|
+|G4|19|7.992352|0.420650|67.65%|19 / 0|213.0 / 298.0|
 
 ## Failure walkthroughs and next-round priorities
 

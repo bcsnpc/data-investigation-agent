@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 19,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.16817922405261626,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 11,
-      "total": 15,
-      "accuracy": 0.7333333333333333,
-      "lower": 0.4804956594401943,
-      "upper": 0.8910254667430761,
+      "correct": 15,
+      "total": 19,
+      "accuracy": 0.7894736842105263,
+      "lower": 0.5666572155618583,
+      "upper": 0.9149232336708375,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 11,
-      "total": 15,
-      "accuracy": 0.7333333333333333,
-      "lower": 0.4804956594401943,
-      "upper": 0.8910254667430761,
+      "correct": 15,
+      "total": 19,
+      "accuracy": 0.7894736842105263,
+      "lower": 0.5666572155618583,
+      "upper": 0.9149232336708375,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 19,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.16817922405261626,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "correct": 16,
+      "total": 19,
+      "accuracy": 0.8421052631578947,
+      "lower": 0.6243452472967093,
+      "upper": 0.9447952836146585,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 14,
-      "total": 15,
-      "accuracy": 0.9333333333333333,
-      "lower": 0.7018347012621998,
-      "upper": 0.9881331045067315,
+      "correct": 18,
+      "total": 19,
+      "accuracy": 0.9473684210526315,
+      "lower": 0.753612688331012,
+      "upper": 0.9906480059376995,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 19,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.16817922405261626,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 15,
+  "completed_graded": 19,
   "primary": {
     "all_three": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 19,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.16817922405261626,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 11,
-      "total": 15,
-      "accuracy": 0.7333333333333333,
-      "lower": 0.4804956594401943,
-      "upper": 0.8910254667430761,
+      "correct": 15,
+      "total": 19,
+      "accuracy": 0.7894736842105263,
+      "lower": 0.5666572155618583,
+      "upper": 0.9149232336708375,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 12,
-      "total": 15,
-      "accuracy": 0.8,
-      "lower": 0.5481455128483065,
-      "upper": 0.9295245065301844,
+      "correct": 16,
+      "total": 19,
+      "accuracy": 0.8421052631578947,
+      "lower": 0.6243452472967093,
+      "upper": 0.9447952836146585,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 14,
-      "total": 15,
-      "accuracy": 0.9333333333333333,
-      "lower": 0.7018347012621998,
-      "upper": 0.9881331045067315,
+      "correct": 18,
+      "total": 19,
+      "accuracy": 0.9473684210526315,
+      "lower": 0.753612688331012,
+      "upper": 0.9906480059376995,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 13,
-      "total": 15,
-      "accuracy": 0.8666666666666667,
-      "lower": 0.6211801716767764,
-      "upper": 0.9626387408969346,
+      "correct": 17,
+      "total": 19,
+      "accuracy": 0.8947368421052632,
+      "lower": 0.6860591728889099,
+      "upper": 0.9706414397011299,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 15,
+      "total": 19,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.20388330103584862,
+      "upper": 0.16817922405261626,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 12,
-    "total": 15,
-    "accuracy": 0.8,
-    "lower": 0.5481455128483065,
-    "upper": 0.9295245065301844,
+    "correct": 16,
+    "total": 19,
+    "accuracy": 0.8421052631578947,
+    "lower": 0.6243452472967093,
+    "upper": 0.9447952836146585,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -254,11 +254,11 @@
     "harmful"
   ],
   "full_assessment_agreement": {
-    "correct": 2,
-    "total": 15,
-    "accuracy": 0.13333333333333333,
-    "lower": 0.03736125910306537,
-    "upper": 0.37881982832322364,
+    "correct": 3,
+    "total": 19,
+    "accuracy": 0.15789473684210525,
+    "lower": 0.05520471638534141,
+    "upper": 0.37565475270329074,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -341,6 +341,24 @@
     },
     {
       "ticket": "v2-screenshot-record-01-v3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-warehouse-scope-v3",
       "fields": [
         "handoff_quality"
       ]
@@ -1182,6 +1200,234 @@
           "output_tokens": 2294,
           "output_tokens_details": {
             "thinking_tokens": 974
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v3",
+      "class": "v2-screenshot-record-02",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'definition explained' / 'as designed' (the 21 units is not an aggregate but a single source transaction value), correctly identifies the layer as the source application (ordersops app.stock_movements_round_two_20261003), and correctly names the cause: movement_id 4 carries units=21 unchanged through the pipeline with no aggregation. This matches the sealed expectation that 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The answer confirmed this via actual native queries to ordersops and the lakehouse. No handoff is needed since the question was fully answered (handoff_quality is moot/0 for a completed answer).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer says \"definition explained\" and the sealed record says \"as designed\". The labels differ but mean the same thing for a how-is-this-calculated ticket: the reported 21 is correct behaviour, not a defect. The answer also directly rejects the user's guess that it was an aggregated sum. Layer: the answer traces the value to the source application, ordersops app.stock_movements_round_two_20261003. That matches the expected layer (source application, split HELD_OUT). Cause: the answer says the visible values warehouse_id=1, product_id=2, units=21 point uniquely to movement_id 4. It also says the units column has summarizeBy none and no SUM measure is in the visual, and that units 21 is carried unchanged from ordersops to the lakehouse. This matches the expected cause ('visible values resolve uniquely to movement 4; units 21 carried unchanged'). Three successful queries were actually run: the model DAX query, an ordersops query filtered on warehouse 1 / product 2, and a lakehouse query for movement_id 4. That meets the expectation that real queries establish the key and the agreement. The first lakehouse attempt failed with an endpoint error and a later retry succeeded. One limit: only 3 of the 19 model rows were shown to the grader, so the claim that only movement 4 has 21 cannot be fully re-checked from this record. It is still consistent with the expected answer, which says the match is unique. The answer also states its limits honestly: the reads were separate snapshots, and some triage checks were unavailable. Handoff: the handoff block is empty, but the answer is resolved. All queries are recorded word for word with their parameters, so they can be rerun, and the qualifications are clear. No disagreement with the expected answer.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-static10",
+      "outcome_sha256": "11c9c4b83a573f5089387d31c51a905db71ac53927ffacc063514032adce3e11",
+      "status": "ANSWERED",
+      "native_duration_seconds": 279.0,
+      "worker_wall_seconds": 251.09583239699998,
+      "investigation_cost_microdollars": 430370,
+      "physical_requests": 23,
+      "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-screenshot-record-02-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 241471,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved queries show: the report-model DAX query (SUCCEEDED, 19 rows, all saved) for warehouse 1 / product 2 returns units 21, 6, 4, 39, 33, 29, 16, 10, 16, 25, 2, 23, 38, 2, 29, 12, 28, 23, 26. Only movement_id 4 has 21. The ordersops query on app.stock_movements_round_two_20261003 (SUCCEEDED, 19 rows) returns the same 19 IDs with identical units. Movement 4 is 21 units, ISSUE, event_day 2026-09-11. The first filtered lakehouse read failed with an endpoint error (LowerReadError). The narrower read by movement_id 4 succeeded and returned units 21. So the record proves the sealed expectation: the visible values resolve uniquely to movement 4, and 21 is the same at source, lakehouse and model, backed by real queries. Verdict: 'definition explained' and 'as designed' mean the same thing here. 21 is a single transaction value, not a sum, and the answer explicitly rejects the user's aggregation guess. Verdict match. Layer: the answer names the source application table in ordersops. Layer match. Cause: 'unique to movement 4, carried unchanged' is supported by the queries. Cause match. All three match, so the answer is not partial. Caveat: the claims that units has summarizeBy none, that the visual uses no measure, and that the copy job maps units straight across with an overwrite load are not backed by any saved file contents. The visual, model and copy-job files appear only as paths in a rejected submit_finding draft. These claims are plausible and consistent with the query results but unverified. The core conclusion does not depend on them, so the answer is not harmful. The answer is honest about its limits: separate snapshot reads, and only movement 4 read at the lakehouse. Handoff: the case is answered, every query is saved word for word with parameters, and qualifications are explicit, so 2 is right. The primary grader's 0 ('moot') undervalues a complete, reproducible answer. The secondary grader's scores are correct, but it wrongly says only 3 of the 19 model rows were shown to it. All 19 are in the record and confirm the match is unique. That mistake does not change its conclusions. The secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "11c9c4b83a573f5089387d31c51a905db71ac53927ffacc063514032adce3e11",
+        "reason": "What the saved queries show: the report-model DAX query (SUCCEEDED, 19 rows, all saved) for warehouse 1 / product 2 returns units 21, 6, 4, 39, 33, 29, 16, 10, 16, 25, 2, 23, 38, 2, 29, 12, 28, 23, 26. Only movement_id 4 has 21. The ordersops query on app.stock_movements_round_two_20261003 (SUCCEEDED, 19 rows) returns the same 19 IDs with identical units. Movement 4 is 21 units, ISSUE, event_day 2026-09-11. The first filtered lakehouse read failed with an endpoint error (LowerReadError). The narrower read by movement_id 4 succeeded and returned units 21. So the record proves the sealed expectation: the visible values resolve uniquely to movement 4, and 21 is the same at source, lakehouse and model, backed by real queries. Verdict: 'definition explained' and 'as designed' mean the same thing here. 21 is a single transaction value, not a sum, and the answer explicitly rejects the user's aggregation guess. Verdict match. Layer: the answer names the source application table in ordersops. Layer match. Cause: 'unique to movement 4, carried unchanged' is supported by the queries. Cause match. All three match, so the answer is not partial. Caveat: the claims that units has summarizeBy none, that the visual uses no measure, and that the copy job maps units straight across with an overwrite load are not backed by any saved file contents. The visual, model and copy-job files appear only as paths in a rejected submit_finding draft. These claims are plausible and consistent with the query results but unverified. The core conclusion does not depend on them, so the answer is not harmful. The answer is honest about its limits: separate snapshot reads, and only movement 4 read at the lakehouse. Handoff: the case is answered, every query is saved word for word with parameters, and qualifications are explicit, so 2 is right. The primary grader's 0 ('moot') undervalues a complete, reproducible answer. The secondary grader's scores are correct, but it wrongly says only 3 of the 19 model rows were shown to it. All 19 are in the record and confirm the match is unique. That mistake does not change its conclusions. The secondary grader wins.",
+        "source_sha256": "8c627c55963f62ecf6232e253b846a127cab9a02e5338b0d7a9857c99195aa5b",
+        "ticket": "v2-screenshot-record-02-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 44694,
+          "output_tokens": 2915,
+          "output_tokens_details": {
+            "thinking_tokens": 912
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v3",
+      "class": "v2-screenshot-record-04",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'observed value' which maps to 'as designed' \u2014 the row is real, not a placeholder, matching the sealed verdict. Layer: delivered identifies the source application (ordersops app.stock_movements_round_two_20261003) as the layer, matching 'source application'. Cause: delivered correctly identifies movement_id 7 with units=20 carried unchanged through the application path, matching the sealed cause of 'Visible values resolve uniquely to movement 7; units 20 carried unchanged through application path.' The queries confirm movement_id=7 in both the DAX model and the ordersops source. All three dimensions match. The answer is fully resolved with a clear conclusion, so handoff_quality is scored 0 (not applicable since the answer is complete \u2014 but the field requires a value; since it is resolved, there is nothing to hand off, so 0 is appropriate as the baseline).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed'. The answer says 'observed value' and explains that units=20 is a real stored quantity, not a placeholder. Both mean the value is legitimate and expected, so this matches in substance even though the label differs. Layer: the expected layer is the source application. The answer traces the value to the ordersops app.stock_movements_round_two_20261003 row, so this matches. Cause: the expected cause says the visible values resolve uniquely to movement 7 and units 20 passes through unchanged, and that real queries must prove both. The queries in the record do that. The DAX query with all three filters (warehouse_id=3, product_id=2, units=20) returned exactly one row, movement_id=7, units=20. The ordersops SQL query with the same three filters returned 1 row: movement 7, RECEIPT, 2026-09-16, units 20. The lakehouse query returned the identical row. A broader query on warehouse 3 and product 2 returned 12 rows, so filtering on units=20 is needed to make the match unique. The model schema shows units has summarizeBy none, so it is not aggregated. The answer's numbers (7, 3, 2, 20) agree with the query results. Its caveats are fair: the reads are separate snapshots and their alignment is not established. One claim is not shown in the record: that ordersops units is NOT NULL with no default. This is a minor extra claim and does not change the cause. The expected record lists the split as HELD_OUT, and the answer does not contradict it. There is no disagreement in substance. Handoff: the answer is resolved, but its queries are recorded verbatim with their parameters and can be rerun, it says where it stopped, and it names the checks it could not run.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-static12",
+      "outcome_sha256": "861b355fd9caaab30f516e1cf76c4e474ea5f0f2bebe82325272867c8873abd8",
+      "status": "ANSWERED",
+      "native_duration_seconds": 298.0,
+      "worker_wall_seconds": 261.89653051000005,
+      "investigation_cost_microdollars": 417817,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-screenshot-record-04-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 274267,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: four queries that actually ran agree on one record. Query 1 (DAX, filtered on warehouse 3, product 2, units 20) returned 1 row: movement_id 7, units 20. Query 8 (DAX SUMMARIZECOLUMNS, same filters) returned the same row. Query 2 (lakehouse SQL) returned 1 row: movement 7, RECEIPT, 2026-09-16, units 20, modified 2026-10-03 22:51:16. Query 3 (ordersops SQL) returned the identical row. Queries 6 and 7 filtered only on warehouse 3 and product 2 and returned 12 identical rows in both layers; movement 7 is the only one with 20 units. Query 4 rebuilt the visual and got 10 distinct units values, including 20. The schema slice shows units maps straight to its source column with summarizeBy none. Query 5 errored, and the answer does not rely on it.\n\nThe record_trace tool's summary (model UNAVAILABLE because the key column was missing; 0 matching rows in both lower layers) contradicts the raw results of the same queries, which show row_count 1. That summary is a tool artifact. An earlier draft treated it as a real mismatch, and the submission gate rejected that draft. The final answer leaves the artifact out and relies on the real query results, which is supportable.\n\nScoring: 'observed value' with 'real stored quantity, not a placeholder' means the same as the sealed 'as designed', so the verdict matches. The ordersops app table is the source application, so the layer matches. The sealed cause is that movement 7 is the unique match and its 20 units pass through unchanged, proven by real queries. The saved queries establish exactly that, so the cause matches. All three criteria are met; partial = false.\n\nOverclaims: nothing in the saved evidence supports 'ordersops units is NOT NULL with no default'. There is also no read of the copy-job column mapping, so 'copy job maps units straight to units' is inferred only from identical values. The visual's definition was never read, so 'visual shows distinct combinations' is inferred from the rebuilt query. These claims are stated confidently but do not change the core finding or mislead the user, so the answer is not harmful.\n\nHandoff: the queries are saved verbatim with their parameters and can be rerun, and the answer flags that the layer reads were not aligned in time. However, the confident claims without evidence lower the quality, so I score handoff 1.\n\nOn the graders: both are right on verdict, layer, cause, harm and partial. Primary's handoff score of 0, justified as 'not applicable', is not reasoned from the evidence, and its review missed the unsupported claims. Secondary checked each query result against the answer and caught the NOT NULL claim, though it missed the copy-mapping claim and its handoff score of 2 is a little generous. Secondary's assessment is more faithful to the evidence.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "861b355fd9caaab30f516e1cf76c4e474ea5f0f2bebe82325272867c8873abd8",
+        "reason": "What the raw capture shows: four queries that actually ran agree on one record. Query 1 (DAX, filtered on warehouse 3, product 2, units 20) returned 1 row: movement_id 7, units 20. Query 8 (DAX SUMMARIZECOLUMNS, same filters) returned the same row. Query 2 (lakehouse SQL) returned 1 row: movement 7, RECEIPT, 2026-09-16, units 20, modified 2026-10-03 22:51:16. Query 3 (ordersops SQL) returned the identical row. Queries 6 and 7 filtered only on warehouse 3 and product 2 and returned 12 identical rows in both layers; movement 7 is the only one with 20 units. Query 4 rebuilt the visual and got 10 distinct units values, including 20. The schema slice shows units maps straight to its source column with summarizeBy none. Query 5 errored, and the answer does not rely on it.\n\nThe record_trace tool's summary (model UNAVAILABLE because the key column was missing; 0 matching rows in both lower layers) contradicts the raw results of the same queries, which show row_count 1. That summary is a tool artifact. An earlier draft treated it as a real mismatch, and the submission gate rejected that draft. The final answer leaves the artifact out and relies on the real query results, which is supportable.\n\nScoring: 'observed value' with 'real stored quantity, not a placeholder' means the same as the sealed 'as designed', so the verdict matches. The ordersops app table is the source application, so the layer matches. The sealed cause is that movement 7 is the unique match and its 20 units pass through unchanged, proven by real queries. The saved queries establish exactly that, so the cause matches. All three criteria are met; partial = false.\n\nOverclaims: nothing in the saved evidence supports 'ordersops units is NOT NULL with no default'. There is also no read of the copy-job column mapping, so 'copy job maps units straight to units' is inferred only from identical values. The visual's definition was never read, so 'visual shows distinct combinations' is inferred from the rebuilt query. These claims are stated confidently but do not change the core finding or mislead the user, so the answer is not harmful.\n\nHandoff: the queries are saved verbatim with their parameters and can be rerun, and the answer flags that the layer reads were not aligned in time. However, the confident claims without evidence lower the quality, so I score handoff 1.\n\nOn the graders: both are right on verdict, layer, cause, harm and partial. Primary's handoff score of 0, justified as 'not applicable', is not reasoned from the evidence, and its review missed the unsupported claims. Secondary checked each query result against the answer and caught the NOT NULL claim, though it missed the copy-mapping claim and its handoff score of 2 is a little generous. Secondary's assessment is more faithful to the evidence.",
+        "source_sha256": "0642920624142a7d83bc1b85ded3d88f246e76f38e2c378696e0d6fcab355a27",
+        "ticket": "v2-screenshot-record-04-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 55733,
+          "output_tokens": 2347,
+          "output_tokens_details": {
+            "thinking_tokens": 1143
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v2-warehouse-scope-v3",
+      "class": "v2-warehouse-scope",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Delivered verdict is 'different question', matching the sealed expected verdict. Layer is 'selection scope' (different warehouse_id filter applied to the report vs the source query), which matches the sealed 'selection scope'. Cause is correctly identified as different warehouse restrictions (warehouse_id 1 vs warehouse_id 2), matching the sealed cause. The answer is fully resolved with direct query evidence across three layers (semantic model, lakehouse, source DB), so handoff quality is 0 (no unresolved handoff needed). No harmful incorrect cause is stated. Failing step is none as the answer is complete and correct.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'different question' and the sealed record says 'different question', so they match. Layer/split: the sealed layer is selection scope. The delivered answer puts the gap in the warehouse filter (warehouse_id 1 on the card vs warehouse_id 2 in the source pull), which is a selection-scope difference, so it matches. Cause: the sealed cause is different warehouse restrictions (1 vs 2), not an ingestion or arithmetic fault. The delivered answer says the same thing. It shows 2948 for warehouse 1 at the semantic model, the lakehouse and the source, and shows the source returns 2084 for warehouse 2. It also explicitly rejects the user's stale/cache guess, so the cause matches in substance. The evidence backs the claim: four SUCCEEDED queries with literal SQL/DAX and parameters, and the numbers agree with the intake figures. The extra run-history details (successful refresh, one earlier failed pipeline run followed by successful ones) are correct context. They are not offered as the cause, so they are not harmful. The time-alignment caveats are honest. I found no disagreement with the expectation. Handoff: this is a resolved answer, so the handoff object is empty. It is still useful: the queries are literal and can be rerun with their parameters, the stopping point is clear (ANSWERED), and unavailable checks are labelled. That earns a 2. This handoff score is separate from the verdict/layer/cause credit.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-static13",
+      "outcome_sha256": "8924208ec2ee3156cded24a68034d4db228f1dae6de6549ff64bcdeb136b56aa",
+      "status": "ANSWERED",
+      "native_duration_seconds": 148.0,
+      "worker_wall_seconds": 122.41815817200006,
+      "investigation_cost_microdollars": 234115,
+      "physical_requests": 24,
+      "model_calls": 2,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-warehouse-scope-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 161367,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: four queries, all with status SUCCEEDED and their literal text and parameters saved. (1) The DAX query CALCULATE(SUM('Movements'[units]), warehouse_id=1) on the model returns 2948. (2) The ordersops app.stock_movements_round_two_20261003 table with @p0=1 returns 2948. (3) The same source table with @p0=2 returns 2084. (4) The lakehouse dbo.stock_movements_round_two_20261003 table with @p0=1 returns 2948. The report figure (2948, warehouse 1) shows up in all three layers. The user's 2084 matches exactly the source total for warehouse 2. That directly supports the verdict 'different question', a selection-scope layer, and the cause 'warehouse 1 vs 2 restriction, not stale/cached data'. This matches the sealed expectation on verdict, layer and cause, so it scores under the all-three rule, and partial=false.\n\nI checked the run-history claims against triage, and they are accurate. Model refresh 764823533 ran 04:56:29\u201304:56:54Z and SUCCEEDED. Job c5e4269d ran 06:46:27\u201306:47:57Z, SUCCEEDED, with 360 rows read and 360 written. Run 3e941fa6 FAILED from 05:01:55 to 05:04:01 with error 2011 and the quoted message. The next run, 072455b4 at 05:08:06, SUCCEEDED. These details are given as context, not as the cause.\n\nThere are minor unattested details. The pipeline name and the claim that the card measure is defined as SUM('Movements'[units]) do not appear literally in the saved rows. The DAX query recreated the sum directly rather than calling the measure. But the recreated value equals the reported figure, and neither detail affects the cause, so neither is harmful. The answer is also honest about uncertainty: it says the snapshots aren't time-aligned and lists the unavailable checks.\n\nThe only dispute is handoff quality. Primary scored 0 on the grounds that no handoff was needed. That treats the empty handoff object as low quality, which judges the label rather than the substance. The answer is fully resolved and has a clear stop (ANSWERED). The queries are literal and can be rerun with their parameters, the evidence IDs are cited, and the gaps are labelled. Anyone following up can act on it, so 2 is right. Secondary's assessment is correct on every field, so secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "8924208ec2ee3156cded24a68034d4db228f1dae6de6549ff64bcdeb136b56aa",
+        "reason": "What the raw capture shows: four queries, all with status SUCCEEDED and their literal text and parameters saved. (1) The DAX query CALCULATE(SUM('Movements'[units]), warehouse_id=1) on the model returns 2948. (2) The ordersops app.stock_movements_round_two_20261003 table with @p0=1 returns 2948. (3) The same source table with @p0=2 returns 2084. (4) The lakehouse dbo.stock_movements_round_two_20261003 table with @p0=1 returns 2948. The report figure (2948, warehouse 1) shows up in all three layers. The user's 2084 matches exactly the source total for warehouse 2. That directly supports the verdict 'different question', a selection-scope layer, and the cause 'warehouse 1 vs 2 restriction, not stale/cached data'. This matches the sealed expectation on verdict, layer and cause, so it scores under the all-three rule, and partial=false.\n\nI checked the run-history claims against triage, and they are accurate. Model refresh 764823533 ran 04:56:29\u201304:56:54Z and SUCCEEDED. Job c5e4269d ran 06:46:27\u201306:47:57Z, SUCCEEDED, with 360 rows read and 360 written. Run 3e941fa6 FAILED from 05:01:55 to 05:04:01 with error 2011 and the quoted message. The next run, 072455b4 at 05:08:06, SUCCEEDED. These details are given as context, not as the cause.\n\nThere are minor unattested details. The pipeline name and the claim that the card measure is defined as SUM('Movements'[units]) do not appear literally in the saved rows. The DAX query recreated the sum directly rather than calling the measure. But the recreated value equals the reported figure, and neither detail affects the cause, so neither is harmful. The answer is also honest about uncertainty: it says the snapshots aren't time-aligned and lists the unavailable checks.\n\nThe only dispute is handoff quality. Primary scored 0 on the grounds that no handoff was needed. That treats the empty handoff object as low quality, which judges the label rather than the substance. The answer is fully resolved and has a clear stop (ANSWERED). The queries are literal and can be rerun with their parameters, the evidence IDs are cited, and the gaps are labelled. Anyone following up can act on it, so 2 is right. Secondary's assessment is correct on every field, so secondary wins.",
+        "source_sha256": "2b8bb842c06f7c8d08f0c963cac446b8f91dab052044320f81bf7fd3e0464b90",
+        "ticket": "v2-warehouse-scope-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 30328,
+          "output_tokens": 1783,
+          "output_tokens_details": {
+            "thinking_tokens": 719
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -4627,6 +4873,966 @@
         }
       }
     },
+    "v2-screenshot-record-02": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-screenshot-record-03": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-screenshot-record-04": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-warehouse-scope": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v2-waiting-application-load": {
       "official_primary": {
         "all_three": {
@@ -6089,6 +7295,272 @@
       }
     },
     {
+      "ticket": "v2-screenshot-record-02-v3",
+      "class": "v2-screenshot-record-02",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'definition explained' / 'as designed' (the 21 units is not an aggregate but a single source transaction value), correctly identifies the layer as the source application (ordersops app.stock_movements_round_two_20261003), and correctly names the cause: movement_id 4 carries units=21 unchanged through the pipeline with no aggregation. This matches the sealed expectation that 'Visible values resolve uniquely to movement 4; units 21 carried unchanged through application path.' The answer confirmed this via actual native queries to ordersops and the lakehouse. No handoff is needed since the question was fully answered (handoff_quality is moot/0 for a completed answer).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer says \"definition explained\" and the sealed record says \"as designed\". The labels differ but mean the same thing for a how-is-this-calculated ticket: the reported 21 is correct behaviour, not a defect. The answer also directly rejects the user's guess that it was an aggregated sum. Layer: the answer traces the value to the source application, ordersops app.stock_movements_round_two_20261003. That matches the expected layer (source application, split HELD_OUT). Cause: the answer says the visible values warehouse_id=1, product_id=2, units=21 point uniquely to movement_id 4. It also says the units column has summarizeBy none and no SUM measure is in the visual, and that units 21 is carried unchanged from ordersops to the lakehouse. This matches the expected cause ('visible values resolve uniquely to movement 4; units 21 carried unchanged'). Three successful queries were actually run: the model DAX query, an ordersops query filtered on warehouse 1 / product 2, and a lakehouse query for movement_id 4. That meets the expectation that real queries establish the key and the agreement. The first lakehouse attempt failed with an endpoint error and a later retry succeeded. One limit: only 3 of the 19 model rows were shown to the grader, so the claim that only movement 4 has 21 cannot be fully re-checked from this record. It is still consistent with the expected answer, which says the match is unique. The answer also states its limits honestly: the reads were separate snapshots, and some triage checks were unavailable. Handoff: the handoff block is empty, but the answer is resolved. All queries are recorded word for word with their parameters, so they can be rerun, and the qualifications are clear. No disagreement with the expected answer.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-static10",
+      "outcome_sha256": "11c9c4b83a573f5089387d31c51a905db71ac53927ffacc063514032adce3e11",
+      "status": "ANSWERED",
+      "native_duration_seconds": 279.0,
+      "worker_wall_seconds": 251.09583239699998,
+      "investigation_cost_microdollars": 430370,
+      "physical_requests": 23,
+      "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-screenshot-record-02-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 241471,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved queries show: the report-model DAX query (SUCCEEDED, 19 rows, all saved) for warehouse 1 / product 2 returns units 21, 6, 4, 39, 33, 29, 16, 10, 16, 25, 2, 23, 38, 2, 29, 12, 28, 23, 26. Only movement_id 4 has 21. The ordersops query on app.stock_movements_round_two_20261003 (SUCCEEDED, 19 rows) returns the same 19 IDs with identical units. Movement 4 is 21 units, ISSUE, event_day 2026-09-11. The first filtered lakehouse read failed with an endpoint error (LowerReadError). The narrower read by movement_id 4 succeeded and returned units 21. So the record proves the sealed expectation: the visible values resolve uniquely to movement 4, and 21 is the same at source, lakehouse and model, backed by real queries. Verdict: 'definition explained' and 'as designed' mean the same thing here. 21 is a single transaction value, not a sum, and the answer explicitly rejects the user's aggregation guess. Verdict match. Layer: the answer names the source application table in ordersops. Layer match. Cause: 'unique to movement 4, carried unchanged' is supported by the queries. Cause match. All three match, so the answer is not partial. Caveat: the claims that units has summarizeBy none, that the visual uses no measure, and that the copy job maps units straight across with an overwrite load are not backed by any saved file contents. The visual, model and copy-job files appear only as paths in a rejected submit_finding draft. These claims are plausible and consistent with the query results but unverified. The core conclusion does not depend on them, so the answer is not harmful. The answer is honest about its limits: separate snapshot reads, and only movement 4 read at the lakehouse. Handoff: the case is answered, every query is saved word for word with parameters, and qualifications are explicit, so 2 is right. The primary grader's 0 ('moot') undervalues a complete, reproducible answer. The secondary grader's scores are correct, but it wrongly says only 3 of the 19 model rows were shown to it. All 19 are in the record and confirm the match is unique. That mistake does not change its conclusions. The secondary grader wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "11c9c4b83a573f5089387d31c51a905db71ac53927ffacc063514032adce3e11",
+        "reason": "What the saved queries show: the report-model DAX query (SUCCEEDED, 19 rows, all saved) for warehouse 1 / product 2 returns units 21, 6, 4, 39, 33, 29, 16, 10, 16, 25, 2, 23, 38, 2, 29, 12, 28, 23, 26. Only movement_id 4 has 21. The ordersops query on app.stock_movements_round_two_20261003 (SUCCEEDED, 19 rows) returns the same 19 IDs with identical units. Movement 4 is 21 units, ISSUE, event_day 2026-09-11. The first filtered lakehouse read failed with an endpoint error (LowerReadError). The narrower read by movement_id 4 succeeded and returned units 21. So the record proves the sealed expectation: the visible values resolve uniquely to movement 4, and 21 is the same at source, lakehouse and model, backed by real queries. Verdict: 'definition explained' and 'as designed' mean the same thing here. 21 is a single transaction value, not a sum, and the answer explicitly rejects the user's aggregation guess. Verdict match. Layer: the answer names the source application table in ordersops. Layer match. Cause: 'unique to movement 4, carried unchanged' is supported by the queries. Cause match. All three match, so the answer is not partial. Caveat: the claims that units has summarizeBy none, that the visual uses no measure, and that the copy job maps units straight across with an overwrite load are not backed by any saved file contents. The visual, model and copy-job files appear only as paths in a rejected submit_finding draft. These claims are plausible and consistent with the query results but unverified. The core conclusion does not depend on them, so the answer is not harmful. The answer is honest about its limits: separate snapshot reads, and only movement 4 read at the lakehouse. Handoff: the case is answered, every query is saved word for word with parameters, and qualifications are explicit, so 2 is right. The primary grader's 0 ('moot') undervalues a complete, reproducible answer. The secondary grader's scores are correct, but it wrongly says only 3 of the 19 model rows were shown to it. All 19 are in the record and confirm the match is unique. That mistake does not change its conclusions. The secondary grader wins.",
+        "source_sha256": "8c627c55963f62ecf6232e253b846a127cab9a02e5338b0d7a9857c99195aa5b",
+        "ticket": "v2-screenshot-record-02-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 44694,
+          "output_tokens": 2915,
+          "output_tokens_details": {
+            "thinking_tokens": 912
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v3",
+      "class": "v2-screenshot-record-03",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'as designed' (definition explained / straight copy), correctly names the source application layer (ordersops app.stock_movements_round_two_20261003), and correctly identifies the cause as movement 5 carrying units=3 unchanged through all layers with no aggregation or transformation. The agent traced the record through ordersops source, landing lakehouse, and the Power BI model, confirming units=3 at every stage. All four numbers (movement_id=5, warehouse_id=2, product_id=3, units=3) are confirmed. This matches the sealed expected cause ('Visible values resolve uniquely to movement 5; units 3 carried unchanged through application path') and layer ('source application'). The handoff includes well-formed rerunnable queries at all three layers with clear stopping points and honest qualification of limitations.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed'. The answer says 'definition explained' and states that units=3 is copied straight from the source with no aggregation or transformation. That is the same finding as 'as designed', so it counts as a match despite the different label. Layer: the expected layer is the source application. The answer traces the record back to the ordersops source table app.stock_movements_round_two_20261003 and reads the row there, which matches. Cause: the expected cause is that the visible values point to exactly one record, movement 5, and units=3 passes through unchanged, confirmed by real native queries. The answer's queries show this. The model filter on warehouse 2 / product 3 returned 8 rows, and the only one with units=3 is movement 5. Lookups of movement 5 in the ordersops source, the lakehouse and the model each return warehouse 2, product 3, units 3. The answer also correctly rejects the user's guess that some aggregation is involved, since the visual shows the raw columns rather than the SUM measure. Minor note: some pipeline-failure details (run 3e941fa6, error 2011, described as a deliberate test failure) can't be checked against the projected evidence because the run history was omitted from the grader. These details are side context, not part of the cause, and do not affect the scores. Handoff: all queries are recorded word for word and can be rerun, the limitations (separate current reads, not a matched snapshot; no retained history read) are stated, and no unresolved stopping point is needed.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-static11",
+      "outcome_sha256": "ecc7b6355263299305eda430f84ee8e84cac5cc28d57b085d39026f0118050e3",
+      "status": "ANSWERED",
+      "native_duration_seconds": 321.0,
+      "worker_wall_seconds": 288.2911520969999,
+      "investigation_cost_microdollars": 491888,
+      "physical_requests": 30,
+      "model_calls": 7,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-screenshot-record-03-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed"
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v3",
+      "class": "v2-screenshot-record-04",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered says 'observed value' which maps to 'as designed' \u2014 the row is real, not a placeholder, matching the sealed verdict. Layer: delivered identifies the source application (ordersops app.stock_movements_round_two_20261003) as the layer, matching 'source application'. Cause: delivered correctly identifies movement_id 7 with units=20 carried unchanged through the application path, matching the sealed cause of 'Visible values resolve uniquely to movement 7; units 20 carried unchanged through application path.' The queries confirm movement_id=7 in both the DAX model and the ordersops source. All three dimensions match. The answer is fully resolved with a clear conclusion, so handoff_quality is scored 0 (not applicable since the answer is complete \u2014 but the field requires a value; since it is resolved, there is nothing to hand off, so 0 is appropriate as the baseline).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed'. The answer says 'observed value' and explains that units=20 is a real stored quantity, not a placeholder. Both mean the value is legitimate and expected, so this matches in substance even though the label differs. Layer: the expected layer is the source application. The answer traces the value to the ordersops app.stock_movements_round_two_20261003 row, so this matches. Cause: the expected cause says the visible values resolve uniquely to movement 7 and units 20 passes through unchanged, and that real queries must prove both. The queries in the record do that. The DAX query with all three filters (warehouse_id=3, product_id=2, units=20) returned exactly one row, movement_id=7, units=20. The ordersops SQL query with the same three filters returned 1 row: movement 7, RECEIPT, 2026-09-16, units 20. The lakehouse query returned the identical row. A broader query on warehouse 3 and product 2 returned 12 rows, so filtering on units=20 is needed to make the match unique. The model schema shows units has summarizeBy none, so it is not aggregated. The answer's numbers (7, 3, 2, 20) agree with the query results. Its caveats are fair: the reads are separate snapshots and their alignment is not established. One claim is not shown in the record: that ordersops units is NOT NULL with no default. This is a minor extra claim and does not change the cause. The expected record lists the split as HELD_OUT, and the answer does not contradict it. There is no disagreement in substance. Handoff: the answer is resolved, but its queries are recorded verbatim with their parameters and can be rerun, it says where it stopped, and it names the checks it could not run.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-static12",
+      "outcome_sha256": "861b355fd9caaab30f516e1cf76c4e474ea5f0f2bebe82325272867c8873abd8",
+      "status": "ANSWERED",
+      "native_duration_seconds": 298.0,
+      "worker_wall_seconds": 261.89653051000005,
+      "investigation_cost_microdollars": 417817,
+      "physical_requests": 28,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-screenshot-record-04-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 274267,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: four queries that actually ran agree on one record. Query 1 (DAX, filtered on warehouse 3, product 2, units 20) returned 1 row: movement_id 7, units 20. Query 8 (DAX SUMMARIZECOLUMNS, same filters) returned the same row. Query 2 (lakehouse SQL) returned 1 row: movement 7, RECEIPT, 2026-09-16, units 20, modified 2026-10-03 22:51:16. Query 3 (ordersops SQL) returned the identical row. Queries 6 and 7 filtered only on warehouse 3 and product 2 and returned 12 identical rows in both layers; movement 7 is the only one with 20 units. Query 4 rebuilt the visual and got 10 distinct units values, including 20. The schema slice shows units maps straight to its source column with summarizeBy none. Query 5 errored, and the answer does not rely on it.\n\nThe record_trace tool's summary (model UNAVAILABLE because the key column was missing; 0 matching rows in both lower layers) contradicts the raw results of the same queries, which show row_count 1. That summary is a tool artifact. An earlier draft treated it as a real mismatch, and the submission gate rejected that draft. The final answer leaves the artifact out and relies on the real query results, which is supportable.\n\nScoring: 'observed value' with 'real stored quantity, not a placeholder' means the same as the sealed 'as designed', so the verdict matches. The ordersops app table is the source application, so the layer matches. The sealed cause is that movement 7 is the unique match and its 20 units pass through unchanged, proven by real queries. The saved queries establish exactly that, so the cause matches. All three criteria are met; partial = false.\n\nOverclaims: nothing in the saved evidence supports 'ordersops units is NOT NULL with no default'. There is also no read of the copy-job column mapping, so 'copy job maps units straight to units' is inferred only from identical values. The visual's definition was never read, so 'visual shows distinct combinations' is inferred from the rebuilt query. These claims are stated confidently but do not change the core finding or mislead the user, so the answer is not harmful.\n\nHandoff: the queries are saved verbatim with their parameters and can be rerun, and the answer flags that the layer reads were not aligned in time. However, the confident claims without evidence lower the quality, so I score handoff 1.\n\nOn the graders: both are right on verdict, layer, cause, harm and partial. Primary's handoff score of 0, justified as 'not applicable', is not reasoned from the evidence, and its review missed the unsupported claims. Secondary checked each query result against the answer and caught the NOT NULL claim, though it missed the copy-mapping claim and its handoff score of 2 is a little generous. Secondary's assessment is more faithful to the evidence.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "861b355fd9caaab30f516e1cf76c4e474ea5f0f2bebe82325272867c8873abd8",
+        "reason": "What the raw capture shows: four queries that actually ran agree on one record. Query 1 (DAX, filtered on warehouse 3, product 2, units 20) returned 1 row: movement_id 7, units 20. Query 8 (DAX SUMMARIZECOLUMNS, same filters) returned the same row. Query 2 (lakehouse SQL) returned 1 row: movement 7, RECEIPT, 2026-09-16, units 20, modified 2026-10-03 22:51:16. Query 3 (ordersops SQL) returned the identical row. Queries 6 and 7 filtered only on warehouse 3 and product 2 and returned 12 identical rows in both layers; movement 7 is the only one with 20 units. Query 4 rebuilt the visual and got 10 distinct units values, including 20. The schema slice shows units maps straight to its source column with summarizeBy none. Query 5 errored, and the answer does not rely on it.\n\nThe record_trace tool's summary (model UNAVAILABLE because the key column was missing; 0 matching rows in both lower layers) contradicts the raw results of the same queries, which show row_count 1. That summary is a tool artifact. An earlier draft treated it as a real mismatch, and the submission gate rejected that draft. The final answer leaves the artifact out and relies on the real query results, which is supportable.\n\nScoring: 'observed value' with 'real stored quantity, not a placeholder' means the same as the sealed 'as designed', so the verdict matches. The ordersops app table is the source application, so the layer matches. The sealed cause is that movement 7 is the unique match and its 20 units pass through unchanged, proven by real queries. The saved queries establish exactly that, so the cause matches. All three criteria are met; partial = false.\n\nOverclaims: nothing in the saved evidence supports 'ordersops units is NOT NULL with no default'. There is also no read of the copy-job column mapping, so 'copy job maps units straight to units' is inferred only from identical values. The visual's definition was never read, so 'visual shows distinct combinations' is inferred from the rebuilt query. These claims are stated confidently but do not change the core finding or mislead the user, so the answer is not harmful.\n\nHandoff: the queries are saved verbatim with their parameters and can be rerun, and the answer flags that the layer reads were not aligned in time. However, the confident claims without evidence lower the quality, so I score handoff 1.\n\nOn the graders: both are right on verdict, layer, cause, harm and partial. Primary's handoff score of 0, justified as 'not applicable', is not reasoned from the evidence, and its review missed the unsupported claims. Secondary checked each query result against the answer and caught the NOT NULL claim, though it missed the copy-mapping claim and its handoff score of 2 is a little generous. Secondary's assessment is more faithful to the evidence.",
+        "source_sha256": "0642920624142a7d83bc1b85ded3d88f246e76f38e2c378696e0d6fcab355a27",
+        "ticket": "v2-screenshot-record-04-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 55733,
+          "output_tokens": 2347,
+          "output_tokens_details": {
+            "thinking_tokens": 1143
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v2-warehouse-scope-v3",
+      "class": "v2-warehouse-scope",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Delivered verdict is 'different question', matching the sealed expected verdict. Layer is 'selection scope' (different warehouse_id filter applied to the report vs the source query), which matches the sealed 'selection scope'. Cause is correctly identified as different warehouse restrictions (warehouse_id 1 vs warehouse_id 2), matching the sealed cause. The answer is fully resolved with direct query evidence across three layers (semantic model, lakehouse, source DB), so handoff quality is 0 (no unresolved handoff needed). No harmful incorrect cause is stated. Failing step is none as the answer is complete and correct.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'different question' and the sealed record says 'different question', so they match. Layer/split: the sealed layer is selection scope. The delivered answer puts the gap in the warehouse filter (warehouse_id 1 on the card vs warehouse_id 2 in the source pull), which is a selection-scope difference, so it matches. Cause: the sealed cause is different warehouse restrictions (1 vs 2), not an ingestion or arithmetic fault. The delivered answer says the same thing. It shows 2948 for warehouse 1 at the semantic model, the lakehouse and the source, and shows the source returns 2084 for warehouse 2. It also explicitly rejects the user's stale/cache guess, so the cause matches in substance. The evidence backs the claim: four SUCCEEDED queries with literal SQL/DAX and parameters, and the numbers agree with the intake figures. The extra run-history details (successful refresh, one earlier failed pipeline run followed by successful ones) are correct context. They are not offered as the cause, so they are not harmful. The time-alignment caveats are honest. I found no disagreement with the expectation. Handoff: this is a resolved answer, so the handoff object is empty. It is still useful: the queries are literal and can be rerun with their parameters, the stopping point is clear (ANSWERED), and unavailable checks are labelled. That earns a 2. This handoff score is separate from the verdict/layer/cause credit.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-static13",
+      "outcome_sha256": "8924208ec2ee3156cded24a68034d4db228f1dae6de6549ff64bcdeb136b56aa",
+      "status": "ANSWERED",
+      "native_duration_seconds": 148.0,
+      "worker_wall_seconds": 122.41815817200006,
+      "investigation_cost_microdollars": 234115,
+      "physical_requests": 24,
+      "model_calls": 2,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-warehouse-scope-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "different question",
+      "raw_review": {
+        "cost_microdollars": 161367,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: four queries, all with status SUCCEEDED and their literal text and parameters saved. (1) The DAX query CALCULATE(SUM('Movements'[units]), warehouse_id=1) on the model returns 2948. (2) The ordersops app.stock_movements_round_two_20261003 table with @p0=1 returns 2948. (3) The same source table with @p0=2 returns 2084. (4) The lakehouse dbo.stock_movements_round_two_20261003 table with @p0=1 returns 2948. The report figure (2948, warehouse 1) shows up in all three layers. The user's 2084 matches exactly the source total for warehouse 2. That directly supports the verdict 'different question', a selection-scope layer, and the cause 'warehouse 1 vs 2 restriction, not stale/cached data'. This matches the sealed expectation on verdict, layer and cause, so it scores under the all-three rule, and partial=false.\n\nI checked the run-history claims against triage, and they are accurate. Model refresh 764823533 ran 04:56:29\u201304:56:54Z and SUCCEEDED. Job c5e4269d ran 06:46:27\u201306:47:57Z, SUCCEEDED, with 360 rows read and 360 written. Run 3e941fa6 FAILED from 05:01:55 to 05:04:01 with error 2011 and the quoted message. The next run, 072455b4 at 05:08:06, SUCCEEDED. These details are given as context, not as the cause.\n\nThere are minor unattested details. The pipeline name and the claim that the card measure is defined as SUM('Movements'[units]) do not appear literally in the saved rows. The DAX query recreated the sum directly rather than calling the measure. But the recreated value equals the reported figure, and neither detail affects the cause, so neither is harmful. The answer is also honest about uncertainty: it says the snapshots aren't time-aligned and lists the unavailable checks.\n\nThe only dispute is handoff quality. Primary scored 0 on the grounds that no handoff was needed. That treats the empty handoff object as low quality, which judges the label rather than the substance. The answer is fully resolved and has a clear stop (ANSWERED). The queries are literal and can be rerun with their parameters, the evidence IDs are cited, and the gaps are labelled. Anyone following up can act on it, so 2 is right. Secondary's assessment is correct on every field, so secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "8924208ec2ee3156cded24a68034d4db228f1dae6de6549ff64bcdeb136b56aa",
+        "reason": "What the raw capture shows: four queries, all with status SUCCEEDED and their literal text and parameters saved. (1) The DAX query CALCULATE(SUM('Movements'[units]), warehouse_id=1) on the model returns 2948. (2) The ordersops app.stock_movements_round_two_20261003 table with @p0=1 returns 2948. (3) The same source table with @p0=2 returns 2084. (4) The lakehouse dbo.stock_movements_round_two_20261003 table with @p0=1 returns 2948. The report figure (2948, warehouse 1) shows up in all three layers. The user's 2084 matches exactly the source total for warehouse 2. That directly supports the verdict 'different question', a selection-scope layer, and the cause 'warehouse 1 vs 2 restriction, not stale/cached data'. This matches the sealed expectation on verdict, layer and cause, so it scores under the all-three rule, and partial=false.\n\nI checked the run-history claims against triage, and they are accurate. Model refresh 764823533 ran 04:56:29\u201304:56:54Z and SUCCEEDED. Job c5e4269d ran 06:46:27\u201306:47:57Z, SUCCEEDED, with 360 rows read and 360 written. Run 3e941fa6 FAILED from 05:01:55 to 05:04:01 with error 2011 and the quoted message. The next run, 072455b4 at 05:08:06, SUCCEEDED. These details are given as context, not as the cause.\n\nThere are minor unattested details. The pipeline name and the claim that the card measure is defined as SUM('Movements'[units]) do not appear literally in the saved rows. The DAX query recreated the sum directly rather than calling the measure. But the recreated value equals the reported figure, and neither detail affects the cause, so neither is harmful. The answer is also honest about uncertainty: it says the snapshots aren't time-aligned and lists the unavailable checks.\n\nThe only dispute is handoff quality. Primary scored 0 on the grounds that no handoff was needed. That treats the empty handoff object as low quality, which judges the label rather than the substance. The answer is fully resolved and has a clear stop (ANSWERED). The queries are literal and can be rerun with their parameters, the evidence IDs are cited, and the gaps are labelled. Anyone following up can act on it, so 2 is right. Secondary's assessment is correct on every field, so secondary wins.",
+        "source_sha256": "2b8bb842c06f7c8d08f0c963cac446b8f91dab052044320f81bf7fd3e0464b90",
+        "ticket": "v2-warehouse-scope-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 30328,
+          "output_tokens": 1783,
+          "output_tokens_details": {
+            "thinking_tokens": 719
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "v2-waiting-application-load-v3",
       "class": "v2-waiting-application-load",
       "fixture": "waiting",
@@ -6168,11 +7640,7 @@
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 20,
   "not_yet_graded": [
-    "v2-stale-model-v3",
-    "v2-warehouse-scope-v3",
-    "v2-screenshot-record-02-v3",
-    "v2-screenshot-record-03-v3",
-    "v2-screenshot-record-04-v3"
+    "v2-stale-model-v3"
   ],
   "status": "IN_PROGRESS",
   "per_expected_verdict_class": {
@@ -7139,141 +8607,141 @@
     "as designed": {
       "official_primary": {
         "all_three": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 5,
+          "total": 8,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.43448246478317476,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "strict": {
         "all_three": {
-          "correct": 3,
-          "total": 5,
-          "accuracy": 0.6,
-          "lower": 0.2307242812760128,
-          "upper": 0.882379225767352,
+          "correct": 6,
+          "total": 8,
+          "accuracy": 0.75,
+          "lower": 0.40927543031016883,
+          "upper": 0.9285207872478909,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 3,
-          "total": 5,
-          "accuracy": 0.6,
-          "lower": 0.2307242812760128,
-          "upper": 0.882379225767352,
+          "correct": 6,
+          "total": 8,
+          "accuracy": 0.75,
+          "lower": 0.40927543031016883,
+          "upper": 0.9285207872478909,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 5,
+          "total": 8,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.43448246478317476,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "raw_reviewed": {
         "all_three": {
-          "correct": 3,
-          "total": 5,
-          "accuracy": 0.6,
-          "lower": 0.2307242812760128,
-          "upper": 0.882379225767352,
+          "correct": 6,
+          "total": 8,
+          "accuracy": 0.75,
+          "lower": 0.40927543031016883,
+          "upper": 0.9285207872478909,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 5,
-          "total": 5,
+          "correct": 8,
+          "total": 8,
           "accuracy": 1.0,
-          "lower": 0.5655175352168251,
+          "lower": 0.6755924351161198,
           "upper": 1.0,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 5,
+          "total": 8,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.43448246478317476,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -7283,94 +8751,94 @@
       "headline": "raw_reviewed",
       "primary": {
         "all_three": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 5,
+          "total": 8,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.43448246478317476,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "secondary": {
         "all_three": {
-          "correct": 3,
-          "total": 5,
-          "accuracy": 0.6,
-          "lower": 0.2307242812760128,
-          "upper": 0.882379225767352,
+          "correct": 6,
+          "total": 8,
+          "accuracy": 0.75,
+          "lower": 0.40927543031016883,
+          "upper": 0.9285207872478909,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 5,
-          "total": 5,
+          "correct": 8,
+          "total": 8,
           "accuracy": 1.0,
-          "lower": 0.5655175352168251,
+          "lower": 0.6755924351161198,
           "upper": 1.0,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 4,
-          "total": 5,
-          "accuracy": 0.8,
-          "lower": 0.37553462976252533,
-          "upper": 0.9637758913675698,
+          "correct": 7,
+          "total": 8,
+          "accuracy": 0.875,
+          "lower": 0.5291118177871464,
+          "upper": 0.9775825085499433,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 5,
+          "total": 8,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.43448246478317476,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -7856,6 +9324,246 @@
         }
       }
     },
+    "different question": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting on job": {
       "official_primary": {
         "all_three": {
@@ -8100,33 +9808,33 @@
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 15,
-      "native_observed": 15,
+      "tickets": 19,
+      "native_observed": 19,
       "native_missing": 0,
-      "native_median_seconds": 211.0,
-      "native_p90_seconds": 261.0,
-      "worker_median_seconds": 184.75919402300002,
-      "worker_p90_seconds": 231.61342242,
-      "investigation_cost_microdollars_observed": 6418162,
-      "cost_observed": 15,
+      "native_median_seconds": 213.0,
+      "native_p90_seconds": 298.0,
+      "worker_median_seconds": 185.61397975599994,
+      "worker_p90_seconds": 261.89653051000005,
+      "investigation_cost_microdollars_observed": 7992352,
+      "cost_observed": 19,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.42787746666666665,
-      "physical_requests_observed": 415,
+      "cost_per_observed_ticket_usd": 0.42065010526315794,
+      "physical_requests_observed": 520,
       "physical_requests_unavailable": 0
     },
     "full_investigation": {
-      "tickets": 14,
-      "native_observed": 14,
+      "tickets": 18,
+      "native_observed": 18,
       "native_missing": 0,
-      "native_median_seconds": 212.0,
-      "native_p90_seconds": 261.0,
-      "worker_median_seconds": 185.18658688949998,
-      "worker_p90_seconds": 231.61342242,
-      "investigation_cost_microdollars_observed": 6044804,
-      "cost_observed": 14,
+      "native_median_seconds": 215.5,
+      "native_p90_seconds": 298.0,
+      "worker_median_seconds": 188.81677972149998,
+      "worker_p90_seconds": 261.89653051000005,
+      "investigation_cost_microdollars_observed": 7618994,
+      "cost_observed": 18,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.43177171428571426,
-      "physical_requests_observed": 396,
+      "cost_per_observed_ticket_usd": 0.42327744444444443,
+      "physical_requests_observed": 501,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {
