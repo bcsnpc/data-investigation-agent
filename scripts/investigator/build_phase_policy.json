@@ -57,5 +57,19 @@
       },
       "model_microdollars": 150000000
     }
+  },
+  "round26": {
+    "approval": "owner-approved 2026-11-01",
+    "per_ticket_actual_microdollars": 3000000,
+    "providers": {
+      "anthropic": {
+        "ceiling_microdollars": 150000000,
+        "warning_microdollars": 100000000
+      },
+      "openai": {
+        "ceiling_microdollars": 180000000,
+        "warning_microdollars": 140000000
+      }
+    }
   }
 }
