@@ -36,7 +36,7 @@ def authorize_body(permissions, method, url, raw):
         raise ValueError('PROVIDER_ENDPOINT_REFUSED')
     body = json.loads(raw) if isinstance(raw, (str, bytes)) else raw
     required = {'model', 'input', 'tools', 'max_output_tokens', 'store'}
-    if not isinstance(body, dict) or not required <= body.keys() <= required | {'prompt_cache_options'}:
+    if not isinstance(body, dict) or not required <= body.keys() <= required | {'prompt_cache_options', 'include'}:
         raise ValueError('PROVIDER_BODY_SHAPE')
     if body['model'] not in spec.get('models', []) or body['store'] is not False:
         raise ValueError('MODEL_NOT_CONFIGURED_OR_STORAGE_ENABLED')
@@ -51,6 +51,8 @@ def authorize_body(permissions, method, url, raw):
             raise ValueError('TOOL_NOT_CONFIGURED')
     if 'prompt_cache_options' in body and body['prompt_cache_options'] != {'mode': 'explicit', 'ttl': '30m'}:
         raise ValueError('CACHE_POLICY_NOT_CONFIGURED')
+    if body.get('include', []) not in ([], ['reasoning.encrypted_content']):
+        raise ValueError('PROVIDER_STATE_POLICY_REFUSED')
 
 
 class Client:

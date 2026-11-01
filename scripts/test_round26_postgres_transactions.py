@@ -6,6 +6,26 @@ from investigator.shared_state import SharedState, StateConflict, TRANSACTION_AC
 
 
 class ShortTransactionsTests(unittest.TestCase):
+    def test_graph_reads_do_not_take_shared_writer_transactions(self):
+        from investigator.estate_graph_repository import GraphRepository
+        from test_estate_graph import graph
+        repo = GraphRepository(self.state); repo.migrate(); repo.replace(graph())
+        with patch.object(self.state, 'transaction', wraps=self.state.transaction) as transactions:
+            repo.records('estate')
+            repo.path_records('estate', {'visual'}, {'visual', 'measure', 'column'})
+            repo.changes('estate')
+        self.assertTrue(transactions.call_args_list)
+        self.assertTrue(all(c.kwargs.get('_read_only') is True for c in transactions.call_args_list))
+
+    def test_owner_health_is_one_bounded_read_not_one_connection_per_owner(self):
+        from investigator.graph_scan_health import record, unavailable
+        for i in range(20):record(self.state, 'e', str(i), '2026-11-01T00:00:00Z', 'UNAVAILABLE', 'synthetic')
+        with patch.object(self.state, '_read_transaction', wraps=self.state._read_transaction) as reads, \
+             patch.object(self.state, 'get', side_effect=AssertionError('No per-owner connection')):
+            result = unavailable(self.state, 'e', {str(i) for i in range(20)})
+        self.assertEqual(len(result), 20)
+        self.assertEqual(reads.call_count, 1)
+
     def setUp(self):
         directory = TemporaryDirectory(); self.addCleanup(directory.cleanup)
         self.state = SharedState.offline(Path(directory.name) / 'state.sqlite')

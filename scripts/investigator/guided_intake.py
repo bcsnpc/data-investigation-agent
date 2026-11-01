@@ -36,6 +36,9 @@ SCHEMA = {'$schema': 'https://json-schema.org/draft/2020-12/schema',
     'reported_figure': FIGURE,
     'details': {'type': 'object', 'additionalProperties': False, 'properties': {
         'record': {'type': 'string', 'minLength': 1}, 'approximate_date': {'type': 'string'},
+        'users': {'type': 'array', 'maxItems': 20, 'items': ID},
+        'roles': {'type': 'array', 'maxItems': 20, 'items': ID},
+        'table': ID,
         'date_range': {'type': 'object', 'properties': {'from': ID, 'to': ID},
                        'required': ['from', 'to'], 'additionalProperties': False},
         'filters': {'type': 'array', 'items': {'type': 'object', 'properties': {

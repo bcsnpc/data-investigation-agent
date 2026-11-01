@@ -37,6 +37,19 @@ class ProviderContractTests(unittest.TestCase):
         a = self.response(); b = deepcopy(a); b['output'][0]['arguments'] = '{"query":"SELECT 2"}'
         self.assertNotEqual(openai_reply(a).content, openai_reply(b).content)
 
+    def test_opaque_reasoning_state_is_returned_unchanged_with_tool_results(self):
+        response = self.response()
+        opaque = {'id': 'rs_1', 'type': 'reasoning', 'summary': [], 'encrypted_content': 'opaque-synthetic'}
+        response['output'].insert(0, opaque)
+        reply = openai_reply(response)
+        body = openai_request(model='synthetic', system='fixed', tools=[], max_tokens=10,
+            messages=[{'role': 'assistant', 'content': reply.content},
+                      {'role': 'user', 'content': [{'type': 'tool_result', 'tool_use_id': 'call1', 'content': 'result'}]}])
+        self.assertEqual(body['input'][1], opaque)
+        self.assertEqual(body['input'][2]['call_id'], 'call1')
+        self.assertEqual(body['input'][3]['call_id'], 'call1')
+        self.assertEqual(body['include'], ['reasoning.encrypted_content'])
+
     def test_invalid_usage_and_unfinished_responses_refuse(self):
         for counts in ((10, 11, 0, 1), (10, 0, 0, -1), (True, 0, 0, 0)):
             with self.assertRaises(ValueError): Usage(*counts)

@@ -96,13 +96,18 @@ def openai_request(*, model, system, messages, tools, max_tokens, explicit_cache
                 output = block['content']
                 inputs.append({'type': 'function_call_output', 'call_id': block['tool_use_id'],
                                'output': output if isinstance(output, str) else json.dumps(output, sort_keys=True)})
+            elif kind == 'provider_state':
+                flush()
+                if block.get('provider') not in ('openai', 'azure_openai') or block.get('item', {}).get('type') != 'reasoning':
+                    raise ValueError('UNSUPPORTED_PROVIDER_STATE')
+                inputs.append(deepcopy(block['item']))
             else:
                 raise ValueError('UNSUPPORTED_INTERNAL_CONTENT:' + kind)
         flush()
     body = {'model': model, 'input': inputs, 'tools': [
         {'type': 'function', 'name': t['name'], 'description': t['description'],
          'parameters': deepcopy(t['input_schema']), 'strict': False} for t in tools],
-        'max_output_tokens': max_tokens, 'store': False}
+        'max_output_tokens': max_tokens, 'store': False, 'include': ['reasoning.encrypted_content']}
     if explicit_cache:
         body['prompt_cache_options'] = {'mode': 'explicit', 'ttl': '30m'}
     return body
@@ -124,7 +129,9 @@ def openai_reply(response, *, provider='openai'):
                     content.append({'type': 'text', 'text': block['text']})
                 elif block['type'] == 'refusal':
                     content.append({'type': 'text', 'text': block['refusal']})
-        elif item['type'] != 'reasoning':
+        elif item['type'] == 'reasoning':
+            content.append({'type': 'provider_state', 'provider': provider, 'item': deepcopy(item)})
+        else:
             raise ValueError('UNSUPPORTED_PROVIDER_OUTPUT:' + item['type'])
     status = response.get('status')
     reason = ((response.get('incomplete_details') or {}).get('reason'))
