@@ -406,6 +406,8 @@ def prefill(text, proposed, catalog, *, provenance=None):
     if direct_target:
         result['resolution_assumptions']=[{'name': direct_target['name'], 'basis': 'UNIQUE_NAMED_CATALOG_OBJECT', 'object': direct_target['id']}]
     elif assumption:result['resolution_assumptions']=[assumption]
+    selected=direct_target or (reports[0] if len(reports)==1 else None)
+    result['resolution_confidence']=selected['confidence'] if selected else 'UNVERIFIED'
     return result
 
 

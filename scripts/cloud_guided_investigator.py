@@ -17,8 +17,10 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing','intake_cascade','investigator_cascade'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
+    if 'intake_cascade' in value and type(value['intake_cascade'])is not bool:raise ValueError('INTAKE_CASCADE_BOOLEAN_REQUIRED')
+    if 'investigator_cascade' in value and type(value['investigator_cascade'])is not bool:raise ValueError('INVESTIGATOR_CASCADE_BOOLEAN_REQUIRED')
     if type(value['max_requests']) is not int or not 1<=value['max_requests']<=100:
         raise ValueError('GUIDED_PHYSICAL_REQUEST_BOUND')
     graph=value['graph']
@@ -72,7 +74,12 @@ def run(plan,context):
     if manifest.get('recording',{}).get('tape_class','EXACT')!='EXACT':
         raise ValueError('GUIDED_PROJECTED_STORAGE_NOT_INSTALLED_NO_RAW_FALLBACK')
     root=Path(context.root);root.mkdir(parents=True,exist_ok=True)
-    def record(value):return context.record('guided-case-event',value)
+    ai_usage=[]
+    def record(value):
+        if value.get('event')=='AI_NORMALIZED_USAGE':ai_usage.append(value)
+        return context.record('guided-case-event',value)
+    from investigator.ai_cost_report import summarize as step_costs
+    intake_resolution=None
     graph_spec=spec['graph']
     graph=GraphAPI(GraphRepository(state),current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
                    allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
@@ -127,11 +134,19 @@ def run(plan,context):
         admission = admit_operational(submitted, {'candidates': list(catalog.nodes.values())})
         if admission['status'] == 'READY':operational_admission = admission
     if set(submitted)=={'text'} and operational_admission is None:
-        mapped=Resolver(catalog=catalog,model=model(case_id,'INTAKE'),record=record).resolve(submitted['text'])
+        if spec.get('intake_cascade'):
+            from investigator.intake_cascade import Cascade
+            mapped=Cascade(catalog=catalog,first_model=model(case_id,'INTAKE'),
+                fallback_model=lambda:model(case_id,'INTAKE_FALLBACK'),record=record).resolve(submitted['text'])
+        else:mapped=Resolver(catalog=catalog,model=model(case_id,'INTAKE'),record=record).resolve(submitted['text'])
+        intake_resolution=mapped.get('intake_cascade')
+        record({'event':'GUIDED_INTAKE_ADMISSION','status':mapped['status'],
+                'resolution':intake_resolution,'confidence':mapped.get('resolution_confidence')})
         if mapped['status']!='READY':
             business=mapped.get('question','A named choice is needed before investigation.')
             return {'status':'NEEDS_INPUT','business':business,'outputs':{'business':business,'technical':json.dumps(mapped)},
-                    'intake':mapped,'cost':budget(case_id).status(),'physical_requests':0}
+                    'intake':mapped,'intake_resolution':intake_resolution,'ai_step_costs':step_costs(ai_usage),
+                    'cost':budget(case_id).status(),'physical_requests':0}
         submitted={'intake':mapped['intake'],'source':mapped['source']}
     if operational_admission is None and (not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}):
         raise ValueError('GUIDED_TICKET_ENVELOPE')
@@ -211,6 +226,7 @@ def run(plan,context):
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
         context_for=native_catalog.context,triage_for=triage,model_for=model,
         model_for_step=model,
+        investigator_cascade=spec.get('investigator_cascade',False),
         prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,candidate_details=native_catalog.candidate_details,
         screenshot_reader=screenshot_reader,
         security_definitions=security,
@@ -229,6 +245,7 @@ def run(plan,context):
             phases.append({'phase':'triage-and-investigation','seconds':time.monotonic()-investigated})
         outcome=result['outcome']
         output={**outcome,'ticket':submitted['intake'],'case_id':queued['id'],
+                'intake_resolution':intake_resolution,'ai_step_costs':step_costs(ai_usage),
                 'physical_requests':meter.used,'budget_before':meter.before,'budget_after':meter.usage.snapshot(),
                 'cost':budget(case_id).status(),'timing':{**outcome.get('timing',{}),'wall_seconds':time.monotonic()-started,'phases':phases},
                 'outputs':{'business':outcome['business'],'technical':json.dumps(outcome.get('technical',outcome.get('handoff',{})),ensure_ascii=False)}}

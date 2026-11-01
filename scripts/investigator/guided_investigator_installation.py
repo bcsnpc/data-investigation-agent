@@ -15,7 +15,7 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None,model_for_step=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None,model_for_step=None,investigator_cascade=False):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
@@ -23,6 +23,7 @@ class Factory:
         self.registry=deepcopy(routes)
         self.screenshot_reader=screenshot_reader
         self.model_for_step=model_for_step
+        self.investigator_cascade=investigator_cascade
         self.declared_continuations=declared_continuations
         self.associated_nodes=associated_nodes
         self.definition_for=definition_for
@@ -220,5 +221,10 @@ class Factory:
                 tools['lookup_screenshot']={'description':'Resolve the attached screenshot to an actual native key; image stays within this case. Queries and vision share this case budget.',
                                             'schema':schema({}),'run':resolve}
             return tools
-        return Investigator(queries=queries,model=model,read_tools=registry,
+        engine=Investigator(queries=queries,model=model,read_tools=registry,
             checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage)
+        if self.investigator_cascade:
+            if not self.model_for_step:raise ValueError('INVESTIGATOR_FALLBACK_CONFIGURATION_REQUIRED')
+            from .investigation_cascade import Cascade
+            return Cascade(engine,lambda:self.model_for_step(case['id'],'INVESTIGATOR_FALLBACK'))
+        return engine
