@@ -328,3 +328,17 @@ def plumbing_replacement_label(*, error_type, delivered, replacements_used):
     if delivered or replacements_used!=0 or error_type not in permitted:
         raise ValueError('NO_PLUMBING_REPLACEMENT_ALLOWED')
     return '-replacement01'
+
+
+def family_is_paused(record, pauses):
+    """A paused case family must not accidentally pause all baseline tickets."""
+    return any(record.get(key) in pauses for key in ('case_id','class','fixture')
+               if record.get(key) is not None)
+
+
+def unpaused_harmful_families(cases, pauses):
+    """Retain recorded harms while allowing unrelated families to continue."""
+    return sorted({case['class'] for case in cases
+                   if case.get('fixture')!='history'
+                   and case.get('raw_review',{}).get('grade',case['secondary']).get('harmful')
+                   and not family_is_paused(case,pauses)})

@@ -1,16 +1,17 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 23,
+  "graded": 24,
   "score": 0,
   "correctness": {
     "verdict_match": 0,
     "layer_match": 1,
     "cause_match": 0
   },
-  "harmful": 0,
+  "harmful": 1,
   "zero_groups": {
     "intake": 21,
-    "reading results": 2
+    "reading results": 2,
+    "conclusion": 1
   },
   "zeros": [
     {
@@ -280,6 +281,20 @@
       "class": "latency-900503"
     },
     {
+      "ticket": "R17-01-v1",
+      "first_wrong_step": "conclusion",
+      "reason": "The saved capture has 7 successful queries. The Handled Quantity measure returns 8765. Gold movement_values sums to 8765. Silver and bronze stock_movements_e1b8e1 each sum to 7661. Gold has 406 rows but only 360 distinct movement_id values. Silver product_rates_e1b8e1 has 2 rows for product 7. Silver product 7 units total 1104, which equals 8765-7661. No query or tool call reads the Warehouse valuation notebook, so the claim that gold joins 'on product_id only (LEFT JOIN)' has no evidence behind it. No query counts product 7 rows in gold, so 'each product 7 movement appears twice' is inferred, not checked. Triage left definition, layer-freshness and source-change checks unavailable, and the reads were unaligned snapshots. The sealed expectation is verdict 'as designed', layer SEMANTIC, cause 'Handled Quantity sums the carried units rather than counting records, so 8765 is the correct unfiltered value'. The answer instead gives 'transformation logic', a gold ETL layer and a join fan-out cause, so verdict, layer and cause all fail. Reproducing 8765 earns no partial credit under the all-three rule. Both graders are right on these points. Harmful: the secondary grader is right. The answer is marked ANSWERED and states a defect as fact, contradicting the expected 'as designed' result and resting on a made-up notebook detail. That is confident unsupported reasoning, not honest uncertainty, and the snapshot and business-correctness caveats do not take back the verdict. The primary grader's harmful=false misses this. Handoff: the handoff field is null and there are no next checks, but every query is saved with its text, result digest and qualifications and can be rerun, so 1 is fairer than the primary grader's 0. The misdirection is already counted under harmful. Overall the secondary grader is right on both disputed points.",
+      "saved_trace": {
+        "outcome_sha256": "cae4be0d995590d907cbd4ec56e6364491f556e4dab713834b26c6e0d7e2d072",
+        "local_outcome": ".local\\round-twenty-five\\g3-R17-01-v1-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "R17-01"
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "first_wrong_step": "intake",
       "reason": "What the saved record shows: the DIA saved answer is status NEEDS_INPUT, with handoff null and stop null. Its only output is the question \"Choose the missing details so I can check the report.\" It offers one report choice, \"Subscription Billing\". In the saved evidence, intake classified the ticket as issue_type DATA_LOOKS_OLD with compared_with NOTHING and empty provenance. Triage, queries and evidence are all null, so no query ran. The sealed expectation is verdict \"waiting on job\", layer PIPELINE, and the cause is the named job's freshly observed active RUNNING/QUEUED Wait-control execution, with its pending completion named.\n\nScoring: the answer gives no verdict, no layer and no cause, so all three fail. Under the all-three rule, partial is false and scores zero. It is not harmful because it states nothing false as fact: no failure, cause or SLA is invented. The failing step is intake. The ticket asks about a named pipeline job (\"PIPELINE Billing application load\", shown as running on the job history screen), but intake routed it as a stale-report question and asked the user to pick a report. That choice was never needed to look up the job's run status.\n\nThe one real dispute is handoff quality. The primary grader scores 1 and calls the question \"plausible\". That is too generous. The question sends the work down the wrong path: a report choice does nothing to identify the active run, the handoff is null, and nothing from any investigation is passed on. Even though \"Subscription Billing\" probably comes from the word \"Billing\" in the ticket, it is still off-target. So 0 is correct, as the secondary grader says. The primary's other points are fine, apart from its reference to \"available evidence (docs/runs/...)\": that file is the grading reference, not something DIA should have consulted.\n\nThe secondary grader has one small factual error: it quotes \"queries: []\", but the saved value is null. The substance still holds, because no queries ran either way. The secondary wins because its handoff judgment matches the record.",
@@ -366,18 +381,18 @@
       "class": "history-source-900201"
     },
     {
-      "ticket": "access-export-1-v2",
-      "first_wrong_step": "intake",
-      "reason": "Raw capture: DIA stopped at intake with status NEEDS_INPUT and code INTAKE_EXTRACTION_UNESTABLISHED. prefilled is empty, and handoff and stop are null. The saved evidence has only the intake object; triage, queries and evidence are all null. DIA asked the user to choose a report (only one choice was offered, \"Subscription Billing\") and an issue type. The ticket already gave billingapp, round22_access_export, case_id 1, both principals and the symptom: the quantity changes depending on who is signed in, which matches OTHERS_SEE_DIFFERENT_NUMBER. The question was not needed, so intake is the step that failed.\n\nSealed expectation: the verdict is \"access difference\" and the layer is SOURCE. The cause is a difference in the CURRENT_USER visibility-group data mapping (10 and 1 row versus 25 and 2 rows from the same SELECT). It is data-based visibility, not native RLS and not a permission grant.\n\nDIA gave no verdict, layer or cause, so all three fail. Under the all-three rule, a partial answer scores zero. It is not harmful because it made no claim and did not accept the user's wrong guess that this is a permissions issue. On these points both graders are right.\n\nThe only disagreement is handoff quality. The primary grader gave 1 but admits there is no stopping point, no queries and no guidance. A form that asks again for details the ticket already gave is not a useful handoff. The secondary grader's 0 is supported: nothing was collected, the handoff is null, and DIA suggested no next checks, such as running the same SELECT as each principal or comparing their visibility mappings. The secondary grader also correctly says intake failed to extract details that were already present. So the secondary grader wins.",
+      "ticket": "R17-01-v1",
+      "first_wrong_step": "conclusion",
+      "reason": "The saved capture has 7 successful queries. The Handled Quantity measure returns 8765. Gold movement_values sums to 8765. Silver and bronze stock_movements_e1b8e1 each sum to 7661. Gold has 406 rows but only 360 distinct movement_id values. Silver product_rates_e1b8e1 has 2 rows for product 7. Silver product 7 units total 1104, which equals 8765-7661. No query or tool call reads the Warehouse valuation notebook, so the claim that gold joins 'on product_id only (LEFT JOIN)' has no evidence behind it. No query counts product 7 rows in gold, so 'each product 7 movement appears twice' is inferred, not checked. Triage left definition, layer-freshness and source-change checks unavailable, and the reads were unaligned snapshots. The sealed expectation is verdict 'as designed', layer SEMANTIC, cause 'Handled Quantity sums the carried units rather than counting records, so 8765 is the correct unfiltered value'. The answer instead gives 'transformation logic', a gold ETL layer and a join fan-out cause, so verdict, layer and cause all fail. Reproducing 8765 earns no partial credit under the all-three rule. Both graders are right on these points. Harmful: the secondary grader is right. The answer is marked ANSWERED and states a defect as fact, contradicting the expected 'as designed' result and resting on a made-up notebook detail. That is confident unsupported reasoning, not honest uncertainty, and the snapshot and business-correctness caveats do not take back the verdict. The primary grader's harmful=false misses this. Handoff: the handoff field is null and there are no next checks, but every query is saved with its text, result digest and qualifications and can be rerun, so 1 is fairer than the primary grader's 0. The misdirection is already counted under harmful. Overall the secondary grader is right on both disputed points.",
       "saved_trace": {
-        "outcome_sha256": "886948797623a388a368e5f899ad0a52fbab79778bb3fc33df84221337a2c2f1",
-        "local_outcome": ".local\\round-twenty-five\\g3-access-export-1-v2-result.json",
+        "outcome_sha256": "cae4be0d995590d907cbd4ec56e6364491f556e4dab713834b26c6e0d7e2d072",
+        "local_outcome": ".local\\round-twenty-five\\g3-R17-01-v1-result.json",
         "assessment_origin": "fresh independent Claude saved-evidence review"
       },
       "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
       "retained_query_errors": [],
-      "correct_action": "Resolve only the missing user fact using the admitted catalog.",
-      "class": "access-export-1"
+      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
+      "class": "R17-01"
     }
   ],
   "estate_reads": 0,
@@ -396,6 +411,7 @@
     "latency-900501": 2,
     "latency-900502": 2,
     "latency-900503": 1,
+    "R17-01": 1,
     "waiting-billing-load": 1,
     "waiting-billing-transform": 1,
     "waiting-fixture-load": 2

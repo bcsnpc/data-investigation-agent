@@ -328,3 +328,16 @@ class WaveTests(unittest.TestCase):
         with self.assertRaises(ValueError):static_wave_width(-1)
 
 if __name__=='__main__':unittest.main()
+
+
+class FamilyPauseScopeTests(unittest.TestCase):
+ def test_pause_applies_to_case_family_not_other_baseline_families(self):
+  from round25_quality import family_is_paused,unpaused_harmful_families
+  pauses={'family-a':{'reason':'raw-reviewed harmful'}}
+  self.assertTrue(family_is_paused({'case_id':'family-a','fixture':'baseline'},pauses))
+  self.assertFalse(family_is_paused({'case_id':'family-b','fixture':'baseline'},pauses))
+  cases=[{'class':'family-a','fixture':'baseline','secondary':{'harmful':True}},
+         {'class':'family-b','fixture':'baseline','secondary':{'harmful':True}},
+         {'class':'history-measurement','fixture':'history','secondary':{'harmful':True}}]
+  self.assertEqual(unpaused_harmful_families(cases,pauses),['family-b'])
+  self.assertTrue(cases[0]['secondary']['harmful'])

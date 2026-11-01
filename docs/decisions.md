@@ -479,3 +479,6 @@ Round25 reporting-only2026-11-01: keep original R22 dev40 and held-out20 scores 
 
 
 Round25 exposure disclosure2026-11-01: while diagnosing G3 access control recovery, an operator status-file command inadvertently emitted saved access outcome text as well as control metadata. This adds exposure beyond the earlier two fragments; no engine/oracle/expectation was changed or tuned afterward. Grading and all disagreement adjudication remain fresh independent Claude calls, without operator judgments. Subsequent status reads explicitly select metadata fields.
+
+
+Round25 harm pause2026-11-01: fresh independent raw review confirms R17-01-v1 harmful (primaryfalse, secondarytrue, rawtrue): confident transformation finding includes an unread notebook join detail and does not answer the expected measure/count question. Preserve all three judgments and the original answer. Pause exact case-family R17-01; unrelated baseline families continue. Correct coordinator bookkeeping so an already-recorded family harm does not globally stop every later family, and enforce the same family key before admission.25focused tooling tests pass, including family isolation and preserving harm. No frozen investigator/prompt/query/model change and no rerun of a delivered answer. Receipt: runs/round25-family-pauses.json.

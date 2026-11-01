@@ -1,0 +1,14 @@
+{
+  "R17-01": {
+    "at": "2026-11-01T01:50:41.872303+00:00",
+    "cohort": "g3",
+    "ticket": "R17-01-v1",
+    "reason": "Fresh independent raw review: confident unsupported transformation finding, including an unread notebook join detail, instead of requested measure/count explanation.",
+    "raw_outcome_sha256": "cae4be0d995590d907cbd4ec56e6364491f556e4dab713834b26c6e0d7e2d072",
+    "primary_harmful": false,
+    "secondary_harmful": true,
+    "raw_harmful": true,
+    "scope": "Exact original case-family key; unrelated baseline families continue",
+    "engine_changed": false
+  }
+}
