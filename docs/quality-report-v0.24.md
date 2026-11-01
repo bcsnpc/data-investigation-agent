@@ -2,14 +2,14 @@
 
 ## Current measurement
 
-Saved-result snapshot: 2026-11-01T05:25:25.633535+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-11-01T06:17:33.520210+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1â€“97.4%)|34/40 (70.9â€“92.9%)|35/40 (73.9â€“94.5%)|2|40|
 |G2|37/60 (49.0â€“72.9%)|32/60 (40.9â€“65.4%)|36/60 (47.4â€“71.4%)|0|60|
 |G3|6/60 (4.7â€“20.1%)|2/60 (0.9â€“11.4%)|3/60 (1.7â€“13.7%)|3|60|
-|G4|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|0|20|
+|G4|5/5 (56.6â€“100.0%)|5/5 (56.6â€“100.0%)|5/5 (56.6â€“100.0%)|0|20|
 
 ### Same original R22 splits
 
@@ -31,7 +31,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 |G1|37/40 (80.1â€“97.4%)|8/40 (10.5â€“34.8%)|35/40 (73.9â€“94.5%)|35/40 (73.9â€“94.5%)|35/40 (73.9â€“94.5%)|0|
 |G2|51/60 (73.9â€“91.9%)|13/60 (13.1â€“33.6%)|42/60 (57.5â€“80.1%)|44/60 (61.0â€“82.9%)|37/60 (49.0â€“72.9%)|0|
 |G3|50/60 (72.0â€“90.7%)|8/60 (6.9â€“24.2%)|3/60 (1.7â€“13.7%)|8/60 (6.9â€“24.2%)|7/60 (5.8â€“22.2%)|0|
-|G4|2/2 (34.2â€“100.0%)|1/2 (9.5â€“90.5%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|0|
+|G4|5/5 (56.6â€“100.0%)|2/5 (11.8â€“76.9%)|5/5 (56.6â€“100.0%)|5/5 (56.6â€“100.0%)|5/5 (56.6â€“100.0%)|0|
 
 Operator blinding was partly broken by the earlier two staging/status fragments and an additional G3 access status dump that included saved outcome text. These exposures are disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2â€“G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -129,8 +129,11 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G3 / waiting-billing-load|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
 |G3 / waiting-billing-transform|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
 |G3 / waiting-fixture-load|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G4 / v2-access-export|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
 |G4 / v2-failed-application-load|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
 |G4 / v2-failed-billing-transform|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G4 / v2-latency-record|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G4 / v2-waiting-application-load|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
 
 ### Expected verdict classes
 
@@ -168,7 +171,10 @@ Grouping uses exact sealed oracle labels; no expectation or score change. Case f
 |G3 / refresh stale|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0|
 |G3 / source changed history|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0|
 |G3 / waiting on job|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0|
+|G4 / access difference|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|0|
 |G4 / failed job|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|0|
+|G4 / latency|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|0|
+|G4 / waiting on job|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|0|
 
 ## Observed cost, cache and timing
 

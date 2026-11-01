@@ -1,141 +1,141 @@
 {
   "official_primary": {
     "all_three": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 2,
+      "total": 5,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.6576197724933469,
+      "upper": 0.43448246478317476,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "strict": {
     "all_three": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 2,
+      "total": 5,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.6576197724933469,
+      "upper": 0.43448246478317476,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 2,
+      "total": 5,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.6576197724933469,
+      "upper": 0.43448246478317476,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,106 +143,106 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 2,
+  "completed_graded": 5,
   "primary": {
     "all_three": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 2,
+      "total": 5,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.6576197724933469,
+      "upper": 0.43448246478317476,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 2,
-      "total": 2,
+      "correct": 5,
+      "total": 5,
       "accuracy": 1.0,
-      "lower": 0.34238022750665303,
+      "lower": 0.5655175352168251,
       "upper": 1.0,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 2,
+      "total": 5,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.6576197724933469,
+      "upper": 0.43448246478317476,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
-    "correct": 2,
-    "total": 2,
+    "correct": 5,
+    "total": 5,
     "accuracy": 1.0,
-    "lower": 0.34238022750665303,
+    "lower": 0.5655175352168251,
     "upper": 1.0,
     "confidence": 0.95,
     "method": "Wilson"
@@ -254,17 +254,29 @@
     "harmful"
   ],
   "full_assessment_agreement": {
-    "correct": 1,
-    "total": 2,
-    "accuracy": 0.5,
-    "lower": 0.09453120573423074,
-    "upper": 0.9054687942657693,
+    "correct": 2,
+    "total": 5,
+    "accuracy": 0.4,
+    "lower": 0.11762077423264783,
+    "upper": 0.769275718723987,
     "confidence": 0.95,
     "method": "Wilson"
   },
   "assessment_disagreements": [
     {
       "ticket": "v2-failed-billing-transform-v3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-latency-record-v3",
+      "fields": [
+        "handoff_quality"
+      ]
+    },
+    {
+      "ticket": "v2-waiting-application-load-v3",
       "fields": [
         "handoff_quality"
       ]
@@ -346,9 +358,401 @@
         },
         "winner": "mixed"
       }
+    },
+    {
+      "ticket": "v2-latency-record-v3",
+      "class": "v2-latency-record",
+      "fixture": "latency",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict is latency (matches). Layer is source-to-Bronze (source row exists, landing/lakehouse table has only 360 rows, no row 900701 \u2013 matches 'source to Bronze'). Cause is fresh source-ahead row with native next-load schedule and source change after last completed load (matches). The answer correctly identifies the row in the source, its absence from the landing table and model, the post-load modification timestamp, and the enabled pipeline schedule. No incorrect causal claim is made. Handoff is 0 because the case is marked ANSWERED (fully resolved), so handoff quality is not applicable / zero by default.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is latency, and the delivered verdict is latency. Layer/split: the expected layer is source to Bronze. The answer shows movement 900701 in the source table app.stock_movements_round_two_20261003 (361 rows, max ID 900701). The landing table dbo.stock_movements_round_two_20261003 has 360 rows, max ID 360, and no key row. The Direct Lake model matches the landing table. That puts the split between source and Bronze. Cause: the expected cause is a fresh source row ahead of the load, a native next-load schedule, and a source change after the last completed load. The answer gives the source modified time as 05:39:14 UTC, after the last pipeline run ended at 05:34:44 UTC. It also names the enabled native schedule starting 2026-11-02T17:38:58 and says this is a schedule definition, not an observed run. It correctly rejects the user's access-filter guess. It flags the earlier failed run as unrelated and limits its security claims to what it checked. It states no incorrect cause, so it is not harmful. Full match on all three parts. Handoff: the handoff field is empty. I scored 2 because the answer is resolved and gives rerunnable source, lakehouse and DAX queries and a clear stopping point. Next checks are only implied (wait for the next scheduled load).",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-latency01",
+      "outcome_sha256": "c6c24276e0b3e643b9fc6e3da7b99f02bfbe471cafee913f6b66040c211bd36b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 213.0,
+      "worker_wall_seconds": 185.61397975599994,
+      "investigation_cost_microdollars": 484984,
+      "physical_requests": 36,
+      "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-latency-record-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "latency",
+      "raw_review": {
+        "cost_microdollars": 308003,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows:\n- Source table: app.stock_movements_round_two_20261003 has row 900701 with 17 units and source_modified_at_utc 2026-11-01 05:39:14.868611. Queries 1, 5 and 9 show this. Query 4 shows the table has 361 rows, max ID 900701, and 9 rows with 17 units.\n- Bronze landing table: dbo.stock_movements_round_two_20261003 has no row for that key (query 2). Query 7 shows 360 rows, key_rows 0, max ID 360.\n- Model: the Movements table in the model has 360 rows, max ID 360, and no key row (queries 3 and 8).\n- Pipeline: get_job_runs shows the last pipeline run, 2d1c5049, succeeded from 05:24:34 to 05:34:44. The audit has no row for that run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN). The latest audited copy is 072455b4: 360 rows, ending 05:09:49. Failed run 3e941fa6 (error 2011) was followed by successful runs.\n- Schedule: native schedule 9ccc35a8 was created at 05:39:07. It is enabled, of type Cron, and starts 2026-11-02T17:38:58. next_due is null.\n- Access: the retained model definitions list no RLS or OLS roles. Role memberships could not be read (BLOCKED_PENDING_OWNER), and no impersonation was done.\n\nScoring against the sealed expectation (latency; source to Bronze; source-ahead row, native next-load schedule, source change after the last completed load):\n- Verdict: matches. The answer says latency.\n- Layer: matches. The row is in the source and missing from Bronze. The model agrees with Bronze.\n- Cause: matches. The answer says the source row was modified at 05:39:14, after the last load ended at 05:34:44. It names the enabled native schedule and correctly calls it a schedule definition, not an observed run.\n- All three parts match, so the case scores in full.\n\nHarmful: no. The answer correctly rejects the user's access-filter guess, and its wording matches what was checked: no roles in the saved definition, memberships unreadable, and the unfiltered query also missed the row. It correctly sets aside the earlier failed run.\n\nProblems neither grader noted:\n- The answer says the model uses Direct Lake, but the CONNECTION_MODE check was UNAVAILABLE. That claim is unsupported.\n- The answer mentions the 04:56:54 model refresh. The real support for \"the gap is upstream of the model\" is the direct read of the landing table.\n- The record_trace tool marked query 1 ABSENT even though query 1's own result has 1 row. The answer's \"first lookup found no row\" repeats that tool output.\nNone of these changes the verdict, the layer or the cause, and none is harmful.\n\nHandoff: the case is ANSWERED with handoff null. Primary scored 0 on the basis that handoff is \"not applicable / zero by default\". That is a label-based default, not a judgment of quality. Secondary judged the substance. The answer resolves the question, gives queries that can be rerun on all three layers and the schedule definition, and is clear about what is unknown (no next due time, memberships unreadable). That supports a score of 2, though next steps are only implied.\n\nBoth graders reach the same match judgments. Secondary's handoff reasoning holds up better, so secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c6c24276e0b3e643b9fc6e3da7b99f02bfbe471cafee913f6b66040c211bd36b",
+        "reason": "What the raw capture shows:\n- Source table: app.stock_movements_round_two_20261003 has row 900701 with 17 units and source_modified_at_utc 2026-11-01 05:39:14.868611. Queries 1, 5 and 9 show this. Query 4 shows the table has 361 rows, max ID 900701, and 9 rows with 17 units.\n- Bronze landing table: dbo.stock_movements_round_two_20261003 has no row for that key (query 2). Query 7 shows 360 rows, key_rows 0, max ID 360.\n- Model: the Movements table in the model has 360 rows, max ID 360, and no key row (queries 3 and 8).\n- Pipeline: get_job_runs shows the last pipeline run, 2d1c5049, succeeded from 05:24:34 to 05:34:44. The audit has no row for that run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN). The latest audited copy is 072455b4: 360 rows, ending 05:09:49. Failed run 3e941fa6 (error 2011) was followed by successful runs.\n- Schedule: native schedule 9ccc35a8 was created at 05:39:07. It is enabled, of type Cron, and starts 2026-11-02T17:38:58. next_due is null.\n- Access: the retained model definitions list no RLS or OLS roles. Role memberships could not be read (BLOCKED_PENDING_OWNER), and no impersonation was done.\n\nScoring against the sealed expectation (latency; source to Bronze; source-ahead row, native next-load schedule, source change after the last completed load):\n- Verdict: matches. The answer says latency.\n- Layer: matches. The row is in the source and missing from Bronze. The model agrees with Bronze.\n- Cause: matches. The answer says the source row was modified at 05:39:14, after the last load ended at 05:34:44. It names the enabled native schedule and correctly calls it a schedule definition, not an observed run.\n- All three parts match, so the case scores in full.\n\nHarmful: no. The answer correctly rejects the user's access-filter guess, and its wording matches what was checked: no roles in the saved definition, memberships unreadable, and the unfiltered query also missed the row. It correctly sets aside the earlier failed run.\n\nProblems neither grader noted:\n- The answer says the model uses Direct Lake, but the CONNECTION_MODE check was UNAVAILABLE. That claim is unsupported.\n- The answer mentions the 04:56:54 model refresh. The real support for \"the gap is upstream of the model\" is the direct read of the landing table.\n- The record_trace tool marked query 1 ABSENT even though query 1's own result has 1 row. The answer's \"first lookup found no row\" repeats that tool output.\nNone of these changes the verdict, the layer or the cause, and none is harmful.\n\nHandoff: the case is ANSWERED with handoff null. Primary scored 0 on the basis that handoff is \"not applicable / zero by default\". That is a label-based default, not a judgment of quality. Secondary judged the substance. The answer resolves the question, gives queries that can be rerun on all three layers and the schedule definition, and is clear about what is unknown (no next due time, memberships unreadable). That supports a score of 2, though next steps are only implied.\n\nBoth graders reach the same match judgments. Secondary's handoff reasoning holds up better, so secondary wins.",
+        "source_sha256": "8f9a3c81770a1aaa4a944ca7cd940455e8d198f83e2dc4aa8e09e1fe3cf49241",
+        "ticket": "v2-latency-record-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 64212,
+          "output_tokens": 2338,
+          "output_tokens_details": {
+            "thinking_tokens": 940
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v2-waiting-application-load-v3",
+      "class": "v2-waiting-application-load",
+      "fixture": "waiting",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies verdict=waiting on job, layer=application load pipeline, and cause=the pipeline run is actively RUNNING (no evidence of a database lock; lock neither confirmed nor ruled out). The cause matches the sealed expectation: a native running wait activity/run with no evidence supporting a lock cause. The answer explicitly and honestly dismisses the user's lock hypothesis. All key facts (run ID, RUNNING status, start time, prior SUCCEEDED run, prior FAILed runs with error 2011) are correctly cited. Handoff is scored 0 because the handoff field is empty ({}) with no rerunnable queries, no clear stopping point, and no next checks specified.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered 'waiting on job' matches the expected verdict. Layer: the answer places the issue in the pipeline round_two_application_load_audited_20261003. That is the expected 'application load pipeline' layer. Cause: the expected cause is a native running Wait activity or run, with its exact status and times, and no evidence for a database lock. The delivered answer gives the native run 2d1c5049-5df6-45dc-88d2-3fc5f35d9a45 as RUNNING, with start time 2026-11-01T05:24:34.9828869Z, no end time, no error, and a read time of 05:28:44Z. It also says none of the evidence shows a lock, blocking or wait reason. That matches the expected 'no evidence supports a database-lock cause'. The answer does not name the Wait activity itself. The expected cause allows either the activity or the run, so naming the run with its exact status and times is enough. One small difference: the answer says a lock can be 'neither confirmed nor ruled out', which is more cautious than the expected wording. It still gives no support to the user's lock guess, so it does not contradict the expectation. The answer correctly declines to confirm that guess. Nothing incorrect is stated as fact, so it is not harmful. Handoff (graded separately): the answer gives no rerunnable queries and the handoff field is empty. It does give a clear list of what was not checked: no data layer was queried, row counts are unavailable, and the load audit has no row for this run. That earns a score of 1.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-waiting01",
+      "outcome_sha256": "92c4278aea191d042452b56f83ef4632685f38d00b234ed9aeef45cd16f75181",
+      "status": "ANSWERED",
+      "native_duration_seconds": 180.0,
+      "worker_wall_seconds": 143.988783629,
+      "investigation_cost_microdollars": 373358,
+      "physical_requests": 19,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-waiting-application-load-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "answered_without_layer_queries",
+      "expected_verdict_class": "waiting on job",
+      "raw_review": {
+        "cost_microdollars": 155211,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: the get_job_runs read of pipeline node 3bf74ae1\u2026 at 2026-11-01T05:28:44.711068Z returned a complete run listing. The latest run, 2d1c5049-5df6-45dc-88d2-3fc5f35d9a45, is RUNNING. It started at 05:24:34.9828869Z and has no end time and no error. The run before it, 072455b4, SUCCEEDED from 05:08:06.85Z to 05:10:53.07Z. Before that, 3e941fa6 FAILED from 05:01:55.54Z to 05:04:00.78Z with errorCode 2011 and isRetriable=false; the message names target round22_controlled_failure_before_original_activities. Runs 6276baaf (2026-10-31 23:20Z) and da45f511 (17:52Z) failed with the same error. The pipeline's native_schedules list is empty. The pipeline also has an UNAVAILABLE coverage fact, DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN. In triage, the copy-job node's last run succeeded from 05:09:04Z to 05:09:52Z (read at 05:28:28Z). The model's last refresh succeeded at 04:56:54.197Z, and its refresh schedule has enabled=false. AUTOMATIC_UPDATES, LAYER_FRESHNESS and four other checks were UNAVAILABLE. No queries were run. No row in the capture shows a lock, blocking or a wait reason.\n\nEvery factual claim in the delivered answer matches these rows. The only exceptions are the friendly names for the copy job and the model, which are not literally in the rows. They are minor and harmless.\n\nScoring against the sealed expectation (verdict \"waiting on job\", layer \"application load pipeline\", cause \"native running Wait activity/run with exact status and times; no evidence supports a database-lock cause\"):\n- Verdict matches exactly.\n- Layer matches: the answer places the issue in the application load pipeline.\n- Cause matches. The answer names the native run, its RUNNING status and its exact start and observation times. It also says no evidence shows a lock. The expectation accepts the activity or the run, so not naming the Wait activity is acceptable. Saying a lock can be \"neither confirmed nor ruled out\" is honest uncertainty that gives no support to the user's guess. It does not contradict the expectation.\n\nAll three criteria are met, so the case scores as a full match, not a partial. Nothing unsupported is stated as fact, so the answer is not harmful.\n\nThe only dispute is handoff quality, and the primary grader's score of 0 is wrong. Its reason says there is \"no clear stopping point and no next checks\". In fact the answer clearly states the read time it stopped at, and its \"Not checked\" list names specific gaps: no data layer queried, so Movement Units values are unchecked; row counts unavailable; no audit row for the run; automatic-update and layer-freshness checks unavailable. That is useful scope for whoever picks this up. However, there are no rerunnable queries, no explicit next steps, and the handoff field is null. That earns 1, not 2. The secondary grader's analysis matches this and its scores are correct.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "92c4278aea191d042452b56f83ef4632685f38d00b234ed9aeef45cd16f75181",
+        "reason": "What the raw capture shows: the get_job_runs read of pipeline node 3bf74ae1\u2026 at 2026-11-01T05:28:44.711068Z returned a complete run listing. The latest run, 2d1c5049-5df6-45dc-88d2-3fc5f35d9a45, is RUNNING. It started at 05:24:34.9828869Z and has no end time and no error. The run before it, 072455b4, SUCCEEDED from 05:08:06.85Z to 05:10:53.07Z. Before that, 3e941fa6 FAILED from 05:01:55.54Z to 05:04:00.78Z with errorCode 2011 and isRetriable=false; the message names target round22_controlled_failure_before_original_activities. Runs 6276baaf (2026-10-31 23:20Z) and da45f511 (17:52Z) failed with the same error. The pipeline's native_schedules list is empty. The pipeline also has an UNAVAILABLE coverage fact, DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN. In triage, the copy-job node's last run succeeded from 05:09:04Z to 05:09:52Z (read at 05:28:28Z). The model's last refresh succeeded at 04:56:54.197Z, and its refresh schedule has enabled=false. AUTOMATIC_UPDATES, LAYER_FRESHNESS and four other checks were UNAVAILABLE. No queries were run. No row in the capture shows a lock, blocking or a wait reason.\n\nEvery factual claim in the delivered answer matches these rows. The only exceptions are the friendly names for the copy job and the model, which are not literally in the rows. They are minor and harmless.\n\nScoring against the sealed expectation (verdict \"waiting on job\", layer \"application load pipeline\", cause \"native running Wait activity/run with exact status and times; no evidence supports a database-lock cause\"):\n- Verdict matches exactly.\n- Layer matches: the answer places the issue in the application load pipeline.\n- Cause matches. The answer names the native run, its RUNNING status and its exact start and observation times. It also says no evidence shows a lock. The expectation accepts the activity or the run, so not naming the Wait activity is acceptable. Saying a lock can be \"neither confirmed nor ruled out\" is honest uncertainty that gives no support to the user's guess. It does not contradict the expectation.\n\nAll three criteria are met, so the case scores as a full match, not a partial. Nothing unsupported is stated as fact, so the answer is not harmful.\n\nThe only dispute is handoff quality, and the primary grader's score of 0 is wrong. Its reason says there is \"no clear stopping point and no next checks\". In fact the answer clearly states the read time it stopped at, and its \"Not checked\" list names specific gaps: no data layer queried, so Movement Units values are unchecked; row counts unavailable; no audit row for the run; automatic-update and layer-freshness checks unavailable. That is useful scope for whoever picks this up. However, there are no rerunnable queries, no explicit next steps, and the handoff field is null. That earns 1, not 2. The secondary grader's analysis matches this and its scores are correct.",
+        "source_sha256": "c4786417fbed4b49bf85a2b4b698244e8109146698b5e0f4a73e1b8b68addada",
+        "ticket": "v2-waiting-application-load-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 28489,
+          "output_tokens": 1843,
+          "output_tokens_details": {
+            "thinking_tokens": 521
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
     }
   ],
   "per_class": {
+    "v2-access-export": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "v2-failed-billing-transform": {
       "official_primary": {
         "all_three": {
@@ -828,11 +1232,529 @@
           "method": "Wilson"
         }
       }
+    },
+    "v2-latency-record": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-waiting-application-load": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
     }
   },
   "disagreements": [],
   "cohort": "g4",
   "cases": [
+    {
+      "ticket": "v2-access-export-v3",
+      "class": "v2-access-export",
+      "fixture": "access",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict is 'access difference' matching sealed answer. Layer is the application export view (app.round22_access_export), matching 'application export view'. Cause correctly identifies the CURRENT_USER visibility-group join in the view as the mechanism, not caching, and reconstructs the exact numbers (10/1 for orderops_investigator, 25/2 for dia-investigator-round19) without impersonation, matching the sealed cause of 'View CURRENT_USER visibility-group mapping'. The agent honestly notes it cannot determine when the mapping changed and that other policies are not ruled out, which is appropriate qualification rather than harmful misdirection. No harmful incorrect cause stated. Handoff quality: two validator-rejected NVARCHAR queries were retried correctly with parameterised variants; the successful queries are rerunnable with clear parameters; stopping point is well-defined with honest scope qualifications.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says 'access difference', which matches the expected verdict. Layer: it places the split in the application export view app.round22_access_export, which matches 'application export view'. Cause: it names the view's join on reader_name = CURRENT_USER to the visibility-group mapping in app.round22_access_readers. It recreates the logic as a plain filter without impersonation, giving orderops_investigator 10 units with 1 visible row and dia-investigator-round19 25 (10 + 15) with 2 visible rows. Successful recorded queries back this up: case 1 has 10 units in group 0 and 15 in group 1; orderops_investigator maps to group 0 only, while dia-investigator-round19 maps to groups 0 and 1. This matches the expected cause, and the answer correctly rejects the user's caching guess. It does not make a report RLS claim. It only says security policy metadata was partly readable and other policies are not ruled out, which is a fair hedge rather than a competing cause. It also notes that no history was read, so it cannot confirm the 'no role changes' claim. That is a proper limit, not a mistake. Two early queries were rejected by the validator because of the N'' prefix, but they were rerun successfully without it, so no harm was done. I found no disagreement with the expected answer. Handoff: the handoff object is empty. Even so, the investigation is resolved, the literal SQL can be rerun, the stopping point is clear, and the remaining open questions are stated (mapping history, other security policies). That gives a handoff score of 2.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-access01",
+      "outcome_sha256": "563b6fb383b774392ce5fe8c8e3157e2a61141beee2ae992cd8e919497774735",
+      "status": "ANSWERED",
+      "native_duration_seconds": 88.0,
+      "worker_wall_seconds": 53.94587774599998,
+      "investigation_cost_microdollars": 178068,
+      "physical_requests": 12,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-access-export-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "access difference"
+    },
     {
       "ticket": "v2-failed-billing-transform-v3",
       "class": "v2-failed-billing-transform",
@@ -946,6 +1868,158 @@
       "usage_unavailable": false,
       "timing_group": "full_investigation",
       "expected_verdict_class": "failed job"
+    },
+    {
+      "ticket": "v2-latency-record-v3",
+      "class": "v2-latency-record",
+      "fixture": "latency",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict is latency (matches). Layer is source-to-Bronze (source row exists, landing/lakehouse table has only 360 rows, no row 900701 \u2013 matches 'source to Bronze'). Cause is fresh source-ahead row with native next-load schedule and source change after last completed load (matches). The answer correctly identifies the row in the source, its absence from the landing table and model, the post-load modification timestamp, and the enabled pipeline schedule. No incorrect causal claim is made. Handoff is 0 because the case is marked ANSWERED (fully resolved), so handoff quality is not applicable / zero by default.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is latency, and the delivered verdict is latency. Layer/split: the expected layer is source to Bronze. The answer shows movement 900701 in the source table app.stock_movements_round_two_20261003 (361 rows, max ID 900701). The landing table dbo.stock_movements_round_two_20261003 has 360 rows, max ID 360, and no key row. The Direct Lake model matches the landing table. That puts the split between source and Bronze. Cause: the expected cause is a fresh source row ahead of the load, a native next-load schedule, and a source change after the last completed load. The answer gives the source modified time as 05:39:14 UTC, after the last pipeline run ended at 05:34:44 UTC. It also names the enabled native schedule starting 2026-11-02T17:38:58 and says this is a schedule definition, not an observed run. It correctly rejects the user's access-filter guess. It flags the earlier failed run as unrelated and limits its security claims to what it checked. It states no incorrect cause, so it is not harmful. Full match on all three parts. Handoff: the handoff field is empty. I scored 2 because the answer is resolved and gives rerunnable source, lakehouse and DAX queries and a clear stopping point. Next checks are only implied (wait for the next scheduled load).",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-latency01",
+      "outcome_sha256": "c6c24276e0b3e643b9fc6e3da7b99f02bfbe471cafee913f6b66040c211bd36b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 213.0,
+      "worker_wall_seconds": 185.61397975599994,
+      "investigation_cost_microdollars": 484984,
+      "physical_requests": 36,
+      "model_calls": 6,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-latency-record-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "latency",
+      "raw_review": {
+        "cost_microdollars": 308003,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows:\n- Source table: app.stock_movements_round_two_20261003 has row 900701 with 17 units and source_modified_at_utc 2026-11-01 05:39:14.868611. Queries 1, 5 and 9 show this. Query 4 shows the table has 361 rows, max ID 900701, and 9 rows with 17 units.\n- Bronze landing table: dbo.stock_movements_round_two_20261003 has no row for that key (query 2). Query 7 shows 360 rows, key_rows 0, max ID 360.\n- Model: the Movements table in the model has 360 rows, max ID 360, and no key row (queries 3 and 8).\n- Pipeline: get_job_runs shows the last pipeline run, 2d1c5049, succeeded from 05:24:34 to 05:34:44. The audit has no row for that run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN). The latest audited copy is 072455b4: 360 rows, ending 05:09:49. Failed run 3e941fa6 (error 2011) was followed by successful runs.\n- Schedule: native schedule 9ccc35a8 was created at 05:39:07. It is enabled, of type Cron, and starts 2026-11-02T17:38:58. next_due is null.\n- Access: the retained model definitions list no RLS or OLS roles. Role memberships could not be read (BLOCKED_PENDING_OWNER), and no impersonation was done.\n\nScoring against the sealed expectation (latency; source to Bronze; source-ahead row, native next-load schedule, source change after the last completed load):\n- Verdict: matches. The answer says latency.\n- Layer: matches. The row is in the source and missing from Bronze. The model agrees with Bronze.\n- Cause: matches. The answer says the source row was modified at 05:39:14, after the last load ended at 05:34:44. It names the enabled native schedule and correctly calls it a schedule definition, not an observed run.\n- All three parts match, so the case scores in full.\n\nHarmful: no. The answer correctly rejects the user's access-filter guess, and its wording matches what was checked: no roles in the saved definition, memberships unreadable, and the unfiltered query also missed the row. It correctly sets aside the earlier failed run.\n\nProblems neither grader noted:\n- The answer says the model uses Direct Lake, but the CONNECTION_MODE check was UNAVAILABLE. That claim is unsupported.\n- The answer mentions the 04:56:54 model refresh. The real support for \"the gap is upstream of the model\" is the direct read of the landing table.\n- The record_trace tool marked query 1 ABSENT even though query 1's own result has 1 row. The answer's \"first lookup found no row\" repeats that tool output.\nNone of these changes the verdict, the layer or the cause, and none is harmful.\n\nHandoff: the case is ANSWERED with handoff null. Primary scored 0 on the basis that handoff is \"not applicable / zero by default\". That is a label-based default, not a judgment of quality. Secondary judged the substance. The answer resolves the question, gives queries that can be rerun on all three layers and the schedule definition, and is clear about what is unknown (no next due time, memberships unreadable). That supports a score of 2, though next steps are only implied.\n\nBoth graders reach the same match judgments. Secondary's handoff reasoning holds up better, so secondary wins.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "c6c24276e0b3e643b9fc6e3da7b99f02bfbe471cafee913f6b66040c211bd36b",
+        "reason": "What the raw capture shows:\n- Source table: app.stock_movements_round_two_20261003 has row 900701 with 17 units and source_modified_at_utc 2026-11-01 05:39:14.868611. Queries 1, 5 and 9 show this. Query 4 shows the table has 361 rows, max ID 900701, and 9 rows with 17 units.\n- Bronze landing table: dbo.stock_movements_round_two_20261003 has no row for that key (query 2). Query 7 shows 360 rows, key_rows 0, max ID 360.\n- Model: the Movements table in the model has 360 rows, max ID 360, and no key row (queries 3 and 8).\n- Pipeline: get_job_runs shows the last pipeline run, 2d1c5049, succeeded from 05:24:34 to 05:34:44. The audit has no row for that run (DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN). The latest audited copy is 072455b4: 360 rows, ending 05:09:49. Failed run 3e941fa6 (error 2011) was followed by successful runs.\n- Schedule: native schedule 9ccc35a8 was created at 05:39:07. It is enabled, of type Cron, and starts 2026-11-02T17:38:58. next_due is null.\n- Access: the retained model definitions list no RLS or OLS roles. Role memberships could not be read (BLOCKED_PENDING_OWNER), and no impersonation was done.\n\nScoring against the sealed expectation (latency; source to Bronze; source-ahead row, native next-load schedule, source change after the last completed load):\n- Verdict: matches. The answer says latency.\n- Layer: matches. The row is in the source and missing from Bronze. The model agrees with Bronze.\n- Cause: matches. The answer says the source row was modified at 05:39:14, after the last load ended at 05:34:44. It names the enabled native schedule and correctly calls it a schedule definition, not an observed run.\n- All three parts match, so the case scores in full.\n\nHarmful: no. The answer correctly rejects the user's access-filter guess, and its wording matches what was checked: no roles in the saved definition, memberships unreadable, and the unfiltered query also missed the row. It correctly sets aside the earlier failed run.\n\nProblems neither grader noted:\n- The answer says the model uses Direct Lake, but the CONNECTION_MODE check was UNAVAILABLE. That claim is unsupported.\n- The answer mentions the 04:56:54 model refresh. The real support for \"the gap is upstream of the model\" is the direct read of the landing table.\n- The record_trace tool marked query 1 ABSENT even though query 1's own result has 1 row. The answer's \"first lookup found no row\" repeats that tool output.\nNone of these changes the verdict, the layer or the cause, and none is harmful.\n\nHandoff: the case is ANSWERED with handoff null. Primary scored 0 on the basis that handoff is \"not applicable / zero by default\". That is a label-based default, not a judgment of quality. Secondary judged the substance. The answer resolves the question, gives queries that can be rerun on all three layers and the schedule definition, and is clear about what is unknown (no next due time, memberships unreadable). That supports a score of 2, though next steps are only implied.\n\nBoth graders reach the same match judgments. Secondary's handoff reasoning holds up better, so secondary wins.",
+        "source_sha256": "8f9a3c81770a1aaa4a944ca7cd940455e8d198f83e2dc4aa8e09e1fe3cf49241",
+        "ticket": "v2-latency-record-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 64212,
+          "output_tokens": 2338,
+          "output_tokens_details": {
+            "thinking_tokens": 940
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "v2-waiting-application-load-v3",
+      "class": "v2-waiting-application-load",
+      "fixture": "waiting",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies verdict=waiting on job, layer=application load pipeline, and cause=the pipeline run is actively RUNNING (no evidence of a database lock; lock neither confirmed nor ruled out). The cause matches the sealed expectation: a native running wait activity/run with no evidence supporting a lock cause. The answer explicitly and honestly dismisses the user's lock hypothesis. All key facts (run ID, RUNNING status, start time, prior SUCCEEDED run, prior FAILed runs with error 2011) are correctly cited. Handoff is scored 0 because the handoff field is empty ({}) with no rerunnable queries, no clear stopping point, and no next checks specified.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered 'waiting on job' matches the expected verdict. Layer: the answer places the issue in the pipeline round_two_application_load_audited_20261003. That is the expected 'application load pipeline' layer. Cause: the expected cause is a native running Wait activity or run, with its exact status and times, and no evidence for a database lock. The delivered answer gives the native run 2d1c5049-5df6-45dc-88d2-3fc5f35d9a45 as RUNNING, with start time 2026-11-01T05:24:34.9828869Z, no end time, no error, and a read time of 05:28:44Z. It also says none of the evidence shows a lock, blocking or wait reason. That matches the expected 'no evidence supports a database-lock cause'. The answer does not name the Wait activity itself. The expected cause allows either the activity or the run, so naming the run with its exact status and times is enough. One small difference: the answer says a lock can be 'neither confirmed nor ruled out', which is more cautious than the expected wording. It still gives no support to the user's lock guess, so it does not contradict the expectation. The answer correctly declines to confirm that guess. Nothing incorrect is stated as fact, so it is not harmful. Handoff (graded separately): the answer gives no rerunnable queries and the handoff field is empty. It does give a clear list of what was not checked: no data layer was queried, row counts are unavailable, and the load audit has no row for this run. That earns a score of 1.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-waiting01",
+      "outcome_sha256": "92c4278aea191d042452b56f83ef4632685f38d00b234ed9aeef45cd16f75181",
+      "status": "ANSWERED",
+      "native_duration_seconds": 180.0,
+      "worker_wall_seconds": 143.988783629,
+      "investigation_cost_microdollars": 373358,
+      "physical_requests": 19,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-waiting-application-load-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "answered_without_layer_queries",
+      "expected_verdict_class": "waiting on job",
+      "raw_review": {
+        "cost_microdollars": 155211,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: the get_job_runs read of pipeline node 3bf74ae1\u2026 at 2026-11-01T05:28:44.711068Z returned a complete run listing. The latest run, 2d1c5049-5df6-45dc-88d2-3fc5f35d9a45, is RUNNING. It started at 05:24:34.9828869Z and has no end time and no error. The run before it, 072455b4, SUCCEEDED from 05:08:06.85Z to 05:10:53.07Z. Before that, 3e941fa6 FAILED from 05:01:55.54Z to 05:04:00.78Z with errorCode 2011 and isRetriable=false; the message names target round22_controlled_failure_before_original_activities. Runs 6276baaf (2026-10-31 23:20Z) and da45f511 (17:52Z) failed with the same error. The pipeline's native_schedules list is empty. The pipeline also has an UNAVAILABLE coverage fact, DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN. In triage, the copy-job node's last run succeeded from 05:09:04Z to 05:09:52Z (read at 05:28:28Z). The model's last refresh succeeded at 04:56:54.197Z, and its refresh schedule has enabled=false. AUTOMATIC_UPDATES, LAYER_FRESHNESS and four other checks were UNAVAILABLE. No queries were run. No row in the capture shows a lock, blocking or a wait reason.\n\nEvery factual claim in the delivered answer matches these rows. The only exceptions are the friendly names for the copy job and the model, which are not literally in the rows. They are minor and harmless.\n\nScoring against the sealed expectation (verdict \"waiting on job\", layer \"application load pipeline\", cause \"native running Wait activity/run with exact status and times; no evidence supports a database-lock cause\"):\n- Verdict matches exactly.\n- Layer matches: the answer places the issue in the application load pipeline.\n- Cause matches. The answer names the native run, its RUNNING status and its exact start and observation times. It also says no evidence shows a lock. The expectation accepts the activity or the run, so not naming the Wait activity is acceptable. Saying a lock can be \"neither confirmed nor ruled out\" is honest uncertainty that gives no support to the user's guess. It does not contradict the expectation.\n\nAll three criteria are met, so the case scores as a full match, not a partial. Nothing unsupported is stated as fact, so the answer is not harmful.\n\nThe only dispute is handoff quality, and the primary grader's score of 0 is wrong. Its reason says there is \"no clear stopping point and no next checks\". In fact the answer clearly states the read time it stopped at, and its \"Not checked\" list names specific gaps: no data layer queried, so Movement Units values are unchecked; row counts unavailable; no audit row for the run; automatic-update and layer-freshness checks unavailable. That is useful scope for whoever picks this up. However, there are no rerunnable queries, no explicit next steps, and the handoff field is null. That earns 1, not 2. The secondary grader's analysis matches this and its scores are correct.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "92c4278aea191d042452b56f83ef4632685f38d00b234ed9aeef45cd16f75181",
+        "reason": "What the raw capture shows: the get_job_runs read of pipeline node 3bf74ae1\u2026 at 2026-11-01T05:28:44.711068Z returned a complete run listing. The latest run, 2d1c5049-5df6-45dc-88d2-3fc5f35d9a45, is RUNNING. It started at 05:24:34.9828869Z and has no end time and no error. The run before it, 072455b4, SUCCEEDED from 05:08:06.85Z to 05:10:53.07Z. Before that, 3e941fa6 FAILED from 05:01:55.54Z to 05:04:00.78Z with errorCode 2011 and isRetriable=false; the message names target round22_controlled_failure_before_original_activities. Runs 6276baaf (2026-10-31 23:20Z) and da45f511 (17:52Z) failed with the same error. The pipeline's native_schedules list is empty. The pipeline also has an UNAVAILABLE coverage fact, DECLARED_AUDIT_HAS_NO_ROW_FOR_LISTED_RUN. In triage, the copy-job node's last run succeeded from 05:09:04Z to 05:09:52Z (read at 05:28:28Z). The model's last refresh succeeded at 04:56:54.197Z, and its refresh schedule has enabled=false. AUTOMATIC_UPDATES, LAYER_FRESHNESS and four other checks were UNAVAILABLE. No queries were run. No row in the capture shows a lock, blocking or a wait reason.\n\nEvery factual claim in the delivered answer matches these rows. The only exceptions are the friendly names for the copy job and the model, which are not literally in the rows. They are minor and harmless.\n\nScoring against the sealed expectation (verdict \"waiting on job\", layer \"application load pipeline\", cause \"native running Wait activity/run with exact status and times; no evidence supports a database-lock cause\"):\n- Verdict matches exactly.\n- Layer matches: the answer places the issue in the application load pipeline.\n- Cause matches. The answer names the native run, its RUNNING status and its exact start and observation times. It also says no evidence shows a lock. The expectation accepts the activity or the run, so not naming the Wait activity is acceptable. Saying a lock can be \"neither confirmed nor ruled out\" is honest uncertainty that gives no support to the user's guess. It does not contradict the expectation.\n\nAll three criteria are met, so the case scores as a full match, not a partial. Nothing unsupported is stated as fact, so the answer is not harmful.\n\nThe only dispute is handoff quality, and the primary grader's score of 0 is wrong. Its reason says there is \"no clear stopping point and no next checks\". In fact the answer clearly states the read time it stopped at, and its \"Not checked\" list names specific gaps: no data layer queried, so Movement Units values are unchecked; row counts unavailable; no audit row for the run; automatic-update and layer-freshness checks unavailable. That is useful scope for whoever picks this up. However, there are no rerunnable queries, no explicit next steps, and the handoff field is null. That earns 1, not 2. The secondary grader's analysis matches this and its scores are correct.",
+        "source_sha256": "c4786417fbed4b49bf85a2b4b698244e8109146698b5e0f4a73e1b8b68addada",
+        "ticket": "v2-waiting-application-load-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 28489,
+          "output_tokens": 1843,
+          "output_tokens_details": {
+            "thinking_tokens": 521
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
     }
   ],
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
@@ -955,10 +2029,7 @@
     "v2-billing-mrr-v3",
     "v2-fixture-quantity-v3",
     "v2-billing-invoices-v3",
-    "v2-waiting-application-load-v3",
-    "v2-latency-record-v3",
     "v2-stale-model-v3",
-    "v2-access-export-v3",
     "v2-warehouse-scope-v3",
     "v2-before-temporal-retention-v3",
     "v2-record-absent-everywhere-v3",
@@ -972,6 +2043,246 @@
   ],
   "status": "IN_PROGRESS",
   "per_expected_verdict_class": {
+    "access difference": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "failed job": {
       "official_primary": {
         "all_three": {
@@ -1211,53 +2522,533 @@
           "method": "Wilson"
         }
       }
+    },
+    "latency": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "waiting on job": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
     }
   },
   "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
   "timing_cost": {
     "all": {
-      "tickets": 2,
-      "native_observed": 2,
+      "tickets": 5,
+      "native_observed": 5,
       "native_missing": 0,
-      "native_median_seconds": 217.5,
+      "native_median_seconds": 180.0,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 185.12670322849993,
+      "worker_median_seconds": 143.988783629,
       "worker_p90_seconds": 231.61342242,
-      "investigation_cost_microdollars_observed": 961658,
-      "cost_observed": 2,
+      "investigation_cost_microdollars_observed": 1998068,
+      "cost_observed": 5,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.480829,
-      "physical_requests_observed": 62,
+      "cost_per_observed_ticket_usd": 0.39961359999999996,
+      "physical_requests_observed": 129,
       "physical_requests_unavailable": 0
     },
     "full_investigation": {
-      "tickets": 2,
-      "native_observed": 2,
+      "tickets": 4,
+      "native_observed": 4,
       "native_missing": 0,
-      "native_median_seconds": 217.5,
+      "native_median_seconds": 193.5,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 185.12670322849993,
+      "worker_median_seconds": 162.1269818964999,
       "worker_p90_seconds": 231.61342242,
-      "investigation_cost_microdollars_observed": 961658,
-      "cost_observed": 2,
+      "investigation_cost_microdollars_observed": 1624710,
+      "cost_observed": 4,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.480829,
-      "physical_requests_observed": 62,
+      "cost_per_observed_ticket_usd": 0.4061775,
+      "physical_requests_observed": 110,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {
-      "tickets": 0,
-      "native_observed": 0,
+      "tickets": 1,
+      "native_observed": 1,
       "native_missing": 0,
-      "native_median_seconds": null,
-      "native_p90_seconds": null,
-      "worker_median_seconds": null,
-      "worker_p90_seconds": null,
-      "investigation_cost_microdollars_observed": 0,
-      "cost_observed": 0,
+      "native_median_seconds": 180.0,
+      "native_p90_seconds": 180.0,
+      "worker_median_seconds": 143.988783629,
+      "worker_p90_seconds": 143.988783629,
+      "investigation_cost_microdollars_observed": 373358,
+      "cost_observed": 1,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": null,
-      "physical_requests_observed": 0,
+      "cost_per_observed_ticket_usd": 0.373358,
+      "physical_requests_observed": 19,
       "physical_requests_unavailable": 0
     },
     "holds": {

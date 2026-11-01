@@ -345,3 +345,12 @@ Round25 failed-fixture g4: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. 
 
 
 Round25 failed-billing g4: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-five\injections\g4-failed-billing\status.json. No grant/identity change.
+
+
+Round25 waiting g4 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-five\injections\g4-waiting\status.json.
+
+
+Round25 latency g4 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-five\injections\g4-latency-admission05\status.json. Temporal remains ON.
+
+
+Round25 access g4 ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-five\injections\g4-access-admission01\status.json.
