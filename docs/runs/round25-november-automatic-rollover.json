@@ -1,0 +1,64 @@
+{
+  "observed_at_utc": "2026-11-01T00:00:06.992400+00:00",
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-11",
+    "used": {
+      "SCAN": 0,
+      "INVESTIGATION": 1,
+      "RESTORATION": 0
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 6405,
+      "RESTORATION": 95
+    },
+    "total": 1,
+    "total_limit": 9000,
+    "historical_restoration_requests": 0,
+    "restoration_remaining": 95,
+    "warnings": []
+  },
+  "ai": {
+    "month_utc": "2026-11",
+    "ceiling_microdollars": 150000000,
+    "charged_microdollars": 0,
+    "additional_pending_commitment_microdollars": 0,
+    "committed_microdollars": 0,
+    "remaining_microdollars": 150000000,
+    "warning": false,
+    "monthly_credit_microdollars": 100000000,
+    "by_ai_step_microdollars": {
+      "INVESTIGATOR": 0,
+      "SCREENSHOT": 0,
+      "ENRICHMENT": 0,
+      "WRITER": 0,
+      "GRADING": 0,
+      "SMOKE": 0,
+      "UNATTRIBUTED_HISTORICAL": 0
+    },
+    "grading_remaining_microdollars": 3000000,
+    "model_account": {
+      "identity": "model-microdollars:2026-11",
+      "unit": "MICRODOLLARS",
+      "ceiling": "150000000",
+      "protected": "3000000",
+      "opening": "0",
+      "charged": "0",
+      "violated": false
+    },
+    "grading_account": {
+      "identity": "enrichment:round-twenty-one",
+      "unit": "MICRODOLLARS",
+      "ceiling": "25000000",
+      "protected": "12850910",
+      "opening": "0",
+      "charged": "10806285",
+      "violated": false
+    },
+    "reserved_maxima_included": true,
+    "basis": "Larger recorded ledger/console baseline plus subsequent charges across both existing accounts."
+  },
+  "read_only": true,
+  "estate_reads": 0
+}

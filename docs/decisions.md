@@ -470,3 +470,6 @@ Owner-approved 2026-10-31 (Â§8): October combined AI ceiling $206; physical to
 
 
 Round25, owner-directed continuation2026-10-31: G3 billing first start failed in the installed Azure CLI preliminary job GET, before its start POST; the CLI masks that read failure as job-not-found. Preserve the original unscored run2516424b and authorize exactly one plumbing replacement under Part0.3. Resume the existing failed native job, without reinjection. Before/after definitions match392afac3; all4 outcomes preserved, normal original run retains preexisting billing bootstrap2011. Evidence: docs/runs/round25-g3-billing-prestart-failure.json and round25-g3-billing-cohort-control.json. No engine, identity or scope change.
+
+
+Round25 UTC rollover observed2026-11-01T00:00UTC: existing native ledger automatically applied November AI150USD and physical9000 (SCAN2500, INVESTIGATION6405, RESTORATION95), without a counter reset or policy mutation. First readback shows1 November investigation request,0 AI committed, prior October history retained. The owned G3 waiting cohort continues across the boundary; no ticket was duplicated. Receipt: docs/runs/round25-november-automatic-rollover.json.
