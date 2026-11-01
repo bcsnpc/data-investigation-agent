@@ -741,3 +741,8 @@ Round25 November rollover validation: full offline suite on source6c338d3c ran56
 
 
 G4 history fixture,2026-11-01: real copyCompleted06:15:51.1966667UTC, Bronze SQL control stillreturnedempty06:35:21.882031(>=19m30.685s), first900201=41observed06:37:13.959163. The metadata refresh returned200/NotRun, lastsuccessfulsync06:35:34.8776588, beforeits06:37:16start; no claimthatmanualrefreshcausedrecovery. Native automaticSQL-endpointvisibilitylag isrecorded separatelyfromenginequality; scoredhistoryadmissionwaitedforfreshrow41. Noidentity/permissionchange. APIrecreateTablesfalse,1controlrequest. [Microsoft API](https://learn.microsoft.com/en-us/rest/api/fabric/sqlendpoint/items/refresh-sql-endpoint-metadata); [receipt](runs/round25-g4-history-sql-endpoint-lag.json).
+
+
+## Round 25 closeout findings — 2026-11-01
+
+Measurement completed on the frozen engine. Forms did not demonstrate free-text readiness: unchanged R22 tickets fell from original official 14/40 dev and 5/20 held-out to official 6/40 and 0/20; independently raw-reviewed 3/40 and 0/20. Five harmful answers remain counted across G1 and G3. Eleven native exceptions remain zeros, not silently excluded. Partial operator exposure and independently adjudicated disagreements are disclosed in the quality report. Native execution timing differs from harness timing, which includes admission and artifact retrieval. All 33 injection records are restored; temporal history stays on, model automatic updates are on and native source/Bronze/model baseline is restored. Full Bronze row-hash verification remains unestablished. Release checks are recorded separately and must not be inferred from measurement completion.

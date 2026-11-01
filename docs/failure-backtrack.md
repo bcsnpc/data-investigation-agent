@@ -16808,3 +16808,8 @@ The earlier history walkthrough plus these two provide three distinct raw-captur
 ### Round25 G2 automatic saved-trace backtrack (rolling checkpoint)
 
 The current independently raw-reviewed zeros are indexed in [the G2 backtrack](runs/round25-g2-backtrack.json). At nine graded tickets there is one zero, at intake, in source history. The first-step assessment comes from the separate Claude reviewer or agreeing independent graders, not operator adjudication. No new estate read, model call, score or expectation change is made by this index. G1's two harmful historical conclusions remain recorded above; the owner lifted the history measurement pause on October31, not the harmful flags.
+
+
+## Round 25 final saved-trace backtrack — 2026-11-01
+
+No engine changes followed this measurement. G1's five raw zeros group as conclusion 2, query 2 and authored invalid-input contract 1. G2: intake 14, query 4, conclusion 3, triage 3. G3: intake 40, target 8, conclusion 7, reading results 2. G4: conclusion 2, query 1, triage 1. These are recorded grader/reviewer first-failing-step labels, not a new operator regrade. The waiting-job timing confound and native transport exception remain disclosed. Free-text intake/target regression ranks first for the next round; unsupported causal conclusions rank next. Per-ticket tables and walkthroughs are linked from [the quality report](quality-report-v0.24.md); original traces and scores are unchanged.

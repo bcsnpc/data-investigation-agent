@@ -1,70 +1,73 @@
-# Round 25: prove quality at scale
+# Round25: frozen v0.24 quality measurement
 
-Measurement only on frozen v0.24. No investigator, intake, triage, routing, query, model, prompt or caching changes are permitted. Prior Round24 scores and tapes remain unchanged.
+MEASUREMENTS COMPLETE; RELEASE VALIDATION IN PROGRESS - 2026-11-01T08:54:16.964052+00:00
 
-## Part 0: freeze and budgets
+The engine was measured, not improved. Raw-reviewed is the headline; official and strict scores remain visible. Every requested ticket has a saved outcome or retained native exception.
 
-Current owner-approved configuration (2026-10-31T21:52:41.104744+00:00): October AI206USD; physical17000; INVESTIGATION14405; SCAN2500; RESTORATION95. Counters/reservations unchanged by the increase. November150USD/9000 remains automatic. Latest tested budget-only image6b2935e8d3ff, source221b0be9; all500 nonbudget frozen runtime files match. Actual v0.24 merge7f5d2b0d; original prompt/freeze typo retained and qualified. Earlier checkpoints below are historical. Owner before/after: docs/runs/round25-owner-budget-206-20261031.json.
+## Part0: freeze and budgets
 
-R24 closure/tag/main ancestry confirmed. Round25 uses frozen v0.24 release d7f5d2b0 and image595047cf (actual image source b78299f6). All502 runtime files match; no investigator, model, prompt or caching change. Reporting/input-serialization/state-write-recovery helpers have20 focused passing tests. October AI146 and physical12000 allocations remain unchanged; November native accounts/policy read back150USD and9000 requests. The cost-observation renewal command was recorded before its deadline; native observation was renewed28Oct15:42UTC. [Runtime check](runs/round-twenty-five-frozen-runtime-readback.json), [November readiness](runs/round-twenty-five-november-budget-readiness.json).
+Actual frozen v0.24 merge:7f5d2b0d3a498485b03184384a9bac5e8ddbdf0. The prompt/original freeze typo d7f5d2b0 is retained in historical receipts and explicitly qualified. All 500 nonbudget runtime files match. The two approved budget-only changes match qualified source221b0be9. Per-run bindings record the original595047cf,166-budget deae7d44 and206-budget6b2935e8 images; final measurement image6b2935e8 remains pinned. No investigator/intake/triage/route/query/model/prompt/cache behaviour changed.
 
-Owner resume,2026-10-31: October ceilings are now **AI $166; physical15,500; investigation12,905**, SCAN2,500/restoration95 unchanged. Native before/after and unchanged reservation hash are recorded. November remains $150/9,000 automatically. The deployment now uses tested image `deae7d44` with a documented two-file budget-only exception (policy JSON and monthly grading-account selector); all other500 frozen runtime files match. Original image/freeze retained. Native cost observation renewed31Oct16:52UTC with three cost-only job readbacks; no scopes changed. Three pending G1 tickets are currently running, not yet scored. See [budget change](runs/round25-owner-budget-20261031.json), [image qualification](runs/round25-budget-image-qualification.json). Limited accidental operator exposure to oracle staging output is disclosed in decisions.md; no engine or scoring changes followed it.
+October owner raises were146->166->206USD and12000->15500->17000physical requests,INV14405/SCAN2500/REST95 at close. Counters were preserved. November automatically applies150USD/9000,INV6405/SCAN2500/REST95. October closing shared use179.847340USD/13622requests is historical, not carried into November. See owner before/after and rollover receipts.
 
-## Part A: new held-out v4
+## PartA: new held-out v4
 
-60 independently authored tickets are sealed before any G2 engine run:48forms,12free text, six real screenshots, three estates. Every scenario has a native-fact oracle and pinned source receipts; faults must be freshly reestablished at scoring. Exact unique dropdown selections were serialized from names to IDs, with inverse witnesses proving no prose/figure change. The wrong-page billing form retains both original selections and received independent pre-seal review. All original drafts and earlier unsealed oracle versions remain. [Seal and coverage](runs/round-twenty-five-v4-seal.json).
+Sixty independently model-authored tickets were sealed before G2: 48 forms, 12 free-text tickets, six real screenshots,three estates. Authoring used visible catalog/native scenario facts, not engine outcomes. Source receipts and oracle hashes are retained; fault fixtures were freshly established at scoring. Original ticket prose and expectations were not edited after sealing. Authored contract and timing confounds are disclosed, not quietly corrected.
 
-## Part B: independent grading and confidence intervals
+## PartB: grading
 
-Owner's 2026-10-28 steer applies throughout: official primary, strict (both graders correct) and raw-reviewed appear side by side. Raw-reviewed is the plain-language headline. Every disagreement is checked against the saved capture; original grades and sealed expectations stay unchanged. Pending reviews remain explicit.
+Primary: Sonnet 4.6; secondary: Opus 5.5. Official=primary,strict=both fully correct, raw-reviewed=independent saved-evidence adjudication of every assessment disagreement. G2-G4 fresh review calls received only the ticket, saved answer/evidence, sealed expectation and both reasons. Partial operator exposure is disclosed; full blinding is not claimed. Original grades and expectations remain unchanged.95%Wilson intervals describe these related-fixture samples only.
 
-Historical checkpoint, G1 (31 double-graded): **raw-reviewed 26/31 (95%Wilson67.4-92.9%)**, official 28/31 (95%Wilson75.1-96.7%), strict 25/31 (95%Wilson63.7-90.8%). Raw-confirmed harmful2 in source-history caused the then-active pause. The owner lifted that pause for measurement on October31; the harmful answers remain counted. Every assessment disagreement has a saved-capture review; originals stay unchanged. The invalid-report-ID warehouse input remains a benchmark zero, separately identified as an authored contract finding. [Current scores](runs/round-twenty-five-g1-current-grades.json), [all disagreements](round-twenty-five-grader-disagreements.md).
+## G1-G4 results
 
-R24's absent-record capture has a dated raw-review correction: secondary is right on cause and both graders were overly strict on its verdict label under the unchanged substance rule. The initial review is preserved. Official18/20 stays unchanged, with no rerun or provider regrade. [Raw review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
+| Cohort | Official (95%Wilson) | Strict (95%Wilson) | Raw-reviewed (95%Wilson) | Raw harmful |
+|---|---|---|---|---:|
+|G1|37/40 (80.1-97.4%)|34/40 (70.9-92.9%)|35/40 (73.9-94.5%)|2|
+|G2|37/60 (49.0-72.9%)|32/60 (40.9-65.4%)|36/60 (47.4-71.4%)|0|
+|G3|6/60 (4.7-20.1%)|2/60 (0.9-11.4%)|3/60 (1.7-13.7%)|3|
+|G4|18/20 (69.9-97.2%)|15/20 (53.1-88.8%)|16/20 (58.4-91.9%)|0|
 
-## G1: full dev v2
+G1 is dev, G2 is the headline new held-out 60, G3 is the unchanged original R22 free-text 60, and G4 is regression on the previously used R23 held-out 20. Do not pool them into one accuracy number.
 
-All40 outcomes saved and double-graded. **Raw-reviewed35/40**, official37/40, strict34/40; raw-confirmed harmful2 (history), retained. History measurement pause was lifted by owner31Oct; all3G2history will count. One lost Azure start response was reconciled to its original sealed, input-matching ANSWERED capture with no resubmission; its Azure execution name/status/timing remain unestablished. Independent G2-G4 review calls, not the operator, decide all grader assessment disagreements. Full per-class/Wilson receipts: [G1 grades](runs/round-twenty-five-g1-current-grades.json).
+G3 same-ticket comparison: R22 officialdev14/40,held-out5/20; R25 officialdev6/40,held-out0/20; strictdev2/40,held-out0/20; rawdev3/40,held-out0/20. G4 compares R23 official 6/20 with R25 official 18/20,strict15/20,raw16/20. R24 official 18/20 remains unchanged; the retrospective disagreement audit changes no official score.
 
-## G2: headline held-out v4
+## Agreement, cost and timing
 
-Current saved-grade snapshot (2026-10-31T21:52:41.104744+00:00): raw25/45; official25/45; strict23/45; raw harmful0. Ongoing until all60 are accounted for. Dated checkpoints below are historical. Every completed assessment disagreement is independently reviewed, with original scores/expectations unchanged.
+| Cohort | Core / full assessment agreement | Investigation USD / observed ticket | Usage observed | Cache reads | Native median / p90 seconds |
+|---|---|---|---:|---|
+|G1|37/40 / 8/40|0.413174|40|67.49%|245.0 / 317.0|
+|G2|51/60 / 13/60|0.477974|50|69.21%|206.0 / 307.0|
+|G3|50/60 / 8/60|0.163234|59|60.18%|200.0 / 323.0|
+|G4|16/20 / 3/20|0.419356|20|67.66%|212.0 / 291.0|
 
-In progress. First nine graded tickets: **official8/9, strict8/9, independently raw-reviewed8/9; harmful0** (95%Wilson56.5â€“98.0%). History measured first under owner pause-lift: all3counted, oneNEEDS_INPUT and twoANSWERED. All6fixture/billing failed-job tickets answered correctly. Fresh Claude calls adjudicated every assessment disagreement; the operator did not adjudicate. Original source360row hash and pipeline definition hashes verified, temporalON; the post-control normal billing run retains its pre-existing2011build error. Waiting cohort is running; other results remain pending. Investigation-only $3.473197/$0.385911per ticket, cache-read64.81%; native8observed/1missing median195s/p90268s. [Interim G2](runs/round25-g2-current-grades.json), [native usage](runs/round25-g2-observed-cost-timing-cache.json), [history decisions](runs/g2-history01-independent-review.json), [fixture-failure decisions](runs/g2-failure-fixture01-independent-review.json), [billing-failure decisions](runs/g2-failure-billing01-independent-review.json).
+Costs are native-settled investigation charges only; grading, authoring, controls and smokes are separate. Ten G2 and one G3 unsealed exceptions have unavailable capture usage, not zero. Native timing is not product end-to-end latency. Full investigations, holds and operational answers are separately tabulated in the quality report, with fresh harness intervals labelled as including fixture admission/artifact retrieval.
 
-## G3: unchanged R22 messy input
+## Failure patterns and next round
 
-All60 original text records are hash-verified and prepared with the frozen model configuration; no G3 run admitted yet. Original dev/held-out expectation copies are unchanged. [Preparation](runs/round-twenty-five-g3-prepared.json).
+1. Free-text intake and target selection first: G3 zero labels include intake40 and target8; the original R22 score comparison is directly above. Forms do not establish free-text readiness.
+2. Ground the causal conclusion in evidence actually read. G1history2 and G3R17-01/02/05 account for the5 retained harmful answers.
+3. Use supported native query syntax and the required evidence route before claiming retention or exhausting the tool budget. Do not change the validator in this round.
+4. Supply decisive triage facts, including automatic DirectLake update state. A numeric split alone does not prove that setting.
+5. Separate a supported finding from answering the user's precise question; retain honest limitations and clear handoffs.
 
-## G4: R23 held-out regression
+Detailed per-class scores, correctness dimensions, all disagreements, zero groups and walkthroughs are in [the quality report](quality-report-v0.24.md) and linked JSON receipts. No ranked fix was implemented.
 
-The original sealed20-ticket regression inputs are prepared; no G4 run admitted yet. [Preparation](runs/round-twenty-five-g4-prepared.json).
+## Restoration, evidence and limitations
 
-## Part H: analysis, restoration and release
+All 33 canonical control status records have clear restoration flags. Final native source hashes match the original 360 business rows/schema; temporal history remainsOn. Bronze aggregate 360 / 7,661 and native model 7661 match, and automatic updatesOn persisted after reopening settings. All owned schedules/access objects/catalog/pipeline definitions were restored in their receipts. Legitimate audit/history rows remain. Full Bronze row hash is unestablished.
 
-_pending_
+169results are sealed;11native exceptions retain partial captures and count as zeros. Original unestablished Azure starts remain unestablished and are not rescored; permitted replacements are individually recorded. Existing CI replay gates are separate from these live quality scores. No all 180 replay claim is made.
 
+Operator exposure included staging/status and accidental saved-answer/split-report fragments during recovery. The frozen engine and expectations were not tuned; independent calls adjudicated G2-G4 disagreements. One reviewer returned prose instead of the required tool response; its charged original is retained and a fresh contract retry used identical evidence/rules. Grading-only PostgreSQL pre-dispatch retries occurred only after proving no request/reservation; accepted receipts were never blindly resent.
 
+The history fixture's Bronze SQL endpoint lag was at least19m30.685s after copy completion. Its metadata refresh returnedNotRun with an earlier automatic sync; manual refresh is not claimed causal. A later AzureSQL40613 was reconciled by reading the owned row/version before the same guarded control resumed. Neither pre-admission problem was scored as an engine result.
 
-G1 final timing/cost: investigation-only $16.526970, $0.413174/ticket; 1072 native investigation requests. Native median245s/p90 317s with36observed,4missing; worker median207.7s/p90 285.3s for40. Cache-read67.49%. [Exact per-ticket native usage](runs/round-twenty-five-g1-observed-cost-timing-cache.json). Grading and fixture-control spend is separate. No new G1 zero beyond the five already backtracked (two history, two pre-retention, one authored invalid warehouse/report contract).
+## Budgets and release validation
 
-G2 later checkpoint, 2026-10-31: **official10/12, strict10/12, independently raw-reviewed10/12; harmful0**. All3waiting tickets are saved and the original pipeline definition hash is restored. Third waiting answer read the job completing during its investigation; the independent reviewer found its completion facts supported but retained zero against the sealed waiting expectation. This is explicitly a fixture/expectation timing confound, not a supported harmful finding. No rerun or expectation change. The two current raw zeros are intake1/history and conclusion-stage mismatch1/waiting. Native11observed/1missing median186s/p90259s; investigation-only $4.545386/$0.378782per ticket, cache-read64.31%. Latency cohort is active; release and other cohorts remain pending.
+Latest saved November shared-ledger snapshot:AI29.601255/150USD;physical1543/9000,allocations{'SCAN': 118, 'INVESTIGATION': 1407, 'RESTORATION': 18},restoration remaining77. These include scheduled/shared work and are not falsely labelled a Round25-only total. All historical charges and uncertain exposure remain recorded. No new identity, permission, secret or paid Azure resource. The20USD platform guard stays unchanged.
 
-Additional operator-exposure disclosure,2026-10-31: the initial recovery command also printed a billing failed-job ticket/output fragment embedded in a status file. Full operator blinding is not claimed. Subsequent status checks whitelist metadata; no engine/expectation/grade change followed the exposure. Independent Claude calls, not the operator, decide G2-G4 disagreements.
+Prior coherent full suite onf29061f2:5,694 tests,50 skips,zero failures/errors. Final committed-source qualification, three final smokes, ready/merge/main validation and tag are being completed; no release-success claim yet.
 
-G2 fifteen-ticket checkpoint,2026-10-31: official12/15, strict12/15, independently raw-reviewed12/15; harmful0. Class breakdown: failed job6/6, source changed history2/3, waiting on job2/3, latency2/3. The waiting zero remains timing-confounded as documented; both other zeros stop at intake. Investigation-only $5.504163/$0.366944per ticket; cache-read65.00%; native13observed/2missing median188s/p90259s. Access cohort is running, not yet graded. The original latency source hash and schedule removal are verified. Frozen investigator logic and all original expectations remain unchanged.
+No requested measurement was skipped. Failed fixture admissions were repaired/reconciled before scoring; delivered answers were not rerun to improve scores. The owner lifted source-history and all G3 harm pauses for measurement; harmful answers remain counted. Existing owner-action backlog remains; no new permission decision is required to close this measurement round.
 
-G2 eighteen-ticket checkpoint,2026-10-31: official12/18, strict12/18, independently raw-reviewed12/18 (95%Wilson43.75–83.72%), harmful0. Access3/3zeros: one intake hold and two unresolved tool/time stops; all three assessment disagreements received fresh independent Claude review. Original SQL objects/catalog restored, roles unchanged. Native timing13observed/5missing median188s/p90259s; worker15observed median171.93s/p90218.17s. Investigation-only $9.595119/$0.533062per ticket; cache71.04%. Stale3cohort now running with source/Bronze7692 versus model7661, automatic updatesOFF; not yet scored.
-
-Grading-only reliability correction: the access raw-review packet contained nested JSON text duplicating whole saved case/catalog structures. Original2,057,799-byte packet was refused after token count, before messages dispatch. Lossless column-key dictionaries and embedded-JSON reconstruction reduce it to845,504bytes, preserving every row/field and original string bytes (roundtrip asserted). Original token-count-only refusals preserved; no unknown messages dispatch retried. The independent-review wrapper now uses the round-approved $3 actual-usage limit; monthly conservative commitments unchanged. All16 focused grading/report tests pass. Frozen investigator/image, sealed expectations, original primary/secondary scores and saved engine captures unchanged.
-
-G2 twenty-one-ticket checkpoint,2026-10-31: official12/21, strict12/21, independently raw-reviewed12/21 (95%Wilson36.55–75.53%); harmful0, no pending raw review. All three stale tickets delivered refresh-stale at the correct semantic layer, but did not establish the specific automatic-update-OFF mechanism: the frozen engine has no installed AUTOMATIC_UPDATES fact port and explicitly acknowledged that gap. The independent reviewer puts the first failure at triage, not a confident wrong conclusion. Under the unchanged all-three rule these are partial answers and score0/3; no expectation was changed. Source and original real copy restored, native UI automatic updates backON; own refresh and native7661verification currently completing.
-
-G2 stale final restoration verified2026-10-31: original360 business rows/schema hashes match, original real copyCompleted; automatic updates restoredOn using the same owner UI; own model refresh764687151Completed; native read7661. No identity, role or connection change. Restoration refresh6 and model read1 chargedRESTORATION. All3scored outcomes saved before restoration. Exact before/after and public receipt docs/runs/round25-g2-stale-final-restoration.json. Remaining39G2baseline tickets admitted in guarded3-wide sequential waves; G3/G4stillpending.
-
-2026-10-31 G2 application-baseline second variant has the same native ValueError COMPARISON_DETAILS_REQUIRED before delivery. Both failed runs are preserved with ten partial blobs each and original exit1 records. Neither is resubmitted or excused as an HTTP404 plumbing miss. The first variant delivered an answer. All three enter unchanged independent grading, with native exceptions retained in the denominator and usage unavailable rather than fabricated zero.
-
-G2 twenty-four-ticket checkpoint,2026-10-31: raw-reviewed13/24, official12/24, strict12/24; harmful0, no pending independent raw review. Application-baseline firstvariant was supported by independent raw review; the other two are retained undelivered native comparison-contract exceptions, not retried and not excluded. Native usage observed for22sealed outcomes: $11.070238/$0.503193 per observed ticket, cache70.48%; two unsealed exceptions have unavailable usage, not fabricated zero. Core grader agreement22/24 covers verdict/layer/cause/harm; FULL assessment agreement is only5/24 (handoff/partial/failing-step disagreements included). G1core37/40 versusfull8/40 must be presented with the same distinction. Nextstaticgroup pre-retention3running on originalinputs.
-
-
-2026-10-31 owner extension checkpoint: G2 30/60 independently graded, raw16/30, official16/30, strict14/30, raw harmful0; remaining30 not scored, three MRR admissions blocked before submission remain first attempts. Owner increased October AI166->206USD, physical15500->17000,INV12905->14405, counters/reservations unchanged; November150USD/9000 unchanged. Cloud native readback162.755284USD and13091physical. Budget-only image qualification in progress. Intermediate full suite5646tests/50skip passed; final committed-source release suite remains required. Temporal validator offline accepts SYSTEM_TIME AS OF/ALL, attempted OPTION(FOR TIMESTAMP AS OF) rejected before dispatch; no engine fix.
+[Quality report](quality-report-v0.24.md), [all 180 image bindings](runs/round25-measurement-image-index.json), [runtime check](runs/round25-final-frozen-runtime.json), [control closeout](runs/round25-injection-closeout.json), [estate readback](runs/round25-final-estate-readback.json), [full-suite receipt](runs/round25-full-suite-f29061f2.json).

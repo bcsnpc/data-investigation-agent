@@ -1,18 +1,33 @@
 {
   "pass": "Round25 G4 raw-reviewed",
-  "graded": 19,
+  "graded": 20,
   "score": 16,
   "correctness": {
-    "verdict_match": 17,
-    "layer_match": 18,
+    "verdict_match": 18,
+    "layer_match": 19,
     "cause_match": 17
   },
   "harmful": 0,
   "zero_groups": {
+    "triage": 1,
     "conclusion": 2,
     "query": 1
   },
   "zeros": [
+    {
+      "ticket": "v2-stale-model-v3",
+      "first_wrong_step": "triage",
+      "reason": "What the saved evidence shows: the DAX query on the Direct Lake measure returned 7661 at 08:35:05. The bronze table dbo.stock_movements_round_two_20261003 and the ordersops table app.stock_movements_round_two_20261003 both returned 7692 at 08:35:10 and 08:35:17. The last model refresh, run 764884162, succeeded from 08:13:07 to 08:13:08. The audited pipeline run c88937de succeeded later, from 08:27:59 to 08:29:32, and read and wrote 363 rows. The model's 01:00 daily schedule exists but is set to enabled=false, and the pipeline has no schedule. The AUTOMATIC_UPDATES triage check is UNAVAILABLE ('CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT').\n\nVerdict: matches. The answer says 'refresh stale', as expected, and rightly rejects the user's guess that the refresh failed or got stuck.\n\nLayer: matches. Bronze and the source agree at 7692, while the model shows 7661, so the split is between bronze and the semantic model.\n\nCause: does not match. The sealed cause is that a real load added 31 units (7+11+13) while the model's automatic updates were off, backed by native refresh/update facts. The answer's main explanation is the disabled scheduled refresh plus the load landing after the last refresh. It says outright that it could not read the automatic-updates (Direct Lake auto-sync) setting. So it never establishes the mechanism that decides the case. It also never breaks down the 31-unit gap. An earlier submission that included '31' was rejected because 31 was not in any cited result, and the final answer drops it. The primary grader's claim that the 31 is 'implicitly present' and that the disabled schedule covers 'automatic updates off' replaces a missing fact with a different one.\n\nUnder the all-three rule this is a partial answer, so it scores zero. It is not harmful: the answer flags the unread setting and does not present a wrong cause as fact.\n\nFirst failing step: triage. The deciding fact, the AUTOMATIC_UPDATES setting, was never collected.\n\nHandoff quality: 1. The queries can be rerun and the limits are clearly stated. But the handoff is null, and there is no explicit next step such as checking the auto-sync setting or doing a row-level diff.\n\nThe primary grader is wrong on cause_match, partial and handoff. It gives a handoff score of 0 while calling the answer fully resolved, even though the answer itself names an unresolved gap. The secondary grader's assessment agrees with the evidence on every point.",
+      "saved_trace": {
+        "outcome_sha256": "e42278f2269dc22608f60a7d9499faac86d8dd476013a4313a3995deb966797e",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-stale-model-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Read and act on the current path run or freshness fact first.",
+      "class": "v2-stale-model"
+    },
     {
       "ticket": "v2-application-baseline-v3",
       "first_wrong_step": "conclusion",
@@ -74,6 +89,20 @@
   ],
   "walkthroughs": [
     {
+      "ticket": "v2-stale-model-v3",
+      "first_wrong_step": "triage",
+      "reason": "What the saved evidence shows: the DAX query on the Direct Lake measure returned 7661 at 08:35:05. The bronze table dbo.stock_movements_round_two_20261003 and the ordersops table app.stock_movements_round_two_20261003 both returned 7692 at 08:35:10 and 08:35:17. The last model refresh, run 764884162, succeeded from 08:13:07 to 08:13:08. The audited pipeline run c88937de succeeded later, from 08:27:59 to 08:29:32, and read and wrote 363 rows. The model's 01:00 daily schedule exists but is set to enabled=false, and the pipeline has no schedule. The AUTOMATIC_UPDATES triage check is UNAVAILABLE ('CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT').\n\nVerdict: matches. The answer says 'refresh stale', as expected, and rightly rejects the user's guess that the refresh failed or got stuck.\n\nLayer: matches. Bronze and the source agree at 7692, while the model shows 7661, so the split is between bronze and the semantic model.\n\nCause: does not match. The sealed cause is that a real load added 31 units (7+11+13) while the model's automatic updates were off, backed by native refresh/update facts. The answer's main explanation is the disabled scheduled refresh plus the load landing after the last refresh. It says outright that it could not read the automatic-updates (Direct Lake auto-sync) setting. So it never establishes the mechanism that decides the case. It also never breaks down the 31-unit gap. An earlier submission that included '31' was rejected because 31 was not in any cited result, and the final answer drops it. The primary grader's claim that the 31 is 'implicitly present' and that the disabled schedule covers 'automatic updates off' replaces a missing fact with a different one.\n\nUnder the all-three rule this is a partial answer, so it scores zero. It is not harmful: the answer flags the unread setting and does not present a wrong cause as fact.\n\nFirst failing step: triage. The deciding fact, the AUTOMATIC_UPDATES setting, was never collected.\n\nHandoff quality: 1. The queries can be rerun and the limits are clearly stated. But the handoff is null, and there is no explicit next step such as checking the auto-sync setting or doing a row-level diff.\n\nThe primary grader is wrong on cause_match, partial and handoff. It gives a handoff score of 0 while calling the answer fully resolved, even though the answer itself names an unresolved gap. The secondary grader's assessment agrees with the evidence on every point.",
+      "saved_trace": {
+        "outcome_sha256": "e42278f2269dc22608f60a7d9499faac86d8dd476013a4313a3995deb966797e",
+        "local_outcome": ".local\\round-twenty-five\\g4-v2-stale-model-v3-result.json",
+        "assessment_origin": "fresh independent Claude saved-evidence review"
+      },
+      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
+      "retained_query_errors": [],
+      "correct_action": "Read and act on the current path run or freshness fact first.",
+      "class": "v2-stale-model"
+    },
+    {
       "ticket": "v2-application-baseline-v3",
       "first_wrong_step": "conclusion",
       "reason": "What the saved evidence shows:\n(1) The retained measure definition is SUM('Movements'[units]).\n(2) The DAX recreate query run without filters returned Movement Units 7661, with 360 rows, 360 distinct movement_ids and no blank units.\n(3) The ordersops table app.stock_movements_round_two_20261003 returned sum 7661, 360 rows and 360 distinct ids. Its top 5 rows end at movement_id 360.\n(4) The bronze/landing table dbo.stock_movements_round_two_20261003 returned sum 7702, 361 rows and 361 distinct ids. That is a live, successful, read-only query at 06:52:39. The extra row is movement_id 900201 (units 41, source_modified_at_utc 2026-11-01 06:12:06).\n(5) The model does not contain 900201; its highest movement_id is 360.\n(6) The model last refreshed successfully at 04:56:54 and its schedule is disabled.\n(7) The latest pipeline run, c5e4269d (06:46\u201306:47), succeeded, and its audit records 360 rows read and 360 written. An earlier run, 3e941fa6, failed with error 2011, a controlled test failure.\nThe answer reports all of this accurately and labels the landing difference as unexplained.\n\nVerdict: 'definition explained' on a how-is-this-calculated ticket means the same as 'as designed'. The answer confirms that the card is a plain SUM(units) with no filter, that it equals the source, and it claims no defect. So the verdict matches, and the primary grader was wrong to fail it on the label.\n\nLayer: the answer ties 7661 to the declared ordersops source application, so the layer matches. The primary grader was wrong here too.\n\nCause: the sealed cause says SUM(units) agrees across the model, the landing copy and the source at 7661. The answer correctly names SUM(units) and shows the model and source agreeing at 7661. But it reports, with evidence, that the landing copy is 7702/361, which directly contradicts the 'agrees across landing' part. Graded against the expectation as written, the cause does not fully match. Under the all-three rule a partial match scores zero. The evidence suggests the expectation may predate the 06:12 insertion of row 900201. That point is honestly noted, but it does not change the score.\n\nNot harmful: the answer never offers the landing difference as the reason for 7661, and it states its point-in-time limits openly. Its claim that the model reads the bronze copy relies on lineage rather than a saved query, but it is not used to support a wrong conclusion.\n\nFailing step: I recorded 'wrong conclusion' to match the score, but this is a mismatch with the expectation, not a demonstrated error by the DIA.\n\nHandoff (1): the queries are recorded verbatim and can be rerun, and the gaps are clear. However, the handoff field is null and no concrete next checks are named, so 2 is too generous.\n\nWinner: the secondary grader's verdict, layer, cause, partial, harm and handoff calls all match mine. The primary grader wrongly failed the verdict and layer and over-scored the handoff.",
@@ -116,26 +145,13 @@
       ],
       "correct_action": "Use the returned native error and schema to correct this read before concluding.",
       "class": "v2-before-temporal-retention"
-    },
-    {
-      "ticket": "v2-record-absent-everywhere-v3",
-      "first_wrong_step": "conclusion",
-      "reason": "What the saved evidence shows: three record lookups for movement_id = 900099 all succeeded and returned 0 rows, with truncated=false and no read errors. The lookups ran against app.stock_movements_round_two_20261003 in ordersops (the source system of record), dbo.stock_movements_round_two_20261003 in round_two_bronze_20261003, and the DAX query on 'Movements'. The first query hit SQL error 40613 twice while the source was paused, then connected on attempt 3. That retry did not affect the result. A separate profile query on the source returned 360 rows, ids 1\u2013360, 0 rows between ids 900090 and 900110, and 44 rows whose event_day starts with 2026-09-12. record_trace marks the record ABSENT in all three layers. The first submit_finding was rejected only because it cited the number 900099, which did not appear in any query result or the reported input. The resubmission with numbers [0,360,1,44] was accepted. Triage found successful refreshes and job runs, and lists six checks as unavailable.\n\nLayer and cause: both match. The answer places the absence at the source application table and in every reachable downstream layer, and correctly says the load and model did not lose the record. That is the substance of the expected cause. It does not mention 'BLANK is not zero', but it does not contradict it either.\n\nVerdict: does not match. The expected verdict 'as designed' means the report is behaving correctly and there is no defect. The DIA returned 'not found'. It confirmed absence, but it never concluded that the empty visual is correct. It also deliberately left open whether the record existed earlier, and it did not address what the EMPTY reported figure means. Its hedging is honest and supported by the evidence, but it is a different conclusion from the expected one, not the same conclusion with a different label. Under the all-three rule this is a partial match, which scores zero. The failing step is the conclusion.\n\nNot harmful: every factual claim is backed by successful, read-only, rerunnable queries, and the uncertainty is stated appropriately.\n\nHandoff quality is 1. The queries are literal and rerunnable and the stopping point is clear, but the answer suggests no next checks, such as source audit or history for 2026-09-12, or confirming the id with the requester.\n\nThe primary grader was wrong to treat 'not found' as equivalent to 'as designed', and wrong to score handoff 0 as not applicable. The secondary grader's assessment matches on every field.",
-      "saved_trace": {
-        "outcome_sha256": "7670350a274b6b2f3e73d31838a016025b136e9bcb3353dc4b664e0ab099196d",
-        "local_outcome": ".local\\round-twenty-five\\g4-v2-record-absent-everywhere-v3-result.json",
-        "assessment_origin": "fresh independent Claude saved-evidence review"
-      },
-      "basis": "Independent grader first-step assessment plus retained terminal status. Earlier corrected query errors alone are not classified as the first causal failure.",
-      "retained_query_errors": [],
-      "correct_action": "Restrict the cause to what the cited native evidence establishes.",
-      "class": "v2-record-absent-everywhere"
     }
   ],
   "estate_reads": 0,
   "model_calls": 0,
   "scores_or_expectations_changed": false,
   "zero_classes": {
+    "v2-stale-model": 1,
     "v2-application-baseline": 1,
     "v2-before-temporal-retention": 1,
     "v2-record-absent-everywhere": 1

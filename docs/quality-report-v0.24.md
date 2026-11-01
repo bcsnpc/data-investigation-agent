@@ -1,19 +1,27 @@
 # Quality of frozen v0.24 - Round 25
 
+## Plain-language result
+
+On the new 60-ticket held-out set, DIA is fully correct on 36/60 after independent raw review:60%, with a 95% Wilson interval of 47.4-71.4%. No harmful answer was confirmed in that set. The official primary score is 37/60; the stricter both-graders score is 32/60. Related variants share fixtures, so this is sample uncertainty, not a client-estate reliability guarantee.
+
+The largest weakness is free-text intake and target selection. On the unchanged R22 questions, raw-reviewed correctness is 3/40 dev and 0/20 held-out; the original R22 official results were 14/40 and 5/20. Three harmful answers in this regression remain counted. Structured-form success must not hide this loss. G1dev is 35/40 raw with 2 harmful answers; G4, the previously used R23 regression set, is 16/20 raw with 0 harmful, compared with R23's unchanged official 6/20. These cohorts are kept separate.
+
+Read-only enforcement, secrets and budgets stayed on. The investigator, model, prompt and caching behaviour stayed frozen; two documented budget-policy/accounting compatibility files are the only runtime exceptions. No quality fix is implemented here. The results do not establish dependable general investigation quality. Earlier checkpoint versions remain in Git and the run ledger.
+
 ## Current measurement
 
-Saved-result snapshot: 2026-11-01T08:28:01.807177+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 is complete (60/60); G4 remains in progress until all20 are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-11-01T08:54:17.072823+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 is complete (60/60); G4 remains in progress until all20 are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
 |G1|37/40 (80.1-97.4%)|34/40 (70.9-92.9%)|35/40 (73.9-94.5%)|2|40|
 |G2|37/60 (49.0-72.9%)|32/60 (40.9-65.4%)|36/60 (47.4-71.4%)|0|60|
 |G3|6/60 (4.7-20.1%)|2/60 (0.9-11.4%)|3/60 (1.7-13.7%)|3|60|
-|G4|17/19 (68.6-97.1%)|15/19 (56.7-91.5%)|16/19 (62.4-94.5%)|0|20|
+|G4|18/20 (69.9-97.2%)|15/20 (53.1-88.8%)|16/20 (58.4-91.9%)|0|20|
 
 ### Same original R22 splits
 
-The original dev and held-out sets remain separate. Interim numerators use only graded tickets; requested counts show pending coverage. Historical R22 scores are official primary, not retrospectively raw-reviewed.
+The original dev and held-out sets remain separate. All original tickets are now graded; the dev and held-out denominators are complete. Historical R22 scores are official primary, not retrospectively raw-reviewed.
 
 | Original split | Requested | R22 official (95% Wilson) | R25 official | R25 strict | R25 raw-reviewed |
 |---|---:|---|---|---|---|
@@ -31,7 +39,7 @@ Core agreement means verdict, layer, cause and harm flags. Full assessment addit
 |G1|37/40 (80.1-97.4%)|8/40 (10.5-34.8%)|35/40 (73.9-94.5%)|35/40 (73.9-94.5%)|35/40 (73.9-94.5%)|0|
 |G2|51/60 (73.9-91.9%)|13/60 (13.1-33.6%)|42/60 (57.5-80.1%)|44/60 (61.0-82.9%)|37/60 (49.0-72.9%)|0|
 |G3|50/60 (72.0-90.7%)|8/60 (6.9-24.2%)|3/60 (1.7-13.7%)|8/60 (6.9-24.2%)|7/60 (5.8-22.2%)|0|
-|G4|16/19 (62.4-94.5%)|3/19 (5.5-37.6%)|17/19 (68.6-97.1%)|18/19 (75.4-99.1%)|17/19 (68.6-97.1%)|0|
+|G4|16/20 (58.4-91.9%)|3/20 (5.2-36.0%)|18/20 (69.9-97.2%)|19/20 (76.4-99.1%)|17/20 (64.0-94.8%)|0|
 
 Operator blinding was partly broken by the earlier two staging/status fragments and an additional G3 access status dump that included saved outcome text. These exposures are disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2-G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
@@ -146,6 +154,7 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 |G4 / v2-screenshot-record-03|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 |G4 / v2-screenshot-record-04|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 |G4 / v2-source-history|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
+|G4 / v2-stale-model|1/1 (20.7-100.0%)|0/1 (0.0-79.3%)|0/1 (0.0-79.3%)|
 |G4 / v2-waiting-application-load|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 |G4 / v2-warehouse-scope|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
 
@@ -191,6 +200,7 @@ Grouping uses exact sealed oracle labels; no expectation or score change. Case f
 |G4 / failed job|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|0|
 |G4 / latency|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|0|
 |G4 / not found|0/1 (0.0-79.3%)|0/1 (0.0-79.3%)|0/1 (0.0-79.3%)|0|
+|G4 / refresh stale|1/1 (20.7-100.0%)|0/1 (0.0-79.3%)|0/1 (0.0-79.3%)|0|
 |G4 / source changed history|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|0|
 |G4 / transformation logic|3/3 (43.9-100.0%)|2/3 (20.8-93.9%)|3/3 (43.9-100.0%)|0|
 |G4 / waiting on job|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|0|
@@ -210,7 +220,7 @@ G2 has 10 unsealed native exceptions with unavailable usage; these remain graded
 
 G3 has 1 unsealed native exceptions with unavailable usage; these remain graded but are outside the usage-observed denominator.
 
-|G4|19|7.992352|0.420650|67.65%|19 / 0|213.0 / 298.0|
+|G4|20|8.387129|0.419356|67.66%|20 / 0|212.0 / 291.0|
 
 ## Failure walkthroughs and next-round priorities
 
@@ -243,79 +253,46 @@ G3 harm pauses are lifted for measurement by owner decision. Previously delivere
 
 [G1 grades](runs/round-twenty-five-g1-current-grades.json), [G2 grades](runs/round25-g2-current-grades.json), [G2 backtracks](runs/round25-g2-backtrack.json), [measurement image index](runs/round25-measurement-image-index.json), [G2 stale restoration](runs/round25-g2-stale-final-restoration.json). Source and definition hashes, native load completion and model totals are separate checks; no unmeasured full Bronze row hash is claimed. Temporal history stays on. At G2 closeout the fixture was restored to360source rows/model7661/automatic updatesOn. Later G3/G4 controls have their own restoration records; this historical closeout does not assert that an in-flight cohort is already restored.
 
-## Archived earlier checkpoints
 
-# Quality of frozen v0.24 - Round 25
+## First-wrong-step groups
 
-Current G1 final (40): **raw-reviewed35/40 (87.5%, Wilson73.9-94.5%)**, official37/40 (80.1-97.4%), strict34/40 (70.9-92.9%). **Two raw-confirmed harmful history answers remain counted.** Owner31Oct lifted the history measurement pause; all3G2history will be measured. G2-G4 assessment disagreements will be adjudicated by fresh independent Claude calls, not the exposed operator. G2 headline remains pending.
+These are the saved graders/reviewers' first failing-step labels, not a new operator regrade. Native transport exceptions and benchmark confounds are retained separately in the receipts.
 
-G1 investigation-only cost $16.526970 ($0.413174/ticket); native median245s,p90 317s (36observed/4unavailable); worker median207.7s,p90 285.3s (40observed); cache-read ratio67.49%. One lost start response was recovered from its original sealed answer without resubmission; its native execution details remain unknown.
-
-## Earlier checkpoint: 31 graded G1 outcomes
-
-Measurement is in progress. The primary and secondary graders disagree materially on the history family, so the current primary score must not be presented as a clean quality pass. No investigator, prompt, model, caching or query change has been made.
-
-The raw-reviewed headline for the 31 double-graded G1 tickets is **26/31** (95% Wilson 67.4-92.9%), with **2 harmful historical-question answers**. Official primary is 28/31 (75.1-96.7%); strict is 25/31 (63.7-90.8%). Raw review supports the second grader on both history disagreements; the history family is paused. Original grades and expectations remain unchanged.
-
-| Completed G1 | Official primary | Strict | Raw-reviewed (headline) |
-|---|---|---|---|
-| Correct / graded | 28/31 | 25/31 | 26/31 |
-| 95% Wilson | 75.1-96.7% | 63.7-90.8% | 67.4-92.9% |
-| Harmful flags | 0 | 2 (either grader) | 2 confirmed |
-
-R24's held-out official score remains18/20. Retrospective raw review finds the secondary right on the absent-record cause, and both graders overly strict on its verdict label under the existing substance-based contract. The earlier raw review is preserved with a dated correction; no ticket, expectation, official score, engine run or provider grade was changed. [Saved-capture review](runs/round-twenty-five-r24-held-disagreement-raw-review.json).
-
-Agreement is 28/31 (95% Wilson 75.1-96.7%). Related variants share fixtures; these intervals describe the observed sample and do not establish accuracy on independent client estates.
-
-| Cohort | Status |
+| Cohort | Zero-score groups |
 |---|---|
-| G1, unchanged v2 dev | 31/40 double-graded so far; remaining cases pending |
-| G2, new held-out v4 - headline |60 native-verified tickets sealed at c61a5c3e; prepared, not run |
-| G3, unchanged R22 text |60 unchanged text inputs prepared; not run |
-| G4, prior R23 held-out v2 - regression |20 unchanged sealed inputs prepared; not run |
+|G2|intake: 14, query: 4, conclusion: 3, triage: 3|
+|G3|intake: 40, reading results: 2, target: 8, conclusion: 7|
+|G4|triage: 1, conclusion: 2, query: 1|
 
-The independent writer produced60 new tickets:48forms,12free text, six real screenshots and all three estates. Every oracle is native-fact verified and the set was sealed at commit c61a5c3e before any G2 execution; wording remains unopened by the engine developer. Original drafts and all pre-seal oracle versions survive. Wrong-page selections were preserved and independently reviewed. Fresh native fault checks remain required at execution. [Seal](runs/round-twenty-five-v4-seal.json).
+G1 has five raw zeros: two conclusion failures, two query failures, and one authored invalid-input contract finding. G2 includes a waiting-job expectation timing confound; it is not silently counted as an engine success. G3 includes one native URLError99 without a delivered answer.
 
-| Class (G1 interim) | Official primary (95% CI) | Strict (95% CI) | Raw-reviewed (95% CI) |
-|---|---|---|---|
-|v2-access-export|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-application-baseline|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-before-temporal-retention|0/2 (0.0-65.8%)|0/2 (0.0-65.8%)|0/2 (0.0-65.8%)|
-|v2-billing-invoices|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-billing-mrr|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-failed-application-load|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-failed-billing-transform|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-fixture-quantity|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-latency-record|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-other-collected-definition|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|1/1 (20.7-100.0%)|
-|v2-record-absent-everywhere|2/2 (34.2-100.0%)|1/2 (9.5-90.5%)|2/2 (34.2-100.0%)|
-|v2-record-repeated-gold|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-source-history|2/2 (34.2-100.0%)|0/2 (0.0-65.8%)|0/2 (0.0-65.8%)|
-|v2-stale-model|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-waiting-application-load|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|2/2 (34.2-100.0%)|
-|v2-warehouse-scope|1/2 (9.5-90.5%)|1/2 (9.5-90.5%)|1/2 (9.5-90.5%)|
+## Timing by kind
 
-The warehouse-scope-v2 benchmark zero is an authored report-ID contract finding; it remains in the unchanged denominator and is not demonstrated engine scope-comparison failure. See the native catalog/hash audit.
+Native durations are Azure execution start-to-end, not product admission-to-delivery. Worker timing and a separately recorded harness interval are available below. Harness intervals include fresh fixture admission, Azure CLI dispatch/polling and artifact retrieval; resumed polling timers are excluded. They must not be presented as pure product latency. Missing observations are not replaced with estimates.
 
-## Current failure pattern
+| Cohort / kind | Native observed | Native median / p90 seconds | Fresh harness observed | Harness median / p90 seconds |
+|---|---:|---|---:|---|
+|G1 / full investigation|33|246.0 / 317.0|33|312.8 / 356.3|
+|G1 / hold|0|unavailable / unavailable|3|294.5 / 295.3|
+|G1 / operational status without layer queries|3|188.0 / 190.0|3|223.5 / 224.6|
+|G2 / full investigation|39|213.0 / 310.0|39|287.1 / 395.0|
+|G2 / hold|0|unavailable / unavailable|7|182.1 / 290.0|
+|G2 / operational status without layer queries|4|173.5 / 188.0|4|203.6 / 225.4|
+|G3 / full investigation|13|200.0 / 323.0|13|232.9 / 396.5|
+|G3 / hold|0|unavailable / unavailable|46|89.5 / 190.7|
+|G3 / operational status without layer queries|0|unavailable / unavailable|0|unavailable / unavailable|
+|G4 / full investigation|19|213.0 / 298.0|19|259.0 / 344.1|
+|G4 / hold|0|unavailable / unavailable|0|unavailable / unavailable|
+|G4 / operational status without layer queries|1|180.0 / 180.0|1|217.5 / 217.5|
 
-Both history cases compare current source47 against landing/model41 and choose latency. They explicitly admit that no retained source history was read. The second grader correctly distinguishes that current-state observation from proving a historical edit. The primary treats the two verdict classes as interchangeable and passes both. Both explanations are preserved in [the per-ticket record](runs/round-twenty-five-g1-current-grades.json), with [raw-output review](runs/round-twenty-five-history-raw-review.json) and [saved-trace backtrack](failure-backtrack.md). This is an interpretation disagreement, not lost projection bytes or an altered expectation; no engine rerun or silent score override was made.
+[Recorded harness intervals](runs/round25-recorded-harness-intervals.json) retain journal hashes. The native full-investigation medians exceed120seconds; no end-to-end speed target is claimed.
 
-The native current-state numbers are supported. The unsupported step is presenting latency as the answer to the historical-change question. The answer footer also reports job details unavailable after the narrative has named a successful job window. These belong in the next-round fix list; the engine remains frozen here.
+## Measurement and evidence limitations
 
-The two pre-retention cases are different: current16 was readable at all compared layers, but attempts to read an unavailable audit object replaced the necessary source-history check. They exhausted the tool/time limit without a retention-boundary answer. Raw review supports the secondary grader on the first bad query and the incomplete handoff. The five current raw zeros therefore comprise four engine failures and one input-contract finding; all benchmark scores remain unchanged. [Backtrack index and three walkthroughs](failure-backtrack.md).
+The 180 requested outcomes comprise 169 sealed results and 11 retained unsealed native exceptions (ten G2 comparison-contract exceptions and one G3 transport exception). All 11 remain in the scoring denominators. Their unavailable capture usage is not estimated as zero. Two extra original Azure start responses remain unestablished, with no artifacts observed; their uniquely recorded replacements supply the requested scored outcomes. A separate G1 original answer was recovered from its seal without rerun, but its Azure execution binding/timing remains unestablished. No unknown original attempt is relabelled a pass or failure.
 
-## Timing, costs and retained operational failures
+Operator blinding was partly broken. In addition to the earlier staging/status fragments, recovery commands accidentally printed saved answer fragments and an expanded split-report structure. No investigator or expectation tuning followed. Every G2-G4 assessment disagreement was decided by a fresh independent Claude call with only the approved saved-evidence packet, not by the operator. Primary/secondary packets use explicitly labelled bounded row/history samples where needed; raw disagreement review uses full saved evidence. Short aliases and exact pools are reversible; labelled samples are not claimed lossless.
 
-The 31 double-graded cases used **$13.325343** for investigation, averaging **$0.429850** per ticket. Native Azure duration, including startup and publication, had median227.5s and p90299s (nearest rank) for the 28/31 executions with native start/end times. Missing native end times are not estimated. Provider-settled cached input was4,794,667 of7,111,716 input tokens: **67.42%**. Every case cost matched its authoritative reservation settlements. Authoring, grading and fixture controls are separate. [Per-ticket observed costs, timing and cache](runs/round-twenty-five-g1-observed-cost-timing-cache.json).
+The active native temporal query route accepts FOR SYSTEM_TIME syntax. Invalid OPTION(FOR TIMESTAMP AS OF) and unavailable objects were rejected before dispatch; this does not establish a retention policy. No validator fix was made. The R24 retrospective absence audit is separate: secondary is right on cause, and both original verdict labels were too strict under the substance rule. Its official 18/20 and all original records remain unchanged.
 
-| Timing group | Tickets | Native durations observed | Native median / p90 seconds | Worker wall median / p90 seconds |
-|---|---:|---:|---|---|
-|full investigation|25|25|236.0 / 299.0|193.64776847400003 / 270.064544503|
-|hold|3|0|not available|226.12211136400003 / 234.758102028|
-|operational status without layer queries|3|3|188.0 / 190.0|154.97200069000002 / 159.73575022|
-
-The billing control first stopped on a 5-second PostgreSQL budget lock before scoring. Its existing failed job was reconciled and the original pipeline hash restored. One open request was settled UNCERTAIN and remains charged. The normal billing bootstrap still returns its pre-existing2011 CREATE SCHEMA error; it was not repaired. Waiting completed and restored its original hash. The first history precheck timed out before mutation; its distinct continuation delivered both cases and restored the original360-row/source-schema hashes plus a successful real load. A billing boundary probe correctly rejected a fixture-policy connection; one replacement used the unchanged billing reader route. The first latency case failed on a PostgreSQL lock before delivery and preserved a partial capture; its source row/schedule were restored, and its one new-case replacement completed. Both latency cases are sealed, the owned source row and schedule were removed, and original row/schema hashes matched. No identity or permission was changed.
-
-
-October checkpoint: further investigation admissions defer because37 investigation requests remain against the unchanged40-request case bound. Remaining9G1 precede G2/G3/G4 in November; this is not a completed Round25 result. All250 owned model reservations (including31 engine case IDs) are settled, all injections are restored, and no local worker/grader remains active. AI account134.455715/146USD; SCAN2291/2500, INV9368/9405, REST45/95 with50restoration requests left; historical70kept. No cap or reserve was changed.
+[All 180 image/outcome bindings](runs/round25-measurement-image-index.json), [frozen-runtime check](runs/round25-final-frozen-runtime.json), [33-control closeout](runs/round25-injection-closeout.json), [final native estate readback](runs/round25-final-estate-readback.json). Source360business/schema hashes match; Bronze aggregate 360 / 7,661 and native model 7661 agree; automatic updatesOn and temporal historyOn. A full Bronze row hash remains unestablished. Local controller counters exclude separately metered nested cloud probes; shared monthly ledger totals are authoritative. No all 180 exact-replay claim is made; prior CI replay gates remain separate.

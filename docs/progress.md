@@ -1878,3 +1878,8 @@ merged at 56a1545 with six green checks. Prior runs, corrections and ledger rows
 remain unchanged; no investigation run or ledger row here. Engine bytes changed,
 invalidating prior freezes. Intake evidence resolution and target/figure wiring
 remain next; draft #297 remains open.
+
+
+## Round 25 measurement complete — 2026-11-01
+
+All 180 requested outcomes accounted for, 169 sealed and 11 retained native exceptions. Raw-reviewed G1 35/40, G2 36/60, G3 3/60, G4 16/20; harmful 2/0/3/0. Cleanup verified across 33 controls; frozen runtime unchanged except approved budget compatibility. Final committed-source suite, three final smokes, hosted CI, merge, exact-merge validation and v0.25 release remain separate pending validation steps. See [summary](round-twenty-five-summary.md).

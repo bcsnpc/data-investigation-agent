@@ -360,3 +360,9 @@ Round25 history g4 UPDATE47_ATTEMPTED_RECONCILE; restoration_required=True. Nati
 
 
 Round25 history g4 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-five\injections\g4-history-cohort01\status.json. Temporal history ON; native historical versions retained.
+
+
+Round25 stale g4 DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-five\injections\g4-stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round25 g4 stale final restoration: original source row/business-schema hashes matched, original360 real restore load Completed; automatic updates restoredON in existing publisher UI, own API model refresh Completed (exact request/time in retained native receipt), native model read7661. All three dependent outcomes were sealed before restore. Refresh controls chargedRESTORATION, model verification1 chargedRESTORATION; no identity, role or connection change. Native receipt .local/round-twenty-five/injections/g4-stale/status.json; screenshots private, hashes ledger-linked.

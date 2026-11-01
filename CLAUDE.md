@@ -1167,3 +1167,8 @@ Section8 Round25 G3 stale control, owner date2026-10-31 / UTC2026-11-01: existin
 
 
 Section8 Round25 G4 final stale practice control,2026-11-01: existing publisher observed Application load fixture0c89889c automaticupdatesON, switchedOFF andconfirmedpersistedOFFafterclosing/reopeningmodelrefreshsettings. DirectLake switch auto-saved asynchronously; scheduleOFF/Applydisabled unchanged. Approved+31source/realcopy holdsmodelstale throughonescoredG4ticket, thenoriginalsource/hash/copy, automaticON, ownrefresh/native7661restore. Noidentity/role/secret/connectionchange. Nativeproof .local/round-twenty-five/injections/g4-stale/automatic-updates-off.json.
+
+
+### Round25 measurement closeout, 2026-11-01
+
+All180 requested outcomes accounted for on frozen v0.24; raw G1 35/40,harm2; G2 36/60,harm0; G3 3/60,harm3; G4 16/20,harm0. All33 controls restored; temporal historyON, model7661/automatic updatesON. November150USD/9000 applies automatically; historical October179.847340USD/13622 retained. Owner budget decisions and before/after receipts are in docs/decisions.md and the round ledger. No new identity, permission or secret change. Release validation/merge/tag remain pending; do not claim released yet. See docs/round-twenty-five-summary.md.

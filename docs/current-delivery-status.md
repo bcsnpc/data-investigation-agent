@@ -1,3 +1,7 @@
+<!-- ROUND25-CURRENT-BEGIN -->
+Round25 MEASUREMENTS COMPLETE; RELEASE VALIDATION IN PROGRESS: G2 headline raw36/60 (official37,strict32),harm0. G1raw35/40,harm2; G3raw3/60,harm3 (same R22 dev3/40,held0/20 versus original14/40,5/20); G4raw16/20(official18,strict15),harm0. All 180 outcomes accounted for; all 33 controls restored,temporalOn/model 7661. Frozen engine; no quality fix. Full report: [round-twenty-five-summary.md](round-twenty-five-summary.md). Earlier dated checkpoints below are historical.
+<!-- ROUND25-CURRENT-END -->
+
 Round25 checkpoint 2026-10-31: G1 complete40, raw35/40 (official37, strict34), harmful2 retained; history pause lifted for measurement. G2 first9 graded raw8/9 (official8, strict8), harmful0; waiting3 saved and restored, grading underway. G2-G4 raw disagreements use fresh independent Claude calls; partial operator exposure is disclosed. October owner caps166USD/15500 requests; current native usage145.804507USD/12597 requests. Frozen investigation logic, tested two-file budget-only image exception; draftPR432, release pending. See docs/round-twenty-five-summary.md.
 
 Historical pre-owner-budget checkpoint: Round25 in progress: G1 raw-reviewed26/31 (official28/31; strict25/31), two confirmed harmful source-history findings; family paused. Frozen v0.24, draftPR432. Further investigation admissions defer to November (37 October INV requests left, next case bounded40).

@@ -1,0 +1,14 @@
+{
+  "observed_at_utc": "2026-11-01T08:50:58.291443+00:00",
+  "files_checked": 502,
+  "unchanged_nonbudget_runtime_files": 500,
+  "approved_budget_only_changes": [
+    "scripts/investigator/enrichment_job.py",
+    "scripts/investigator/build_phase_policy.json"
+  ],
+  "approved_changes_match_qualified_source": "221b0be99937a9721cbd0d6e52b7a073a300336f",
+  "frozen_release_actual": "7f5d2b0d3a498485b03184384a9bac5e8ddbdf0",
+  "original_receipt_typo_retained": true,
+  "measurement_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:6b2935e8d3ff72cfbd0d45ac8a311267e7ef339729056222d6e6f72a0c0bd44e",
+  "investigation_rules_prompts_models_caching_changed": false
+}

@@ -494,3 +494,8 @@ Round25 grading/reporting correction,2026-11-01: G4 latency native run/audit his
 
 
 Round25 grading transport follow-up: first-three native history samples still exceeded24,000chars on G4 latency. The unsent packet now labels first-one native history samples with omitted counts/list hashes, and shortens reversible opaque address aliases; all literal queries, current fact summaries, quantities and delivered prose are retained. Independent raw review keeps full native histories. No provider request, score or expectation changed during the pre-dispatch correction. Original saved outputs and prior prepared grading packets remain unchanged.
+
+
+## Round 25 final measurement decisions — 2026-11-01
+
+Owner-approved October limits reached $206 AI / 17,000 physical (INV 14,405, SCAN 2,500, REST 95); counters were not reset. November automatically returned to $150 / 9,000 (INV 6,405, SCAN 2,500, REST 95). Owner lifted source-history and all G3 harm pauses for measurement; every outcome and harmful answer is counted. No investigator/intake/query/prompt/cache fix was made. G2–G4 disagreements were decided by independent Claude calls, with operator exposure disclosed. Cleanup preserves temporal history and legitimate audit rows. Full source business/schema hashes and native aggregate/model checks are distinguished from the unestablished full Bronze row hash. See [summary](round-twenty-five-summary.md) and linked before/after budget/control receipts.
