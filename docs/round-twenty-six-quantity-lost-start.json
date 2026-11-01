@@ -1,0 +1,32 @@
+{
+  "observed_at_utc": "2026-11-01T21:29:13.514483+00:00",
+  "run_id": "0e439ded-17ec-4c9e-86f3-c5a3fd25a05c",
+  "original_start_uncertain": true,
+  "controls": [
+    {
+      "object": "run-record.json",
+      "present": false,
+      "error_type": "HTTPError",
+      "http_status": 404
+    },
+    {
+      "object": "00000000-run.json",
+      "present": false,
+      "error_type": "HTTPError",
+      "http_status": 404
+    }
+  ],
+  "case": {
+    "present": false
+  },
+  "matching_reservations": [],
+  "status": "UNESTABLISHED_ORIGINAL_ONE_PLUMBING_REPLACEMENT_PREPARED_NOT_SUBMITTED",
+  "blob_prefix_listing_empty": true,
+  "activity_log_cannot_bind_run_id": true,
+  "original_scored": false,
+  "original_logs_and_any_charges_retained": true,
+  "same_image_and_ticket": true,
+  "maximum_replacements": 1,
+  "replacement_suffix": "-replacement1",
+  "replacement_must_wait_until_static_queue_complete": true
+}

@@ -4,6 +4,32 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_named_model_scopes_reused_measure_through_native_parents(self):
+        catalog=self.catalog()
+        catalog.nodes.update({'model':{'id':'model','kind':'MODEL','label':'Quarterly snapshot'},
+            'table':{'id':'table','kind':'TABLE','label':'Activity'},
+            'copy':{'id':'copy','kind':'MEASURE','label':'Net Revenue'}})
+        catalog.edges.extend([{'source':'model','target':'table','kind':'CONTAINS'},
+                              {'source':'table','target':'measure','kind':'CONTAINS'}])
+        text='Quarterly snapshot Net Revenue looks wrong'
+        result=prefill(text,{'measure':'measure','issue_type':'NUMBER_LOOKS_WRONG'},catalog)
+        self.assertEqual(result['measure'],'measure')
+        with self.assertRaisesRegex(ValueError,'DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS'):
+            prefill(text,{'measure':'copy','issue_type':'NUMBER_LOOKS_WRONG'},catalog)
+        self.assertEqual([r['id']for r in catalog.measure_matches(text)],['measure'])
+        # Removing the native parent is not repaired by a similar name.
+        catalog.edges=[e for e in catalog.edges if not(e['source']=='table'and e['target']=='measure')]
+        self.assertEqual(catalog.measure_matches(text),[])
+
+    def test_named_model_does_not_resolve_two_native_measures_with_same_name(self):
+        catalog=self.catalog()
+        catalog.nodes.update({'model':{'id':'model','kind':'MODEL','label':'Quarterly snapshot'},
+                              'copy':{'id':'copy','kind':'MEASURE','label':'Net Revenue'}})
+        catalog.edges.extend([{'source':'model','target':m,'kind':'CONTAINS'}for m in ('measure','copy')])
+        with self.assertRaisesRegex(ValueError,'DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS'):
+            prefill('Quarterly snapshot Net Revenue looks wrong',
+                    {'measure':'measure','issue_type':'NUMBER_LOOKS_WRONG'},catalog)
+
     def test_measure_mention_is_retained_without_displacing_selected_report(self):
         catalog=self.catalog()
         result=prefill('Billing Overview Net Revenue',{'report':'report','measure':'measure',

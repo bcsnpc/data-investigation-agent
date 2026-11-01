@@ -86,7 +86,7 @@ class Resolver:
         for report in reports:
             pages=self.catalog.pages(report['id'])
             result.append({**report,'pages':[{**p,'visuals':self.catalog.visuals(report['id'],p['id'])} for p in pages]})
-        return {'reports':result,'measure_matches':self.catalog.ranked(args['words'],'MEASURE')[:10],
+        return {'reports':result,'measure_matches':self.catalog.measure_matches(args['words'])[:10],
                 'visual_matches':self.catalog.ranked(args['words'],'VISUAL')[:10],
                 'job_matches':[row for kind in ('PIPELINE','COPY_ACTIVITY','DATAFLOW','NOTEBOOK','MODEL','REFRESH_SCHEDULE')
                                for row in self.catalog.ranked(args['words'],kind)[:5]],
@@ -190,7 +190,7 @@ class Resolver:
         direct=next((field for field,kinds in (('table',('TABLE','VIEW')),('measure',('MEASURE',)))
                      if self.catalog.nodes.get(last_proposal.get(field),{}).get('kind')in kinds),None)
         if last_error and last_error['reason']=='DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS' and direct:
-            matches=self.catalog.table_matches(text)if direct=='table'else self.catalog.ranked(text,'MEASURE')[:10]
+            matches=self.catalog.table_matches(text)if direct=='table'else self.catalog.measure_matches(text)[:10]
             if not matches:
                 matches=([*self.catalog.rows('TABLE'),*self.catalog.rows('VIEW')]
                          if direct=='table'else self.catalog.rows('MEASURE'))[:10]

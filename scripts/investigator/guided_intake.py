@@ -168,6 +168,22 @@ class Catalog:
                     seen.add(parent); frontier.append(parent)
         return [row for row in self.reports() if row['id'] in seen]
 
+    def measure_matches(self, text):
+        """Scope a named model's measures through native containment only."""
+        models = [r for r in self.ranked(text, 'MODEL')
+                  if r['confidence'] in ('NAMED', 'NORMALIZED')]
+        within = None
+        if len(models) == 1:
+            within = set()
+            frontier = [models[0]['id']]
+            while frontier:
+                parent = frontier.pop()
+                for edge in self.edges:
+                    if edge['source'] == parent and edge['kind'] == 'CONTAINS' and edge['target'] not in within:
+                        within.add(edge['target'])
+                        frontier.append(edge['target'])
+        return self.ranked(text, 'MEASURE', within=within)
+
     def table_matches(self, text):
         """Resolve native container names through retained containment only."""
         direct = [*self.ranked(text, 'TABLE'), *self.ranked(text, 'VIEW')]
@@ -310,7 +326,7 @@ def prefill(text, proposed, catalog, *, provenance=None):
     direct_target = None
     for kind, field in (('TABLE', 'table'), ('MEASURE', 'measure')):
         if value.get(field) and not value.get('report'):
-            candidates = catalog.table_matches(text) if field == 'table' else catalog.ranked(text, kind)
+            candidates = catalog.table_matches(text) if field == 'table' else catalog.measure_matches(text)
             strongest = max((r['score'] for r in candidates), default=0)
             matched = [r for r in candidates if r['score'] >= .86 and strongest - r['score'] < .08]
             if len(matched) == 1 and matched[0]['id'] == value[field]:direct_target = matched[0]
