@@ -2,46 +2,46 @@
   "official_primary": {
     "all_three": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 3,
-      "total": 31,
-      "accuracy": 0.0967741935483871,
-      "lower": 0.03346464416319736,
-      "upper": 0.24899938443392836,
+      "correct": 4,
+      "total": 32,
+      "accuracy": 0.125,
+      "lower": 0.04970134387480073,
+      "upper": 0.2806830548165022,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 1,
-      "total": 31,
-      "accuracy": 0.03225806451612903,
-      "lower": 0.005717221525416816,
-      "upper": 0.16194105164724906,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -49,93 +49,93 @@
   "strict": {
     "all_three": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 1,
-      "total": 31,
-      "accuracy": 0.03225806451612903,
-      "lower": 0.005717221525416816,
-      "upper": 0.16194105164724906,
+      "correct": 2,
+      "total": 32,
+      "accuracy": 0.0625,
+      "lower": 0.017310567031640967,
+      "upper": 0.2014712314415458,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 31,
-      "accuracy": 0.0967741935483871,
-      "lower": 0.03346464416319736,
-      "upper": 0.24899938443392836,
+      "total": 32,
+      "accuracy": 0.09375,
+      "lower": 0.032401551298366194,
+      "upper": 0.24218154728387864,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "raw_reviewed": {
     "all_three": {
-      "correct": 0,
-      "total": 31,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "correct": 1,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 0,
-      "total": 31,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "correct": 1,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 1,
-      "total": 31,
-      "accuracy": 0.03225806451612903,
-      "lower": 0.005717221525416816,
-      "upper": 0.16194105164724906,
+      "correct": 2,
+      "total": 32,
+      "accuracy": 0.0625,
+      "lower": 0.017310567031640967,
+      "upper": 0.2014712314415458,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 0,
-      "total": 31,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "correct": 1,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 31,
-      "accuracy": 0.0967741935483871,
-      "lower": 0.03346464416319736,
-      "upper": 0.24899938443392836,
+      "total": 32,
+      "accuracy": 0.09375,
+      "lower": 0.032401551298366194,
+      "upper": 0.24218154728387864,
       "confidence": 0.95,
       "method": "Wilson"
     }
@@ -143,107 +143,107 @@
   "raw_review_pending": [],
   "raw_review_complete": true,
   "headline": "raw_reviewed",
-  "completed_graded": 31,
+  "completed_graded": 32,
   "primary": {
     "all_three": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 3,
-      "total": 31,
-      "accuracy": 0.0967741935483871,
-      "lower": 0.03346464416319736,
-      "upper": 0.24899938443392836,
+      "correct": 4,
+      "total": 32,
+      "accuracy": 0.125,
+      "lower": 0.04970134387480073,
+      "upper": 0.2806830548165022,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
       "correct": 1,
-      "total": 31,
-      "accuracy": 0.03225806451612903,
-      "lower": 0.005717221525416816,
-      "upper": 0.16194105164724906,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 0,
-      "total": 31,
+      "total": 32,
       "accuracy": 0.0,
       "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "upper": 0.1071791982550706,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "secondary": {
     "all_three": {
-      "correct": 0,
-      "total": 31,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "correct": 1,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "verdict_match": {
-      "correct": 0,
-      "total": 31,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "correct": 1,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "layer_match": {
-      "correct": 1,
-      "total": 31,
-      "accuracy": 0.03225806451612903,
-      "lower": 0.005717221525416816,
-      "upper": 0.16194105164724906,
+      "correct": 2,
+      "total": 32,
+      "accuracy": 0.0625,
+      "lower": 0.017310567031640967,
+      "upper": 0.2014712314415458,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "cause_match": {
-      "correct": 0,
-      "total": 31,
-      "accuracy": 0.0,
-      "lower": 0.0,
-      "upper": 0.11025539546043596,
+      "correct": 1,
+      "total": 32,
+      "accuracy": 0.03125,
+      "lower": 0.005537860164003122,
+      "upper": 0.15744263820012558,
       "confidence": 0.95,
       "method": "Wilson"
     },
     "harmful": {
       "correct": 3,
-      "total": 31,
-      "accuracy": 0.0967741935483871,
-      "lower": 0.03346464416319736,
-      "upper": 0.24899938443392836,
+      "total": 32,
+      "accuracy": 0.09375,
+      "lower": 0.032401551298366194,
+      "upper": 0.24218154728387864,
       "confidence": 0.95,
       "method": "Wilson"
     }
   },
   "agreement": {
     "correct": 26,
-    "total": 31,
-    "accuracy": 0.8387096774193549,
-    "lower": 0.6736564604120674,
-    "upper": 0.9290737555663471,
+    "total": 32,
+    "accuracy": 0.8125,
+    "lower": 0.6469084479862404,
+    "upper": 0.9111045531043405,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -255,10 +255,10 @@
   ],
   "full_assessment_agreement": {
     "correct": 5,
-    "total": 31,
-    "accuracy": 0.16129032258064516,
-    "lower": 0.070926244433653,
-    "upper": 0.3263435395879326,
+    "total": 32,
+    "accuracy": 0.15625,
+    "lower": 0.0686442028250571,
+    "upper": 0.3175414959753039,
     "confidence": 0.95,
     "method": "Wilson"
   },
@@ -411,6 +411,15 @@
     {
       "ticket": "R17-07-v1",
       "fields": [
+        "failing_step"
+      ]
+    },
+    {
+      "ticket": "R17-09-v1",
+      "fields": [
+        "verdict_match",
+        "cause_match",
+        "handoff_quality",
         "failing_step"
       ]
     },
@@ -1644,6 +1653,82 @@
           "output_tokens": 2230,
           "output_tokens_details": {
             "thinking_tokens": 928
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "R17-09-v1",
+      "class": "R17-09",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The expected verdict is 'as designed' \u2014 the card reflects the last successful model refresh (2026-10-07T21:15:37Z) and the schedule is disabled, which is the intended behavior with no anomaly. The delivered answer says 'consistent to boundary' which is broadly similar but frames it as a data-freshness investigation rather than confirming the 'as designed' refresh contract. More critically, the named cause mismatch: the expected cause requires returning the exact refresh-history facts (last refresh ended 2026-10-07) as the primary answer without claiming query-bound snapshot freshness. The delivered answer does state the refresh facts correctly but buries them and prominently leads with DAX/SQL query comparisons across layers, introduces a silver/gold discrepancy tangent (product 7 duplicate rows), and makes forward-looking statements about Direct Lake automatic updates being unconfirmed \u2014 none of which are part of the expected answer. The layer match is correct (SEMANTIC layer identified). The handoff quality is moderate: queries are rerunnable and the stopping point is clear, but the investigation went beyond scope and introduced noise.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed'. The delivered verdict is 'consistent to boundary'. In substance they agree: the card's currency is explained by how the model is set up, and no freshness defect is claimed. Layer: the answer is grounded in the semantic model's refresh state (refresh history and schedule), which matches SEMANTIC. Cause: the answer gives the exact retained refresh facts. Run 754776194 succeeded and ended 2026-10-07 21:15:37.357 UTC with no error. The 04:30 UTC schedule is disabled, so no next refresh is due. It does not invent a more recent refresh. It also states that snapshot alignment across layers is not established, so it does not claim query-bound snapshot freshness. This matches the expected named cause. The 'no older than its source chain' remark rests only on matching max event_day values and is qualified. The gold-vs-silver 1104 duplicate-join observation is extra, hedged ('probably'), and explicitly separate from currency, so it is not a confident incorrect cause and not harmful. Possible disagreement: the verdict labels differ in wording, but I credited them as the same in substance. Handoff: the queries are fully recorded and rerunnable. The answer says what it could not check (automatic updates, notebook run history, layer write times), which gives sensible next checks.",
+        "verdict_match": true
+      },
+      "grade_wave": "g3-static09",
+      "outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 251.0,
+      "worker_wall_seconds": 222.86361568799998,
+      "investigation_cost_microdollars": 486469,
+      "physical_requests": 29,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-09-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 217295,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+        "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+        "source_sha256": "864a7003bbdac0d03b948f589f8ed1ed255f55f1b14c12db92b09ddd1d73e92f",
+        "ticket": "R17-09-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 37715,
+          "output_tokens": 3102,
+          "output_tokens_details": {
+            "thinking_tokens": 945
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -6681,6 +6766,246 @@
         }
       }
     },
+    "R17-09": {
+      "official_primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
     "waiting-billing-load": {
       "official_primary": {
         "all_three": {
@@ -7776,6 +8101,82 @@
           "output_tokens": 2230,
           "output_tokens_details": {
             "thinking_tokens": 928
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
+      "ticket": "R17-09-v1",
+      "class": "R17-09",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The expected verdict is 'as designed' \u2014 the card reflects the last successful model refresh (2026-10-07T21:15:37Z) and the schedule is disabled, which is the intended behavior with no anomaly. The delivered answer says 'consistent to boundary' which is broadly similar but frames it as a data-freshness investigation rather than confirming the 'as designed' refresh contract. More critically, the named cause mismatch: the expected cause requires returning the exact refresh-history facts (last refresh ended 2026-10-07) as the primary answer without claiming query-bound snapshot freshness. The delivered answer does state the refresh facts correctly but buries them and prominently leads with DAX/SQL query comparisons across layers, introduces a silver/gold discrepancy tangent (product 7 duplicate rows), and makes forward-looking statements about Direct Lake automatic updates being unconfirmed \u2014 none of which are part of the expected answer. The layer match is correct (SEMANTIC layer identified). The handoff quality is moderate: queries are rerunnable and the stopping point is clear, but the investigation went beyond scope and introduced noise.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed'. The delivered verdict is 'consistent to boundary'. In substance they agree: the card's currency is explained by how the model is set up, and no freshness defect is claimed. Layer: the answer is grounded in the semantic model's refresh state (refresh history and schedule), which matches SEMANTIC. Cause: the answer gives the exact retained refresh facts. Run 754776194 succeeded and ended 2026-10-07 21:15:37.357 UTC with no error. The 04:30 UTC schedule is disabled, so no next refresh is due. It does not invent a more recent refresh. It also states that snapshot alignment across layers is not established, so it does not claim query-bound snapshot freshness. This matches the expected named cause. The 'no older than its source chain' remark rests only on matching max event_day values and is qualified. The gold-vs-silver 1104 duplicate-join observation is extra, hedged ('probably'), and explicitly separate from currency, so it is not a confident incorrect cause and not harmful. Possible disagreement: the verdict labels differ in wording, but I credited them as the same in substance. Handoff: the queries are fully recorded and rerunnable. The answer says what it could not check (automatic updates, notebook run history, layer write times), which gives sensible next checks.",
+        "verdict_match": true
+      },
+      "grade_wave": "g3-static09",
+      "outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 251.0,
+      "worker_wall_seconds": 222.86361568799998,
+      "investigation_cost_microdollars": 486469,
+      "physical_requests": 29,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-09-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 217295,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+        "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+        "source_sha256": "864a7003bbdac0d03b948f589f8ed1ed255f55f1b14c12db92b09ddd1d73e92f",
+        "ticket": "R17-09-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 37715,
+          "output_tokens": 3102,
+          "output_tokens_details": {
+            "thinking_tokens": 945
           },
           "service_tier": "standard",
           "speed": "standard"
@@ -9687,6 +10088,82 @@
       "expected_verdict_class": "as designed"
     },
     {
+      "ticket": "R17-09-v1",
+      "class": "R17-09",
+      "fixture": "baseline",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The expected verdict is 'as designed' \u2014 the card reflects the last successful model refresh (2026-10-07T21:15:37Z) and the schedule is disabled, which is the intended behavior with no anomaly. The delivered answer says 'consistent to boundary' which is broadly similar but frames it as a data-freshness investigation rather than confirming the 'as designed' refresh contract. More critically, the named cause mismatch: the expected cause requires returning the exact refresh-history facts (last refresh ended 2026-10-07) as the primary answer without claiming query-bound snapshot freshness. The delivered answer does state the refresh facts correctly but buries them and prominently leads with DAX/SQL query comparisons across layers, introduces a silver/gold discrepancy tangent (product 7 duplicate rows), and makes forward-looking statements about Direct Lake automatic updates being unconfirmed \u2014 none of which are part of the expected answer. The layer match is correct (SEMANTIC layer identified). The handoff quality is moderate: queries are rerunnable and the stopping point is clear, but the investigation went beyond scope and introduced noise.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the expected verdict is 'as designed'. The delivered verdict is 'consistent to boundary'. In substance they agree: the card's currency is explained by how the model is set up, and no freshness defect is claimed. Layer: the answer is grounded in the semantic model's refresh state (refresh history and schedule), which matches SEMANTIC. Cause: the answer gives the exact retained refresh facts. Run 754776194 succeeded and ended 2026-10-07 21:15:37.357 UTC with no error. The 04:30 UTC schedule is disabled, so no next refresh is due. It does not invent a more recent refresh. It also states that snapshot alignment across layers is not established, so it does not claim query-bound snapshot freshness. This matches the expected named cause. The 'no older than its source chain' remark rests only on matching max event_day values and is qualified. The gold-vs-silver 1104 duplicate-join observation is extra, hedged ('probably'), and explicitly separate from currency, so it is not a confident incorrect cause and not harmful. Possible disagreement: the verdict labels differ in wording, but I credited them as the same in substance. Handoff: the queries are fully recorded and rerunnable. The answer says what it could not check (automatic updates, notebook run history, layer write times), which gives sensible next checks.",
+        "verdict_match": true
+      },
+      "grade_wave": "g3-static09",
+      "outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+      "status": "ANSWERED",
+      "native_duration_seconds": 251.0,
+      "worker_wall_seconds": 222.86361568799998,
+      "investigation_cost_microdollars": 486469,
+      "physical_requests": 29,
+      "model_calls": 4,
+      "native_outcome_path": ".local\\round-twenty-five\\g3-R17-09-v1-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "as designed",
+      "raw_review": {
+        "cost_microdollars": 217295,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "secondary",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+        "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+        "source_sha256": "864a7003bbdac0d03b948f589f8ed1ed255f55f1b14c12db92b09ddd1d73e92f",
+        "ticket": "R17-09-v1",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 37715,
+          "output_tokens": 3102,
+          "output_tokens_details": {
+            "thinking_tokens": 945
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "secondary"
+      }
+    },
+    {
       "ticket": "waiting-billing-load-v1",
       "class": "waiting-billing-load",
       "fixture": "waiting-billing-load",
@@ -9956,7 +10433,6 @@
   "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
   "requested": 60,
   "not_yet_graded": [
-    "R17-09-v1",
     "R17-10-v1",
     "R17-11-v1",
     "R17-12-v1",
@@ -10952,46 +11428,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -10999,93 +11475,93 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 7,
-          "accuracy": 0.42857142857142855,
-          "lower": 0.15821985525146975,
-          "upper": 0.7495416354723428,
+          "total": 8,
+          "accuracy": 0.375,
+          "lower": 0.13684428582359742,
+          "upper": 0.6942576053973727,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "raw_reviewed": {
         "all_three": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 7,
-          "accuracy": 0.42857142857142855,
-          "lower": 0.15821985525146975,
-          "upper": 0.7495416354723428,
+          "total": 8,
+          "accuracy": 0.375,
+          "lower": 0.13684428582359742,
+          "upper": 0.6942576053973727,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11096,93 +11572,93 @@
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 7,
+          "total": 8,
           "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "lower": 0.0,
+          "upper": 0.32440756488388023,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "secondary": {
         "all_three": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 7,
-          "accuracy": 0.0,
-          "lower": 5.551115123125783e-17,
-          "upper": 0.35433043506668743,
+          "correct": 1,
+          "total": 8,
+          "accuracy": 0.125,
+          "lower": 0.02241749145005667,
+          "upper": 0.4708881822128535,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 7,
-          "accuracy": 0.42857142857142855,
-          "lower": 0.15821985525146975,
-          "upper": 0.7495416354723428,
+          "total": 8,
+          "accuracy": 0.375,
+          "lower": 0.13684428582359742,
+          "upper": 0.6942576053973727,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11676,46 +12152,46 @@
       "official_primary": {
         "all_three": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 3,
-          "total": 22,
-          "accuracy": 0.13636363636363635,
-          "lower": 0.04749003714055253,
-          "upper": 0.33334987166571717,
+          "correct": 4,
+          "total": 23,
+          "accuracy": 0.17391304347826086,
+          "lower": 0.06978653563062565,
+          "upper": 0.3713764764022614,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 22,
-          "accuracy": 0.045454545454545456,
-          "lower": 0.00806942762126385,
-          "upper": 0.21798045838657332,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11723,93 +12199,93 @@
       "strict": {
         "all_three": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 22,
-          "accuracy": 0.045454545454545456,
-          "lower": 0.00806942762126385,
-          "upper": 0.21798045838657332,
+          "correct": 2,
+          "total": 23,
+          "accuracy": 0.08695652173913043,
+          "lower": 0.024180004484220363,
+          "upper": 0.26795981075743663,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 22,
-          "accuracy": 0.13636363636363635,
-          "lower": 0.04749003714055253,
-          "upper": 0.33334987166571717,
+          "total": 23,
+          "accuracy": 0.13043478260869565,
+          "lower": 0.04537659093631238,
+          "upper": 0.32127482270095964,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "raw_reviewed": {
         "all_three": {
-          "correct": 0,
-          "total": 22,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "correct": 1,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 22,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "correct": 1,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 22,
-          "accuracy": 0.045454545454545456,
-          "lower": 0.00806942762126385,
-          "upper": 0.21798045838657332,
+          "correct": 2,
+          "total": 23,
+          "accuracy": 0.08695652173913043,
+          "lower": 0.024180004484220363,
+          "upper": 0.26795981075743663,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 22,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "correct": 1,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 22,
-          "accuracy": 0.13636363636363635,
-          "lower": 0.04749003714055253,
-          "upper": 0.33334987166571717,
+          "total": 23,
+          "accuracy": 0.13043478260869565,
+          "lower": 0.04537659093631238,
+          "upper": 0.32127482270095964,
           "confidence": 0.95,
           "method": "Wilson"
         }
@@ -11817,107 +12293,107 @@
       "raw_review_pending": [],
       "raw_review_complete": true,
       "headline": "raw_reviewed",
-      "completed_graded": 22,
+      "completed_graded": 23,
       "primary": {
         "all_three": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 3,
-          "total": 22,
-          "accuracy": 0.13636363636363635,
-          "lower": 0.04749003714055253,
-          "upper": 0.33334987166571717,
+          "correct": 4,
+          "total": 23,
+          "accuracy": 0.17391304347826086,
+          "lower": 0.06978653563062565,
+          "upper": 0.3713764764022614,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
           "correct": 1,
-          "total": 22,
-          "accuracy": 0.045454545454545456,
-          "lower": 0.00806942762126385,
-          "upper": 0.21798045838657332,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 0,
-          "total": 22,
+          "total": 23,
           "accuracy": 0.0,
           "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "upper": 0.14311661845042686,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "secondary": {
         "all_three": {
-          "correct": 0,
-          "total": 22,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "correct": 1,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "verdict_match": {
-          "correct": 0,
-          "total": 22,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "correct": 1,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "layer_match": {
-          "correct": 1,
-          "total": 22,
-          "accuracy": 0.045454545454545456,
-          "lower": 0.00806942762126385,
-          "upper": 0.21798045838657332,
+          "correct": 2,
+          "total": 23,
+          "accuracy": 0.08695652173913043,
+          "lower": 0.024180004484220363,
+          "upper": 0.26795981075743663,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "cause_match": {
-          "correct": 0,
-          "total": 22,
-          "accuracy": 0.0,
-          "lower": 0.0,
-          "upper": 0.14865487460862087,
+          "correct": 1,
+          "total": 23,
+          "accuracy": 0.043478260869565216,
+          "lower": 0.007716666143453149,
+          "upper": 0.20991155070258877,
           "confidence": 0.95,
           "method": "Wilson"
         },
         "harmful": {
           "correct": 3,
-          "total": 22,
-          "accuracy": 0.13636363636363635,
-          "lower": 0.04749003714055253,
-          "upper": 0.33334987166571717,
+          "total": 23,
+          "accuracy": 0.13043478260869565,
+          "lower": 0.04537659093631238,
+          "upper": 0.32127482270095964,
           "confidence": 0.95,
           "method": "Wilson"
         }
       },
       "agreement": {
         "correct": 17,
-        "total": 22,
-        "accuracy": 0.7727272727272727,
-        "lower": 0.5656004682477829,
-        "upper": 0.8987696001475147,
+        "total": 23,
+        "accuracy": 0.7391304347826086,
+        "lower": 0.5352999516257462,
+        "upper": 0.8745138395501366,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -11929,10 +12405,10 @@
       ],
       "full_assessment_agreement": {
         "correct": 3,
-        "total": 22,
-        "accuracy": 0.13636363636363635,
-        "lower": 0.04749003714055253,
-        "upper": 0.33334987166571717,
+        "total": 23,
+        "accuracy": 0.13043478260869565,
+        "lower": 0.04537659093631238,
+        "upper": 0.32127482270095964,
         "confidence": 0.95,
         "method": "Wilson"
       },
@@ -12047,6 +12523,15 @@
         {
           "ticket": "R17-07-v1",
           "fields": [
+            "failing_step"
+          ]
+        },
+        {
+          "ticket": "R17-09-v1",
+          "fields": [
+            "verdict_match",
+            "cause_match",
+            "handoff_quality",
             "failing_step"
           ]
         },
@@ -12970,6 +13455,82 @@
               "output_tokens": 2230,
               "output_tokens_details": {
                 "thinking_tokens": 928
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "R17-09-v1",
+          "class": "R17-09",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "The expected verdict is 'as designed' \u2014 the card reflects the last successful model refresh (2026-10-07T21:15:37Z) and the schedule is disabled, which is the intended behavior with no anomaly. The delivered answer says 'consistent to boundary' which is broadly similar but frames it as a data-freshness investigation rather than confirming the 'as designed' refresh contract. More critically, the named cause mismatch: the expected cause requires returning the exact refresh-history facts (last refresh ended 2026-10-07) as the primary answer without claiming query-bound snapshot freshness. The delivered answer does state the refresh facts correctly but buries them and prominently leads with DAX/SQL query comparisons across layers, introduces a silver/gold discrepancy tangent (product 7 duplicate rows), and makes forward-looking statements about Direct Lake automatic updates being unconfirmed \u2014 none of which are part of the expected answer. The layer match is correct (SEMANTIC layer identified). The handoff quality is moderate: queries are rerunnable and the stopping point is clear, but the investigation went beyond scope and introduced noise.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": true,
+            "failing_step": "none",
+            "handoff_quality": 2,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "Verdict: the expected verdict is 'as designed'. The delivered verdict is 'consistent to boundary'. In substance they agree: the card's currency is explained by how the model is set up, and no freshness defect is claimed. Layer: the answer is grounded in the semantic model's refresh state (refresh history and schedule), which matches SEMANTIC. Cause: the answer gives the exact retained refresh facts. Run 754776194 succeeded and ended 2026-10-07 21:15:37.357 UTC with no error. The 04:30 UTC schedule is disabled, so no next refresh is due. It does not invent a more recent refresh. It also states that snapshot alignment across layers is not established, so it does not claim query-bound snapshot freshness. This matches the expected named cause. The 'no older than its source chain' remark rests only on matching max event_day values and is qualified. The gold-vs-silver 1104 duplicate-join observation is extra, hedged ('probably'), and explicitly separate from currency, so it is not a confident incorrect cause and not harmful. Possible disagreement: the verdict labels differ in wording, but I credited them as the same in substance. Handoff: the queries are fully recorded and rerunnable. The answer says what it could not check (automatic updates, notebook run history, layer write times), which gives sensible next checks.",
+            "verdict_match": true
+          },
+          "grade_wave": "g3-static09",
+          "outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+          "status": "ANSWERED",
+          "native_duration_seconds": 251.0,
+          "worker_wall_seconds": 222.86361568799998,
+          "investigation_cost_microdollars": 486469,
+          "physical_requests": 29,
+          "model_calls": 4,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-R17-09-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 217295,
+            "grade": {
+              "cause_match": true,
+              "failing_step": "none",
+              "handoff_quality": 2,
+              "harmful": false,
+              "layer_match": true,
+              "partial": false,
+              "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+              "verdict_match": true
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+            "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+            "source_sha256": "864a7003bbdac0d03b948f589f8ed1ed255f55f1b14c12db92b09ddd1d73e92f",
+            "ticket": "R17-09-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 879
+              },
+              "cache_creation_input_tokens": 879,
+              "cache_read_input_tokens": 0,
+              "inference_geo": "global",
+              "input_tokens": 37715,
+              "output_tokens": 3102,
+              "output_tokens_details": {
+                "thinking_tokens": 945
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -16491,6 +17052,246 @@
             }
           }
         },
+        "R17-09": {
+          "official_primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "strict": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_reviewed": {
+            "all_three": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "raw_review_pending": [],
+          "raw_review_complete": true,
+          "headline": "raw_reviewed",
+          "primary": {
+            "all_three": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          },
+          "secondary": {
+            "all_three": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "verdict_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "layer_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "cause_match": {
+              "correct": 1,
+              "total": 1,
+              "accuracy": 1.0,
+              "lower": 0.20654931437723745,
+              "upper": 1.0,
+              "confidence": 0.95,
+              "method": "Wilson"
+            },
+            "harmful": {
+              "correct": 0,
+              "total": 1,
+              "accuracy": 0.0,
+              "lower": 0.0,
+              "upper": 0.7934506856227626,
+              "confidence": 0.95,
+              "method": "Wilson"
+            }
+          }
+        },
         "waiting-fixture-load": {
           "official_primary": {
             "all_three": {
@@ -17106,6 +17907,82 @@
               "output_tokens": 2230,
               "output_tokens_details": {
                 "thinking_tokens": 928
+              },
+              "service_tier": "standard",
+              "speed": "standard"
+            },
+            "winner": "secondary"
+          }
+        },
+        {
+          "ticket": "R17-09-v1",
+          "class": "R17-09",
+          "fixture": "baseline",
+          "estate": "fixture",
+          "primary": {
+            "cause_match": false,
+            "failing_step": "wrong conclusion",
+            "handoff_quality": 1,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "The expected verdict is 'as designed' \u2014 the card reflects the last successful model refresh (2026-10-07T21:15:37Z) and the schedule is disabled, which is the intended behavior with no anomaly. The delivered answer says 'consistent to boundary' which is broadly similar but frames it as a data-freshness investigation rather than confirming the 'as designed' refresh contract. More critically, the named cause mismatch: the expected cause requires returning the exact refresh-history facts (last refresh ended 2026-10-07) as the primary answer without claiming query-bound snapshot freshness. The delivered answer does state the refresh facts correctly but buries them and prominently leads with DAX/SQL query comparisons across layers, introduces a silver/gold discrepancy tangent (product 7 duplicate rows), and makes forward-looking statements about Direct Lake automatic updates being unconfirmed \u2014 none of which are part of the expected answer. The layer match is correct (SEMANTIC layer identified). The handoff quality is moderate: queries are rerunnable and the stopping point is clear, but the investigation went beyond scope and introduced noise.",
+            "verdict_match": false
+          },
+          "secondary": {
+            "cause_match": true,
+            "failing_step": "none",
+            "handoff_quality": 2,
+            "harmful": false,
+            "layer_match": true,
+            "partial": false,
+            "reason": "Verdict: the expected verdict is 'as designed'. The delivered verdict is 'consistent to boundary'. In substance they agree: the card's currency is explained by how the model is set up, and no freshness defect is claimed. Layer: the answer is grounded in the semantic model's refresh state (refresh history and schedule), which matches SEMANTIC. Cause: the answer gives the exact retained refresh facts. Run 754776194 succeeded and ended 2026-10-07 21:15:37.357 UTC with no error. The 04:30 UTC schedule is disabled, so no next refresh is due. It does not invent a more recent refresh. It also states that snapshot alignment across layers is not established, so it does not claim query-bound snapshot freshness. This matches the expected named cause. The 'no older than its source chain' remark rests only on matching max event_day values and is qualified. The gold-vs-silver 1104 duplicate-join observation is extra, hedged ('probably'), and explicitly separate from currency, so it is not a confident incorrect cause and not harmful. Possible disagreement: the verdict labels differ in wording, but I credited them as the same in substance. Handoff: the queries are fully recorded and rerunnable. The answer says what it could not check (automatic updates, notebook run history, layer write times), which gives sensible next checks.",
+            "verdict_match": true
+          },
+          "grade_wave": "g3-static09",
+          "outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+          "status": "ANSWERED",
+          "native_duration_seconds": 251.0,
+          "worker_wall_seconds": 222.86361568799998,
+          "investigation_cost_microdollars": 486469,
+          "physical_requests": 29,
+          "model_calls": 4,
+          "native_outcome_path": ".local\\round-twenty-five\\g3-R17-09-v1-result.json",
+          "usage_unavailable": false,
+          "timing_group": "full_investigation",
+          "expected_verdict_class": "as designed",
+          "raw_review": {
+            "cost_microdollars": 217295,
+            "grade": {
+              "cause_match": true,
+              "failing_step": "none",
+              "handoff_quality": 2,
+              "harmful": false,
+              "layer_match": true,
+              "partial": false,
+              "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+              "verdict_match": true
+            },
+            "independent_fresh_call": true,
+            "independent_model_winner": "secondary",
+            "model": "claude-opus-5-5",
+            "operator_judgment_supplied": false,
+            "raw_outcome_sha256": "a7a8231863cff060b2d3790a0552c60808d9ab5ef61e105a65c9ec031f3e509a",
+            "reason": "What the saved evidence shows: the model refresh history (listing complete, no gaps) has its last success as run 754776194, 2026-10-07 21:15:32.983-21:15:37.357 UTC, no error; an earlier run that day (754775334) also succeeded. The 04:30 UTC daily schedule is off (enabled:false, no next or previous due time). Automatic updates, job runs, layer freshness, source changes, connection mode, security and definition changes were unavailable, and the job-runs request was rejected by schema validation. All 8 queries succeeded: model Handled Quantity 8765 over 406 rows, latest day 2026-09-18; gold movement_values 8765, latest day 2026-09-18; silver and bronze 7661 each; bronze latest day 2026-09-18; silver product 7 units 1104; silver product rates has 2 rows for product 7. The sealed expectation asks for the exact refresh facts (last success ended 2026-10-07T21:15:37.357Z, schedule disabled), no claim that cross-layer snapshots line up in time, and no invented recent refresh, with verdict 'as designed' and layer SEMANTIC. The answer gives exactly those refresh facts (run id, timestamps, no error, schedule disabled, no next refresh due). It invents no refresh. It says snapshot alignment across layers is not established and layer write times are unconfirmed. The 'no older than its source chain' remark rests only on queried latest-day values and is limited by those statements, so it is not a claim about snapshot timing. The 1104 gold-vs-silver duplicate-join explanation is labelled 'probably', kept separate from freshness, says business correctness is not judged, and matches the figures. That is honest uncertainty, not a confident wrong cause, and not harmful. Verdict: 'consistent to boundary' and 'as designed' differ in wording but both say there is no defect: the card reflects its model state, the last refresh was 2026-10-07, and refreshes are off by configuration. I count this as a match. Primary grader: it marks the cause wrong while admitting the refresh facts are stated correctly. Its objections (facts 'buried', extra scope) are about presentation, not substance, so its verdict and cause mismatches are wrong. Secondary grader: correct on all three criteria. Handoff 2: the queries can be rerun and the answer lists what it could not check.",
+            "source_sha256": "864a7003bbdac0d03b948f589f8ed1ed255f55f1b14c12db92b09ddd1d73e92f",
+            "ticket": "R17-09-v1",
+            "usage": {
+              "cache_creation": {
+                "ephemeral_1h_input_tokens": 0,
+                "ephemeral_5m_input_tokens": 879
+              },
+              "cache_creation_input_tokens": 879,
+              "cache_read_input_tokens": 0,
+              "inference_geo": "global",
+              "input_tokens": 37715,
+              "output_tokens": 3102,
+              "output_tokens_details": {
+                "thinking_tokens": 945
               },
               "service_tier": "standard",
               "speed": "standard"
@@ -19735,33 +20612,33 @@
   },
   "timing_cost": {
     "all": {
-      "tickets": 31,
-      "native_observed": 6,
+      "tickets": 32,
+      "native_observed": 7,
       "native_missing": 25,
-      "native_median_seconds": 199.5,
+      "native_median_seconds": 200.0,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 171.48218753150002,
+      "worker_median_seconds": 171.57637016500007,
       "worker_p90_seconds": 233.1086469249999,
-      "investigation_cost_microdollars_observed": 4652370,
-      "cost_observed": 31,
+      "investigation_cost_microdollars_observed": 5138839,
+      "cost_observed": 32,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.1500764516129032,
-      "physical_requests_observed": 139,
+      "cost_per_observed_ticket_usd": 0.16058871875,
+      "physical_requests_observed": 168,
       "physical_requests_unavailable": 0
     },
     "full_investigation": {
-      "tickets": 6,
-      "native_observed": 6,
+      "tickets": 7,
+      "native_observed": 7,
       "native_missing": 0,
-      "native_median_seconds": 199.5,
+      "native_median_seconds": 200.0,
       "native_p90_seconds": 261.0,
-      "worker_median_seconds": 171.48218753150002,
+      "worker_median_seconds": 171.57637016500007,
       "worker_p90_seconds": 233.1086469249999,
-      "investigation_cost_microdollars_observed": 2773000,
-      "cost_observed": 6,
+      "investigation_cost_microdollars_observed": 3259469,
+      "cost_observed": 7,
       "cost_unavailable": 0,
-      "cost_per_observed_ticket_usd": 0.46216666666666667,
-      "physical_requests_observed": 139,
+      "cost_per_observed_ticket_usd": 0.46563842857142856,
+      "physical_requests_observed": 168,
       "physical_requests_unavailable": 0
     },
     "answered_without_layer_queries": {

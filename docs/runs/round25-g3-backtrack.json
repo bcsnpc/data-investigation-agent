@@ -1,11 +1,11 @@
 {
   "pass": "Round25 G3 raw-reviewed",
-  "graded": 31,
-  "score": 0,
+  "graded": 32,
+  "score": 1,
   "correctness": {
-    "verdict_match": 0,
-    "layer_match": 1,
-    "cause_match": 0
+    "verdict_match": 1,
+    "layer_match": 2,
+    "cause_match": 1
   },
   "harmful": 3,
   "zero_groups": {

@@ -732,3 +732,6 @@ Round25 G3 access grader2026-11-01: PostgreSQL25P03 idle-in-transaction timeout 
 
 
 Round25 G3 original-history variant2,2026-11-01: preliminary Azure job-show command exited1 before native start. Its nested HTTP error was not preserved by the existing launcher, so no HTTP code or cause is inferred. Fresh native read shows job-dia-worker exists/Succeeded/3600s. Original attempt is unscored; exactly one authorized plumbing replacement gets a fresh original-ASOF control check. No delivered answer was retried, no current source row changed, and no frozen engine change. Receipt: runs/round25-g3-history-prestart-failure.json.
+
+
+Round25 G3 R17-10-v1 start response lost2026-11-01: management.azure.com read timeout/WinError10060 inside CLI start; unlike a proven preliminary-GET failure, whether the start POST reached Azure is unestablished. Originalrun9bbed1e7 has0 capture blobs observed; execution-list2024-03-01 returnsBadGateway. Retain original unscored, do not release uncertain exposure; one Part0.3 replacement is separate. Static width1 leaves room for this and the earlier uncertain G2 original within3slots. Never retry the start POST automatically. Receipt: runs/round25-g3-R17-10-lost-start.json.
