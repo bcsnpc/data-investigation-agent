@@ -1,9 +1,11 @@
 from copy import deepcopy
 import unittest
+from unittest.mock import patch
 
 from investigator.live_gateway import Gateway, GatewayDenied
 
 
+@patch.dict('os.environ', {'DIA_LIVE_ACCESS_DISABLED':'0'})
 class ConfiguredAnthropicTests(unittest.TestCase):
     def gateway(self, identity='writer'):
         return Gateway({'version':1,'live_enabled':True,'identities':{identity:{
@@ -38,6 +40,11 @@ class ConfiguredAnthropicTests(unittest.TestCase):
                            'https://api.anthropic.com/v1/messages',self.body())
         with self.assertRaises(GatewayDenied):
             self.gateway().http('writer','POST','https://api.openai.com/v1/responses',{})
+
+    def test_process_live_disable_still_overrides_configured_provider(self):
+        with patch.dict('os.environ', {'DIA_LIVE_ACCESS_DISABLED':'1'}):
+            with self.assertRaisesRegex(GatewayDenied, 'LIVE_ACCESS_DISABLED'):
+                self.gateway().http('writer','POST','https://api.anthropic.com/v1/messages',self.body())
 
 
 if __name__=='__main__':unittest.main()
