@@ -296,3 +296,14 @@ Operator blinding was partly broken. In addition to the earlier staging/status f
 The active native temporal query route accepts FOR SYSTEM_TIME syntax. Invalid OPTION(FOR TIMESTAMP AS OF) and unavailable objects were rejected before dispatch; this does not establish a retention policy. No validator fix was made. The R24 retrospective absence audit is separate: secondary is right on cause, and both original verdict labels were too strict under the substance rule. Its official 18/20 and all original records remain unchanged.
 
 [All 180 image/outcome bindings](runs/round25-measurement-image-index.json), [frozen-runtime check](runs/round25-final-frozen-runtime.json), [33-control closeout](runs/round25-injection-closeout.json), [final native estate readback](runs/round25-final-estate-readback.json). Source360business/schema hashes match; Bronze aggregate 360 / 7,661 and native model 7661 agree; automatic updatesOn and temporal historyOn. A full Bronze row hash remains unestablished. Local controller counters exclude separately metered nested cloud probes; shared monthly ledger totals are authoritative. No all 180 exact-replay claim is made; prior CI replay gates remain separate.
+
+## Native physical requests per observed ticket
+
+Only saved native usage is counted here; fixture controls, grading and unknown exception usage are separate.
+
+| Cohort | Observed / missing | Requests | Requests per observed ticket |
+|---|---:|---:|---:|
+|G1|40 / 0|1072|26.80|
+|G2|50 / 10|1081|21.62|
+|G3|59 / 1|297|5.03|
+|G4|20 / 0|548|27.40|

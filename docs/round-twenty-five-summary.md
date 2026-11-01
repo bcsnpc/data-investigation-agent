@@ -34,7 +34,7 @@ G3 same-ticket comparison: R22 officialdev14/40,held-out5/20; R25 officialdev6/4
 ## Agreement, cost and timing
 
 | Cohort | Core / full assessment agreement | Investigation USD / observed ticket | Usage observed | Cache reads | Native median / p90 seconds |
-|---|---|---|---:|---|
+|---|---|---|---:|---|---|
 |G1|37/40 / 8/40|0.413174|40|67.49%|245.0 / 317.0|
 |G2|51/60 / 13/60|0.477974|50|69.21%|206.0 / 307.0|
 |G3|50/60 / 8/60|0.163234|59|60.18%|200.0 / 323.0|

@@ -1,0 +1,33 @@
+{
+  "basis": "Saved native outcome usage only; unknown usage is not zero; controls and graders separate",
+  "cohorts": [
+    {
+      "cohort": "G1",
+      "observed": 40,
+      "requests": 1072,
+      "requests_per_observed_ticket": 26.8,
+      "missing": 0
+    },
+    {
+      "cohort": "G2",
+      "observed": 50,
+      "requests": 1081,
+      "requests_per_observed_ticket": 21.62,
+      "missing": 10
+    },
+    {
+      "cohort": "G3",
+      "observed": 59,
+      "requests": 297,
+      "requests_per_observed_ticket": 5.033898305084746,
+      "missing": 1
+    },
+    {
+      "cohort": "G4",
+      "observed": 20,
+      "requests": 548,
+      "requests_per_observed_ticket": 27.4,
+      "missing": 0
+    }
+  ]
+}
