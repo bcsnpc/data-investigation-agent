@@ -250,6 +250,10 @@ class Gateway:
             from .adapters.reasoning_anthropic import authorize_body
             try:authorize_body(permissions,method,url,body)
             except Exception:_deny('REASONING_MODEL_REQUEST_REFUSED',identity=identity,target=url)
+        elif purpose=='configured_ai':
+            from .adapters.reasoning_openai import authorize_body
+            try:authorize_body(permissions,method,url,body)
+            except Exception:_deny('CONFIGURED_AI_REQUEST_REFUSED',identity=identity,target=url)
         elif purpose=='platform_blob':
             if method not in ('GET','HEAD','PUT'):
                 _deny('PLATFORM_BLOB_OPERATION_BLOCKED',identity=identity,target=url)

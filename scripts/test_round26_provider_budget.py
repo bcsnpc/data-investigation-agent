@@ -45,6 +45,23 @@ class ProviderBudgetTests(unittest.TestCase):
         self.assertNotEqual(first, later)
         self.assertEqual(int(self.state.totals(first)['charged']), 0)
 
+    def test_switching_provider_does_not_reset_ticket_actual_cap(self):
+        from investigator.reasoning_budget import TicketBudget, RateCard
+        from investigator.model_spend import SpendHold
+        rate = RateCard(model='synthetic', input_rate=1, output_rate=1,
+                        source='https://example.test/pricing', observed_at='2026-11-01')
+        def budget(provider):
+            return TicketBudget(self.state, case_id='same', owner='worker', rate=rate,
+                                clock=lambda: NOW, actual_usage_limit=3000000, provider=provider)
+        body = {'model': 'synthetic', 'max_tokens': 10}
+        first = budget('anthropic')
+        reservation = first.reserve(body, input_tokens_upper_bound=3000000)
+        first.settle(reservation, {'input_tokens': 3000000, 'output_tokens': 0})
+        second = budget('openai')
+        with self.assertRaisesRegex(SpendHold, 'TICKET_MODEL_EXHAUSTED'):
+            second.reserve(body, input_tokens_upper_bound=10)
+        self.assertEqual(second.status()['charged_microdollars'], 3000000)
+
 
 if __name__ == '__main__':
     unittest.main()
