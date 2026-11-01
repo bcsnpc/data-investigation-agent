@@ -1,14 +1,14 @@
-# Quality of frozen v0.24 — Round 25
+# Quality of frozen v0.24 â€” Round 25
 
 ## Current measurement
 
-Saved-result snapshot: 2026-11-01T01:58:55.435242+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
+Saved-result snapshot: 2026-11-01T02:24:30.668571+00:00. Raw-reviewed is the headline; official and strict remain unchanged. G2 is the completed new held-out set (60/60 accounted for). G3 and G4 remain in progress until their requested totals are accounted for. Partial cohort figures must not be presented as full-set accuracy.
 
 | Cohort | Official primary (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful | Requested |
 |---|---|---|---|---:|---:|
-|G1|37/40 (80.1–97.4%)|34/40 (70.9–92.9%)|35/40 (73.9–94.5%)|2|40|
-|G2|37/60 (49.0–72.9%)|32/60 (40.9–65.4%)|36/60 (47.4–71.4%)|0|60|
-|G3|0/25 (0.0–13.3%)|0/25 (0.0–13.3%)|0/25 (0.0–13.3%)|2|60|
+|G1|37/40 (80.1â€“97.4%)|34/40 (70.9â€“92.9%)|35/40 (73.9â€“94.5%)|2|40|
+|G2|37/60 (49.0â€“72.9%)|32/60 (40.9â€“65.4%)|36/60 (47.4â€“71.4%)|0|60|
+|G3|0/31 (0.0â€“11.0%)|0/31 (0.0â€“11.0%)|0/31 (0.0â€“11.0%)|3|60|
 |G4|not run|not run|not run|not measured|20|
 
 ### Same original R22 splits
@@ -17,22 +17,22 @@ The original dev and held-out sets remain separate. Interim numerators use only 
 
 | Original split | Requested | R22 official (95% Wilson) | R25 official | R25 strict | R25 raw-reviewed |
 |---|---:|---|---|---|---|
-|dev|40|14/40 (22.1–50.5%)|0/16 (0.0–19.4%)|0/16 (0.0–19.4%)|0/16 (0.0–19.4%)|
-|heldout|20|5/20 (11.2–46.9%)|0/9 (0.0–29.9%)|0/9 (0.0–29.9%)|0/9 (0.0–29.9%)|
+|dev|40|14/40 (22.1â€“50.5%)|0/22 (0.0â€“14.9%)|0/22 (0.0â€“14.9%)|0/22 (0.0â€“14.9%)|
+|heldout|20|5/20 (11.2â€“46.9%)|0/9 (0.0â€“29.9%)|0/9 (0.0â€“29.9%)|0/9 (0.0â€“29.9%)|
 
 G1 is unchanged dev v2. G3 compares unchanged R22 text (14/40dev and5/20held-out); G4 is a regression comparison with R23's6/20. The prior R24 official18/20 remains unchanged. Related variants share fixtures, so Wilson intervals describe this observed sample, not independent client-estate accuracy.
 
 ## Grader agreement and correctness dimensions
 
-Core agreement means verdict, layer, cause and harm flags. Full assessment additionally includes handoff quality, partial status and first failing step. It is not honest to label the higher core rate as agreement on the entire assessment. All G2–G4 assessment disagreements require fresh independent Claude review; no operator adjudication.
+Core agreement means verdict, layer, cause and harm flags. Full assessment additionally includes handoff quality, partial status and first failing step. It is not honest to label the higher core rate as agreement on the entire assessment. All G2â€“G4 assessment disagreements require fresh independent Claude review; no operator adjudication.
 
 | Cohort | Core agreement (95% Wilson) | Full assessment agreement (95% Wilson) | Raw verdict | Raw layer | Raw cause | Pending raw reviews |
 |---|---|---|---|---|---|---:|
-|G1|37/40 (80.1–97.4%)|8/40 (10.5–34.8%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|35/40 (73.9–94.5%)|0|
-|G2|51/60 (73.9–91.9%)|13/60 (13.1–33.6%)|42/60 (57.5–80.1%)|44/60 (61.0–82.9%)|37/60 (49.0–72.9%)|0|
-|G3|22/25 (70.0–95.8%)|4/25 (6.4–34.7%)|0/25 (0.0–13.3%)|1/25 (0.7–19.5%)|0/25 (0.0–13.3%)|0|
+|G1|37/40 (80.1â€“97.4%)|8/40 (10.5â€“34.8%)|35/40 (73.9â€“94.5%)|35/40 (73.9â€“94.5%)|35/40 (73.9â€“94.5%)|0|
+|G2|51/60 (73.9â€“91.9%)|13/60 (13.1â€“33.6%)|42/60 (57.5â€“80.1%)|44/60 (61.0â€“82.9%)|37/60 (49.0â€“72.9%)|0|
+|G3|26/31 (67.4â€“92.9%)|5/31 (7.1â€“32.6%)|0/31 (0.0â€“11.0%)|1/31 (0.6â€“16.2%)|0/31 (0.0â€“11.0%)|0|
 
-Operator blinding was partly broken by the earlier two staging/status fragments and an additional G3 access status dump that included saved outcome text. These exposures are disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2–G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
+Operator blinding was partly broken by the earlier two staging/status fragments and an additional G3 access status dump that included saved outcome text. These exposures are disclosed in decisions.md and the round summary. No investigator logic or expectation was changed afterward. G1's original raw reviews remain; G2â€“G4 disagreements are decided by independent Claude calls receiving only the owner-approved packet.
 
 ## Class results
 
@@ -40,67 +40,73 @@ Every cell includes its95% Wilson interval. Original case-family IDs are retaine
 
 | Cohort / case family | Official | Strict | Raw-reviewed |
 |---|---|---|---|
-|G1 / v2-access-export|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-application-baseline|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-before-temporal-retention|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G1 / v2-billing-invoices|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-billing-mrr|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-failed-application-load|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-failed-billing-transform|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-fixture-quantity|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-latency-record|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-other-collected-definition|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-record-absent-everywhere|2/2 (34.2–100.0%)|1/2 (9.5–90.5%)|2/2 (34.2–100.0%)|
-|G1 / v2-record-repeated-gold|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-screenshot-record-01|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-screenshot-record-02|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-screenshot-record-03|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-screenshot-record-04|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-source-history|2/2 (34.2–100.0%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G1 / v2-stale-model|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-waiting-application-load|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|
-|G1 / v2-warehouse-scope|1/2 (9.5–90.5%)|1/2 (9.5–90.5%)|1/2 (9.5–90.5%)|
-|G2 / v4-access-export|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
-|G2 / v4-application-baseline|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|1/3 (6.1–79.2%)|
-|G2 / v4-before-temporal-retention|2/3 (20.8–93.9%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
-|G2 / v4-billing-invoices|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|3/3 (43.9–100.0%)|
-|G2 / v4-billing-mrr|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
-|G2 / v4-failed-application-load|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
-|G2 / v4-failed-billing-transform|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
-|G2 / v4-fixture-quantity|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
-|G2 / v4-latency-record|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
-|G2 / v4-other-collected-definition|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
-|G2 / v4-record-absent-everywhere|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
-|G2 / v4-record-repeated-gold|1/3 (6.1–79.2%)|1/3 (6.1–79.2%)|1/3 (6.1–79.2%)|
-|G2 / v4-sample-business-meaning|3/3 (43.9–100.0%)|0/3 (0.0–56.1%)|2/3 (20.8–93.9%)|
-|G2 / v4-sample-technical|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|3/3 (43.9–100.0%)|
-|G2 / v4-screenshot-billing-invoices|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
-|G2 / v4-screenshot-billing-mrr|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
-|G2 / v4-screenshot-fixture-01|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
-|G2 / v4-screenshot-fixture-02|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
-|G2 / v4-screenshot-fixture-03|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
-|G2 / v4-screenshot-fixture-04|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|1/1 (20.7–100.0%)|
-|G2 / v4-source-history|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
-|G2 / v4-stale-model|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
-|G2 / v4-waiting-application-load|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|
-|G2 / v4-warehouse-scope|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|
-|G3 / R17-01|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / R17-02|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / access-export-1|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G3 / access-export-2|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / access-export-3|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / failed-billing-transform|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G3 / failed-fixture-load|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G3 / fourth-failed-billing-transform|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G3 / history-source-900201|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G3 / history-source-900202|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / history-source-900203|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / latency-900501|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G3 / latency-900502|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
-|G3 / latency-900503|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / waiting-billing-load|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / waiting-billing-transform|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|0/1 (0.0–79.3%)|
-|G3 / waiting-fixture-load|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|
+|G1 / v2-access-export|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-application-baseline|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-before-temporal-retention|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G1 / v2-billing-invoices|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-billing-mrr|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-failed-application-load|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-failed-billing-transform|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-fixture-quantity|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-latency-record|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-other-collected-definition|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-record-absent-everywhere|2/2 (34.2â€“100.0%)|1/2 (9.5â€“90.5%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-record-repeated-gold|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-screenshot-record-01|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-screenshot-record-02|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-screenshot-record-03|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-screenshot-record-04|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-source-history|2/2 (34.2â€“100.0%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G1 / v2-stale-model|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-waiting-application-load|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|
+|G1 / v2-warehouse-scope|1/2 (9.5â€“90.5%)|1/2 (9.5â€“90.5%)|1/2 (9.5â€“90.5%)|
+|G2 / v4-access-export|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|
+|G2 / v4-application-baseline|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|1/3 (6.1â€“79.2%)|
+|G2 / v4-before-temporal-retention|2/3 (20.8â€“93.9%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|
+|G2 / v4-billing-invoices|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|3/3 (43.9â€“100.0%)|
+|G2 / v4-billing-mrr|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|
+|G2 / v4-failed-application-load|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|
+|G2 / v4-failed-billing-transform|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|
+|G2 / v4-fixture-quantity|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|
+|G2 / v4-latency-record|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|
+|G2 / v4-other-collected-definition|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|
+|G2 / v4-record-absent-everywhere|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|
+|G2 / v4-record-repeated-gold|1/3 (6.1â€“79.2%)|1/3 (6.1â€“79.2%)|1/3 (6.1â€“79.2%)|
+|G2 / v4-sample-business-meaning|3/3 (43.9â€“100.0%)|0/3 (0.0â€“56.1%)|2/3 (20.8â€“93.9%)|
+|G2 / v4-sample-technical|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|3/3 (43.9â€“100.0%)|
+|G2 / v4-screenshot-billing-invoices|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G2 / v4-screenshot-billing-mrr|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G2 / v4-screenshot-fixture-01|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G2 / v4-screenshot-fixture-02|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G2 / v4-screenshot-fixture-03|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G2 / v4-screenshot-fixture-04|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|1/1 (20.7â€“100.0%)|
+|G2 / v4-source-history|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|
+|G2 / v4-stale-model|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|
+|G2 / v4-waiting-application-load|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|
+|G2 / v4-warehouse-scope|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|
+|G3 / R17-01|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-02|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-03|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-04|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-05|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-06|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-07|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / R17-08|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / access-export-1|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G3 / access-export-2|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / access-export-3|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / failed-billing-transform|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G3 / failed-fixture-load|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G3 / fourth-failed-billing-transform|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G3 / history-source-900201|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G3 / history-source-900202|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / history-source-900203|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / latency-900501|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G3 / latency-900502|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
+|G3 / latency-900503|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / waiting-billing-load|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / waiting-billing-transform|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|
+|G3 / waiting-fixture-load|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|
 
 ### Expected verdict classes
 
@@ -108,33 +114,34 @@ Grouping uses exact sealed oracle labels; no expectation or score change. Case f
 
 | Cohort / expected verdict class | Official (95% Wilson) | Strict (95% Wilson) | Raw-reviewed (95% Wilson) | Raw harmful |
 |---|---|---|---|---:|
-|G1 / access difference|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
-|G1 / as designed|16/16 (80.6–100.0%)|15/16 (71.7–98.9%)|16/16 (80.6–100.0%)|0|
-|G1 / different question|1/2 (9.5–90.5%)|1/2 (9.5–90.5%)|1/2 (9.5–90.5%)|0|
-|G1 / failed job|4/4 (51.0–100.0%)|4/4 (51.0–100.0%)|4/4 (51.0–100.0%)|0|
-|G1 / latency|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
-|G1 / not found|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0|
-|G1 / refresh stale|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
-|G1 / source changed history|2/2 (34.2–100.0%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|2|
-|G1 / transformation logic|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|0|
-|G1 / waiting on job|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|2/2 (34.2–100.0%)|0|
-|G2 / access difference|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0|
-|G2 / as designed|14/17 (59.0–93.8%)|14/17 (59.0–93.8%)|15/17 (65.7–96.7%)|0|
-|G2 / as designed; historical value not found (no retained version before 2026-10-23)|2/3 (20.8–93.9%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0|
-|G2 / different question|3/6 (18.8–81.2%)|0/6 (0.0–39.0%)|2/6 (9.7–70.0%)|0|
-|G2 / failed job|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|6/6 (61.0–100.0%)|0|
-|G2 / latency|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|0|
-|G2 / not found|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|1/4 (4.6–69.9%)|0|
-|G2 / refresh stale|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0/3 (0.0–56.1%)|0|
-|G2 / source changed history|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|0|
-|G2 / transformation logic|6/9 (35.4–87.9%)|6/9 (35.4–87.9%)|6/9 (35.4–87.9%)|0|
-|G2 / waiting on job|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|2/3 (20.8–93.9%)|0|
-|G3 / access difference|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0|
-|G3 / as designed|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|0/2 (0.0–65.8%)|2|
-|G3 / failed job|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0/6 (0.0–39.0%)|0|
-|G3 / latency|0/5 (0.0–43.4%)|0/5 (0.0–43.4%)|0/5 (0.0–43.4%)|0|
-|G3 / source changed history|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0|
-|G3 / waiting on job|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0/4 (0.0–49.0%)|0|
+|G1 / access difference|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|0|
+|G1 / as designed|16/16 (80.6â€“100.0%)|15/16 (71.7â€“98.9%)|16/16 (80.6â€“100.0%)|0|
+|G1 / different question|1/2 (9.5â€“90.5%)|1/2 (9.5â€“90.5%)|1/2 (9.5â€“90.5%)|0|
+|G1 / failed job|4/4 (51.0â€“100.0%)|4/4 (51.0â€“100.0%)|4/4 (51.0â€“100.0%)|0|
+|G1 / latency|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|0|
+|G1 / not found|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|0|
+|G1 / refresh stale|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|0|
+|G1 / source changed history|2/2 (34.2â€“100.0%)|0/2 (0.0â€“65.8%)|0/2 (0.0â€“65.8%)|2|
+|G1 / transformation logic|6/6 (61.0â€“100.0%)|6/6 (61.0â€“100.0%)|6/6 (61.0â€“100.0%)|0|
+|G1 / waiting on job|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|2/2 (34.2â€“100.0%)|0|
+|G2 / access difference|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0|
+|G2 / as designed|14/17 (59.0â€“93.8%)|14/17 (59.0â€“93.8%)|15/17 (65.7â€“96.7%)|0|
+|G2 / as designed; historical value not found (no retained version before 2026-10-23)|2/3 (20.8â€“93.9%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0|
+|G2 / different question|3/6 (18.8â€“81.2%)|0/6 (0.0â€“39.0%)|2/6 (9.7â€“70.0%)|0|
+|G2 / failed job|6/6 (61.0â€“100.0%)|6/6 (61.0â€“100.0%)|6/6 (61.0â€“100.0%)|0|
+|G2 / latency|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|0|
+|G2 / not found|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|1/4 (4.6â€“69.9%)|0|
+|G2 / refresh stale|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0/3 (0.0â€“56.1%)|0|
+|G2 / source changed history|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|0|
+|G2 / transformation logic|6/9 (35.4â€“87.9%)|6/9 (35.4â€“87.9%)|6/9 (35.4â€“87.9%)|0|
+|G2 / waiting on job|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|2/3 (20.8â€“93.9%)|0|
+|G3 / access difference|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0|
+|G3 / as designed|0/7 (0.0â€“35.4%)|0/7 (0.0â€“35.4%)|0/7 (0.0â€“35.4%)|3|
+|G3 / failed job|0/6 (0.0â€“39.0%)|0/6 (0.0â€“39.0%)|0/6 (0.0â€“39.0%)|0|
+|G3 / latency|0/5 (0.0â€“43.4%)|0/5 (0.0â€“43.4%)|0/5 (0.0â€“43.4%)|0|
+|G3 / not found|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0/1 (0.0â€“79.3%)|0|
+|G3 / source changed history|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0|
+|G3 / waiting on job|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0/4 (0.0â€“49.0%)|0|
 
 ## Observed cost, cache and timing
 
@@ -161,20 +168,20 @@ The waiting zero is timing-confounded: its job completed during the third invest
 
 G3 original-history review: three delivered answers checked current Bronze/Silver/Gold/model rows but never read the retained application temporal history that fresh controls had established. Job-history calls used unsupported subjects, and one answer followed a different current-data path. The fourth ticket held at intake. All four score zero, without a raw-confirmed harmful cause claim. This is a route/tool/intake failure, not proof that temporal syntax is universally blocked. The original saved evidence and fresh independent reasons are retained.
 
-Priorities are drawn from backtracks only: history-evidence reasoning; native triage ports for the decisive setting; target/comparison admission; bounded query/tool choice and explicit handoff. None is implemented in this frozen measurement round.
+Priorities are drawn from backtracks only, with the owner-directed free-text intake regression first; grounded causal reasoning, decisive native triage facts, bounded query choice and explicit handoff follow. None is implemented in this frozen measurement round.
 
 
 ## Ranked fixes for the next round
 
-These priorities come from the saved backtracks and harm reviews, not new expectation changes. Counts for partial cohorts are provisional.
+Owner-directed order; evidence comes from saved backtracks and independent harm reviews. No fix is implemented in this frozen round.
 
-1. Stop confusing a historical source edit with current load latency. G1 has two raw-confirmed harmful conclusions; observing source ahead of landing cannot establish the requested historical change.
-2. Preserve a usable target and comparison through intake, including operational questions that already identify a job. G2 has14 intake-first zeros; G3?s initial failed-job cases also stop at intake.
-3. Choose supported native queries and decisive evidence before spending the tool budget. G2 has4 query-first zeros. Pre-dispatch rejection is not evidence of a platform retention limitation.
-4. Expose the decisive native triage fact, especially Direct Lake automatic-update state. G2 has3 triage-first zeros despite finding the correct numerical boundary.
-5. Deliver the requested supported conclusion, or state a precise remaining gap. G2 has3 conclusion-first zeros. Keep intake, query and actual conclusion failures separate.
+1. Restore free-text intake and target selection. Put the G3 free-text regression first: keep the unchanged original R22 dev40 and held-out20 beside their original14/40 and5/20 scores. Missing-report questions, comparison admission and wrong-path selection prevent many tickets from reaching their relevant evidence; structured-form results must not conceal this weakness.
+2. Ground causal findings in evidence actually read. Do not replace a measure/count explanation with an unsupported ETL defect, and do not infer historical source edits from current source-versus-landing differences. Retain every independently confirmed harmful answer.
+3. Use supported native queries and the decisive path evidence before exhausting tools. Pre-dispatch rejection of invalid OPTION(FOR TIMESTAMP AS OF) syntax is not proof of a retention limitation; the active temporal route accepts native FOR SYSTEM_TIME syntax.
+4. Supply the decisive native triage fact, particularly Direct Lake automatic-update state. Finding the numerical boundary alone does not establish the specific setting that caused it.
+5. Deliver the requested supported conclusion, or a precise remaining gap. Keep recreation, current-state absence, historical evidence and business-intent questions distinct.
 
-No item is implemented during this frozen round.
+G3 harm pauses are lifted for measurement by owner decision. Previously delivered outcomes remain counted; no answer is rerun to improve its score.
 ## Evidence and restoration
 
 [G1 grades](runs/round-twenty-five-g1-current-grades.json), [G2 grades](runs/round25-g2-current-grades.json), [G2 backtracks](runs/round25-g2-backtrack.json), [measurement image index](runs/round25-measurement-image-index.json), [G2 stale restoration](runs/round25-g2-stale-final-restoration.json). Source and definition hashes, native load completion and model totals are separate checks; no unmeasured full Bronze row hash is claimed. Temporal history stays on. At G2 closeout the fixture was restored to360source rows/model7661/automatic updatesOn. Later G3/G4 controls have their own restoration records; this historical closeout does not assert that an in-flight cohort is already restored.
