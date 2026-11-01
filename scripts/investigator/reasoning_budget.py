@@ -97,9 +97,24 @@ class TicketBudget:
                 'base_input_rate':str(self.rate.base_input_rate),'cache_read_rate':str(self.rate.cache_read_rate),
                 'input_bound_source':'UTF8_BYTES_PLUS_4096' if input_tokens_upper_bound is None else 'PROVIDER_TOKEN_COUNT_PLUS_4096',
                 'estimate_type':'CONSERVATIVE_RATE_CARD_NOT_INVOICE'}
+        if self.actual_usage_limit is not None:
+            detail.update(charge_basis='ACTUAL_PROVIDER_USAGE',ticket_limit_microdollars=self.actual_usage_limit,maximum_commitment_microdollars=maximum,reservation_is_estimate=True)
+        self.state._retry_connection_operation('IDEMPOTENT_MODEL_RESERVATION',
+            lambda:self._reserve_identity(account,identity,bound,maximum,detail))
+        self.reservations[identity]=account
+        return identity
+
+    def _reserve_identity(self,account,identity,bound,maximum,detail):
+        """Same reservation ID on reconnect; a lost commit cannot charge twice."""
         with self.state.transaction() as db:
             snapshot=self.state._totals(db,account)
             if snapshot['violated']:raise SpendHold('MODEL_ACCOUNT_VIOLATION')
+            prior=self.state.sql(db,'SELECT owner,reserved,detail,status FROM state_reservations WHERE account=? AND identity=?',
+                                 (account,identity)).fetchone()
+            if prior is not None:
+                if (prior[0]!=self.owner or amount(prior[1])!=bound or json.loads(prior[2])!=detail or prior[3]!='RESERVED'):
+                    raise SpendHold('MODEL_RESERVATION_REPLAY_DIFFERS')
+                return
             from .build_phase import model_ceiling
             monthly_ceiling=min(amount(snapshot['ceiling'])-(0 if self.purpose=='GRADING' else amount(snapshot['protected'])),self._ceiling())
             from .anthropic_credit import pending_exposure
@@ -109,14 +124,10 @@ class TicketBudget:
             if ((self.actual_usage_limit is not None and charged>=self.actual_usage_limit)
                     or (self.actual_usage_limit is None and charged+bound>TICKET_MODEL_MICRODOLLARS)):
                 raise SpendHold('TICKET_MODEL_EXHAUSTED')
-            if self.actual_usage_limit is not None:
-                detail.update(charge_basis='ACTUAL_PROVIDER_USAGE',ticket_limit_microdollars=self.actual_usage_limit,maximum_commitment_microdollars=maximum,reservation_is_estimate=True)
             from .anthropic_credit import admit
             admit(self.state,db,account,maximum,self.clock(),purpose=self.purpose)
             self.state.sql(db,'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)',
                 (account,identity,self.owner,bound,bound,'RESERVED',encoded(detail)))
-        self.reservations[identity]=account
-        return identity
 
     def output_limit(self,inputs,requested):
         """Fit the output reservation inside both unchanged dollar ceilings."""

@@ -21,6 +21,13 @@ def ensure_account(state, provider, now, *, provision=False):
     if provider == 'anthropic':
         return ensure_model_account(state, now, provision=provision)
     account = account_for(provider, now)
+    if state.backend == 'postgresql' and not provision:
+        present = state._read_transaction(lambda db: state.sql(db,
+            'SELECT 1 FROM state_accounts WHERE identity=?', (account,)).fetchone())
+        if not present:
+            from .model_spend import SpendHold
+            raise SpendHold('PROVIDER_ACCOUNT_NOT_PROVISIONED:' + account)
+        return account
     with state.transaction() as db:
         if state.sql(db, 'SELECT 1 FROM state_accounts WHERE identity=?', (account,)).fetchone():
             return account

@@ -21,11 +21,18 @@ def grading_totals(state,db,account):
 
 def grading_charge(state,db,policy,totals):
     if 'grading_month_tag' not in policy:return max(0,int(totals['charged'])-policy['baseline_grading_charged'])
+    if state.backend=='postgresql':
+        row=state.sql(db,"SELECT COALESCE(SUM(TRUNC(charged)),0) FROM state_reservations WHERE account=? AND detail::jsonb->>'month_utc'=?",
+                      (policy['grading_account'],policy['grading_month_tag'])).fetchone()
+        return int(row[0])
     rows=state.sql(db,'SELECT charged,detail FROM state_reservations WHERE account=?',(policy['grading_account'],)).fetchall()
     return sum(int(charged) for charged,detail in rows if json.loads(detail).get('month_utc')==policy['grading_month_tag'])
 
 
 def model_grading_charge(state,db,account):
+    if state.backend=='postgresql':
+        row=state.sql(db,"SELECT COALESCE(SUM(TRUNC(charged)),0) FROM state_reservations WHERE account=? AND detail::jsonb->>'purpose'='GRADING'",(account,)).fetchone()
+        return int(row[0])
     rows=state.sql(db,'SELECT charged,detail FROM state_reservations WHERE account=?',(account,)).fetchall()
     return sum(int(charged)for charged,detail in rows if json.loads(detail).get('purpose')=='GRADING')
 
