@@ -790,3 +790,6 @@ Round26 synthetic summary helper: the model completed correct prose at82outputto
 
 
 Round26 pre-dev offline trace: cloud free-text intake's early NEEDS_INPUT result omitted the original text envelope, so RunHarness could raise DELIVERED_TICKET_TEXT_DIFFERS on a correctly returned question. Preserve exact submitted text as ticket.text before admission; no guessed IntakeRequest, no weaker binding. A real harness regression accepts that question and rejects a different ticket. No old captured output or benchmark image changed.
+
+
+Round26 configured Anthropic routing: configured_ai HTTP requests were always passed to the OpenAI body checker, so the independent writer's count_tokens request was refused locally before HTTP dispatch/key lookup/reservation. Legacy Anthropic remained functional. Added vendor dispatch to the existing strict Anthropic checker, intersecting its model/tool restrictions with the explicit configured allowlist. Matrix tests for investigator/intake/screenshot/summary/enrichment/writer/grader/reviewer/smoke accept pinned messages/count_tokens and refuse unconfigured models/tools, legacy fallback and other vendors.110Round26 and the prior gateway-component red-team test pass. Labelled pre-provider retry retained original intent/failure; real writer calls now produce unsealed drafts. No identity, role, secret or estate scope changed.

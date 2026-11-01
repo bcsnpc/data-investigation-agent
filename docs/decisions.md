@@ -543,3 +543,6 @@ Owner PartE requires the native job to remain running through the answer. Increa
 
 
 Owner-approved 2026-11-01 (§8): add 5,500 November investigation requests. Before: total9,000 / investigation6,405. After: total14,500 / investigation11,905. SCAN2,500, restoration95 and all model caps unchanged; usage and reservation rows preserved. Cloud policy read back; December default remains9,000 / investigation6,405. Reason: remaining Round26 required measurements exceed remaining allocation. Receipt: docs/round-twenty-six-request-increase.json. Pinned benchmark image retains its lower source cap until a later tested image; no benchmark engine replacement.
+
+
+DECIDED WITHOUT REVIEW,2026-11-01: independent v5 drafts may be authored while native verification continues. The owner requires live fact/ID verification before sealing, not before drafting. Rejected the extra local preparation gate that delayed every writer call until all cohorts completed. Drafts stay unsealed and unread by the engine operator; no scores/expectations/engine outputs are given to the writer. Existing native verification and every-ID checks still gate the seal.

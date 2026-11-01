@@ -253,7 +253,7 @@ class Gateway:
             try:authorize_body(permissions,method,url,body)
             except Exception:_deny('REASONING_MODEL_REQUEST_REFUSED',identity=identity,target=url)
         elif purpose=='configured_ai':
-            from .adapters.reasoning_openai import authorize_body
+            from .adapters.configured_ai_policy import authorize_body
             try:authorize_body(permissions,method,url,body)
             except Exception:_deny('CONFIGURED_AI_REQUEST_REFUSED',identity=identity,target=url)
         elif purpose=='platform_blob':
