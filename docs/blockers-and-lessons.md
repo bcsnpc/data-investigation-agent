@@ -726,3 +726,6 @@ Round25, 2026-10-28 ? A three-case primary grading batch failed during the ADMIT
 
 
 Round25 G3 initial6cases,2026-10-31: all6 exact original R22 free-text failed-job tickets stop at intake (NEEDS_INPUT), score0/6 under both graders and independent disagreement review, harmful0. They are engine outcomes, not plumbing retries. Original60ticket texts and native text envelopes are unchanged (runs/round25-g3-original-input-integrity.json). Keep this regression distinct from the Azure CLI preliminary-GET failure and the existing billing2011 baseline. Engine remains frozen; repairs belong to the ranked next-round list.
+
+
+Round25 G3 access grader2026-11-01: PostgreSQL25P03 idle-in-transaction timeout occurred inside pre-message budget admission, connection age44.268374s/client observed idle0.009105s. Cause of server idle interval remains unproven. No REASONING_REQUEST and no matching native reservation; archive original started marker, resume same saved grading task without a duplicate message. No budget guard, server setting or frozen engine change. Receipt: runs/round25-g3-access-grader-predispatch-recovery.json.

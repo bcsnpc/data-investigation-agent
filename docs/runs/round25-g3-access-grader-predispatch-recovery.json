@@ -1,0 +1,21 @@
+{
+  "at": "2026-11-01T01:14:24.899931+00:00",
+  "stage": "G3 access second grader",
+  "ticket": "access-export-1-v1",
+  "error_type": "IdleInTransactionSessionTimeout",
+  "sqlstate": "25P03",
+  "failed_before": "TicketBudget.reserve completed; REASONING_REQUEST and messages POST not reached",
+  "native_matching_reservations": 0,
+  "recorded_provider_events": [
+    "REASONING_TOKEN_COUNT"
+  ],
+  "preserved_original_marker_sha256": "e055089e5a38013bce5741f7f6cfbd23f00087b552a676411964fc51884e90b9",
+  "counter_or_guard_change": false,
+  "engine_rerun": false,
+  "resume": "Same saved grading task, first message dispatch only",
+  "timing": {
+    "connection_age_seconds": 44.268374,
+    "idle_before_request_seconds": 0.009105,
+    "server_idle_duration_unproven": true
+  }
+}

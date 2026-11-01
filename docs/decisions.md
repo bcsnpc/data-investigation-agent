@@ -476,3 +476,6 @@ Round25 UTC rollover observed2026-11-01T00:00UTC: existing native ledger automat
 
 
 Round25 reporting-only2026-11-01: keep original R22 dev40 and held-out20 scores separate within G3, beside their historical14/40 and5/20 baselines, all with Wilson intervals. Seven focused reporting tests pass, including disjoint membership, denominator conservation and unchanged grades; saved report comparison confirms every prior field unchanged. No engine, oracle, expectation, tape or model call changed.
+
+
+Round25 exposure disclosure2026-11-01: while diagnosing G3 access control recovery, an operator status-file command inadvertently emitted saved access outcome text as well as control metadata. This adds exposure beyond the earlier two fragments; no engine/oracle/expectation was changed or tuned afterward. Grading and all disagreement adjudication remain fresh independent Claude calls, without operator judgments. Subsequent status reads explicitly select metadata fields.
