@@ -1,0 +1,1279 @@
+{
+  "official_primary": {
+    "all_three": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "strict": {
+    "all_three": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "raw_reviewed": {
+    "all_three": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "raw_review_pending": [],
+  "raw_review_complete": true,
+  "headline": "raw_reviewed",
+  "completed_graded": 2,
+  "primary": {
+    "all_three": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "secondary": {
+    "all_three": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "verdict_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "layer_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "cause_match": {
+      "correct": 2,
+      "total": 2,
+      "accuracy": 1.0,
+      "lower": 0.34238022750665303,
+      "upper": 1.0,
+      "confidence": 0.95,
+      "method": "Wilson"
+    },
+    "harmful": {
+      "correct": 0,
+      "total": 2,
+      "accuracy": 0.0,
+      "lower": 0.0,
+      "upper": 0.6576197724933469,
+      "confidence": 0.95,
+      "method": "Wilson"
+    }
+  },
+  "agreement": {
+    "correct": 2,
+    "total": 2,
+    "accuracy": 1.0,
+    "lower": 0.34238022750665303,
+    "upper": 1.0,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "agreement_fields": [
+    "verdict_match",
+    "layer_match",
+    "cause_match",
+    "harmful"
+  ],
+  "full_assessment_agreement": {
+    "correct": 1,
+    "total": 2,
+    "accuracy": 0.5,
+    "lower": 0.09453120573423074,
+    "upper": 0.9054687942657693,
+    "confidence": 0.95,
+    "method": "Wilson"
+  },
+  "assessment_disagreements": [
+    {
+      "ticket": "v2-failed-billing-transform-v3",
+      "fields": [
+        "handoff_quality"
+      ]
+    }
+  ],
+  "handoff_disagreements": [
+    {
+      "ticket": "v2-failed-billing-transform-v3",
+      "class": "v2-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'failed job', expected 'failed job' \u2014 match. Layer: delivered identifies the billing transformation pipeline (Billing Warehouse transformations) \u2014 match. Cause: delivered names the latest run e31f63e7-bc08-4c32-bc50-61fd597a5490, start 2026-11-01T05:14:30Z, end 2026-11-01T05:14:58Z, error code 2011, not retriable, message 'Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities', and explicitly notes no schema change or network timeout was recorded \u2014 all matching the sealed expected cause requirements. The answer explicitly avoids inventing a successful completion. Handoff quality is 0 because status is ANSWERED (not unresolved), so handoff quality is moot and scored 0 per convention for resolved answers.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"failed job\", which matches the expected verdict. Layer: it places the failure in the Billing Warehouse transformations pipeline, which matches the expected \"billing transformation pipeline\". Cause: the expected cause is the latest failed native transform run, reported with its name, run ID, start, end and error, and with no made-up successful completion. The answer gives all of these from the job-run ledger: pipeline Billing Warehouse transformations, run e31f63e7-bc08-4c32-bc50-61fd597a5490, status FAILED, start 2026-11-01T05:14:30.5133333Z, end 05:14:58.3366667Z, and error 2011 (not retriable) with its verbatim message. It also correctly rejects the user's guess of a schema change or network timeout. It does not invent a successful completion. The earlier SUCCEEDED run (82ceaa2a\u2026, 00:13\u201300:23Z) does appear in the recorded run history. The answer goes further than expected: it finds gold and the model at 950 while silver, bronze and the source are at 700, and suggests a LEFT JOIN fan-out on account_plan_history. That suggestion is backed by executed queries and openly hedged (\"consistent with\"; the answer says it did not check whether the repeated rows explain the whole difference, or which run last wrote gold). So it is not a confident incorrect cause stated as fact, and I do not count it as harmful. It also does not replace the expected failed-run cause. Minor issue: the ledger job details appear twice with different request IDs, which is redundant but not wrong. Handoff (graded separately, 2): the structured handoff field is empty, but the answer includes executed, parameterised queries that can be rerun. It also gives a clear stopping point and names the open checks: whether the duplicated rows account for the 950 vs 700 gap, which run last wrote gold, and the model refresh being disabled with no runs. Disagreements with the expectation: none on verdict, layer or cause.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-failed-billing01",
+      "outcome_sha256": "fc52b515ab32faea14efec3f906e2a796ec4e0e6784c473fd517b524cf3c557b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 261.0,
+      "worker_wall_seconds": 231.61342242,
+      "investigation_cost_microdollars": 665269,
+      "physical_requests": 36,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-failed-billing-transform-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "failed job",
+      "raw_review": {
+        "cost_microdollars": 225211,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: the facts ledger (JOB_RUN at 05:17:00) and get_job_runs (05:17:05) both record the latest Billing Warehouse transformations run, e31f63e7-bc08-4c32-bc50-61fd597a5490. It is FAILED, ran from 05:14:30.5133333Z to 05:14:58.3366667Z, and has errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed\u2026'. The two observations carry different requestIds (38d14219\u2026 and 08b3018b\u2026). That is why the answer lists the job details twice. This is accurate, not a fabrication. The earlier SUCCEEDED run 82ceaa2a (00:13:41\u201300:23:51) appears in both run histories. So do the earlier 'already an object named bronze' failures. Load accounting is UNAVAILABLE. The model's refresh-run listing is empty and marked complete. The model's schedule has enabled=false. The executed queries return: DAX Invoiced Amount 950, gold 950, silver 700, bronze 700, source 700, one invoice_id repeated in gold, and one account with more than one plan-history row. Every number the answer cites matches these results. A first submission included the derived figure 250. The validator rejected it, and the final answer correctly drops it.\n\nScoring: the expected verdict is 'failed job' and the answer gives 'failed job', so verdict matches. The expected layer is the billing transformation pipeline, and the answer names Billing Warehouse transformations, so layer matches. The expected cause is the latest failed native run with its name, run ID, start, end and error, and no invented success. The answer supplies all of these, cited verbatim, so cause matches. All three match, so the case scores as fully correct and partial is false. The answer also correctly says the user's guesses (schema change, network timeout) are not supported by the recorded error.\n\nDisputed points: one flaw is missed by the primary grader and mis-described by the secondary. The statement 'the retained gold.build_billing procedure LEFT JOINs silver.invoices to bronze.account_plan_history on account_id only' is not backed by any saved query or evidence record. No definition read was saved, and DEFINITION_CHANGES is UNAVAILABLE. The secondary grader calls this 'backed by executed queries', but only the two counts and the 950-vs-700 totals were executed. The answer does hedge its conclusion ('consistent with', 'did not check whether the repeated rows account for the whole difference'). The claim is also a side observation and does not replace the matched cause. So I do not judge it harmful, but it is an unsupported specific claim.\n\nHandoff: the primary grader's score of 0 rests on an invented convention that answered cases get 0. That is not justified. The answer does name concrete open checks: whether the repeated rows explain the gap, which run last wrote gold, and that refresh is disabled with no runs. It also includes rerunnable queries. The secondary grader's 2 overlooks that the structured handoff field is null and that the join-mechanism claim is not grounded in evidence. A score of 1 fits better.\n\nWinner: both graders reach the correct substantive verdicts on verdict, layer, cause, harm and failing step. Each is wrong on one secondary point: the primary on handoff, the secondary on the join claim's support and on handoff.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "both",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "fc52b515ab32faea14efec3f906e2a796ec4e0e6784c473fd517b524cf3c557b",
+        "reason": "What the raw capture shows: the facts ledger (JOB_RUN at 05:17:00) and get_job_runs (05:17:05) both record the latest Billing Warehouse transformations run, e31f63e7-bc08-4c32-bc50-61fd597a5490. It is FAILED, ran from 05:14:30.5133333Z to 05:14:58.3366667Z, and has errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed\u2026'. The two observations carry different requestIds (38d14219\u2026 and 08b3018b\u2026). That is why the answer lists the job details twice. This is accurate, not a fabrication. The earlier SUCCEEDED run 82ceaa2a (00:13:41\u201300:23:51) appears in both run histories. So do the earlier 'already an object named bronze' failures. Load accounting is UNAVAILABLE. The model's refresh-run listing is empty and marked complete. The model's schedule has enabled=false. The executed queries return: DAX Invoiced Amount 950, gold 950, silver 700, bronze 700, source 700, one invoice_id repeated in gold, and one account with more than one plan-history row. Every number the answer cites matches these results. A first submission included the derived figure 250. The validator rejected it, and the final answer correctly drops it.\n\nScoring: the expected verdict is 'failed job' and the answer gives 'failed job', so verdict matches. The expected layer is the billing transformation pipeline, and the answer names Billing Warehouse transformations, so layer matches. The expected cause is the latest failed native run with its name, run ID, start, end and error, and no invented success. The answer supplies all of these, cited verbatim, so cause matches. All three match, so the case scores as fully correct and partial is false. The answer also correctly says the user's guesses (schema change, network timeout) are not supported by the recorded error.\n\nDisputed points: one flaw is missed by the primary grader and mis-described by the secondary. The statement 'the retained gold.build_billing procedure LEFT JOINs silver.invoices to bronze.account_plan_history on account_id only' is not backed by any saved query or evidence record. No definition read was saved, and DEFINITION_CHANGES is UNAVAILABLE. The secondary grader calls this 'backed by executed queries', but only the two counts and the 950-vs-700 totals were executed. The answer does hedge its conclusion ('consistent with', 'did not check whether the repeated rows account for the whole difference'). The claim is also a side observation and does not replace the matched cause. So I do not judge it harmful, but it is an unsupported specific claim.\n\nHandoff: the primary grader's score of 0 rests on an invented convention that answered cases get 0. That is not justified. The answer does name concrete open checks: whether the repeated rows explain the gap, which run last wrote gold, and that refresh is disabled with no runs. It also includes rerunnable queries. The secondary grader's 2 overlooks that the structured handoff field is null and that the join-mechanism claim is not grounded in evidence. A score of 1 fits better.\n\nWinner: both graders reach the correct substantive verdicts on verdict, layer, cause, harm and failing step. Each is wrong on one secondary point: the primary on handoff, the secondary on the join claim's support and on handoff.",
+        "source_sha256": "d7d7939dc86010b0f5609fa27242214afa0c5f7946cf932c575a086d74b93646",
+        "ticket": "v2-failed-billing-transform-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 43059,
+          "output_tokens": 2429,
+          "output_tokens_details": {
+            "thinking_tokens": 1065
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    }
+  ],
+  "per_class": {
+    "v2-failed-billing-transform": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    },
+    "v2-failed-application-load": {
+      "official_primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 1,
+          "total": 1,
+          "accuracy": 1.0,
+          "lower": 0.20654931437723745,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 1,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.7934506856227626,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    }
+  },
+  "disagreements": [],
+  "cohort": "g4",
+  "cases": [
+    {
+      "ticket": "v2-failed-billing-transform-v3",
+      "class": "v2-failed-billing-transform",
+      "fixture": "failed-billing",
+      "estate": "billing",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: delivered answer says 'failed job', expected 'failed job' \u2014 match. Layer: delivered identifies the billing transformation pipeline (Billing Warehouse transformations) \u2014 match. Cause: delivered names the latest run e31f63e7-bc08-4c32-bc50-61fd597a5490, start 2026-11-01T05:14:30Z, end 2026-11-01T05:14:58Z, error code 2011, not retriable, message 'Operation on target round22_controlled_failure_before_original_activities failed: Round22 controlled fixture failure before original activities', and explicitly notes no schema change or network timeout was recorded \u2014 all matching the sealed expected cause requirements. The answer explicitly avoids inventing a successful completion. Handoff quality is 0 because status is ANSWERED (not unresolved), so handoff quality is moot and scored 0 per convention for resolved answers.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the delivered answer says \"failed job\", which matches the expected verdict. Layer: it places the failure in the Billing Warehouse transformations pipeline, which matches the expected \"billing transformation pipeline\". Cause: the expected cause is the latest failed native transform run, reported with its name, run ID, start, end and error, and with no made-up successful completion. The answer gives all of these from the job-run ledger: pipeline Billing Warehouse transformations, run e31f63e7-bc08-4c32-bc50-61fd597a5490, status FAILED, start 2026-11-01T05:14:30.5133333Z, end 05:14:58.3366667Z, and error 2011 (not retriable) with its verbatim message. It also correctly rejects the user's guess of a schema change or network timeout. It does not invent a successful completion. The earlier SUCCEEDED run (82ceaa2a\u2026, 00:13\u201300:23Z) does appear in the recorded run history. The answer goes further than expected: it finds gold and the model at 950 while silver, bronze and the source are at 700, and suggests a LEFT JOIN fan-out on account_plan_history. That suggestion is backed by executed queries and openly hedged (\"consistent with\"; the answer says it did not check whether the repeated rows explain the whole difference, or which run last wrote gold). So it is not a confident incorrect cause stated as fact, and I do not count it as harmful. It also does not replace the expected failed-run cause. Minor issue: the ledger job details appear twice with different request IDs, which is redundant but not wrong. Handoff (graded separately, 2): the structured handoff field is empty, but the answer includes executed, parameterised queries that can be rerun. It also gives a clear stopping point and names the open checks: whether the duplicated rows account for the 950 vs 700 gap, which run last wrote gold, and the model refresh being disabled with no runs. Disagreements with the expectation: none on verdict, layer or cause.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-failed-billing01",
+      "outcome_sha256": "fc52b515ab32faea14efec3f906e2a796ec4e0e6784c473fd517b524cf3c557b",
+      "status": "ANSWERED",
+      "native_duration_seconds": 261.0,
+      "worker_wall_seconds": 231.61342242,
+      "investigation_cost_microdollars": 665269,
+      "physical_requests": 36,
+      "model_calls": 5,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-failed-billing-transform-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "failed job",
+      "raw_review": {
+        "cost_microdollars": 225211,
+        "grade": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "What the raw capture shows: the facts ledger (JOB_RUN at 05:17:00) and get_job_runs (05:17:05) both record the latest Billing Warehouse transformations run, e31f63e7-bc08-4c32-bc50-61fd597a5490. It is FAILED, ran from 05:14:30.5133333Z to 05:14:58.3366667Z, and has errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed\u2026'. The two observations carry different requestIds (38d14219\u2026 and 08b3018b\u2026). That is why the answer lists the job details twice. This is accurate, not a fabrication. The earlier SUCCEEDED run 82ceaa2a (00:13:41\u201300:23:51) appears in both run histories. So do the earlier 'already an object named bronze' failures. Load accounting is UNAVAILABLE. The model's refresh-run listing is empty and marked complete. The model's schedule has enabled=false. The executed queries return: DAX Invoiced Amount 950, gold 950, silver 700, bronze 700, source 700, one invoice_id repeated in gold, and one account with more than one plan-history row. Every number the answer cites matches these results. A first submission included the derived figure 250. The validator rejected it, and the final answer correctly drops it.\n\nScoring: the expected verdict is 'failed job' and the answer gives 'failed job', so verdict matches. The expected layer is the billing transformation pipeline, and the answer names Billing Warehouse transformations, so layer matches. The expected cause is the latest failed native run with its name, run ID, start, end and error, and no invented success. The answer supplies all of these, cited verbatim, so cause matches. All three match, so the case scores as fully correct and partial is false. The answer also correctly says the user's guesses (schema change, network timeout) are not supported by the recorded error.\n\nDisputed points: one flaw is missed by the primary grader and mis-described by the secondary. The statement 'the retained gold.build_billing procedure LEFT JOINs silver.invoices to bronze.account_plan_history on account_id only' is not backed by any saved query or evidence record. No definition read was saved, and DEFINITION_CHANGES is UNAVAILABLE. The secondary grader calls this 'backed by executed queries', but only the two counts and the 950-vs-700 totals were executed. The answer does hedge its conclusion ('consistent with', 'did not check whether the repeated rows account for the whole difference'). The claim is also a side observation and does not replace the matched cause. So I do not judge it harmful, but it is an unsupported specific claim.\n\nHandoff: the primary grader's score of 0 rests on an invented convention that answered cases get 0. That is not justified. The answer does name concrete open checks: whether the repeated rows explain the gap, which run last wrote gold, and that refresh is disabled with no runs. It also includes rerunnable queries. The secondary grader's 2 overlooks that the structured handoff field is null and that the join-mechanism claim is not grounded in evidence. A score of 1 fits better.\n\nWinner: both graders reach the correct substantive verdicts on verdict, layer, cause, harm and failing step. Each is wrong on one secondary point: the primary on handoff, the secondary on the join claim's support and on handoff.",
+          "verdict_match": true
+        },
+        "independent_fresh_call": true,
+        "independent_model_winner": "both",
+        "model": "claude-opus-5-5",
+        "operator_judgment_supplied": false,
+        "raw_outcome_sha256": "fc52b515ab32faea14efec3f906e2a796ec4e0e6784c473fd517b524cf3c557b",
+        "reason": "What the raw capture shows: the facts ledger (JOB_RUN at 05:17:00) and get_job_runs (05:17:05) both record the latest Billing Warehouse transformations run, e31f63e7-bc08-4c32-bc50-61fd597a5490. It is FAILED, ran from 05:14:30.5133333Z to 05:14:58.3366667Z, and has errorCode 2011, isRetriable false, and the message 'Operation on target round22_controlled_failure_before_original_activities failed\u2026'. The two observations carry different requestIds (38d14219\u2026 and 08b3018b\u2026). That is why the answer lists the job details twice. This is accurate, not a fabrication. The earlier SUCCEEDED run 82ceaa2a (00:13:41\u201300:23:51) appears in both run histories. So do the earlier 'already an object named bronze' failures. Load accounting is UNAVAILABLE. The model's refresh-run listing is empty and marked complete. The model's schedule has enabled=false. The executed queries return: DAX Invoiced Amount 950, gold 950, silver 700, bronze 700, source 700, one invoice_id repeated in gold, and one account with more than one plan-history row. Every number the answer cites matches these results. A first submission included the derived figure 250. The validator rejected it, and the final answer correctly drops it.\n\nScoring: the expected verdict is 'failed job' and the answer gives 'failed job', so verdict matches. The expected layer is the billing transformation pipeline, and the answer names Billing Warehouse transformations, so layer matches. The expected cause is the latest failed native run with its name, run ID, start, end and error, and no invented success. The answer supplies all of these, cited verbatim, so cause matches. All three match, so the case scores as fully correct and partial is false. The answer also correctly says the user's guesses (schema change, network timeout) are not supported by the recorded error.\n\nDisputed points: one flaw is missed by the primary grader and mis-described by the secondary. The statement 'the retained gold.build_billing procedure LEFT JOINs silver.invoices to bronze.account_plan_history on account_id only' is not backed by any saved query or evidence record. No definition read was saved, and DEFINITION_CHANGES is UNAVAILABLE. The secondary grader calls this 'backed by executed queries', but only the two counts and the 950-vs-700 totals were executed. The answer does hedge its conclusion ('consistent with', 'did not check whether the repeated rows account for the whole difference'). The claim is also a side observation and does not replace the matched cause. So I do not judge it harmful, but it is an unsupported specific claim.\n\nHandoff: the primary grader's score of 0 rests on an invented convention that answered cases get 0. That is not justified. The answer does name concrete open checks: whether the repeated rows explain the gap, which run last wrote gold, and that refresh is disabled with no runs. It also includes rerunnable queries. The secondary grader's 2 overlooks that the structured handoff field is null and that the join-mechanism claim is not grounded in evidence. A score of 1 fits better.\n\nWinner: both graders reach the correct substantive verdicts on verdict, layer, cause, harm and failing step. Each is wrong on one secondary point: the primary on handoff, the secondary on the join claim's support and on handoff.",
+        "source_sha256": "d7d7939dc86010b0f5609fa27242214afa0c5f7946cf932c575a086d74b93646",
+        "ticket": "v2-failed-billing-transform-v3",
+        "usage": {
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 0,
+            "ephemeral_5m_input_tokens": 879
+          },
+          "cache_creation_input_tokens": 879,
+          "cache_read_input_tokens": 0,
+          "inference_geo": "global",
+          "input_tokens": 43059,
+          "output_tokens": 2429,
+          "output_tokens_details": {
+            "thinking_tokens": 1065
+          },
+          "service_tier": "standard",
+          "speed": "standard"
+        },
+        "winner": "mixed"
+      }
+    },
+    {
+      "ticket": "v2-failed-application-load-v3",
+      "class": "v2-failed-application-load",
+      "fixture": "failed-fixture",
+      "estate": "fixture",
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies the verdict as 'failed job', the layer as the application load pipeline (round_two_application_load_audited_20261003), and the cause as the latest native failed run with job name, run ID (3e941fa6-8451-4edd-9ab2-17ae00ccf56e), start time (2026-11-01T05:01:55.5439154Z), end time (2026-11-01T05:04:00.780000Z), and error code 2011 with full message all cited. All three required elements match the sealed expected record. The answer is fully resolved with no open handoff needed, so handoff quality is 0 (no handoff needed/present).",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Verdict: the answer says 'failed job', which matches the expected verdict. Layer: the expected layer is the application load pipeline. The answer puts the failure in the pipeline round_two_application_load_audited_20261003, which is the record in the ticket, so the layer matches. Cause: the expected answer must cite the latest native failed run with the job name, run ID, start, end and error. The answer gives all five: job round_two_application_load_audited_20261003, run 3e941fa6-8451-4edd-9ab2-17ae00ccf56e, start 2026-11-01T05:01:55.5439154Z, end 2026-11-01T05:04:00.780000Z, and native error 2011 (not retriable) 'Operation on target round22_controlled_failure_before_original_activities failed...'. These values match the cited triage JOB_RUN record. Not harmful: the cause is correct and comes from evidence. The answer also avoids overclaiming. It says the matching 7661 totals are separate snapshots and do not show the failed run had no effect. Minor issues that don't change the grade: the ledger block appears twice with different requestIds and observation times, and the answer contains some boilerplate. Handoff: the answer is ANSWERED and the handoff object is empty, so there was no unresolved handoff to judge. It scores 0 on that separate scale, which does not affect verdict, layer or cause credit. First failing step: none.",
+        "verdict_match": true
+      },
+      "grade_wave": "g4-failed-fixture01",
+      "outcome_sha256": "65aaaf3219626606f38845fd826f3d3f45578dd7ea983e4565897a0c2f2f7c62",
+      "status": "ANSWERED",
+      "native_duration_seconds": 174.0,
+      "worker_wall_seconds": 138.63998403699986,
+      "investigation_cost_microdollars": 296389,
+      "physical_requests": 26,
+      "model_calls": 3,
+      "native_outcome_path": ".local\\round-twenty-five\\g4-v2-failed-application-load-v3-result.json",
+      "usage_unavailable": false,
+      "timing_group": "full_investigation",
+      "expected_verdict_class": "failed job"
+    }
+  ],
+  "raw_review_policy": "FRESH_INDEPENDENT_CLAUDE_CALL; no operator adjudication",
+  "requested": 20,
+  "not_yet_graded": [
+    "v2-application-baseline-v3",
+    "v2-billing-mrr-v3",
+    "v2-fixture-quantity-v3",
+    "v2-billing-invoices-v3",
+    "v2-waiting-application-load-v3",
+    "v2-latency-record-v3",
+    "v2-stale-model-v3",
+    "v2-access-export-v3",
+    "v2-warehouse-scope-v3",
+    "v2-before-temporal-retention-v3",
+    "v2-record-absent-everywhere-v3",
+    "v2-record-repeated-gold-v3",
+    "v2-source-history-v3",
+    "v2-other-collected-definition-v3",
+    "v2-screenshot-record-01-v3",
+    "v2-screenshot-record-02-v3",
+    "v2-screenshot-record-03-v3",
+    "v2-screenshot-record-04-v3"
+  ],
+  "status": "IN_PROGRESS",
+  "per_expected_verdict_class": {
+    "failed job": {
+      "official_primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "strict": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_reviewed": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "raw_review_pending": [],
+      "raw_review_complete": true,
+      "headline": "raw_reviewed",
+      "primary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      },
+      "secondary": {
+        "all_three": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "verdict_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "layer_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "cause_match": {
+          "correct": 2,
+          "total": 2,
+          "accuracy": 1.0,
+          "lower": 0.34238022750665303,
+          "upper": 1.0,
+          "confidence": 0.95,
+          "method": "Wilson"
+        },
+        "harmful": {
+          "correct": 0,
+          "total": 2,
+          "accuracy": 0.0,
+          "lower": 0.0,
+          "upper": 0.6576197724933469,
+          "confidence": 0.95,
+          "method": "Wilson"
+        }
+      }
+    }
+  },
+  "class_grouping_basis": "Original case IDs retained; additional verdict grouping uses exact sealed oracle labels only, no expectation changes.",
+  "timing_cost": {
+    "all": {
+      "tickets": 2,
+      "native_observed": 2,
+      "native_missing": 0,
+      "native_median_seconds": 217.5,
+      "native_p90_seconds": 261.0,
+      "worker_median_seconds": 185.12670322849993,
+      "worker_p90_seconds": 231.61342242,
+      "investigation_cost_microdollars_observed": 961658,
+      "cost_observed": 2,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": 0.480829,
+      "physical_requests_observed": 62,
+      "physical_requests_unavailable": 0
+    },
+    "full_investigation": {
+      "tickets": 2,
+      "native_observed": 2,
+      "native_missing": 0,
+      "native_median_seconds": 217.5,
+      "native_p90_seconds": 261.0,
+      "worker_median_seconds": 185.12670322849993,
+      "worker_p90_seconds": 231.61342242,
+      "investigation_cost_microdollars_observed": 961658,
+      "cost_observed": 2,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": 0.480829,
+      "physical_requests_observed": 62,
+      "physical_requests_unavailable": 0
+    },
+    "answered_without_layer_queries": {
+      "tickets": 0,
+      "native_observed": 0,
+      "native_missing": 0,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars_observed": 0,
+      "cost_observed": 0,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": null,
+      "physical_requests_observed": 0,
+      "physical_requests_unavailable": 0
+    },
+    "holds": {
+      "tickets": 0,
+      "native_observed": 0,
+      "native_missing": 0,
+      "native_median_seconds": null,
+      "native_p90_seconds": null,
+      "worker_median_seconds": null,
+      "worker_p90_seconds": null,
+      "investigation_cost_microdollars_observed": 0,
+      "cost_observed": 0,
+      "cost_unavailable": 0,
+      "cost_per_observed_ticket_usd": null,
+      "physical_requests_observed": 0,
+      "physical_requests_unavailable": 0
+    }
+  }
+}
