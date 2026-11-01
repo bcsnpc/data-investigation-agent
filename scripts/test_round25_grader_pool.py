@@ -1,6 +1,12 @@
 import copy,json,unittest
-from round25_grader_pool import encode,decode,fit_task
+from round25_grader_pool import encode,decode,fit_task,sample_native_history
 class LosslessPoolTests(unittest.TestCase):
+ def test_history_samples_are_explicit_and_leave_original_evidence_unchanged(self):
+  value={'facts':[{'value':{'audit_runs':[{'run_id':str(i),'rows_read':17+i}for i in range(20)],'runs':[{'status':'Failed'}]*5,'recent_runs':[1,2,3,4]}}],'queries':[{'rows':[1,2,3,4]}],'business':'literal'}
+  before=copy.deepcopy(value);sample=sample_native_history(value);fact=sample['facts'][0]['value']
+  self.assertEqual(value,before);self.assertEqual(fact['audit_runs_sample'],before['facts'][0]['value']['audit_runs'][:3]);self.assertEqual(fact['audit_runs_omitted_from_grader'],17)
+  self.assertEqual(len(fact['audit_runs_original_sha256']),64);self.assertEqual(fact['runs_omitted_from_grader'],2);self.assertEqual(fact['recent_runs_omitted_from_grader'],1)
+  self.assertEqual(sample['queries'],before['queries']);self.assertEqual(sample['business'],'literal')
  def test_legacy_native_prefix_field_is_not_misread_as_new_transport_metadata(self):
   value={'delivered':{'pool_reference_prefix':'native literal','rows':[{'units':17}]*3}}
   self.assertEqual(decode(encode(value)),value)

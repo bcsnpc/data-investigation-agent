@@ -1,5 +1,25 @@
 """Lossless JSON DAG and exact string slices for bounded independent grading."""
 import json,collections,difflib
+
+def sample_native_history(value, limit=3):
+ """Label bounded grader samples; immutable captures retain the full history."""
+ from copy import deepcopy
+ from hashlib import sha256
+ if type(limit)is not int or limit<1:raise ValueError('HISTORY_SAMPLE_BOUND')
+ result=deepcopy(value)
+ def visit(node):
+  if isinstance(node,dict):
+   for key,child in list(node.items()):
+    if key in ('recent_runs','runs','audit_runs')and isinstance(child,list)and len(child)>limit:
+     node[key+'_sample']=child[:limit]
+     node[key+'_omitted_from_grader']=len(child)-limit
+     node[key+'_original_sha256']=sha256(json.dumps(child,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+     del node[key]
+    else:visit(child)
+  elif isinstance(node,list):
+   for child in node:visit(child)
+ visit(result)
+ return result
 def encode(value,*,minimum_string=180,minimum_slice=100,string_references=False):
  if type(minimum_string)is not int or type(minimum_slice)is not int or minimum_string<40 or minimum_slice<20:raise ValueError('LOSSLESS_POOL_MINIMUMS')
  if type(string_references)is not bool:raise ValueError('LOSSLESS_POOL_REFERENCE_MODE')
