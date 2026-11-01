@@ -6,6 +6,20 @@ from investigator.adapters.provider_contract import openai_request
 
 
 class ProviderTransportTests(unittest.TestCase):
+    @patch.dict('os.environ', {'DIA_LIVE_ACCESS_DISABLED': '0'})
+    def test_gateway_allows_only_tenant_configured_provider_for_every_component(self):
+        from investigator.live_gateway import Gateway, GatewayDenied
+        body = openai_request(model='synthetic', system='fixed', messages=[], tools=self.tools(), max_tokens=10)
+        for component in ('investigator', 'screenshot', 'summary', 'enrichment', 'writer', 'grader', 'reviewer', 'smoke'):
+            spec = {'endpoint': 'https://api.openai.com/v1', 'models': ['synthetic'], 'tools': ['run_sql']}
+            policy = {'version': 1, 'live_enabled': True, 'identities': {component: {
+                'role': 'model', 'ai_providers': {'openai': spec}, 'http': [
+                    {'method': 'POST', 'url': spec['endpoint'] + '/responses', 'purpose': 'configured_ai'}]}}}
+            gateway = Gateway(policy)
+            gateway.http(component, 'POST', spec['endpoint'] + '/responses', __import__('json').dumps(body).encode())
+            with self.assertRaises(GatewayDenied):
+                gateway.http(component, 'POST', 'https://unconfigured.openai.azure.com/openai/v1/responses', b'{}')
+
     def tools(self):
         return [{'name': 'run_sql', 'description': 'Read', 'input_schema': {'type': 'object'}}]
 
@@ -59,3 +73,21 @@ class ProviderTransportTests(unittest.TestCase):
         with self.assertRaisesRegex(ProviderHTTPError, '^OPENAI_HTTP_401$'):
             client.complete(system='s', messages=[], tools=self.tools())
         client.budget.settle.assert_called_with('reservation')
+
+    def test_investigation_prefix_stays_stable_and_later_zero_reads_fail_assertion(self):
+        from investigator.adapters.anthropic_prompt_cache import assert_cache_reads
+        send = Mock(return_value=self.response())
+        client = self.client(send=send, explicit_cache=True)
+        tools = self.tools() + [{'name': 'submit_finding', 'description': 'Deliver', 'input_schema': {'type': 'object'}}]
+        client.complete(system='original stable path', messages=[{'role': 'user', 'content': 'step1'}], tools=tools)
+        first = deepcopy(send.call_args.args[2])
+        client.complete(system='changed path timestamp', messages=[{'role': 'user', 'content': 'step2'}], tools=self.tools() + tools[1:])
+        second = send.call_args.args[2]
+        self.assertEqual(first['tools'], second['tools'])
+        self.assertEqual(first['input'][0], second['input'][0])
+        self.assertNotEqual(first['input'][1:], second['input'][1:])
+        records = [c.args[0] for c in client.record.call_args_list if c.args[0]['event'] == 'REASONING_CACHE_USAGE']
+        assert_cache_reads(records)
+        records[-1]['cache_read_input_tokens'] = 0
+        with self.assertRaisesRegex(AssertionError, 'ZERO_CACHE_READS'):
+            assert_cache_reads(records)

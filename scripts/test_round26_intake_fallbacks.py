@@ -5,6 +5,14 @@ from test_round23_intake_queries import graph, request
 
 
 class ComparisonFallbackTests(unittest.TestCase):
+    def test_empty_or_nontext_free_text_asks_without_model_or_exception(self):
+        from unittest.mock import Mock
+        from investigator.guided_text_resolver import Resolver
+        model = Mock()
+        resolver = Resolver(catalog=Catalog(graph()), model=model, record=Mock())
+        for value in (None, '', ' ', [], {}, True):
+            self.assertEqual(resolver.resolve(value)['status'], 'NEEDS_INPUT')
+        model.complete.assert_not_called()
     def test_public_boundary_fuzz_has_no_unhandled_shape_errors(self):
         catalog = Catalog(graph())
         forms = [None, [], '', 1, True, {}, request()]

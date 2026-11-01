@@ -76,6 +76,11 @@ def finding(args,case):
     support=cited(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
+    if normalized == 'latency':
+        from .history_comparison import disposition
+        history = disposition(case, args['evidence_ids'])
+        if not history['ruled_out']:
+            raise ValueError('CHECK_SOURCE_HISTORY_BEFORE_LATENCY: ' + history['reason'])
     if normalized in ('as designed','consistent to source','consistent to boundary'):
         from .triage_hints import current_job_hints
         current_faults=current_job_hints(case)
@@ -184,6 +189,9 @@ def finding(args,case):
         operational=rendered
         business+='\n'+'\n'.join(rendered)
     qualifications=[]
+    for assumption in case['intake'].get('resolution_assumptions', []):
+        qualifications.append('Assumption: I checked ' + assumption['name'] + ', resolved from the named catalog item and its retained report links.')
+    if normalized == 'latency':qualifications.append(history['qualification'])
     if definition_only:qualifications.append('Technical calculation explained from retained definitions and native reads; this does not establish business correctness or consistency of the full source chain.')
     if source_consistency:
         qualifications.append('The values were observed at their recorded query times; no common query-bound snapshot is claimed.')

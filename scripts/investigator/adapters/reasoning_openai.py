@@ -68,6 +68,8 @@ class Client:
         self.send, self.key_reader, self.sleep = send, key_reader, sleep
         self.explicit_cache = explicit_cache
         self.successful_calls = 0
+        from .anthropic_prompt_cache import StablePrefix
+        self.stable = StablePrefix()
 
     def _http(self, method, url, body=None):
         from ..live_gateway import current, open_http
@@ -101,6 +103,11 @@ class Client:
 
     def complete(self, *, system, messages, tools, max_tokens=4000, private_summary=False):
         from ..planner_recording import _safe
+        investigation = any(t['name'] == 'submit_finding' for t in tools)
+        if investigation:
+            prepared = self.stable.prepare({'tools': tools, 'system': [{'type': 'text', 'text': system}],
+                                            'messages': messages})
+            tools, system, messages = prepared['tools'], prepared['system'][0]['text'], prepared['messages']
         body = openai_request(model=self.model, system=system, messages=messages, tools=tools,
                               max_tokens=max_tokens, explicit_cache=self.explicit_cache)
         _safe(canonical(body).encode())
@@ -122,7 +129,9 @@ class Client:
                              'total_input_tokens': reply.usage.input_tokens,
                              'cache_read_input_tokens': reply.usage.cached_input_tokens,
                              'cache_creation_input_tokens': reply.usage.cache_write_tokens,
-                             'cache_read_ratio': reply.usage.cache_read_ratio})
+                             'cache_read_ratio': reply.usage.cache_read_ratio,
+                             'cache_assertion_applies': investigation,
+                             'prefix_sha256': self.stable.prefix_sha256 if investigation else None})
                 return reply.compatible()
             except ProviderHTTPError as error:
                 if attempt == 2 or error.http_status not in (408, 429, 500, 502, 503, 504):

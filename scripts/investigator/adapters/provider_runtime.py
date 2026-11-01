@@ -1,7 +1,7 @@
 """Trusted installation routing, shared by all AI steps; never ticket-selected."""
 from copy import deepcopy
 
-STEPS = frozenset(('INVESTIGATOR', 'SCREENSHOT', 'ENRICHMENT', 'WRITER', 'GRADING', 'REVIEWER', 'SMOKE'))
+STEPS = frozenset(('INVESTIGATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'REVIEWER', 'SMOKE'))
 
 
 def select(configuration, *, tenant, step):

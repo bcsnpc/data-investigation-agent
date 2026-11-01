@@ -113,14 +113,19 @@ def run(plan,context):
     request_key=plan.get('run_id',getattr(context,'run_id',root.name))
     from investigator.estate_graph_contract import digest
     case_id='guided:'+digest([graph_spec['estate'],request_key])
+    operational_admission = None
     if set(submitted)=={'text'}:
+        from investigator.operational_intake import admit as admit_operational
+        admission = admit_operational(submitted, {'candidates': list(catalog.nodes.values())})
+        if admission['status'] == 'READY':operational_admission = admission
+    if set(submitted)=={'text'} and operational_admission is None:
         mapped=Resolver(catalog=catalog,model=model(case_id),record=record).resolve(submitted['text'])
         if mapped['status']!='READY':
             business=mapped.get('question','A named choice is needed before investigation.')
             return {'status':'NEEDS_INPUT','business':business,'outputs':{'business':business,'technical':json.dumps(mapped)},
                     'intake':mapped,'cost':budget(case_id).status(),'physical_requests':0}
         submitted={'intake':mapped['intake'],'source':mapped['source']}
-    if not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}:
+    if operational_admission is None and (not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}):
         raise ValueError('GUIDED_TICKET_ENVELOPE')
     meter=Meter(state,{'environment':manifest['environment']},spec['max_requests'],reporting_mirror=False,enforce_limit=True)
     def physical(kind,call):
@@ -177,6 +182,19 @@ def run(plan,context):
     def history(node,kinds):
         if history_reader:return history_reader(node,kinds)
         return next(iter(fact_ports.values())).history(node,kinds)
+    if operational_admission is not None:
+        from investigator.operational_fastpath import run as operational_run
+        def operational_history(node, kinds):
+            if history_reader:return history_reader(node, kinds)
+            return {'status': 'UNAVAILABLE', 'reason': 'Native subject history is not configured.', 'facts': []}
+        try:
+            result = operational_run(operational_admission, operational_history, record=record)
+            result.update(ticket=submitted, physical_requests=meter.used,
+                          timing={'wall_seconds':time.monotonic()-started},
+                          outputs={'business':result['business'],'technical':json.dumps(result.get('technical',result.get('history',{})))})
+            context.record('guided-investigator-result',result)
+            return result
+        finally:meter.close()
     def screenshot_reader(case_id,checksum):
         if checksum not in spec.get('screenshots',{}):raise ValueError('SCREENSHOT_ATTACHMENT_NOT_INSTALLED')
         image=reference(spec['screenshots'][checksum],maximum=1024*1024).read_bytes()

@@ -1,4 +1,4 @@
-﻿"""Current structured entry points have no Azure transport or secret fallback."""
+"""Structured calls use only the configured provider and Key Vault reference."""
 import ast,json,unittest
 from pathlib import Path
 from unittest.mock import Mock,patch
@@ -21,14 +21,13 @@ class RuntimeTests(unittest.TestCase):
    self.assertEqual(value,{'answer':'value'});self.assertEqual(meta['model'],'claude-opus-5-5')
    self.assertEqual(client.complete.call_args.kwargs['tools'][0]['name'],'resolve_intake')
   finally:runtime.CLIENT.reset(token)
- def test_production_source_has_no_azure_openai_constructor(self):
-  for path in Path('scripts').rglob('*.py'):
-   if path.name.startswith('test_')or 'fixtures'in path.parts:continue
-   tree=ast.parse(path.read_text(encoding='utf-8-sig'))
-   for node in ast.walk(tree):
-    if isinstance(node,ast.Call):
-     name=node.func.id if isinstance(node.func,ast.Name)else node.func.attr if isinstance(node.func,ast.Attribute)else ''
-     self.assertNotIn(name,('OpenAI','AzureOpenAI'),str(path))
+ def test_structured_entry_uses_only_the_explicitly_configured_provider(self):
+  configuration={'provider':'openai','model':'synthetic','rate_card':{'input_rate':'1','output_rate':'2','source':'https://example.test/pricing','observed_at':'2026-11-01'},'secret_reference':{},'gateway_identity':'model','worker_identity':'worker'}
+  expected=Mock()
+  with patch.dict('os.environ',{'DIA_RUNTIME_AI_JSON':json.dumps(configuration),'DIA_RUN_ID':'synthetic-case'},clear=True),patch.object(runtime,'configured_state',return_value=Mock()),patch.object(runtime,'TicketBudget')as budget,patch('investigator.adapters.provider_runtime.client',return_value=expected)as factory:
+   self.assertIs(runtime.installed_client(),expected)
+   self.assertEqual(budget.call_args.kwargs['provider'],'openai')
+   self.assertEqual(factory.call_args.args[0],configuration)
  def test_key_vault_configuration_required_no_environment_azure_key_fallback(self):
   with patch.dict('os.environ',{'AZURE_OPENAI_API_KEY':'synthetic-unused'},clear=True),self.assertRaises(KeyError):runtime.installed_client()
 if __name__=='__main__':unittest.main()

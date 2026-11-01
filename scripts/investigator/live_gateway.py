@@ -128,8 +128,10 @@ class Gateway:
                 _url(endpoint['url'])
                 if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
                     _deny('MUTATING_METHOD_IN_POLICY')
-                if endpoint.get('purpose') not in ('metadata','dax','model','reasoning_model','blob_read','kql','platform_blob','auth_refresh','auth_federation','scanner_metadata','scanner_dax','scanner_auth'):
+                if endpoint.get('purpose') not in ('metadata','dax','model','reasoning_model','configured_ai','blob_read','kql','platform_blob','auth_refresh','auth_federation','scanner_metadata','scanner_dax','scanner_auth'):
                     _deny('INVALID_ENDPOINT_PURPOSE')
+                if endpoint.get('purpose') == 'configured_ai' and permissions.get('role') != 'model':
+                    _deny('MODEL_IDENTITY_REQUIRED', identity=identity)
                 if endpoint.get('purpose','').startswith('scanner_')and permissions.get('role')!='scanner':
                     _deny('SCANNER_IDENTITY_REQUIRED',identity=identity)
                 if endpoint['method']=='PUT' and endpoint['purpose']!='platform_blob':

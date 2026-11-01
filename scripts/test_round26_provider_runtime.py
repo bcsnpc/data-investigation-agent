@@ -11,7 +11,7 @@ def config(provider='anthropic', model='synthetic'):
 
 class ProviderRuntimeTests(unittest.TestCase):
     def test_every_component_supports_tenant_and_step_routing(self):
-        for step in ('INVESTIGATOR', 'SCREENSHOT', 'ENRICHMENT', 'WRITER', 'GRADING', 'REVIEWER', 'SMOKE'):
+        for step in ('INVESTIGATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'REVIEWER', 'SMOKE'):
             installation = {'default': config(), 'tenants': {'client': {'steps': {step: config('openai')}}}}
             self.assertEqual(select(installation, tenant='client', step=step)['provider'], 'openai')
             self.assertEqual(select(installation, tenant='other', step=step)['provider'], 'anthropic')

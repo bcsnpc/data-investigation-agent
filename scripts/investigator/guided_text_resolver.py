@@ -106,7 +106,10 @@ class Resolver:
         return result
 
     def resolve(self,text):
-        if not isinstance(text,str) or not text.strip():raise ValueError('TICKET_TEXT_REQUIRED')
+        if not isinstance(text,str) or not text.strip():
+            return {'status':'NEEDS_INPUT','code':'TICKET_TEXT_REQUIRED',
+                    'question':{'text':'What should I check? Choose a report or name a job or number.',
+                                'fields':[{'field':'report','choices':self.catalog.reports()}]}}
         from .planner_recording import _safe
         _safe(text.encode())
         tools=extraction_tools();validators={t['name']:Draft202012Validator(t['input_schema']) for t in tools}

@@ -33,6 +33,10 @@ repeats reuse saved evidence. Read the current-state recitation each turn.
 Distinguish current rows from history: selecting period columns from a current
 table is not a history read. Do not claim historical absence or a before/after
 change unless the cited query actually reads retained native history.
+Before latency, compare the same source calculation now and AS OF the latest
+successful load end time from the native ledger. If it changed, investigate
+source history first; if history is unavailable, say so instead of claiming
+latency. Current rows or period columns alone cannot rule out source changes.
 Ask only as a last resort after candidate checks and a recreation attempt, only
 for an unreadable user fact or business policy, using named multiple choices.
 Submit a plain answer with verdict, cause, numbers and what was checked. No fixes.

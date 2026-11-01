@@ -12,7 +12,11 @@ try {
     Set-Acl -LiteralPath $tempPath -AclObject $acl
     $ptr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($key)
     [IO.File]::WriteAllText($tempPath, [Runtime.InteropServices.Marshal]::PtrToStringBSTR($ptr), [Text.UTF8Encoding]::new($false))
-    az keyvault secret set --vault-name kv-dia-d5dd7d65 --name openai-api-key --file $tempPath --output none
+    if (Get-Command az -ErrorAction SilentlyContinue) {
+        az keyvault secret set --vault-name kv-dia-d5dd7d65 --name openai-api-key --file $tempPath --output none
+    } else {
+        & 'D:\data_investigation_agent\.local\azure-cli-env\Scripts\python.exe' -m azure.cli keyvault secret set --vault-name kv-dia-d5dd7d65 --name openai-api-key --file $tempPath --output none
+    }
     if ($LASTEXITCODE -ne 0) { throw 'Key Vault upload failed; no secret was printed.' }
     Write-Output 'OpenAI key stored in the existing Key Vault.'
 } finally {
