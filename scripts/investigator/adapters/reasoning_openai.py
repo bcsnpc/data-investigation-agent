@@ -86,8 +86,9 @@ class Client:
         raw = None if body is None else canonical(body).encode()
         current().http(self.identity, method, url, raw)
         key = (self.key_reader or secret)(self.reference, gateway_identity=self.identity)
+        auth = {'api-key': key} if '.openai.azure.com/' in self.base else {'Authorization': 'Bearer ' + key}
         request = Request(url, data=raw, method=method,
-                          headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'})
+                          headers={**auth, 'Content-Type': 'application/json'})
         try:
             with open_http(build_opener(NoRedirect()), request, timeout=90, identity=self.identity) as response:
                 data = response.read(4 * 1024 * 1024 + 1)

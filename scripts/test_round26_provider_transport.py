@@ -6,6 +6,24 @@ from investigator.adapters.provider_contract import openai_request
 
 
 class ProviderTransportTests(unittest.TestCase):
+    def test_native_http_uses_provider_specific_key_header_without_echo(self):
+        import json
+        for base, header, absent, expected in (
+            ('https://api.openai.com/v1', 'Authorization', 'Api-key', 'Bearer synthetic-test-key'),
+            ('https://synthetic.openai.azure.com/openai/v1', 'Api-key', 'Authorization', 'synthetic-test-key'),
+        ):
+            client = self.client(base=base, key_reader=lambda *a, **k: 'synthetic-test-key')
+            response = Mock()
+            response.__enter__ = Mock(return_value=response)
+            response.__exit__ = Mock(return_value=False)
+            response.read.return_value = json.dumps({'data': []}).encode()
+            with patch('investigator.live_gateway.current'), patch('investigator.round23_calendar.require_live_window'), \
+                    patch('investigator.live_gateway.open_http', return_value=response) as send:
+                self.assertEqual(client._http('GET', base + '/models'), {'data': []})
+            request = send.call_args.args[1]
+            self.assertEqual(request.get_header(header), expected)
+            self.assertIsNone(request.get_header(absent))
+
     def test_anthropic_urlerror_regression_retries_without_zeroing_unknown_usage(self):
         from investigator.adapters.reasoning_anthropic import Client as Anthropic
         from urllib.error import URLError

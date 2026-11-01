@@ -7,6 +7,20 @@ from investigator.configured_ai_job import ConfiguredJob
 
 
 class ConfiguredJobTests(unittest.TestCase):
+    def test_guided_cache_setting_is_not_pinned_to_retired_opus_diagnostic(self):
+        import cloud_guided_investigator
+        import json
+        value = {'version': 'guided-investigation/1', 'ticket': {}, 'assets': {},
+                 'graph': {'estate': 'fixture', 'identity': 'reader', 'allowed_objects': []},
+                 'max_requests': 30, 'diagnostic_prompt_cache': True}
+        for model in ('gpt-6.1-sol', 'gpt-6-astra', 'claude-opus-5-5'):
+            with patch('cloud_guided_investigator.reference') as ref, \
+                    patch('investigator.adapters.provider_runtime.validate'):
+                ref.return_value.read_bytes.return_value = json.dumps({**value, 'reasoning': {'model': model}}).encode()
+                result = cloud_guided_investigator.specification({'spec': {}})
+                self.assertTrue(result['diagnostic_prompt_cache'])
+                self.assertNotIn('diagnostic_budget', result)
+
     def setUp(self):
         folder = TemporaryDirectory(); self.addCleanup(folder.cleanup)
         self.state = SharedState.offline(Path(folder.name) / 'state.sqlite'); self.state.migrate()

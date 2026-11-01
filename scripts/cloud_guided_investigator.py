@@ -31,7 +31,7 @@ def specification(options):
     validate(reason)
     if 'diagnostic_budget' in value and value['diagnostic_budget']!={'label':'UNSCORED_STATIC_DIAGNOSTIC','actual_usage_limit_microdollars':3000000}:
         raise ValueError('GUIDED_OWNER_DIAGNOSTIC_BUDGET_REQUIRED')
-    if 'diagnostic_prompt_cache'in value and (value['diagnostic_prompt_cache']is not True or 'diagnostic_budget'not in value or reason['model']!='claude-opus-5-5'):
+    if 'diagnostic_prompt_cache'in value and value['diagnostic_prompt_cache']is not True:
         raise ValueError('GUIDED_OWNER_DIAGNOSTIC_CACHE_REQUIRED')
     if 'ticket' in options:value['ticket']=options['ticket']
     return value
