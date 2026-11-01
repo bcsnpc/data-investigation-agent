@@ -49,3 +49,8 @@ The offline80route check now includes native declared continuations:59PATH_OPENE
 Partial cross-vendor primary grading checkpoint: first two application tickets each earned2/2 in Sol-to-Astra and Astra-only, graded by Claude Sonnet4.6 Batch, harmful0; initial three Opus tickets earned3/3 with Sol primary, harmful0. These are partial benchmark results and do not select the investigator default. Anthropic batch grading costUSD0.015069/call for the Sol-cascade sample andUSD0.015386/call for Astra-only; OpenAI Sol synchronous gradingUSD0.022148/call, cached-input0% on these one-call evaluations. Native usage and pricing class are recorded in round-twenty-six-initial-crossvendor-grading.json.
 
 Intake cascade costs98generation calls(63Sol including failed-original costs,35Astra fallback),USD0.193346 per ticket versus historical Astra-onlyUSD0.266329. Fallback cached-input85.43%. Engine-revision differences remain disclosed.
+
+
+November owner-approved request increase applied and read back 2026-11-01: total14,500 / investigation11,905, SCAN2,500 / restoration95 and model caps unchanged. At readback3,054total /2,808INV /228SCAN /18REST;77restorationremaining. Prior checkpoint saying no ceiling changed is historical. Receipt: round-twenty-six-request-increase.json. Corrected focused tests:103Round26 and17build-phase passed; the prior November9,000 assertion was updated for this explicit owner decision.
+
+Independent partial primary grading now Sol-to-Astra3/11, Astra-only5/11, Opus10/11; harmful0 in these subsets. Subsets are incomplete and differ by one case, so no default-investigator choice is made. Two further five-case Claude batch submissions use batch pricing; five further Opus outputs are being graded by OpenAI.
