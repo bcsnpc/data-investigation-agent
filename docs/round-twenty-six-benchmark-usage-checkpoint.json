@@ -1,368 +1,93 @@
 {
-  "scope": "IN_PROGRESS_BENCHMARK_USAGE_NOT_QUALITY_SCORE",
-  "observed_at_utc": "2026-11-01T20:30:49.946244+00:00",
-  "cases": [
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-application-baseline-v1",
-      "status": "ANSWERED",
-      "physical_requests": 27,
-      "charged_microdollars": 415137,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "8322053f91fc8be77833cd57a8bac27c95a85e06b7582eb62e0eb78708b0e663",
-      "quality_score_included": false
+  "observed_at_utc": "2026-11-01T21:47:11.257645+00:00",
+  "quality_score_included": false,
+  "scope": "SELECTED_SAVED_BENCHMARK_OUTCOMES_USAGE_ONLY",
+  "columns": {
+    "sol-cascade": {
+      "saved_selected_outcomes": 18,
+      "statuses": {
+        "ANSWERED": 5,
+        "UNRESOLVED": 12,
+        "NEEDS_INPUT": 1
+      },
+      "physical_requests_in_selected_results": 415,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "provider": "openai",
+          "model": "gpt-6.1-sol",
+          "calls": 53,
+          "actual_microdollars": 1678977,
+          "input_tokens": 1606768,
+          "cached_input_tokens": 972231,
+          "mean_microdollars_per_call": 31678.811320754718,
+          "cache_read_ratio": 0.6050848660167492
+        },
+        {
+          "step": "INVESTIGATOR_FALLBACK",
+          "provider": "openai",
+          "model": "gpt-6-astra",
+          "calls": 32,
+          "actual_microdollars": 7653961,
+          "input_tokens": 1080809,
+          "cached_input_tokens": 500361,
+          "mean_microdollars_per_call": 239186.28125,
+          "cache_read_ratio": 0.4629504380514966
+        }
+      ]
     },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-application-baseline-v2",
-      "status": "ANSWERED",
-      "physical_requests": 26,
-      "charged_microdollars": 455507,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "f8e611009c8008880a1cbf37ce521f7682f2fb06a0d7c2af5fcb0a6127924639",
-      "quality_score_included": false
+    "openai": {
+      "saved_selected_outcomes": 18,
+      "statuses": {
+        "ANSWERED": 10,
+        "UNRESOLVED": 5,
+        "BLOCKED": 1,
+        "NEEDS_INPUT": 1,
+        "INTERRUPTED": 1
+      },
+      "physical_requests_in_selected_results": 478,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "provider": "openai",
+          "model": "gpt-6-astra",
+          "calls": 74,
+          "actual_microdollars": 13683303,
+          "input_tokens": 2757074,
+          "cached_input_tokens": 1746038,
+          "mean_microdollars_per_call": 184909.5,
+          "cache_read_ratio": 0.6332938470276822
+        }
+      ]
     },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-billing-mrr-v1",
-      "status": "UNRESOLVED",
-      "physical_requests": 22,
-      "charged_microdollars": 759657,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "1888b3478e19011ef6cc27f981a42f5ebfb554bda98586b5f9110c0899e795dd",
-      "quality_score_included": false
-    },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-billing-mrr-v2",
-      "status": "UNRESOLVED",
-      "physical_requests": 17,
-      "charged_microdollars": 786367,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "1f02946aaf35009b2c8337599f7f1496364165b5e6dc381b7f07ea4ddf7f95b0",
-      "quality_score_included": false
-    },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-fixture-quantity-v1",
-      "status": "UNRESOLVED",
-      "physical_requests": 28,
-      "charged_microdollars": 700223,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "bd0cc43f0cac0c98a72f478cfb0472bba83b6ebd8dbc8143d4a539391765fb30",
-      "quality_score_included": false
-    },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-billing-invoices-v1",
-      "status": "UNRESOLVED",
-      "physical_requests": 34,
-      "charged_microdollars": 788383,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "d25ce05e87284788fc14b7e0ad0f9d4867e44732f9b70ab66fe19931ac2dae91",
-      "quality_score_included": false
-    },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-billing-invoices-v2",
-      "status": "UNRESOLVED",
-      "physical_requests": 31,
-      "charged_microdollars": 796434,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "c7779bf6c45221ba0b15420a86c82bc7db2d294142732692a62a67f30e6d71ad",
-      "quality_score_included": false
-    },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-warehouse-scope-v1",
-      "status": "ANSWERED",
-      "physical_requests": 29,
-      "charged_microdollars": 402832,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "4bd72e11ac3f25ba62000f5425971ba4d0f5c4049983fe9cc6dfb51378e5cdc2",
-      "quality_score_included": false
-    },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-warehouse-scope-v2",
-      "status": "NEEDS_INPUT",
-      "physical_requests": 0,
-      "charged_microdollars": 0,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "0c55e3241551f10c755e8f6088ae289c191d2d9d15e59cffea439f8a2c02abf7",
-      "quality_score_included": false
-    },
-    {
-      "column": "sol-cascade",
-      "ticket": "v2-before-temporal-retention-v1",
-      "status": "UNRESOLVED",
-      "physical_requests": 23,
-      "charged_microdollars": 437322,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "3f4c81a65aa7095f6135428f90098d54e1ebc6cea503413be43ddef081e3bd04",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-application-baseline-v1",
-      "status": "ANSWERED",
-      "physical_requests": 28,
-      "charged_microdollars": 436823,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "4ad2d4873c7de0a1bf0e14c21d44beabe4d7ce072c4eb1530c1724541a94d899",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-application-baseline-v2",
-      "status": "ANSWERED",
-      "physical_requests": 22,
-      "charged_microdollars": 449211,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "d41961954bf781ba8e6e1a85a012198165049a709b7e1384525904fa5ed5b64a",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-billing-mrr-v1",
-      "status": "ANSWERED",
-      "physical_requests": 29,
-      "charged_microdollars": 1224800,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "26e596d28c0a7e2d5a96acef482dbe742a276c9ba3fd07862ef1c5b27bc5ab3b",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-billing-mrr-v2",
-      "status": "ANSWERED",
-      "physical_requests": 29,
-      "charged_microdollars": 1071759,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "31365718a2c3ee24277c2fa4e8c3fd868cf7a89ca2643c5bbfdecc1f7768c762",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-fixture-quantity-v1",
-      "status": "UNRESOLVED",
-      "physical_requests": 30,
-      "charged_microdollars": 922648,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "13c62f8e69a73c563bd8e4629df9659f20ac6a18f0421b1f62efd66288c52262",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-fixture-quantity-v2",
-      "status": "UNRESOLVED",
-      "physical_requests": 27,
-      "charged_microdollars": 1026293,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "d3a4292305d0436334d57944e49ac2821cd81bdec288e2ea21c8b4bd7010b886",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-billing-invoices-v1",
-      "status": "BLOCKED",
-      "physical_requests": 40,
-      "charged_microdollars": 917832,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "385e8c1d8a6e90e8316f66b09b8d1f05954054a039b374768c52df81c0d903a4",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-billing-invoices-v2",
-      "status": "UNRESOLVED",
-      "physical_requests": 39,
-      "charged_microdollars": 922266,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "c97785ce5c6a00c3e1383a1b1f0c57455af4bb28d155cec7f48a7afc8543ed02",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-warehouse-scope-v1",
-      "status": "ANSWERED",
-      "physical_requests": 29,
-      "charged_microdollars": 460836,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "4d7ccf2062b0d2125836cb6cab3ebef1fa93b484844f4930e37b0118763ea4ad",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-warehouse-scope-v2",
-      "status": "NEEDS_INPUT",
-      "physical_requests": 0,
-      "charged_microdollars": 0,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "6aa8c1f2d236f10a8a34e41945050436cfee801b37fe37a7b4fca42ad31b2a55",
-      "quality_score_included": false
-    },
-    {
-      "column": "openai",
-      "ticket": "v2-before-temporal-retention-v1",
-      "status": "UNRESOLVED",
-      "physical_requests": 34,
-      "charged_microdollars": 579087,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "e59499335d7c9ad416f23af013617018c74671371c35de9111fbb9f76d23ac3a",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-application-baseline-v1",
-      "status": "ANSWERED",
-      "physical_requests": 29,
-      "charged_microdollars": 316737,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "1d6f4c1a08809ca08dbd706c270098f1ef9861e5c417ef163a5565c5ebf02fd0",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-application-baseline-v2",
-      "status": "ANSWERED",
-      "physical_requests": 22,
-      "charged_microdollars": 244803,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "dd9ffbc8ebd3b8be62f7269f41bd9f5d190ffe0271d377c6da3f88fffd934965",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-billing-mrr-v1",
-      "status": "ANSWERED",
-      "physical_requests": 33,
-      "charged_microdollars": 559203,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "f37e2e3757eb3dde89d11796a9026db5a3f50ce7356b798a7772a5c80a409753",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-billing-mrr-v2",
-      "status": "ANSWERED",
-      "physical_requests": 27,
-      "charged_microdollars": 577208,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "2b6d48aedef145242fb0075a169b266df3c873c503007f3e22dbe9b00b656ae8",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-fixture-quantity-v1",
-      "status": "ANSWERED",
-      "physical_requests": 25,
-      "charged_microdollars": 320508,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "6272755f94a344a1d8d6ba29ae60d9866c739b6a6b4fdcc72fb8f4ad54177250",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-fixture-quantity-v2",
-      "status": "ANSWERED",
-      "physical_requests": 25,
-      "charged_microdollars": 362211,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "d5e7bf2e3884bc51caf646441c4a4b10d90765c9e6c1c73a9ea3eab377feed2c",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-billing-invoices-v1",
-      "status": "ANSWERED",
-      "physical_requests": 37,
-      "charged_microdollars": 608181,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "39c8dd3b47e8ef89c809c53bbe7c11d8ad34253e8bfe4f0193ef64caa264bdea",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-billing-invoices-v2",
-      "status": "ANSWERED",
-      "physical_requests": 31,
-      "charged_microdollars": 571718,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "94287b07800519304dfbc9dec1f2d3f62e01d1b8a76e0510ffe60f23246d229b",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-warehouse-scope-v1",
-      "status": "ANSWERED",
-      "physical_requests": 22,
-      "charged_microdollars": 265099,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "b868b8de54a0a50af60414b705830e7fbdb983728e4ffb1a771d2b1e295d32bb",
-      "quality_score_included": false
-    },
-    {
-      "column": "anthropic",
-      "ticket": "v2-warehouse-scope-v2",
-      "status": "NEEDS_INPUT",
-      "physical_requests": 0,
-      "charged_microdollars": 0,
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
-      "capture_seal": "dacefdd68d74fe4f99c00c2ab0e0fdb071d52da430e4f22eaea08562fd0a8f93",
-      "quality_score_included": false
+    "anthropic": {
+      "saved_selected_outcomes": 18,
+      "statuses": {
+        "ANSWERED": 16,
+        "NEEDS_INPUT": 1,
+        "INTERRUPTED": 1
+      },
+      "physical_requests_in_selected_results": 469,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "provider": "anthropic",
+          "model": "claude-opus-5-5",
+          "calls": 73,
+          "actual_microdollars": 7226420,
+          "input_tokens": 3974373,
+          "cached_input_tokens": 2760729,
+          "mean_microdollars_per_call": 98992.05479452055,
+          "cache_read_ratio": 0.6946325873288692
+        }
+      ]
     }
-  ],
-  "step_costs": [
-    {
-      "column": "anthropic",
-      "step": "INVESTIGATOR",
-      "provider": "anthropic",
-      "model": "claude-opus-5-5",
-      "calls": 36,
-      "actual_microdollars": 3825668,
-      "input_tokens": 2122398,
-      "cached_input_tokens": 1484464,
-      "mean_usd_per_call": 0.10626855555555555,
-      "cache_read_ratio": 0.6994277227928032
-    },
-    {
-      "column": "openai",
-      "step": "INVESTIGATOR",
-      "provider": "openai",
-      "model": "gpt-6-astra",
-      "calls": 44,
-      "actual_microdollars": 8011555,
-      "input_tokens": 1632444,
-      "cached_input_tokens": 1052462,
-      "mean_usd_per_call": 0.18208079545454545,
-      "cache_read_ratio": 0.644715530823722
-    },
-    {
-      "column": "sol-cascade",
-      "step": "INVESTIGATOR",
-      "provider": "openai",
-      "model": "gpt-6.1-sol",
-      "calls": 26,
-      "actual_microdollars": 903347,
-      "input_tokens": 833612,
-      "cached_input_tokens": 491713,
-      "mean_usd_per_call": 0.03474411538461539,
-      "cache_read_ratio": 0.5898583513673028
-    },
-    {
-      "column": "sol-cascade",
-      "step": "INVESTIGATOR_FALLBACK",
-      "provider": "openai",
-      "model": "gpt-6-astra",
-      "calls": 18,
-      "actual_microdollars": 4638515,
-      "input_tokens": 627568,
-      "cached_input_tokens": 278072,
-      "mean_usd_per_call": 0.2576952777777778,
-      "cache_read_ratio": 0.4430946128547026
-    }
-  ],
-  "missing_steps_note": "Screenshot, summary, writer and grading are not inferred from investigator cost. Steps without calls in this checkpoint remain unmeasured here; initial independent grading has a separate receipt.",
-  "grading_note": "This usage-only checkpoint omits quality scores; it does not assert that previously submitted partial grading is absent. Initial cross-vendor grading is recorded separately."
+  },
+  "excluded_original_environment_failures_charges_retained_in_authoritative_ledger": true,
+  "benchmark_pin": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
+    "source": "a8b99cc68951e1a29d4d8ae77b5c85e970d82a94",
+    "workflow_run": 41338743215,
+    "qualification": "FOCUSED_DEV_NOT_FULL_RELEASE_SUITE"
+  }
 }
