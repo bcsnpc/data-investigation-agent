@@ -10,6 +10,18 @@ NOW = datetime(2026, 11, 1, tzinfo=timezone.utc).timestamp()
 
 
 class ProviderBudgetTests(unittest.TestCase):
+    def test_current_intake_and_summary_costs_are_not_labelled_historical(self):
+        from investigator.anthropic_credit import status
+        account=ensure_account(self.state,'anthropic',NOW)
+        for purpose in ('INTAKE','INTAKE_FALLBACK','INVESTIGATOR_FALLBACK','SUMMARY'):
+            self.state.reserve(account,purpose,'worker',7,detail={'purpose':purpose})
+            self.state.settle(account,purpose,'worker',7)
+        result=status(self.state,NOW)
+        for purpose in ('INTAKE','INTAKE_FALLBACK','INVESTIGATOR_FALLBACK','SUMMARY'):
+            self.assertEqual(result['by_ai_step_microdollars'][purpose],7)
+        self.assertEqual(result['by_ai_step_microdollars']['UNATTRIBUTED_HISTORICAL'],0)
+        self.assertEqual(result['charged_microdollars'],28)
+
     def test_azure_adapter_has_no_paid_allowance_by_default(self):
         from investigator.reasoning_budget import TicketBudget,RateCard
         from investigator.model_spend import SpendHold

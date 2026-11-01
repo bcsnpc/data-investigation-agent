@@ -1,0 +1,41 @@
+{
+  "scope": "PARTIAL_UNSCORED_PROVIDER_BENCHMARK_NOT_ROUND26_HEADLINE",
+  "observed_at_utc": "2026-11-01T20:46:20.420516+00:00",
+  "columns": {
+    "sol-cascade": {
+      "graded": 2,
+      "correct": 2,
+      "harmful": 0,
+      "unvalidated": 0
+    },
+    "openai": {
+      "graded": 11,
+      "correct": 5,
+      "harmful": 0,
+      "unvalidated": 0
+    },
+    "anthropic": {
+      "graded": 11,
+      "correct": 10,
+      "harmful": 0,
+      "unvalidated": 0
+    }
+  },
+  "primary_models": {
+    "sol-cascade": "claude-sonnet-4-6 batch pending remaining9",
+    "openai": "claude-sonnet-4-6 batch",
+    "anthropic": "gpt-6.1-sol synchronous"
+  },
+  "correct_requires": "verdict AND layer AND cause",
+  "uncertain_grading_call": {
+    "column": "anthropic",
+    "ticket": "v2-billing-mrr-v2",
+    "charged_microdollars": 52300,
+    "status": "UNCERTAIN",
+    "original_intent_retained": true,
+    "labelled_replacement_completed": true,
+    "same_budget_case_id": true
+  },
+  "default_investigator_selected": false,
+  "secondary_and_independent_disagreement_review": "NOT_YET_RUN"
+}

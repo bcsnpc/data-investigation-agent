@@ -41,7 +41,8 @@ def status(state,now=None):
         grading_delta=grading_charge(state,db,policy,grading)
         charged=policy['baseline_higher_microdollars']+model_delta+grading_delta
         extra=pending_exposure(state,db,policy['model_account'])+pending_exposure(state,db,policy['grading_account'])
-        purposes={name:0 for name in ('INVESTIGATOR','SCREENSHOT','ENRICHMENT','WRITER','GRADING','SMOKE','UNATTRIBUTED_HISTORICAL')}
+        purposes={name:0 for name in ('INTAKE','INTAKE_FALLBACK','INVESTIGATOR','INVESTIGATOR_FALLBACK',
+            'SCREENSHOT','SUMMARY','ENRICHMENT','WRITER','GRADING','SMOKE','UNATTRIBUTED_HISTORICAL')}
         rows=state.sql(db,'SELECT account,charged,detail FROM state_reservations WHERE account IN (?,?)',(policy['model_account'],policy['grading_account'])).fetchall()
         for account,value,detail in rows:
             detail=json.loads(detail)
