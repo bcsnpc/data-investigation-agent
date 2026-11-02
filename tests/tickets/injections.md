@@ -432,3 +432,9 @@ Round26 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. 
 
 
 Round26 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-six\dev02\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round26 history g1 INSERT_ATTEMPTED; restoration_required=True. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-six\dev02\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round26 dev02 interrupted history control closed before restaging: source original360-row/schema hashes verified, real original copy Completed and model7661 verified; temporal history retained. The interrupted control admitted zero scored tickets. Restore used12 existing RESTORATION requests (one serverless40613 connection refusal, then11 successful recovery-control requests). Standing owner-approved /32 firewall corrections and exact readbacks are hash-recorded in docs/runs/round-twenty-six-approved-laptop-firewall.json. Closing receipt: .local\round-twenty-six\dev02\injections\form-current-history\status.json. Any later form-current-history-firewall1 control is a separate fresh fixture, not a repeat of a scored result.
