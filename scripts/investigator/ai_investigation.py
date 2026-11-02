@@ -204,6 +204,7 @@ class Investigator:
     def parallel_queries(self,calls):
         """Only model-requested independent layers; results journal in call order."""
         from .process_tape import ACTIVE
+        if self.state.get('physical_reads_closed'):return {}
         if ACTIVE.get() is not None:return {}  # Preserve serial exact-tape ordering.
         if not 2<=len(calls)<=3 or len(calls)>self.tool_limit-self.state['tools_used']:return {}
         if any(c.get('name') not in ('run_sql','run_dax') for c in calls):return {}
@@ -320,6 +321,8 @@ class Investigator:
                             'evidence_ids':list(self.state['evidence']),
                             'query_ids':[q['id'] for q in self.queries.records],
                             'instruction':'Choose the next useful check, or submit a supported finding.'}
+                if self.state.get('physical_reads_closed'):
+                    recitation['instruction']='The physical read allowance is exhausted. No more estate calls are allowed. Submit only a finding supported by saved evidence, with unchecked parts stated, or ask a validated question. You may inspect saved evidence locally.'
                 if self.closing_action_reserved():
                     recitation['instruction']='The last action is reserved for delivery. Submit the finding supported by the saved evidence, including its limits, or ask a validated last-resort question. No additional investigation read is available. A supported partial finding is preferable to silently dropping established evidence.'
                 if not self.state.get('turn'):
@@ -346,6 +349,9 @@ class Investigator:
                 for call in calls:
                     if self.state['tools_used']>=self.tool_limit:break
                     name,args=call.get('name'),call.get('input');key=digest([name,args])
+                    if self.state.get('physical_reads_closed') and name not in ('submit_finding','ask_user_choice','get_evidence'):
+                        results.append({'type':'tool_result','tool_use_id':call['id'],'content':canonical({'rejected_tool':name,'reason':'PHYSICAL_READS_CLOSED_USE_SAVED_EVIDENCE','available':['submit_finding','ask_user_choice','get_evidence']}),'is_error':True})
+                        self.save();continue
                     if self.closing_action_reserved() and name not in ('submit_finding','ask_user_choice'):
                         # Reject without a read or consuming the delivery slot. The
                         # unchanged model-call, time and dollar caps still apply.
@@ -369,7 +375,14 @@ class Investigator:
                             if name not in ('submit_finding','ask_user_choice') and not failed:
                                 self.state['cache'][key]=deepcopy(result)
                         is_error=(isinstance(result.get('result'),dict) and result['result'].get('status')=='ERROR')
-                    except (SpendHold,UsageHold,GatewayDenied):raise
+                    except UsageHold as error:
+                        if str(error)!='GUIDED_PHYSICAL_CAP_REACHED' or not any(q['status']=='SUCCEEDED'for q in self.queries.records):raise
+                        # Close physical work permanently for this case. Model/delivery
+                        # can use saved evidence only, within their unchanged budgets.
+                        self.state['physical_reads_closed']=True
+                        result={'rejected_tool':name,'reason':'PHYSICAL_READS_CLOSED_USE_SAVED_EVIDENCE','available':['submit_finding','ask_user_choice','get_evidence']}
+                        self.evidence(result);is_error=True
+                    except (SpendHold,GatewayDenied):raise
                     except Exception as error:
                         from .planner_recording import _safe
                         message=str(error)
