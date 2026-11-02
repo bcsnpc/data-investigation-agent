@@ -1,5 +1,5 @@
-import json,hashlib,unittest
-from unittest.mock import Mock
+import json,hashlib,unittest,os
+from unittest.mock import Mock,patch
 from investigator.guided_runtime_reads import SubjectHistory
 from investigator.operational_run_selection import from_text
 from investigator.operational_fastpath import run
@@ -32,9 +32,12 @@ class PagingTests(unittest.TestCase):
   reader,http,_=self.reader([{'value':[],'continuationUri':'https://evil.example/jobs?continuationToken=x'}])
   with self.assertRaisesRegex(ValueError,'CONTINUATION_SCOPE'):reader('job',{'RUN_HISTORY'},selector=from_text(TEXT),text=TEXT)
   http.assert_called_once()
+ @patch.dict(os.environ,{"LIVE_ACCESS_DISABLED":"0"})
  def test_reader_gateway_allows_only_cursor_on_the_existing_granted_job_list(self):
   gateway=Gateway({'version':1,'live_enabled':True,'identities':{'reader':{'role':'reader','http':[{'method':'GET','url':BASE,'purpose':'metadata'}]}}})
   gateway.http('reader','GET',BASE+'?continuationToken=a%2Bb')
+  with patch.dict(os.environ,{'LIVE_ACCESS_DISABLED':'1'}):
+   with self.assertRaisesRegex(GatewayDenied,'LIVE_ACCESS_DISABLED'):gateway.http('reader','GET',BASE+'?continuationToken=x')
   for method,url in [('POST',BASE+'?continuationToken=x'),('GET',BASE+'?continuationToken=x&other=y'),('GET',BASE.replace(I,W)+'?continuationToken=x'),('GET','https://evil.example/v1/workspaces/'+W+'/items/'+I+'/jobs/instances?continuationToken=x'),('GET',BASE+'?continuationToken=')]:
    with self.assertRaises(GatewayDenied):gateway.http('reader',method,url)
 if __name__=='__main__':unittest.main()
