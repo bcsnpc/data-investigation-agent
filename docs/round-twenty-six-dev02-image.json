@@ -1,14 +1,21 @@
 {
-  "source": "ac0cabfd230fe1396250c577bc5be87f464469a3",
-  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:9b273029dcac11e403934a4acf256307b03d9bd05cce1bb8dcfe62f042a27b22",
-  "workflow_run": 41396971406,
-  "qualification": "CORRECTED_IMAGE_CONTRACTS_PASS_FULL_REPOSITORY_PENDING",
-  "full_suite_passed": false,
+  "source": "b739823f28b7ea446bff93758477c2f6c2baca46",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:4324d42ce65a744467d5771904f6051cee9745eaab092d310ac00fc0e08b389c",
+  "workflow_run": 41489426055,
+  "qualification": "FULL_REPOSITORY_AND_ALL_IMAGE_CONTRACTS_PASS",
+  "full_suite_passed": true,
+  "repository_suite": {
+    "tests": 5873,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 53
+  },
   "image_contract_suite": {
     "tests": 1124,
     "failures": 0,
     "errors": 0,
     "skipped": 2
   },
-  "dev_pass": 2
+  "dev_pass": 2,
+  "prior_dev01_outcomes_unchanged": true
 }

@@ -58,7 +58,8 @@
     ]
   },
   "full_suite_passed": true,
-  "publication_status": "QUEUED_NOT_ADMITTED",
+  "publication_status": "PUBLISHED",
   "no_expectation_or_seal_changed": true,
-  "browser_control": "Native pipe and browser host unavailable; stale4 not admitted, automatic update unchanged."
+  "browser_control": "Native pipe and browser host unavailable; stale4 not admitted, automatic update unchanged.",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:4324d42ce65a744467d5771904f6051cee9745eaab092d310ac00fc0e08b389c"
 }
