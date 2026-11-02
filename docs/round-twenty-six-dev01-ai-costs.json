@@ -1,0 +1,41 @@
+{
+  "scope": "Dev01 partial, selected saved outcomes only; grading and controls excluded, not a whole-round ledger total.",
+  "tickets": 48,
+  "ticket_actual_usd": 38.946814,
+  "steps": [
+    {
+      "step": "INTAKE",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "calls": 61,
+      "actual_microdollars": 1638391,
+      "input_tokens": 3795103,
+      "cached_input_tokens": 3245147,
+      "actual_usd_per_call": 0.026858868852459014,
+      "cached_input_ratio": 0.8550879910242225
+    },
+    {
+      "step": "INTAKE_FALLBACK",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "calls": 39,
+      "actual_microdollars": 7809119,
+      "input_tokens": 2482140,
+      "cached_input_tokens": 1985355,
+      "actual_usd_per_call": 0.20023382051282052,
+      "cached_input_ratio": 0.7998561724963137
+    },
+    {
+      "step": "INVESTIGATOR",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "calls": 160,
+      "actual_microdollars": 29499304,
+      "input_tokens": 6310177,
+      "cached_input_tokens": 4143167,
+      "actual_usd_per_call": 0.18437065,
+      "cached_input_ratio": 0.6565849103757312
+    }
+  ],
+  "original_charges_retained_in_shared_ledger": true
+}
