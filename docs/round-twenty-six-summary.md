@@ -80,3 +80,12 @@ The new dev pass uses one pinned b90371c7/image1114841e. All31 static cases comp
 Forty v5 records (20FORM/20TEXT) were independently authored, native-fact/address-verified and sealed at a744dcae before scoring. Wording remains unopened by the operator. No v5 score or release claim yet.
 
 The approved single Haiku credit test made exactly one wire request: `anthropic.claude-3-haiku-20240307-v1:0`, prompt `Reply OK.`, maxTokens20, UTC2026-11-02T03:35:38.730142Z,23.732seconds, HTTP404 ResourceNotFoundException. No retry or alternate model. Guard restored; credit coverage unknown. Check AWS Billing?Bills after UTC2026-11-03T03:35:38Z. The Nova Micro tool smoke passed at USD0.000024. Exact receipts: round-twenty-six-haiku-credit-test.json and round-twenty-six-bedrock-smoke.json.
+
+
+## Dev02 partial checkpoint — 2026-11-02
+
+On the fully tested b739823f image (digest4324d42c), 27 of30 selected failed dev cases have saved outcomes. Independent primary5/27, secondary5/27, strict4/27, reviewed evidence-projection5/27; primary harmful0, secondary/reviewed harmful2. These are partial rerun counts, not a complete original-set or held-out score. Review inputs preserve literal business/query/numeric fields and label row samples and omitted repeated definition bodies; this is not claimed as complete raw-tape review. Full case-level dimensions and reasons are in round-twenty-six-dev02-progress.json.
+
+Current history controls restored the original360-row and schema hashes, with temporal history retained. All four latency reruns completed; their original source hashes match and their owned future schedule was removed. Access and waiting remain in progress. Four original dev01 stale cases remain unrun: both browser host and native desktop helper are unavailable; the desktop fallback sees Fabric but reports its existing window minimized. No automatic-update setting was changed on this retry. V5 remains sealed with zero admissions.
+
+Authoritative ledger snapshot: OpenAIUSD133.727853/180 (dev admission stop144), AnthropicUSD49.255301/74.943582, BedrockUSD0.529180/5. Physical7023/14500: investigation6525/11905, scan460/2500, restoration38/95 (57remaining). These are ledger charges, not prepaid balances or invoices. No limits changed.

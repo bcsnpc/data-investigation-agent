@@ -438,3 +438,12 @@ Round26 history g1 INSERT_ATTEMPTED; restoration_required=True. Native41-load47-
 
 
 Round26 dev02 interrupted history control closed before restaging: source original360-row/schema hashes verified, real original copy Completed and model7661 verified; temporal history retained. The interrupted control admitted zero scored tickets. Restore used12 existing RESTORATION requests (one serverless40613 connection refusal, then11 successful recovery-control requests). Standing owner-approved /32 firewall corrections and exact readbacks are hash-recorded in docs/runs/round-twenty-six-approved-laptop-firewall.json. Closing receipt: .local\round-twenty-six\dev02\injections\form-current-history\status.json. Any later form-current-history-firewall1 control is a separate fresh fixture, not a repeat of a scored result.
+
+
+Round26 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-six\dev02\injections\form-current-history-firewall1\status.json. Temporal history ON; native historical versions retained.
+
+
+Round26 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-six\dev02\injections\text-retained-original-history\status.json.
+
+
+Round26 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-six\dev02\injections\text-latency-current-reader1\status.json. Temporal remains ON.
