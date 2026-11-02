@@ -15,7 +15,7 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None,model_for_step=None,investigator_cascade=False):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None,model_for_step=None,investigator_cascade=False,intake_queries=None,intake_origin_checker=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
@@ -24,6 +24,8 @@ class Factory:
         self.screenshot_reader=screenshot_reader
         self.model_for_step=model_for_step
         self.investigator_cascade=investigator_cascade
+        self.intake_queries=intake_queries or (lambda case:[])
+        self.intake_origin_checker=intake_origin_checker
         self.declared_continuations=declared_continuations
         self.associated_nodes=associated_nodes
         self.definition_for=definition_for
@@ -32,6 +34,12 @@ class Factory:
         for route in self.routes.values():
             if not route.get('path_nodes') or not set(route['path_nodes'])<=graph.allowed:
                 raise ValueError('NATIVE_ROUTE_BINDING_OUTSIDE_ADMITTED_GRAPH')
+
+    def check_text_origin(self,origin,intake,catalog):
+        if self.intake_origin_checker:return self.intake_origin_checker(origin,intake,catalog)
+        from .guided_text_resolver import Resolver
+        return Resolver(catalog=catalog,model=None,record=lambda _:None).check(origin['text'],
+            {'proposal':intake,'provenance':origin['provenance'],'figure_mentions':origin['figure_mentions']})
 
     def prepare(self, identity, nodes=None):
         if self.prepare_route:
@@ -182,8 +190,13 @@ class Factory:
         context['engineer_replies']=FactLedger(self.state).engineer_replies_for_path(case['estate'],sorted(nodes),scope)
         _safe(canonical(context).encode())
         save=lambda event:self.persist(case['id'],event)
+        initial_queries=deepcopy(self.intake_queries(case))
+        if initial_queries:
+            context['intake_candidate_query_evidence']=deepcopy(initial_queries)
+            context['intake_candidate_scope_note']='These preliminary quantities resolved a target. Alternative targets are not upstream layers or causal explanations for the selected measure.'
+            _safe(canonical(context).encode())
         queries=Queries(layers,execute=self.native,reserve=lambda layer,key:self.reserve(case['id'],layer,key),save=save,
-                        available_layers=available)
+                        available_layers=available,restored=initial_queries)
         def expand(extra):
             extra.update(self.resolve_path(extra))
             ids={n['id'] for n in extra['nodes']}
@@ -222,7 +235,7 @@ class Factory:
                                             'schema':schema({}),'run':resolve}
             return tools
         engine=Investigator(queries=queries,model=model,read_tools=registry,
-            checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage)
+            checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage,initial_tools_used=len(initial_queries))
         if self.investigator_cascade:
             if not self.model_for_step:raise ValueError('INVESTIGATOR_FALLBACK_CONFIGURATION_REQUIRED')
             from .investigation_cascade import Cascade

@@ -15,7 +15,8 @@ def read_job(execute, args, *, sleep=time.sleep):
             try: _safe(detail.encode())
             except ValueError: detail = 'REDACTED_UNSAFE_PROVIDER_ERROR'
             transient = isinstance(error, subprocess.TimeoutExpired) or any(word in detail.casefold()
-                for word in ('badgateway', 'gatewaytimeout', 'serviceunavailable', 'too many requests', '429'))
+                for word in ('badgateway', 'gatewaytimeout', 'serviceunavailable', 'too many requests', '429',
+                             'connectionreseterror','connection reset','connection broken','10054','connection aborted'))
             if not transient or attempt == 2:
                 raise RuntimeError('AZURE_JOB_READ_FAILED_BEFORE_START: ' + detail) from error
             sleep(5 * (attempt + 1))

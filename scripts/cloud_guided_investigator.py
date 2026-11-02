@@ -6,13 +6,13 @@ from datetime import datetime,timezone
 from cloud_investigator import reference,PathCollector
 
 
-def intake_question_outcome(text, mapped, *, resolution, step_costs, cost):
+def intake_question_outcome(text, mapped, *, resolution, step_costs, cost,physical_requests=0):
     """Keep the original text bound even when no intake has been admitted."""
     business=mapped.get('question','A named choice is needed before investigation.')
     return {'status':'NEEDS_INPUT','ticket':{'text':text},'business':business,
             'outputs':{'business':business,'technical':json.dumps(mapped)},
             'intake':mapped,'intake_resolution':resolution,'ai_step_costs':step_costs,
-            'cost':cost,'physical_requests':0}
+            'cost':cost,'physical_requests':physical_requests}
 
 
 def metadata_tokens(configuration):
@@ -139,6 +139,9 @@ def run(plan,context):
     request_key=plan.get('run_id',getattr(context,'run_id',root.name))
     from investigator.estate_graph_contract import digest
     case_id='guided:'+digest([graph_spec['estate'],request_key])
+    pending_intake = None
+    initial_intake_queries=[]
+    candidate_binding=None
     operational_admission = None
     if set(submitted)=={'text'}:
         from investigator.operational_intake import admit as admit_operational
@@ -154,10 +157,13 @@ def run(plan,context):
         record({'event':'GUIDED_INTAKE_ADMISSION','status':mapped['status'],
                 'resolution':intake_resolution,'confidence':mapped.get('resolution_confidence')})
         if mapped['status']!='READY':
-            return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
+            from investigator.guided_intake_candidates import inventory as candidate_inventory
+            if not candidate_inventory(submitted['text'],mapped,catalog):
+                return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
                     step_costs=step_costs(ai_usage),cost=budget(case_id).status())
-        submitted={'intake':mapped['intake'],'source':mapped['source']}
-    if operational_admission is None and (not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}):
+            pending_intake=mapped
+        else:submitted={'intake':mapped['intake'],'source':mapped['source']}
+    if pending_intake is None and operational_admission is None and (not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}):
         raise ValueError('GUIDED_TICKET_ENVELOPE')
     meter=Meter(state,{'environment':manifest['environment']},spec['max_requests'],reporting_mirror=False,enforce_limit=True)
     def physical(kind,call):
@@ -232,7 +238,12 @@ def run(plan,context):
         image=reference(spec['screenshots'][checksum],maximum=1024*1024).read_bytes()
         if __import__('hashlib').sha256(image).hexdigest()!=checksum:raise ValueError('SCREENSHOT_ATTACHMENT_HASH_DIFFERS')
         return image
+    def check_candidate_origin(origin,intake,actual_catalog):
+        from investigator.guided_intake_candidates import check_origin
+        return check_origin(origin,intake,actual_catalog,candidate_binding)
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
+        intake_queries=lambda case:initial_intake_queries if candidate_binding and case['intake'].get('measure')==candidate_binding['intake']['measure']else[],
+        intake_origin_checker=check_candidate_origin,
         context_for=native_catalog.context,triage_for=triage,model_for=model,
         model_for_step=model,
         investigator_cascade=spec.get('investigator_cascade',False),
@@ -245,6 +256,25 @@ def run(plan,context):
         reserve=lambda *_:None,persist=lambda _,event:record(event),
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))
+    if pending_intake is not None:
+        from investigator.guided_intake_candidates import resolve as resolve_candidates
+        from investigator.investigative_queries import Queries
+        from investigator.model_spend import SpendHold
+        from investigator.live_gateway import GatewayDenied
+        from investigator.planner_recording import _safe
+        from investigator.guided_intake_candidates import probe_measure
+        def probe_candidate(measure,proposal):
+            return probe_measure(factory,catalog,measure,proposal,execute_native,record,initial_intake_queries)
+        try:
+            with guard_scope(record):mapped=resolve_candidates(submitted['text'],pending_intake,catalog,probe_candidate,record=record)
+        except BaseException:
+            meter.close();raise
+        if mapped['status']!='READY':
+            try:return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
+                step_costs=step_costs(ai_usage),cost=budget(case_id).status(),physical_requests=meter.used)
+            finally:meter.close()
+        candidate_binding=mapped
+        submitted={'intake':mapped['intake'],'source':mapped['source']}
     phases.append({'phase':'startup-and-intake','seconds':time.monotonic()-started})
     try:
         with guard_scope(record):
@@ -253,6 +283,8 @@ def run(plan,context):
             investigated=time.monotonic();result=cases.run(queued['id'])
             phases.append({'phase':'triage-and-investigation','seconds':time.monotonic()-investigated})
         outcome=result['outcome']
+        if candidate_binding and isinstance(outcome.get('business'),str):
+            outcome['business']='Assumption: '+candidate_binding['resolution_assumption']+' '+outcome['business']
         output={**outcome,'ticket':submitted['intake'],'case_id':queued['id'],
                 'intake_resolution':intake_resolution,'ai_step_costs':step_costs(ai_usage),
                 'physical_requests':meter.used,'budget_before':meter.before,'budget_after':meter.usage.snapshot(),

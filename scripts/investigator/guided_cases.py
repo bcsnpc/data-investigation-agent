@@ -31,8 +31,10 @@ class Cases:
             if not isinstance(origin,dict) or set(origin)!={'kind','text','provenance','figure_mentions'} or origin['kind']!='MAPPED_TEXT':
                 raise ValueError('MAPPED_TEXT_SOURCE_REQUIRED')
             from .guided_text_resolver import Resolver
-            checked=Resolver(catalog=catalog,model=None,record=lambda _:None).check(origin['text'],
-                {'proposal':body['intake'],'provenance':origin['provenance'],'figure_mentions':origin['figure_mentions']})
+            origin_checker=(getattr(self.engine_factory,'check_text_origin')if callable(getattr(type(self.engine_factory),'check_text_origin',None))else None)
+            checked=(origin_checker(origin,body['intake'],catalog)if callable(origin_checker)else
+                Resolver(catalog=catalog,model=None,record=lambda _:None).check(origin['text'],
+                {'proposal':body['intake'],'provenance':origin['provenance'],'figure_mentions':origin['figure_mentions']}))
             if checked['status']!='READY':return checked
             resolved=checked
         else:

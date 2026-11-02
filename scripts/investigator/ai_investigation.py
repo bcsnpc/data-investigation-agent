@@ -116,8 +116,10 @@ def toolbox(layers,read_tools,intake=None):
 
 class Investigator:
     def __init__(self,*,queries,model,read_tools,validate_finding=None,validate_question=None,
-                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900):
+                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900,initial_tools_used=0):
         if type(tool_limit) is not int or not 1<=tool_limit<=15:raise ValueError('TOOL_LIMIT')
+        if type(initial_tools_used)is not int or not 0<=initial_tools_used<tool_limit:raise ValueError('INITIAL_TOOL_COUNT')
+        self.initial_tools_used=initial_tools_used
         from .grounded_answers import finding,question
         validate_finding=validate_finding or finding;validate_question=validate_question or question
         if not callable(validate_finding) or not callable(validate_question):raise ValueError('CONSUMER_VALIDATORS_REQUIRED')
@@ -307,7 +309,7 @@ class Investigator:
                 return self.finish()
         else:
             self.state={'version':'ai-investigation-v1','case_id':self.case_id,'pins':pins,'messages':[],
-                        'evidence':{},'cache':{},'tools_used':0,'model_calls':0,'candidate_checks':False,
+                        'evidence':{},'cache':{},'tools_used':self.initial_tools_used,'model_calls':0,'candidate_checks':False,
                         'pending':None,'outcome':None,'elapsed_seconds':0}
             self._elapsed_before=0
             self.evidence({'kind':'TRIAGE','facts':self.triage})
