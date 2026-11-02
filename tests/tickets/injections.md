@@ -408,3 +408,9 @@ Round26 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLI
 
 
 Round26 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-six\dev01\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round26 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-six\dev01\injections\text-retained-original-history\status.json.
+
+
+Round26 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-six\dev01\injections\text-latency\status.json. Temporal remains ON.

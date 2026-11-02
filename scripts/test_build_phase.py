@@ -21,7 +21,7 @@ class MonthlyTests(unittest.TestCase):
         from unittest.mock import Mock
         from investigator.model_spend import SpendHold
         state=Mock(backend='postgresql')
-        state.transaction.return_value=nullcontext(object())
+        state._read_transaction.side_effect=lambda read:read(object())
         state.sql.return_value.fetchone.return_value=None
         with self.assertRaisesRegex(SpendHold,'MONTHLY_MODEL_ACCOUNT_NOT_PROVISIONED:model-microdollars:2026-10'):
             b.ensure_model_account(state,instant('2026-10-21'))
@@ -32,7 +32,7 @@ class MonthlyTests(unittest.TestCase):
         from contextlib import nullcontext
         from unittest.mock import Mock
         state=Mock(backend='postgresql')
-        state.transaction.return_value=nullcontext(object())
+        state._read_transaction.side_effect=lambda read:read(object())
         state.sql.return_value.fetchone.return_value=(1,)
         self.assertEqual(b.ensure_model_account(state,instant('2026-10-21')),'model-microdollars:2026-10')
         self.assertEqual(state.sql.call_count,1)
