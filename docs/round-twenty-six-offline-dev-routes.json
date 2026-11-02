@@ -1554,7 +1554,7 @@
       "estate": "fixture",
       "status": "REJECTED",
       "error": "ValueError",
-      "reason": "DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS"
+      "reason": "FREE_TEXT_PROVENANCE_REQUIRED:reported_figure"
     },
     {
       "group": "text",
