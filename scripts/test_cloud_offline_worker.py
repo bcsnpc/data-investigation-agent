@@ -61,6 +61,13 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertTrue(required)
         self.assertTrue(required<=set(TEST_MODULES))
 
+    def test_full_image_publication_requires_complete_source_regression(self):
+        workflow=(Path(__file__).parents[1]/'.github/workflows/cloud-worker.yml').read_text()
+        self.assertIn('python -m pytest -q -p no:cacheprovider scripts --junitxml=',workflow)
+        self.assertIn("needs.full-repository.result == 'success'",workflow)
+        self.assertIn("DIA_LIVE_ACCESS_DISABLED: '1'",workflow)
+        self.assertIn('needs: [offline-shards, full-repository, focused-dev]',workflow)
+
     def test_hash_and_path_refuse_before_replay(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder); (root / 'tape.json').write_bytes(b'original')

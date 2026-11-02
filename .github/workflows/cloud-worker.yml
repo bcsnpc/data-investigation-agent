@@ -63,6 +63,29 @@ jobs:
           name: cloud-worker-synthetic-shard-${{ matrix.shard }}
           path: ${{ runner.temp }}/results
           retention-days: 3
+  full-repository:
+    if: ${{ !inputs.dev_focus && (github.event_name != 'pull_request' || !github.event.pull_request.draft) }}
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      DIA_LIVE_ACCESS_DISABLED: '1'
+      PYTHONWARNINGS: ignore::ResourceWarning
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.13'
+      - name: Install pinned runtime and offline test dependencies
+        run: pip install -r scripts/requirements-lineage.txt -r scripts/requirements-llm.txt -r scripts/requirements-replay.txt -r scripts/requirements-cloud-worker.txt -r scripts/requirements-fabric-tests.txt -r scripts/requirements-tracing.txt -r scripts/requirements-workspace.txt
+      - name: Complete repository regression at the image source revision, with live access disabled
+        run: python -m pytest -q -p no:cacheprovider scripts --junitxml="$RUNNER_TEMP/full-repository.xml" --durations=20
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cloud-worker-full-repository
+          path: ${{ runner.temp }}/full-repository.xml
+          retention-days: 3
   focused-dev:
     if: ${{ inputs.dev_focus || (github.event_name == 'pull_request' && github.event.pull_request.draft) }}
     needs: build
@@ -78,8 +101,8 @@ jobs:
           docker run --rm --network=none --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=256m --tmpfs /app/.local:rw,nosuid,nodev,noexec,size=256m,uid=10001,gid=10001 --entrypoint python dia-offline:${{ github.sha }} -m pytest -q -p no:cacheprovider scripts/test_calculation_intake.py scripts/test_cloud_ledger_investigator.py scripts/test_shared_usage.py scripts/test_ledger_investigator.py scripts/test_retained_graph_continuation.py scripts/test_ledger_investigator_ports.py scripts/test_source_availability.py scripts/test_round23_intake_queries.py scripts/test_round23_reasoning.py scripts/test_round23_triage_tools.py scripts/test_round23_platform.py scripts/test_round23_guided_cases.py scripts/test_round23_answers_native.py scripts/test_round23_text_resolver.py scripts/test_round23_native_catalog.py scripts/test_round23_live_facts.py scripts/test_round23_fixture_control.py scripts/test_round23_provider_schema.py scripts/test_round23_runtime_reads.py scripts/test_round23_case_presentation.py scripts/test_round24_actual_cost.py scripts/test_round24_health_smoke.py scripts/test_round24_policy.py scripts/test_round24_postgres.py scripts/test_round24_query_patterns.py scripts/test_round24_runtime_anthropic.py scripts/test_round24_parallel_capture.py scripts/test_round24_legacy_native.py scripts/test_round24_retained_schema.py scripts/test_round24_control_errors.py scripts/test_round24_calculation_explanation.py scripts/test_round24_gateway_components.py scripts/test_round24_copy_bindings.py scripts/test_round24_backtrack.py scripts/test_round24_backtrack_routes.py scripts/test_round24_query_context.py scripts/test_round24_native_index.py scripts/test_round24_parallel.py scripts/test_round24_paths.py scripts/test_round24_query_feedback.py scripts/test_round24_smoke_configuration.py scripts/test_round24_script_procedures.py scripts/test_round24_operational_answer.py
           docker run --rm --network=none --read-only --cap-drop=ALL --security-opt=no-new-privileges --tmpfs /tmp:rw,nosuid,nodev,size=256m --tmpfs /app/.local:rw,nosuid,nodev,noexec,size=256m,uid=10001,gid=10001 --entrypoint python dia-offline:${{ github.sha }} -m unittest discover -s scripts -p "test_round26*.py"
   publish:
-    if: ${{ always() && ((github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && github.ref == 'refs/heads/feat/round-eighteen-cloud-foundation')) && (needs.offline-shards.result == 'success' || needs.focused-dev.result == 'success') }}
-    needs: [offline-shards, focused-dev]
+    if: ${{ always() && ((github.event_name == 'workflow_dispatch' && inputs.publish) || (github.event_name == 'push' && github.ref == 'refs/heads/feat/round-eighteen-cloud-foundation')) && ((needs.offline-shards.result == 'success' && needs.full-repository.result == 'success') || needs.focused-dev.result == 'success') }}
+    needs: [offline-shards, full-repository, focused-dev]
     runs-on: ubuntu-latest
     permissions:
       contents: read
