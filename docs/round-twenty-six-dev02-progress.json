@@ -1,0 +1,283 @@
+{
+  "observed_at_utc": "2026-11-02T18:37:32.019033+00:00",
+  "scope": "Partial dev02 selected failed cases, not a complete 40/40 or held-out score.",
+  "planned": 30,
+  "summary": {
+    "primary": {
+      "correct": 4,
+      "graded": 19,
+      "harmful": 0
+    },
+    "secondary": {
+      "correct": 4,
+      "graded": 19,
+      "harmful": 2
+    },
+    "strict": {
+      "correct": 3,
+      "graded": 19,
+      "harmful": null
+    },
+    "reviewed_projection": {
+      "correct": 4,
+      "graded": 19,
+      "harmful": 2
+    }
+  },
+  "grading_models": {
+    "primary": "Bedrock amazon.nova-pro-v1:0",
+    "secondary": "OpenAI gpt-6.1-sol",
+    "reviewer": "Separate OpenAI gpt-6.1-sol calls; same model as secondary, different from Astra investigation reasoning"
+  },
+  "review_scope": "Saved grading evidence projections: literal business/query/numeric fields, reversible address aliases, labelled bounded row samples; duplicated retained context/definition bodies may be omitted. This dev audit is not labelled a complete raw-tape review.",
+  "original_scores_and_expectations_unchanged": true,
+  "cases": [
+    {
+      "case_id": "round26-dev02-form-v2-billing-invoices-v1",
+      "fixture": "baseline",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-form-v2-warehouse-scope-v2",
+      "fixture": "baseline",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-form-v2-before-temporal-retention-v1",
+      "fixture": "baseline",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-form-v2-other-collected-definition-v1",
+      "fixture": "baseline",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-01-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": true,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": true,
+      "reviewed_harmful": true,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-04-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-05-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": true,
+      "reviewed_harmful": true,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-08-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-09-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-10-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-11-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-R17-12-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": true,
+      "strict": false,
+      "reviewed_projection": true,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-failed-fixture-load-v1",
+      "fixture": "failed-fixture",
+      "kind": "text",
+      "primary": true,
+      "secondary": true,
+      "strict": true,
+      "reviewed_projection": true,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false
+    },
+    {
+      "case_id": "round26-dev02-text-failed-fixture-load-v2",
+      "fixture": "failed-fixture",
+      "kind": "text",
+      "primary": true,
+      "secondary": true,
+      "strict": true,
+      "reviewed_projection": true,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false
+    },
+    {
+      "case_id": "round26-dev02-text-baseline-S02-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-baseline-S03-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": true,
+      "secondary": true,
+      "strict": true,
+      "reviewed_projection": true,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false
+    },
+    {
+      "case_id": "round26-dev02-text-different-warehouse-v2",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-older-export-movement-1-v1",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true
+    },
+    {
+      "case_id": "round26-dev02-text-older-export-movement-1-v2",
+      "fixture": "baseline",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false
+    }
+  ]
+}
