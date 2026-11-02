@@ -56,6 +56,11 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertTrue(required<=set(TEST_MODULES))
         with self.assertRaises(ValueError): partition(entries, 8, 8)
 
+    def test_round26_fixed_image_gate_includes_every_current_round_module(self):
+        required={p.name for p in (Path(__file__).parent).glob('test_round26*.py')}
+        self.assertTrue(required)
+        self.assertTrue(required<=set(TEST_MODULES))
+
     def test_hash_and_path_refuse_before_replay(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder); (root / 'tape.json').write_bytes(b'original')
