@@ -25,7 +25,7 @@ from .process_tape import uuid4
 
 
 class RateCard:
-    def __init__(self,*,model,input_rate,output_rate,source,observed_at,base_input_rate=None,cache_read_rate=None):
+    def __init__(self,*,model,input_rate,output_rate,source,observed_at,base_input_rate=None,cache_read_rate=None,cache_write_rate=None):
         if not model or not source.startswith('https://') or not observed_at:
             raise ValueError('DOCUMENTED_MODEL_RATE_REQUIRED')
         self.model=model;self.input_rate=Decimal(str(input_rate));self.output_rate=Decimal(str(output_rate))
@@ -34,7 +34,8 @@ class RateCard:
         self.source,self.observed_at=source,observed_at
         self.base_input_rate=Decimal(str(base_input_rate)) if base_input_rate is not None else self.input_rate
         self.cache_read_rate=Decimal(str(cache_read_rate)) if cache_read_rate is not None else self.input_rate
-        if any(not v.is_finite() or v<0 or v>self.input_rate for v in (self.base_input_rate,self.cache_read_rate)):
+        self.cache_write_rate=Decimal(str(cache_write_rate)) if cache_write_rate is not None else self.input_rate
+        if any(not v.is_finite() or v<0 or v>self.input_rate for v in (self.base_input_rate,self.cache_read_rate,self.cache_write_rate)):
             raise ValueError('INPUT_RESERVATION_RATE_MUST_BOUND_CACHE_AND_BASE_RATES')
 
     def price(self,inputs,outputs):
@@ -47,7 +48,7 @@ class RateCard:
         counts={k:usage.get(k,0) for k in ('input_tokens','output_tokens','cache_creation_input_tokens','cache_read_input_tokens')}
         if any(type(v) is not int or v<0 for v in counts.values()):raise ValueError('EXACT_USAGE_COUNTS_REQUIRED')
         total=(counts['input_tokens']*self.base_input_rate+counts['output_tokens']*self.output_rate+
-               counts['cache_creation_input_tokens']*self.input_rate+counts['cache_read_input_tokens']*self.cache_read_rate)
+               counts['cache_creation_input_tokens']*self.cache_write_rate+counts['cache_read_input_tokens']*self.cache_read_rate)
         return int(total.to_integral_value(rounding=ROUND_CEILING))
 
 

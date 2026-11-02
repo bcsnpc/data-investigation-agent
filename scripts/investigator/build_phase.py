@@ -235,6 +235,8 @@ def round24_limits(now):
 
 
 def model_ceiling(now):
+    override=POLICY.get('monthly_model_overrides',{}).get(month_window(now)[0])
+    if override is not None and month_window(now)[0]>='2026-11':return override['ceiling_microdollars']
     current=round24_limits(now)
     if current is not None:return current['model_microdollars']
     month=month_window(now)[0]

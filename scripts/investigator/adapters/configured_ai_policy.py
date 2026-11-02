@@ -2,6 +2,9 @@
 
 
 def authorize_body(permissions, method, url, raw):
+    if url.startswith('https://bedrock-runtime.'):
+        from .reasoning_bedrock import authorize_body as bedrock
+        return bedrock(permissions, method, url, raw)
     if url.startswith('https://api.anthropic.com/'):
         spec = permissions.get('ai_providers', {}).get('anthropic')
         if not isinstance(spec, dict) or spec.get('endpoint', '').rstrip('/') not in (

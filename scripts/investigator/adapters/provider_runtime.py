@@ -18,12 +18,18 @@ def select(configuration, *, tenant, step):
 
 def validate(config):
     required = {'model', 'rate_card', 'secret_reference', 'gateway_identity', 'worker_identity'}
-    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache'}:
+    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache', 'region'}:
         raise ValueError('PROVIDER_CONFIGURATION_SHAPE')
     provider = config.get('provider', 'anthropic')
-    if provider not in ('anthropic', 'openai', 'azure_openai'):
+    if provider not in ('anthropic', 'openai', 'azure_openai', 'bedrock'):
         raise ValueError('PROVIDER_NOT_INSTALLED')
-    if provider != 'anthropic':
+    if provider == 'bedrock':
+        from .reasoning_bedrock import endpoint, model_guard
+        model_guard(config['model'])
+        base = endpoint(config.get('region', 'us-east-1'))
+        if config.get('endpoint', base) != base:
+            raise ValueError('PROVIDER_ENDPOINT_MISMATCH')
+    elif provider != 'anthropic':
         from .reasoning_openai import endpoint
         base = endpoint(config.get('endpoint', 'https://api.openai.com/v1'))
         if (provider == 'openai') != (base == 'https://api.openai.com/v1'):
@@ -43,6 +49,10 @@ def client(config, *, budget, record, diagnostic_prompt_cache=None, **ports):
             diagnostic_prompt_cache = config['explicit_cache']
         if diagnostic_prompt_cache is not None:
             arguments['diagnostic_prompt_cache'] = diagnostic_prompt_cache
+    elif provider == 'bedrock':
+        from .reasoning_bedrock import Client
+        arguments['region'] = config.get('region', 'us-east-1')
+        arguments['explicit_cache'] = config.get('explicit_cache', False)
     else:
         from .reasoning_openai import Client
         arguments['base'] = config.get('endpoint', 'https://api.openai.com/v1')

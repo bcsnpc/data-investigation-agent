@@ -13,6 +13,9 @@ def account_for(provider, now):
     month = month_window(now)[0]
     if provider == 'anthropic':
         return 'model-microdollars:' + month
+    if provider == 'bedrock':
+        policy(provider)
+        return 'provider-bedrock-microdollars:round26'
     policy(provider)  # Unknown providers cannot create spending accounts.
     return 'provider-' + provider + '-microdollars:' + month
 
@@ -54,20 +57,21 @@ def report(state, now):
         **policy('anthropic'),
         'ceiling_microdollars': int(anthropic['ceiling_microdollars'])}}
     with state.transaction(_read_only=True) as db:
-        account = account_for('openai', now)
-        try:
-            totals = state._totals(db, account)
-            charged = int(totals['charged'])
-            committed = charged + pending_exposure(state, db, account)
-            provisioned = True
-            ceiling = int(totals['ceiling'])
-        except KeyError:
-            charged = committed = 0
-            provisioned = False
-            ceiling = policy('openai')['ceiling_microdollars']
-        providers['openai'] = {**policy('openai'), 'charged_microdollars': charged,
-                               'committed_microdollars': committed, 'provisioned': provisioned,
-                               'ceiling_microdollars': ceiling}
+        for provider in ('openai', 'bedrock'):
+            account = account_for(provider, now)
+            try:
+                totals = state._totals(db, account)
+                charged = int(totals['charged'])
+                committed = charged + pending_exposure(state, db, account)
+                provisioned = True
+                ceiling = int(totals['ceiling'])
+            except KeyError:
+                charged = committed = 0
+                provisioned = False
+                ceiling = policy(provider)['ceiling_microdollars']
+            providers[provider] = {**policy(provider), 'charged_microdollars': charged,
+                                   'committed_microdollars': committed, 'provisioned': provisioned,
+                                   'ceiling_microdollars': ceiling}
     for row in providers.values():
         row['warning'] = row['committed_microdollars'] >= row['warning_microdollars']
     return {'month_utc': month_window(now)[0], 'providers': providers,
