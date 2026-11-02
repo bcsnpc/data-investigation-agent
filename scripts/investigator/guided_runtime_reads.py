@@ -46,38 +46,5 @@ class SubjectHistory:
 
 
     def requested_job_history(self,adapter,node,facts,selector,text,at):
-        from urllib.parse import quote,urlsplit,parse_qs
-        from .operational_run_selection import validate,select
-        from .adapters.runtime_facts_microsoft import native_runs,observation
-        validate(selector,text)
-        route=self.subjects[node];base='workspaces/'+route['workspace']+'/items/'+route['item']+'/jobs/instances'
-        body,proof,error=adapter.cache[node]
-        if error:return facts
-        all_runs=native_runs(body.get('value'));proofs=[proof];pages=1;seen=set();paging_gap=None
-        def history():
-            incomplete=bool(body.get('continuationToken')or body.get('continuationUri')) or paging_gap is not None
-            return observation(node,'RUN_HISTORY',{'runs':deepcopy(all_runs),'listing_complete':not incomplete,'pages_checked':pages},at,proofs,adapter.identity)
-        while True:
-            try:select(selector,[history()],text);break
-            except ValueError as problem:
-                if str(problem)not in ('REQUESTED_RUN_NOT_IN_RETAINED_HISTORY','REQUESTED_RUN_TIME_PRECISION_UNAVAILABLE'):break
-            token=body.get('continuationToken')
-            if not token and body.get('continuationUri'):
-                link=urlsplit(body['continuationUri']);expected='https://api.fabric.microsoft.com/v1/'+base
-                if link._replace(query='',fragment='').geturl()!=expected or link.fragment:raise ValueError('HISTORY_CONTINUATION_SCOPE')
-                query=parse_qs(link.query,strict_parsing=True)
-                if set(query)!={'continuationToken'}or len(query['continuationToken'])!=1:raise ValueError('HISTORY_CONTINUATION_QUERY')
-                token=query['continuationToken'][0]
-            if not token:break
-            if not isinstance(token,str)or not 0<len(token)<=8192:raise ValueError('HISTORY_CONTINUATION_BOUND')
-            if token in seen:paging_gap='NATIVE_HISTORY_CURSOR_REPEATED';break
-            if pages>=6:paging_gap='NATIVE_HISTORY_SIX_PAGE_LIMIT';break
-            seen.add(token)
-            body,proof,error=adapter._get(base+'?continuationToken='+quote(token,safe=''))
-            proofs.append(proof);pages+=1
-            if error:paging_gap='NATIVE_HISTORY_PAGE_UNAVAILABLE:'+error;body={};break
-            all_runs.extend(native_runs(body.get('value')))
-        # Older pages are history, never a replacement for the current JOB_RUN.
-        result=[f for f in facts if f['kind']!='RUN_HISTORY']+[history()]
-        if paging_gap:result.append(adapter._gap(node,'COVERAGE',paging_gap,at,proofs))
-        return result
+        from .adapters.runtime_facts_microsoft import requested_job_history
+        return requested_job_history(adapter,node,self.subjects[node],facts,selector,text,at)

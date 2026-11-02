@@ -1,3 +1,5 @@
+import os as _test_os
+from unittest.mock import patch as _test_patch
 import base64
 import hashlib
 from pathlib import Path
@@ -41,6 +43,7 @@ class Remote:
     def download_chunks(self,key):raise AssertionError('No download is permitted')
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class Tests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup);self.root=Path(self.tmp.name)

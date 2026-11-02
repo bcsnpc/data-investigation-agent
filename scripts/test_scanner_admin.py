@@ -1,4 +1,6 @@
-﻿import hashlib
+import os as _test_os
+from unittest.mock import patch as _test_patch
+import hashlib
 import json
 import unittest
 from unittest.mock import Mock
@@ -13,6 +15,7 @@ from test_scanner_http import Response
 from test_scanner_dependency_wiring import DependencyWiringTests
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class AdminScannerTests(unittest.TestCase):
     def setUp(self):
         self.raw=[]

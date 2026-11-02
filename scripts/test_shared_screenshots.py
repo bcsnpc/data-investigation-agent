@@ -1,3 +1,5 @@
+import os as _test_os
+from unittest.mock import patch as _test_patch
 import base64
 import copy
 from contextlib import closing
@@ -75,6 +77,7 @@ class SharedScreenshotTests(unittest.TestCase):
         self.assertFalse(self.objects.values)
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class ScreenshotGatewayTests(unittest.TestCase):
     def setUp(self):
         self.account='https://syntheticstore.blob.core.windows.net';self.channel='images'

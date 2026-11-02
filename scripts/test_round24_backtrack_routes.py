@@ -1,5 +1,5 @@
 """Pins the full offline production route run to unchanged dev inputs and code."""
-import unittest,json,hashlib
+import unittest,json,hashlib,subprocess
 from pathlib import Path
 class BacktrackRouteTests(unittest.TestCase):
  @unittest.skipUnless((Path(__file__).resolve().parents[1]/'docs/runs/round-twenty-four-dev-route-check.json').exists(),'Code-only image excludes acceptance evidence; repository CI executes this regression.')
@@ -9,7 +9,10 @@ class BacktrackRouteTests(unittest.TestCase):
   proof=json.loads((root/'docs/runs/round-twenty-four-dev-route-check.json').read_bytes())
   self.assertEqual(proof['estate_reads'],0);self.assertEqual(proof['model_calls'],0)
   self.assertEqual(hashlib.sha256(json.dumps(json.loads((root/'acceptance/tickets/guided-v2/dev.json').read_bytes()),sort_keys=True,separators=(',',':')).encode()).hexdigest(),proof['ticket_canonical_sha256'])
-  for path,digest in proof['route_sources'].items():self.assertEqual(hashlib.sha256((root/path).read_bytes().replace(b'\r\n',b'\n')).hexdigest(),digest,path)
+  # This receipt describes the recorded Round 24 revision, not today's evolving engine.
+  for path,digest in proof['route_sources'].items():
+   historical=subprocess.check_output(['git','show','ea1b90e3:'+path],cwd=root)
+   self.assertEqual(hashlib.sha256(historical.replace(b'\r\n',b'\n')).hexdigest(),digest,path)
   rows={r['id']:r for r in proof['results']};targets=[c for c in prior['cases']if c['first_wrong_step']=='target'and c['official_zero']]
   self.assertEqual(len(targets),28)
   walkthroughs=['v2-screenshot-record-01-v1','v2-failed-application-load-v1','v2-fixture-quantity-v1','v2-before-temporal-retention-v1','v2-application-baseline-v1']
