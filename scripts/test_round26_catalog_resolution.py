@@ -4,6 +4,46 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_named_container_beats_unrelated_generic_table_words(self):
+        catalog=self.catalog()
+        catalog.nodes.update({'landing':{'id':'landing','kind':'SOURCE','label':'quarterly_landing'},
+            'native':{'id':'native','kind':'TABLE','label':'stock_rows_2026'},
+            'unrelated':{'id':'unrelated','kind':'TABLE','label':'Movements'}})
+        catalog.edges.append({'source':'landing','target':'native','kind':'CONTAINS'})
+        result=prefill('Application stock movements are missing from quarterly_landing',
+            {'issue_type':'RECORD_MISSING'},catalog)
+        self.assertEqual(result['status'],'READY')
+        self.assertEqual(result['table'],'native')
+        self.assertNotIn('report',result)
+
+    def test_named_container_scopes_duplicate_table_names_with_multiple_children(self):
+        catalog=self.catalog()
+        catalog.nodes.update({'landing':{'id':'landing','kind':'SOURCE','label':'Quarterly landing'},
+            'native':{'id':'native','kind':'TABLE','label':'Movements'},
+            'rates':{'id':'rates','kind':'TABLE','label':'Rates'},
+            'unrelated':{'id':'unrelated','kind':'TABLE','label':'Movements'}})
+        catalog.edges.extend({'source':'landing','target':i,'kind':'CONTAINS'}for i in ('native','rates'))
+        self.assertEqual([r['id']for r in catalog.table_matches('Quarterly landing Movements differ')],['native'])
+        # Without a named child a multi-table container remains unresolved.
+        self.assertEqual(catalog.table_matches('Quarterly landing differs'),[])
+
+    def test_two_named_containers_keep_their_actual_children_ambiguous(self):
+        catalog=self.catalog()
+        for parent,child,name in [('a','ta','East landing'),('b','tb','West landing')]:
+            catalog.nodes[parent]={'id':parent,'kind':'SOURCE','label':name}
+            catalog.nodes[child]={'id':child,'kind':'TABLE','label':'Movements'}
+            catalog.edges.append({'source':parent,'target':child,'kind':'CONTAINS'})
+        text='East landing and West landing Movements disagree'
+        self.assertEqual({r['id']for r in catalog.table_matches(text)},{'ta','tb'})
+        with self.assertRaisesRegex(ValueError,'DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS'):
+            prefill(text,{'table':'ta','issue_type':'RECORD_MISSING'},catalog)
+
+    def test_missing_native_parent_never_falls_back_to_unrelated_name(self):
+        catalog=self.catalog()
+        catalog.nodes.update({'landing':{'id':'landing','kind':'SOURCE','label':'Quarterly landing'},
+            'unrelated':{'id':'unrelated','kind':'TABLE','label':'Movements'}})
+        self.assertEqual(catalog.table_matches('Quarterly landing Movements differ'),[])
+
     def test_named_model_scopes_reused_measure_through_native_parents(self):
         catalog=self.catalog()
         catalog.nodes.update({'model':{'id':'model','kind':'MODEL','label':'Quarterly snapshot'},

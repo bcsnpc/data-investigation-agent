@@ -191,16 +191,25 @@ class Catalog:
         containers = [r for kind in ('MODEL', 'SOURCE') for r in self.ranked(text, kind)
                       if r['confidence'] in ('NAMED', 'NORMALIZED')]
         contained = []
+        within = set()
         for parent in containers:
             children = [*self.children(parent['id'], 'TABLE'), *self.children(parent['id'], 'VIEW')]
+            within.update(child['id'] for child in children)
             if len(children) == 1:
                 child = children[0]
                 contained.append({**child, 'score':parent['score'], 'confidence':parent['confidence'],
                     'basis':'NATIVE_CONTAINMENT_OF_NAMED_CONTAINER', 'via':parent['id']})
+        if containers:
+            # A generic table word can also name unrelated semantic tables.
+            # Resolve it inside the explicitly named native containers first,
+            # just as measure lookup does for a named model. No containment
+            # edge means no binding; never escape to a global same-name table.
+            scoped = [r for r in direct if r['id'] in within and r['score'] >= .86]
+            if scoped:
+                return [r for r in scoped if scoped[0]['score']-r['score'] < .08]
+            return list({r['id']:r for r in contained}.values())
         if direct and direct[0]['confidence'] in ('NAMED', 'NORMALIZED'):
             return [r for r in direct if direct[0]['score']-r['score'] < .08]
-        if contained:
-            return list({r['id']:r for r in contained}.values())
         return [r for r in direct if r['score'] >= .86 and direct[0]['score']-r['score'] < .08]
 
     def report_matches(self, text):
