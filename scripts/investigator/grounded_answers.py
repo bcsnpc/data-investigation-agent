@@ -225,6 +225,7 @@ def finding(args,case):
     if qualifications:business+='\n'+'\n'.join(qualifications)
     classification=args.get('classified_issue_type',case['intake'].get('classified_issue_type'))
     return {'business':business,'technical':{'verdict':args['verdict'],'cause':args['cause'],
+        **({'routing':args['routing']}if 'routing'in args else {}),
         **({'operational_details':operational} if operational else {}),
         **({'original_issue_type':'SOMETHING_ELSE','classified_issue_type':classification}
            if case['intake'].get('issue_type')=='SOMETHING_ELSE' else {}),

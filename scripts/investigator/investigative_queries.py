@@ -11,7 +11,15 @@ from .estate_graph_contract import digest
 
 
 def validate(text, layer, *, rows=250):
+    if not isinstance(text,str) or not 1<=len(text)<=32000:raise ValueError('QUERY_TEXT_BOUND')
+    if type(rows)is not int or not 1<=rows<=250:raise ValueError('QUERY_ROW_BOUND')
     dialect=layer['dialect']
+    from . import investigation_metadata
+    metadata={'DAX':investigation_metadata.dax,'T-SQL':investigation_metadata.sql,
+              'Spark SQL':investigation_metadata.spark}.get(dialect)
+    if metadata:
+        admitted=metadata(text,layer,rows)
+        if admitted is not None:return admitted
     if dialect=='DAX':
         from .query_dax import compile_query
         return compile_query(text,layer['objects'],max_rows=rows,allow_define=True)
@@ -127,6 +135,7 @@ class Queries:
             return {'error':'QUERY_CORRECTION_LIMIT','layer':layer_id,'purpose':purpose}
         record={'id':'query:'+signature+':'+str(len(self.records)+1),'signature':signature,'text':text,'layer':layer_id,'purpose':purpose,
                 'executed_text':bound['query'],'parameters':bound.get('parameters',[]),'asset_ids':bound['asset_ids'],'time':self.now()}
+        if bound.get('metadata_scope'):record['metadata_scope']=deepcopy(bound['metadata_scope'])
         # The real governor reserves physical requests immediately before the
         # gateway dispatch. Unknown completion remains charged there.
         self.reserve(layer_id,record['id'])

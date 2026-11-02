@@ -126,7 +126,7 @@ class TicketBudget:
                     or (self.actual_usage_limit is None and charged+bound>TICKET_MODEL_MICRODOLLARS)):
                 raise SpendHold('TICKET_MODEL_EXHAUSTED')
             from .anthropic_credit import admit
-            admit(self.state,db,account,maximum,self.clock(),purpose=self.purpose)
+            admit(self.state,db,account,maximum,self.clock(),purpose=self.purpose,owner=self.owner)
             self.state.sql(db,'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)',
                 (account,identity,self.owner,bound,bound,'RESERVED',encoded(detail)))
 

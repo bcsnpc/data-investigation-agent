@@ -4,6 +4,58 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_a_model_cannot_invent_a_report_when_the_ticket_names_a_native_container(self):
+        catalog=self.catalog()
+        catalog.nodes.update({'landing':{'id':'landing','kind':'SOURCE','label':'Quarterly landing'},
+                              'native':{'id':'native','kind':'TABLE','label':'Rows'}})
+        catalog.edges.append({'source':'landing','target':'native','kind':'CONTAINS'})
+        with self.assertRaisesRegex(ValueError,'REPORT_REFERENCE'):
+            prefill('Quarterly landing rows differ',{'report':'report','issue_type':'NUMBER_LOOKS_WRONG'},catalog)
+        from unittest.mock import Mock
+        from investigator.guided_text_resolver import Resolver
+        from test_round23_reasoning import tool
+        wrong={'proposal':{'version':'IntakeRequest/1','report':'report','issue_type':'NUMBER_LOOKS_WRONG',
+                           'compared_with':{'kind':'NOTHING'}},'provenance':{},'figure_mentions':[]}
+        corrected={'proposal':{'version':'IntakeRequest/1','issue_type':'NUMBER_LOOKS_WRONG',
+                               'compared_with':{'kind':'NOTHING'}},'provenance':{},'figure_mentions':[]}
+        model=Mock();model.complete.side_effect=[tool('resolve_intake',wrong),tool('resolve_intake',corrected)]
+        result=Resolver(catalog=catalog,model=model,record=lambda _:None).resolve('Quarterly landing rows differ')
+        self.assertEqual(result['status'],'READY');self.assertEqual(result['table'],'native')
+    def test_model_inferred_page_cannot_make_a_loose_measure_card_unique(self):
+        catalog=self.catalog();catalog.nodes['card']['label']='Net Revenue - filtered'
+        catalog.nodes.update({'globalpage':{'id':'globalpage','kind':'PAGE','label':'Global page'},
+                              'global':{'id':'global','kind':'VISUAL','label':'Net Revenue - unfiltered'}})
+        catalog.edges.extend([{'source':'report','target':'globalpage','kind':'CONTAINS'},
+            {'source':'globalpage','target':'global','kind':'CONTAINS'},
+            {'source':'global','target':'measure','kind':'COMPUTED_FROM'}])
+        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE'):
+            prefill('Billing Overview Net Revenue card',{'report':'report','page':'page','visual':'card',
+                'issue_type':'NUMBER_LOOKS_WRONG'},catalog,provenance={'visual':[3,4]})
+        # A genuinely named page still supplies the user's scope.
+        text='Billing Overview Global page Net Revenue card'
+        result=prefill(text,{'report':'report','page':'globalpage','visual':'global',
+            'issue_type':'NUMBER_LOOKS_WRONG'},catalog,provenance={'visual':[5,6]})
+        self.assertEqual(result['status'],'READY')
+
+    def test_visual_rejection_cannot_be_hidden_by_dropping_the_target_on_retry(self):
+        from unittest.mock import Mock
+        from investigator.guided_text_resolver import Resolver
+        from test_round23_reasoning import tool
+        catalog=self.catalog();catalog.nodes['card']['label']='Net Revenue - filtered'
+        catalog.nodes.update({'p2':{'id':'p2','kind':'PAGE','label':'Global page'},
+                              'v2':{'id':'v2','kind':'VISUAL','label':'Net Revenue - unfiltered'}})
+        catalog.edges.extend([{'source':'report','target':'p2','kind':'CONTAINS'},
+            {'source':'p2','target':'v2','kind':'CONTAINS'},{'source':'v2','target':'measure','kind':'COMPUTED_FROM'}])
+        args={'proposal':{'version':'IntakeRequest/1','report':'report','page':'page','visual':'card',
+                         'issue_type':'NUMBER_LOOKS_WRONG','compared_with':{'kind':'NOTHING'}},
+              'provenance':{'visual':[3,4]},'figure_mentions':[]}
+        from copy import deepcopy
+        dropped=deepcopy(args);dropped['proposal'].pop('visual');dropped['provenance']={}
+        model=Mock();model.complete.side_effect=[tool('resolve_intake',args),tool('resolve_intake',dropped)]
+        result=Resolver(catalog=catalog,model=model,record=lambda _:None).resolve('Billing Overview Net Revenue card')
+        self.assertEqual(result['status'],'NEEDS_INPUT');self.assertEqual(model.complete.call_count,2)
+        self.assertEqual(result['question']['fields'][0]['field'],'visual')
+        self.assertTrue(all(' on 'in x['name']for x in result['question']['fields'][0]['choices']))
     def test_named_container_beats_unrelated_generic_table_words(self):
         catalog=self.catalog()
         catalog.nodes.update({'landing':{'id':'landing','kind':'SOURCE','label':'quarterly_landing'},

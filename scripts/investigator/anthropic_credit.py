@@ -69,12 +69,16 @@ def status(state,now=None):
     return state._read_transaction(read)
 
 
-def admit(state,db,account,bound,now=None,*,purpose=None):
+def admit(state,db,account,bound,now=None,*,purpose=None,owner=None):
     """One combined envelope, under the same serialized admission transaction."""
     month=datetime.fromtimestamp(time.time() if now is None else now,timezone.utc).strftime('%Y-%m')
     policy=policy_for(state,db,month)
     if policy is None:return
     if account not in (policy['model_account'],policy['grading_account']):return
+    prefixes=policy.get('allowed_owner_prefixes')
+    if prefixes is not None and (not isinstance(owner,str)or not any(owner.startswith(p)for p in prefixes)):
+        from .model_spend import SpendHold
+        raise SpendHold('ANTHROPIC_RESERVED_FOR_APPROVED_COHORTS')
     model=state._totals(db,policy['model_account']);grading=grading_totals(state,db,policy['grading_account'])
     model_delta=max(0,int(model['charged'])-policy['baseline_model_charged'])
     grading_delta=grading_charge(state,db,policy,grading)

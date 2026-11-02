@@ -346,6 +346,8 @@ def prefill(text, proposed, catalog, *, provenance=None):
             if len(tables) == 1:
                 value['table'] = tables[0]['id']; direct_target = tables[0]
     reports=catalog.report_matches(text)
+    if value.get('report')and value['report']not in {r['id']for r in reports}:
+        raise ValueError('REPORT_REFERENCE_UNRESOLVED_OR_UNSUPPORTED')
     assumption = None
     if len(reports)==1 and not direct_target:
         if value.get('report') and value['report']!=reports[0]['id']:
@@ -368,6 +370,9 @@ def prefill(text, proposed, catalog, *, provenance=None):
             if len(parents)==1:value['page']=parents[0]['id']
         pages=[p for p in catalog.ranked(text,'PAGE',within={p['id'] for p in catalog.pages(value['report'])})
                if p['confidence']=='NAMED']
+        if pages:
+            width=max(len(str(p.get('matched_name')or p['name']))for p in pages)
+            pages=[p for p in pages if len(str(p.get('matched_name')or p['name']))==width]
         if len(pages)==1:
             if value.get('page') and value['page']!=pages[0]['id']:raise ValueError('PAGE_REFERENCE_DIFFERS_FROM_TICKET')
             value.setdefault('page',pages[0]['id'])
@@ -399,7 +404,15 @@ def prefill(text, proposed, catalog, *, provenance=None):
         names=[node.get('label',''),*node.get('enrichment',{}).get('synonyms',[])]
         exact=any(name and name.casefold() in span['quote'].casefold() for name in names)
         if not exact and value.get('report') and value.get('page'):
-            visuals=catalog.visuals(value['report'],value['page'])
+            # A model-supplied page is not a user selection. A loose measure
+            # span must be unique across the report unless the ticket itself
+            # names the page; otherwise it can pick a differently filtered card.
+            explicit_pages=[p for p in catalog.ranked(text,'PAGE',within={p['id']for p in catalog.pages(value['report'])})if p['confidence']=='NAMED']
+            if explicit_pages:
+                width=max(len(str(p.get('matched_name')or p['name']))for p in explicit_pages)
+                explicit_pages=[p for p in explicit_pages if len(str(p.get('matched_name')or p['name']))==width]
+            visuals=(catalog.visuals(value['report'],value['page'])if len(explicit_pages)==1 else
+                     [v for p in catalog.pages(value['report'])for v in catalog.visuals(value['report'],p['id'])])
             report_visuals={v['id'] for p in catalog.pages(value['report'])
                             for v in catalog.visuals(value['report'],p['id'])}
             named=[r for r in catalog.ranked(text,'VISUAL',within=report_visuals)

@@ -69,6 +69,29 @@ Use display names in the business cause. Opaque evidence/node addresses belong
 in evidence_ids and checked; genuine user record keys remain literal.
 For Something else, investigate its description and name the nearest issue type
 in submit_finding when the form has not already supplied that classification.
+Read-only metadata is supported: INFORMATION_SCHEMA and sys catalog views/DMVs
+on the current SQL endpoint, DAX EVALUATE INFO.* rowsets, and Spark DESCRIBE
+HISTORY/DETAIL for admitted tables. Native permission errors remain errors; no
+identity fallback is available. For history outside retention, establish the
+earliest retained version or time with a native metadata/history query, cite it
+and explain that it cannot reconstruct the requested earlier state. A latest-N
+sample does not establish the beginning of retention. An empty AS OF result is
+not an earlier zero. Do not claim history is unavailable merely because a
+metadata query was rejected; correct it using the admitted read syntax.
+Always deliver the established per-layer findings, the calculation, undecided
+parts with reasons, and an engineer or business-owner handoff. When the cause is
+not established, say not found with those partial findings instead of a bare
+clarification or unresolved response. For submit_finding numbers, use literal
+cells in cited successful results, not an inferred row count or an uncited
+arithmetic difference. The code also renders the returned row counts separately.
+Answer the question that was asked. For a sum-versus-count or definition
+question, explain the retained calculation and its observed inputs first. An
+incidental source-chain divergence is a separate observation, not automatically
+the cause of the user's interpretation. Do not turn agreement with the measure's
+formula into a judgment that the intended business rule is correct.
+Use routing BUSINESS_OWNER when an intended rule or physical meaning requires
+an authoritative owner decision; otherwise route remaining technical work to
+ENGINEER. A routing is a handoff recommendation, never a message or permission.
 '''
 
 
@@ -111,6 +134,8 @@ def toolbox(layers,read_tools,intake=None):
         submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
         submit['properties']['classified_issue_type']={'enum':list(ISSUES[:-1])}
         submit['required'].append('classified_issue_type')
+    submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
+    submit['properties']['routing']={'enum':['ENGINEER','BUSINESS_OWNER']}
     return tools
 
 
@@ -175,7 +200,7 @@ class Investigator:
             question=self.validate_question(deepcopy(args),self.case_view())
             if not isinstance(question,dict) or not question.get('question') or not question.get('choices'):
                 raise ValueError('VALIDATOR_MUST_RETURN_GROUNDED_NAMED_CHOICES')
-            self.state['outcome']={'status':'NEEDS_INPUT','business':question['question'],'question':question}
+            self.state['outcome']={'status':'NEEDS_INPUT','business':question['question'],'question':question,'question_reason':args['reason']}
             return question
         if name=='get_evidence':
             if args['id'] not in known:raise ValueError('UNKNOWN_EVIDENCE_REFERENCE')
@@ -416,11 +441,14 @@ class Investigator:
 
     def finish(self):
         outcome=deepcopy(self.state['outcome'])
+        from .terminal_findings import attach
+        outcome=attach(outcome,queries=self.queries.records,context=self.context)
         outcome['case']=self.case_view()
         if outcome['status']!='ANSWERED':
             measured={q['layer'] for q in self.queries.records if q['status']=='SUCCEEDED'}
             remaining=sorted(set(self.queries.layers)-measured)
             outcome['handoff']={**self.case_view(),'stopping_point':outcome.get('stop',outcome.get('question')),
+                                'investigation_report':deepcopy(outcome['investigation_report']),
                                 'ruled_out':deepcopy(outcome.get('ruled_out',[])),
                                 'next_checks':['Check the unread layer '+name+'.' for name in remaining]
                                               +['Review '+q['id']+': '+q['error'] for q in self.queries.records if q['status']=='ERROR']}

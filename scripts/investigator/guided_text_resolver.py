@@ -169,6 +169,9 @@ class Resolver:
                 validators[name].validate(args)
                 if name=='lookup_intake_catalog':result=self.lookup(args)
                 else:
+                    if (last_error and last_error['reason'].startswith('VISUAL_PROVENANCE')
+                            and last_proposal.get('visual')and not args['proposal'].get('visual')):
+                        raise ValueError('VISUAL_PROVENANCE_TARGET_CANNOT_BE_DROPPED')
                     last_proposal=deepcopy(args['proposal'])
                     result=self.check(text,args)
                     self.record({'event':'GUIDED_TEXT_CHECKED','result':result})
@@ -186,10 +189,16 @@ class Resolver:
         reports=[r for r in self.catalog.ranked(text,'REPORT') if r['confidence']=='NAMED']
         report=reports[0]['id'] if len(reports)==1 else last_proposal.get('report')
         if self.catalog.nodes.get(report,{}).get('kind')!='REPORT':report=None
+        if last_error and last_error['reason'].startswith('REPORT_REFERENCE')and report not in {r['id']for r in self.catalog.report_matches(text)}:
+            report=None
+            last_proposal.pop('report',None);last_proposal.pop('page',None);last_proposal.pop('visual',None)
         fields=[]
         direct=next((field for field,kinds in (('table',('TABLE','VIEW')),('measure',('MEASURE',)))
                      if self.catalog.nodes.get(last_proposal.get(field),{}).get('kind')in kinds),None)
-        if last_error and last_error['reason']=='DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS' and direct:
+        if last_error and last_error['reason'].startswith('VISUAL_PROVENANCE')and report:
+            fields.append({'field':'visual','choices':[{'id':v['id'],'name':v['name']+' on '+p['name']}
+                for p in self.catalog.pages(report)for v in self.catalog.visuals(report,p['id'])]})
+        elif last_error and last_error['reason']=='DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS' and direct:
             matches=self.catalog.table_matches(text)if direct=='table'else self.catalog.measure_matches(text)[:10]
             if not matches:
                 matches=([*self.catalog.rows('TABLE'),*self.catalog.rows('VIEW')]

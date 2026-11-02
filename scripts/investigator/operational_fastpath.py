@@ -4,6 +4,12 @@ from .operational_delivery import details
 
 
 def run(admission, history, *, record, history_for_selector=None):
+    from .terminal_findings import attach
+    result=_run(admission,history,record=record,history_for_selector=history_for_selector)
+    return attach(result,context={'operational_status_only':True,'operational_name':admission['target']['label']})
+
+
+def _run(admission, history, *, record, history_for_selector=None):
     node = admission['target']
     subject = node['id']
     kinds = {'JOB_RUN', 'REFRESH_RUN', 'RUN_HISTORY', 'SCHEDULE'}

@@ -8,8 +8,11 @@ from cloud_investigator import reference,PathCollector
 
 def intake_question_outcome(text, mapped, *, resolution, step_costs, cost,physical_requests=0):
     """Keep the original text bound even when no intake has been admitted."""
-    business=mapped.get('question','A named choice is needed before investigation.')
-    return {'status':'NEEDS_INPUT','ticket':{'text':text},'business':business,
+    from investigator.terminal_findings import attach
+    value=attach({'status':'NEEDS_INPUT','business':mapped.get('question','A named choice is needed before investigation.')},
+                 candidates=mapped.get('candidate_checks',()))
+    business=value['business']
+    return {'status':'NEEDS_INPUT','ticket':{'text':text},'business':business,'investigation_report':value['investigation_report'],
             'outputs':{'business':business,'technical':json.dumps(mapped)},
             'intake':mapped,'intake_resolution':resolution,'ai_step_costs':step_costs,
             'cost':cost,'physical_requests':physical_requests}
@@ -243,7 +246,7 @@ def run(plan,context):
         from investigator.guided_intake_candidates import check_origin
         return check_origin(origin,intake,actual_catalog,candidate_binding)
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
-        intake_queries=lambda case:initial_intake_queries if candidate_binding and case['intake'].get('measure')==candidate_binding['intake']['measure']else[],
+        intake_queries=lambda case:initial_intake_queries if candidate_binding and any(case['intake'].get(k)and case['intake'][k]==candidate_binding['intake'].get(k)for k in ('measure','report','table'))else[],
         intake_origin_checker=check_candidate_origin,
         context_for=native_catalog.context,triage_for=triage,model_for=model,
         model_for_step=model,
@@ -263,9 +266,9 @@ def run(plan,context):
         from investigator.model_spend import SpendHold
         from investigator.live_gateway import GatewayDenied
         from investigator.planner_recording import _safe
-        from investigator.guided_intake_candidates import probe_measure
+        from investigator.guided_intake_candidates import probe_target
         def probe_candidate(measure,proposal):
-            return probe_measure(factory,catalog,measure,proposal,execute_native,record,initial_intake_queries)
+            return probe_target(factory,catalog,measure,proposal,execute_native,record,initial_intake_queries)
         try:
             with guard_scope(record):mapped=resolve_candidates(submitted['text'],pending_intake,catalog,probe_candidate,record=record)
         except BaseException:
@@ -284,6 +287,12 @@ def run(plan,context):
             investigated=time.monotonic();result=cases.run(queued['id'])
             phases.append({'phase':'triage-and-investigation','seconds':time.monotonic()-investigated})
         outcome=result['outcome']
+        if 'investigation_report'not in outcome:
+            from investigator.terminal_findings import attach
+            saved=outcome.get('case',{})
+            outcome=attach(outcome,queries=saved.get('queries',[])if isinstance(saved,dict)else[],
+                           context=saved.get('context',{})if isinstance(saved,dict)else{})
+            outcome.setdefault('handoff',{})['investigation_report']=outcome['investigation_report']
         if candidate_binding and isinstance(outcome.get('business'),str):
             outcome['business']='Assumption: '+candidate_binding['resolution_assumption']+' '+outcome['business']
         output={**outcome,'ticket':submitted['intake'],'case_id':queued['id'],

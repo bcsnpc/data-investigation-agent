@@ -193,6 +193,7 @@ class Factory:
         initial_queries=deepcopy(self.intake_queries(case))
         if initial_queries:
             context['intake_candidate_query_evidence']=deepcopy(initial_queries)
+            context['candidate_layer_labels']={q['layer']:self.routes[q['layer']]['label']for q in initial_queries if q['layer']in self.routes}
             context['intake_candidate_scope_note']='These preliminary quantities resolved a target. Alternative targets are not upstream layers or causal explanations for the selected measure.'
             _safe(canonical(context).encode())
         queries=Queries(layers,execute=self.native,reserve=lambda layer,key:self.reserve(case['id'],layer,key),save=save,

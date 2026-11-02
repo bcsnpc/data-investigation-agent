@@ -34,8 +34,8 @@
       "reason": "Closing Anthropic credit window; $96 normalized October hard ceiling across inference and grading, no auto-reload."
     },
     "2026-11": {
-      "ceiling_microdollars": 74943582,
-      "approval": "owner2026-11-01 resume: chargedbaseline plus min(owner29USD,ledgerremaining)-3USD; heldoutOpusonly"
+      "ceiling_microdollars": 70255301,
+      "approval": "Owner2026-11-02 balance24 less3margin; gated calibration/v5 only"
     }
   },
   "round24": {
@@ -67,8 +67,8 @@
     "per_ticket_actual_microdollars": 3000000,
     "providers": {
       "anthropic": {
-        "ceiling_microdollars": 74943582,
-        "warning_microdollars": 68943582
+        "ceiling_microdollars": 70255301,
+        "warning_microdollars": 64255301
       },
       "openai": {
         "ceiling_microdollars": 180000000,
