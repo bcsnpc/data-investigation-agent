@@ -1,27 +1,35 @@
 {
   "scope": "PARTIAL_PROVIDER_BENCHMARK_NOT_ROUND26_HEADLINE",
-  "observed_at_utc": "2026-11-02T00:56:20.082235+00:00",
+  "observed_at_utc": "2026-11-02T03:20:20.834893+00:00",
   "columns": {
     "sol-cascade": {
-      "graded": 32,
-      "correct": 9,
+      "graded": 38,
+      "correct": 13,
       "harmful": 0
     },
     "openai": {
-      "graded": 32,
-      "correct": 23,
+      "graded": 38,
+      "correct": 28,
       "harmful": 0
     },
     "anthropic": {
-      "graded": 32,
-      "correct": 29,
+      "graded": 38,
+      "correct": 34,
       "harmful": 0
     }
   },
   "primary_models": {
-    "sol-cascade": "claude-sonnet-4-6 batch",
-    "openai": "claude-sonnet-4-6 batch",
-    "anthropic": "gpt-6.1-sol synchronous"
+    "sol-cascade": [
+      "amazon.nova-pro-v1:0",
+      "claude-sonnet-4-6 (batch)"
+    ],
+    "openai": [
+      "amazon.nova-pro-v1:0",
+      "claude-sonnet-4-6 (batch)"
+    ],
+    "anthropic": [
+      "gpt-6.1-sol"
+    ]
   },
   "correct_requires": "verdict AND layer AND cause",
   "default_investigator_selected": false,

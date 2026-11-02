@@ -320,6 +320,8 @@ class Investigator:
                             'evidence_ids':list(self.state['evidence']),
                             'query_ids':[q['id'] for q in self.queries.records],
                             'instruction':'Choose the next useful check, or submit a supported finding.'}
+                if self.closing_action_reserved():
+                    recitation['instruction']='The last action is reserved for delivery. Submit the finding supported by the saved evidence, including its limits, or ask a validated last-resort question. No additional investigation read is available. A supported partial finding is preferable to silently dropping established evidence.'
                 if not self.state.get('turn'):
                     self.refresh_tools()
                     self.state['messages'].append({'role':'user','content':canonical({'current_state':recitation})})
@@ -344,6 +346,12 @@ class Investigator:
                 for call in calls:
                     if self.state['tools_used']>=self.tool_limit:break
                     name,args=call.get('name'),call.get('input');key=digest([name,args])
+                    if self.closing_action_reserved() and name not in ('submit_finding','ask_user_choice'):
+                        # Reject without a read or consuming the delivery slot. The
+                        # unchanged model-call, time and dollar caps still apply.
+                        results.append({'type':'tool_result','tool_use_id':call['id'],
+                            'content':canonical({'rejected_tool':name,'reason':'FINAL_ACTION_RESERVED_FOR_VALIDATED_DELIVERY','available':['submit_finding','ask_user_choice']}),'is_error':True})
+                        self.save();continue
                     self.state['tools_used']+=1
                     self.state['pending']={'kind':'TOOL','name':name,'signature':key};self.save()
                     try:
@@ -384,6 +392,12 @@ class Investigator:
             self.state['outcome']={'status':'UNRESOLVED','business':'The checks did not establish a cause within this ticket’s limits.',
                                    'stop':'TOOL_OR_TIME_LIMIT'}
         return self.finish()
+
+    def closing_action_reserved(self):
+        # The seven-action cascade stage hands off to another model; it is
+        # not a final-delivery boundary. Keep that existing handoff unchanged.
+        return (self.tool_limit==15 and self.state['tools_used']==14
+                and any(q['status']=='SUCCEEDED' for q in self.queries.records))
 
     def finish(self):
         outcome=deepcopy(self.state['outcome'])

@@ -259,3 +259,8 @@ Resolved 2026-11-01: owner approved the pending +5,500 investigation-request req
 
 
 Round26 AWS: the approved owner CLI sign-in is open; only that sign-in is pending. Setup commands (no values): aws login --region us-east-1 --profile dia-owner-setup; aws iam create-policy --policy-name dia-bedrock-invoke --policy-document <Nova-only document>; aws iam create-user --user-name dia-bedrock; aws iam attach-user-policy --user-name dia-bedrock --policy-arn <created policy ARN>; aws iam create-access-key --user-name dia-bedrock (captured only in memory, never terminal output). Owner-authorized script PUTs values directly to KeyVault HTTPS in memory, then verifies aws sts get-caller-identity with only the ARN printed, calls aws logout, and verifies its isolated cache is cleared. Do not run create-access-key manually to the terminal. Claude provider balance remains unverified with the workspace key; no admin credential or new scope requested. The applied envelope uses the conservative owner29USD upper bound and3USDmargin.
+
+
+SupersedesAWSsigninpending above: owneralready supplied approveddia-bedrockKeyVaultcredentials; STS andsingleNovaMicrosmokePASS. NoAWSowneractionpending; agentcreatednoIAMobject/key. Noownerlogincachepresent. IAMpermissionmembershipwasnotlistedwiththeinvocation-onlykey; noadditionalintrospectionrolewasrequested.
+
+Bedrock Haiku credit coverage: 24 hours after the UTC time in docs/round-twenty-six-haiku-credit-test.json, check AWS Billing -> Bills for the Claude Haiku charge and credit application. Invocation success alone does not establish promotional credit eligibility. Do not enable further Claude Bedrock calls; guard remains on.

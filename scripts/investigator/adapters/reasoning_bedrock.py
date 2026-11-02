@@ -104,6 +104,12 @@ def authorize_body(permissions, method, url, raw):
     if method != 'POST' or model is None:
         raise ValueError('BEDROCK_ENDPOINT_REFUSED')
     # modelId is a URI field in the native SDK request, not in its JSON body.
+    if spec.get('single_haiku_credit_test') is True:
+        expected = {'messages': [{'role': 'user', 'content': [{'text': 'Reply OK.'}]}],
+                    'inferenceConfig': {'maxTokens': 20}}
+        if model != 'anthropic.claude-3-haiku-20240307-v1:0' or body != expected:
+            raise ValueError('BEDROCK_CREDIT_TEST_BOUND')
+        return
     if not isinstance(body, dict) or set(body) != {'system', 'messages', 'inferenceConfig', 'toolConfig'}:
         raise ValueError('BEDROCK_BODY_SHAPE')
     if set(body['inferenceConfig']) != {'maxTokens'} or type(body['inferenceConfig']['maxTokens']) is not int or not 1 <= body['inferenceConfig']['maxTokens'] <= 16000:
@@ -156,11 +162,11 @@ class BedrockProvider:
                           config=Config(connect_timeout=15, read_timeout=90, retries={'total_max_attempts': 1}))
             def check(request, **kwargs):
                 current().http(self.identity, 'POST', request.url, request.body)
-                # Preserve exact unsigned payload bytes, never signed headers.
+                # Structured native JSON lets capture-time privacy projection
+                # reach values. No opaque raw-value sidecar or signed headers.
                 raw = request.body.encode() if isinstance(request.body, str) else request.body
-                from hashlib import sha256
-                self.record({'event': 'BEDROCK_NATIVE_REQUEST', 'body_base64': base64.b64encode(raw).decode('ascii'),
-                             'sha256': sha256(raw).hexdigest(), 'signed_headers_omitted': True})
+                self.record({'event': 'BEDROCK_NATIVE_REQUEST',
+                             **record_body(json.loads(raw), self.private_summary), 'signed_headers_omitted': True})
             sdk.meta.events.register('before-send.bedrock-runtime.Converse', check)
             # Also admit before entering any SDK transport, including test factories.
             url = self.base + '/model/' + quote(self.model, safe='') + '/converse'
@@ -187,6 +193,7 @@ class BedrockProvider:
             values = sdk = None
 
     def complete(self, *, system, messages, tools, max_tokens=4000, private_summary=False):
+        self.private_summary = private_summary
         from ..planner_recording import _safe
         from .provider_failures import retryable
         investigation = any(t['name'] == 'submit_finding' for t in tools)

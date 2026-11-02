@@ -30,7 +30,8 @@ class CreditTests(unittest.TestCase):
  def test_october_ceiling_does_not_lower_november(self):
   at=lambda x:datetime.fromisoformat(x).replace(tzinfo=timezone.utc).timestamp()
   self.assertEqual(model_ceiling(at('2026-10-29')),POLICY['round24']['october']['model_microdollars'])
-  self.assertEqual(model_ceiling(at('2026-11-01')),150000000)
+  self.assertEqual(model_ceiling(at('2026-11-01')),POLICY['monthly_model_overrides']['2026-11']['ceiling_microdollars'])
+  self.assertEqual(model_ceiling(at('2026-12-01')),150000000)
 
 
 class CacheTests(unittest.TestCase):
