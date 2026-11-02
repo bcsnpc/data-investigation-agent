@@ -414,3 +414,6 @@ Round26 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly ve
 
 
 Round26 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-six\dev01\injections\text-latency\status.json. Temporal remains ON.
+
+
+Round26 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-six\dev01\injections\text-latency-current-reader1\status.json. Temporal remains ON.
