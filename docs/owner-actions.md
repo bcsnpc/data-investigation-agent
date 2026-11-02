@@ -264,3 +264,5 @@ Round26 AWS: the approved owner CLI sign-in is open; only that sign-in is pendin
 SupersedesAWSsigninpending above: owneralready supplied approveddia-bedrockKeyVaultcredentials; STS andsingleNovaMicrosmokePASS. NoAWSowneractionpending; agentcreatednoIAMobject/key. Noownerlogincachepresent. IAMpermissionmembershipwasnotlistedwiththeinvocation-onlykey; noadditionalintrospectionrolewasrequested.
 
 Bedrock Haiku credit coverage: 24 hours after the UTC time in docs/round-twenty-six-haiku-credit-test.json, check AWS Billing -> Bills for the Claude Haiku charge and credit application. Invocation success alone does not establish promotional credit eligibility. Do not enable further Claude Bedrock calls; guard remains on.
+
+Final Haiku billing-check time supersedes the pre-dispatch attempt: after 2026-11-03T03:35:38.730142+00:00, AWS Billing -> Bills, check whether any Haiku charge exists and whether credits covered it. Single dispatched test returned HTTP404 ResourceNotFoundException, no successful inference; do not infer a charge or credit coverage. Claude Bedrock guard remains on.
