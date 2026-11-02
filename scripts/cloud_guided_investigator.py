@@ -226,7 +226,8 @@ def run(plan,context):
             if history_reader:return history_reader(node, kinds)
             return {'status': 'UNAVAILABLE', 'reason': 'Native subject history is not configured.', 'facts': []}
         try:
-            result = operational_run(operational_admission, operational_history, record=record)
+            result = operational_run(operational_admission, operational_history, record=record,
+                history_for_selector=(lambda node,kinds,selector,text:history_reader(node,kinds,selector=selector,text=text))if history_reader else None)
             result.update(ticket=submitted, physical_requests=meter.used,
                           timing={'wall_seconds':time.monotonic()-started},
                           outputs={'business':result['business'],'technical':json.dumps(result.get('technical',result.get('history',{})))})

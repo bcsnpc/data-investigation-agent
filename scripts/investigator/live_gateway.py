@@ -185,6 +185,18 @@ class Gateway:
         permissions=self.identity(identity);_url(url)
         method=method.upper()
         matches=[item for item in permissions.get('http',[]) if item['method']==method and item['url']==url]
+        if not matches and permissions.get('role')=='reader' and method=='GET' and not body:
+            # Only a cursor on an already granted job-list resource may vary.
+            from urllib.parse import parse_qs
+            parsed=urlsplit(url)
+            try:query=parse_qs(parsed.query,keep_blank_values=True,strict_parsing=True)
+            except ValueError:query={}
+            if (re.fullmatch(r'/v1/workspaces/[0-9a-fA-F-]{36}/items/[0-9a-fA-F-]{36}/jobs/instances',parsed.path)
+                    and set(query)=={'continuationToken'} and len(query['continuationToken'])==1
+                    and 0<len(query['continuationToken'][0])<=8192):
+                base=parsed._replace(query='').geturl()
+                matches=[{**item,'url':url}for item in permissions.get('http',[])
+                         if item['method']=='GET'and item['url']==base and item['purpose']=='metadata']
         if not matches and permissions.get('role')=='scanner':
             from .adapters.scanner_policy import followup
             bound=followup(identity,method,url)

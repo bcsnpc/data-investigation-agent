@@ -1,4 +1,4 @@
-﻿"""Microsoft runtime facts: guarded list APIs and exact declared SQL objects.
+"""Microsoft runtime facts: guarded list APIs and exact declared SQL objects.
 
 No refresh/run/write endpoint is callable here. Every request/response is retained
 before its fields can become facts; transport and accounting remain existing
@@ -234,15 +234,8 @@ class MicrosoftRuntimeFacts:
         if not isinstance(native,list) or len(native)>100:raise ValueError('FACT_NATIVE_RUN_LIST_BOUND')
         # Continuation means coverage is partial, explicitly named. Never claim
         # absence or overdue from a truncated listing.
-        truncated=bool(body.get('continuationUri') or body.get('continuationToken') or body.get('@odata.nextLink'))
-        runs=[]
-        for row in native[:20]:
-            run_id=row.get('id') or row.get('requestId')
-            if run_id is None:raise ValueError('FACT_NATIVE_RUN_ID')
-            runs.append({'run_id':str(run_id),'start':run_time(row,'startTimeUtc','startTime'),
-                'end':run_time(row,'endTimeUtc','endTime'),'status':STATUSES.get(row.get('status'),'UNKNOWN'),
-                'error':row.get('failureReason') or row.get('serviceExceptionJson'),
-                'rows_read':None,'rows_written':None})
+        truncated=bool(body.get('continuationUri') or body.get('continuationToken') or body.get('@odata.nextLink') or len(native)>20)
+        runs=native_runs(native[:20])
         result=[observation(node,'RUN_HISTORY',{'runs':runs,'listing_complete':not truncated},now,[proof],self.identity,
             state='OBSERVED_NEGATIVE' if not runs and not truncated else 'OBSERVED')]
         if runs:
@@ -344,3 +337,16 @@ def refresh_due(schedule,now):
     past=[s for s in slots if s<=instant];future=[s for s in slots if s>instant]
     render=lambda value:value.isoformat().replace('+00:00','Z') if value else None
     return {'previous_due':render(max(past) if past else None),'next_due':render(min(future) if future else None),'enabled':True}
+
+
+def native_runs(native):
+    if not isinstance(native,list) or len(native)>100:raise ValueError("FACT_NATIVE_RUN_LIST_BOUND")
+    runs=[]
+    for row in native:
+        run_id=row.get('id') or row.get('requestId')
+        if run_id is None:raise ValueError('FACT_NATIVE_RUN_ID')
+        runs.append({'run_id':str(run_id),'start':run_time(row,'startTimeUtc','startTime'),
+            'end':run_time(row,'endTimeUtc','endTime'),'status':STATUSES.get(row.get('status'),'UNKNOWN'),
+            'error':row.get('failureReason') or row.get('serviceExceptionJson'),
+            'rows_read':None,'rows_written':None})
+    return runs
