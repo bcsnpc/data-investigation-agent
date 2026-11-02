@@ -266,3 +266,5 @@ SupersedesAWSsigninpending above: owneralready supplied approveddia-bedrockKeyVa
 Bedrock Haiku credit coverage: 24 hours after the UTC time in docs/round-twenty-six-haiku-credit-test.json, check AWS Billing -> Bills for the Claude Haiku charge and credit application. Invocation success alone does not establish promotional credit eligibility. Do not enable further Claude Bedrock calls; guard remains on.
 
 Final Haiku billing-check time supersedes the pre-dispatch attempt: after 2026-11-03T03:35:38.730142+00:00, AWS Billing -> Bills, check whether any Haiku charge exists and whether credits covered it. Single dispatched test returned HTTP404 ResourceNotFoundException, no successful inference; do not infer a charge or credit coverage. Claude Bedrock guard remains on.
+
+After Round26, review public v2-warehouse-scope-v2 report-address typo against native catalog. Existing input/expectation and this round score remain unchanged; do not silently repair it during measurement. Native/input receipt in dev01/invalid-form-address-finding.json.
