@@ -26,3 +26,4 @@ tests/tickets/independent-baseline-arithmetic.json text eol=crlf
 docs/runs/round-twenty-two-failure-controls.json text eol=crlf
 docs/runs/round-twenty-two-context-native.json text eol=crlf
 docs/runs/round-twenty-two-temporal-before-after.json text eol=crlf
+tests/fixtures/round24-route-sources/** -text
