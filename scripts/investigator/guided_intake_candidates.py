@@ -203,7 +203,7 @@ def probe_target(factory,catalog,target,proposal,execute_native,record,initial_i
                 if len(found)==1:keys.append((column['name'],found[0]))
             if len(keys)!=1:raise ValueError('CANDIDATE_RECORD_KEY_NOT_BOUND')
             query+=' WHERE '+quote(keys[0][0])+' = '+keys[0][1]
-        elif re.search(r'\b(?:record|movement_id|invoice_id|payment_id)\b',text,re.I):
+        elif re.search(r'\b(?:record|[A-Za-z][A-Za-z0-9_]*_id)\b',text,re.I):
             raise ValueError('CANDIDATE_RECORD_SCOPE_REQUIRED_NO_AGGREGATE_SUBSTITUTION')
         layer={'dialect':'T-SQL','objects':[obj],'label':route['label']}
         queries=Queries({key:layer},execute=execute_native,reserve=lambda *_:None,save=record,restored=initial_intake_queries)
