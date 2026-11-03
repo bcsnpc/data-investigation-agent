@@ -1,0 +1,574 @@
+{
+  "scope": "Offline retained native visual scope compilation, not live observations",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "counts": {
+    "UNAVAILABLE": 7,
+    "COMPILED": 47
+  },
+  "cases": [
+    {
+      "estate": "dia-sample-estate",
+      "visual": "581a13a933487c52c78b80f65bbd1702aed006531d65cd20269d1e9209cbb801",
+      "status": "UNAVAILABLE",
+      "reason": "CANDIDATE_EXACT_DEFINITION_PART_ABSENT"
+    },
+    {
+      "estate": "dia-sample-estate",
+      "visual": "ecbda5f4d09d48b7e541e90e65df0cc21626b56e6897ba3ee4fc90cdd47f028b",
+      "status": "UNAVAILABLE",
+      "reason": "CANDIDATE_EXACT_DEFINITION_PART_ABSENT"
+    },
+    {
+      "estate": "billing",
+      "visual": "01bca5b114e2a561d56d1010ae38978fa8ac5ca3ffaf8ee731856fa51e0104e9",
+      "status": "UNAVAILABLE",
+      "reason": "CANDIDATE_DECLARED_SCOPE_UNSUPPORTED"
+    },
+    {
+      "estate": "billing",
+      "visual": "9f0b8c4f3dfecd18cac101a5908ff709ef7543a18b44b96e76726d6b91724811",
+      "status": "UNAVAILABLE",
+      "reason": "CANDIDATE_DECLARED_SCOPE_UNSUPPORTED"
+    },
+    {
+      "estate": "billing",
+      "visual": "eae91528bdaadbcdf0c633c94e18f719619f68dfcbe1c3d03c2517a471fee8ef",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Billing'[Churned Accounts])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "billing",
+      "visual": "53a655e38cbd5d54dadc1f1613f1bd7a06890c5e68be1027e7aabc772612bdab",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Billing'[Collected Amount])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "billing",
+      "visual": "a4e07b71d13d1ba73eca555ceafa3544425363d1f6f19e0f69ff9722987e4d4b",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Billing'[Invoiced Amount])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "billing",
+      "visual": "2b9e6f88834911285e6dae466b9c4be7276b7b7db1351f77049801776ead04ca",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Billing'[MRR All Plans])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "billing",
+      "visual": "42205721330d77b319c5d3fd1a60289652b088d632996dd780af3baa62dfe113",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Billing'[Usage Overage])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "5534dcab52ea12e3a590fc6ad8d7e5fa79ca8611cc06be894a80b65f6fe792ce",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Movement Units])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "3792249b906b532a7ad777cacc43ae6c53924d8f759aa9d08e291adc677c1ed4",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",CALCULATE('Activity'[Handled Quantity],TREATAS({\"2026-09-15\"},'Activity'[event_day]),TREATAS({\"RECEIPT\"},'Activity'[movement_type]),TREATAS({\"Component 1\"},'Items'[product_name]),TREATAS({\"North\"},'Locations'[warehouse_name])))",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": [
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
+          "operator": "IN",
+          "values": [
+            "2026-09-15"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
+          "operator": "IN",
+          "values": [
+            "RECEIPT"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
+          "operator": "IN",
+          "values": [
+            "Component 1"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+          "operator": "IN",
+          "values": [
+            "North"
+          ]
+        }
+      ]
+    },
+    {
+      "estate": "fixture",
+      "visual": "9ce0e047c27063c110caf8859dcb68a2802c693602052d8e05a6e554689393dd",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",CALCULATE('Activity'[Handled Quantity],TREATAS({\"RECEIPT\"},'Activity'[movement_type]),TREATAS({\"Component 1\"},'Items'[product_name]),TREATAS({\"North\"},'Locations'[warehouse_name])))",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": [
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
+          "operator": "IN",
+          "values": [
+            "RECEIPT"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
+          "operator": "IN",
+          "values": [
+            "Component 1"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+          "operator": "IN",
+          "values": [
+            "North"
+          ]
+        }
+      ]
+    },
+    {
+      "estate": "fixture",
+      "visual": "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Handled Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "44e3c9b2c5df43d92f96caf0e469bbd2521cb194cc814178e7859e440c89365c",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Processed Units])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "dc38010281348f3b02b56d62fde05ff02dd223e43bc4e187ac0c0e8d790f891a",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Inventory Valuation])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "11ef89a2a1e7470288edc337289b1bb7a3736acc212b8552c484ddc3af212f0a",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Flow Balance])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "13cd8b9ecc0f49a286cd8a885c66236f63d706a0df19361ce35291c56927d4f9",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Receipt Proportion])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "2ea6333de4d861068b12927b074bfbc59fa1eb9d99159471717c97790b460b07",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Handled Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "d6da07ff20d1b5f0a211277073cec13e43f20ce85434598cbe1cef4f3e238502",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Stock Activity Value])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "a104d621a75395e91e8a36b3981150c0bb7a53aec87226dceb733582161547ec",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Quantity Balance])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "f04397944a89f2f703d14983a20827f1ee32486aea76a7cc42ad45b3636ff05a",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Inbound Fraction])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "876742ea6015103efaa379485dba54a194bae2cbb5e92616a8e9d39f285c3072",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Handled Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "ddf84fca2e6b7e285287f235bde60d0a6dab9eee8e5657d2496753bcbffc21c5",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Extended Value])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "b79d519faacc6e2e43b54705b5ffa88836dfda2c1636ae883a4caf0ae06ea763",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Quantity Balance])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "148c1c28919a9ac6aae8631c829765605606032fa13ab6e4802346246a6f8ca9",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Inbound Fraction])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "e3cf2e938fef27816dd12155c36fbfd790e0295a35269f739027ac863e489ffe",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Movement Units])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "ca79595527ec2a40c1fbfa41f8ad65f10d4de113b8f93e5766443a8af311267b",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Movement Value])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "8ce919ed65f8327d2921985af62affe6c22f2b0fd5c2f8cfafd4c989247f1bf4",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Net Movement Units])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "aa42673011dfdc0ef93038f21cfb5dbcd792a62f19c011560e6f9fa4d952c3eb",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Receipt Share])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "63749edbd8cdd7396f252c87ef461d42e600c318469b6352df305d97ecb5b143",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",CALCULATE('Activity'[Handled Quantity],TREATAS({\"2026-09-15\"},'Activity'[event_day]),TREATAS({\"RECEIPT\"},'Activity'[movement_type]),TREATAS({\"Component 1\"},'Items'[product_name]),TREATAS({\"North\"},'Locations'[warehouse_name])))",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": [
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
+          "operator": "IN",
+          "values": [
+            "2026-09-15"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
+          "operator": "IN",
+          "values": [
+            "RECEIPT"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
+          "operator": "IN",
+          "values": [
+            "Component 1"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+          "operator": "IN",
+          "values": [
+            "North"
+          ]
+        }
+      ]
+    },
+    {
+      "estate": "fixture",
+      "visual": "3fe7de704ffabe44794601c7a1a0cc0b1ee6933092bdf7e4caccbe43df8adf4f",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",CALCULATE('Activity'[Handled Quantity],TREATAS({\"RECEIPT\"},'Activity'[movement_type]),TREATAS({\"Component 1\"},'Items'[product_name]),TREATAS({\"North\"},'Locations'[warehouse_name])))",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": [
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
+          "operator": "IN",
+          "values": [
+            "RECEIPT"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
+          "operator": "IN",
+          "values": [
+            "Component 1"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+          "operator": "IN",
+          "values": [
+            "North"
+          ]
+        }
+      ]
+    },
+    {
+      "estate": "fixture",
+      "visual": "a88263feb4c97f42a3ab464bd787c082cbc6ba55438661658b0d4aa08e30edd3",
+      "status": "UNAVAILABLE",
+      "reason": "CANDIDATE_DECLARED_SCOPE_UNSUPPORTED"
+    },
+    {
+      "estate": "fixture",
+      "visual": "2be5800ac6eea6fc1126f288e231d8ccf5dde5c73479220f6d3e4f1ff532af24",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'RoundTenCalculated'[Fixture Calculated Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "77a77f85a88ded286d6189e98a206cf4c5e813ae98988225e2dbaa5b28c83465",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Handled Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "5e761f0ad8e365155f0eeaf9c534607ccd686df554e2a62ad50d49c3e3828bc6",
+      "status": "UNAVAILABLE",
+      "reason": "CANDIDATE_INTERACTIVE_OR_RELATIVE_SCOPE_UNESTABLISHED"
+    },
+    {
+      "estate": "fixture",
+      "visual": "93f70afcbb104ae4477a31350b112484eb99acb59aa81b464e75f6e96c5716d2",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",CALCULATE('Activity'[Handled Quantity],TREATAS({\"2026-09-15\"},'Activity'[event_day]),TREATAS({\"RECEIPT\"},'Activity'[movement_type]),TREATAS({1},'Activity'[product_id]),TREATAS({1},'Activity'[warehouse_id]),TREATAS({\"Component 1\"},'Items'[product_name]),TREATAS({\"North\"},'Locations'[warehouse_name])))",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": [
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/event_day",
+          "operator": "IN",
+          "values": [
+            "2026-09-15"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/movement_type",
+          "operator": "IN",
+          "values": [
+            "RECEIPT"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/product_id",
+          "operator": "IN",
+          "values": [
+            1
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Activity/columns/warehouse_id",
+          "operator": "IN",
+          "values": [
+            1
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Items/columns/product_name",
+          "operator": "IN",
+          "values": [
+            "Component 1"
+          ]
+        },
+        {
+          "field_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/3484a2bc-98c5-4cef-be5c-a6215484075e/table/Locations/columns/warehouse_name",
+          "operator": "IN",
+          "values": [
+            "North"
+          ]
+        }
+      ]
+    },
+    {
+      "estate": "fixture",
+      "visual": "f55e2f6d431d6b1f3b7215ca64b6151315b86531b0c96d2bc643831c2d2fec97",
+      "status": "UNAVAILABLE",
+      "reason": "Declared-context reproduction unavailable: MISSING_CELL_KEYS: warehouse_name, product_name."
+    },
+    {
+      "estate": "fixture",
+      "visual": "eaa47593d6534e7b1b6811676ed822435b1512220c68d0ab7d278076585f7976",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Handled Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "2492c5199d86ce167ea2ba9b0998a86732335b55a117b9dd8652356a6f199f08",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Dispatch Volume])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "0a22c8f7e8d3593e00c384a88451467e68553e31895933b82eac89016749f78a",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Flow Entry Count])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "800c23ce350eac797263c2a82907c411866c0fa446fb471ed14e24ca3d186fb8",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Receipt Volume])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "878b8323ce75221bae970f757649ddb8b82ad7feeb19ca89b9561af9d06f6fbc",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Flow Entries'[Value Density])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "79bc55ddc527b395f9665c439fe527992dedf0d9c6fde28912e95ccaf9dbddda",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Outbound Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "6a1008dae096e5e0d5f8e09c34b034ba2fc89d4364c6504f5e03f9a5c1dce2e6",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Event Row Count])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "a99de682a4c18a78ece5fc5eb960e2b471ada89fd4c6f600db551b6d48f0f1c0",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Inbound Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "117487d2d21cec699d1277dd6d33899473295432450b430b7dc8d2f509cce1d0",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Material Events'[Value per Handled Unit])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "e4a2ae1bd51f0a383a901b02dcd853284f36df9f5d5727fc192cf89378764bb4",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Outbound Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "c87525ca7458771b7ae7d4824de700a6376da29d7919c24a72d62a28ac018324",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Activity Entries])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "f36f101ea7a918f44038bf20d5541ec03a2ad7ac90b23e6c7fa8da69035654f1",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Inbound Quantity])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "e874f525b81c12f2a90a8de3f85dee8c07e56feca3ba6abf93a11dcc10c0f4ba",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Activity'[Average Unit Value])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "52f8b44feacffa50c8a97bc2f898df8bc37e19c69bf2c756ffa293ed312f78b0",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Issued Units])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "ce28c82993e89812f729448d7f85b506f042d72aa2715291c8ad654cfa6ba9a1",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Movement Rows])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "f4b8e5db231e2eee3921600b51bd7b6eed79f3126f3731a8c1dabd3d730a4d42",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Received Units])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    },
+    {
+      "estate": "fixture",
+      "visual": "2a9ca369c37e919068ed687030a825fd15d45724b46786cc44b4940701bb8c40",
+      "status": "COMPILED",
+      "query": "EVALUATE ROW(\"quantity\",'Movements'[Value Per Unit])",
+      "scope": "EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS",
+      "restrictions": []
+    }
+  ]
+}
