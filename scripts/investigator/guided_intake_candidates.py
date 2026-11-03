@@ -185,7 +185,7 @@ def probe_target(factory,catalog,target,proposal,execute_native,record,initial_i
     try:
         scoped=getattr(factory,'candidate_query_for',None)
         if kind in ('REPORT','PAGE','VISUAL')and scoped:
-            plan=scoped(catalog,target,deepcopy(proposal));key=plan['layer'];route=factory.prepare(key,{target})
+            plan=scoped(catalog,target,deepcopy(proposal));key=plan['layer'];route=factory.prepare(key,set(plan['reference_nodes']))
             layer={'dialect':route['dialect'],'objects':route['objects'],'label':route['label']}
             queries=Queries({key:layer},execute=execute_native,reserve=lambda *_:None,save=record,restored=initial_intake_queries)
             prior=len(queries.records)

@@ -91,7 +91,14 @@ def plan(native,catalog,target,proposal):
         filters.append({'field_id':column,'operator':'IN','values':f['value']if isinstance(f['value'],list)else[f['value']]})
     compiled=compile_scope(pinned,measure_id,targets[0]['id'],filters,
                            total=bool(re.search(r'\b(?:grand total|total row|total cell|matrix total)\b',proposal.get('description',''),re.I)))
+    # Route preparation needs the compiled measure and predicate members, not
+    # the visual's graph ID. Bind against the same model, then expose only
+    # graph nodes belonging to those exact native references.
+    from ..query_dax import compile_query
+    bound=compile_query(compiled['query'],native.routes[routes[0]]['objects'],max_rows=250)
+    reference_nodes=sorted({n for asset in bound['asset_ids'] for n in native.object_nodes(asset)})
+    if not reference_nodes:raise ValueError('CANDIDATE_COMPILED_REFERENCES_NOT_IN_GRAPH')
     intake={k:deepcopy(v)for k,v in proposal.items()if k not in ('table','measure','report','page','visual')}
     intake.update(report=report_node,page=page,visual=visual['id'])
-    return {**compiled,'layer':routes[0],'intake':intake,
+    return {**compiled,'layer':routes[0],'reference_nodes':reference_nodes,'intake':intake,
             'scope':'EXACT_RETAINED_REPORT_PAGE_VISUAL_SLICER_AND_STATED_FILTERS'}

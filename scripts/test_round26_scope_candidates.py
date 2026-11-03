@@ -42,10 +42,25 @@ class ScopeCandidatesTests(unittest.TestCase):
      {'id':'v','kind':'VISUAL','label':'Revenue card','properties':{'asset_id':report['id']+'/visual/'+quote(f.visual['name'],safe='')}},
      {'id':'m','kind':'MEASURE','label':'Revenue','properties':{'asset_id':f.measure['id']}}]
   edges=[{'source':a,'target':b,'kind':k}for a,b,k in [('r','p','CONTAINS'),('p','v','CONTAINS'),('v','m','COMPUTED_FROM')]]
-  catalog=Catalog({'nodes':nodes,'edges':edges});native=SimpleNamespace(assets=assets,routes={'dax':{'container':model_id,'dialect':'DAX'}})
+  catalog=Catalog({'nodes':nodes,'edges':edges});native=SimpleNamespace(assets=assets,routes={'dax':{'container':model_id,'dialect':'DAX','objects':f.model['context']['model_assets']}},object_nodes=lambda asset:{'graph:'+asset})
+  from collections import defaultdict
+  from investigator.adapters.ai_native_catalog import NativeCatalog
+  from investigator.investigative_queries import validate
+  native.routes['dax']['kind']='DAX'
+  prepared_port=NativeCatalog.__new__(NativeCatalog)
+  prepared_port.assets=assets;prepared_port.routes=native.routes
+  prepared_port.nodes=defaultdict(list,{i:['graph:'+i]for i in assets})
+  prepared_port.opened=defaultdict(set)
   for target in ('r','p','v'):
    out=plan(native,catalog,target,{'description':'Report Revenue card shows 999','details':{'measure':'Revenue'}})
    self.assertEqual(out['intake']['visual'],'v');self.assertIn('TREATAS',out['query']);self.assertNotIn('999',out['query'])
+   route=prepared_port.prepare(out['layer'],set(out['reference_nodes']))
+   bound=validate(out['query'],route)
+   self.assertIn(f.measure['id'],bound['asset_ids']);self.assertIn(f.column['id'],bound['asset_ids'])
+   # The former visual-ID-only handoff cannot bind either member.
+  prepared_port.opened.clear();empty=prepared_port.prepare('dax',{'v'})
+  with self.assertRaisesRegex(ValueError,'Unknown or ambiguous DAX member'):
+   validate(out['query'],empty)
   report['metadata']['datasetId']='not-the-native-model'
   with self.assertRaisesRegex(ValueError,'EXPLICIT_MODEL_BINDING_ABSENT'):
    plan(native,catalog,'v',{'description':'Report Revenue card'})
@@ -91,13 +106,14 @@ class ScopeCandidatesTests(unittest.TestCase):
   self.setup_candidates();objects=[{'id':'t','kind':'SemanticTable','name':'Sales'},
       {'id':'m','kind':'Measure','name':'Revenue','parent_id':'t'}]
   compiled={'layer':'model','query':'EVALUATE ROW("value", [Revenue])','scope':'retained',
-      'scope_evidence':{'retained':'definition'},'intake':{'report':'report','page':'page','visual':'card'}}
+      'reference_nodes':['measure-node','filter-column-node'],'scope_evidence':{'retained':'definition'},'intake':{'report':'report','page':'page','visual':'card'}}
   factory=SimpleNamespace(candidate_query_for=Mock(return_value=compiled),
-      prepare=lambda *_:{'dialect':'DAX','objects':objects,'label':'Semantic'})
+      prepare=Mock(return_value={'dialect':'DAX','objects':objects,'label':'Semantic'}))
   execute=Mock(return_value={'rows':[{'[value]':7}]});saved=[];events=[]
   for _ in range(2):
    out=probe_target(factory,self.catalog,'card',{},execute,events.append,saved)
    self.assertEqual(out['value'],7);self.assertEqual(out['scope_evidence'],compiled['scope_evidence'])
   execute.assert_called_once();self.assertEqual(len(saved),1)
+  factory.prepare.assert_called_with('model',{'measure-node','filter-column-node'})
 
 if __name__=='__main__':unittest.main()
