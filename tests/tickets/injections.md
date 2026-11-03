@@ -456,3 +456,6 @@ Round26 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_requ
 
 
 Round26 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-six\dev01\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-six\dev01\injections\stale\status.json. No source/model figure was authored from an engine query.
