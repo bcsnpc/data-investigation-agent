@@ -1,6 +1,6 @@
 {
   "scope": "Four deferred original-image dev01 stale cases; not dev02",
-  "status": "DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING",
+  "status": "SOURCE_LOAD_MODEL_RESTORED_VERIFIED",
   "source_original_hash_verified": {
     "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
     "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
@@ -21,7 +21,7 @@
     },
     "status": "SUCCEEDED"
   },
-  "automatic_updates_restoration_pending": true,
+  "automatic_updates_restoration_pending": false,
   "outcomes": [
     {
       "id": "form__v2-stale-model-v1",
@@ -107,5 +107,48 @@
       "reviewed_harmful": false,
       "reason": "Measured stale boundary matches; native automatic-update cause unavailable. Separate independent review denies full cause credit."
     }
-  ]
+  ],
+  "final_restoration": {
+    "source": {
+      "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+      "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+      "temporal_period_columns_excluded_explicitly": true
+    },
+    "model_quantity": 7661,
+    "model_refresh": {
+      "endTime": "2026-11-03T00:09:28.253Z",
+      "id": 765551436,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-03T00:09:18.3139149Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-03T00:09:03.3754476Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-03T00:09:20.298349Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-03T00:09:18.6420472Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "625f3197-0754-46b7-b2f5-8a3666cb27b7",
+      "startTime": "2026-11-03T00:09:03.267Z",
+      "status": "Completed"
+    },
+    "automatic_updates": {
+      "checked": true,
+      "original_checked": true,
+      "model": "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+      "owner_reply": "on",
+      "observed_at_utc": "2026-11-03T00:08:49.123995+00:00",
+      "provenance": "OWNER_REPORTED_SAVED_SETTING",
+      "browser_tool_verified": false,
+      "refresh_schedule_change_requested": false
+    },
+    "verified_at_utc": "2026-11-03T00:10:26.873828+00:00"
+  }
 }

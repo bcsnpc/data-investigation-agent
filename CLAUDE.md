@@ -1206,3 +1206,6 @@ Section8 standing owner approval applied2026-11-02: the laptop public IP changed
 ### Section 8 — Round 26 owner credit restriction, 2026-11-02
 
 The owner reports $24 Anthropic credit remaining and reserves it exclusively for the approved Opus calibration and sealed v5 gates. Native charged usage is $49.255301; the shared ceiling is reduced to $70.255301, permitting at most $21 more and protecting a $3 credit margin. Counters and other provider/request limits are unchanged. The purpose guard permits only round26-opus-calibration and round26-held-v5 reservation owners. This supersedes the earlier approximate $29 balance; the reported balance is not an Admin API observation. Before/after receipt: docs/round-twenty-six-owner-credit-24.json. No identity, permission or secret change.
+
+
+Section8 approved stale practice control restoration, UTC2026-11-03 / owner2026-11-02: source original360/business-schema hashes verified, original real loadCompleted, owner confirmed automaticupdatesON with scheduleunchanged (owner report, not browser readback), own model refreshCompleted, native7661 verified. No identity, role, secret, connection or schedule change. Receipt docs/round-twenty-six-dev01-stale-completion.json.

@@ -1,41 +1,42 @@
 {
-  "scope": "Dev01 partial, selected saved outcomes only; grading and controls excluded, not a whole-round ledger total.",
-  "tickets": 48,
-  "ticket_actual_usd": 38.946814,
+  "scope": "dev01 selected saved outcomes only; grading, controls and failed/environment attempts excluded, not whole-round ledger spend. Outcomes with model_calls=0 have no cost object; explicit actual-cost total covers cost_records only.",
+  "tickets": 52,
+  "ticket_actual_usd": 42.663612,
   "steps": [
     {
       "step": "INTAKE",
       "provider": "openai",
       "model": "gpt-6.1-sol",
-      "calls": 61,
-      "actual_microdollars": 1638391,
-      "input_tokens": 3795103,
-      "cached_input_tokens": 3245147,
-      "actual_usd_per_call": 0.026858868852459014,
-      "cached_input_ratio": 0.8550879910242225
+      "calls": 63,
+      "actual_microdollars": 1831181,
+      "input_tokens": 3932460,
+      "cached_input_tokens": 3310322,
+      "actual_usd_per_call": 0.029066365079365077,
+      "cached_input_ratio": 0.8417941949822757
     },
     {
       "step": "INTAKE_FALLBACK",
       "provider": "openai",
       "model": "gpt-6-astra",
-      "calls": 39,
-      "actual_microdollars": 7809119,
-      "input_tokens": 2482140,
+      "calls": 40,
+      "actual_microdollars": 8676407,
+      "input_tokens": 2550710,
       "cached_input_tokens": 1985355,
-      "actual_usd_per_call": 0.20023382051282052,
-      "cached_input_ratio": 0.7998561724963137
+      "actual_usd_per_call": 0.21691017499999998,
+      "cached_input_ratio": 0.7783538700989137
     },
     {
       "step": "INVESTIGATOR",
       "provider": "openai",
       "model": "gpt-6-astra",
-      "calls": 160,
-      "actual_microdollars": 29499304,
-      "input_tokens": 6310177,
-      "cached_input_tokens": 4143167,
-      "actual_usd_per_call": 0.18437065,
-      "cached_input_ratio": 0.6565849103757312
+      "calls": 183,
+      "actual_microdollars": 32156024,
+      "input_tokens": 6886054,
+      "cached_input_tokens": 4532196,
+      "actual_usd_per_call": 0.1757159781420765,
+      "cached_input_ratio": 0.6581702670353732
     }
   ],
-  "original_charges_retained_in_shared_ledger": true
+  "cost_records": 44,
+  "zero_model_call_outcomes_without_cost_object": 8
 }

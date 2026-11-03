@@ -459,3 +459,6 @@ Round26 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; so
 
 
 Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-six\dev01\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round26 dev01 stale restoration verified UTC2026-11-03: original360-row/business-schema hashes matched; original real load eeff6b5a-59db-48c1-b6ef-4875fe29cf3a Completed; owner reported automatic updates ON, browser readback unavailable, refresh schedule unchanged. Model own refresh625f3197-0754-46b7-b2f5-8a3666cb27b7 Completed; native model7661 verified. Temporal history staysON. All4 original-image outcomes preserved. Receipt docs/round-twenty-six-dev01-stale-completion.json.
