@@ -1,0 +1,26 @@
+[
+  {
+    "column": "anthropic",
+    "ticket": "v2-record-absent-everywhere-v1",
+    "suffix": "-replacement1",
+    "reason": "ENVIRONMENT_AFFECTED_UNDELIVERED_POSTGRES55P03",
+    "original_run_id": "b0cec86b-c468-4ba9-8cd7-fa9bdfc9fbd5",
+    "original_model_calls": 1,
+    "original_partial_retained": true,
+    "original_charges_retained": true,
+    "original_scored": false,
+    "replacement_accepted_limit": 1
+  },
+  {
+    "column": "sol-cascade",
+    "ticket": "v2-record-absent-everywhere-v2",
+    "suffix": "-replacement1",
+    "reason": "ENVIRONMENT_AFFECTED_UNDELIVERED_POSTGRES55P03",
+    "original_run_id": "4f16756d-86e5-43d4-bfd1-b418eca6719b",
+    "original_model_calls": 1,
+    "original_partial_retained": true,
+    "original_charges_retained": true,
+    "original_scored": false,
+    "replacement_accepted_limit": 1
+  }
+]

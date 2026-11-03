@@ -1,0 +1,154 @@
+{
+  "scope": "Four deferred original-image dev01 stale cases; not dev02",
+  "status": "SOURCE_LOAD_MODEL_RESTORED_VERIFIED",
+  "source_original_hash_verified": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "restoration_load": {
+    "endpoint": "workspaces/149f8d99-1c66-4a0a-9624-759be002bb60/items/b4871498-bd35-45be-916c-9a642568012c/jobs/instances/eeff6b5a-59db-48c1-b6ef-4875fe29cf3a",
+    "native": {
+      "endTimeUtc": "2026-11-02T23:57:44.78",
+      "failureReason": null,
+      "id": "eeff6b5a-59db-48c1-b6ef-4875fe29cf3a",
+      "invokeType": "Manual",
+      "itemId": "b4871498-bd35-45be-916c-9a642568012c",
+      "jobType": "Pipeline",
+      "rootActivityId": "b2b49eff-d11c-4920-a684-855975a628e3",
+      "startTimeUtc": "2026-11-02T23:55:56.753239",
+      "status": "Completed"
+    },
+    "status": "SUCCEEDED"
+  },
+  "automatic_updates_restoration_pending": false,
+  "outcomes": [
+    {
+      "id": "form__v2-stale-model-v1",
+      "status": "ANSWERED",
+      "capture_seal": "9c3b33edebf510ae6b1b6643c641c887a11c846f9b3e7bea8f787e19510a65da",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1114841e423b84fc6eb46f977bedd96a2b107378628119dc312b4dcc49222b69",
+      "cost": {
+        "ceiling_microdollars": 3000000,
+        "charge_basis": "ACTUAL_PROVIDER_USAGE",
+        "charged_microdollars": 659605,
+        "final_inflight_call_may_cross_ticket_threshold": true,
+        "limit_is_actual_use_stop": true,
+        "month_account": "provider-openai-microdollars:2026-11",
+        "monthly_commitments_remain_conservative": true,
+        "warning": false
+      },
+      "primary_correct": false,
+      "strict_correct": false,
+      "reviewed_projection_correct": false,
+      "reviewed_harmful": false,
+      "reason": "Measured stale boundary matches; native automatic-update cause unavailable. Separate independent review denies full cause credit."
+    },
+    {
+      "id": "form__v2-stale-model-v2",
+      "status": "ANSWERED",
+      "capture_seal": "fe74d9cbd83e01b36d20b445d1fabedcb2a015fb4194cf1273e79e2925f6d233",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1114841e423b84fc6eb46f977bedd96a2b107378628119dc312b4dcc49222b69",
+      "cost": {
+        "ceiling_microdollars": 3000000,
+        "charge_basis": "ACTUAL_PROVIDER_USAGE",
+        "charged_microdollars": 578042,
+        "final_inflight_call_may_cross_ticket_threshold": true,
+        "limit_is_actual_use_stop": true,
+        "month_account": "provider-openai-microdollars:2026-11",
+        "monthly_commitments_remain_conservative": true,
+        "warning": false
+      },
+      "primary_correct": false,
+      "strict_correct": false,
+      "reviewed_projection_correct": false,
+      "reviewed_harmful": false,
+      "reason": "Measured stale boundary matches; native automatic-update cause unavailable. Separate independent review denies full cause credit."
+    },
+    {
+      "id": "text__stale-total-v1",
+      "status": "ANSWERED",
+      "capture_seal": "f86a3fc108815629285f28a5dcfcbffb73392b2bb2ea8f9aa627dfe068efed2d",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1114841e423b84fc6eb46f977bedd96a2b107378628119dc312b4dcc49222b69",
+      "cost": {
+        "ceiling_microdollars": 3000000,
+        "charge_basis": "ACTUAL_PROVIDER_USAGE",
+        "charged_microdollars": 868292,
+        "final_inflight_call_may_cross_ticket_threshold": true,
+        "limit_is_actual_use_stop": true,
+        "month_account": "provider-openai-microdollars:2026-11",
+        "monthly_commitments_remain_conservative": true,
+        "warning": false
+      },
+      "primary_correct": true,
+      "strict_correct": false,
+      "reviewed_projection_correct": false,
+      "reviewed_harmful": false,
+      "reason": "Measured stale boundary matches; native automatic-update cause unavailable. Separate independent review denies full cause credit."
+    },
+    {
+      "id": "text__stale-total-v2",
+      "status": "ANSWERED",
+      "capture_seal": "55907803930ae940f0214866248239c2d4b67761d947a02d480ffc0234bed804",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1114841e423b84fc6eb46f977bedd96a2b107378628119dc312b4dcc49222b69",
+      "cost": {
+        "ceiling_microdollars": 3000000,
+        "charge_basis": "ACTUAL_PROVIDER_USAGE",
+        "charged_microdollars": 1610859,
+        "final_inflight_call_may_cross_ticket_threshold": true,
+        "limit_is_actual_use_stop": true,
+        "month_account": "provider-openai-microdollars:2026-11",
+        "monthly_commitments_remain_conservative": true,
+        "warning": true
+      },
+      "primary_correct": true,
+      "strict_correct": false,
+      "reviewed_projection_correct": false,
+      "reviewed_harmful": false,
+      "reason": "Measured stale boundary matches; native automatic-update cause unavailable. Separate independent review denies full cause credit."
+    }
+  ],
+  "final_restoration": {
+    "source": {
+      "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+      "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+      "temporal_period_columns_excluded_explicitly": true
+    },
+    "model_quantity": 7661,
+    "model_refresh": {
+      "endTime": "2026-11-03T00:09:28.253Z",
+      "id": 765551436,
+      "refreshAttempts": [
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-03T00:09:18.3139149Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-03T00:09:03.3754476Z",
+          "type": "Data"
+        },
+        {
+          "attemptId": 1,
+          "endTime": "2026-11-03T00:09:20.298349Z",
+          "executionMetrics": [],
+          "startTime": "2026-11-03T00:09:18.6420472Z",
+          "type": "Query"
+        }
+      ],
+      "refreshType": "ViaApi",
+      "requestId": "625f3197-0754-46b7-b2f5-8a3666cb27b7",
+      "startTime": "2026-11-03T00:09:03.267Z",
+      "status": "Completed"
+    },
+    "automatic_updates": {
+      "checked": true,
+      "original_checked": true,
+      "model": "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+      "owner_reply": "on",
+      "observed_at_utc": "2026-11-03T00:08:49.123995+00:00",
+      "provenance": "OWNER_REPORTED_SAVED_SETTING",
+      "browser_tool_verified": false,
+      "refresh_schedule_change_requested": false
+    },
+    "verified_at_utc": "2026-11-03T00:10:26.873828+00:00"
+  }
+}

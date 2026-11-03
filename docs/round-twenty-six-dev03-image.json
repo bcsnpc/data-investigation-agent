@@ -1,0 +1,21 @@
+{
+  "source": "d401c5a0eb084be9aa69f399800943c7d6228541",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e6850f0e6928f7462096de0fafeb9a74b6afacd427e94333838567db22ec19b0",
+  "workflow_run": 41550332591,
+  "qualification": "FULL_REPOSITORY_AND_ALL_IMAGE_CONTRACTS_PASS",
+  "full_suite_passed": true,
+  "repository_suite": {
+    "tests": 5899,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 53
+  },
+  "image_contract_suite": {
+    "tests": 1150,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2
+  },
+  "dev_pass": 3,
+  "prior_outcomes_unchanged": true
+}

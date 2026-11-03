@@ -21,11 +21,18 @@ def grading_totals(state,db,account):
 
 def grading_charge(state,db,policy,totals):
     if 'grading_month_tag' not in policy:return max(0,int(totals['charged'])-policy['baseline_grading_charged'])
+    if state.backend=='postgresql':
+        row=state.sql(db,"SELECT COALESCE(SUM(TRUNC(charged)),0) FROM state_reservations WHERE account=? AND detail::jsonb->>'month_utc'=?",
+                      (policy['grading_account'],policy['grading_month_tag'])).fetchone()
+        return int(row[0])
     rows=state.sql(db,'SELECT charged,detail FROM state_reservations WHERE account=?',(policy['grading_account'],)).fetchall()
     return sum(int(charged) for charged,detail in rows if json.loads(detail).get('month_utc')==policy['grading_month_tag'])
 
 
 def model_grading_charge(state,db,account):
+    if state.backend=='postgresql':
+        row=state.sql(db,"SELECT COALESCE(SUM(TRUNC(charged)),0) FROM state_reservations WHERE account=? AND detail::jsonb->>'purpose'='GRADING'",(account,)).fetchone()
+        return int(row[0])
     rows=state.sql(db,'SELECT charged,detail FROM state_reservations WHERE account=?',(account,)).fetchall()
     return sum(int(charged)for charged,detail in rows if json.loads(detail).get('purpose')=='GRADING')
 
@@ -41,7 +48,8 @@ def status(state,now=None):
         grading_delta=grading_charge(state,db,policy,grading)
         charged=policy['baseline_higher_microdollars']+model_delta+grading_delta
         extra=pending_exposure(state,db,policy['model_account'])+pending_exposure(state,db,policy['grading_account'])
-        purposes={name:0 for name in ('INVESTIGATOR','SCREENSHOT','ENRICHMENT','WRITER','GRADING','SMOKE','UNATTRIBUTED_HISTORICAL')}
+        purposes={name:0 for name in ('INTAKE','INTAKE_FALLBACK','INVESTIGATOR','INVESTIGATOR_FALLBACK',
+            'SCREENSHOT','SUMMARY','ENRICHMENT','WRITER','GRADING','SMOKE','UNATTRIBUTED_HISTORICAL')}
         rows=state.sql(db,'SELECT account,charged,detail FROM state_reservations WHERE account IN (?,?)',(policy['model_account'],policy['grading_account'])).fetchall()
         for account,value,detail in rows:
             detail=json.loads(detail)
@@ -61,12 +69,16 @@ def status(state,now=None):
     return state._read_transaction(read)
 
 
-def admit(state,db,account,bound,now=None,*,purpose=None):
+def admit(state,db,account,bound,now=None,*,purpose=None,owner=None):
     """One combined envelope, under the same serialized admission transaction."""
     month=datetime.fromtimestamp(time.time() if now is None else now,timezone.utc).strftime('%Y-%m')
     policy=policy_for(state,db,month)
     if policy is None:return
     if account not in (policy['model_account'],policy['grading_account']):return
+    prefixes=policy.get('allowed_owner_prefixes')
+    if prefixes is not None and (not isinstance(owner,str)or not any(owner.startswith(p)for p in prefixes)):
+        from .model_spend import SpendHold
+        raise SpendHold('ANTHROPIC_RESERVED_FOR_APPROVED_COHORTS')
     model=state._totals(db,policy['model_account']);grading=grading_totals(state,db,policy['grading_account'])
     model_delta=max(0,int(model['charged'])-policy['baseline_model_charged'])
     grading_delta=grading_charge(state,db,policy,grading)

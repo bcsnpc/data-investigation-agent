@@ -1,3 +1,5 @@
+import os as _test_os
+from unittest.mock import patch as _test_patch
 import json
 from pathlib import Path
 from types import SimpleNamespace
@@ -46,6 +48,7 @@ class Remote:
         self.tiers[key] = 'Archive'
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class Tests(unittest.TestCase):
     def test_platform_transport_implementation_lives_in_adapter(self):
         self.assertEqual(IdentityArchiveClient.__module__,'investigator.adapters.platform_archive_client')

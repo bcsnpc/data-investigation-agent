@@ -1,0 +1,115 @@
+{
+  "observed_at_utc": "2026-11-02T03:38:42.344161+00:00",
+  "quality_score_included": false,
+  "scope": "SELECTED_SAVED_BENCHMARK_OUTCOMES_USAGE_ONLY",
+  "columns": {
+    "sol-cascade": {
+      "saved_selected_outcomes": 40,
+      "statuses": {
+        "ANSWERED": 15,
+        "UNRESOLVED": 24,
+        "NEEDS_INPUT": 1
+      },
+      "physical_requests_in_selected_results": 929,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "provider": "openai",
+          "model": "gpt-6.1-sol",
+          "calls": 125,
+          "actual_microdollars": 3559815,
+          "input_tokens": 3462667,
+          "cached_input_tokens": 2121662,
+          "mean_microdollars_per_call": 28478.52,
+          "cache_read_ratio": 0.6127248158716966
+        },
+        {
+          "step": "INVESTIGATOR_FALLBACK",
+          "provider": "openai",
+          "model": "gpt-6-astra",
+          "calls": 63,
+          "actual_microdollars": 14106558,
+          "input_tokens": 1965941,
+          "cached_input_tokens": 893825,
+          "mean_microdollars_per_call": 223913.61904761905,
+          "cache_read_ratio": 0.45465504814234
+        },
+        {
+          "step": "SCREENSHOT",
+          "provider": "openai",
+          "model": "gpt-6.1-terra",
+          "calls": 4,
+          "actual_microdollars": 20632,
+          "input_tokens": 13872,
+          "cached_input_tokens": 0,
+          "mean_microdollars_per_call": 5158.0,
+          "cache_read_ratio": 0.0
+        }
+      ]
+    },
+    "openai": {
+      "saved_selected_outcomes": 39,
+      "statuses": {
+        "ANSWERED": 29,
+        "UNRESOLVED": 7,
+        "BLOCKED": 1,
+        "NEEDS_INPUT": 1,
+        "INTERRUPTED": 1
+      },
+      "physical_requests_in_selected_results": 1022,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "provider": "openai",
+          "model": "gpt-6-astra",
+          "calls": 174,
+          "actual_microdollars": 26731966,
+          "input_tokens": 5488312,
+          "cached_input_tokens": 3559844,
+          "mean_microdollars_per_call": 153631.98850574714,
+          "cache_read_ratio": 0.6486227459371843
+        }
+      ]
+    },
+    "anthropic": {
+      "saved_selected_outcomes": 38,
+      "statuses": {
+        "ANSWERED": 36,
+        "NEEDS_INPUT": 1,
+        "INTERRUPTED": 1
+      },
+      "physical_requests_in_selected_results": 985,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "provider": "anthropic",
+          "model": "claude-opus-5-5",
+          "calls": 162,
+          "actual_microdollars": 14789440,
+          "input_tokens": 7890289,
+          "cached_input_tokens": 5418138,
+          "mean_microdollars_per_call": 91292.83950617284,
+          "cache_read_ratio": 0.6866843533868024
+        },
+        {
+          "step": "SCREENSHOT",
+          "provider": "openai",
+          "model": "gpt-6.1-terra",
+          "calls": 8,
+          "actual_microdollars": 41458,
+          "input_tokens": 27963,
+          "cached_input_tokens": 0,
+          "mean_microdollars_per_call": 5182.25,
+          "cache_read_ratio": 0.0
+        }
+      ]
+    }
+  },
+  "excluded_original_environment_failures_charges_retained_in_authoritative_ledger": true,
+  "benchmark_pin": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
+    "source": "a8b99cc68951e1a29d4d8ae77b5c85e970d82a94",
+    "workflow_run": 41338743215,
+    "qualification": "FOCUSED_DEV_NOT_FULL_RELEASE_SUITE"
+  }
+}

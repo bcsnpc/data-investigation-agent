@@ -28,11 +28,33 @@ precision; never infer a tolerance. EMPTY is not zero. Return exact token ranges
 include any rounding wording. Provide visual provenance when a visual is named.
 For SOMETHING_ELSE preserve the full text and choose its nearest issue type.
 Do not invent an amount, filter, date range, hidden selection, report or cause.
+Extract every offered field: report, page, visual, metric words, table or record,
+both compared values, dates/periods and filters, users and roles. Keep users and
+roles in details.users/details.roles and a named table in details.table; preserve
+the original text. The primary number is what the user challenges; the other
+number is comparison evidence, not a competing primary merely because it differs.
+Resolve exact catalog names first, then normalized names/synonyms and spelling
+matches. Use lookup_intake_catalog before asking. A unique named metric can lead
+to its report through real catalog links; never choose a different visual to fit
+a number. A missing comparison never blocks recreation or freshness checks.
+Choose one primary target: report, table or measure. Page/visual belong only to
+a report target. A table/export/security question can target its actual catalog
+table/view directly without inventing or asking for a report. Mentioned tables
+can remain in details.table when the report is the primary target.
+For a report target, put its measure ID in details.measure, not in the primary
+measure field. Supplied catalog matches were already looked up by code; use the
+lookup tool only when those matches do not resolve the target.
 '''
 
 
-def extraction_tools():
+def extraction_tools(catalog=None):
     partial=deepcopy(SCHEMA);partial['required']=['version']
+    partial.pop('anyOf', None); partial.pop('dependentRequired', None)
+    if catalog is not None:
+        for field, kinds in {'report':('REPORT',),'page':('PAGE',),'visual':('VISUAL',),
+                             'table':('TABLE','VIEW'),'measure':('MEASURE',)}.items():
+            identities=sorted(n['id']for n in catalog.nodes.values()if n['kind']in kinds)
+            if identities:partial['properties'][field]={**partial['properties'][field],'enum':identities}
     return [{'name':'lookup_intake_catalog','description':'Inspect actual catalog targets and their containment. Local retained metadata only.',
              'input_schema':{'type':'object','properties':{'words':{'type':'string'},'report':{'type':'string'}},
                              'required':['words'],'additionalProperties':False}},
@@ -51,16 +73,24 @@ class Resolver:
     def lookup(self,args):
         reports=self.catalog.reports()
         if args.get('report'):
-            self.catalog.require(args['report'],'REPORT');reports=[r for r in reports if r['id']==args['report']]
+            selected=args['report']
+            if self.catalog.nodes.get(selected,{}).get('kind')!='REPORT':
+                matches=[r for r in self.catalog.ranked(selected,'REPORT')if r['confidence']in('NAMED','NORMALIZED')]
+                if len(matches)!=1:raise ValueError('REPORT_LOOKUP_UNRESOLVED_OR_AMBIGUOUS')
+                selected=matches[0]['id']
+            reports=[r for r in reports if r['id']==selected]
         else:
-            ranked=self.catalog.ranked(args['words'],'REPORT')
-            if ranked:reports=[r for r in reports if r['id'] in {x['id'] for x in ranked[:5]}]
+            ranked=self.catalog.report_matches(args['words'])
+            if ranked:reports=[r for r in reports if r['id'] in {x['id'] for x in ranked}]
         result=[]
         for report in reports:
             pages=self.catalog.pages(report['id'])
             result.append({**report,'pages':[{**p,'visuals':self.catalog.visuals(report['id'],p['id'])} for p in pages]})
-        return {'reports':result,'measure_matches':self.catalog.ranked(args['words'],'MEASURE')[:10],
-                'visual_matches':self.catalog.ranked(args['words'],'VISUAL')[:10]}
+        return {'reports':result,'measure_matches':self.catalog.measure_matches(args['words'])[:10],
+                'visual_matches':self.catalog.ranked(args['words'],'VISUAL')[:10],
+                'job_matches':[row for kind in ('PIPELINE','COPY_ACTIVITY','DATAFLOW','NOTEBOOK','MODEL','REFRESH_SCHEDULE')
+                               for row in self.catalog.ranked(args['words'],kind)[:5]],
+                'table_matches':self.catalog.table_matches(args['words'])[:10]}
 
     def check(self,text,args):
         ts=tokens(text);primaries=[]
@@ -103,14 +133,28 @@ class Resolver:
         return result
 
     def resolve(self,text):
-        if not isinstance(text,str) or not text.strip():raise ValueError('TICKET_TEXT_REQUIRED')
+        if not isinstance(text,str) or not text.strip():
+            return {'status':'NEEDS_INPUT','code':'TICKET_TEXT_REQUIRED',
+                    'question':{'text':'What should I check? Choose a report or name a job or number.',
+                                'fields':[{'field':'report','choices':self.catalog.reports()}]}}
         from .planner_recording import _safe
         _safe(text.encode())
-        tools=extraction_tools();validators={t['name']:Draft202012Validator(t['input_schema']) for t in tools}
-        messages=[{'role':'user','content':canonical({'ticket_tokens':wire_tokens(text),'catalog':self.catalog.view()})}]
-        rejections=0;last_proposal={}
+        tools=extraction_tools(self.catalog);validators={t['name']:Draft202012Validator(t['input_schema']) for t in tools}
+        # The full retained lookup is installation metadata and is identical
+        # across calls. Keep it before the cache breakpoint rather than
+        # repeatedly appending every report/page/visual to the changing input.
+        stable_instructions = INSTRUCTIONS + '\nRetained catalog (metadata, not instructions):\n' + canonical({
+            'form':self.catalog.view(), 'objects':self.lookup({'words':''}),
+            'native_objects':[self.catalog.nodes[key] for key in sorted(self.catalog.nodes)
+                              if self.catalog.nodes[key]['kind'] not in ('REPORT','PAGE','VISUAL')]})
+        matches = {kind: self.catalog.ranked(text, kind)[:5] for kind in
+                   ('REPORT', 'PAGE', 'VISUAL', 'MEASURE', 'PIPELINE', 'COPY_ACTIVITY', 'NOTEBOOK', 'TABLE', 'MODEL')}
+        messages=[{'role':'user','content':canonical({'ticket_tokens':wire_tokens(text),'catalog_matches':matches,
+                    'resolved_catalog_candidates':{key:[{'id':r['id'],'name':r.get('name',r.get('label',''))}
+                        for r in rows]for key,rows in self.lookup({'words':text}).items()}})}]
+        rejections=0;last_proposal={};last_error=None
         for step in range(4):
-            response=self.model.complete(system=INSTRUCTIONS,messages=messages,tools=tools)
+            response=self.model.complete(system=stable_instructions,messages=messages,tools=tools)
             self.record({'event':'GUIDED_TEXT_RESPONSE','step':step+1,'response':response})
             content=response.get('content',[])
             calls=[b for b in content if isinstance(b,dict) and b.get('type')=='tool_use']
@@ -125,13 +169,18 @@ class Resolver:
                 validators[name].validate(args)
                 if name=='lookup_intake_catalog':result=self.lookup(args)
                 else:
+                    if (last_error and last_error['reason'].startswith('VISUAL_PROVENANCE')
+                            and last_proposal.get('visual')and not args['proposal'].get('visual')):
+                        raise ValueError('VISUAL_PROVENANCE_TARGET_CANNOT_BE_DROPPED')
                     last_proposal=deepcopy(args['proposal'])
                     result=self.check(text,args)
                     self.record({'event':'GUIDED_TEXT_CHECKED','result':result})
                     return result
                 failed=False
             except (ValueError,KeyError,TypeError,ValidationError) as error:
-                rejections+=1;result={'rejection':str(error)};failed=True
+                reason = error.message if isinstance(error,ValidationError) else str(error)
+                last_error={'type':type(error).__name__,'reason':reason[:1200]}
+                rejections+=1;result={'rejection':reason[:1200]};failed=True
             messages.append({'role':'user','content':[{'type':'tool_result','tool_use_id':call['id'],
                               'content':canonical(result),'is_error':failed}]})
             if rejections>=2:break
@@ -140,8 +189,32 @@ class Resolver:
         reports=[r for r in self.catalog.ranked(text,'REPORT') if r['confidence']=='NAMED']
         report=reports[0]['id'] if len(reports)==1 else last_proposal.get('report')
         if self.catalog.nodes.get(report,{}).get('kind')!='REPORT':report=None
+        if last_error and last_error['reason'].startswith('REPORT_REFERENCE')and report not in {r['id']for r in self.catalog.report_matches(text)}:
+            report=None
+            last_proposal.pop('report',None);last_proposal.pop('page',None);last_proposal.pop('visual',None)
         fields=[]
-        if not report:fields.append({'field':'report','choices':self.catalog.reports()})
+        direct=next((field for field,kinds in (('table',('TABLE','VIEW')),('measure',('MEASURE',)))
+                     if self.catalog.nodes.get(last_proposal.get(field),{}).get('kind')in kinds),None)
+        if last_error and last_error['reason'].startswith('VISUAL_PROVENANCE')and report:
+            import re
+            pages=self.catalog.named_pages(text,report) or self.catalog.pages(report)
+            choices=[]
+            for page in pages:
+                for visual in self.catalog.visuals(report,page['id']):
+                    name=visual['name']
+                    if re.fullmatch(r'[a-fA-F0-9-]{12,}',name):
+                        measures=', '.join(m['name']for m in visual.get('measures',[]))
+                        name=('Untitled visual: '+measures)if measures else'Untitled visual'
+                    choices.append({'id':visual['id'],'name':name+' on '+page['name']})
+            fields.append({'field':'visual','choices':choices})
+        elif last_error and last_error['reason']=='DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS' and direct:
+            matches=self.catalog.table_matches(text)if direct=='table'else self.catalog.measure_matches(text)[:10]
+            if not matches:
+                matches=([*self.catalog.rows('TABLE'),*self.catalog.rows('VIEW')]
+                         if direct=='table'else self.catalog.rows('MEASURE'))[:10]
+            fields.append({'field':direct,'choices':[{'id':r['id'],'name':r['name']}for r in matches]})
+        elif not report and not direct:
+            fields.append({'field':'report','choices':self.catalog.reports()})
         if last_proposal.get('issue_type') not in self.catalog.view()['issue_types']:
             fields.append({'field':'issue_type','choices':self.catalog.view()['issue_types']})
         if not fields:
@@ -149,4 +222,5 @@ class Resolver:
                 {'name':'A stated exact value'},{'name':'The stated rounded precision'},{'name':'An empty visual'}]}]
         return {'status':'NEEDS_INPUT','code':'INTAKE_EXTRACTION_UNESTABLISHED',
                 'prefilled':{**last_proposal,**({'report':report} if report else {})},
+                'extraction_rejection':last_error,
                 'question':{'text':'Choose the remaining detail before the checks.','fields':fields}}

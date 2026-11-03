@@ -163,3 +163,6 @@ Model-written SQL/DAX is still parser-validated read-only and restricted to admi
 
 
 Round24 frozen evaluation closure: all20 guided v3 tickets delivered/sealed; independent primary and secondary18/20,harm0. Route/schema preparation median45.13s,triage28.01s,inner investigation105.68s,model42.48s,cumulative native query time41.36s,startup25.41s,publication14.25s. These overlap, not an additive total. Native full multilayer median234.5s remains above120s. Next design work is lazy unchanged-schema reuse and job-only initialization before eager SQL context, rather than treating startup as the whole delay. No engine change or held-out-driven fix was made after b78299f6/image595047cf.
+
+
+Round26 refresh evidence distinguishes the documented schedule GET from the unestablished reader API for the Direct Lake automatic-update switch. The supported fallback names observed refresh/data times and points to the settings, without asserting an unread switch value. See [native refresh evidence](round-twenty-six-stale-evidence.md).

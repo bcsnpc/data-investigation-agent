@@ -177,16 +177,7 @@ class SharedState:
                 # Writers must see leases committed while waiting for the lock.
                 # Readers take one coherent, database-enforced read-only snapshot
                 # without blocking reservation writers.
-                db.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ, READ ONLY'if _read_only
-                           else'SET TRANSACTION ISOLATION LEVEL READ COMMITTED')
-                db.execute("SET LOCAL lock_timeout = '5s'")
-                db.execute("SET LOCAL statement_timeout = '30s'")
-                db.execute("SET LOCAL idle_in_transaction_session_timeout = '30s'")
-                check_lease(self,db,release_only=_lease_release)
-                # One application-state lock gives portable serializable writes
-                # including absent-row creation. It is held only for short local
-                # state operations, never while a model or estate request runs.
-                if not _read_only:db.execute('SELECT pg_advisory_xact_lock(183746812)')
+                self._begin_postgres(db,_read_only,_lease_release,check_lease)
             else:
                 if _read_only:db.execute('PRAGMA query_only=ON')
                 db.execute('BEGIN'if _read_only else'BEGIN IMMEDIATE')
@@ -214,6 +205,29 @@ class SharedState:
                         except BaseException as publication_error:
                             if primary is None: raise
                             primary.add_note('After-transaction publication also failed: '+type(publication_error).__name__)
+
+    def _begin_postgres(self,db,read_only,lease_release,check_lease):
+        # Retry only before yielding to the caller. No transaction body,
+        # reservation, estate read or paid model call has executed yet.
+        import time
+        for attempt in range(2):
+            try:
+                db.execute('SET TRANSACTION ISOLATION LEVEL REPEATABLE READ, READ ONLY'if read_only
+                           else'SET TRANSACTION ISOLATION LEVEL READ COMMITTED')
+                db.execute("SET LOCAL lock_timeout = '5s'")
+                db.execute("SET LOCAL statement_timeout = '30s'")
+                db.execute("SET LOCAL idle_in_transaction_session_timeout = '30s'")
+                check_lease(self,db,release_only=lease_release)
+                if not read_only:db.execute('SELECT pg_advisory_xact_lock(183746812)')
+                return
+            except Exception as error:
+                if getattr(error,'sqlstate',None)!='55P03' or attempt:raise
+                db.rollback()
+                self.connection_failures.append({'operation':'TRANSACTION_ADMISSION','attempt':1,
+                    'error_type':type(error).__name__,'sqlstate':'55P03','retry':True,
+                    'transaction_body_started':False})
+                self.connection_failures=self.connection_failures[-100:]
+                time.sleep(30)
 
     def migrate(self):
         text = DDL.format(number='NUMERIC' if self.backend == 'postgresql' else 'TEXT')
@@ -247,7 +261,15 @@ class SharedState:
         return {'revision': row[0], 'body': body}
 
     def get(self, namespace, identity):
-        return self._read_transaction(lambda db:self._get(db,namespace,identity))
+        # Large retained captures must not leave the server idle in a read
+        # transaction while Python decodes and hashes them.
+        row = self._read_transaction(lambda db: self.sql(db,
+            'SELECT revision,body,body_hash FROM state_documents WHERE namespace=? AND identity=?',
+            (namespace, identity)).fetchone())
+        if row is None:raise KeyError(identity)
+        body = json.loads(row[1])
+        if sha(body) != row[2]:raise StateConflict('STATE_DOCUMENT_HASH_DIFFERS')
+        return {'revision': row[0], 'body': body}
 
     def _read_transaction(self,read):
         """Retry this read once on a fresh connection."""
@@ -262,7 +284,11 @@ class SharedState:
         for attempt in range(2):
             try:return operation()
             except Exception as error:
-                if self.backend!='postgresql' or not dropped_connection(error):raise
+                # A lock timeout aborts this transaction. These callers are
+                # reads or settlement of the same reservation ID, so retrying
+                # once cannot dispatch another estate or provider request.
+                lock_timeout=getattr(error,'sqlstate',None)=='55P03'
+                if self.backend!='postgresql' or not (dropped_connection(error) or lock_timeout):raise
                 self.connection_failures.append({'operation':name,'attempt':attempt+1,
                     'error_type':type(error).__name__,'sqlstate':getattr(error,'sqlstate',None),
                     'connection_timing':getattr(error,'postgres_connection_timing',None),'retry':attempt==0})
@@ -279,19 +305,21 @@ class SharedState:
         return self._read_transaction(read)
 
     def put(self, namespace, identity, body, *, revision=None):
+        # Prepare immutable bytes before opening a connection or writer lock.
+        # CAS only needs the previous revision, not its potentially huge body.
+        serialized = encoded(body)
+        body_hash = hashlib.sha256(serialized.encode()).hexdigest()
         with self.transaction() as db:
-            try:
-                prior = self._get(db, namespace, identity)
-            except KeyError:
-                prior = None
+            prior = self.sql(db, 'SELECT revision FROM state_documents WHERE namespace=? AND identity=?',
+                             (namespace, identity)).fetchone()
             if prior is None:
                 if revision is not None:
                     raise StateConflict('STATE_REVISION_DIFFERS')
-                self.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)', (namespace, identity, 0, encoded(body), sha(body)))
+                self.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)', (namespace, identity, 0, serialized, body_hash))
                 return {'revision': 0, 'body': body}
-            if type(revision) is not int or revision != prior['revision']:
+            if type(revision) is not int or revision != prior[0]:
                 raise StateConflict('STATE_REVISION_DIFFERS')
-            self.sql(db, 'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?', (revision+1, encoded(body), sha(body), namespace, identity))
+            self.sql(db, 'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?', (revision+1, serialized, body_hash, namespace, identity))
             return {'revision': revision+1, 'body': body}
 
     def update(self, namespace, identity, revision, operation):
@@ -358,7 +386,7 @@ class SharedState:
             if exact_sum([snapshot['charged'],pending_exposure(self,db,identity),commitment,protected]) > amount(snapshot['ceiling']):
                 raise StateConflict('ACCOUNT_CAP_REACHED')
             from .anthropic_credit import admit
-            admit(self,db,identity,commitment,purpose=detail.get('purpose'))
+            admit(self,db,identity,commitment,purpose=detail.get('purpose'),owner=owner)
             self.sql(db, 'INSERT INTO state_reservations VALUES(?,?,?,?,?,?,?)', (identity, key, owner, decimal_text(bound), decimal_text(bound), 'RESERVED', encoded(detail)))
             return key
 

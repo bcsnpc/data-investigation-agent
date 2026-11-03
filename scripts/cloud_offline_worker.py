@@ -67,6 +67,10 @@ TEST_MODULES = (
     'test_runner_replay_materialize.py',
 )
 
+# Every Round26 provider/intake regression travels with the fixed-image gate.
+TEST_MODULES += tuple(p.name for p in sorted((ROOT/'scripts').glob('test_round26*.py'))
+                      if p.name not in TEST_MODULES)
+
 
 def partition(entries, shard, shards):
     if type(shard) is not int or type(shards) is not int or not 1 <= shards <= 8 or not 0 <= shard < shards:

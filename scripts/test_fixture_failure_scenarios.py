@@ -60,9 +60,15 @@ class PipelineScenarios(unittest.TestCase):
   self.assertEqual(activities,[{'name':PipelineWaitScenario.WAIT_MARKER,'type':'Wait','dependsOn':[],'typeProperties':{'waitTimeInSeconds':300}}])
   self.assertEqual(before,original);self.assertEqual(after['definition']['parts'][1],preserved['definition']['parts'][1])
   self.assertNotIn('Copy',json.dumps(activities));self.assertNotIn('existing writer SQL',json.dumps(activities))
+ def test_one_hour_wait_outlasts_ticket_deadline_without_copying_data(self):
+  before=self.definition();after=PipelineWaitScenario.waiting(before,seconds=3600)
+  activities=PipelineWaitScenario.content(after)['properties']['activities']
+  self.assertEqual(len(activities),1);self.assertEqual(activities[0]['type'],'Wait')
+  self.assertEqual(activities[0]['typeProperties']['waitTimeInSeconds'],3600)
+  self.assertEqual(len(PipelineWaitScenario.content(before)['properties']['activities']),2)
  def test_wait_bound_and_restoration_use_existing_concurrency_checks(self):
   before=self.definition();control,calls,state=self.control(before);item='22222222-2222-2222-2222-222222222222'
-  for seconds in (True,59,601,'300'):
+  for seconds in (True,59,3601,'300'):
    with self.subTest(seconds=seconds),self.assertRaisesRegex(ValueError,'WAIT_BOUND'):PipelineWaitScenario(control,item,seconds=seconds)
   scenario=PipelineWaitScenario(control,item,seconds=60);applied=scenario.apply(before,key='wait-apply')
   self.assertEqual(PipelineWaitScenario.content(state[0])['properties']['activities'][0]['type'],'Wait')

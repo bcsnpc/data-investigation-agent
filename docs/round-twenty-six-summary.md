@@ -1,0 +1,110 @@
+# Round 26 — front door and providers
+
+Started 2026-11-01 from main `188077989737446237b4aa01b6e07101470eaaad`, after the v0.25 release.
+
+## Provider setup and benchmark
+
+_pending_
+
+## Intake, investigation and PostgreSQL
+
+_pending_
+
+## Dev and independent held-out measurement
+
+_pending_
+
+## Budgets, restores and release validation
+
+_pending_
+
+## Owner actions and open items
+
+Owner stored the existing OpenAI project key in the platform Key Vault. Model listing and bounded synthetic Responses/tool/cache calls passed. Credit expiry remains unknown: the owner reply used the placeholder <date>. No key was printed or committed. The live benchmark and release remain pending.
+
+### In-progress provider usage checkpoint
+
+There are 31 saved benchmark outcomes at this checkpoint; this is not a quality score. Actual investigator call means and cached-input ratios are: Opus USD0.106269 / 69.94%; Astra-only USD0.182081 / 64.47%; Sol first leg USD0.034744 / 58.99%; Astra fallback USD0.257695 / 44.31%. Different unresolved paths and differing call counts make these cost observations, not proof of relative quality. Exact counts, costs, capture seals and the original common image are in `round-twenty-six-benchmark-usage-checkpoint.json`. Screenshot and standalone-summary calls have not yet been measured in this checkpoint; no zero-cost claim is substituted.
+
+The benchmark remains on its original image. The next development image includes a generic cached query-layer contract correction and observational UTC timing, tested separately. The saved strict-schema hypothesis was not established by the captured requests. All prior outcomes are preserved. Physical-budget planning and an owner decision request are recorded in `owner-actions.md`; no ceiling has changed.
+
+## Intake diagnostic checkpoint (2026-11-01)
+
+The first model-only R22 dev intake diagnostic admitted 21/40; the second admitted 28/40, with 12 questions, 86 model calls and USD10.653160. Both used unchanged dev text and retained catalog metadata, with zero estate reads. These are admission diagnostics, not scored investigation results. Original results and provider journals are retained. See round-twenty-six-intake-dry1.json and round-twenty-six-intake-dry2.json.
+
+Current authoritative November AI charge: Anthropic USD30.526751/150; OpenAI USD15.111366/180; combined USD45.638117. No pending exposure in either provider account at this observation. Historical usage was not reset.
+
+The configured enrichment/evaluation cloud entry now uses the common provider surface, persists dispatch intent and returns saved status without resubmitting interrupted calls. Legacy Anthropic batch receipts retain their old route. Focused checks: 63 Round26 tests, 3 cloud enrichment tests and 8 prior cache regressions passed; full suite and live qualification pending.
+
+
+## Selected intake checkpoint
+
+Observed first-leg intake results: Astra28/40, USD0.123874/call,18.37%cached; Terra21/40,USD0.010282/call,86.74%cached; Sol28/40,USD0.024139/call,88.04%cached. Engine versions differ, and eight operational routes make no model call; this is not a controlled investigation benchmark. Sol selected by readiness first, cost second. One Astra fallback pass on13 non-ready/low-confidence tickets gives29/40 atUSD7.733820 combined, zero estate reads. Later Terra19/40 remains recorded.
+
+The three investigator columns are Sol with unresolved-only Astra escalation, Astra-only, and Opus. All share selected intake and Terra helpers. First Sol launch failed before model dispatch due to the obsolete Opus-only cache-spec restriction; partial capture and failure are retained, unscored. Corrected specification plus fake Azure key-header coverage passed90Round26 tests; corrected image publication pending at this checkpoint.
+
+The offline80route check now includes native declared continuations:59PATH_OPENED,8native operational,10questions,3rejected saved proposals; zero estate/model reads. This does not establish value correctness or full layer coverage.
+
+
+Partial cross-vendor primary grading checkpoint: first two application tickets each earned2/2 in Sol-to-Astra and Astra-only, graded by Claude Sonnet4.6 Batch, harmful0; initial three Opus tickets earned3/3 with Sol primary, harmful0. These are partial benchmark results and do not select the investigator default. Anthropic batch grading costUSD0.015069/call for the Sol-cascade sample andUSD0.015386/call for Astra-only; OpenAI Sol synchronous gradingUSD0.022148/call, cached-input0% on these one-call evaluations. Native usage and pricing class are recorded in round-twenty-six-initial-crossvendor-grading.json.
+
+Intake cascade costs98generation calls(63Sol including failed-original costs,35Astra fallback),USD0.193346 per ticket versus historical Astra-onlyUSD0.266329. Fallback cached-input85.43%. Engine-revision differences remain disclosed.
+
+
+November owner-approved request increase applied and read back 2026-11-01: total14,500 / investigation11,905, SCAN2,500 / restoration95 and model caps unchanged. At readback3,054total /2,808INV /228SCAN /18REST;77restorationremaining. Prior checkpoint saying no ceiling changed is historical. Receipt: round-twenty-six-request-increase.json. Corrected focused tests:103Round26 and17build-phase passed; the prior November9,000 assertion was updated for this explicit owner decision.
+
+Independent partial primary grading now Sol-to-Astra3/11, Astra-only5/11, Opus10/11; harmful0 in these subsets. Subsets are incomplete and differ by one case, so no default-investigator choice is made. Two further five-case Claude batch submissions use batch pricing; five further Opus outputs are being graded by OpenAI.
+
+
+Usage checkpoint updated2026-11-01T21:47Z:18selected saved outcomes per investigator column; answers are not grades. Actual mean investigator costs: SolUSD0.031679/call (60.51%cached), its Astra fallbackUSD0.239186/call(46.30%cached), Astra-onlyUSD0.184910/call(63.33%cached), OpusUSD0.098992/call(69.46%cached). Original environment-failure charges stay in the authoritative ledger and are excluded from these selected-outcome call means. See round-twenty-six-benchmark-usage-checkpoint.json.
+
+Next-development build891a7ef1 failed one obsolete November9,000 policy assertion;438other focused checks passed,28skipped, publication refused. Assertion corrected for the explicit owner November14,500/INV11,905 approval, with a December9,000/INV6,405 assertion; four local policy tests passed. Replacement focused build source76197296 submitted; benchmark image remains unchanged. Native owner controls separately verified billing3ACTIVE/600 and temporal historyON with earliest retained start2026-10-23T22:43:47.9434148Z; these are authoring facts, not investigator evidence. New v5 wording remains un-authored.
+
+
+Next-development image source76197296 published assha256:3c3cb713064b52b30cd0cc6753a4cd3edd4d79b3e42dee9f98c21f770bea8975. Hosted focused439PASS/28skip plus107Round26PASS, no full-release qualification. Current benchmark retains image1e0016e4. Eight superseded automatic CI runs were cancelled to free runner slots; latest checks and explicit image build preserved.
+
+Serial benchmark continuation is active behind the static queue. It admits no fault mutation until all77non-deferred static outcomes exist, rechecks the retained uncertain quantity original before one prepared labelled replacement, then runs approved failure/history/latency/access/waiting controllers with guarded restores. Stale remains pending its native UI control. No new v5 tickets have been authored: the40-ticket20FORM/20TEXT writer plan is prepared only, with current-native-fact and ID checks required before calls/sealing.
+
+Recovery checkpoint2026-11-01: all78static selected outcomes saved. Native failed-fixture original9d03b740 stopped undelivered on55P03 before model dispatch; unchanged partial and charges retained, one labelled same-image replacement ANSWERED(19physical,2modelcalls,USD0.060908), grading pending. Other fault cases continue serially. Independent Sonnet5.5 produced40v5drafts(20FORM/20TEXT); one unsealed group was independently replaced because it used display names in opaque-ID fields. Current address validation40/40, no unknown IDs or containment conflicts, wording unopened; native fact verification and sealing still pending. No held-out run admitted. PostgreSQL root cause remains unproven; tested short-read/idempotent-reservation repairs are on4f22cbfa. Container test fixture inherited LIVE_ACCESS_DISABLED=1; isolated fake-policy tests now explicitly set it and separately prove disable still overrides configuration:114Round26PASS,49prioraccounting/reasoning/reviewPASS. Corrected next-dev buildce2e8dae pending; benchmark image unchanged. Latest native budget3856/14500,REST18/95,AnthropicUSD41.838635/150,OpenAIUSD57.490895/180 (charges/commitments, not invoice). Earlier draft-unwritten statements are historical.
+
+Same26staticcases now independently primary-graded:Sol-to-Astra5/26,Astra-only19/26,Opus23/26,harmful0 in each. These are incomplete40-case benchmark columns, not held-out scores. Default investigator not selected until remainingfaultcasesgraded. New next-dev image8edf733b(sourcece2e8dae) passed439focused+114Round26checks; benchmark pinunchanged. Current v5schema/addresschecks40/40 after independent replacement, native baseline verified7controls, sealingpending.
+
+Failed-fixture cohort6/6outcomes saved; original definition hash restored and real original copy jobCompleted. Sixthlaunch response was lost(WinError10054), but the original native caseANSWERED and its sealed capture were recovered unchanged: no resubmission. Native execution name remains unestablished; answer,seal and settledcharges are established. Partial primary grades on the same28cases:Sol-to-Astra7/28,Astra21/28,Opus25/28,harmful0each. Billing-failurecohortcontinues. NativeUIread confirms applicationautoON/scheduleOFF; no settingchanged. Native15unique page/visual IDs resolve in current report definitions with exact cached/native part hashes matching. V5record04 remains unsealed pending independent fact-gap review; no operator expectation or wording review.
+
+## Resume checkpoint � UTC 2026-11-02
+
+The common-image benchmark primary grades are Sol?Astra13/40 (one harmful flag), Astra28/40 (zero), Opus34/38 (zero). The two missing Opus stale cases were not admitted after the owner's Claude-reservation steer. These unequal denominators do not establish a qualified default; the owner directs Opus for sealed v5 and OpenAI for dev. Four OpenAI stale benchmark outcomes completed; all benchmark controls restored, including original source hashes, original real load, automatic updatesON, own model refresh and native quantity7661.
+
+The new dev pass uses one pinned b90371c7/image1114841e. All31 static cases completed. Independent primary grading: failed-form reruns3/7, free-text11/24; the next two form-history cases add1/2, all these groups harmful0. Fault cohorts and grading remain incomplete. Original pre-dispatch failures and one incorrect v2 opaque report address are retained; no ticket or expectation was repaired to inflate the result. Candidate next-image changes preserve a final delivery step, permit delivery from saved evidence after the local read cap, use bounded native measure checks before certain missing-report questions, and page older named job history without substituting the latest run. These have focused tests; next-image live performance is not yet established.
+
+Forty v5 records (20FORM/20TEXT) were independently authored, native-fact/address-verified and sealed at a744dcae before scoring. Wording remains unopened by the operator. No v5 score or release claim yet.
+
+The approved single Haiku credit test made exactly one wire request: `anthropic.claude-3-haiku-20240307-v1:0`, prompt `Reply OK.`, maxTokens20, UTC2026-11-02T03:35:38.730142Z,23.732seconds, HTTP404 ResourceNotFoundException. No retry or alternate model. Guard restored; credit coverage unknown. Check AWS Billing?Bills after UTC2026-11-03T03:35:38Z. The Nova Micro tool smoke passed at USD0.000024. Exact receipts: round-twenty-six-haiku-credit-test.json and round-twenty-six-bedrock-smoke.json.
+
+
+## Dev02 partial checkpoint — 2026-11-02
+
+On the fully tested b739823f image (digest4324d42c), 27 of30 selected failed dev cases have saved outcomes. Independent primary5/27, secondary5/27, strict4/27, reviewed evidence-projection5/27; primary harmful0, secondary/reviewed harmful2. These are partial rerun counts, not a complete original-set or held-out score. Review inputs preserve literal business/query/numeric fields and label row samples and omitted repeated definition bodies; this is not claimed as complete raw-tape review. Full case-level dimensions and reasons are in round-twenty-six-dev02-progress.json.
+
+Current history controls restored the original360-row and schema hashes, with temporal history retained. All four latency reruns completed; their original source hashes match and their owned future schedule was removed. Access and waiting remain in progress. Four original dev01 stale cases remain unrun: both browser host and native desktop helper are unavailable; the desktop fallback sees Fabric but reports its existing window minimized. No automatic-update setting was changed on this retry. V5 remains sealed with zero admissions.
+
+Authoritative ledger snapshot: OpenAIUSD133.727853/180 (dev admission stop144), AnthropicUSD49.255301/74.943582, BedrockUSD0.529180/5. Physical7023/14500: investigation6525/11905, scan460/2500, restoration38/95 (57remaining). These are ledger charges, not prepaid balances or invoices. No limits changed.
+
+
+Dev02 selected rerun cohort complete:30/30 saved and independently graded. Primary5/30, secondary5/30, strict4/30, reviewed evidence-projection5/30; harmful primary0, secondary/reviewed2. All non-stale controls restored, including access-object ownership/roles and original waiting-pipeline hash. This is a failed-only rerun cohort, not an80-ticket overall score. Original dev01 stale4 are now staged after the owner reported OFF; fresh source360/hash and model7661 baseline verified, real+31copy complete, fresh source/Bronze7692 versus model7661 admission still required.
+
+Following the v5 steer, another generic intake fix scopes table lookup through native containment of explicitly named model/source containers before considering global same-name matches. A local reconstruction from retained fixture assets showed generic Movements matches displacing the specifically named Bronze container. The fix never guesses a parent: two named containers remain ambiguous and missing containment never escapes globally. Four new synthetic regressions plus existing intake, wrong-cell/target and extraction tests:186PASS. No expectation or original capture changed. New image/full-suite gate pending; current live stale cases retain the original dev01 image.
+
+
+## Latest owner-steered development checkpoint (UTC 2026-11-03)
+
+Round remains in progress, not released. Dev02 independent primary5/30, secondary5/30, strict4/30, saved-evidence-projection reviewed5/30; reviewed harmful2. R17-01 remains a reviewed harmful failure despite its original primary pass. All25 reviewed failures are backtracked in round-twenty-six-dev02-backtrack.md, with logical checkpoint hashes and no new reads or model calls for the analysis.
+
+New generic batch includes containment3676d2ff, bounded report/table candidate checks, per-layer terminal findings/calculation/limits/routing, read-only native metadata, evidenced retention bounds and rejection of model-invented report/page scope.252 focused tests passed. Full run41549127281 passed5845 tests, skipped53 and failed1 platform literal ratchet. Source d401c5a0 replaces that fixture-specific identifier list with a schema-independent identifier pattern;54 focused tests including the ratchet passed. Full tested-image run41550332591 is pending. No ticket has run on the new batch.
+
+The four deferred original-image dev01 stale cases are now saved: primary2/4, strict0/4, independently reviewed0/4, harmful0. They measured model7661 versus source/landing7692 but could not establish the native automatic-update setting. Source original360-row/business-schema hash is restored and original real load Completed; owner subsequently confirmed automatic updates ON (owner report, not browser readback), own refresh625f3197 Completed, and native model7661/source hashes were verified. The fixture is restored; schedule unchanged.
+
+Anthropic owner-reported remaining credit24USD is reserved for calibration/v5: current charged49.255301USD, shared cap70.255301USD, at most21USD additional and3USD untouched margin. OpenAI latest observed138.384248USD plus subsequent small independent grading; devstop remains144USD. v5 remains sealed and unadmitted.
+
+
+UTC2026-11-03 next correction: preliminary d401/e685 subset2 tickets scored0/2 by both judges and separate disagreement review,harm0; no remaining preliminary admissions. Native catalog diagnosis found cross-page inferred aliases defeating an explicitly named page. Generic page-scoping correction e41e803b passed258 focused, fullrepository5901tests/53skip and imagecontracts1152/2skip,0failerrors. Qualified image118253a7. Complete failed-only queue is29(f7/t22), unchanged inputs/expectations, oldpasses excluded; keep preliminary2 separate from this single-image cohort. Owner approved174USD OpenAI devstop within unchanged180USD hardcap,6USD protected for grading/release; Anthropic reserved envelope untouched.

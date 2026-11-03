@@ -1,0 +1,408 @@
+{
+  "kind": "OFFLINE_FORM_ADMISSION_ONLY_NOT_A_QUALITY_SCORE",
+  "records": 40,
+  "estate_requests": 0,
+  "model_calls": 0,
+  "statuses": {
+    "READY": 39,
+    "NEEDS_INPUT": 1
+  },
+  "cases": [
+    {
+      "id": "v2-application-baseline-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-application-baseline-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-billing-mrr-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-billing-mrr-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-fixture-quantity-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-fixture-quantity-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-billing-invoices-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-billing-invoices-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-failed-application-load-v1",
+      "estate": "fixture",
+      "fixture": "failed-fixture",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-failed-application-load-v2",
+      "estate": "fixture",
+      "fixture": "failed-fixture",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-failed-billing-transform-v1",
+      "estate": "billing",
+      "fixture": "failed-billing",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-failed-billing-transform-v2",
+      "estate": "billing",
+      "fixture": "failed-billing",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-waiting-application-load-v1",
+      "estate": "fixture",
+      "fixture": "waiting",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-waiting-application-load-v2",
+      "estate": "fixture",
+      "fixture": "waiting",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-latency-record-v1",
+      "estate": "fixture",
+      "fixture": "latency",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-latency-record-v2",
+      "estate": "fixture",
+      "fixture": "latency",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-stale-model-v1",
+      "estate": "fixture",
+      "fixture": "stale",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-stale-model-v2",
+      "estate": "fixture",
+      "fixture": "stale",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-access-export-v1",
+      "estate": "billing",
+      "fixture": "access",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-access-export-v2",
+      "estate": "billing",
+      "fixture": "access",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-warehouse-scope-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-warehouse-scope-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "NEEDS_INPUT",
+      "code": "INTAKE_DETAILS_UNRESOLVED",
+      "reason": "UNKNOWN_REPORT",
+      "warnings": []
+    },
+    {
+      "id": "v2-before-temporal-retention-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-before-temporal-retention-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-record-absent-everywhere-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-record-absent-everywhere-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-record-repeated-gold-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-record-repeated-gold-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-source-history-v1",
+      "estate": "fixture",
+      "fixture": "history",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-source-history-v2",
+      "estate": "fixture",
+      "fixture": "history",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-other-collected-definition-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-other-collected-definition-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-screenshot-record-01-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-screenshot-record-01-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-screenshot-record-02-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-screenshot-record-02-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-screenshot-record-03-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-screenshot-record-03-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": [
+        "Supporting comparison details retained separately; selected comparison kind preserved."
+      ]
+    },
+    {
+      "id": "v2-screenshot-record-04-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    },
+    {
+      "id": "v2-screenshot-record-04-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "status": "READY",
+      "code": null,
+      "reason": null,
+      "warnings": []
+    }
+  ]
+}

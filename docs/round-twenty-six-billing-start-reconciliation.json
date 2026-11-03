@@ -1,0 +1,23 @@
+{
+  "status": "LOST_SUBMISSION_UNSCORED_ONE_LABELLED_REPLACEMENT_EACH",
+  "tickets": [
+    {
+      "column": "sol-cascade",
+      "ticket": "v2-billing-mrr-v1",
+      "replacement_suffix": "-replacement1"
+    },
+    {
+      "column": "openai",
+      "ticket": "v2-billing-mrr-v1",
+      "replacement_suffix": "-replacement1"
+    }
+  ],
+  "evidence": "One accepted start in native activity logs, matching only the known completed Opus capture; no Sol or Astra start/header found after reconciliation. Original parent stderr was not retained and exact parent failure cause is unestablished. Native execution-list independently returned BadGateway; do not claim this proves each original failure cause.",
+  "native_activity_sha256": "79d305bf0fcad766a71cf4138005609ff6b074aeab2222f64146928f7ccf0392",
+  "header_reconciliation_sha256": "c5de3d49baf0440b924d104ea3feac19e41497792640c59a08046099b564e14c",
+  "original_logs_kept": true,
+  "read_retries_only": true,
+  "starts_never_retried_in_place": true,
+  "host_tests": "27unified+11harness+12transportPASS on committed70242f38",
+  "benchmark_investigator_image_unchanged": true
+}

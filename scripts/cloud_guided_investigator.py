@@ -6,6 +6,18 @@ from datetime import datetime,timezone
 from cloud_investigator import reference,PathCollector
 
 
+def intake_question_outcome(text, mapped, *, resolution, step_costs, cost,physical_requests=0):
+    """Keep the original text bound even when no intake has been admitted."""
+    from investigator.terminal_findings import attach
+    value=attach({'status':'NEEDS_INPUT','business':mapped.get('question','A named choice is needed before investigation.')},
+                 candidates=mapped.get('candidate_checks',()))
+    business=value['business']
+    return {'status':'NEEDS_INPUT','ticket':{'text':text},'business':business,'investigation_report':value['investigation_report'],
+            'outputs':{'business':business,'technical':json.dumps(mapped)},
+            'intake':mapped,'intake_resolution':resolution,'ai_step_costs':step_costs,
+            'cost':cost,'physical_requests':physical_requests}
+
+
 def metadata_tokens(configuration):
     """Use the full installed auth declaration, never its display profile."""
     from investigator.adapters.vault_user_cache import credential,provider
@@ -17,19 +29,21 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing','intake_cascade','investigator_cascade'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
+    if 'intake_cascade' in value and type(value['intake_cascade'])is not bool:raise ValueError('INTAKE_CASCADE_BOOLEAN_REQUIRED')
+    if 'investigator_cascade' in value and type(value['investigator_cascade'])is not bool:raise ValueError('INVESTIGATOR_CASCADE_BOOLEAN_REQUIRED')
     if type(value['max_requests']) is not int or not 1<=value['max_requests']<=100:
         raise ValueError('GUIDED_PHYSICAL_REQUEST_BOUND')
     graph=value['graph']
     if set(graph)!={'estate','identity','allowed_objects'} or not isinstance(graph['allowed_objects'],list):
         raise ValueError('GUIDED_GRAPH_SCOPE')
     reason=value['reasoning']
-    if set(reason)!={'model','rate_card','secret_reference','gateway_identity','worker_identity'}:
-        raise ValueError('GUIDED_REASONING_CONFIGURATION')
+    from investigator.adapters.provider_runtime import validate
+    validate(reason)
     if 'diagnostic_budget' in value and value['diagnostic_budget']!={'label':'UNSCORED_STATIC_DIAGNOSTIC','actual_usage_limit_microdollars':3000000}:
         raise ValueError('GUIDED_OWNER_DIAGNOSTIC_BUDGET_REQUIRED')
-    if 'diagnostic_prompt_cache'in value and (value['diagnostic_prompt_cache']is not True or 'diagnostic_budget'not in value or reason['model']!='claude-opus-5-5'):
+    if 'diagnostic_prompt_cache'in value and value['diagnostic_prompt_cache']is not True:
         raise ValueError('GUIDED_OWNER_DIAGNOSTIC_CACHE_REQUIRED')
     if 'ticket' in options:value['ticket']=options['ticket']
     return value
@@ -38,8 +52,10 @@ def specification(options):
 def execute(plan,context):
     from investigator.normal_audit import normal_context
     from investigator.build_phase import operating_mode
+    from investigator.run_timing import GuidedTiming
     with operating_mode(category='INVESTIGATION'),normal_context(context,plan.get('run_id','guided')) as audit:
-        return run(plan,audit)
+        timed=GuidedTiming(audit)
+        return timed.finish(run(plan,timed))
 
 
 def run(plan,context):
@@ -58,7 +74,7 @@ def run(plan,context):
     from investigator.guided_live_facts import PathFacts
     from investigator.adapters.ai_native_catalog import NativeCatalog
     from investigator.adapters.investigative_native import NativeQueries
-    from investigator.adapters.reasoning_anthropic import Client
+    from investigator.adapters.provider_runtime import client as provider_client
     from investigator.reasoning_budget import RateCard,TicketBudget
     from scan_estate_graph import Meter
     from investigator.usage_governance import UsageHold
@@ -72,7 +88,12 @@ def run(plan,context):
     if manifest.get('recording',{}).get('tape_class','EXACT')!='EXACT':
         raise ValueError('GUIDED_PROJECTED_STORAGE_NOT_INSTALLED_NO_RAW_FALLBACK')
     root=Path(context.root);root.mkdir(parents=True,exist_ok=True)
-    def record(value):return context.record('guided-case-event',value)
+    ai_usage=[]
+    def record(value):
+        if value.get('event')=='AI_NORMALIZED_USAGE':ai_usage.append(value)
+        return context.record('guided-case-event',value)
+    from investigator.ai_cost_report import summarize as step_costs
+    intake_resolution=None
     graph_spec=spec['graph']
     graph=GraphAPI(GraphRepository(state),current(),identity=graph_spec['identity'],estate=graph_spec['estate'],
                    allowed_objects=graph_spec['allowed_objects'],max_nodes=200,max_edges=500,max_bytes=256000)
@@ -99,28 +120,53 @@ def run(plan,context):
         collector_config=json.loads(reference(spec['collector'],maximum=500000).read_bytes())
         collector=PathCollector(collector_config,state,
                                 graph_spec['allowed_objects'],record)
-    rate=RateCard(model=spec['reasoning']['model'],**spec['reasoning']['rate_card'])
+    def ai_configuration(step):
+        if 'ai_routing' not in spec:return spec['reasoning']
+        from investigator.adapters.provider_runtime import select
+        return select(spec['ai_routing'],tenant=graph_spec['estate'],step=step)
+    investigator_configuration = ai_configuration('INVESTIGATOR')
+    rate=RateCard(model=investigator_configuration['model'],**investigator_configuration['rate_card'])
     budgets={}
-    def budget(case_id):
-        if case_id not in budgets:
-            budgets[case_id]=TicketBudget(state,case_id=case_id,owner=spec['reasoning']['worker_identity'],rate=rate,
+    def budget(case_id,step='INVESTIGATOR'):
+        selected=ai_configuration(step)
+        key=(case_id,step,selected.get('provider','anthropic'),selected['model'])
+        if key not in budgets:
+            budgets[key]=TicketBudget(state,case_id=case_id,owner=selected['worker_identity'],
+                rate=RateCard(model=selected['model'],**selected['rate_card']),
+                provider=selected.get('provider','anthropic'),purpose=step,
                 actual_usage_limit=spec.get('diagnostic_budget',{}).get('actual_usage_limit_microdollars',3000000))
-        return budgets[case_id]
-    def model(case_id):
-        return Client(model=rate.model,budget=budget(case_id),identity=spec['reasoning']['gateway_identity'],
-                      secret_reference=spec['reasoning']['secret_reference'],record=record,
+        return budgets[key]
+    def model(case_id,step='INVESTIGATOR'):
+        return provider_client(ai_configuration(step),budget=budget(case_id,step),record=record,
                       diagnostic_prompt_cache=spec.get('diagnostic_prompt_cache',True))
     request_key=plan.get('run_id',getattr(context,'run_id',root.name))
     from investigator.estate_graph_contract import digest
     case_id='guided:'+digest([graph_spec['estate'],request_key])
+    pending_intake = None
+    initial_intake_queries=[]
+    candidate_binding=None
+    operational_admission = None
     if set(submitted)=={'text'}:
-        mapped=Resolver(catalog=catalog,model=model(case_id),record=record).resolve(submitted['text'])
+        from investigator.operational_intake import admit as admit_operational
+        admission = admit_operational(submitted, {'candidates': list(catalog.nodes.values())})
+        if admission['status'] == 'READY':operational_admission = admission
+    if set(submitted)=={'text'} and operational_admission is None:
+        if spec.get('intake_cascade'):
+            from investigator.intake_cascade import Cascade
+            mapped=Cascade(catalog=catalog,first_model=model(case_id,'INTAKE'),
+                fallback_model=lambda:model(case_id,'INTAKE_FALLBACK'),record=record).resolve(submitted['text'])
+        else:mapped=Resolver(catalog=catalog,model=model(case_id,'INTAKE'),record=record).resolve(submitted['text'])
+        intake_resolution=mapped.get('intake_cascade')
+        record({'event':'GUIDED_INTAKE_ADMISSION','status':mapped['status'],
+                'resolution':intake_resolution,'confidence':mapped.get('resolution_confidence')})
         if mapped['status']!='READY':
-            business=mapped.get('question','A named choice is needed before investigation.')
-            return {'status':'NEEDS_INPUT','business':business,'outputs':{'business':business,'technical':json.dumps(mapped)},
-                    'intake':mapped,'cost':budget(case_id).status(),'physical_requests':0}
-        submitted={'intake':mapped['intake'],'source':mapped['source']}
-    if not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}:
+            from investigator.guided_intake_candidates import inventory as candidate_inventory
+            if not candidate_inventory(submitted['text'],mapped,catalog):
+                return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
+                    step_costs=step_costs(ai_usage),cost=budget(case_id).status())
+            pending_intake=mapped
+        else:submitted={'intake':mapped['intake'],'source':mapped['source']}
+    if pending_intake is None and operational_admission is None and (not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}):
         raise ValueError('GUIDED_TICKET_ENVELOPE')
     meter=Meter(state,{'environment':manifest['environment']},spec['max_requests'],reporting_mirror=False,enforce_limit=True)
     def physical(kind,call):
@@ -177,13 +223,34 @@ def run(plan,context):
     def history(node,kinds):
         if history_reader:return history_reader(node,kinds)
         return next(iter(fact_ports.values())).history(node,kinds)
+    if operational_admission is not None:
+        from investigator.operational_fastpath import run as operational_run
+        def operational_history(node, kinds):
+            if history_reader:return history_reader(node, kinds)
+            return {'status': 'UNAVAILABLE', 'reason': 'Native subject history is not configured.', 'facts': []}
+        try:
+            result = operational_run(operational_admission, operational_history, record=record,
+                history_for_selector=(lambda node,kinds,selector,text:history_reader(node,kinds,selector=selector,text=text))if history_reader else None)
+            result.update(ticket=submitted, physical_requests=meter.used,
+                          timing={'wall_seconds':time.monotonic()-started},
+                          outputs={'business':result['business'],'technical':json.dumps(result.get('technical',result.get('history',{})))})
+            context.record('guided-investigator-result',result)
+            return result
+        finally:meter.close()
     def screenshot_reader(case_id,checksum):
         if checksum not in spec.get('screenshots',{}):raise ValueError('SCREENSHOT_ATTACHMENT_NOT_INSTALLED')
         image=reference(spec['screenshots'][checksum],maximum=1024*1024).read_bytes()
         if __import__('hashlib').sha256(image).hexdigest()!=checksum:raise ValueError('SCREENSHOT_ATTACHMENT_HASH_DIFFERS')
         return image
+    def check_candidate_origin(origin,intake,actual_catalog):
+        from investigator.guided_intake_candidates import check_origin
+        return check_origin(origin,intake,actual_catalog,candidate_binding)
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
-        context_for=native_catalog.context,triage_for=triage,model_for=model,
+        intake_queries=lambda case:initial_intake_queries if candidate_binding and any(case['intake'].get(k)and case['intake'][k]==candidate_binding['intake'].get(k)for k in ('measure','report','table'))else[],
+        intake_origin_checker=check_candidate_origin,
+        context_for=native_catalog.context,candidate_query_for=native_catalog.candidate_query,triage_for=triage,model_for=model,
+        model_for_step=model,
+        investigator_cascade=spec.get('investigator_cascade',False),
         prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,candidate_details=native_catalog.candidate_details,
         screenshot_reader=screenshot_reader,
         security_definitions=security,
@@ -193,6 +260,25 @@ def run(plan,context):
         reserve=lambda *_:None,persist=lambda _,event:record(event),
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))
+    if pending_intake is not None:
+        from investigator.guided_intake_candidates import resolve as resolve_candidates
+        from investigator.investigative_queries import Queries
+        from investigator.model_spend import SpendHold
+        from investigator.live_gateway import GatewayDenied
+        from investigator.planner_recording import _safe
+        from investigator.guided_intake_candidates import probe_target
+        def probe_candidate(measure,proposal):
+            return probe_target(factory,catalog,measure,proposal,execute_native,record,initial_intake_queries)
+        try:
+            with guard_scope(record):mapped=resolve_candidates(submitted['text'],pending_intake,catalog,probe_candidate,record=record)
+        except BaseException:
+            meter.close();raise
+        if mapped['status']!='READY':
+            try:return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
+                step_costs=step_costs(ai_usage),cost=budget(case_id).status(),physical_requests=meter.used)
+            finally:meter.close()
+        candidate_binding=mapped
+        submitted={'intake':mapped['intake'],'source':mapped['source']}
     phases.append({'phase':'startup-and-intake','seconds':time.monotonic()-started})
     try:
         with guard_scope(record):
@@ -201,7 +287,16 @@ def run(plan,context):
             investigated=time.monotonic();result=cases.run(queued['id'])
             phases.append({'phase':'triage-and-investigation','seconds':time.monotonic()-investigated})
         outcome=result['outcome']
+        if 'investigation_report'not in outcome:
+            from investigator.terminal_findings import attach
+            saved=outcome.get('case',{})
+            outcome=attach(outcome,queries=saved.get('queries',[])if isinstance(saved,dict)else[],
+                           context=saved.get('context',{})if isinstance(saved,dict)else{})
+            outcome.setdefault('handoff',{})['investigation_report']=outcome['investigation_report']
+        if candidate_binding and isinstance(outcome.get('business'),str):
+            outcome['business']='Assumption: '+candidate_binding['resolution_assumption']+' '+outcome['business']
         output={**outcome,'ticket':submitted['intake'],'case_id':queued['id'],
+                'intake_resolution':intake_resolution,'ai_step_costs':step_costs(ai_usage),
                 'physical_requests':meter.used,'budget_before':meter.before,'budget_after':meter.usage.snapshot(),
                 'cost':budget(case_id).status(),'timing':{**outcome.get('timing',{}),'wall_seconds':time.monotonic()-started,'phases':phases},
                 'outputs':{'business':outcome['business'],'technical':json.dumps(outcome.get('technical',outcome.get('handoff',{})),ensure_ascii=False)}}

@@ -12,6 +12,25 @@ import test_enrichment as fixtures
 def source():return {'protocol':PROTOCOL,'purpose':'WRITE_TICKETS','case_id':'scenario-1','description':'The displayed total differs from a source total.','labels':['Report','Global total'],'variations':['plain','missing comparison']}
 
 class IndependentEvaluationTests(unittest.TestCase):
+    def test_guided_writer_allows_measure_or_table_primary_without_requiring_report(self):
+        from investigator.adapters.evaluation_anthropic import decode_output,guided_writer_schema
+        from test_round23_intake_queries import request as intake_request
+        from jsonschema import Draft202012Validator
+        value={**source(),'purpose':'WRITE_GUIDED_TICKETS','catalog':{
+            'reports':[],'source_systems':[],'measures':[{'id':'measure','name':'Total'}],
+            'tables':[{'id':'table','name':'Movements'}]}}
+        compiled=request_for(value,'a'*64)
+        self.assertIn('exactly one primary target',compiled['params']['system'])
+        self.assertNotIn('The report is required',compiled['params']['system'])
+        for kind in ('measure','table'):
+            intake=intake_request()
+            for field in ('report','page','visual'):intake.pop(field,None)
+            intake[kind]=kind
+            decoded=decode_output(value,{'tickets':[{'variation':'plain','intake_json':json.dumps(intake)}]})
+            Draft202012Validator(guided_writer_schema()).validate(decoded)
+        bad=copy.deepcopy(value);bad['catalog']['tables'][0]['definition']='not visible labels'
+        with self.assertRaisesRegex(ValueError,'VISIBLE_CATALOG_ONLY'):task(bad)
+
     def setUp(self):
         fixtures.historical_credit_clock(self)
     def test_guided_writer_catalog_only_and_separate_handoff_grading(self):

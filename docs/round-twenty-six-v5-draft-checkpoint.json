@@ -1,0 +1,135 @@
+{
+  "observed_at_utc": "2026-11-01T23:41:46.514168+00:00",
+  "drafts": 40,
+  "form": 20,
+  "text": 20,
+  "independent_writer": "claude-sonnet-5-5",
+  "operator_wording_opened": false,
+  "sealed": false,
+  "native_facts": "IN_PROGRESS",
+  "address_validation": {
+    "tickets": 40,
+    "form": 20,
+    "text": 20,
+    "unknown_id_cases": 0,
+    "relationship_conflict_cases": 0,
+    "shape_error_cases": 0,
+    "sealed": false,
+    "wording_opened": false,
+    "native_fact_verification_pending": true
+  },
+  "original_invalid_address_group_retained": true,
+  "independent_address_replacement_groups": 2,
+  "paid_usage": [
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-access-export-provider.jsonl",
+      "sha256": "e70ea653c1a7f232cfe7b6da5a6c804b6f4320bccd8c7d63ec5d2c5b4de958e9",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-application-baseline-provider.jsonl",
+      "sha256": "ac97bb86302b265b8074ecb341fbcb2fc292e5be6ce1976f81e9df0499d56d0d",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-before-temporal-retention-provider.jsonl",
+      "sha256": "a1cb5a0f6f43c3dfa5f8acfc2a7228ecfc6ca3679173b58b6beb6a5bc485cf03",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-billing-invoices-provider.jsonl",
+      "sha256": "fd6498359dda00347c110e4add97173edf103cc7ffa74fb55539e5779eeef3dd",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-billing-mrr-provider.jsonl",
+      "sha256": "d7fc237fcdb72fcb5fdca380f2bc0948a4afe3e6e9adcbfecb268cb2bf7dee03",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-failed-application-load-provider.jsonl",
+      "sha256": "fbc791e56e7b001b974fb0e70a20b2f507e7adeac58ad1cc5c04dabb5e68f488",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-failed-billing-transform-provider.jsonl",
+      "sha256": "88db647ffab86bd017f1b2064e0be584287dad69648fb0929e52cd02ff3037e2",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-fixture-quantity-provider.jsonl",
+      "sha256": "5a23d1d825e1d1746a0adf21a5cbdc8943bf1cf296a7fce79ff894a846487450",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-latency-record-provider.jsonl",
+      "sha256": "1c827141f865872fdf08694eb403f5ebbf5f989196c025686d39fcff32117e35",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-other-collected-definition-provider.jsonl",
+      "sha256": "6d96f43e0836fca22448abeac9c8a9358edd3da37db3a266b266613f81d76556",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-record-absent-everywhere-provider.jsonl",
+      "sha256": "61ef11b4548930ea1487a34eea9b36cd8758c2b2393bbe7c5b8b939882285c34",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-record-repeated-gold-provider.jsonl",
+      "sha256": "fa8e58af6baad4b146a0f9b16276875940053f2edcb57e4e2d2c4748f162b1b5",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-screenshot-record-01-provider.jsonl",
+      "sha256": "3effcf9b178c99c1bd5606a12764c50e849797d293858b8e30cd01a52fab46fc",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-screenshot-record-02-provider.jsonl",
+      "sha256": "efc02eae323edf6a98b75ee42768d2a9e75ddad6020349bc93db4587e4652c60",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-screenshot-record-03-provider.jsonl",
+      "sha256": "b69f97255b01d0645b515e400f0978a04d1826e13ed9dfec2cee786781984918",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-screenshot-record-04-provider.jsonl",
+      "sha256": "12946ad83b4c6477457025bb5d0494c7e61321ba04cb5b429f44139e7bddf6d7",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-source-history-provider.jsonl",
+      "sha256": "f0faa04c1ab29a0ab41683dd04422916023fcfbdc5f6b1ae1df96458046924a7",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-stale-model-provider.jsonl",
+      "sha256": "8acec7bb30eea6bedae9173920d8921f47f5c49e456588f9ada2fc9b64593252",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-waiting-application-load-provider.jsonl",
+      "sha256": "f60cd2f5d8cf43387396870745c178ae2158b20744eff898f531ce381a415140",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-v1\\v5-warehouse-scope-provider.jsonl",
+      "sha256": "feec45c093c52ef91ab9ed828741f29a39b22884418d06a9e23fb92c22f0cac5",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-address-replacement1\\v5-billing-invoices-provider.jsonl",
+      "sha256": "ffdd77bc58d5d57ff5827bfadc49db4379d0ded6c603343ff6892ab868f9f00f",
+      "normalized_usage_records": 1
+    },
+    {
+      "journal": ".local\\round-twenty-six\\v5-preparation\\independent-drafts-address-replacement1\\v5-latency-record-provider.jsonl",
+      "sha256": "4ceb1414066a92cbaee58345711ef28d03f65a1c75071737f8a35632462307a5",
+      "normalized_usage_records": 1
+    }
+  ]
+}

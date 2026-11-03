@@ -33,6 +33,10 @@ repeats reuse saved evidence. Read the current-state recitation each turn.
 Distinguish current rows from history: selecting period columns from a current
 table is not a history read. Do not claim historical absence or a before/after
 change unless the cited query actually reads retained native history.
+Before latency, compare the same source calculation now and AS OF the latest
+successful load end time from the native ledger. If it changed, investigate
+source history first; if history is unavailable, say so instead of claiming
+latency. Current rows or period columns alone cannot rule out source changes.
 Ask only as a last resort after candidate checks and a recreation attempt, only
 for an unreadable user fact or business policy, using named multiple choices.
 Submit a plain answer with verdict, cause, numbers and what was checked. No fixes.
@@ -43,6 +47,10 @@ only the user's value. Definition questions: retained definition first, then its
 actual inputs. Record questions: key presence through the declared path first.
 Access questions: retained roles and mappings, then ordinary read-only filter
 recreation; never impersonate or infer membership from inaccessible APIs.
+For stale data, inspect refresh history and schedule. Direct Lake automatic
+updates is a different setting: if its value is unavailable, state the known
+refresh/newer-data timestamps and that the switch is unreadable. Never infer
+automatic updates OFF from an absent refresh schedule or from old values.
 Value agreement never establishes snapshot alignment. A statement about a
 whole source chain requires actual reads of its boundaries. For a calculation
 trace, follow declared route bridges and retained transformations beyond the
@@ -61,6 +69,29 @@ Use display names in the business cause. Opaque evidence/node addresses belong
 in evidence_ids and checked; genuine user record keys remain literal.
 For Something else, investigate its description and name the nearest issue type
 in submit_finding when the form has not already supplied that classification.
+Read-only metadata is supported: INFORMATION_SCHEMA and sys catalog views/DMVs
+on the current SQL endpoint, DAX EVALUATE INFO.* rowsets, and Spark DESCRIBE
+HISTORY/DETAIL for admitted tables. Native permission errors remain errors; no
+identity fallback is available. For history outside retention, establish the
+earliest retained version or time with a native metadata/history query, cite it
+and explain that it cannot reconstruct the requested earlier state. A latest-N
+sample does not establish the beginning of retention. An empty AS OF result is
+not an earlier zero. Do not claim history is unavailable merely because a
+metadata query was rejected; correct it using the admitted read syntax.
+Always deliver the established per-layer findings, the calculation, undecided
+parts with reasons, and an engineer or business-owner handoff. When the cause is
+not established, say not found with those partial findings instead of a bare
+clarification or unresolved response. For submit_finding numbers, use literal
+cells in cited successful results, not an inferred row count or an uncited
+arithmetic difference. The code also renders the returned row counts separately.
+Answer the question that was asked. For a sum-versus-count or definition
+question, explain the retained calculation and its observed inputs first. An
+incidental source-chain divergence is a separate observation, not automatically
+the cause of the user's interpretation. Do not turn agreement with the measure's
+formula into a judgment that the intended business rule is correct.
+Use routing BUSINESS_OWNER when an intended rule or physical meaning requires
+an authoritative owner decision; otherwise route remaining technical work to
+ENGINEER. A routing is a handoff recommendation, never a message or permission.
 '''
 
 
@@ -103,13 +134,17 @@ def toolbox(layers,read_tools,intake=None):
         submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
         submit['properties']['classified_issue_type']={'enum':list(ISSUES[:-1])}
         submit['required'].append('classified_issue_type')
+    submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
+    submit['properties']['routing']={'enum':['ENGINEER','BUSINESS_OWNER']}
     return tools
 
 
 class Investigator:
     def __init__(self,*,queries,model,read_tools,validate_finding=None,validate_question=None,
-                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900):
+                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900,initial_tools_used=0):
         if type(tool_limit) is not int or not 1<=tool_limit<=15:raise ValueError('TOOL_LIMIT')
+        if type(initial_tools_used)is not int or not 0<=initial_tools_used<tool_limit:raise ValueError('INITIAL_TOOL_COUNT')
+        self.initial_tools_used=initial_tools_used
         from .grounded_answers import finding,question
         validate_finding=validate_finding or finding;validate_question=validate_question or question
         if not callable(validate_finding) or not callable(validate_question):raise ValueError('CONSUMER_VALIDATORS_REQUIRED')
@@ -165,7 +200,7 @@ class Investigator:
             question=self.validate_question(deepcopy(args),self.case_view())
             if not isinstance(question,dict) or not question.get('question') or not question.get('choices'):
                 raise ValueError('VALIDATOR_MUST_RETURN_GROUNDED_NAMED_CHOICES')
-            self.state['outcome']={'status':'NEEDS_INPUT','business':question['question'],'question':question}
+            self.state['outcome']={'status':'NEEDS_INPUT','business':question['question'],'question':question,'question_reason':args['reason']}
             return question
         if name=='get_evidence':
             if args['id'] not in known:raise ValueError('UNKNOWN_EVIDENCE_REFERENCE')
@@ -196,6 +231,7 @@ class Investigator:
     def parallel_queries(self,calls):
         """Only model-requested independent layers; results journal in call order."""
         from .process_tape import ACTIVE
+        if self.state.get('physical_reads_closed'):return {}
         if ACTIVE.get() is not None:return {}  # Preserve serial exact-tape ordering.
         if not 2<=len(calls)<=3 or len(calls)>self.tool_limit-self.state['tools_used']:return {}
         if any(c.get('name') not in ('run_sql','run_dax') for c in calls):return {}
@@ -248,6 +284,34 @@ class Investigator:
                     self.evidence({'operational_read_failed':name,'error_type':type(error).__name__})
                 self.state['pending']=None;self.save();return
 
+    def prime_access_definitions(self):
+        """Access questions start with roles/views, before value recreation."""
+        intake=self.context.get('intake',{})
+        if intake.get('issue_type')!='OTHERS_SEE_DIFFERENT_NUMBER':return
+        self.refresh_tools()
+        tool=self.read_tools.get('get_security_definitions')
+        if not tool:return
+        allowed=tool['schema']['properties']['node'].get('enum',[])
+        nodes=self.context.get('path',{}).get('nodes',[])
+        candidates=[intake['table']]if intake.get('table') else []
+        candidates += [n['id']for kind in ('MODEL','TABLE','VIEW')for n in nodes if n['kind']==kind]
+        node=next((n for n in candidates if n in allowed),None)
+        if node is None:return
+        args={'node':node};key=digest(['get_security_definitions',args])
+        if key in self.state['cache']:return
+        self.state['pending']={'kind':'TOOL','name':'get_security_definitions','signature':key};self.save()
+        self.state['tools_used']+=1
+        try:
+            value=self.dispatch('get_security_definitions',args)
+            ident=self.evidence({'tool':'get_security_definitions','arguments':args,'result':value})
+            self.state['cache'][key]={'evidence_id':ident,'result':value}
+            self.state['messages'].append({'role':'user','content':canonical({'security_evidence':ident,
+                'result':value,'instruction':'Use these roles, mappings and view definitions first, then recreate the named user filters. No impersonation or inferred membership.'})})
+        except (SpendHold,UsageHold,GatewayDenied):raise
+        except Exception as error:
+            self.evidence({'security_read_failed':'get_security_definitions','error_type':type(error).__name__})
+        self.state['pending']=None;self.save()
+
     def run(self):
         started=self.clock();self._started=started;pins=digest([self.case_id,self.context,self.triage])
         saved=self.checkpoint.load()
@@ -270,18 +334,24 @@ class Investigator:
                 return self.finish()
         else:
             self.state={'version':'ai-investigation-v1','case_id':self.case_id,'pins':pins,'messages':[],
-                        'evidence':{},'cache':{},'tools_used':0,'model_calls':0,'candidate_checks':False,
+                        'evidence':{},'cache':{},'tools_used':self.initial_tools_used,'model_calls':0,'candidate_checks':False,
                         'pending':None,'outcome':None,'elapsed_seconds':0}
             self._elapsed_before=0
             self.evidence({'kind':'TRIAGE','facts':self.triage})
         try:
-            if not saved:self.prime_operational_run()
+            if not saved:
+                self.prime_access_definitions()
+                self.prime_operational_run()
             while self.state['tools_used']<self.tool_limit and self.state['model_calls']<self.tool_limit+3:
                 if self._elapsed_before+self.clock()-started>=self.deadline_seconds:break
                 recitation={'case_id':self.case_id,'tools_used':self.state['tools_used'],
                             'evidence_ids':list(self.state['evidence']),
                             'query_ids':[q['id'] for q in self.queries.records],
                             'instruction':'Choose the next useful check, or submit a supported finding.'}
+                if self.state.get('physical_reads_closed'):
+                    recitation['instruction']='The physical read allowance is exhausted. No more estate calls are allowed. Submit only a finding supported by saved evidence, with unchecked parts stated, or ask a validated question. You may inspect saved evidence locally.'
+                if self.closing_action_reserved():
+                    recitation['instruction']='The last action is reserved for delivery. Submit the finding supported by the saved evidence, including its limits, or ask a validated last-resort question. No additional investigation read is available. A supported partial finding is preferable to silently dropping established evidence.'
                 if not self.state.get('turn'):
                     self.refresh_tools()
                     self.state['messages'].append({'role':'user','content':canonical({'current_state':recitation})})
@@ -306,6 +376,15 @@ class Investigator:
                 for call in calls:
                     if self.state['tools_used']>=self.tool_limit:break
                     name,args=call.get('name'),call.get('input');key=digest([name,args])
+                    if self.state.get('physical_reads_closed') and name not in ('submit_finding','ask_user_choice','get_evidence'):
+                        results.append({'type':'tool_result','tool_use_id':call['id'],'content':canonical({'rejected_tool':name,'reason':'PHYSICAL_READS_CLOSED_USE_SAVED_EVIDENCE','available':['submit_finding','ask_user_choice','get_evidence']}),'is_error':True})
+                        self.save();continue
+                    if self.closing_action_reserved() and name not in ('submit_finding','ask_user_choice'):
+                        # Reject without a read or consuming the delivery slot. The
+                        # unchanged model-call, time and dollar caps still apply.
+                        results.append({'type':'tool_result','tool_use_id':call['id'],
+                            'content':canonical({'rejected_tool':name,'reason':'FINAL_ACTION_RESERVED_FOR_VALIDATED_DELIVERY','available':['submit_finding','ask_user_choice']}),'is_error':True})
+                        self.save();continue
                     self.state['tools_used']+=1
                     self.state['pending']={'kind':'TOOL','name':name,'signature':key};self.save()
                     try:
@@ -323,7 +402,14 @@ class Investigator:
                             if name not in ('submit_finding','ask_user_choice') and not failed:
                                 self.state['cache'][key]=deepcopy(result)
                         is_error=(isinstance(result.get('result'),dict) and result['result'].get('status')=='ERROR')
-                    except (SpendHold,UsageHold,GatewayDenied):raise
+                    except UsageHold as error:
+                        if str(error)!='GUIDED_PHYSICAL_CAP_REACHED' or not any(q['status']=='SUCCEEDED'for q in self.queries.records):raise
+                        # Close physical work permanently for this case. Model/delivery
+                        # can use saved evidence only, within their unchanged budgets.
+                        self.state['physical_reads_closed']=True
+                        result={'rejected_tool':name,'reason':'PHYSICAL_READS_CLOSED_USE_SAVED_EVIDENCE','available':['submit_finding','ask_user_choice','get_evidence']}
+                        self.evidence(result);is_error=True
+                    except (SpendHold,GatewayDenied):raise
                     except Exception as error:
                         from .planner_recording import _safe
                         message=str(error)
@@ -347,13 +433,22 @@ class Investigator:
                                    'stop':'TOOL_OR_TIME_LIMIT'}
         return self.finish()
 
+    def closing_action_reserved(self):
+        # The seven-action cascade stage hands off to another model; it is
+        # not a final-delivery boundary. Keep that existing handoff unchanged.
+        return (self.tool_limit==15 and self.state['tools_used']==14
+                and any(q['status']=='SUCCEEDED' for q in self.queries.records))
+
     def finish(self):
         outcome=deepcopy(self.state['outcome'])
+        from .terminal_findings import attach
+        outcome=attach(outcome,queries=self.queries.records,context=self.context)
         outcome['case']=self.case_view()
         if outcome['status']!='ANSWERED':
             measured={q['layer'] for q in self.queries.records if q['status']=='SUCCEEDED'}
             remaining=sorted(set(self.queries.layers)-measured)
             outcome['handoff']={**self.case_view(),'stopping_point':outcome.get('stop',outcome.get('question')),
+                                'investigation_report':deepcopy(outcome['investigation_report']),
                                 'ruled_out':deepcopy(outcome.get('ruled_out',[])),
                                 'next_checks':['Check the unread layer '+name+'.' for name in remaining]
                                               +['Review '+q['id']+': '+q['error'] for q in self.queries.records if q['status']=='ERROR']}
