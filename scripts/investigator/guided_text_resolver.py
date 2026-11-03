@@ -196,8 +196,17 @@ class Resolver:
         direct=next((field for field,kinds in (('table',('TABLE','VIEW')),('measure',('MEASURE',)))
                      if self.catalog.nodes.get(last_proposal.get(field),{}).get('kind')in kinds),None)
         if last_error and last_error['reason'].startswith('VISUAL_PROVENANCE')and report:
-            fields.append({'field':'visual','choices':[{'id':v['id'],'name':v['name']+' on '+p['name']}
-                for p in self.catalog.pages(report)for v in self.catalog.visuals(report,p['id'])]})
+            import re
+            pages=self.catalog.named_pages(text,report) or self.catalog.pages(report)
+            choices=[]
+            for page in pages:
+                for visual in self.catalog.visuals(report,page['id']):
+                    name=visual['name']
+                    if re.fullmatch(r'[a-fA-F0-9-]{12,}',name):
+                        measures=', '.join(m['name']for m in visual.get('measures',[]))
+                        name=('Untitled visual: '+measures)if measures else'Untitled visual'
+                    choices.append({'id':visual['id'],'name':name+' on '+page['name']})
+            fields.append({'field':'visual','choices':choices})
         elif last_error and last_error['reason']=='DIRECT_TARGET_UNRESOLVED_OR_AMBIGUOUS' and direct:
             matches=self.catalog.table_matches(text)if direct=='table'else self.catalog.measure_matches(text)[:10]
             if not matches:

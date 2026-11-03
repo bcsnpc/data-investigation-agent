@@ -83,6 +83,14 @@ class Catalog:
         self.require(report, 'REPORT')
         return self.children(report, 'PAGE')
 
+    def named_pages(self, text, report):
+        pages=[p for p in self.ranked(text,'PAGE',within={p['id']for p in self.pages(report)})
+               if p['confidence']=='NAMED']
+        if pages:
+            width=max(len(str(p.get('matched_name')or p['name']))for p in pages)
+            pages=[p for p in pages if len(str(p.get('matched_name')or p['name']))==width]
+        return pages
+
     def visuals(self, report, page):
         if page not in {p['id'] for p in self.pages(report)}:
             raise ValueError('PAGE_OUTSIDE_REPORT')
@@ -368,11 +376,7 @@ def prefill(text, proposed, catalog, *, provenance=None):
             parents=[p for p in catalog.pages(value['report'])
                      if any(v['id']==value['visual']for v in catalog.visuals(value['report'],p['id']))]
             if len(parents)==1:value['page']=parents[0]['id']
-        pages=[p for p in catalog.ranked(text,'PAGE',within={p['id'] for p in catalog.pages(value['report'])})
-               if p['confidence']=='NAMED']
-        if pages:
-            width=max(len(str(p.get('matched_name')or p['name']))for p in pages)
-            pages=[p for p in pages if len(str(p.get('matched_name')or p['name']))==width]
+        pages=catalog.named_pages(text,value['report'])
         if len(pages)==1:
             if value.get('page') and value['page']!=pages[0]['id']:raise ValueError('PAGE_REFERENCE_DIFFERS_FROM_TICKET')
             value.setdefault('page',pages[0]['id'])
@@ -407,15 +411,21 @@ def prefill(text, proposed, catalog, *, provenance=None):
             # A model-supplied page is not a user selection. A loose measure
             # span must be unique across the report unless the ticket itself
             # names the page; otherwise it can pick a differently filtered card.
-            explicit_pages=[p for p in catalog.ranked(text,'PAGE',within={p['id']for p in catalog.pages(value['report'])})if p['confidence']=='NAMED']
-            if explicit_pages:
-                width=max(len(str(p.get('matched_name')or p['name']))for p in explicit_pages)
-                explicit_pages=[p for p in explicit_pages if len(str(p.get('matched_name')or p['name']))==width]
+            explicit_pages=catalog.named_pages(text,value['report'])
             visuals=(catalog.visuals(value['report'],value['page'])if len(explicit_pages)==1 else
                      [v for p in catalog.pages(value['report'])for v in catalog.visuals(value['report'],p['id'])])
             report_visuals={v['id'] for p in catalog.pages(value['report'])
                             for v in catalog.visuals(value['report'],p['id'])}
-            named=[r for r in catalog.ranked(text,'VISUAL',within=report_visuals)
+            scoped_visuals={v['id']for v in visuals}
+            if len(explicit_pages)==1:
+                # Search-aid aliases on another page cannot override a native
+                # page explicitly selected by the user. A contradictory exact
+                # native title still refuses; it is not a licence to swap cells.
+                if any(catalog.nodes[i].get('label','') and
+                       catalog.nodes[i]['label'].casefold()in span['quote'].casefold()
+                       for i in report_visuals-scoped_visuals):
+                    raise ValueError('VISUAL_PROVENANCE_OUTSIDE_NAMED_PAGE')
+            named=[r for r in catalog.ranked(text,'VISUAL',within=scoped_visuals)
                    if r['confidence']=='NAMED']
             measures={e['target']for e in catalog.edges if e['source']==value['visual'] and e['kind']=='COMPUTED_FROM'}
             cited={m for m in measures if catalog.nodes.get(m,{}).get('label','') and

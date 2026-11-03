@@ -1209,3 +1209,6 @@ The owner reports $24 Anthropic credit remaining and reserves it exclusively for
 
 
 Section8 approved stale practice control restoration, UTC2026-11-03 / owner2026-11-02: source original360/business-schema hashes verified, original real loadCompleted, owner confirmed automaticupdatesON with scheduleunchanged (owner report, not browser readback), own model refreshCompleted, native7661 verified. No identity, role, secret, connection or schedule change. Receipt docs/round-twenty-six-dev01-stale-completion.json.
+
+
+Owner-approved Section8 UTC2026-11-03 / owner2026-11-02: dev03 only may use174USD OpenAI admission stop instead of the original80percent/144USD. Monthly180USD hard cap unchanged,6USD reserved for grading/release. Per-ticket3USD, estate allocations/reserve and Anthropic calibration/v5-only envelope unchanged. Actual usage history preserved; no account reset or identity/permission/secret change. Receipt docs/round-twenty-six-dev03-owner-stop-174.json.

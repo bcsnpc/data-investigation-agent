@@ -4,6 +4,42 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_named_page_beats_another_pages_search_alias_without_swapping_cells(self):
+        catalog=self.catalog();catalog.nodes['card']['label']='Net Revenue - regional'
+        catalog.nodes['card']['enrichment']={'synonyms':['Net Revenue card']}
+        catalog.nodes.update({'wholepage':{'id':'wholepage','kind':'PAGE','label':'Whole estate'},
+                              'whole':{'id':'whole','kind':'VISUAL','label':'Net Revenue - whole'}})
+        catalog.edges.extend([{'source':'report','target':'wholepage','kind':'CONTAINS'},
+            {'source':'wholepage','target':'whole','kind':'CONTAINS'},
+            {'source':'whole','target':'measure','kind':'COMPUTED_FROM'}])
+        text='Billing Overview Whole estate Net Revenue card'
+        proposal={'report':'report','page':'wholepage','visual':'whole','issue_type':'NUMBER_LOOKS_WRONG'}
+        self.assertEqual(prefill(text,proposal,catalog,provenance={'visual':[5,7]})['visual'],'whole')
+        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE'):
+            prefill('Billing Overview Net Revenue card',proposal,catalog,provenance={'visual':[3,5]})
+        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE_OUTSIDE_NAMED_PAGE'):
+            prefill('Billing Overview Whole estate Net Revenue - regional',proposal,catalog,
+                    provenance={'visual':[5,8]})
+
+    def test_visual_question_uses_named_page_and_never_displays_opaque_visual_names(self):
+        from investigator.guided_text_resolver import Resolver
+        from test_round23_reasoning import tool
+        from unittest.mock import Mock
+        catalog=self.catalog();catalog.nodes['page']['label']='Whole estate'
+        catalog.nodes['card']['label']='abcdef0123456789abcd'
+        catalog.nodes['extra']={'id':'extra','kind':'VISUAL','label':'Another summary'}
+        catalog.edges.extend([{'source':'page','target':'extra','kind':'CONTAINS'},
+                              {'source':'extra','target':'measure','kind':'COMPUTED_FROM'}])
+        args={'proposal':{'version':'IntakeRequest/1','report':'report','page':'page','visual':'card',
+                         'issue_type':'NUMBER_LOOKS_WRONG','compared_with':{'kind':'NOTHING'}},
+              'provenance':{'visual':[5,7]},'figure_mentions':[]}
+        model=Mock();model.complete.side_effect=[tool('resolve_intake',args),tool('resolve_intake',args)]
+        result=Resolver(catalog=catalog,model=model,record=lambda _:None).resolve('Billing Overview Whole estate Net Revenue card')
+        choices=result['question']['fields'][0]['choices']
+        self.assertEqual({x['id']for x in choices},{'card','extra'})
+        self.assertTrue(all(x['name'].endswith(' on Whole estate')for x in choices))
+        self.assertNotIn('abcdef0123456789abcd',str([x['name']for x in choices]))
+
     def test_a_model_cannot_invent_a_report_when_the_ticket_names_a_native_container(self):
         catalog=self.catalog()
         catalog.nodes.update({'landing':{'id':'landing','kind':'SOURCE','label':'Quarterly landing'},
