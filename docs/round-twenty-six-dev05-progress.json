@@ -1,0 +1,72 @@
+{
+  "scope": "Dev05 three-ticket subset on 9bcb44b3 / fbcab312; remaining admissions paused for native route preparation integration fix",
+  "review_scope": "Saved evidence projections, not raw provider tapes",
+  "observed_at_utc": "2026-11-03T01:22:17.207153+00:00",
+  "cases": [
+    {
+      "case_id": "round26-dev05-text-R17-04-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer did not establish a verdict, layer, or named cause as expected. It did not find a unique target and did not provide a clear stopping point or sensible next checks."
+    },
+    {
+      "case_id": "round26-dev05-text-R17-05-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer does not match the expected answer in terms of the verdict, layer/split point, and named cause."
+    },
+    {
+      "case_id": "round26-dev05-text-R17-08-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer did not provide a full verdict, layer/split point, or named cause that matches the expected answer. It did not address the model refresh-history facts as specified in the expected answer."
+    }
+  ],
+  "saved_outcomes": 3,
+  "summary": {
+    "primary": {
+      "correct": 0,
+      "graded": 3,
+      "harmful": 0
+    },
+    "secondary": {
+      "correct": 0,
+      "graded": 3,
+      "harmful": 0
+    },
+    "strict": {
+      "correct": 0,
+      "graded": 3,
+      "harmful": null
+    },
+    "reviewed_projection": {
+      "correct": 0,
+      "graded": 3,
+      "harmful": 0
+    }
+  }
+}
