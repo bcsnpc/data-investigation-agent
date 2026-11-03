@@ -1212,3 +1212,7 @@ Section8 approved stale practice control restoration, UTC2026-11-03 / owner2026-
 
 
 Owner-approved Section8 UTC2026-11-03 / owner2026-11-02: dev03 only may use174USD OpenAI admission stop instead of the original80percent/144USD. Monthly180USD hard cap unchanged,6USD reserved for grading/release. Per-ticket3USD, estate allocations/reserve and Anthropic calibration/v5-only envelope unchanged. Actual usage history preserved; no account reset or identity/permission/secret change. Receipt docs/round-twenty-six-dev03-owner-stop-174.json.
+
+
+### Section 8 ? Round26 added Anthropic credit, owner 2026-11-02
+Round26 owner credit addition, 2026-11-02: owner reports about $74 Anthropic credit, exclusively for gated Opus calibration and v5, with $3 reserved and auto-reload off. Exact Console verification is pending: native computer-use pipe returned os error 2; browser inventory returned no connected browsers and "The browser access host is unavailable." Existing workspace API credential is not billing/Admin scoped. The owner was asked for the exact displayed balance while implementation continues. No extra identity, credential, permission or auto-reload was requested or changed. Existing conservative Anthropic ceiling remains until the exact usable balance is reconciled; gates remain unchanged.
