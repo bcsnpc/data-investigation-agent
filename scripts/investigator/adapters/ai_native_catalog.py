@@ -223,6 +223,10 @@ class NativeCatalog:
                 'container_name':parent.get('name'),'role':roles.get(asset['id'])}
         return catalog
 
+    def candidate_query(self,catalog,target,proposal):
+        from .intake_candidate_scope import plan
+        return plan(self,catalog,target,proposal)
+
     def declared_continuations(self,path):
         """Literal partition + retained native endpoint ownership, never a label match."""
         result=[]

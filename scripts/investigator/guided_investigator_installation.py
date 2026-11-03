@@ -15,7 +15,7 @@ from .estate_graph_contract import canonical,digest
 class Factory:
     def __init__(self,*,state,graph,routes,native,context_for,triage_for,model_for,
                  reserve,persist,job_runs,refresh_history,security_definitions=None,
-                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None,model_for_step=None,investigator_cascade=False,intake_queries=None,intake_origin_checker=None):
+                 checkpoint_for=None,prepare_route=None,begin_case=None,candidate_details=None,screenshot_reader=None,declared_continuations=None,associated_nodes=None,definition_for=None,model_for_step=None,investigator_cascade=False,intake_queries=None,intake_origin_checker=None,candidate_query_for=None):
         self.state,self.graph,self.routes=state,graph,deepcopy(routes)
         self.native,self.context_for,self.triage_for,self.model_for=native,context_for,triage_for,model_for
         self.reserve,self.persist=reserve,persist
@@ -26,6 +26,7 @@ class Factory:
         self.investigator_cascade=investigator_cascade
         self.intake_queries=intake_queries or (lambda case:[])
         self.intake_origin_checker=intake_origin_checker
+        self.candidate_query_for=candidate_query_for
         self.declared_continuations=declared_continuations
         self.associated_nodes=associated_nodes
         self.definition_for=definition_for

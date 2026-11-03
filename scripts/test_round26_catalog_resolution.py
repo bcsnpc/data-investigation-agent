@@ -37,7 +37,7 @@ class CatalogResolutionTests(unittest.TestCase):
         result=Resolver(catalog=catalog,model=model,record=lambda _:None).resolve('Billing Overview Whole estate Net Revenue card')
         choices=result['question']['fields'][0]['choices']
         self.assertEqual({x['id']for x in choices},{'card','extra'})
-        self.assertTrue(all(x['name'].endswith(' on Whole estate')for x in choices))
+        self.assertTrue(all(' on Whole estate' in x['name']for x in choices))
         self.assertNotIn('abcdef0123456789abcd',str([x['name']for x in choices]))
 
     def test_a_model_cannot_invent_a_report_when_the_ticket_names_a_native_container(self):
@@ -64,9 +64,10 @@ class CatalogResolutionTests(unittest.TestCase):
         catalog.edges.extend([{'source':'report','target':'globalpage','kind':'CONTAINS'},
             {'source':'globalpage','target':'global','kind':'CONTAINS'},
             {'source':'global','target':'measure','kind':'COMPUTED_FROM'}])
-        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE'):
-            prefill('Billing Overview Net Revenue card',{'report':'report','page':'page','visual':'card',
+        unresolved=prefill('Billing Overview Net Revenue card',{'report':'report','page':'page','visual':'card',
                 'issue_type':'NUMBER_LOOKS_WRONG'},catalog,provenance={'visual':[3,4]})
+        self.assertEqual(unresolved['status'],'NEEDS_INPUT')
+        self.assertEqual(unresolved['code'],'NATIVE_SCOPE_CANDIDATES')
         # A genuinely named page still supplies the user's scope.
         text='Billing Overview Global page Net Revenue card'
         result=prefill(text,{'report':'report','page':'globalpage','visual':'global',
@@ -89,7 +90,8 @@ class CatalogResolutionTests(unittest.TestCase):
         dropped=deepcopy(args);dropped['proposal'].pop('visual');dropped['provenance']={}
         model=Mock();model.complete.side_effect=[tool('resolve_intake',args),tool('resolve_intake',dropped)]
         result=Resolver(catalog=catalog,model=model,record=lambda _:None).resolve('Billing Overview Net Revenue card')
-        self.assertEqual(result['status'],'NEEDS_INPUT');self.assertEqual(model.complete.call_count,2)
+        self.assertEqual(result['status'],'NEEDS_INPUT');self.assertEqual(model.complete.call_count,1)
+        self.assertEqual(result['code'],'NATIVE_SCOPE_CANDIDATES')
         self.assertEqual(result['question']['fields'][0]['field'],'visual')
         self.assertTrue(all(' on 'in x['name']for x in result['question']['fields'][0]['choices']))
     def test_named_container_beats_unrelated_generic_table_words(self):
@@ -188,9 +190,10 @@ class CatalogResolutionTests(unittest.TestCase):
         catalog.nodes['second']={'id':'second','kind':'VISUAL','label':'Net Revenue by region'}
         catalog.edges.extend([{'source':'page','target':'second','kind':'CONTAINS'},
                               {'source':'second','target':'measure','kind':'COMPUTED_FROM'}])
-        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE'):
-            prefill(text,{'report':'report','page':'page','visual':'card',
+        unresolved=prefill(text,{'report':'report','page':'page','visual':'card',
                 'issue_type':'NUMBER_LOOKS_WRONG'},catalog,provenance={'visual':[3,4]})
+        self.assertEqual(unresolved['status'],'NEEDS_INPUT')
+        self.assertEqual({x['id']for x in unresolved['question']['fields'][0]['choices']},{'card','second'})
 
     def test_lookup_accepts_unique_report_name_without_changing_target(self):
         from investigator.guided_text_resolver import Resolver

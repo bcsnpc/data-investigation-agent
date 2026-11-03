@@ -248,7 +248,7 @@ def run(plan,context):
     factory=Factory(state=state,graph=graph,routes=native_catalog.routes,native=execute_native,
         intake_queries=lambda case:initial_intake_queries if candidate_binding and any(case['intake'].get(k)and case['intake'][k]==candidate_binding['intake'].get(k)for k in ('measure','report','table'))else[],
         intake_origin_checker=check_candidate_origin,
-        context_for=native_catalog.context,triage_for=triage,model_for=model,
+        context_for=native_catalog.context,candidate_query_for=native_catalog.candidate_query,triage_for=triage,model_for=model,
         model_for_step=model,
         investigator_cascade=spec.get('investigator_cascade',False),
         prepare_route=native_catalog.prepare,begin_case=native_catalog.opened.clear,candidate_details=native_catalog.candidate_details,

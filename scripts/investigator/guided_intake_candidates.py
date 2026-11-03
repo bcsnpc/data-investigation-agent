@@ -10,9 +10,13 @@ import re
 
 def inventory(text,mapped,catalog):
     proposal=mapped.get('prefilled')or{}
-    if mapped.get('status')=='READY' or any(proposal.get(k)for k in ('page','visual')):return {}
+    if mapped.get('status')=='READY':return {}
     origin=mapped.get('source')or{}
     if origin.get('kind')!='MAPPED_TEXT' or set(origin)!={'kind','text','provenance','figure_mentions'} or origin['text']!=text:return {}
+    from .guided_scope_candidates import inventory as scoped_inventory
+    scoped=scoped_inventory(text,mapped,catalog)
+    if scoped:return scoped
+    if any(proposal.get(k)for k in ('page','visual')):return {}
     # Exhaust native named-container candidates before a question. An exact
     # selected visual is never changed by these report/table-level checks.
     named_reports=[r for r in catalog.ranked(text,'REPORT')if r['confidence']=='NAMED']
@@ -64,14 +68,17 @@ def resolve(text, mapped, catalog, probe, *, record=lambda _:None, limit=3):
     exhaustive=len(observations)==len(candidates) and len(successful)==len(candidates)
     if exhaustive and len(matching)==1:
         measure=matching[0]['candidate'];kind=candidates[measure]['kind']
-        field='report'if kind=='REPORT'else'table'if kind in ('TABLE','VIEW')else'measure'
+        field='report'if kind=='REPORT'else'table'if kind in ('TABLE','VIEW')else'page'if kind=='PAGE'else'visual'if kind=='VISUAL'else'measure'
         intake={k:v for k,v in proposal.items()if k not in ('report','table','measure')};intake[field]=measure
+        if kind in ('PAGE','VISUAL')or matching[0].get('intake'):
+            from .guided_scope_candidates import address
+            intake=deepcopy(matching[0].get('intake')or address(proposal,catalog,measure))
         from .guided_intake import admit_or_question
         admitted=admit_or_question(intake,catalog)
         if admitted['status']=='READY':
             binding={**admitted,'intake':{k:v for k,v in intake.items()},'candidate_checks':observations,
                     'source':deepcopy(mapped.get('source')),'candidate_field':field,
-                    'resolution_assumption':'The '+field+' "'+candidates[measure]['label']+'", whose bounded native calculation matches the exact stated value, is the target. No visual or hidden filter was selected.'}
+                    'resolution_assumption':'The '+field+' "'+candidates[measure]['label']+'", whose bounded native calculation matches the exact stated value, is the target. '+('The retained report/page/visual and saved-filter scope was checked; interactive state was not inferred.'if intake.get('visual')else'No visual or hidden filter was selected.')}
             try:
                 checked=check_origin(binding['source'],binding['intake'],catalog,binding)
                 if checked['status']=='READY':return binding
@@ -79,9 +86,10 @@ def resolve(text, mapped, catalog, probe, *, record=lambda _:None, limit=3):
     question=deepcopy(result.get('question')or{})
     question['text']='I attempted value checks for '+str(len(observations))+' candidates. '+('More than one still fits, so 'if len(matching)>1 else 'The checks did not uniquely resolve the target, so ')+ 'which report do you mean?'
     kinds={node['kind']for node in candidates.values()}
-    if kinds<={'TABLE','VIEW'}or kinds=={'REPORT'}:
-        field='report'if kinds=={'REPORT'}else'table'
-        question['fields']=[{'field':field,'choices':[{'id':key,'name':node['label']}for key,node in candidates.items()]}]
+    if kinds<={'TABLE','VIEW'}or len(kinds)==1 and kinds<={'REPORT','PAGE','VISUAL'}:
+        field='table'if kinds<={'TABLE','VIEW'}else next(iter(kinds)).lower()
+        from .guided_scope_candidates import label
+        question['fields']=[{'field':field,'choices':[{'id':key,'name':label(catalog,key)}for key in candidates]}]
         question['text']=question['text'].replace('which report do you mean?','which '+field+' do you mean?')
         result['question']=question
         return result
@@ -115,7 +123,13 @@ def check_origin(origin,intake,catalog,binding=None):
                 return [x for x in rows if x['id']==intake['table']]if binding.get('candidate_field')=='table'else rows
             def report_matches(self,text):
                 rows=super().report_matches(text)
-                return [x for x in rows if x['id']==intake['report']]if binding.get('candidate_field')=='report'else rows
+                return [x for x in rows if x['id']==intake['report']]if binding.get('candidate_field')in ('report','page','visual')else rows
+            def named_pages(self,text,report):
+                rows=super().named_pages(text,report)
+                return [x for x in rows if x['id']==intake.get('page')]if binding.get('candidate_field')in ('page','visual')else rows
+            def visuals(self,report,page):
+                rows=super().visuals(report,page)
+                return [x for x in rows if x['id']==intake['visual']]if intake.get('visual')and binding.get('candidate_field')in ('report','page','visual')else rows
         selected=NativeResolvedCatalog({'nodes':list(catalog.nodes.values()),'edges':catalog.edges})
     return Resolver(catalog=selected,model=None,record=lambda _:None).check(origin['text'],
         {'proposal':intake,'provenance':origin['provenance'],'figure_mentions':origin['figure_mentions']})
@@ -169,6 +183,21 @@ def probe_target(factory,catalog,target,proposal,execute_native,record,initial_i
     node=catalog.nodes[target];kind=node['kind'];details=proposal.get('details')or{}
     if kind=='MEASURE':return probe_measure(factory,catalog,target,proposal,execute_native,record,initial_intake_queries)
     try:
+        scoped=getattr(factory,'candidate_query_for',None)
+        if kind in ('REPORT','PAGE','VISUAL')and scoped:
+            plan=scoped(catalog,target,deepcopy(proposal));key=plan['layer'];route=factory.prepare(key,{target})
+            layer={'dialect':route['dialect'],'objects':route['objects'],'label':route['label']}
+            queries=Queries({key:layer},execute=execute_native,reserve=lambda *_:None,save=record,restored=initial_intake_queries)
+            prior=len(queries.records)
+            record({'event':'INTAKE_CANDIDATE_NATIVE_SCOPE','candidate':target,'plan':plan})
+            observed=queries.run(key,plan['query'],kind='dax',purpose='recreate')
+            initial_intake_queries.extend(queries.records[prior:])
+            if 'already_have'in observed:observed=observed['record']
+            if observed['status']!='SUCCEEDED':return {'status':'UNAVAILABLE','query_id':observed['id'],'error':observed.get('error')}
+            rows=observed['result']['rows']
+            if len(rows)!=1 or not isinstance(rows[0],dict)or len(rows[0])!=1:raise ValueError('CANDIDATE_SCALAR_REQUIRED')
+            return {'status':'SUCCEEDED','query_id':observed['id'],'value':next(iter(rows[0].values())),
+                    'intake':plan['intake'],'scope':plan['scope'],'scope_evidence':plan['scope_evidence']}
         if any(details.get(k)for k in ('filters','date_range','approximate_date','users','roles')):
             raise ValueError('CANDIDATE_SCOPE_NOT_COMPILED_NO_FILTER_OR_USER_DROPPED')
         text=proposal.get('description','')

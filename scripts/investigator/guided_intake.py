@@ -369,6 +369,7 @@ def prefill(text, proposed, catalog, *, provenance=None):
             'text': 'These catalog matches remain close. Which report do you mean?',
             'fields': [{'field': 'report', 'choices': [{'id': r['id'], 'name': r['name']} for r in reports]}]},
             'resolution_candidates': reports}
+    ambiguous_pages=[]; ambiguous_visuals=[]
     if value.get('report'):
         if value.get('visual') and not value.get('page'):
             # A selected visual's unique native parent is an address lookup,
@@ -377,6 +378,7 @@ def prefill(text, proposed, catalog, *, provenance=None):
                      if any(v['id']==value['visual']for v in catalog.visuals(value['report'],p['id']))]
             if len(parents)==1:value['page']=parents[0]['id']
         pages=catalog.named_pages(text,value['report'])
+        if len(pages)>1:ambiguous_pages=pages
         if len(pages)==1:
             if value.get('page') and value['page']!=pages[0]['id']:raise ValueError('PAGE_REFERENCE_DIFFERS_FROM_TICKET')
             value.setdefault('page',pages[0]['id'])
@@ -431,10 +433,21 @@ def prefill(text, proposed, catalog, *, provenance=None):
             cited={m for m in measures if catalog.nodes.get(m,{}).get('label','') and
                    catalog.nodes[m]['label'].casefold() in span['quote'].casefold()}
             same_measure=[v for v in visuals if any(m['id']in cited for m in v.get('measures',[]))]
+            if len(same_measure)>1 and not named:ambiguous_visuals=same_measure
             exact=bool(cited) and len(same_measure)==1 and same_measure[0]['id']==value['visual'] and not named
-        if not exact:
+        if not exact and not ambiguous_visuals:
             raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
         recorded['visual']=span
+    if ambiguous_pages or ambiguous_visuals:
+        # A native name tie is checkable; it is not authority for the model's
+        # selected page/visual. The caller can exhaust bounded candidate reads.
+        field='page'if ambiguous_pages else'visual'
+        rows=ambiguous_pages or ambiguous_visuals
+        from .guided_scope_candidates import label
+        return {'status':'NEEDS_INPUT','code':'NATIVE_SCOPE_CANDIDATES',
+            'prefilled':value,'provenance_references':provenance,
+            'question':{'text':'These native scopes need value checks before selection.',
+                'fields':[{'field':field,'choices':[{'id':r['id'],'name':label(catalog,r['id'])}for r in rows]}]}}
     missing = [k for k in ('report', 'issue_type') if not value.get(k)
                and not (k == 'report' and (value.get('table') or value.get('measure')))]
     if missing:
