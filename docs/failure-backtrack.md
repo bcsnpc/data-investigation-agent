@@ -16813,3 +16813,8 @@ The current independently raw-reviewed zeros are indexed in [the G2 backtrack](r
 ## Round 25 final saved-trace backtrack — 2026-11-01
 
 No engine changes followed this measurement. G1's five raw zeros group as conclusion 2, query 2 and authored invalid-input contract 1. G2: intake 14, query 4, conclusion 3, triage 3. G3: intake 40, target 8, conclusion 7, reading results 2. G4: conclusion 2, query 1, triage 1. These are recorded grader/reviewer first-failing-step labels, not a new operator regrade. The waiting-job timing confound and native transport exception remain disclosed. Free-text intake/target regression ranks first for the next round; unsupported causal conclusions rank next. Per-ticket tables and walkthroughs are linked from [the quality report](quality-report-v0.24.md); original traces and scores are unchanged.
+
+
+## Round26 final-pass and Round27 planning (2026-11-10)
+
+The final same-image failed-only pass has no further development loop by owner direction. See [first wrong step per failure](round-twenty-six-dev06-backtrack.md) and [Round27 intake versus conclusion analysis and code-blind independent input/expectation review](round-twenty-six-round27-backtrack.md). Both remain labelled partial until the pass and independent grading finish. No score or expectation is changed.

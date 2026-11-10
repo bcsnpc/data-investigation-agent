@@ -471,3 +471,6 @@ Round26 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly ve
 
 
 Round26 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-six\dev06\injections\text-latency-current-reader1\status.json. Temporal remains ON.
+
+
+Round26 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-six\dev06\injections\access\status.json.
