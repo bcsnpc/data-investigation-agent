@@ -2,9 +2,9 @@
   "partial": true,
   "scope": "Round27 planning from saved dev evidence only; no engine or expectation changes",
   "failure_groups": {
-    "intake blocked (NEEDS_INPUT)": 7,
+    "intake blocked (NEEDS_INPUT)": 11,
     "unresolved investigation / query or budget stop": 5,
-    "delivered conclusion does not fully answer the question": 3
+    "delivered conclusion does not fully answer the question": 5
   },
   "cases": [
     {
@@ -125,6 +125,54 @@
       "status": "NEEDS_INPUT",
       "reason": "Delivered answer does not match expected verdict, layer/split point, or named cause. Delivered answer is not harmful but does not provide the correct reasoning.",
       "outcome_sha256": "2ed42d804401b5b13a3a10dae53ba4a673b73b1e4244a3baf93e3141e72a9532",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-latency-900501-v1",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer did not establish a verdict, admit any layer, or claim any data finding. It failed to meet the expected latency verdict, specific layer or split point, and named cause.",
+      "outcome_sha256": "95886aec9c0b7b270634e01c58a15e2075b97ac9aa1000b02bb2331308f4329d",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-latency-900501-v2",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer did not establish a verdict, layer, or named cause. It also did not provide any evidence or reasoning to support a conclusion. The expected answer, however, provides a clear verdict, layer/split point, and named cause. The delivered answer is therefore not aligned with the expected answer. The handoff quality is also poor, as there are no rerunnable queries or clear stopping point provided.",
+      "outcome_sha256": "468e6092a42f7acf7f20c4664572c6129867e41cfeae64abe0a9daee5e661441",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-history-source-900201-v1",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer does not match the expected answer in terms of the verdict, layer/split point, and named cause.",
+      "outcome_sha256": "7898654ff3894bb026e35f050fd9a2a41ae1cc00d7cf731d352a24173ffb2c18",
+      "primary_first_wrong_step": "target"
+    },
+    {
+      "case": "text-history-source-900201-v2",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer did not correctly identify the source change in history as the cause of the difference in the two exports.",
+      "outcome_sha256": "e6254cd9dc8fef51ba383bbb1b66e1e8ae805b87ddb8ae97712b7e6021af6292",
+      "primary_first_wrong_step": "target"
+    },
+    {
+      "case": "text-latency-900502-v1",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer does not establish a clear verdict, layer/split point, or named cause as expected. It is unresolved and requires further input.",
+      "outcome_sha256": "67dedb0972c7fe460c138435c65f132e9e7f140ede21633855b80ad61f20842f",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-latency-900502-v2",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer does not match the expected answer in terms of the verdict, layer/split point, and named cause. The delivered answer does not establish a clear target or validated cause.",
+      "outcome_sha256": "84d2540a4691af3fcd56764f1beccbe15a6ad914be0313229454e74a92564ef4",
       "primary_first_wrong_step": "intake"
     }
   ],
@@ -718,6 +766,247 @@
         "source_sha256": "ad48421747fadca495879119dab08256229ac102b67724edb0cf10d95bc479e7"
       },
       "review_result_sha256": "c76d906112c52c0948b46b34a67164c856e035c125974af809be48929ef0043c"
+    },
+    {
+      "case": "text-history-source-900201-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-history-source-900201-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 7,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "SOUND",
+          "expectation_reason": "For post-run expectation audit, the labelled fixture-admission native query directly supports the expected source-history change: FOR SYSTEM_TIME ALL returns movement 900201 with zero rows and NULL quantity at 2026-10-23 22:49:20 UTC, versus one row and quantity 7 at 22:49:28 UTC. This supports SOURCE and 'source changed history' without inventing a zero. It establishes absence at the specified earlier snapshot, not absence at every prior instant. The November empty reads do not contradict retained October history or establish its cause. This support comes from fixture-control evidence, not an investigator finding; it does not independently prove the timing or contents of the user's actual exports.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket poses a coherent reconciliation question about movement 900201 appearing versus being absent in two nearby exports, and identifies the report, measure and movement scope. A visual selection is not needed to define that question. Missing export timestamps and files limit exact export-level causal verification, but do not make the question defective or require inventing report filters.",
+          "missing_native_facts": [
+            "The actual two exports, their exact extraction timestamps and filter/security contexts, needed to bind the observed export discrepancy to the demonstrated source-history interval.",
+            "Query-bound lineage and historical refresh/read state linking the temporal source versions to Activity and Handled Quantity at the two export times; the retained measure definition and later empty reads do not establish that binding."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "aeb9697dcbf552339ea9177b76d1c7d4411528b00801e4e4a415a0f77d40ffaa"
+      },
+      "review_result_sha256": "63bb48656c795553f277c4335fd790292579ce5a1cd99699881640bc49a3af57"
+    },
+    {
+      "case": "text-history-source-900201-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-history-source-900201-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 7,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "SOUND",
+          "expectation_reason": "For expectation audit, the labelled fixture-admission native temporal query directly supports the stated SOURCE history change for movement 900201: at 2026-10-23 22:49:20 UTC it returns zero qualifying rows and NULL quantity; at 22:49:28 UTC it returns one row and quantity 7. This supports absence/BLANK rather than an invented zero. It is independent of the later empty bronze, silver and gold reads, which cannot establish historical states. This assessment establishes the expectation's named source-history fact, not a demonstrated causal linkage to the user's particular exports or an investigator finding from fixture-control evidence.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the report, measure, movement and discrepancy and asks whether a tentative report-delay explanation is correct. That is a coherent investigation scope without inventing a visual or report selection. Missing export timestamps and files limit attribution of those exports, but do not make the question invalid or require accepting its suggested cause.",
+          "missing_native_facts": [
+            "The actual two exports and their execution timestamps/filter contexts, needed to align the reported discrepancy with the demonstrated source-history interval.",
+            "Query-bound lineage or aligned report observations linking those exports' Handled Quantity values to the temporal source versions; the retained measure definition and later empty downstream reads alone do not establish that linkage."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "672186ebfab0e5ee1ae349a7fd4d7da596aab08d233a900c15e070be56d17fed"
+      },
+      "review_result_sha256": "b9cbeb9d37f2a69e0c2b2ba19e6407b9963a7c9fb9ae94060fcad501c8dda221"
+    },
+    {
+      "case": "text-latency-900501-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-latency-900501-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expected SOURCE -> BRONZE latency explanation addresses the ticket's comparison, rather than a different question, but its factual cause is not established by investigation evidence: native_evidence is empty. The separately labelled fixture controls show a source row, no matched Bronze row, and an enabled schedule configuration, but are explicitly not investigation evidence. They also do not establish the named application load, its linkage to this Bronze target, the last completed load, or that the relevant scheduled run is still future and has not run. Thus the expected causal diagnosis and required scheduled-load name/due time cannot be verified from this packet; this does not establish that the expectation is wrong. The missing-row versus zero distinction is consistent with the ticket's stated absence.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket clearly identifies movement_id 900501, the application stock movements export with 17 units, and the comparison target round_two_bronze_20261003, and asks why the row is absent there. This is a determinate source-to-Bronze investigation question; no visual or invented report selection is needed. Whether its claimed discrepancy and cause can be independently confirmed is an evidence limitation, not ambiguity in the question.",
+          "missing_native_facts": [
+            "Successful investigation-native reads confirming movement_id 900501 in the application export and its absence from the exact Bronze target.",
+            "The relevant application-to-Bronze load identity and mapping to round_two_bronze_20261003.",
+            "The last completed relevant load time and source change timing sufficient to establish that the movement arrived afterward.",
+            "The named relevant enabled load schedule, its due time and timezone, and an observation time plus run history establishing that it is future and has not yet run."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "d6f4c74863a05730d3905a122303c41790e53189fae0058fa08e81ce916a1a73"
+      },
+      "review_result_sha256": "621a621abb4e564642ecb6fc0432b60113461f571a82af6e0a5ae89066cb050b"
+    },
+    {
+      "case": "text-latency-900501-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-latency-900501-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 3,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expected SOURCE -> BRONZE boundary is supported by successful exact-key reads on November 2: application movement 900501 has 17 units and Bronze has no matching row, not a row containing zero. Those reads do not establish latency rather than record dropping, the last completed application load, or the named load's enabled future schedule and due time. The retained Copy Job definition is explicitly an unrelated empty permission probe. The separately labelled owner fixture control supports source-ahead-of-Bronze and an enabled future schedule in its November 10\u201312 control state, but does not identify that schedule's parent load or establish the November 2 load chronology. It is not an investigator finding. Thus the expectation addresses the ticket, but its full causal and scheduling claims cannot be verified from this packet; they are not demonstrated wrong.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the exact movement, application export, Bronze database, suspected load, and discrepancy to investigate. The successful targeted native reads confirm the stated 17-unit application row and absent Bronze row. Asking whether the load is dropping records is a clear, tentative hypothesis, not a requirement to accept that cause. No report visual or additional report selection is needed to determine this question's scope.",
+          "missing_native_facts": [
+            "Definition and source-to-Bronze mapping of round_two_application_load_audited_20261003, including any record-selection logic.",
+            "Relevant completed-load history and source cutoff establishing that movement 900501 arrived after the last completed load.",
+            "Native schedule evidence tied to the named application load, with enabled status, next due time and execution history at the relevant investigation time."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "7413c03290ff1f3abfa2cbbd0b22fe349ce8bc7e5cad7794607522ce2fa87b66"
+      },
+      "review_result_sha256": "c415438507c74ad886289a0463ce59c560530da5bc6d9ddcc0abb5d0527e7d4a"
+    },
+    {
+      "case": "text-latency-900502-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-latency-900502-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expected SOURCE -> BRONZE latency explanation addresses the ticket's missing-movement question, and distinguishing an absent row/BLANK from zero is appropriate. However, no successful native investigation reads are supplied. The labelled fixture-control evidence is expressly not investigator evidence; even for a post-run audit, the supplied source, Bronze and enabled schedule snapshots do not establish the last completed load, its timing relative to movement 900502, or that the schedule belongs to round_two_application_load_audited_20261003 and has not run. Thus the specific latency cause, scheduled-load identity and due time cannot be verified from eligible native evidence. The sealed record and evidence hash do not themselves establish these facts.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket clearly identifies movement_id 900502, its reported application value of 19 units, the target Bronze table round_two_bronze_20261003, and the potentially relevant load round_two_application_load_audited_20261003. It asks why a row is absent rather than asking about a zero value. This is a determinate source-to-Bronze investigation without a report or visual selection; the absence of native reads limits factual verification, not the clarity of the question.",
+          "missing_native_facts": [
+            "Native source lookup confirming movement_id 900502, its 19 units and relevant creation or modification time.",
+            "Native exact-target Bronze lookup confirming that movement_id 900502 has no matching row, rather than a row with zero or NULL units.",
+            "Native definition or lineage tying round_two_application_load_audited_20261003 to the specified application source and Bronze table.",
+            "Native load history establishing the last completed load, its ingestion cutoff relative to movement 900502, and whether subsequent loads have run.",
+            "Native schedule evidence identifying the named application load, its enabled state, next due time and timezone, together with an observation time establishing that this due time is still future."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "4782c2329fc14dc06616fcfe4b67b7457379129a920ffe98a349104407f626df"
+      },
+      "review_result_sha256": "9f54aa58978c17f8d498ba3436f76bf69e5499082f732b60b5e1d03500ccc472"
+    },
+    {
+      "case": "text-latency-900502-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-latency-900502-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 6,
+      "independent_review": null,
+      "review_result_sha256": null
     },
     {
       "case": "text-older-export-movement-1-v1",

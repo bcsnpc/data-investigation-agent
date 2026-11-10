@@ -468,3 +468,6 @@ Round26 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restora
 
 
 Round26 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-six\dev06\injections\text-retained-original-history\status.json.
+
+
+Round26 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-six\dev06\injections\text-latency-current-reader1\status.json. Temporal remains ON.

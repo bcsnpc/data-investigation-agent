@@ -1,7 +1,7 @@
 {
   "scope": "Dev06 failed-only continuation on ca249b73 / e59d3d97; partial until every selected outcome is saved and graded",
   "review_scope": "Saved evidence projections, not raw provider tapes",
-  "observed_at_utc": "2026-11-10T22:19:05.312046+00:00",
+  "observed_at_utc": "2026-11-10T22:55:25.614374+00:00",
   "cases": [
     {
       "case_id": "round26-dev06-form-v2-warehouse-scope-v2",
@@ -58,6 +58,20 @@
       "independent_review": true,
       "primary_first_wrong_step": "intake",
       "primary_reason": "The delivered answer did not match the expected verdict, layer, or cause. The delivered answer is unresolved due to tool or time limits, while the expected answer is resolved with a specific cause and verdict."
+    },
+    {
+      "case_id": "round26-dev06-form-v2-source-history-v1",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer did not establish a cause for the discrepancy, while the expected answer indicates that the cause is 'source changed history'."
     },
     {
       "case_id": "round26-dev06-text-R17-04-v1",
@@ -198,28 +212,112 @@
       "independent_review": false,
       "primary_first_wrong_step": "intake",
       "primary_reason": "Delivered answer does not match expected verdict, layer/split point, or named cause. Delivered answer is not harmful but does not provide the correct reasoning."
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900501-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer did not establish a verdict, admit any layer, or claim any data finding. It failed to meet the expected latency verdict, specific layer or split point, and named cause."
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900501-v2",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer did not establish a verdict, layer, or named cause. It also did not provide any evidence or reasoning to support a conclusion. The expected answer, however, provides a clear verdict, layer/split point, and named cause. The delivered answer is therefore not aligned with the expected answer. The handoff quality is also poor, as there are no rerunnable queries or clear stopping point provided."
+    },
+    {
+      "case_id": "round26-dev06-text-history-source-900201-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer does not match the expected answer in terms of the verdict, layer/split point, and named cause."
+    },
+    {
+      "case_id": "round26-dev06-text-history-source-900201-v2",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer did not correctly identify the source change in history as the cause of the difference in the two exports."
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900502-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer does not establish a clear verdict, layer/split point, or named cause as expected. It is unresolved and requires further input."
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900502-v2",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer does not match the expected answer in terms of the verdict, layer/split point, and named cause. The delivered answer does not establish a clear target or validated cause."
     }
   ],
-  "saved_outcomes": 14,
+  "saved_outcomes": 21,
   "summary": {
     "primary": {
       "correct": 0,
-      "graded": 14,
+      "graded": 21,
       "harmful": 1
     },
     "secondary": {
       "correct": 0,
-      "graded": 14,
+      "graded": 21,
       "harmful": 0
     },
     "strict": {
       "correct": 0,
-      "graded": 14,
+      "graded": 21,
       "harmful": null
     },
     "reviewed_projection": {
       "correct": 0,
-      "graded": 14,
+      "graded": 21,
       "harmful": 0
     }
   }
