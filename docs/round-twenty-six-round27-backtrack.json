@@ -1,0 +1,810 @@
+{
+  "partial": true,
+  "scope": "Round27 planning from saved dev evidence only; no engine or expectation changes",
+  "failure_groups": {
+    "intake blocked (NEEDS_INPUT)": 7,
+    "unresolved investigation / query or budget stop": 5,
+    "delivered conclusion does not fully answer the question": 3
+  },
+  "cases": [
+    {
+      "case": "form-v2-warehouse-scope-v2",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer does not match the expected answer in terms of verdict, layer, and cause. It also mentions an UNKNOWN_REPORT and does not provide a confident technical cause, which is harmful. The handoff quality is low due to unclear next checks and an UNKNOWN_REPORT stopping point.",
+      "outcome_sha256": "489dbfd2e99d10912b20955c20f9091a4f2a115c832afe8ed6712ac946a34ea4",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "form-v2-billing-invoices-v1",
+      "group": "unresolved investigation / query or budget stop",
+      "status": "UNRESOLVED",
+      "reason": "The delivered answer did not match the expected cause and layer/split point. The verdict was correct, but the cause and layer/split did not match the expected answer. The delivered answer was not harmful, as it did not provide a confident incorrect cause. The handoff quality is 2, as it provides rerunnable queries and a clear stopping point. The first failing step is 'intake', as the cause was not correctly identified.",
+      "outcome_sha256": "9fd45f13c36f9df16f1dc35512b9eb4a8c5b246b701e2e6afc5f4b7db2c274d7",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "form-v2-before-temporal-retention-v1",
+      "group": "unresolved investigation / query or budget stop",
+      "status": "UNRESOLVED",
+      "reason": "The delivered answer matches the expected verdict ('not found') but does not match the expected layer/split point ('source history boundary') or the named cause ('source history boundary'). The delivered cause is 'TOOL_OR_TIME_LIMIT', which is not harmful but does not align with the expected cause. The handoff quality is 2.",
+      "outcome_sha256": "c7e32547e4001333f406490758ce9f13df55504bf66d53c0a243bb6edca17986",
+      "primary_first_wrong_step": "target"
+    },
+    {
+      "case": "form-v2-other-collected-definition-v1",
+      "group": "unresolved investigation / query or budget stop",
+      "status": "UNRESOLVED",
+      "reason": "The delivered answer did not match the expected verdict, layer, or cause. The delivered answer is unresolved due to tool or time limits, while the expected answer is resolved with a specific cause and verdict.",
+      "outcome_sha256": "528f1d9037cd3db275171abdc4c0aad74eba6d8fff8980cc29bc732d5d0ff6da",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "form-v2-source-history-v1",
+      "group": "unresolved investigation / query or budget stop",
+      "status": "UNRESOLVED",
+      "reason": "The delivered answer did not establish a cause for the discrepancy, while the expected answer indicates that the cause is 'source changed history'.",
+      "outcome_sha256": "cfa4c6e60c2249a15ef2eb756e5a36f0ec16f4134261ef7fcecedd6387f7321f",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-R17-04-v1",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer did not uniquely resolve the target.",
+      "outcome_sha256": "ff0685093fbef71542cc81f434607765e8593335277bb6e6aa06a47dca05a513",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-R17-08-v1",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer does not match the expected answer in terms of verdict, layer/split point, or named cause. The delivered answer is unresolved and requires further input, which does not align with the expected 'as designed' verdict.",
+      "outcome_sha256": "49d1f7260d6d853a183232215fa8e8306bb3c448e26983c2d40f984f39811d8f",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-R17-05-v1",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer does not match the expected answer in terms of verdict, layer/split point, and named cause. The delivered answer suggests a handoff to an engineer, indicating that the cause for the reported display mismatch has not been confirmed. The expected answer provides a clear named cause and verdict, which the delivered answer fails to match.",
+      "outcome_sha256": "2caac55e2bbe02310bb737903e611c55a4ba3ddfa4fbaa42eacde31364fa9a0d",
+      "primary_first_wrong_step": "target"
+    },
+    {
+      "case": "text-R17-10-v1",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "The delivered answer does not provide a full verdict, layer/split point, or named cause that matches the expected answer. The delivered answer is unresolved and requires further input.",
+      "outcome_sha256": "a71777ec5bec4914928963874431958b229382932c066fd8b758501083866b7b",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-R17-11-v1",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer explains the implementation of Handled Quantity but does not explicitly state that the business intent is not established by the SUM definition as required by the expected answer.",
+      "outcome_sha256": "44ef33f489e83bf22d02a76acc2e26009c6df5777e3986d480b04a6d7d1a8008",
+      "primary_first_wrong_step": "target"
+    },
+    {
+      "case": "text-R17-09-v1",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer does not fully match the expected answer. The delivered answer states that the Handled Quantity card currently returns 8,765, and the latest recorded successful refresh of Warehouse Operations e1b8e1 started at 2026-10-07 21:15:32.983 UTC and ended at 21:15:37.357 UTC. However, the expected answer specifies that the retained last successful API refresh ended on 2026-10-07T21:15:37.357Z with the schedule disabled. The delivered answer does not explicitly state that the model refresh history facts should be returned after a path-only refresh, as specified in the expected answer.",
+      "outcome_sha256": "d8d3b3716d5ad03d58873cd077dcca0c62151ac1e3d58e10d28b5e962028bbc3",
+      "primary_first_wrong_step": "target"
+    },
+    {
+      "case": "text-different-warehouse-v2",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "Mismatch in understanding the question at the source level. The delivered answer attempted value checks but the expected answer indicates a fundamental misunderstanding of the question.",
+      "outcome_sha256": "e80d4bd365cdcd777ef0e8a38d4e163d32f15a46d26db1aba7d34f45e3e7f9b9",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-older-export-movement-1-v1",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "Delivered answer does not match expected answer; incorrect interpretation of user's question.",
+      "outcome_sha256": "976f25f4ad42622557ee20d20b2892967335986d50ef045788d137f1ce008124",
+      "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-baseline-S02-v1",
+      "group": "unresolved investigation / query or budget stop",
+      "status": "UNRESOLVED",
+      "reason": "The delivered answer did not establish the correct cause and verdict as expected.",
+      "outcome_sha256": "02c14710a65b44e895000e412419e494d643db29bdf6bd87ca780245d7f9849b",
+      "primary_first_wrong_step": "wrong conclusion"
+    },
+    {
+      "case": "text-older-export-movement-1-v2",
+      "group": "intake blocked (NEEDS_INPUT)",
+      "status": "NEEDS_INPUT",
+      "reason": "Delivered answer does not match expected verdict, layer/split point, or named cause. Delivered answer is not harmful but does not provide the correct reasoning.",
+      "outcome_sha256": "2ed42d804401b5b13a3a10dae53ba4a673b73b1e4244a3baf93e3141e72a9532",
+      "primary_first_wrong_step": "intake"
+    }
+  ],
+  "every_graded_pass_failures": [
+    {
+      "case": "form-v2-before-temporal-retention-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\form-v2-before-temporal-retention-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The not-found verdict and source-history-boundary cause address the ticket's historical lookup, but the supplied native evidence does not establish that 2026-10-20 12:00 UTC precedes retained temporal evidence or that reconstruction is impossible. Current reads show movement_id 1 has 16 units in source, lakehouse and model; its source_modified_at_utc timestamp does not establish complete change history. The retained overwrite copy definition and disabled destination change data feed do not prove source temporal retention boundaries or absence of other historical snapshots. Neither the sealed expectation nor its stated scenario-plan basis supplies native proof of the asserted cause.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies Movement Units, application movement1 (consistent with native movement_id 1), and an exact UTC historical instant, and asks how to retrieve or reconstruct that record's past value. The retained measure definition SUM('Movements'[units]) and current record reads make the requested scope intelligible without inventing a report selection. This is a valid historical-support question even if its answer ultimately is not found; unavailable history is an evidentiary limitation rather than an input defect.",
+          "missing_native_facts": [
+            "Native source temporal/versioning configuration and history-table definitions for the target movement table, including retention policy and actual earliest retained system-time evidence.",
+            "A target-specific historical read or complete version history for movement_id 1 covering 2026-10-20T12:00:00Z, sufficient to establish its value or the inability to recover it.",
+            "Native evidence of availability and coverage of alternative historical sources, such as source backups, audit/change logs, or retained lakehouse/model snapshots, needed to substantiate that historical reconstruction is unavailable."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "83735dae8494ac1049bbb34130eac6564174a84f54076dae5c428c2b93e03601"
+      },
+      "review_result_sha256": "0e60b575b976f7ec5989b553018ec826252e564d0b8ca3c447d0d3c44500a6b9"
+    },
+    {
+      "case": "form-v2-billing-invoices-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\form-v2-billing-invoices-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expected cause addresses the ticket's extra-250 tracing question, but its exact factual claim is not established by this packet. Native aggregates show 700 in billingapp, Bronze and Silver, versus 950 in gold.invoice_activity and the measure, supporting a Silver-to-Gold discrepancy. The source sample establishes invoice 101/account 1 has amount 250, but does not show its duplication in Gold, the Aster account name, or account-plan history matches. The truncated retained pipeline excerpt does not include the invoice_activity transformation or its join predicates; it cannot establish an account_id-only join lacking effective-date restriction. The sealed expectation and stated scenario basis are not independent proof.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket clearly names Invoiced Amount, specifies no filters, identifies billingapp as the comparison source, supplies exact totals of 950 and 700, and asks which invoice contributions explain the extra 250 and why. Native aggregate reads corroborate those totals. The question is actionable without inventing a report selection; missing causal evidence limits verification of the answer, not the clarity of the request.",
+          "missing_native_facts": [
+            "The complete relevant Gold invoice_activity transformation definition, including the account_plan_history join and any effective-date predicates.",
+            "Invoice-level Gold and Silver evidence showing whether invoice 101 is repeated and contributes the extra 250, while reconciling other invoices.",
+            "Account-plan history rows for account 1, with effective dates relative to invoice 101's invoice date, establishing the claimed join fan-out.",
+            "Native account evidence mapping account 1 to Aster."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "af4f7b4523f20f7efb842e33476a2d2065f2c32eed301a96d4979a85256ab49e"
+      },
+      "review_result_sha256": "f5fc729fa3a5e3bb0e4994bef987b1a92434a8dc0b9cf618332db8a2cea096c5"
+    },
+    {
+      "case": "form-v2-other-collected-definition-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\form-v2-other-collected-definition-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation is partially supported: the retained Collected Amount definition is SUM(Payments[amount]); the saved semantic-model read returns payment IDs 201, 202 and 203 with amounts 200, 100 and 250; the standalone measure and gold.payments aggregate both return 550. However, these reads do not establish the exact report-card filter/date context or its model binding and complete payment lineage. The retained measure explicitly lacks current-deployment attestation, and the ingestion excerpt does not reach the payment-copy definition. Thus numeric agreement is established for the saved query scopes, but the full claim of agreement through the reachable payment path and the source-application/as-designed attribution cannot be verified. This is not evidence that the expectation is false.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the report, page, visual, named measure and exact reported total, and clearly asks for a data/calculation trace rather than a business-policy judgment. Questions about partial payments, refunds and date range are legitimate parts of that trace. Missing native evidence about those details limits the answer that can be established; it does not make the intake ambiguous or defective.",
+          "missing_native_facts": [
+            "The exact target card's effective report/page/visual filters, slicer or interaction state, and date context, or a query-bound equivalent.",
+            "Verified binding from the target report to the queried semantic model, plus the Payments partition/source mapping needed to establish the claimed reachable payment path.",
+            "Complete payment ingestion/source definitions and aligned source evidence needed to support the source-application attribution.",
+            "Payment/invoice linkage and payment-type or refund semantics sufficient to determine partial-payment and refund treatment; the supplied rows alone do not establish those classifications."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "c923581b7917e870cbbfb0f3a8346eb1add18862cedcd98da6a2241bc86f621b"
+      },
+      "review_result_sha256": "c71ff87a119c1171eaa8b0365690d41e76f3e91bb682a06b4fe6211ab547d17e"
+    },
+    {
+      "case": "form-v2-source-history-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\form-v2-source-history-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "SOUND",
+          "expectation_reason": "For the limited verdict 'source changed history,' the labelled fixture-control temporal evidence establishes movement_id 900201 changing from 41 to 47 at 2026-11-10T22:17:55.2213385, after the completed load of the 41 version. This is appropriate post-run expectation-audit evidence, not an investigator finding. Separately, saved investigator native reads show the application source at 47 with a later modification timestamp, while bronze and the scoped Movement Units measure remain at 41. The September event_day is a business date, not the November change time. Thus the expectation addresses the ticket's same-record historical change without asserting pipeline arithmetic. Neither the responsible actor nor the business reason for the edit is established or required by this narrow expectation.",
+          "input_assessment": "SOUND",
+          "input_reason": "The narrative clearly identifies movement900201, Movement Units, the application page, the two reported export values, and the question about change across time for the same historical business date. This is a determinate record-history question, not a request to explain a current source-versus-report difference. The RECORD_MISSING classification and compared_with NOTHING metadata do not override or materially obscure that explicit narrative. Missing export files or visual configuration limit independent verification of the reported exports, but do not make the question ambiguous or require inventing a report selection.",
+          "missing_native_facts": []
+        },
+        "provider": "openai",
+        "source_sha256": "b2985437df6cd1c064dfe03c31e56b0836bc0053453fb8dbe419e2199da69c86"
+      },
+      "review_result_sha256": "e739ab42f827371c0e2326a7babd1c2407af30f7720a85c66501019a31aeed16"
+    },
+    {
+      "case": "form-v2-warehouse-scope-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\form-v2-warehouse-scope-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expected selection-scope explanation is consistent with the ticket's explicit comparison of warehouse_id 1 with warehouse_id 2; it does not answer a different question from the user's request to explain the mismatch. However, no native evidence establishes the actual warehouse restrictions, the two totals, or the exclusion of ingestion and arithmetic faults. The sealed hash and asserted expectation basis do not establish those facts, so the full expected cause cannot be verified.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket clearly identifies Movement Units, the report/page/visual, the reported exact value 2948 with warehouse_id 1, and the source export's exact value 2084 for warehouse_id 2. This is a coherent request to explain a comparison across explicitly different scopes; it need not be a like-for-like comparison to be a valid support question. Its clarity does not verify the reported figures or their cause.",
+          "missing_native_facts": [
+            "Saved native evidence of the target visual's effective warehouse restriction and Movement Units value.",
+            "Saved native evidence of the source export's effective warehouse restriction and total.",
+            "The Movement Units definition and relevant source lineage or reconciliation evidence sufficient to determine whether scope explains the discrepancy and to exclude ingestion or arithmetic faults."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "e77179a7c7c520a4da50c81f55a93f5f168f1646b008b01d4558c7e009845b24"
+      },
+      "review_result_sha256": "23c03530e7bef88e4b282c02a6a68db0d90795f0d40e97cbb5a5270b434ba1c5"
+    },
+    {
+      "case": "text-R17-04-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev03",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev04",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev05",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-R17-04-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the ticket's request to confirm intended correctness, and its caution against inventing business meaning is appropriate. However, no native evidence establishes a SUM definition, reproduces 8765, documents intended correctness, or establishes that such intent cannot be found. Thus the factual basis for the SEMANTIC cause and not-found verdict cannot be verified from this packet; the sealed record and referenced file hash are not supporting native facts. Physical units are not explicitly requested by the ticket.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the named measure Handled Quantity, the unfiltered card scope, the displayed value 8765, and the requested confirmation of intended correctness. This is a coherent question even if the eventual answer is not found. The absence of a visual or native supporting evidence does not itself make the question defective, and no additional report selection should be invented.",
+          "missing_native_facts": [
+            "The native definition of Handled Quantity, including whether it uses SUM and its dependencies.",
+            "Native data and evaluation context sufficient to reproduce the Handled Quantity value on the specified unfiltered card.",
+            "Authoritative business requirements or validation criteria establishing the intended value for that view, or native evidence supporting a finding that this intent is not established."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "f00fee550aceab62e9225bb9f4da42472ffac7f0ef2c3c3cd97fa78c833486fc"
+      },
+      "review_result_sha256": "bcf5137ec422f3d3292d34f8314a1c8493159db0cec3992b281e594eb7b5103a"
+    },
+    {
+      "case": "text-R17-05-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev04",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev05",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-R17-05-v1-native-definitions",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 7,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The retained measure definition establishes SUM('Activity'[units]), not a movement-record count, and the saved native semantic query establishes an unfiltered value of 8765 at its read time. However, the packet does not bind the ticket's named Handled Quantity card in Declared predicate fixture 20261001 to that unfiltered context. The supplied visual is explicitly 'Handled Quantity - extra visual predicate'; its retained page and visual predicates select RECEIPT on 2026-09-15, for which the native semantic and gold reads return 665. That is not evidence that the ticket refers to this filtered visual, nor does it refute the reported 8765. Thus the semantic arithmetic is supported, but the target-card attribution and resulting 'as designed'/SEMANTIC diagnosis remain unverifiable. The filtered silver value of 594 does not establish a cause for the ticket's displayed number.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies a measure/card, a named fixture, and the observed value 8765, providing a coherent investigation scope. It does not require inventing a page or visual selection. Missing exact target-card evidence limits verification of the diagnosis, rather than making the user's question defective. No judgment of intended business correctness is warranted.",
+          "missing_native_facts": [
+            "Native identification and definition of the ticket's exact Handled Quantity card within Declared predicate fixture 20261001, including its semantic-model binding.",
+            "The target card's effective report, page, visual, slicer and interaction context, with saved/default state distinguished from the user's observed state.",
+            "A target-card evaluation or equivalent query-bound evidence connecting the reported 8765 to that context and an identified data snapshot."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "3b085524505de0ec0f2f8809efe48f7409a7bfef2b17134a0e66823cb0198aa5"
+      },
+      "review_result_sha256": "bf0ec31d9bf87cb1b91807904767ddf92bd5da9b18cdbd80beb2bef59053b3e9"
+    },
+    {
+      "case": "text-R17-08-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev05",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-R17-08-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The packet contains no native evidence establishing the asserted path-only refresh, retained successful API refresh ending 2026-10-07T21:15:37.357Z, disabled schedule, or 'as designed' verdict. The referenced fixture path and hashes do not establish those facts. Reporting refresh history while declining to claim query-bound freshness could appropriately qualify an answer, but model refresh history alone does not confirm whether the displayed 8765 uses the latest available refresh. The expectation's factual support and sufficiency for that question cannot be established here.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket asks an intelligible freshness question about the displayed Handled Quantity value 8765 in the current report view. The absent visual and native context limit verification, but do not by themselves make this question defective or require inventing a report selection. This assessment concerns the question's clarity, not whether its freshness can be confirmed from this packet.",
+          "missing_native_facts": [
+            "Native identification and binding of the report view and Handled Quantity value 8765 to its semantic model and relevant query or display state.",
+            "Native model refresh history establishing the latest available successful refresh and the asserted API refresh completion timestamp.",
+            "Native refresh configuration establishing whether the schedule is disabled.",
+            "Native evidence of the asserted path-only refresh and its effect on the retained refresh history.",
+            "Native evidence linking the displayed value's data state to the latest available refresh, including relevant query timing or cache/snapshot provenance."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "51ae14df9bf77fcd68ec3cd80aeb15e87a15cff75b50e0c5bb4ade71805dba76"
+      },
+      "review_result_sha256": "eb4c571772e0713563475e5fbd2e900888dcb4bed3d3de6b5792d9ca3435d12e"
+    },
+    {
+      "case": "text-R17-09-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-R17-09-v1-native-definitions",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the ticket's freshness question, but its specific factual claims are not established by this packet. No successful native read supplies refresh history, the claimed last successful API refresh ending 2026-10-07T21:15:37.357Z, schedule-disabled status, or the path-only refresh event. The retained definition establishes a Direct Lake partition and Handled Quantity = SUM(Activity[units]); the saved reads establish matching semantic and warehouse totals of 8765 and latest event day 2026-09-18 at the observed times. These facts neither verify nor contradict the asserted refresh history, nor establish query-bound snapshot freshness or the 'as designed' causal verdict. The referenced expectation file and its hash are not native corroboration.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the Handled Quantity card and its report scope, Declared predicate fixture 20261001 > Unfiltered control, and asks an intelligible freshness question. The native definition also identifies the named measure and its source partition. A missing visual does not make this question defective, and no additional report selection needs to be invented. The limited evidence constrains the answer's factual certainty rather than the validity of the request.",
+          "missing_native_facts": [
+            "Successful native refresh-history read for the target semantic model establishing the last successful refresh, its API refresh type, and its completion timestamp.",
+            "Successful native read of the target model's refresh schedule establishing whether it is disabled.",
+            "Native evidence identifying the claimed path-only refresh event and its relationship to the retained refresh-history record.",
+            "Target-specific evidence linking the card's observed query state to a particular source snapshot or freshness boundary, if query-bound freshness is to be asserted."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "d1ebaf568895078aee68bff37469035bb724db28ee3ef3a3cb137e921c6cbe00"
+      },
+      "review_result_sha256": "64f7228e9136414c061ff1fa5d432049b9cc52ea0d47ddac0f27459175796c38"
+    },
+    {
+      "case": "text-R17-10-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-R17-10-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the named Handled Quantity metric on the Handled Quantity - unfiltered card, so no different-question mismatch is evident. However, no native evidence is supplied to establish that the metric sums carried additive units rather than movement records, that the card evaluates to 8765, or that the semantic-layer/as-designed diagnosis is warranted. The listed evidence path and hash do not establish those facts without its contents.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket clearly identifies both the metric and the named unfiltered card and asks what the metric includes. This is a determinate scope; absence of native definitions or a visual in this packet limits factual verification rather than making the question ambiguous.",
+          "missing_native_facts": [
+            "The native Handled Quantity measure definition and any dependent calculations or source-column definitions establishing what is included and how it is aggregated.",
+            "The named card's native measure binding and saved/default filter context, including applicable page/report filters or interactions.",
+            "Native snapshot data or a saved evaluation establishing the claimed unfiltered value of 8765 under the specified context."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "c686ec2d772dbe7b2fa0941074676f6937112a5470856cb3171d9c445e0d3e69"
+      },
+      "review_result_sha256": "d342c12ce54cd446ad323632d8616639c31b67c0305df17eecf8bb28df388d72"
+    },
+    {
+      "case": "text-R17-11-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-R17-11-v1-native-definitions",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "SOUND",
+          "expectation_reason": "For the requested business definition, the semantic not-found expectation is supported within this packet. The retained definition establishes SUM('Activity'[units]); saved unfiltered reads reproduce 8,765 in the semantic model and gold table, with 6,425 RECEIPT units and 2,340 ISSUE units. These establish technical arithmetic, not an approved business meaning, physical unit, or intended correctness. The bronze/silver total of 7,661 and differing row/distinct-movement counts do not establish a business definition or a causal explanation for the discrepancy. Thus not found is appropriate for the business-definition portion, without denying the available technical explanation. This assessment does not establish that business documentation is absent elsewhere or that retained definitions are currently deployed.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket asks a coherent business-definition question about a named measure in an explicitly unfiltered scope. Native evidence identifies that measure and supplies unfiltered evaluations. A report visual or invented selection is not needed to understand the request; lack of an authoritative business definition limits the answer rather than making the question defective.",
+          "missing_native_facts": [
+            "An authoritative business glossary or owner-approved specification defining Handled Quantity's intended business meaning and purpose.",
+            "Authoritative physical-unit and aggregation conventions for Activity.units, including how receipts, issues, and movement grain should contribute to the business quantity."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "b3fb3bba586660dbd5089ddded10cb6e383c46f9c5c70c627458be6bd1e1f768"
+      },
+      "review_result_sha256": "92f536e9db1822fc3d52531a17a8a0a00fb9371b7a90bb5ad9348040dc59590b"
+    },
+    {
+      "case": "text-baseline-S02-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-baseline-S02-v1-native-definitions",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the ticket's calculation and all-status reconciliation question, and is not shown to answer a different question. Native aggregate reads establish 700 in app/bronze/silver invoices versus 950 in gold.invoice_activity; the gold status breakdown includes ISSUED 850 and VOID 100. The retained measure definition is SUM(Billing[amount]), with no explicit status exclusion, and the retained card references that measure. However, no supplied invoice-level or history-match evidence establishes that invoice 101 contributes a repeated 250, and the truncated pipeline excerpt omits the invoice_activity transformation. The packet also does not establish the Billing-to-gold binding or current report filter context. Thus the aggregate difference supports a candidate REFINED -> SERVING split, but the precise named cause and 'as designed' verdict cannot be verified; the retained definitions do not attest current deployment or aligned values.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the report, page, card/measure and intended comparison across all invoice statuses, and asks how the amount is calculated and what it includes. This is a coherent, sufficiently scoped investigation request without requiring an invented report selection or a policy decision about whether VOID should count. Missing causal or current-deployment evidence limits verification of the expected answer, not the validity of the question.",
+          "missing_native_facts": [
+            "Invoice-level evidence identifying invoice 101's amount and its multiplicity in silver.invoices and gold.invoice_activity.",
+            "The relevant account_plan_history rows and exact join predicates demonstrating two matches for invoice 101.",
+            "The complete applicable invoice_activity transformation and lineage establishing the precise REFINED -> SERVING cause and whether the duplication is prescribed by the deployed definition.",
+            "The semantic Billing table source/partition binding and applicable report/page/card filter context, with deployment or temporal alignment sufficient to tie the saved warehouse totals to the reported card."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "e531a4bdf7002ec675ec1f0a8338987c8b88b9764a8034f7e89b3ce6a5927cb7"
+      },
+      "review_result_sha256": "fa0fde556d181ed23b04ca0bd3b372fd6e95d068729d81a25c97202dc39e7493"
+    },
+    {
+      "case": "text-different-warehouse-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-different-warehouse-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The ticket explicitly compares different warehouse selections, so warning that the exports are not the same warehouse scope is responsive. However, no native evidence is supplied to verify the asserted mappings warehouse_id 1=2948 and 2=2084, the SOURCE attribution, or whether warehouse scope rather than product_id overlap explains the unit-sum difference. The referenced path and hashes alone do not establish those facts; the fixed expectation's factual cause cannot be verified from this packet.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket clearly asks whether product_id overlap explains differing stock-movement unit sums from two pulls whose stated difference is warehouse_id 1 versus 2. This is an intelligible comparison and tentative causal question, not an ambiguous request merely because export data are absent. Its factual answer remains unverified.",
+          "missing_native_facts": [
+            "The actual two export requests or saved selection metadata establishing their warehouse filters and any mapping to warehouse identifiers 2948 and 2084.",
+            "Saved native export results establishing the unit sums and product_id overlap for the two scopes.",
+            "Relevant native definitions of stock-movement grain and unit aggregation, and evidence sufficient to distinguish a warehouse-scope difference from overlap, duplication, or pipeline loss."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "ad48421747fadca495879119dab08256229ac102b67724edb0cf10d95bc479e7"
+      },
+      "review_result_sha256": "c76d906112c52c0948b46b34a67164c856e035c125974af809be48929ef0043c"
+    },
+    {
+      "case": "text-older-export-movement-1-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-older-export-movement-1-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the ticket's historical units lookup and comparison, and a not-found result would be legitimate if retained history does not reach the requested timestamp. However, native_evidence is empty. The referenced file path and hash do not establish its contents, the asserted earliest retained history timestamp, the SOURCE attribution, or whether the earlier units value is recoverable. Thus the factual basis for the fixed not-found result and named cause cannot be verified from this packet.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the ordersops stock movements export, movement 1, the units measure, and the exact historical timestamp of 2026-10-20 at 12:00 UTC. It asks for the historical value and whether it differs from the reported current value of 16. This is a clear historical lookup question; lack of an older export or a supplied visual does not make it ambiguous. This assessment concerns question clarity, not independent verification of the reported current quantity.",
+          "missing_native_facts": [
+            "Native evidence establishing the retained history coverage for the relevant ordersops movement data, including the asserted earliest retained timestamp of 2026-10-23T22:43:47.9434148.",
+            "Native evidence establishing whether movement 1's units at 2026-10-20 12:00 UTC can be recovered from relevant retained snapshots, history, or audit records.",
+            "A native read establishing movement 1's current units value, which is reported as 16 by the ticket but not independently evidenced here."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "5396428a73f4659afa53278e38b3dd636858e3d28d625c3d4cf93d7d69fde884"
+      },
+      "review_result_sha256": "02fd3a5632ea99c4d66379aef067e05abae880b7bdc271a21bbee148f2532711"
+    },
+    {
+      "case": "text-older-export-movement-1-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "primary only; no independent adjudication available"
+        },
+        {
+          "pass": "dev02",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-older-export-movement-1-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 0,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The not-found expectation addresses the ticket's historical quantity and change questions without treating the tentative 20-unit guess as fact. However, no native evidence is supplied. The referenced evidence path and hash do not establish the asserted earliest retained history timestamp, the current quantity, or the SOURCE-layer coverage-gap cause. Thus the factual basis of this expectation cannot be verified from this packet; it is not established to be wrong either.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the ordersops stock movements export, movement 1, the quantity in units, and an exact historical timestamp (2026-10-20 at 12:00 UTC). It asks whether the historical quantity differed from the reported current 16 units and whether it changed afterward. This is a clear historical-data question that can legitimately receive a not-found answer if history is unavailable; no visual or invented report selection is needed.",
+          "missing_native_facts": [
+            "Native evidence confirming movement 1's current quantity of 16 units.",
+            "Native history retention or coverage evidence establishing 2026-10-23T22:43:47.9434148 as the earliest retained history relevant to movement 1.",
+            "Native evidence establishing whether the quantity at 2026-10-20 12:00 UTC or subsequent changes can be recovered from retained snapshots, audit history, or other relevant source records."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "a639bad1d58d3ae8dac77a8d7082bde5cf2fa2160747919f62ea2b8fe688603e"
+      },
+      "review_result_sha256": "becb1dcbc6a25df025c0d658c803058f0d1f81bd3f4dbe0eece9f0f4e752fd93"
+    }
+  ],
+  "review_limits": "Reviewer receives exact public dev ticket, fixed expectation and labelled saved native evidence, not engine code, DIA answer or previous grading. UNVERIFIABLE is not an expectation error. Passes have unequal selected cohorts; not a common-image whole-set score."
+}

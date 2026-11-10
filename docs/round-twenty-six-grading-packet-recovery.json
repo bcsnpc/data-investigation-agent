@@ -11,5 +11,17 @@
     "grading/form-batch02-unsent-oversized",
     "grading/form-batch02-unsent-oversized-atom"
   ],
-  "no_ticket_rerun": true
+  "no_ticket_rerun": true,
+  "additional_unsent_history_packet_repair": [
+    "Short opaque-address references cover native URI fields generically, while query/prose/row literals stay protected",
+    "Exact JSON-string wrappers and multi-parent verbatim slices round-trip without changing content",
+    "Existing labelled native-history sampling is applied consistently to both runs and recent_runs views; full history remains in immutable captures"
+  ],
+  "history_packet_bytes": 23199,
+  "checks": {
+    "actual_history_packet_outer_pool_roundtrip": true,
+    "synthetic_roundtrips": 3,
+    "alias_and_JSON_unwrap_roundtrip_asserted_per_packet": true,
+    "sealed_expectation_hashes_unchanged": true
+  }
 }

@@ -462,3 +462,9 @@ Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_r
 
 
 Round26 dev01 stale restoration verified UTC2026-11-03: original360-row/business-schema hashes matched; original real load eeff6b5a-59db-48c1-b6ef-4875fe29cf3a Completed; owner reported automatic updates ON, browser readback unavailable, refresh schedule unchanged. Model own refresh625f3197-0754-46b7-b2f5-8a3666cb27b7 Completed; native model7661 verified. Temporal history staysON. All4 original-image outcomes preserved. Receipt docs/round-twenty-six-dev01-stale-completion.json.
+
+
+Round26 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-six\dev06\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round26 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-six\dev06\injections\text-retained-original-history\status.json.
