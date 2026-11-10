@@ -1,0 +1,15 @@
+{
+  "scope": "Dev06 unsent grading packets only; not an investigator engine change",
+  "reason": "EXACT_GRADER_PACKET_DOES_NOT_FIT before any provider dispatch",
+  "repair": "Shorten only reversible opaque-address aliases from grading_ref_N to collision-checked gN; existing exact lossless pool and round-trip assertions retained",
+  "maximum_task_bytes": 23920,
+  "task_bound": 24000,
+  "outcomes_expectations_scores_and_original_captures_unchanged": true,
+  "grading_criteria_unchanged": true,
+  "existing_labelled_row_and_history_sampling_policy_unchanged": true,
+  "failed_preparations_preserved": [
+    "grading/form-batch02-unsent-oversized",
+    "grading/form-batch02-unsent-oversized-atom"
+  ],
+  "no_ticket_rerun": true
+}

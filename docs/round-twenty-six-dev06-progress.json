@@ -1,7 +1,7 @@
 {
   "scope": "Dev06 failed-only continuation on ca249b73 / e59d3d97; partial until every selected outcome is saved and graded",
   "review_scope": "Saved evidence projections, not raw provider tapes",
-  "observed_at_utc": "2026-11-10T22:07:25.842956+00:00",
+  "observed_at_utc": "2026-11-10T22:19:05.312046+00:00",
   "cases": [
     {
       "case_id": "round26-dev06-form-v2-warehouse-scope-v2",
@@ -16,6 +16,48 @@
       "independent_review": true,
       "primary_first_wrong_step": "intake",
       "primary_reason": "The delivered answer does not match the expected answer in terms of verdict, layer, and cause. It also mentions an UNKNOWN_REPORT and does not provide a confident technical cause, which is harmful. The handoff quality is low due to unclear next checks and an UNKNOWN_REPORT stopping point."
+    },
+    {
+      "case_id": "round26-dev06-form-v2-billing-invoices-v1",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer did not match the expected cause and layer/split point. The verdict was correct, but the cause and layer/split did not match the expected answer. The delivered answer was not harmful, as it did not provide a confident incorrect cause. The handoff quality is 2, as it provides rerunnable queries and a clear stopping point. The first failing step is 'intake', as the cause was not correctly identified."
+    },
+    {
+      "case_id": "round26-dev06-form-v2-before-temporal-retention-v1",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer matches the expected verdict ('not found') but does not match the expected layer/split point ('source history boundary') or the named cause ('source history boundary'). The delivered cause is 'TOOL_OR_TIME_LIMIT', which is not harmful but does not align with the expected cause. The handoff quality is 2."
+    },
+    {
+      "case_id": "round26-dev06-form-v2-other-collected-definition-v1",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer did not match the expected verdict, layer, or cause. The delivered answer is unresolved due to tool or time limits, while the expected answer is resolved with a specific cause and verdict."
     },
     {
       "case_id": "round26-dev06-text-R17-04-v1",
@@ -158,26 +200,26 @@
       "primary_reason": "Delivered answer does not match expected verdict, layer/split point, or named cause. Delivered answer is not harmful but does not provide the correct reasoning."
     }
   ],
-  "saved_outcomes": 12,
+  "saved_outcomes": 14,
   "summary": {
     "primary": {
       "correct": 0,
-      "graded": 11,
+      "graded": 14,
       "harmful": 1
     },
     "secondary": {
       "correct": 0,
-      "graded": 11,
+      "graded": 14,
       "harmful": 0
     },
     "strict": {
       "correct": 0,
-      "graded": 11,
+      "graded": 14,
       "harmful": null
     },
     "reviewed_projection": {
       "correct": 0,
-      "graded": 11,
+      "graded": 14,
       "harmful": 0
     }
   }
