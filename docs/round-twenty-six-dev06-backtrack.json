@@ -1,0 +1,46 @@
+{
+  "partial": true,
+  "scope": "Dev06 saved outcomes only; independent scores unchanged; remaining failures will be backtracked after grading.",
+  "counts": {
+    "target": 3,
+    "conclusion": 1
+  },
+  "cases": [
+    {
+      "case_id": "round26-dev06-text-R17-04-v1",
+      "first_wrong_step": "target",
+      "what_went_wrong": "The bounded checks tested an unavailable Movement Units cell and two filtered Handled Quantity cells, but missed the named unfiltered card.",
+      "correct_action": "Rank the native unfiltered visual first, verify its number and SUM definition, then state the limit on interpreting its business meaning.",
+      "outcome_sha256": "ff0685093fbef71542cc81f434607765e8593335277bb6e6aa06a47dca05a513",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved intake/candidate checks/query results/final answer and independent adjudication; no new estate or model calls"
+    },
+    {
+      "case_id": "round26-dev06-text-R17-08-v1",
+      "first_wrong_step": "target",
+      "what_went_wrong": "Report-level candidates stopped at a non-unique visual calculation before any value or freshness read.",
+      "correct_action": "Resolve the candidate visual within each plausible report, perform bounded value checks and consult path refresh facts before asking.",
+      "outcome_sha256": "49d1f7260d6d853a183232215fa8e8306bb3c448e26983c2d40f984f39811d8f",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved intake/candidate checks/query results/final answer and independent adjudication; no new estate or model calls"
+    },
+    {
+      "case_id": "round26-dev06-text-R17-05-v1",
+      "first_wrong_step": "conclusion",
+      "what_went_wrong": "The run reproduced SUM(units) and 8,765, but its conclusion answered an unresolved filtered-display mismatch instead of explaining summed units versus a record count.",
+      "correct_action": "Answer the calculation question from the successful definition and value read, keeping the separate join observation and unknown business intent qualified.",
+      "outcome_sha256": "2caac55e2bbe02310bb737903e611c55a4ba3ddfa4fbaa42eacde31364fa9a0d",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved intake/candidate checks/query results/final answer and independent adjudication; no new estate or model calls"
+    },
+    {
+      "case_id": "round26-dev06-text-R17-10-v1",
+      "first_wrong_step": "target",
+      "what_went_wrong": "The named unfiltered card was not resolved; three report candidates failed compilation before dispatch.",
+      "correct_action": "Use the explicit visual name to narrow report candidates and query the supported native scopes before asking which report.",
+      "outcome_sha256": "a71777ec5bec4914928963874431958b229382932c066fd8b758501083866b7b",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved intake/candidate checks/query results/final answer and independent adjudication; no new estate or model calls"
+    }
+  ]
+}

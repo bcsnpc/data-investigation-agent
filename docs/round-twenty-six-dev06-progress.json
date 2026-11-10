@@ -1,8 +1,22 @@
 {
   "scope": "Dev06 failed-only continuation on ca249b73 / e59d3d97; partial until every selected outcome is saved and graded",
   "review_scope": "Saved evidence projections, not raw provider tapes",
-  "observed_at_utc": "2026-11-10T21:51:46.472769+00:00",
+  "observed_at_utc": "2026-11-10T22:07:25.842956+00:00",
   "cases": [
+    {
+      "case_id": "round26-dev06-form-v2-warehouse-scope-v2",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": true,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "The delivered answer does not match the expected answer in terms of verdict, layer, and cause. It also mentions an UNKNOWN_REPORT and does not provide a confident technical cause, which is harmful. The handoff quality is low due to unclear next checks and an UNKNOWN_REPORT stopping point."
+    },
     {
       "case_id": "round26-dev06-text-R17-04-v1",
       "kind": "text",
@@ -58,28 +72,112 @@
       "independent_review": true,
       "primary_first_wrong_step": "intake",
       "primary_reason": "The delivered answer does not provide a full verdict, layer/split point, or named cause that matches the expected answer. The delivered answer is unresolved and requires further input."
+    },
+    {
+      "case_id": "round26-dev06-text-R17-11-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer explains the implementation of Handled Quantity but does not explicitly state that the business intent is not established by the SUM definition as required by the expected answer."
+    },
+    {
+      "case_id": "round26-dev06-text-R17-09-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer does not fully match the expected answer. The delivered answer states that the Handled Quantity card currently returns 8,765, and the latest recorded successful refresh of Warehouse Operations e1b8e1 started at 2026-10-07 21:15:32.983 UTC and ended at 21:15:37.357 UTC. However, the expected answer specifies that the retained last successful API refresh ended on 2026-10-07T21:15:37.357Z with the schedule disabled. The delivered answer does not explicitly state that the model refresh history facts should be returned after a path-only refresh, as specified in the expected answer."
+    },
+    {
+      "case_id": "round26-dev06-text-different-warehouse-v2",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "Mismatch in understanding the question at the source level. The delivered answer attempted value checks but the expected answer indicates a fundamental misunderstanding of the question."
+    },
+    {
+      "case_id": "round26-dev06-text-older-export-movement-1-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "Delivered answer does not match expected answer; incorrect interpretation of user's question."
+    },
+    {
+      "case_id": "round26-dev06-text-baseline-S02-v1",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "wrong conclusion",
+      "primary_reason": "The delivered answer did not establish the correct cause and verdict as expected."
+    },
+    {
+      "case_id": "round26-dev06-text-older-export-movement-1-v2",
+      "kind": "text",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false,
+      "primary_first_wrong_step": "intake",
+      "primary_reason": "Delivered answer does not match expected verdict, layer/split point, or named cause. Delivered answer is not harmful but does not provide the correct reasoning."
     }
   ],
-  "saved_outcomes": 5,
+  "saved_outcomes": 12,
   "summary": {
     "primary": {
       "correct": 0,
-      "graded": 4,
-      "harmful": 0
+      "graded": 11,
+      "harmful": 1
     },
     "secondary": {
       "correct": 0,
-      "graded": 4,
+      "graded": 11,
       "harmful": 0
     },
     "strict": {
       "correct": 0,
-      "graded": 4,
+      "graded": 11,
       "harmful": null
     },
     "reviewed_projection": {
       "correct": 0,
-      "graded": 4,
+      "graded": 11,
       "harmful": 0
     }
   }
