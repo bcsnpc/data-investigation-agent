@@ -1005,8 +1005,27 @@
       "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-latency-900502-v2",
       "engine_code_supplied": false,
       "native_reads_supplied": 6,
-      "independent_review": null,
-      "review_result_sha256": null
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the ticket's missing-row question rather than a different question, and may legitimately reject its tentative type-mismatch hypothesis. Successful native reads establish that movement_id 900502 has 19 units in application and no matching Bronze row at the paired November 2 observations, supporting a SOURCE -> BRONZE discrepancy and absence rather than a stored zero. They do not establish latency as its cause, the last completed load, or a named enabled load and its due time. The retained copy definition describes a batch copy path but is not current deployment or execution evidence. Separately, the labelled November 10 fixture-owner control supports an enabled future schedule configured for November 12 at 10:37:14 UTC and a source/Bronze gap for that audit; it is not an investigator finding and does not supply a named job binding or completed-load history for the November 2 observations. Thus the full causal expectation is unverified, not demonstrated wrong. No measure definition is supplied to establish a semantic BLANK result beyond the proven missing row.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies movement_id 900502, its claimed application quantity, the Bronze database, and a specific missing-row question. Its data-type explanation is explicitly a tentative hypothesis to investigate, not an ambiguity or required conclusion. Exact-target native reads corroborate the reported discrepancy. No visual or invented report selection is needed for this row-level question; unavailable causal evidence limits the answer, not the validity of the input.",
+          "missing_native_facts": [
+            "Time-aligned native run history identifying the last completed application-to-Bronze load, its outcome and source coverage relative to movement 900502's arrival or modification.",
+            "An investigator-native schedule read binding an enabled future schedule to the specific application-to-Bronze job, including the job's name, due time and evidence it had not yet run at the relevant observation.",
+            "Current deployed copy configuration and relevant source/destination type or execution diagnostics sufficient to distinguish pending ingestion from type conversion, filtering, rejection or another ingestion failure.",
+            "If semantic BLANK is intended rather than simply an absent row, the relevant measure/query definition and exact-target result establishing BLANK versus zero."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "2fbc86203724aacd123f2cb3a76d5dd5240ecbd5550213e93513fcc91f0320b7"
+      },
+      "review_result_sha256": "089df4cfd5ede358d9543f782c8a01cdbec74dd380686b6ba5470abb354404d3"
     },
     {
       "case": "text-older-export-movement-1-v1",
