@@ -1,0 +1,57 @@
+{
+  "observed_at_utc": "2026-11-10T21:29:45.471452+00:00",
+  "prior_dev05_executions": [
+    {
+      "name": "job-dia-worker-c246tpb",
+      "status": "Failed",
+      "saved_outcome_preserved": true
+    },
+    {
+      "name": "job-dia-worker-cptvnp1",
+      "status": "Failed",
+      "saved_outcome_preserved": true
+    },
+    {
+      "name": "job-dia-worker-mzwlsbi",
+      "status": "Succeeded",
+      "saved_outcome_preserved": true
+    }
+  ],
+  "execution_list": {
+    "status": "UNAVAILABLE",
+    "native_code": "BadGateway",
+    "message": "The issue encountered for 'Microsoft.App'; cannot fulfill the request.",
+    "no_active_execution_claim": false
+  },
+  "key_vault": {
+    "existing_secret": "openai-api-key",
+    "read_access": "PASS",
+    "enabled": true,
+    "value_logged": false
+  },
+  "full_workflow": 42904742997,
+  "new_scored_admissions": 0,
+  "browser": "Fabric account picker awaiting owner; no setting changed",
+  "fixture_checks": {
+    "observed_at_utc": "2026-11-10T21:30:07.501477+00:00",
+    "original_pipeline_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+    "pipeline_hash_matches": true,
+    "schedules": [],
+    "source_checks": [
+      [
+        {
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE"
+        }
+      ],
+      [
+        {
+          "latency_rows": "0"
+        }
+      ]
+    ],
+    "mutations": 0,
+    "receipt": ".local\\round-twenty-six\\resume-20261110\\fixture-settings-20261110-212723",
+    "local_check_correction": "COUNT_BIG serialized as string; integer comparison fixed against saved response, no repeat read",
+    "serverless_first_read": "40613 unavailable; existing one resume retry succeeded"
+  }
+}
