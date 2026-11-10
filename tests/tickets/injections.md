@@ -474,3 +474,9 @@ Round26 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native 
 
 
 Round26 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-six\dev06\injections\access\status.json.
+
+
+Round26 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-six\dev06\injections\waiting\status.json.
+
+
+Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-six\dev06\injections\stale\status.json. No source/model figure was authored from an engine query.
