@@ -23,5 +23,13 @@
     "synthetic_roundtrips": 3,
     "alias_and_JSON_unwrap_roundtrip_asserted_per_packet": true,
     "sealed_expectation_hashes_unchanged": true
+  },
+  "secondary_schema_retry": {
+    "case": "round26-dev06-form-v2-source-history-v1",
+    "original_response": "Missing required verdict_match; response and normalized charge preserved",
+    "action": "One fresh same-task independent secondary call, schema-valid; no operator-inferred field, no ticket rerun, no uncertainty refund",
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "engine_unchanged": true
   }
 }
