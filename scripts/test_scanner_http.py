@@ -1,4 +1,6 @@
-﻿import json
+import os as _test_os
+from unittest.mock import patch as _test_patch
+import json
 import unittest
 from unittest.mock import Mock,patch
 
@@ -17,6 +19,7 @@ class Response:
     def read(self,n):return self.content[:n]
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class ScannerTransportTests(ScannerGuardrailTests):
     def policy(self,grants):
         return {'version':1,'live_enabled':True,'identities':{channel(DECL):permissions(grants)}}

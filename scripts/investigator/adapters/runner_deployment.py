@@ -5,6 +5,23 @@ from ..process_tape import bytes_of
 from ..planner_recording import _safe
 from ..unified_runner import command
 
+def read_job(execute, args, *, sleep=time.sleep):
+    """Retry only the pre-start GET; never repeat an uncertain start."""
+    for attempt in range(3):
+        try:
+            return execute(args, capture_output=True, text=True, check=True, timeout=60)
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
+            detail = str(getattr(error, 'stderr', '') or '')[:2000]
+            try: _safe(detail.encode())
+            except ValueError: detail = 'REDACTED_UNSAFE_PROVIDER_ERROR'
+            transient = isinstance(error, subprocess.TimeoutExpired) or any(word in detail.casefold()
+                for word in ('badgateway', 'gatewaytimeout', 'serviceunavailable', 'too many requests', '429',
+                             'connectionreseterror','connection reset','connection broken','10054','connection aborted'))
+            if not transient or attempt == 2:
+                raise RuntimeError('AZURE_JOB_READ_FAILED_BEFORE_START: ' + detail) from error
+            sleep(5 * (attempt + 1))
+
+
 def input_policy_preflight(config):
     """Validate generated input bindings before launch; never widen them."""
     if 'input' not in config:return {'status':'NOT_REQUIRED'}
@@ -65,12 +82,12 @@ def launch(config,target,*,execute=subprocess.run):
     cli=deployment['cli']
     if not (cli==['az'] or isinstance(cli,list) and len(cli)==3 and cli[1:]==['-m','azure.cli'] and re.fullmatch(r'python(?:[0-9.]*)?(?:\.exe)?',Path(cli[0]).name,re.I)):raise ValueError('RUNNER_FIXED_AZURE_CLI_REQUIRED')
     base=cli+['containerapp','job']
-    read=execute(base+['show','--ids',resource,'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+    read=read_job(execute,base+['show','--ids',resource,'--output','json','--only-show-errors'])
     job=json.loads(read.stdout)
     check=config.get('checks',{}).get(target,{})
     demo=check.get('kind')=='investigation' and 'verification_proof'in check.get('options',{})
     admission=demo_preflight(job,resource,execute=execute,cli=cli)if demo else None
-    template=writable_template(job['properties']['template'])
+    template=execution_template(job['properties']['template'])
     if len(template.get('containers',[]))!=1:raise ValueError('RUNNER_SINGLE_EXISTING_WORKER_REQUIRED')
     container=template['containers'][0]
     if resources is not None:container['resources']=copy.deepcopy(resources)
@@ -83,17 +100,21 @@ def launch(config,target,*,execute=subprocess.run):
     container['env']=env
     _safe(bytes_of(template))
     with tempfile.TemporaryDirectory(prefix='dia-runner-launch-') as folder:
-        path=Path(folder)/'execution.yaml'
-        # JSON is valid YAML. The optional approved resource increase applies
+        path=Path(folder)/'execution.json'
+        # The CLI YAML wrapper masks failures of its redundant GET as a missing
+        # job. Send this exact validated ARM template instead, with no POST retry.
+        # The optional approved resource increase applies
         # only to this execution; the job's scheduled template stays unchanged.
         path.write_bytes(bytes_of(template))
         try:
-            started=execute(base+['start','--ids',resource,'--yaml',str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True)
+            started=execute(cli+['rest','--method','post','--url','https://management.azure.com'+resource+'/start?api-version=2025-01-01','--headers','Content-Type=application/json','--body','@'+str(path),'--output','json','--only-show-errors'],capture_output=True,text=True,check=True,timeout=120)
         except subprocess.CalledProcessError as error:
             detail=str(error.stderr or '')[:2000]
             try:_safe(detail.encode())
             except ValueError:detail='REDACTED_UNSAFE_PROVIDER_ERROR'
             raise RuntimeError('AZURE_JOB_START_UNESTABLISHED run_id='+str(config.get('run_id'))+' image='+config['image']+' native_error='+detail) from error
+    if not started.stdout.strip():
+        raise RuntimeError('AZURE_JOB_START_ACCEPTED_WITHOUT_EXECUTION_REFERENCE run_id='+str(config.get('run_id')))
     result=json.loads(started.stdout)
     return {'run_id':config.get('run_id'),'execution_name':result.get('name'),'image':config['image'],'status':'STARTED',**({'demo_admission':admission}if demo else {})}
 
@@ -111,3 +132,13 @@ def writable_template(value):
         if template.get(group) is not None:
             template[group]=[{k:v for k,v in row.items() if k in fields and (group!='initContainers' or k!='probes')} for row in template[group]]
     return template
+
+
+def execution_template(value):
+    """StartJobExecutionTemplate differs from the scheduled JobTemplate."""
+    if value.get('volumes'):
+        raise ValueError('RUNNER_START_VOLUMES_UNSUPPORTED')
+    fields={'name','image','command','args','env','resources'}
+    return {group:[{k:copy.deepcopy(v) for k,v in row.items() if k in fields}
+                   for row in value[group]]
+            for group in ('containers','initContainers') if value.get(group) is not None}

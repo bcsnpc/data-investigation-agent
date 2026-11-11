@@ -1,0 +1,17 @@
+{
+  "case_id": "text-failed-fixture-load-v1",
+  "run_id": "a2d2627f-2ce9-42f7-a506-a319d0250721",
+  "original_submit_error": "ARM start POST connection reset 10054; response unestablished",
+  "native_execution_reference": "UNESTABLISHED (execution-list BadGateway)",
+  "capture_seal": "e633e7afbf470c694a63a0044a6686aecb6c3d07e65ab236c1f59a782b57420d",
+  "saved_outcome_sha256": "070bdb3c03b21665c16827df46b09123b8c35d0a94fa844823d73654a6f33250",
+  "status": "ANSWERED",
+  "physical_requests": 6,
+  "worker_exit_code": 0,
+  "worker_exit_reason": "ANSWER_DELIVERED",
+  "replacement_submissions": 0,
+  "original_error_preserved": true,
+  "original_definition_hash_restored": true,
+  "subsequent_real_original_job": "COMPLETED",
+  "score_source": "Recovered original sealed capture, never a replacement or reconstructed answer"
+}

@@ -1,0 +1,468 @@
+{
+  "scope": "Frozen-engine Opus calibration on public dev only; not held-out or a new dev loop",
+  "partial": false,
+  "fully_reviewed": 10,
+  "saved_outcomes": 10,
+  "pending_review": [],
+  "first_wrong_step_counts": {
+    "wrong conclusion": 3,
+    "target": 2,
+    "intake": 2,
+    "triage": 1
+  },
+  "failure_groups": {
+    "VERDICT_CONTRACT_ONLY": 2,
+    "CONCLUSION_NOT_FULLY_ANSWERING": 2,
+    "INTAKE_BLOCKING": 3,
+    "TECHNICAL_OR_BUDGET_STOP": 1
+  },
+  "cases": [
+    {
+      "case_id": "round26-opus-calibration01-text-baseline-S01-v1",
+      "ticket": "baseline-S01-v1",
+      "terminal_status": "ANSWERED",
+      "failure_group": "VERDICT_CONTRACT_ONLY",
+      "first_wrong_step": "wrong conclusion",
+      "reason": "PRIMARY is supported. The saved answer explicitly returns 'Verdict: transformation logic', not the sealed 'as designed'; correctly explaining the mechanism does not independently satisfy verdict credit. The split matches REFINED -> SERVING: bronze and silver total 7661, while gold and the model total 8765. The named cause fully matches: the notebook LEFT joins on product_id alone, product_id 7 has two rate rows, and its 1104 units repeat (7661 + 1104 = 8765); gold has 406 rows but 360 distinct movement_ids versus silver's 360/360. Thus SECONDARY incorrectly equates cause agreement with verdict agreement and incorrectly assigns failing_step none. Harmful is false because the technical cause is correct and the answer explicitly says 'I don't judge which rate version or rule is intended.' Handoff earns 1: saved SQL/DAX is rerunnable and snapshot alignment limits are explicit, but 'Use the saved queries, scope and unresolved checks for the next technical step' supplies no concrete next checks, and the report's limitations list is empty. This supports partial credit by field, not a full successful answer.",
+      "verdict_correct": false,
+      "layer_correct": true,
+      "cause_correct": true,
+      "harmful": false,
+      "independent_review": true,
+      "outcome_sha256": "1a3604273ab38701b5c6bc28912e9f483781df010335cdfe5ac1fc7c20339672",
+      "capture_seal": "22a25825df282837cf544e4e38941de0a05ca1a25f1987a94bfa1fc91fa2db02",
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:1",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "TimeoutError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "a473aef5412c440116594123a399e77a6a7488792af8e224cfd11cc642e58bf7"
+        },
+        {
+          "sequence": 2,
+          "id": "query:f01bfb164faae912fbc8475796fbf70f4486574da4b05b9741475cef64c099ce:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "d86e0f97e151036ba63818a12622d7dc4e0329c6b7df0ded615c9ec50345bae5",
+          "query_sha256": "1a838d300bb92b7a88750e2493e8813f8382f4195b65df16c7138f0f17b70e98"
+        },
+        {
+          "sequence": 3,
+          "id": "query:eddc1296fb28492ca05bd8bac4499080243bd578bcf455469516c3e9b0f9ec5d:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "3dca29e5daf97e680b83a33eccefedf875ecf29f01a56239d1c3119999c2e1a8",
+          "query_sha256": "8913a4a7e4cfa61808187bb29df0e256ff04bce919802b5a8950bea5dadf16bd"
+        },
+        {
+          "sequence": 4,
+          "id": "query:8f604ebe1ea69d69dc49324764e7de3483124dec50c301ede8bbda2f0ab73c4f:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "f31415d9daeca2c05ba53396201907f60d4a55806ae2f0ef51e4537cac51b261",
+          "query_sha256": "8913a4a7e4cfa61808187bb29df0e256ff04bce919802b5a8950bea5dadf16bd"
+        },
+        {
+          "sequence": 5,
+          "id": "query:6a0f2caea57630f87f3dfc1792e4935217ca378c31f37f5f8c47851a55073e0d:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "811120cf81bf8d614895a756e079313d9ad06df70805711bb5a57e09451b6274",
+          "query_sha256": "c0f1214855d97ead184ea1bc8b4cc040574749437b6a2930dcab045ed57a7947"
+        },
+        {
+          "sequence": 6,
+          "id": "query:f0104521e24656ab02311b6d5aaee9963fd3c6011421e501ebf11763e8ab0de4:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0a27d1ecb8c9b2e05f849df8008332a8cac6a4ee3f1177738926307450f17aaa",
+          "query_sha256": "db481d527fa6dadf13f9d2aac54016432d67902a41bb255bd6433f4ea5d7a33a"
+        },
+        {
+          "sequence": 7,
+          "id": "query:df360941ce811e693fd0d0f0134dcda978480e1dec72c37f0cdb794e59ddee7e:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0f40e4d352667aa706e6b94e4c781325fd881a1bcf6b0ed9fda4a4594d4d20d9",
+          "query_sha256": "93cf1703812b14505879c38ff740b0fc286f1cb410089170be8ca3ae6d0717ff"
+        },
+        {
+          "sequence": 8,
+          "id": "query:a18a9746498a8a0da972d4be744c37ec2c09d6f9a2828a74b17d4a47c6b59654:8",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6a6f3c234bd82aa7861eed08ed7b97ad7ba52ba581dc23a01d1cf99f6120e746",
+          "query_sha256": "dd04dc0d3f5e59bc8acc8b3b83d58e12eeb709226cb3a9d142cc9f9cb6a05353"
+        },
+        {
+          "sequence": 9,
+          "id": "query:9437162d675cb7b4f13ce3a94051d07842a704879b982fd8c2b2a7ba34d94488:9",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d",
+          "query_sha256": "4d55f40feff7cb1c43146c0a09d57c06746d15c6f2dd790271fb35857b4f99a5"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-R17-01-v1",
+      "ticket": "R17-01-v1",
+      "terminal_status": "ANSWERED",
+      "failure_group": "CONCLUSION_NOT_FULLY_ANSWERING",
+      "first_wrong_step": "wrong conclusion",
+      "reason": "PRIMARY is supported. The sealed answer is 'as designed' at 'SEMANTIC', with the cause that Handled Quantity sums carried additive units rather than counting movement records. The delivered answer instead explicitly concludes 'Verdict: transformation logic', locates the split 'between silver and gold', and attributes the discrepancy to the product-7 rate join. Thus verdict, layer and named cause each fail independently. Its retained expression SUM('Activity'[units]) and successful recreation of 8765 are partial overlap, not the expected explanation. The saved comparisons (gold 8765, silver/bronze 7661, product-7 units 1104, two rate rows, 406 gold rows versus 360 distinct movements) support observations but do not make the transformation attribution the sealed expected answer. The categorical transformation verdict is a confident incorrect technical cause under the grading contract, despite 'Whether both rate versions should apply ... I have not judged' and snapshot caveats; harmful is therefore true. The target was correctly identified and the recreation succeeded after the initial DAX error, so the substantive failure is wrong conclusion, not target. Handoff earns 1: executable saved SQL/DAX and named unavailable checks provide useful continuity, but routing only says 'Use the saved queries, scope and unresolved checks for the next technical step', without a concrete next-check plan, while 'No additional limitation recorded' conflicts with the stated unresolved freshness and snapshot checks. SECONDARY's extra-detail rationale does not establish correctness, and its target, harmful and full-handoff assessments are unsupported.",
+      "verdict_correct": false,
+      "layer_correct": false,
+      "cause_correct": false,
+      "harmful": true,
+      "independent_review": true,
+      "outcome_sha256": "42f0c2999e430fca9a73d50f3b73ee1dab3a27630d9de525da30442f08007a3a",
+      "capture_seal": "e6bb1e1ff530e80691f7487e541a45f77ff98c68ffebde87eab51e5eb06cce3c",
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:f07232610fc46d85cf4e62a1840e4e2c96fc67f68b009846b6b4f9aa5924addd:1",
+          "status": "ERROR",
+          "native_dispatched": false,
+          "failure_class": "wrong column or table",
+          "error_type": "ValueError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "3818885a7a6388e7d2bb6dd05fecad5cee345d51601d168b2a89424b4ae43575"
+        },
+        {
+          "sequence": 2,
+          "id": "query:f01bfb164faae912fbc8475796fbf70f4486574da4b05b9741475cef64c099ce:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "24536e25faa2e1a6c42f36d928d2d8ee4ad85b8f154e8bf5e39e25f6aa9df07c",
+          "query_sha256": "6adde6570d7af6a1f1ee30a8efaa99a34078643c8123f6286810d92735e8aab4"
+        },
+        {
+          "sequence": 3,
+          "id": "query:eddc1296fb28492ca05bd8bac4499080243bd578bcf455469516c3e9b0f9ec5d:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "855922853803e6a23b03a66a51a64d677232be2813f3f051eee105504990517f",
+          "query_sha256": "73aba96ca973d1885138132f2bade9e0fe0cec72811000ac67ff655d94e8ed5b"
+        },
+        {
+          "sequence": 4,
+          "id": "query:8f604ebe1ea69d69dc49324764e7de3483124dec50c301ede8bbda2f0ab73c4f:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "cb4b2fcfc2c910927069d0f90e660bea63897c180c874593da718fae6f83002f",
+          "query_sha256": "73aba96ca973d1885138132f2bade9e0fe0cec72811000ac67ff655d94e8ed5b"
+        },
+        {
+          "sequence": 5,
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d",
+          "query_sha256": "a473aef5412c440116594123a399e77a6a7488792af8e224cfd11cc642e58bf7"
+        },
+        {
+          "sequence": 6,
+          "id": "query:6a0f2caea57630f87f3dfc1792e4935217ca378c31f37f5f8c47851a55073e0d:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "811120cf81bf8d614895a756e079313d9ad06df70805711bb5a57e09451b6274",
+          "query_sha256": "d8f615bc91b1579b581b0f1bcf9948d36f0b226a2f4334582459d5310ae632f2"
+        },
+        {
+          "sequence": 7,
+          "id": "query:f0104521e24656ab02311b6d5aaee9963fd3c6011421e501ebf11763e8ab0de4:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0a27d1ecb8c9b2e05f849df8008332a8cac6a4ee3f1177738926307450f17aaa",
+          "query_sha256": "5400535df8f2ec3b800888c9bec20be995e69e7dd1e2a9336aae0b1a7a55d0a2"
+        },
+        {
+          "sequence": 8,
+          "id": "query:df360941ce811e693fd0d0f0134dcda978480e1dec72c37f0cdb794e59ddee7e:8",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6d155baa805cd5f028832189ddd3061c227f23ae6a30d3ddce7eafe893eaa265",
+          "query_sha256": "529ca470596afeb909ee84d9e48439807bb841215b8edd6c748bc8f684f102fd"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-R17-02-v1",
+      "ticket": "R17-02-v1",
+      "terminal_status": "ANSWERED",
+      "failure_group": "CONCLUSION_NOT_FULLY_ANSWERING",
+      "first_wrong_step": "target",
+      "reason": "PRIMARY is supported, including on the disputed harmful field. The ticket names 'Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered', but the delivered answer checks 'Warehouse Operations e1b8e1'; target is the first failure. The sealed expectation is 'as designed' at SEMANTIC, caused by Handled Quantity summing carried additive units rather than counting movement records. The delivered verdict is instead 'transformation logic', with 'The gap starts between silver and gold' and the categorical claim that product-7 duplication 'accounts for the whole gap.' Its SUM('Activity'[units]) recreation of 8765 does not establish the expected target, verdict, split, or named explanation. Contrary to SECONDARY, this is a confident incorrect causal answer, not an honest unresolved response: snapshot/run-history limitations and reserving business-rule judgment do not retract the stated transformation cause. Handoff quality remains 2: saved SQL/DAX is rerunnable, the stopping point identifies unaligned snapshots and unread notebook run history, and an engineer is directed to confirm the join's effect.",
+      "verdict_correct": false,
+      "layer_correct": false,
+      "cause_correct": false,
+      "harmful": true,
+      "independent_review": true,
+      "outcome_sha256": "7e9b2bccc93dfeb7d01e79f4a03c36d2def8100a4866a74bd0e7dacf08bbf51a",
+      "capture_seal": "e508c6c08a385f71fdb330d5e5bf81ce0dcfc3496053a1040c9c61474b97f2dc",
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d",
+          "query_sha256": "a473aef5412c440116594123a399e77a6a7488792af8e224cfd11cc642e58bf7"
+        },
+        {
+          "sequence": 2,
+          "id": "query:74569ca0102091e1c24c0597ea4386b16379e3183e16f98560f853ec353c24c0:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "e49722f87eee67e6fa27b6532bd2e69b11a5e6b3a9267040970b5439bb48dd22",
+          "query_sha256": "32510bd47cc13f4ac47cc605b66515acb705a9a1b28faa51cc67ddaeccc5e4c1"
+        },
+        {
+          "sequence": 3,
+          "id": "query:f36ed6c012bc4994160e4b004c6b86103dadd4edd576a07f1b72e3574c40dc0c:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "97bfb74bf8470f3488bd669e1698ddaefa93dcb744ce5be0e08a617e0d695ffd",
+          "query_sha256": "a64baf8cd9cf4c6ba3da67df57f23724746bca881a62b17e0b9346915dc1f3c7"
+        },
+        {
+          "sequence": 4,
+          "id": "query:7c92a8b3b58a895730c7f1c4d3100902e054a5ecc7511ed2c710525e6abac49f:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "4e55afafc4257f8c927b22f69fabafdcb285405a0e7a0789cf0fcea6bf858982",
+          "query_sha256": "a64baf8cd9cf4c6ba3da67df57f23724746bca881a62b17e0b9346915dc1f3c7"
+        },
+        {
+          "sequence": 5,
+          "id": "query:6a0f2caea57630f87f3dfc1792e4935217ca378c31f37f5f8c47851a55073e0d:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "811120cf81bf8d614895a756e079313d9ad06df70805711bb5a57e09451b6274",
+          "query_sha256": "d8f615bc91b1579b581b0f1bcf9948d36f0b226a2f4334582459d5310ae632f2"
+        },
+        {
+          "sequence": 6,
+          "id": "query:d29d0ef2a5ada0fb2eb460b373b1ac7c0d56411c1642eee8af6b7d848cde6944:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "c5f5a2557ae65b6fa4edb4923ddff830045a59b9ddddf7bef5bd04827fb59a94",
+          "query_sha256": "c99ceb374a2debd03cd6ae98d522ac45a3ad831c7cca7fde8cce3a1a81c5e4b5"
+        },
+        {
+          "sequence": 7,
+          "id": "query:b172a840e26c4d02f548d0958799c876d07d41309d8999c54ea73e4a0d560f13:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0a27d1ecb8c9b2e05f849df8008332a8cac6a4ee3f1177738926307450f17aaa",
+          "query_sha256": "c6c60c601faa88d8fc8f95f473d286a80367b1c92d4522ee8c36cb35a729a195"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-different-warehouse-v2",
+      "ticket": "different-warehouse-v2",
+      "terminal_status": "NEEDS_INPUT",
+      "failure_group": "INTAKE_BLOCKING",
+      "first_wrong_step": "target",
+      "reason": "PRIMARY is supported. The saved intake already captures table 'stock movements', measure 'Unit sums', and filter '1 vs warehouse_id 2 (separate pulls)', so the first demonstrated failure is target resolution, not intake. The answer asks 'which table do you mean?' and reports 'Verdict: not established', rather than the expected 'different question', SOURCE split, and different warehouse scopes (warehouse_id 1 = 2948 versus 2 = 2084). None of verdict, layer, or cause matches. Its UNAVAILABLE checks and explicit uncertainty are an honest unresolved answer, not a confident false cause. Handoff quality is 0: queries is [], handoff is {}, and 'Use the saved queries, scope and unresolved checks' provides no actual rerunnable queries or concrete next checks. SECONDARY agrees on the match and harm fields but its intake failure attribution is not supported by the populated prefilled intake.",
+      "verdict_correct": false,
+      "layer_correct": false,
+      "cause_correct": false,
+      "harmful": false,
+      "independent_review": true,
+      "outcome_sha256": "dfd60d485f7fdd2f704299dc42df5fecbfe8aa46f71f33f513a28223e1bfd0f1",
+      "capture_seal": "94265812a7fbe6f94b074bf6e841eb8776486ae4c1a9b2d50dc317baa07fe27f",
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-older-export-movement-1-v1",
+      "ticket": "older-export-movement-1-v1",
+      "terminal_status": "NEEDS_INPUT",
+      "failure_group": "INTAKE_BLOCKING",
+      "first_wrong_step": "intake",
+      "reason": "The delivered answer misframes a historical source-value lookup as ambiguous report selection and asks the user to choose a report. It does not give the expected not-found verdict, identify SOURCE as the limiting layer, or establish that the requested snapshot predates the earliest retained native history (2026-10-23T22:43:47.9434148). Its honest uncertainty is not harmful. Handoff quality is 0: the handoff is empty, no rerunnable queries are retained despite the reference to saved queries, and no concrete history-coverage next checks are provided.",
+      "verdict_correct": false,
+      "layer_correct": false,
+      "cause_correct": false,
+      "harmful": false,
+      "independent_review": false,
+      "outcome_sha256": "3a6bf1713b51eda354fb92ba5a5855526b8042d93d3e135e85d49d8aa1ac5668",
+      "capture_seal": "28df89b7efa9cf5d2cd76d2b9d8e399c0ad7894ef65477cb71310aad188b11be",
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-R17-09-v1",
+      "ticket": "R17-09-v1",
+      "terminal_status": "BLOCKED",
+      "failure_group": "TECHNICAL_OR_BUDGET_STOP",
+      "first_wrong_step": "triage",
+      "reason": "PRIMARY is supported. The answer gives 'Verdict: not established' instead of 'as designed' and never identifies the semantic-layer freshness finding or reports the disabled schedule as its explanation. The first failure is triage: retained MODEL_REFRESH/REFRESH_STATE facts already show last success ending 2026-10-07T21:15:37.357000Z, and REFRESH_SCHEDULE shows enabled:false and next_due:null. Those exact retained facts provide partial overlap, contrary to SECONDARY's partial:false, but do not earn verdict, layer, or cause credit. SECONDARY correctly notes that 'safety or budget boundary' misdescribes the recorded stop, 'GatewayDenied: DAX_FUNCTION_NOT_ALLOWED'; this does not turn the explicitly unresolved answer into a confident incorrect technical cause. Handoff quality is 2: saved executable query texts, the explicit gateway stopping point, and concrete unread-layer/error-review next checks support continuation.",
+      "verdict_correct": false,
+      "layer_correct": false,
+      "cause_correct": false,
+      "harmful": false,
+      "independent_review": true,
+      "outcome_sha256": "9fb957b8eda35af456c05159158064314e36cdfc9b5e5f1585d8c78e44ab3946",
+      "capture_seal": "9abf57e3b2fc486735814303288272ae85444658611eddcb24ba761e39670349",
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d",
+          "query_sha256": "a473aef5412c440116594123a399e77a6a7488792af8e224cfd11cc642e58bf7"
+        },
+        {
+          "sequence": 2,
+          "id": "query:f01bfb164faae912fbc8475796fbf70f4486574da4b05b9741475cef64c099ce:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "d86e0f97e151036ba63818a12622d7dc4e0329c6b7df0ded615c9ec50345bae5",
+          "query_sha256": "1a838d300bb92b7a88750e2493e8813f8382f4195b65df16c7138f0f17b70e98"
+        },
+        {
+          "sequence": 3,
+          "id": "query:fb742f49494372390ab3ce0a8d6a0cf7d770bf2ed02687e02418e8a197a09048:3",
+          "status": "ERROR",
+          "native_dispatched": false,
+          "failure_class": "type or CONVERT/CAST",
+          "error_type": "ParseError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "2aa856300c5afff60f4822e0f1f63dfe78dfaeba903bafff355d051161c14c44"
+        },
+        {
+          "sequence": 4,
+          "id": "query:d44927e2500d15cd6b3e342fbaa1cbd4ebbbf6a66756c9326390d30d0c7b7b6f:4",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "f19938cc1279d39cb0da6689b92ad0e3774d0722d15a85ddbe1d79637b1fc40a"
+        },
+        {
+          "sequence": 5,
+          "id": "query:2c77baaebaea0c1e43a04ad2d8e49c086c11eb908323200e88cc6fcd0bf1fbb2:5",
+          "status": "ERROR",
+          "native_dispatched": false,
+          "failure_class": "validator rejection",
+          "error_type": "ValueError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "89bd36883841b6041ad07af5cdef0c825a60d5c3b0d47df316a62d2cdf3558bd"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-baseline-S02-v1",
+      "ticket": "baseline-S02-v1",
+      "terminal_status": "ANSWERED",
+      "failure_group": "VERDICT_CONTRACT_ONLY",
+      "first_wrong_step": "wrong conclusion",
+      "reason": "PRIMARY is supported. The sealed verdict is 'as designed', but the saved answer explicitly states 'Verdict: transformation logic' and says whether the join should add copies 'is a design question, not judged here'; it therefore does not substantively establish the expected verdict. SECONDARY incorrectly awards verdict credit and marks no failure. Independently, the split matches REFINED -> SERVING: silver.invoices totals 700 and gold.invoice_activity totals 950. The named cause matches exactly in substance: invoice 101, amount 250, appears twice because account 1 has two account-plan-history matches, giving 700 + 250 = 950. The answer explains SUM(Billing[amount]) has no status filter and includes VOID, without deciding whether VOID should count. No confidently incorrect cause is asserted, so harmful is false. Saved executable SQL/DAX, explicit snapshot and deployment limitations, and next checks to confirm the deployed join and failed runs justify handoff quality 2; these do not resolve the verdict mismatch.",
+      "verdict_correct": false,
+      "layer_correct": true,
+      "cause_correct": true,
+      "harmful": false,
+      "independent_review": true,
+      "outcome_sha256": "21ebaa8d19a111f75a09fc2349315c2bc0c513676d39341bf88ecdf8ce4699ae",
+      "capture_seal": "f9460c3d02844cf6fa13dd3b19e5f8966c614deab8e14d396378493500abaa77",
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:5549e4e8b55370bf903e66827a77fb7cae353809332660884dccc410de5163f6:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "3f697995be2d6b528d97b1d342d5efbbd770a069b10b2e266bc52f589cfe209a",
+          "query_sha256": "1e9449c024f5e881c85dee42fbbeaa6fa58a2e91b2645e2d6f9a24d88daa62fc"
+        },
+        {
+          "sequence": 2,
+          "id": "query:7740209479bd5da273a1e69b4dfdb1456942f440301c171993dac1a8e0c720d8:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "bc2db9eb056ca30cafeca51e5b9b3d6c39513c1dbc6267644be37d6e6eb994c4",
+          "query_sha256": "6ecf47dcf52ddbfdacd539aa8ecfe878e8d3dd3e35f7e97c1db39bdf85352529"
+        },
+        {
+          "sequence": 3,
+          "id": "query:b1d72fbaeadb0f6501d518e9336d0ce16309d03215f3f7506f440f0bcdc2ec78:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8b152f7b7751298f8fd1a3928b3161568e333a6d3f658680432e736a0359f374",
+          "query_sha256": "122eabfda509a62aee9cd91f4e7e4543d1ac8588360bc9b723bf6e49c0320c02"
+        },
+        {
+          "sequence": 4,
+          "id": "query:7dfe3f9c88204338910ee1a7fc56095b016b3fdc20ae369440e973627f698f16:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8aff62dad69784aa6d41d751176552b79549fbc6d48be9e64d929d957b81ec2e",
+          "query_sha256": "3916b46428112a4e23039fc62ba711c5cd6057a4f0bec82a500a2e923b0a7f63"
+        },
+        {
+          "sequence": 5,
+          "id": "query:603cc0dccd0d2b2b2477df8ba8fe53faa9d19706220512d6fff5b8ba6fa4793c:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "1ce52e6cf38d282580ed7655a160e4f6030ba6d736a525b0aa6c1fa2505d80dc",
+          "query_sha256": "1360c59b51728c1dcc030a713bc7a2bfa1f597d7c8177efb21bdb91406465ae3"
+        },
+        {
+          "sequence": 6,
+          "id": "query:d7cf60dc2077022f8816f3ca0ee6b248094532a553a27c3989670492060a4700:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "517d1eebcd6ada2ee7cd6a69c33ed218c82c15c785302357f2d275e659b22398",
+          "query_sha256": "b131c382527518acddc83285b55bb31b604222843e45e7a46be83657946497aa"
+        },
+        {
+          "sequence": 7,
+          "id": "query:e7842eb46649d65a05c52d496ea8111739bc312495bc328b173dbcd878fa2b95:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "d537047415258bb8e9652f44d73c100f9ad8a207b7ec8e7ee04eaed6ff4dcbb8",
+          "query_sha256": "90892512f04b7a9fb896ad5c5f021fd40d82ef56a5ab777f8361b536da9a202e"
+        },
+        {
+          "sequence": 8,
+          "id": "query:3a3f95f8e765c6e24065284cda0af9acbe9c26c310288efc6104eca7e6f5d9e7:8",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "47ed86b43dc1d829a659a2ce478139bb41efcfe2bc392febfb5618f2e78fc5b3",
+          "query_sha256": "79f38cad7ef1f413a5ec7b770df990ee794e336269f871206f3b034a4130a02b"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-older-export-movement-1-v2",
+      "ticket": "older-export-movement-1-v2",
+      "terminal_status": "NEEDS_INPUT",
+      "failure_group": "INTAKE_BLOCKING",
+      "first_wrong_step": "intake",
+      "reason": "PRIMARY is supported, including the first failing step. The saved answer has status NEEDS_INPUT, asks 'Choose the missing details so I can check the report' with a report selection, and its intake cascade records NEEDS_INPUT at both stages; it stops at intake rather than a later target step. Its 'Verdict: not established' and 'No layer was admitted or read' do not match the sealed 'not found' at SOURCE. It never identifies the required cause: the requested 2026-10-20 snapshot precedes earliest retained native history 2026-10-23T22:43:47.9434148, leaving the earlier quantity unestablished despite a known current movement. Both graders correctly deny verdict, layer and cause credit and find no harm. Handoff quality is 0: queries is [], handoff is {}, and the generic instruction to 'Use the saved queries, scope and unresolved checks' supplies neither rerunnable queries nor concrete next technical checks. SECONDARY's target label is not supported as the first failure because the saved run explicitly stops at intake.",
+      "verdict_correct": false,
+      "layer_correct": false,
+      "cause_correct": false,
+      "harmful": false,
+      "independent_review": true,
+      "outcome_sha256": "5c5c30ffaf3973db39e87fd8dc05297fe5705a6e13f1ef16c39139e6df4c4daa",
+      "capture_seal": "1fceb0ada99f5ad8d8d6f028650d7fd2b082ee03c0ef2b18764d343497ba822f",
+      "query_trace": []
+    }
+  ],
+  "new_estate_or_model_calls": 0,
+  "expectations_unchanged": true,
+  "review_scope": "Saved evidence projections with recorded omissions; no complete-raw-tape claim"
+}

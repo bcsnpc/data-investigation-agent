@@ -1,3 +1,5 @@
+import os as _test_os
+from unittest.mock import patch as _test_patch
 import copy
 import hashlib
 import unittest
@@ -28,6 +30,7 @@ def verification_fixture(edge_id='vm',scope='b'*64):
     return resolver,check,binding,reads
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class MetadataTests(unittest.TestCase):
     def setUp(self):
         self.target={'workspace':'scope','model':'model'};self.calls=[];self.meters=[]

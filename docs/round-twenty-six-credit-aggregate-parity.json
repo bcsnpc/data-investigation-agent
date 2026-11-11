@@ -1,0 +1,25 @@
+{
+  "observed_at_utc": "2026-11-01T23:14:59.789980+00:00",
+  "read_only": true,
+  "counters_changed": false,
+  "checks": [
+    {
+      "account": "enrichment:round-twenty-one",
+      "matching_charge_microdollars": 0,
+      "original_detail_rows": 1085,
+      "original_detail_bytes": 418343,
+      "python_path_seconds": 0.20070540001324844,
+      "native_aggregate_seconds": 0.031498799988185056,
+      "parity": true
+    },
+    {
+      "account": "model-microdollars:2026-11",
+      "matching_charge_microdollars": 12268777,
+      "original_detail_rows": 687,
+      "original_detail_bytes": 536609,
+      "python_path_seconds": 0.06520749999617692,
+      "native_aggregate_seconds": 0.03566039999714121,
+      "parity": true
+    }
+  ]
+}

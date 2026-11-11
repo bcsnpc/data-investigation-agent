@@ -276,7 +276,7 @@ class GraphRepository:
     def records(self,estate,*,at=None,identities=None,limit=1000):
         if type(limit) is not int or not 1<=limit<=10000:raise ValueError('GRAPH_READ_BOUND')
         when=contract.timestamp(at) if at else None
-        with self.state.transaction() as db:
+        with self.state.transaction(_read_only=True) as db:
             where='estate=?';args=[estate]
             if when:where+=' AND valid_from<=? AND (valid_to IS NULL OR valid_to>?)';args.extend([when,when])
             else:where+=' AND valid_to IS NULL'
@@ -334,7 +334,7 @@ class GraphRepository:
         if len(set(roots))>max_nodes:raise ValueError('GRAPH_ROOT_SLICE_BOUND')
         when=contract.timestamp(at) if at else None
         nodes={};edges={};frontier=set(roots);seen=set();truncated=False
-        with self.state.transaction() as db:
+        with self.state.transaction(_read_only=True) as db:
             while frontier:
                 batch=sorted(frontier-seen)
                 if not batch:break
@@ -373,6 +373,6 @@ class GraphRepository:
 
     def changes(self,estate,*,limit=100):
         if type(limit) is not int or not 1<=limit<=1000:raise ValueError('GRAPH_CHANGE_BOUND')
-        with self.state.transaction() as db:
+        with self.state.transaction(_read_only=True) as db:
             rows=self.state.sql(db,'SELECT changed_at,owner,before_hash,after_hash,detail FROM estate_graph_changes WHERE estate=? ORDER BY changed_at DESC LIMIT ?',(estate,limit)).fetchall()
         return [{'at':at,'owner':owner,'before_hash':before,'after_hash':after,'changes':json.loads(detail)} for at,owner,before,after,detail in rows]

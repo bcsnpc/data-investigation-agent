@@ -1,4 +1,6 @@
-﻿import copy
+import os as _test_os
+from unittest.mock import patch as _test_patch
+import copy
 import json
 import unittest
 from unittest.mock import Mock,patch
@@ -12,6 +14,7 @@ from test_scanner_guardrails import DECL,W,M,OTHER,PBI,permissions
 from test_graph_dax_http import ipc
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class DependencyWiringTests(unittest.TestCase):
     def config(self):
         return {'estate':'synthetic','workspace':W,'owners':[M,OTHER], 'authentication':DECL,'storage':{},

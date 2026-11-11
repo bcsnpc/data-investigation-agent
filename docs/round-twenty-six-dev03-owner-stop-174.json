@@ -1,0 +1,9 @@
+{
+  "owner_reply": "Approved",
+  "at_utc": "2026-11-03T00:22:03.212285+00:00",
+  "before_microdollars": 144000000,
+  "after_microdollars": 174000000,
+  "monthly_hard_cap_unchanged": 180000000,
+  "grading_release_margin_microdollars": 6000000,
+  "other_limits_unchanged": true
+}

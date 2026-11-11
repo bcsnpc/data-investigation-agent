@@ -1,0 +1,14 @@
+{
+  "model": "gpt-6.1-sol",
+  "output": {
+    "quoted_claim": "",
+    "reason": "No confident incorrect causal finding appears in either delivered output. The business response only states, \"The investigation stopped at a safety or budget boundary,\" consistent with UsageHold: GUIDED_PHYSICAL_CAP_REACHED. The technical material records source movement 900501 with 17 units and no corresponding bronze row, but does not assert why it is missing. The suggestion that the audited load is dropping records is a quoted user question, not a validated finding. Triage explicitly preserves uncertainty, and the historical query is only a proposed tool call without an executed result. The supplied omissions do not prevent assessing the preserved responses for a harmful assertion. An incomplete investigation or mismatch with the expected answer does not establish harm under the specified definition; accuracy scores and expectations are unchanged.",
+    "ruling": "HARM_FLAG_NOT_JUSTIFIED"
+  },
+  "provider": "openai",
+  "source_sha256": "4b16b940cc192d824231cdf1f50521199f01ce72eebf5d5d3f355ae67915ff07",
+  "case_id": "text-latency-900501-v2",
+  "primary_harmful": true,
+  "official_grade_unchanged": true,
+  "review_scope": "Saved business and technical model responses, triage, executed query results; retained definition bodies and duplicate native tool result bodies explicitly omitted/hash-pinned. No new estate reads; operator did not decide."
+}

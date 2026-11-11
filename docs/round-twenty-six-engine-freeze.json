@@ -1,0 +1,85 @@
+{
+  "source": "ca249b730f463661b1d8ad7cf1e7a1794cd0073a",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e59d3d97ee706a1666650b4dfbc7b1f7020ee044274ed73862c81d9d822a4770",
+  "engine_fix": "e696ce33",
+  "frozen_at_utc": "2026-11-11T00:13:06.344772+00:00",
+  "feature_head_before_freeze_record": "4a1a73851022464d2c197de1826e0a352a67fc7b",
+  "runtime_diff_from_qualified_source_empty": true,
+  "full_suite_passed": true,
+  "post_freeze_suite": {
+    "status": "PASS",
+    "workflow_run": 42929942388,
+    "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/42929942388",
+    "tested_revision": "ccdcd8ff08bddb0b0fd98e226b565796f11454f5",
+    "frozen_runtime_source": "ca249b730f463661b1d8ad7cf1e7a1794cd0073a",
+    "frozen_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e59d3d97ee706a1666650b4dfbc7b1f7020ee044274ed73862c81d9d822a4770",
+    "runtime_source_diff_empty": true,
+    "full_repository": {
+      "status": "PASS",
+      "name": "full-repository.xml",
+      "tests": 5909,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 53,
+      "artifact_id": 13816546716,
+      "artifact_zip_sha256": "693a207341d58691d00d8ba5e780e165d0dc93b84e526b255911ddb10c05e564"
+    },
+    "all_eight_image_contract_shards": "PASS",
+    "published_new_image": false,
+    "native_observation": "gh run view: completed success; full-repository completed success, observed 2026-11-11T00:39:24.939830Z; all eight image shards previously read completed success.",
+    "local_duplicate": {
+      "status": "INTERRUPTED_DUPLICATE_LOCAL_SUITE",
+      "no_pass_claim": true,
+      "receipt": ".local/round-twenty-six/frozen-local-suite-interruption.json"
+    },
+    "observed_at_utc": "2026-11-11T01:32:20.364Z"
+  },
+  "prior_full_qualification": {
+    "source": "ca249b730f463661b1d8ad7cf1e7a1794cd0073a",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e59d3d97ee706a1666650b4dfbc7b1f7020ee044274ed73862c81d9d822a4770",
+    "workflow_run": 42904742997,
+    "qualification": "FULL_REPOSITORY_AND_ALL_IMAGE_CONTRACTS_PASS",
+    "full_suite_passed": true,
+    "repository_suite": {
+      "tests": 5909,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 53
+    },
+    "image_contract_suite": {
+      "tests": 1160,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "dev_pass": 6,
+    "prior_outcomes_unchanged": true
+  },
+  "final_dev_summary": {
+    "primary": {
+      "correct": 5,
+      "graded": 28,
+      "harmful": 1
+    },
+    "secondary": {
+      "correct": 2,
+      "graded": 28,
+      "harmful": 0
+    },
+    "strict": {
+      "correct": 2,
+      "graded": 28,
+      "harmful": null
+    },
+    "reviewed_projection": {
+      "correct": 3,
+      "graded": 28,
+      "harmful": 0
+    }
+  },
+  "final_dev_results_sha256": "7082ef8944e379bac06b8f35ce831dddc9655a973346cc794ee38108e17d2c59",
+  "no_further_dev_loops": true,
+  "expectations_unchanged": true,
+  "v5_scored_admissions": 0,
+  "v5_wording_opened": false
+}

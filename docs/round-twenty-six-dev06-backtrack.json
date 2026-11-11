@@ -1,0 +1,1203 @@
+{
+  "partial": false,
+  "scope": "Final same-image failed-only dev pass; first wrong step from independent saved-evidence review, with previously inspected four traces preserved",
+  "counts": {
+    "target": 5,
+    "query validation": 2,
+    "query error": 3,
+    "triage": 1,
+    "wrong conclusion": 7,
+    "conclusion": 1,
+    "intake": 6
+  },
+  "cases": [
+    {
+      "case_id": "round26-dev06-form-v2-warehouse-scope-v2",
+      "first_wrong_step": "target",
+      "what_went_wrong": "The secondary grader is supported. The saved answer gives 'Verdict: not established', stops at 'UNKNOWN_REPORT', and asks to 'Resolve the selected target from the catalog choices.' It does not give the expected 'different question' verdict, selection-scope split, or cause of warehouse restrictions 1 versus 2. The ticket explicitly contrasts '2948 for warehouse_id 1' with an export 'for warehouse_id 2' giving 2084. The first demonstrated failure is target resolution, not intake. Handoff quality is 1: it provides a clear stopping point and a target-resolution next check, but queries is empty and it misses the explicit scope comparison. Contrary to the primary grader, UNKNOWN_REPORT and lack of a technical cause are not harmful: the answer states 'No layer was admitted or read; no data finding is claimed' and asserts no incorrect technical cause.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "489dbfd2e99d10912b20955c20f9091a4f2a115c832afe8ed6712ac946a34ea4",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-form-v2-billing-invoices-v1",
+      "first_wrong_step": "query validation",
+      "what_went_wrong": "SECONDARY is supported. The delivered verdict is explicitly 'not established', not the sealed 'transformation logic', so PRIMARY's verdict credit is incorrect. The retained queries establish the complete Silver-to-Gold split: app.invoices, dbo.invoices and silver.invoices each sum to 700, while gold.invoice_activity and [Invoiced Amount] equal 950; gold rows show invoice 101 twice, under plan_id 1 and 2, each for 250. This supports layer credit despite the unresolved cause, contrary to PRIMARY. The answer never identifies the missing effective-date restriction on the account_plan_history join as the cause, so cause credit is zero. Intake correctly resolved billingapp and preserved the reported comparison; the first evidenced failure is query validation: query :8 references bronze.account_plan_history on billing_serving and returns QueryRejection, 'wrong column or table', with native_dispatched=false. The handoff preserves runnable query texts, the explicit TOOL_OR_TIME_LIMIT stopping point, and a relevant object/dependency-validation next check, earning 2. The unresolved response does not confidently assert an incorrect cause and is not harmful.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "9fd45f13c36f9df16f1dc35512b9eb4a8c5b246b701e2e6afc5f4b7db2c274d7",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:60965dd875aab3fad0aae6f418cfabcc03227b35f2996b38c762e4dfc7fcf65e:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ae3670fb9a70e3a0f0efe174956688535e56e422dd11febb3083dcbc2383878",
+          "query_sha256": "b43da24150de63362f3d230491b06084fbf68fd9b38a8df561408abef1233642"
+        },
+        {
+          "sequence": 2,
+          "id": "query:d945ed9bb3b6db69de7c10e25999ec77a22b85327a53e943b7600988c880a645:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9a9ad2e9ab84a1045649fa9b210c281c8b384cd6593e3c6a81660948d3cedd4",
+          "query_sha256": "fd89b661dfe2f9afe2b21c9023dfff2c54c1c92591af1a148c2c4f2f76724563"
+        },
+        {
+          "sequence": 3,
+          "id": "query:2dbb7f2146f68c88a16338b0714d0aaac3b0049c335b8c9b28be00199208d3aa:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8921808e2f70ce273cec3c944fc4004c20b3dcefccf1327c5596dbc4422a220f",
+          "query_sha256": "ec8bcf9947056e3d13f6331fd639b192dea43c0098ecc3241c7c12ddaa06ef94"
+        },
+        {
+          "sequence": 4,
+          "id": "query:40d740b46b411b165684df59c2683d39b0153d0ca4732f01053c94bd274cf8cb:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "eba3fd68fcfcf37b3484a7da9d17d041680d09ad62e42c1422dca377713a6154",
+          "query_sha256": "3225447e51c2dcd106110bcfe28b82bc70240ddc0f6b19e1535bcc1cbf705990"
+        },
+        {
+          "sequence": 5,
+          "id": "query:1e3b8656494c3e7072b141eea03346654bc0f584ef7f99f0c6b2ab1547cb8f15:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0408c93793ab14e66f05d6f49240268080003e1d67c54775febfcd837c20e9ec",
+          "query_sha256": "f94750eae0276be40bc916a90a392c2874131914acc0ed4c33522c53aec91c5b"
+        },
+        {
+          "sequence": 6,
+          "id": "query:59f6414cca3340d3ed0deaa67b1258954419cda0f40a1e79b5c363f696b61e34:6",
+          "status": "SUCCEEDED",
+          "row_count": 4,
+          "result_digest": "b0daa01945590773598477a700b28ce293e151b8fb7f61ed7d475dfb03c3034e",
+          "query_sha256": "9e9362ab6ca92b249b0fdb01116e78ddae791f4564a34b55a59f32edfbe9def6"
+        },
+        {
+          "sequence": 7,
+          "id": "query:43bbd126baf5644a9ad59178ad4c4e1e55f7d337931c9e712ad345dd08830605:7",
+          "status": "SUCCEEDED",
+          "row_count": 5,
+          "result_digest": "44b5df28a182d1a6246b662fdf5e0f2e600395f9b3b119e94b1bc1efaff5bdf8",
+          "query_sha256": "fbaef81734747269c009de18feca544abacb1790629a4c8800fbadf7b54e96a3"
+        },
+        {
+          "sequence": 8,
+          "id": "query:d8b978a1ef1da84f15080943fbbee0f8a0ade63ece3265df4e241d61ddc8cd48:8",
+          "status": "ERROR",
+          "native_dispatched": false,
+          "failure_class": "wrong column or table",
+          "error_type": "QueryRejection",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "8a01e7300e3133f8b7063e78bdb55da642f4ab957fbfdbd3e0e96e6238189bbb"
+        },
+        {
+          "sequence": 9,
+          "id": "query:ffb991aa6f3f2c9a493d240700cefac7336788759dc83228d358dc940629cd3b:9",
+          "status": "SUCCEEDED",
+          "row_count": 5,
+          "result_digest": "61af2ab2d7f5a9cb5dead5205ebfc29c98a6b6ad57e35d9c8ffde85342010b39",
+          "query_sha256": "5c19fb7c04be10567407e13af73529d0e12830088323e029f01b3241453c0221"
+        },
+        {
+          "sequence": 10,
+          "id": "query:0fceb69ae50741fa0bbadf1c23fc76b321d1a7ab54a60a7a1e1f51bf58111605:10",
+          "status": "SUCCEEDED",
+          "row_count": 4,
+          "result_digest": "37cbdf8936e4666f24c2f3823db456559b95c20526c38977c642535cd1ea12a6",
+          "query_sha256": "dced239307286aca9223e48dc64eaa411af09edaeadedc17e002b41fcefb6f5c"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-form-v2-before-temporal-retention-v1",
+      "first_wrong_step": "query error",
+      "what_went_wrong": "The secondary grader is supported. The saved business answer explicitly says 'Verdict: not established' and 'Could not decide: TOOL_OR_TIME_LIMIT'; that does not establish the sealed 'not found' verdict for the stated reason, 'Requested time precedes retained temporal evidence; historical quantity cannot be established.' Neither the source history boundary nor insufficient retained history is identified as the conclusion, so verdict, layer and cause all receive zero credit. The primary's verdict credit conflates an unresolved investigation with a demonstrated historical-evidence boundary. Its target failure is also unsupported: the queries address movement_id=1 in the relevant source table. The first blocking failure is g43's source temporal-metadata query returning KeyError 'result_columns', repeated in g50; the later g67 retention query fails validation with \"Column 'validfrom' could not be resolved.\" The successful AS OF query g64 returns no rows but the answer does not establish why. Current-value checks and the SUM definition constitute partial investigative progress, not partial scoring credit. The answer honestly disclaims a conclusion, so it is not harmful. Saved query text, parameters, errors, a clear TOOL_OR_TIME_LIMIT stopping point, engineer routing and explicit follow-ups to the three failed history checks support handoff quality 2.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "c7e32547e4001333f406490758ce9f13df55504bf66d53c0a243bb6edca17986",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:a566367867657723cda15324bcf59890f304b3c78416c4b7f276dbd691860fe3:2",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "f27993b953ad2a4160abc623d1572ba369be555afa0dfc8505b4b31bb7cf309a"
+        },
+        {
+          "sequence": 3,
+          "id": "query:3251e13df18ec7bebaff9c2ba049b5f98dafb6244222eae3b11b3856a13412a9:3",
+          "status": "SUCCEEDED",
+          "row_count": 5,
+          "result_digest": "45a6a68cf3c6b263a3a1f68cc991fa9eff153ac2bf57f5a5c2d7dddac97273e3",
+          "query_sha256": "339d9c5fd6d26f2cece0a67c50c801742d084943a6f797e4333ba379e9a48da3"
+        },
+        {
+          "sequence": 4,
+          "id": "query:a24218b3087a768d2651563014a816dc167371220be0f5e4bc104a574ef20443:4",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "b0955758621ee5aeedc87fa2486ae86023550174a5bf76a16d1cf1d1ac3de96d"
+        },
+        {
+          "sequence": 5,
+          "id": "query:25b28be1cd9ee29f43b31d3ea2cb88a0451955e1e3dc8ff7befc951d97458020:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "f3e6811870b86de7e34ce02433650943a6a1b213272e286a9f16a9f25f9fd48a",
+          "query_sha256": "757af36aa11674e5353afacb154fd83aca9d1ce053c39aa85f5b3e5c42cf75d5"
+        },
+        {
+          "sequence": 6,
+          "id": "query:a48104c7b2361e7c73dd2c5d9b57ddb46f5042a22c1497f6d3b95b69c0a95445:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a6994d8f986c418b370fbe4af54e4454792ab668c75f9f1dd4a9f11571c7b90c",
+          "query_sha256": "0ea09ec1e9674e5fdc154282fd7167b8c1f86395d8dc61cd2cf8b5423c2d52aa"
+        },
+        {
+          "sequence": 7,
+          "id": "query:4cbc19f86bbb6f36c8eb687ca86cf227be2c7de917ab746ae78f38eacca26148:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "168a39ed9cbaf7e122b7e3cb74ae6d84a76b4fa5e032af6cb76d45a6ef68d9c9",
+          "query_sha256": "af8813e1f8602f59b313906b28c2998ecad80e92a2a2fd4fe91a75dc7aaf5a8a"
+        },
+        {
+          "sequence": 8,
+          "id": "query:645a9b8e6824fd73e00bd7247df81e98a34b9a85e35070e511fb7c287fd0078e:8",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "03a138c4e4857ed6376e804c06c8a5fdee7bf9b9c9c71a52bc42b4b4fd77577e",
+          "query_sha256": "6a15b10cd69afdfaaa46f52f02d1b452430e49e81c8f1c023f78b8ba9e2abc54"
+        },
+        {
+          "sequence": 9,
+          "id": "query:5328cd5fe24a5c777e573a2fa91d7aa4ccbac44706caee9211bd4884c3147722:9",
+          "status": "ERROR",
+          "native_dispatched": false,
+          "failure_class": "validator rejection",
+          "error_type": "OptimizeError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "53f91fe74e4f0cb1a546ef4adffa619f28031d305935eb51af1a0285ccf6c962"
+        },
+        {
+          "sequence": 10,
+          "id": "query:6625511eb615e364b8677d277ac96e532a1428fe59fc3afe41bedeecb327e336:10",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a3237189392bd576832065e0fe70aa0a987faaef6ff3602f02a9993cdcd28083",
+          "query_sha256": "d89bbb7e6d1e7b7ca3d3e82192c033bafb4d1dbefef8e32dddbbef138c4d9861"
+        },
+        {
+          "sequence": 11,
+          "id": "query:c432b4949470b2d005384a948002014e9b00d7e7ae1f68cdf52f66bd24b41a50:11",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "3504d13303e055e0f9c3bcd624e42302a1a1b62ab0a10d4823340fc9014d8c62",
+          "query_sha256": "17a94d1cad7a1a086152ffede83b69afdf85e74a0d11ce644f4d64773b7765a5"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-form-v2-other-collected-definition-v1",
+      "first_wrong_step": "triage",
+      "what_went_wrong": "SECONDARY is supported. The saved answer explicitly gives 'Collected Amount = SUM(Payments[amount])', lists payment rows 201/202/203 with amounts 200/100/250, and reports 550 at billingapp, billing_bronze, billing_serving, and the semantic model. This substantively matches the independently scored expected cause 'SUM(Payments.amount),200+100+250=550, agrees through the reachable payment path'; PRIMARY's cause denial is unsupported. However, 'Verdict: not established' does not match 'as designed', and listing layer observations does not identify the expected source application / DEV resolution layer and split. Intake correctly captures HOW_IS_THIS_CALCULATED and the 550 target; the first misdirection is triage's instruction to 'Read the path job or refresh run first' for this calculation-tracing request, not intake. Handoff quality is 1: verbatim queries and TOOL_OR_TIME_LIMIT provide reproducibility and a clear stopping point, but the next checks revisit 'One table-valued EVALUATE required' despite a successful replacement row query, and an unavailable bronze object on the serving endpoint despite successful bronze-endpoint evidence. The unresolved answer asserts no incorrect technical cause and is not harmful. Partial credit status does not confer verdict or layer credit.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "528f1d9037cd3db275171abdc4c0aad74eba6d8fff8980cc29bc732d5d0ff6da",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:a74fcac771dedd215e07bc5819f88931eadd3431e18c8e39644a0b8d32757d5d:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "98fdd3119fb94698e63b4619423c78d7e5a1cd74d7ac3c886843ad07701c9ade",
+          "query_sha256": "c1d22a2ad903da900abad4613918bb512dc9abc6f06fb8f723e5a700f2893a63"
+        },
+        {
+          "sequence": 2,
+          "id": "query:3d96778d4151b2dd4d810832cb81ad533573c55d75bda17187e2eab19ec2f423:2",
+          "status": "ERROR",
+          "native_dispatched": false,
+          "failure_class": "validator rejection",
+          "error_type": "ValueError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "67ab421b93bc65bc277234c09450adbd4346c78757f2015cf5850859c5698921"
+        },
+        {
+          "sequence": 3,
+          "id": "query:dc147bfa34485fc0261fd7b561f0b417e13f4d7a5be7df79fd424c008af82055:3",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "89100490299a20ea1bbb9001d551efefc100ab500a42aed14079df7a019a9065",
+          "query_sha256": "1bd656eb0fec6ea986565973ba494c9deeaf1729e2fa5b721a62d7662a5e037a"
+        },
+        {
+          "sequence": 4,
+          "id": "query:a99d145faa9f73ecb1afb1f7ccda898be162d49336ff2a6949b704739894e6d1:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9427c7eff9dc9e93c569e0f6cc0700cf0df8763f1732fb04e9cc51a5e79e53ef",
+          "query_sha256": "934c5882c59c6b00f164fa0541f176af61abd24e054bc85f5f8a93f8db49d8e7"
+        },
+        {
+          "sequence": 5,
+          "id": "query:280acd9bdfae2b3da1d28c3d5265487a4005514b45ced168139d334b016253ea:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "c5ecbeb3a0d41da4e47a3e77c776677e5dd3c11926cc59c778ed3fbd10d46465",
+          "query_sha256": "34e32db3f5993825967400d48815c5fe1f29283454901c5c8af2ca2dc91fc9df"
+        },
+        {
+          "sequence": 6,
+          "id": "query:b87d4b1a773b648c1fd349b43bf65a962e5c30ad1b1ef486c7b5221011d78acf:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "2da8d7c9e455d7d872b6e759127f871ff9a3f7d97206b858f53eea5c20b078bc",
+          "query_sha256": "5cd25f05c99d208104ff30452c11db92cdf4652fcb903b2279117e30a2aa1835"
+        },
+        {
+          "sequence": 7,
+          "id": "query:e611fbe49e5f57b658d4d1ef9f4db57db4eb539831dbc22c3687efd1538992d1:7",
+          "status": "ERROR",
+          "native_dispatched": false,
+          "failure_class": "wrong column or table",
+          "error_type": "QueryRejection",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "c969ce6a3b70af3a9147ed9d3128cf8172fa32e2abc7cd40e34dfae93aba10e1"
+        },
+        {
+          "sequence": 8,
+          "id": "query:6f942bce42b8d3e83064fa114517ecc0535e6db82b61dc9679beb426ee6b1543:8",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "4918028ffdf8f05fa78b44488f5711798aab6eb6ca0944f249925297db428a30",
+          "query_sha256": "78c5e772d538f513ca0a43b16ca4d5750b2293d900d577ad4d4f57840e3dec29"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-form-v2-source-history-v1",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The saved answer explicitly says 'Verdict: not established' and 'Could not decide: TOOL_OR_TIME_LIMIT', rather than the expected source-changed-history verdict at the source application (DEV split). It records relevant evidence but never names the cause or concludes that split: successful source history query g18 returns movement_units 41 AS OF '2026-11-10T22:14:24.6833333', while current-source query g19 returns 47; g13/g15 show event_day '2026-09-18' with source_modified_at_utc '2026-11-10 22:17:55.221992'. These successful reads remain valid despite g14/g16 metadata errors ('result_columns'). Thus the answer has partial investigative substance but earns no verdict, layer, or cause credit. PRIMARY's intake failure is unsupported: intake is READY and the correct record was queried across layers; the failure is the unresolved conclusion after substantive evidence was obtained. Handoff quality is 1, not 2: rerunnable queries and an explicit stopping point are preserved, but both next checks only revisit the metadata errors, rather than addressing the historical-change finding. The honest unresolved answer asserts no confident false cause and is not harmful.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "cfa4c6e60c2249a15ef2eb756e5a36f0ec16f4134261ef7fcecedd6387f7321f",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:3683e5c5f41135491acfbef7a9a145edb2e5769a9bd4a04e98726c6dfa4999f6:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "984a149cd9c9c3e2ed6a7de2ee811bc841ed7afed8b8ae267731cfe75ec5fa73",
+          "query_sha256": "9795b8394f0d7736e2ec84b6212bcac56a85064b19380680b79c62ea6780498a"
+        },
+        {
+          "sequence": 2,
+          "id": "query:d75943184a34d9570be00e8027029b38b1761f40cdc8a57aacd630650937f2da:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "b45b580d3d0148ebc8e44ca80b03d04b18a2833226fcc342690136529da09923",
+          "query_sha256": "90e120387c04eeac396f15984809775be6d05c7e929d9b3d3157c15a56bc611f"
+        },
+        {
+          "sequence": 3,
+          "id": "query:0426aeda8b9fbe245119bad4f021bbee5b0c35994bcc9fe2ab9d5d8a95b676db:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "edb1ea955c632187eed43ff0d306f18fd0da558e94fb029dfa7f38bd06cdd769",
+          "query_sha256": "ae26853058d48c2afa3204ee3f525915b1cf671f0a8095cb8748e7fec7e37ac6"
+        },
+        {
+          "sequence": 4,
+          "id": "query:498ccf043f29dd8ca44db9c2172627ae99ffd5ec31bb355a2a2edbc12f1ab5b8:4",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "fd24714e68bb58224596dc1cec041f7cb96be607c42ff79e32d42a3b3835d9df"
+        },
+        {
+          "sequence": 5,
+          "id": "query:48ea686e73caeec0fca70b95b4e8d2fbb1c30549904a2990e9ac326c3419b1b1:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "eafc6f58fb850ebf57e287808d026a4c5b11eba1cef8b0d64402902e57b0cebf",
+          "query_sha256": "e3230ba623eaf9bd27395a0867bf6c4f96d862e7e862c60172b310d6d31e30c5"
+        },
+        {
+          "sequence": 6,
+          "id": "query:27f886d362b504b5e64ec9476d5ef1a378d6e51e5f4a964309b38b30298c801d:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "fe1d2a25c8dc2796efb35e9596802b25cb42525d104761b9134db9526e428417",
+          "query_sha256": "935333ebf881ab4c1f1b14cab276348047a02a39780b180bb7accb352880b901"
+        },
+        {
+          "sequence": 7,
+          "id": "query:63fe970b680fe8f4185796ef9d7cb697070f45c02ae42f6b80fd8c1d3d8c31bb:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8c36b7b27f0cd9e656caf8a0ebe6deb883b4cb8eb7f457db4018cc11e4c116f8",
+          "query_sha256": "b457c29b86c23899694a403cb94a36f67abc88bd479664a4c159dc2e33017f5c"
+        },
+        {
+          "sequence": 8,
+          "id": "query:a24218b3087a768d2651563014a816dc167371220be0f5e4bc104a574ef20443:8",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "b0955758621ee5aeedc87fa2486ae86023550174a5bf76a16d1cf1d1ac3de96d"
+        },
+        {
+          "sequence": 9,
+          "id": "query:f8b6507cb2ab322deb4eed04219590e958e4ae1ec27084a2ed4244aa39e64aca:9",
+          "status": "SUCCEEDED",
+          "row_count": 26,
+          "result_digest": "540a502d76b92a59a06e5663157f18502868e5f1074488d132d7d1ec34632d59",
+          "query_sha256": "03683a33cc6e9c7574fbc206d0996a28da28d8db497aa11d985c5e3cb7b53c9f"
+        },
+        {
+          "sequence": 10,
+          "id": "query:84d089e414e3abbae8694b92574930ff738fe7dafe8d1aafe2a8ccb9776e9367:10",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "674397034356aeff98f85a2b0c4857ebcbcaf97bbbcb18ac698bc3f0af82952e",
+          "query_sha256": "5bcf7b0c676c6426a9abd51af095a06b401fe909dbc084511d9ecba4f441493d"
+        },
+        {
+          "sequence": 11,
+          "id": "query:d6b87ebbd5b9c9bd7410f88f527572da0317b9eac704f9f2bc902f978740ae2d:11",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "ec7a04d03e8c7c17d0c0e66bf86119b5948df88ffdb70098dd8123316fb116c4",
+          "query_sha256": "ae0d32fe1e117e6170b41e9dd2b4c17662c322306f8dca42f1a621ca64398b88"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-form-v2-stale-model-v1",
+      "first_wrong_step": "query validation",
+      "what_went_wrong": "SECONDARY is supported. Saved results g6/g9/g11 show the semantic model at 7661 and Bronze and ordersops both at 7692, establishing the expected Bronze-to-semantic-model split in substance; PRIMARY's target failure and denial of layer credit are unsupported. The delivered verdict 'not established' does not match 'refresh stale', and it never names the cause: automatic model updates off while landing advanced by 7+11+13=31. The saved triage includes refresh schedule 'enabled':false and a model refresh ending 20:32:06Z before the successful load ending 23:25:49Z, but the answer does not connect these facts. Its explicit stopping point is 'GatewayDenied: DAX_FUNCTION_NOT_ALLOWED', supporting query validation as the first evidenced failure, not wrong targeting. This is an honest unresolved stop, not a harmful causal assertion. Handoff quality is 1: saved executable queries and a clear stopping point are retained, but 'next_checks':[] and generic engineer routing do not provide sensible specific follow-up checks; PRIMARY's score of 2 is therefore unsupported.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "18749c41254aa7eb9b152b1ab083905db671973bf4d01c5c88e004f79e0728aa",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "f8398d0926256a0a564c7f41820a405db5fc9c2f066c8640e5b6c1bcc378b48f"
+        },
+        {
+          "sequence": 3,
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0310b330a29fc8c4f4f0f732a3bf8d60e9f44fa19c4ec69702f0c77d995613ad",
+          "query_sha256": "e89b1c3150977f6c81cfe41b106f0c115715034e7d5cae8f19730ccb2e021a20"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-form-v2-stale-model-v2",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The delivered verdict is 'refresh stale'; its model total 7661 versus lakehouse and ordersops totals 7692 correctly locates the Bronze-to-semantic-model split. But the sealed cause is 'Real load advanced landing by7+11+13=31 while model automatic updates were off.' The answer explicitly says the automatic-update switch is 'unreadable' and its 'ON/OFF state ... remain undetermined'; the triage evidence likewise records AUTOMATIC_UPDATES as UNAVAILABLE with CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES. Disabled refresh scheduling does not establish that separate switch. Thus cause credit is zero, while verdict and layer credit remain true: this is a partial answer, contrary to PRIMARY's partial=false. There is no evidence of incorrect target selection, so PRIMARY's target failure is unsupported; the shortfall is the incomplete causal conclusion. It is honest uncertainty, not a confidently incorrect cause. Handoff earns 2 for saved rerunnable DAX and source/lakehouse SQL, a clear unresolved automatic-update stopping point, and the specific next check 'semantic model settings \u2192 Refresh \u2192 Keep your Direct Lake data up to date.'",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "88a489f88f6b510081f3e5b86d6a5403c9ab2d7b33b6f8441186565d261c122c",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:fe5c049b6be6cad46e97fab148afa776230822417be466a4d09f027853d4f4cc:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "9aebf0f79ed7f6d83123c869d130641c8164cc6219c37dcf6a01957daa24e111"
+        },
+        {
+          "sequence": 3,
+          "id": "query:e0d434660a84a61a7feb3ef028663d552bf2ee050babcdfc72213ed11e860327:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "1da5b2f96539df1cd75ad0a4e474de819ccb0dcccc5725a449ff745c37af4bc2",
+          "query_sha256": "9d6f943ab8d4b01cc538060985abc28016d7fc4da89672bbc3202af5320e82ab"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-R17-04-v1",
+      "first_wrong_step": "target",
+      "what_went_wrong": "The bounded checks tested an unavailable Movement Units cell and two filtered Handled Quantity cells, but missed the named unfiltered card.",
+      "correct_action": "Rank the native unfiltered visual first, verify its number and SUM definition, then state the limit on interpreting its business meaning.",
+      "outcome_sha256": "ff0685093fbef71542cc81f434607765e8593335277bb6e6aa06a47dca05a513",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-R17-08-v1",
+      "first_wrong_step": "target",
+      "what_went_wrong": "Report-level candidates stopped at a non-unique visual calculation before any value or freshness read.",
+      "correct_action": "Resolve the candidate visual within each plausible report, perform bounded value checks and consult path refresh facts before asking.",
+      "outcome_sha256": "49d1f7260d6d853a183232215fa8e8306bb3c448e26983c2d40f984f39811d8f",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-R17-05-v1",
+      "first_wrong_step": "conclusion",
+      "what_went_wrong": "The run reproduced SUM(units) and 8,765, but its conclusion answered an unresolved filtered-display mismatch instead of explaining summed units versus a record count.",
+      "correct_action": "Answer the calculation question from the successful definition and value read, keeping the separate join observation and unknown business intent qualified.",
+      "outcome_sha256": "2caac55e2bbe02310bb737903e611c55a4ba3ddfa4fbaa42eacde31364fa9a0d",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:cccd30dbd7921ee17f8894df860eb96fbbe97447329d72fb44891369dedc7cbe:1",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "TimeoutError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "79ed429a175e7ff79324c268fc5c2325605b4206bf00ac1d42d72d11b84b1169"
+        },
+        {
+          "sequence": 2,
+          "id": "query:1ce531bdb13680ec2e9d6f8c52cd82e31afa113a66d8506f46c8eb2f53b39e6a:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "67d6d270b257e7715958e14cc396c05ecc29285233a3392a5d4717a1fdc4118d",
+          "query_sha256": "ed3cd3e885ed44d6bcc23c416718eca9ca7fead53751d1159d864975bd1d4fcc"
+        },
+        {
+          "sequence": 3,
+          "id": "query:b5686065a4fd018544f6a36dd5d7c5d6062c53dc334ffbf0b8a0a47391feb0e3:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "f2e4fd5dddc72cc6f7646958175ae691b2beffab93971060928098b065a7043f",
+          "query_sha256": "c380348783e8a12faa8e5bb7e85ac5694f5638f5cb13771b3aecd3fcc79746a9"
+        },
+        {
+          "sequence": 4,
+          "id": "query:e09947fc1cda3f878d6b07b6f860d0fa2f08e7b0805266c2a43133e579106f41:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "e1e58ed0297a6d8e82c4b03da4a71fc41f831a771b58bd8882fcfa78f20b2f8a",
+          "query_sha256": "99c23edf00b5c670957c2d4bf72152ef53fc46fa86398d75ee38acda7da910fc"
+        },
+        {
+          "sequence": 5,
+          "id": "query:a5832896fa4f9cd2bb50110f7578af8c5b936fccbcd62cc1cbff9a45f80b198d:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "316b541e199db37bd2f71539cb6a563174e90cb41f91e83bec0d21c40f3775e4",
+          "query_sha256": "99c23edf00b5c670957c2d4bf72152ef53fc46fa86398d75ee38acda7da910fc"
+        },
+        {
+          "sequence": 6,
+          "id": "query:4061512c4672be27bcf3bef67f99422760a21a4171c7a46d8db87b6bce6a00b6:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0d5673bb673c1909bd04884fa76a34106e2c6423501eaf6905586784dc965e17",
+          "query_sha256": "d265b4ca3880e6259f41d757109204efd242eee3fabf4be2b66f1ffeebe97cf1"
+        },
+        {
+          "sequence": 7,
+          "id": "query:1bfe38460865e6b37c4a06c2f7041778070c43cc38bfbbc83eaf8aef8a8e7f7e:7",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "1e6faedc3e8749124a58dc06e963c332d1080a0875b398990f4f4926dde99d66",
+          "query_sha256": "94b2273c22b47397efb06180ab8e8c60a57de1630e5c843b7636670ecefd5987"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-R17-10-v1",
+      "first_wrong_step": "target",
+      "what_went_wrong": "The named unfiltered card was not resolved; three report candidates failed compilation before dispatch.",
+      "correct_action": "Use the explicit visual name to narrow report candidates and query the supported native scopes before asking which report.",
+      "outcome_sha256": "a71777ec5bec4914928963874431958b229382932c066fd8b758501083866b7b",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-R17-11-v1",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The answer identifies the semantic definition, \"Handled Quantity = SUM('Activity'[units]),\" and explicitly says, \"The intended physical meaning of 'handled' and whether multiple rate matches should contribute are not established by the calculation.\" This directly matches the expected named cause and contradicts PRIMARY's claim that the required limitation was not stated. However, the answer repeatedly declares \"Verdict: definition explained\" and has status ANSWERED, rather than concluding that the requested business definition was not found. Its implementation explanation does not establish that business definition, so verdict credit fails independently. The saved queries include executable DAX and SQL, with results such as 8765 for the measure and 7661 for source movements; the answer clearly limits snapshot and definition evidence and routes the unresolved meaning to the business owner. This supports handoff quality 2 despite the empty handoff object. No incorrect intended business meaning or physical unit is asserted, so the answer is not harmful.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "44ef33f489e83bf22d02a76acc2e26009c6df5777e3986d480b04a6d7d1a8008",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d",
+          "query_sha256": "a473aef5412c440116594123a399e77a6a7488792af8e224cfd11cc642e58bf7"
+        },
+        {
+          "sequence": 2,
+          "id": "query:64677cb71c13b65e1e3fb7d0a5be78b60c31669fcb6de4d9fc66a9a4527df5c2:2",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "b06da45a00fadbd2ce12ca7e3d195bcf9f99e5d0bc64f37569165aefeba6a417",
+          "query_sha256": "ed4127665dba5d396fb4587abca74ff704e3defec7710e0e1d960e76ab7f362a"
+        },
+        {
+          "sequence": 3,
+          "id": "query:74569ca0102091e1c24c0597ea4386b16379e3183e16f98560f853ec353c24c0:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "d1a0cb34de034235f5526603ef138eb3c394976d7675400c2fbf24eca5690a62",
+          "query_sha256": "7798be5ac2a23a48d6f8d5fec6e2a4a25fe8695a53e6f454e344cf2e4cc3b923"
+        },
+        {
+          "sequence": 4,
+          "id": "query:f36ed6c012bc4994160e4b004c6b86103dadd4edd576a07f1b72e3574c40dc0c:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "24c00770718a53a4c0faf647ff883bee23a31c128106219459efcdcd506a87ee",
+          "query_sha256": "b84caf09b1ab7e7b0eab57d63c6db75e31c56de0ade12f637f1e2f511577ea53"
+        },
+        {
+          "sequence": 5,
+          "id": "query:7c92a8b3b58a895730c7f1c4d3100902e054a5ecc7511ed2c710525e6abac49f:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "78a27883deaac66f41facd1f930f78d4dff718d9ac4ddbed5194b075fb79e3a9",
+          "query_sha256": "b84caf09b1ab7e7b0eab57d63c6db75e31c56de0ade12f637f1e2f511577ea53"
+        },
+        {
+          "sequence": 6,
+          "id": "query:b5d4e11fcc1c722d601e37d437818e3fd525727b61497e4ad74cd0b0589ef4cf:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6ad89c4903957f4497f74626e6e4b32537422cd07d045761fefd458cb9b37f75",
+          "query_sha256": "93867501be12fdd43e1ce78c6ec516b3c363e6ebdc418f415dd1c6c2c4a8f160"
+        },
+        {
+          "sequence": 7,
+          "id": "query:188d5872b4d905e25758c1c0c271ef6bc178a6e8563f3d4fc1f514f3a50259d0:7",
+          "status": "SUCCEEDED",
+          "row_count": 9,
+          "result_digest": "1448232efef3a32505df6c86592dc77db46588dd7ac31e7b4c1d3c73f88ec026",
+          "query_sha256": "ca195b1e96f1fe1e0d3a67bf7a982fae079ae65fabcbc1c11e9ad258b8be212f"
+        },
+        {
+          "sequence": 8,
+          "id": "query:20539f995c72892c187ed3c7b55136d38e6fed25e3a878db778888551eeca6b9:8",
+          "status": "SUCCEEDED",
+          "row_count": 9,
+          "result_digest": "652038e50d21e7804a8898755f90ba80a263df40b7a4c7c47b734d389694a74d",
+          "query_sha256": "ca195b1e96f1fe1e0d3a67bf7a982fae079ae65fabcbc1c11e9ad258b8be212f"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-R17-09-v1",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "The secondary grader is supported. The sealed verdict is 'as designed', but the saved answer explicitly gives 'Verdict: not found', so verdict credit fails. Independently, the answer identifies the semantic model Warehouse Operations e1b8e1 and reports its latest successful refresh ending '21:15:37.357 UTC' on 2026-10-07 and that 'Scheduled refresh is disabled, with no next scheduled refresh reported.' Those facts match the retained REFRESH_RUN end '2026-10-07T21:15:37.357000Z' and SCHEDULE enabled:false. It also explicitly says matching totals 'do not prove snapshot alignment' and does not invent a recent refresh. This satisfies the named cause in substance; the primary's requirement to explicitly say the facts were returned 'after path-only refresh' mistakes procedural wording for a missing technical cause. The failure is the conclusion that missing snapshot and automatic-update evidence requires an unresolved verdict, rather than returning the available refresh-history facts as the expected resolution. No confident incorrect cause is asserted, so this is not harmful. The saved SQL/DAX queries are rerunnable, the failed history check and unresolved snapshot/automatic-update checks provide a clear stopping point, and the engineer routing provides sensible next checks. The answer is a partial match, not a full pass.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "d8d3b3716d5ad03d58873cd077dcca0c62151ac1e3d58e10d28b5e962028bbc3",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "a9ced097797a86d28bbd1d255cf7efb2a36a699babcc9416b1ba9a8a9df81f1d",
+          "query_sha256": "a473aef5412c440116594123a399e77a6a7488792af8e224cfd11cc642e58bf7"
+        },
+        {
+          "sequence": 2,
+          "id": "query:74569ca0102091e1c24c0597ea4386b16379e3183e16f98560f853ec353c24c0:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "d1a0cb34de034235f5526603ef138eb3c394976d7675400c2fbf24eca5690a62",
+          "query_sha256": "cf388fb1e9d2e1dd67dc988cbe608cf1715fc11c2312c5d1904587aad516e458"
+        },
+        {
+          "sequence": 3,
+          "id": "query:424b9857cbbfda42f5eb670c1df3a403deec7912e2fcc2786defd28bff0e917e:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "45d6ba12626d16c2e7d683558fafa58d5bc5176f74e66b2cad4b58322937c35d",
+          "query_sha256": "0a3e8473fd8b482473fc8d3610dd9d162e875708fec5359a49142f1cffed069a"
+        },
+        {
+          "sequence": 4,
+          "id": "query:6250227aadc01181538f5acb1296d9cdf3233f8ed304bc3f179a459fc1bae81d:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "4a0de4023ea15e91cf4aae00f400f3d56acec09bd9826ccd25e24e79ad3e9f7a",
+          "query_sha256": "73710f9a2235dd605d0c4242fcc08d6e4dac19b979e59543bb6505a2864e1c25"
+        },
+        {
+          "sequence": 5,
+          "id": "query:4b760fa367bbbf79bb4ebf69a805f3991d376e8d3307c14e7abcd9ff7a295b2e:5",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "a3ff3d1da8677db4fc021a72e37ec2f8ded9b0b033989e5aa2f531d3ceb092cc"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-different-warehouse-v2",
+      "first_wrong_step": "target",
+      "what_went_wrong": "SECONDARY is supported. The saved intake identifies 'stock movements', 'Unit sums', and warehouse_id filters '1' and '2', so the evidence does not support PRIMARY's claim that the first failure was intake misunderstanding. The delivered answer instead stops at target resolution: 'The checks did not uniquely resolve the target, so which table do you mean?' It reports 'Verdict: not established' and never identifies the expected 'different question' verdict, SOURCE split, or cause that the exports select different warehouses (warehouse_id 1 totals 2948 versus warehouse_id 2 totals 2084). The candidate errors 'CANDIDATE_SCOPE_NOT_COMPILED_NO_FILTER_OR_USER_DROPPED' do not establish that expected cause or a correct blocked reason. Handoff quality is 0: queries is [], handoff is {}, and the generic instruction to 'Use the saved queries, scope and unresolved checks' supplies neither rerunnable queries nor concrete next checks. The unresolved answer makes no confident incorrect causal claim, so it is not harmful.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "e80d4bd365cdcd777ef0e8a38d4e163d32f15a46d26db1aba7d34f45e3e7f9b9",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-older-export-movement-1-v1",
+      "first_wrong_step": "intake",
+      "what_went_wrong": "All three substantive matches fail: the saved answer says 'Verdict: not established', gives report candidates with 'CANDIDATE_STATED_SCOPE_NOT_COMPILED', and never identifies SOURCE history coverage or the earliest retained timestamp 2026-10-23T22:43:47.9434148. The expected verdict is 'not found' because the requested 2026-10-20 snapshot predates that coverage. The primary grader is supported on the earliest failure: intake classified this as 'DATA_LOOKS_OLD', although the ticket asks for a historical quantity and explicitly says there is no older export. The subsequent request 'which report do you mean?' is a downstream target-selection failure, so I disagree with the secondary grader's choice of target as the first failing step. Both graders correctly deny substantive credit and find no harm: the answer honestly leaves the quantity and cause unresolved rather than inventing either. Handoff quality is 0: queries is [], handoff is {}, and the instruction to 'Use the saved queries' supplies neither rerunnable checks nor a useful history-coverage investigation path.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "976f25f4ad42622557ee20d20b2892967335986d50ef045788d137f1ce008124",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-baseline-S02-v1",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "The secondary grader is supported. The saved answer explicitly says 'Verdict: not established' and 'Could not decide: TOOL_OR_TIME_LIMIT', whereas the sealed expectation is unblocked and 'as designed'. It reports silver.invoices = 700 and gold.invoice_activity = 950, but does not identify REFINED -> SERVING as the split. It also reports the account_id history join total of 950 and 'SUM(Billing[amount])', useful partial evidence, but never names Invoice101's two history matches or explains the repeated 250 and 700+250=950, nor explicitly explains all-status inclusion without deciding whether VOID should count. Thus verdict, layer, and cause each receive no credit. This useful but incomplete evidence supports partial=true, contrary to the primary's partial=false; it does not earn a partial match on any scored dimension. The unresolved response makes no confident incorrect causal assertion, so it is not harmful. Handoff quality is 2: verbatim rerunnable queries and results are retained, the stopping point is explicit, and next checks identify the timed-out model read, failed definition lookup ('result_columns'), and unread layer.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "02c14710a65b44e895000e412419e494d643db29bdf6bd87ca780245d7f9849b",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:60965dd875aab3fad0aae6f418cfabcc03227b35f2996b38c762e4dfc7fcf65e:1",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "TimeoutError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "b43da24150de63362f3d230491b06084fbf68fd9b38a8df561408abef1233642"
+        },
+        {
+          "sequence": 2,
+          "id": "query:1e3b8656494c3e7072b141eea03346654bc0f584ef7f99f0c6b2ab1547cb8f15:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0408c93793ab14e66f05d6f49240268080003e1d67c54775febfcd837c20e9ec",
+          "query_sha256": "f94750eae0276be40bc916a90a392c2874131914acc0ed4c33522c53aec91c5b"
+        },
+        {
+          "sequence": 3,
+          "id": "query:40d740b46b411b165684df59c2683d39b0153d0ca4732f01053c94bd274cf8cb:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "eba3fd68fcfcf37b3484a7da9d17d041680d09ad62e42c1422dca377713a6154",
+          "query_sha256": "3225447e51c2dcd106110bcfe28b82bc70240ddc0f6b19e1535bcc1cbf705990"
+        },
+        {
+          "sequence": 4,
+          "id": "query:2dbb7f2146f68c88a16338b0714d0aaac3b0049c335b8c9b28be00199208d3aa:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8921808e2f70ce273cec3c944fc4004c20b3dcefccf1327c5596dbc4422a220f",
+          "query_sha256": "ec8bcf9947056e3d13f6331fd639b192dea43c0098ecc3241c7c12ddaa06ef94"
+        },
+        {
+          "sequence": 5,
+          "id": "query:d945ed9bb3b6db69de7c10e25999ec77a22b85327a53e943b7600988c880a645:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "8b134936ccb9ab2553a85191114487ab7b378173dd1239b3d45b260ee5ff6ed9",
+          "query_sha256": "fd89b661dfe2f9afe2b21c9023dfff2c54c1c92591af1a148c2c4f2f76724563"
+        },
+        {
+          "sequence": 6,
+          "id": "query:598362a744c11c5e8546460765f7206078dfca50c384b0277af6b36daed72f87:6",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "d4d14208a1b38cf282336b3aa4b6d3e46c3d226f7e24cef40f3d78dad649999e",
+          "query_sha256": "617645ee4c6777a2a42035c453133a7233c8e3c6f474a78ada397cf30f7a46e5"
+        },
+        {
+          "sequence": 7,
+          "id": "query:6bd92215800e61afa78c88d855980d4c03ac7d50cecbdddb55c63906edb24b7a:7",
+          "status": "SUCCEEDED",
+          "row_count": 2,
+          "result_digest": "0774cb266dfb9b8e66dd858ab44ec34d54ae291e47ef8dc86560f56c2cc131f1",
+          "query_sha256": "6b4d6143e8807ffab97482c5f281c5fdf2b9bb87a341453d1d3b6991b29b5294"
+        },
+        {
+          "sequence": 8,
+          "id": "query:44b06f2a2951690b23dbd061241785cc9aaab618c1f182e898150bb64ba1c4d5:8",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "db38e7a0fcc15b1b4e230176095b9199a88269367c46ea4817f769c64ad391be"
+        },
+        {
+          "sequence": 9,
+          "id": "query:ec5f045677498e151c0d86f448c10070e35c26a825e203adce5e112ebb405096:9",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "5bd2606ca01d691a187813112d225e247240b0915d6bedfef77b1b426a2ebcdd",
+          "query_sha256": "6b74e5dea261ecb10758a9a4c5dbdb131f2b4f5b7f67064e9e69ac149478397e"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-older-export-movement-1-v2",
+      "first_wrong_step": "intake",
+      "what_went_wrong": "Delivered answer does not match expected verdict, layer/split point, or named cause. Delivered answer is not harmful but does not provide the correct reasoning.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "2ed42d804401b5b13a3a10dae53ba4a673b73b1e4244a3baf93e3141e72a9532",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": false,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900501-v1",
+      "first_wrong_step": "intake",
+      "what_went_wrong": "The delivered answer did not establish a verdict, admit any layer, or claim any data finding. It failed to meet the expected latency verdict, specific layer or split point, and named cause.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "95886aec9c0b7b270634e01c58a15e2075b97ac9aa1000b02bb2331308f4329d",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": false,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900501-v2",
+      "first_wrong_step": "intake",
+      "what_went_wrong": "SECONDARY is supported. The ticket explicitly says \"17 units\" in the application and \"no row\" in Bronze; the saved prefilled intake even records the source figure as precision EXACT, value \"17\", and the reported figure as EMPTY. Nevertheless, the answer stops with INTAKE_EXTRACTION_UNESTABLISHED and \"Reported numeral or its stated precision is ambiguous.\" Its \"Verdict: not established\" does not match latency, and \"No layer was admitted or read\" establishes neither SOURCE -> BRONZE nor the expected cause of a post-last-load movement awaiting an enabled future application load. It names no scheduled load or due time and does not explain missing-row/BLANK versus zero. All three match fields therefore fail independently. PRIMARY's partial=true is unsupported: no substantive expected finding was delivered. The refusal is honest and not harmful. Handoff quality is 0 because handoff is {}, queries is [], and the generic routing instruction to \"Use the saved queries\" supplies neither rerunnable queries nor actionable next checks.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "468e6092a42f7acf7f20c4664572c6129867e41cfeae64abe0a9daee5e661441",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-history-source-900201-v1",
+      "first_wrong_step": "query error",
+      "what_went_wrong": "SECONDARY is supported. The saved answer says 'not found' and 'The cause ... is not established'; it identifies neither SOURCE nor the expected 'source changed history' cause. The sealed expectation specifies movement 900201 absent/BLANK before 22:49:20 UTC and quantity 7 at 22:49:28 UTC on 2026-10-23. Current empty lookups and a BLANK measure do not establish that historical transition, so verdict, layer and cause each earn no credit. The first evidenced failure is query error: g14 and g15 failed with 'result_columns', and g16's correctly targeted source FOR SYSTEM_TIME ALL query failed with 'Fabric SQL read unavailable'. This contradicts PRIMARY's unsupported target classification; the correct movement and source were targeted. PRIMARY's partial=true is also unsupported because no expected substantive component was established. The answer honestly preserves uncertainty rather than confidently asserting a false cause, so it is not harmful. Handoff earns 2 for saved executable SQL/DAX, explicit history-read failures and stopping point, and proposed correlation of export timestamps/filter contexts with retained source/model history.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "7898654ff3894bb026e35f050fd9a2a41ae1cc00d7cf731d352a24173ffb2c18",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:6ce5243b76c396462b3a98b59677b8ea039c5b333736f6730d6378b28d0eef01:1",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "44a62c4131d7b0683d4f6bef76ce1797cb9e2a91a5f5351b9a08f71d40e8edda",
+          "query_sha256": "f4d9b38e35dfc7c407e50f7f418221d617c793c53fd364f5ec2b64a053185689"
+        },
+        {
+          "sequence": 2,
+          "id": "query:d614556a74e24d50bd3cc47623cacd8307e5f4c2e733b101b6cb8127066243b5:2",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "cafd90956838c4d2e4a990268332b82b9117ecc06400303c9d0e8444064185cf",
+          "query_sha256": "f4d9b38e35dfc7c407e50f7f418221d617c793c53fd364f5ec2b64a053185689"
+        },
+        {
+          "sequence": 3,
+          "id": "query:dd208fbff8b78779ac2c307a684c86c3935742b1fc089c590cbeac155553f4d2:3",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "811f97a17ef55ae418653235a5ef5b4a7b1d762b6d0c147e2a81484f451cd7b9",
+          "query_sha256": "8321440de9477d6153f3a973629068cbc8ada1ce61ab24bf79f2faf4a6e3c659"
+        },
+        {
+          "sequence": 4,
+          "id": "query:f83de5427ae56ed310bd9bf0d2526adc144466e41d0e9f1649390408999a4595:4",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f",
+          "query_sha256": "c56039c7c4998ced4ae7c9ec855208c4eac8d8c66e62e7dcaae17138e8ae8b3d"
+        },
+        {
+          "sequence": 5,
+          "id": "query:716cf8d7d9068386e2007c6df5f921be721417e27b9bd65ea9217ee7cfe48321:5",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "b48678f54ea8d862ace1ee72e56a00bb7a26e6a329e946426dca4d26e2b1430d"
+        },
+        {
+          "sequence": 6,
+          "id": "query:edff25edb066dd3fa762e37344c66080db74e708042dca261663d3332893c935:6",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "67f1f53e7993ee975edbab4bb76511e3f07e461b89d60b3d464c138289ad710a",
+          "query_sha256": "02e39a7d2240a7343d30b05c638076e1e23c81dc6a91f143196c2dcb865854eb"
+        },
+        {
+          "sequence": 7,
+          "id": "query:a0cbe76a942ea902000fedc54ea5f5457d4f967926a95e339df45b5869130fe5:7",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "2b9574e824cf497b234c791096892eccdb9570a5fb9af6877344fd9655d7ec0f"
+        },
+        {
+          "sequence": 8,
+          "id": "query:28bfd20bbfa0d9d6ac765cbafda0dbb8f6c1d0f5ce649ad08666741965505362:8",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "LowerReadError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "8dc0ebf58ac42b022d5316ca1ee0038ace30f0c4117f026ea157fc08bdadb4d8"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-history-source-900201-v2",
+      "first_wrong_step": "query error",
+      "what_went_wrong": "SECONDARY is supported. The saved answer says 'Verdict: not found' and leaves 'latency, source changes and export-context differences' undecided, whereas the sealed expectation is 'source changed history', at SOURCE, with retained native history showing movement 900201 absent/BLANK before 2026-10-23 22:49:20 UTC and quantity 7 at 22:49:28 UTC. Thus verdict, layer and named cause each fail independently. The first supported failure is query error: history queries g13 (sys.tables) and g14 (INFORMATION_SCHEMA.COLUMNS) both record status ERROR, failure_class 'endpoint error', and KeyError 'result_columns'. PRIMARY's target classification is unsupported: the successful current queries target movement_id 900201 in the relevant bronze, silver, gold and Activity assets, but current empty rows and a BLANK measure do not establish historical states. The answer explicitly acknowledges that limitation and asserts no incorrect cause, so it is not harmful. Handoff quality is 2: saved SQL/DAX is rerunnable, the history-query stopping point is explicit, and reconciliation of export timestamps/filters and historical source/model states supplies sensible next checks.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "e6254cd9dc8fef51ba383bbb1b66e1e8ae805b87ddb8ae97712b7e6021af6292",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:6ce5243b76c396462b3a98b59677b8ea039c5b333736f6730d6378b28d0eef01:1",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "44a62c4131d7b0683d4f6bef76ce1797cb9e2a91a5f5351b9a08f71d40e8edda",
+          "query_sha256": "f4d9b38e35dfc7c407e50f7f418221d617c793c53fd364f5ec2b64a053185689"
+        },
+        {
+          "sequence": 2,
+          "id": "query:d614556a74e24d50bd3cc47623cacd8307e5f4c2e733b101b6cb8127066243b5:2",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "cafd90956838c4d2e4a990268332b82b9117ecc06400303c9d0e8444064185cf",
+          "query_sha256": "f4d9b38e35dfc7c407e50f7f418221d617c793c53fd364f5ec2b64a053185689"
+        },
+        {
+          "sequence": 3,
+          "id": "query:dd208fbff8b78779ac2c307a684c86c3935742b1fc089c590cbeac155553f4d2:3",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "811f97a17ef55ae418653235a5ef5b4a7b1d762b6d0c147e2a81484f451cd7b9",
+          "query_sha256": "8321440de9477d6153f3a973629068cbc8ada1ce61ab24bf79f2faf4a6e3c659"
+        },
+        {
+          "sequence": 4,
+          "id": "query:f83de5427ae56ed310bd9bf0d2526adc144466e41d0e9f1649390408999a4595:4",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f",
+          "query_sha256": "c56039c7c4998ced4ae7c9ec855208c4eac8d8c66e62e7dcaae17138e8ae8b3d"
+        },
+        {
+          "sequence": 5,
+          "id": "query:fb37e99e39f69d959543f86bca3c06f3e9e5ff6d8ba4bccab78b9ad8f67e2230:5",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "67f1f53e7993ee975edbab4bb76511e3f07e461b89d60b3d464c138289ad710a",
+          "query_sha256": "226bd630e55a04779e3be46f35f153e70d6738b53d0b9b81402416b09a11d98a"
+        },
+        {
+          "sequence": 6,
+          "id": "query:716cf8d7d9068386e2007c6df5f921be721417e27b9bd65ea9217ee7cfe48321:6",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "b48678f54ea8d862ace1ee72e56a00bb7a26e6a329e946426dca4d26e2b1430d"
+        },
+        {
+          "sequence": 7,
+          "id": "query:a0cbe76a942ea902000fedc54ea5f5457d4f967926a95e339df45b5869130fe5:7",
+          "status": "ERROR",
+          "native_dispatched": true,
+          "failure_class": "endpoint error",
+          "error_type": "KeyError",
+          "row_count": null,
+          "result_digest": null,
+          "query_sha256": "2b9574e824cf497b234c791096892eccdb9570a5fb9af6877344fd9655d7ec0f"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900502-v1",
+      "first_wrong_step": "intake",
+      "what_went_wrong": "SECONDARY is supported. The saved answer says 'Verdict: not established' and 'No layer was admitted or read; no data finding is claimed,' so it matches neither latency nor SOURCE -> BRONZE and supplies none of the expected future enabled application-load schedule cause, load name/due time, or missing/BLANK-versus-zero distinction. The first failure is intake: it asks the user to choose a report even though the ticket identifies movement_id 900502, round_two_bronze_20261003, and round_two_application_load_audited_20261003. This honest unresolved answer is not harmful. Handoff quality is 0: queries is [], handoff is {}, and routing only generically refers to nonexistent saved queries without actionable next checks. PRIMARY's partial=true is unsupported: the answer establishes no portion of the expected technical finding; partial=false is appropriate.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "67dedb0972c7fe460c138435c65f132e9e7f140ede21633855b80ad61f20842f",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-latency-900502-v2",
+      "first_wrong_step": "intake",
+      "what_went_wrong": "The delivered answer does not match the expected answer in terms of the verdict, layer/split point, and named cause. The delivered answer does not establish a clear target or validated cause.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "84d2540a4691af3fcd56764f1beccbe15a6ad914be0313229454e74a92564ef4",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": false,
+      "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-stale-total-v1",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The sealed named cause specifies 'load completed after model framing, automatic updates are held off.' The delivered answer establishes the stale model boundary: model 7661 versus Bronze/application 7692, three absent movements totaling 31, and model refresh ending 20:32:06.497 before the audited load ending 23:25:49.9766667. Thus verdict and BRONZE -> SEMANTIC split match. But it explicitly says the Direct Lake automatic-update switch's 'ON/OFF state and why the model did not pick up the newer data remain unestablished.' The saved triage records AUTOMATIC_UPDATES as UNAVAILABLE with CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES. This honest limitation is not the expected held-off cause, and the disabled refresh schedule is explicitly distinguished from that switch. Partial cause coverage earns no cause credit; PRIMARY's full-match judgment is unsupported. No confident incorrect cause is asserted, so harmful is false. Saved executable SQL/DAX, results, a clear unresolved switch-state stopping point, and the specific model settings check support handoff quality 2.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "6ae9ce633126c3f8dfad6d441c87a9e64aff8599356c9f11572e0a93329b154f",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "f8398d0926256a0a564c7f41820a405db5fc9c2f066c8640e5b6c1bcc378b48f"
+        },
+        {
+          "sequence": 3,
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6356daf6a7b6156518fe18ac8c44fb511e80582b49e09bb322cb2e84dbb11a95",
+          "query_sha256": "e89b1c3150977f6c81cfe41b106f0c115715034e7d5cae8f19730ccb2e021a20"
+        },
+        {
+          "sequence": 4,
+          "id": "query:1f03c9b3708c527a4b3cc246f8d00a6e8fb66ec904d7d2027038e5144748ede6:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "5239e66af21219ab814e6df0fe21749ac297eaa93d4319e1c0dc8c971259e52e",
+          "query_sha256": "512a83a492a5a054e9c5cb6cd0debf8b409bdcc47881c8b08f0e5ee32d1ab8f8"
+        },
+        {
+          "sequence": 5,
+          "id": "query:6fd2ca7875108e7bb8dc036ce4ba3f321195cbba3b91d390abd52b32488ae70d:5",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "77017965c9b33efbff31a1cc4d6249f5fe520cc0748b3b8683022f5ce3e940b5",
+          "query_sha256": "59b1c5be49a83395d71ca23d77479e11c4b6aa89c141a605f0d1b01fca1b1e8e"
+        },
+        {
+          "sequence": 6,
+          "id": "query:a25b13d96dd7c807f5043b1a2dc750bd0d90bea08dad530cde6d5a42f2c11f46:6",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "3617c2a8ab10525275cc16f3ad2c2bbed3b3720e1dd4e264a32e99cef684d47f",
+          "query_sha256": "ab0d8491979276af63e83cce127d383ee03eb3c03ca71af81043bd4059a47006"
+        },
+        {
+          "sequence": 7,
+          "id": "query:85f1c7706ee91091be8870e41010e30d4abf77f0649c9b7ae1a1b455cf3330a9:6",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f",
+          "query_sha256": "b61597d06a411bcb0a3ec8a573cfbe361f1811de00534162e872c83a79331d94"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-stale-total-v2",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The sealed cause says 'load completed after model framing, automatic updates are held off.' The delivered answer establishes the timing but explicitly says 'the separate Direct Lake automatic-update switch is unreadable; its state and why the model did not incorporate the newer data remain undetermined.' Thus PRIMARY incorrectly awards full named-cause credit; a partial causal match scores zero, and unavailable switch evidence does not replace the sealed expectation. Verdict and split independently match: the answer states 'refresh stale,' reports model 7661 versus Bronze and ordersops 7692, and identifies movements 900401\u2013900403 as present upstream but absent from the model, accounting for 31 units. It rejects mapping and pipeline loss rather than confidently asserting an incorrect cause, so it is not harmful. Handoff quality is 2: saved executable SQL/DAX comparisons, a clear unresolved automatic-update state, and the specific next check 'semantic model settings \u2192 Refresh \u2192 Keep your Direct Lake data up to date.'",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "83db4b33081aec7809ff904881001083cf267d43a05d87c4438f3c0560127260",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "f8398d0926256a0a564c7f41820a405db5fc9c2f066c8640e5b6c1bcc378b48f"
+        },
+        {
+          "sequence": 3,
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "92f999fcee47a3e863226cd36ba16835a29282452a4f922348ad8f357451364c",
+          "query_sha256": "e89b1c3150977f6c81cfe41b106f0c115715034e7d5cae8f19730ccb2e021a20"
+        },
+        {
+          "sequence": 4,
+          "id": "query:609d43d63e95d2c63ad19054cec2f4223ce6196914516a4faed48040f9ef44f4:4",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "e40a602bfd008e7489aec2a2c2c4d1a93582770c579f7fd974fbff0608f9cadc",
+          "query_sha256": "116a42cb256600644165657c81422d3fbcee7432a159ca0909821b7ae051ea64"
+        },
+        {
+          "sequence": 5,
+          "id": "query:438a557217df86c2c24c57790c1a590fd0aeb1c9f32d9f09f8f420c25fbc376d:5",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "024883c990135404cd92186e280bf75e9fd2a6723adf83f95562af4ddeced3f7",
+          "query_sha256": "9576ae8c505c438f64ede1c0589608d57231304053071ad8cf8fed3b2d19a35a"
+        },
+        {
+          "sequence": 6,
+          "id": "query:87e05b07cdfb3287d7dcaae5be0e08341c9fed4e2120a2796d2e74fe61958460:6",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "31eabdb0b552a372273048279d753efaca46d882516b07d48932c0be5cdf300b",
+          "query_sha256": "17989c70fb75082f5233cbb2d1551abbe9fb9869bbd95938f5802c5b40c53361"
+        },
+        {
+          "sequence": 7,
+          "id": "query:85f1c7706ee91091be8870e41010e30d4abf77f0649c9b7ae1a1b455cf3330a9:7",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f",
+          "query_sha256": "b61597d06a411bcb0a3ec8a573cfbe361f1811de00534162e872c83a79331d94"
+        },
+        {
+          "sequence": 8,
+          "id": "query:5729bd30135a229a8cd5497a7ab27111f76c759d9ac9dc96ea7ffe1459e359b2:7",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "d9207c5f210677537c5f619c3ef12839ab92300f204a8911b60814580be67571",
+          "query_sha256": "7cd3f447ec2b836572d58817cd28a0b55bc7de76302bd1fda9cb1d0c6c83044f"
+        },
+        {
+          "sequence": 9,
+          "id": "query:ba16cbf465b6c8053197c1ba9ab624cd89e093fe4f4ff9128723cf42b84c902b:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9278e3f6e0f8958a8492c47cfaa5e659aecf241334c31d67480e8a4647150f68",
+          "query_sha256": "427d6671e3f62d366bd152f957d8d2ce652e37337063f609d5ce93b44acb47dd"
+        }
+      ]
+    }
+  ]
+}

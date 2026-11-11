@@ -1,0 +1,24 @@
+[
+  {
+    "step": "intake extraction",
+    "cohort": "intake-dry1",
+    "model": "gpt-6-astra",
+    "calls": 75,
+    "actual_usd": 4.407475,
+    "usd_per_call": 0.05876633333333333,
+    "input_tokens": 548393,
+    "cached_input_tokens": 184439,
+    "cache_read_ratio": 0.33632632072254753
+  },
+  {
+    "step": "intake extraction",
+    "cohort": "intake-dry2",
+    "model": "gpt-6-astra",
+    "calls": 86,
+    "actual_usd": 10.65316,
+    "usd_per_call": 0.12387395348837209,
+    "input_tokens": 1184455,
+    "cached_input_tokens": 217624,
+    "cache_read_ratio": 0.18373344702838015
+  }
+]

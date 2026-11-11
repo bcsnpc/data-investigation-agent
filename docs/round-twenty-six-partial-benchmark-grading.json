@@ -1,0 +1,38 @@
+{
+  "scope": "PARTIAL_PROVIDER_BENCHMARK_NOT_ROUND26_HEADLINE",
+  "observed_at_utc": "2026-11-02T03:41:59.698443+00:00",
+  "columns": {
+    "sol-cascade": {
+      "graded": 40,
+      "correct": 13,
+      "harmful": 1
+    },
+    "openai": {
+      "graded": 40,
+      "correct": 28,
+      "harmful": 0
+    },
+    "anthropic": {
+      "graded": 38,
+      "correct": 34,
+      "harmful": 0
+    }
+  },
+  "primary_models": {
+    "sol-cascade": [
+      "amazon.nova-pro-v1:0",
+      "claude-sonnet-4-6 (batch)"
+    ],
+    "openai": [
+      "amazon.nova-pro-v1:0",
+      "claude-sonnet-4-6 (batch)"
+    ],
+    "anthropic": [
+      "gpt-6.1-sol"
+    ]
+  },
+  "correct_requires": "verdict AND layer AND cause",
+  "default_investigator_selected": false,
+  "secondary_and_independent_disagreement_review": "NOT_YET_RUN",
+  "subsets_not_identical": true
+}

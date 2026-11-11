@@ -1,0 +1,81 @@
+{
+  "kind": "PARTIAL_BENCHMARK_PRIMARY_GRADING_NOT_FINAL_MODEL_SELECTION",
+  "held_out_inspected": false,
+  "cases": [
+    {
+      "column": "sol-cascade",
+      "cases": 2,
+      "primary_correct": 2,
+      "primary_harmful": 0,
+      "grader": "claude-sonnet-4-6",
+      "provider": "anthropic",
+      "pricing": "BATCH",
+      "actual_microdollars": 30137,
+      "actual_microdollars_per_call": 15068.5,
+      "cache_read_ratio": 0
+    },
+    {
+      "column": "openai",
+      "cases": 2,
+      "primary_correct": 2,
+      "primary_harmful": 0,
+      "grader": "claude-sonnet-4-6",
+      "provider": "anthropic",
+      "pricing": "BATCH",
+      "actual_microdollars": 30772,
+      "actual_microdollars_per_call": 15386.0,
+      "cache_read_ratio": 0
+    },
+    {
+      "column": "anthropic",
+      "cases": 3,
+      "primary_correct": 3,
+      "primary_harmful": 0,
+      "grader": "gpt-6.1-sol",
+      "provider": "openai",
+      "pricing": "SYNCHRONOUS",
+      "actual_step_costs": [
+        {
+          "step": "GRADING",
+          "provider": "openai",
+          "model": "gpt-6.1-sol",
+          "calls": 3,
+          "actual_microdollars": 66444,
+          "mean_microdollars_per_call": 22148.0,
+          "input_tokens": 23079,
+          "cached_input_tokens": 0,
+          "cache_read_ratio": 0.0,
+          "calls_detail": [
+            {
+              "actual_microdollars": 22371,
+              "usage": {
+                "cache_write_tokens": 7758,
+                "cached_input_tokens": 0,
+                "input_tokens": 7761,
+                "output_tokens": 297
+              }
+            },
+            {
+              "actual_microdollars": 23929,
+              "usage": {
+                "cache_write_tokens": 8569,
+                "cached_input_tokens": 0,
+                "input_tokens": 8572,
+                "output_tokens": 250
+              }
+            },
+            {
+              "actual_microdollars": 20144,
+              "usage": {
+                "cache_write_tokens": 6743,
+                "cached_input_tokens": 0,
+                "input_tokens": 6746,
+                "output_tokens": 328
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

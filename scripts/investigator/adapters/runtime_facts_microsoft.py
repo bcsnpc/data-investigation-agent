@@ -1,4 +1,4 @@
-﻿"""Microsoft runtime facts: guarded list APIs and exact declared SQL objects.
+"""Microsoft runtime facts: guarded list APIs and exact declared SQL objects.
 
 No refresh/run/write endpoint is callable here. Every request/response is retained
 before its fields can become facts; transport and accounting remain existing
@@ -234,15 +234,8 @@ class MicrosoftRuntimeFacts:
         if not isinstance(native,list) or len(native)>100:raise ValueError('FACT_NATIVE_RUN_LIST_BOUND')
         # Continuation means coverage is partial, explicitly named. Never claim
         # absence or overdue from a truncated listing.
-        truncated=bool(body.get('continuationUri') or body.get('continuationToken') or body.get('@odata.nextLink'))
-        runs=[]
-        for row in native[:20]:
-            run_id=row.get('id') or row.get('requestId')
-            if run_id is None:raise ValueError('FACT_NATIVE_RUN_ID')
-            runs.append({'run_id':str(run_id),'start':run_time(row,'startTimeUtc','startTime'),
-                'end':run_time(row,'endTimeUtc','endTime'),'status':STATUSES.get(row.get('status'),'UNKNOWN'),
-                'error':row.get('failureReason') or row.get('serviceExceptionJson'),
-                'rows_read':None,'rows_written':None})
+        truncated=bool(body.get('continuationUri') or body.get('continuationToken') or body.get('@odata.nextLink') or len(native)>20)
+        runs=native_runs(native[:20])
         result=[observation(node,'RUN_HISTORY',{'runs':runs,'listing_complete':not truncated},now,[proof],self.identity,
             state='OBSERVED_NEGATIVE' if not runs and not truncated else 'OBSERVED')]
         if runs:
@@ -344,3 +337,54 @@ def refresh_due(schedule,now):
     past=[s for s in slots if s<=instant];future=[s for s in slots if s>instant]
     render=lambda value:value.isoformat().replace('+00:00','Z') if value else None
     return {'previous_due':render(max(past) if past else None),'next_due':render(min(future) if future else None),'enabled':True}
+
+
+def native_runs(native):
+    if not isinstance(native,list) or len(native)>100:raise ValueError("FACT_NATIVE_RUN_LIST_BOUND")
+    runs=[]
+    for row in native:
+        run_id=row.get('id') or row.get('requestId')
+        if run_id is None:raise ValueError('FACT_NATIVE_RUN_ID')
+        runs.append({'run_id':str(run_id),'start':run_time(row,'startTimeUtc','startTime'),
+            'end':run_time(row,'endTimeUtc','endTime'),'status':STATUSES.get(row.get('status'),'UNKNOWN'),
+            'error':row.get('failureReason') or row.get('serviceExceptionJson'),
+            'rows_read':None,'rows_written':None})
+    return runs
+
+
+def requested_job_history(adapter,node,route,facts,selector,text,at):
+    from urllib.parse import quote,urlsplit,parse_qs
+    from ..operational_run_selection import validate,select
+    from copy import deepcopy
+    validate(selector,text)
+    base='workspaces/'+route['workspace']+'/items/'+route['item']+'/jobs/instances'
+    body,proof,error=adapter.cache[node]
+    if error:return facts
+    all_runs=native_runs(body.get('value'));proofs=[proof];pages=1;seen=set();paging_gap=None
+    def history():
+        incomplete=bool(body.get('continuationToken')or body.get('continuationUri')) or paging_gap is not None
+        return observation(node,'RUN_HISTORY',{'runs':deepcopy(all_runs),'listing_complete':not incomplete,'pages_checked':pages},at,proofs,adapter.identity)
+    while True:
+        try:select(selector,[history()],text);break
+        except ValueError as problem:
+            if str(problem)not in ('REQUESTED_RUN_NOT_IN_RETAINED_HISTORY','REQUESTED_RUN_TIME_PRECISION_UNAVAILABLE'):break
+        token=body.get('continuationToken')
+        if not token and body.get('continuationUri'):
+            link=urlsplit(body['continuationUri']);expected='https://api.fabric.microsoft.com/v1/'+base
+            if link._replace(query='',fragment='').geturl()!=expected or link.fragment:raise ValueError('HISTORY_CONTINUATION_SCOPE')
+            query=parse_qs(link.query,strict_parsing=True)
+            if set(query)!={'continuationToken'}or len(query['continuationToken'])!=1:raise ValueError('HISTORY_CONTINUATION_QUERY')
+            token=query['continuationToken'][0]
+        if not token:break
+        if not isinstance(token,str)or not 0<len(token)<=8192:raise ValueError('HISTORY_CONTINUATION_BOUND')
+        if token in seen:paging_gap='NATIVE_HISTORY_CURSOR_REPEATED';break
+        if pages>=6:paging_gap='NATIVE_HISTORY_SIX_PAGE_LIMIT';break
+        seen.add(token)
+        body,proof,error=adapter._get(base+'?continuationToken='+quote(token,safe=''))
+        proofs.append(proof);pages+=1
+        if error:paging_gap='NATIVE_HISTORY_PAGE_UNAVAILABLE:'+error;body={};break
+        all_runs.extend(native_runs(body.get('value')))
+    # Older pages are history, never a replacement for the current JOB_RUN.
+    result=[f for f in facts if f['kind']!='RUN_HISTORY']+[history()]
+    if paging_gap:result.append(adapter._gap(node,'COVERAGE',paging_gap,at,proofs))
+    return result
