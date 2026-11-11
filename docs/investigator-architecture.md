@@ -166,3 +166,10 @@ Round24 frozen evaluation closure: all20 guided v3 tickets delivered/sealed; ind
 
 
 Round26 refresh evidence distinguishes the documented schedule GET from the unestablished reader API for the Direct Lake automatic-update switch. The supported fallback names observed refresh/data times and points to the settings, without asserting an unread switch value. See [native refresh evidence](round-twenty-six-stale-evidence.md).
+
+
+## Round26 freeze and remaining limits
+
+Frozen runtime ca249b730f463661b1d8ad7cf1e7a1794cd0073a, imagee59d3d97ee706a1666650b4dfbc7b1f7020ee044274ed73862c81d9d822a4770. Native compiled queries now carry stable admitted-asset references rather than a transport-only address. Provider choice, common intake helpers, actual-usage accounting and prefix-cache measurements remain separate from independent scoring. The final failed-only cohort delivered11ANSWERED labels but only3/28full reviewed successes; an ANSWERED status is not a correctness claim.
+
+PostgreSQL root cause remains unestablished. The measured24-hour window had CPU credits286–288, average CPU9.5–19.6%, at most12of50connections and zero failed connections; it does not justify a tier increase. Short-lived connections, keepalives/connect timeout, narrow month/account queries and one idempotent-safe retry are implemented. Round26 closure also encountered laptop CLI startup timeouts before database connection or cloud start; these are not labelled database-capacity failures. No tier or permission was changed.

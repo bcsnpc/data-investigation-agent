@@ -8,7 +8,13 @@
   "runtime_source_diff_empty": true,
   "full_repository": {
     "status": "PASS",
-    "numeric_xml_report": "DOWNLOAD_IN_PROGRESS"
+    "name": "full-repository.xml",
+    "tests": 5909,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 53,
+    "artifact_id": 13816546716,
+    "artifact_zip_sha256": "693a207341d58691d00d8ba5e780e165d0dc93b84e526b255911ddb10c05e564"
   },
   "all_eight_image_contract_shards": "PASS",
   "published_new_image": false,
@@ -18,5 +24,5 @@
     "no_pass_claim": true,
     "receipt": ".local/round-twenty-six/frozen-local-suite-interruption.json"
   },
-  "observed_at_utc": "2026-11-11T00:45:44.563Z"
+  "observed_at_utc": "2026-11-11T01:32:20.364Z"
 }

@@ -539,3 +539,12 @@ D: free space increased from 5.88 to 15.36 GiB (net 9.48 GiB recovered). Local p
 
 
 Recovery UI check, 2026-11-10: native computer control reconnected, but the owner stopped it with physical Escape before the Direct Lake automatic-update setting could be read. No UI setting was changed. Today's native source/schema hashes and model7,661 pass; automatic updates ON remains a prior owner report, not a fresh UI verification. No scored admission follows this incomplete check.
+
+
+## Round26 closing review items (2026-11-11 UTC)
+
+- OpenAI credit expiry is still not established by the earlier placeholder reply; check the funded project expiry in Console. No key or billing credential is needed in chat.
+- The single approved Haiku credit test was already made (404, no retry); check AWS Billing → Bills for coverage after24hours. Claude-on-Bedrock remains disabled.
+- Next round: review the unchanged stale named-cause expectation against Round26 PartD's API-limitation fallback. Saved answers can establish the model/data gap and timestamps without observing the automatic-update switch. No score or expectation was changed.
+- The Round27 code-blind review lists25every-graded-appearance failures. Seven expectations were established by those packets; eighteen remained unverifiable, not declared wrong. Review the evidence gaps and the retained unknown legacy warehouse-form address before proposing any future expectation change.
+- PostgreSQL capacity was not established as the cause; do not infer a tier change from laptop CLI startup timeouts. No tier or permission increase was taken.
