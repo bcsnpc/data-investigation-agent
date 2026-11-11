@@ -1,5 +1,5 @@
 {
-  "observed_at_utc": "2026-11-02T03:38:42.344161+00:00",
+  "observed_at_utc": "2026-11-11T01:16:12.897685+00:00",
   "quality_score_included": false,
   "scope": "SELECTED_SAVED_BENCHMARK_OUTCOMES_USAGE_ONLY",
   "columns": {
@@ -48,26 +48,26 @@
       ]
     },
     "openai": {
-      "saved_selected_outcomes": 39,
+      "saved_selected_outcomes": 40,
       "statuses": {
-        "ANSWERED": 29,
+        "ANSWERED": 30,
         "UNRESOLVED": 7,
         "BLOCKED": 1,
         "NEEDS_INPUT": 1,
         "INTERRUPTED": 1
       },
-      "physical_requests_in_selected_results": 1022,
+      "physical_requests_in_selected_results": 1052,
       "steps": [
         {
           "step": "INVESTIGATOR",
           "provider": "openai",
           "model": "gpt-6-astra",
-          "calls": 174,
-          "actual_microdollars": 26731966,
-          "input_tokens": 5488312,
-          "cached_input_tokens": 3559844,
-          "mean_microdollars_per_call": 153631.98850574714,
-          "cache_read_ratio": 0.6486227459371843
+          "calls": 180,
+          "actual_microdollars": 27433859,
+          "input_tokens": 5649638,
+          "cached_input_tokens": 3672399,
+          "mean_microdollars_per_call": 152410.32777777777,
+          "cache_read_ratio": 0.6500237714345591
         }
       ]
     },

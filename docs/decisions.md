@@ -614,3 +614,7 @@ Owner-approved, 2026-11-10: finish and fully grade the current failed-only dev06
 
 
 2026-11-10 Round26 final stale control restored (CLAUDE.md section8; executionUTCNov11): source/business-schema hashes match originals; original restoration load completed; native full model-settings page shows automatic updates On, refresh schedule unchanged Off. Own refresh e0773fcf-6fb9-456a-bd08-44839e3a539f Completed; model7661 verified. Temporary controls are removed, temporal history retained. No identity, role, secret, quota or paid resource changed.
+
+
+## Round26 closure operational preparation — 2026-11-10 owner / 2026-11-11 UTC
+No further dev loop is permitted. The ten public-dev calibration cases retain their pre-outcome stable selection (five prior Astra passes, five failures). Preparation uses current dev06 assets and the same Sol/Astra intake and Terra helpers, changing only investigation reasoning to Opus on frozen e59; old dev01 shared assets were rejected because they would confound the model comparison. Controller concurrency is one due to laptop memory pressure. Local CLI startup timeout changes are orchestration only, not an engine fix, model deadline or budget increase. Original pre-admission failures remain recorded and unscored. Release controls use existing OpenAI routing because the later owner restriction reserves Anthropic exclusively for calibration/v5; no release call will be disguised as calibration.
