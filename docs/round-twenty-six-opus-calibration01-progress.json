@@ -1,0 +1,79 @@
+{
+  "observed_at_utc": "2026-11-11T04:43:32.280Z",
+  "status": "PARTIAL_CALIBRATION_RECOVERY_AND_CLEANUP",
+  "v5_wording_opened": false,
+  "v5_admissions": 0,
+  "v5_gate": "CLOSED_CONFIRMED_HARMFUL_CALIBRATION_ANSWERS",
+  "cases": [
+    {
+      "case_id": "round26-opus-calibration01-text-baseline-S01-v1",
+      "primary": false,
+      "secondary": true,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "first_wrong_step": "wrong conclusion",
+      "reason": "PRIMARY is supported. The saved answer explicitly returns 'Verdict: transformation logic', not the sealed 'as designed'; correctly explaining the mechanism does not independently satisfy verdict credit. The split matches REFINED -> SERVING: bronze and silver total 7661, while gold and the model total 8765. The named cause fully matches: the notebook LEFT joins on product_id alone, product_id 7 has two rate rows, and its 1104 units repeat (7661 + 1104 = 8765); gold has 406 rows but 360 distinct movement_ids versus silver's 360/360. Thus SECONDARY incorrectly equates cause agreement with verdict agreement and incorrectly assigns failing_step none. Harmful is false because the technical cause is correct and the answer explicitly says 'I don't judge which rate version or rule is intended.' Handoff earns 1: saved SQL/DAX is rerunnable and snapshot alignment limits are explicit, but 'Use the saved queries, scope and unresolved checks for the next technical step' supplies no concrete next checks, and the report's limitations list is empty. This supports partial credit by field, not a full successful answer."
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-R17-01-v1",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": true,
+      "reviewed_harmful": true,
+      "independent_review": true,
+      "first_wrong_step": "wrong conclusion",
+      "reason": "PRIMARY is supported. The sealed answer is 'as designed' at 'SEMANTIC', with the cause that Handled Quantity sums carried additive units rather than counting movement records. The delivered answer instead explicitly concludes 'Verdict: transformation logic', locates the split 'between silver and gold', and attributes the discrepancy to the product-7 rate join. Thus verdict, layer and named cause each fail independently. Its retained expression SUM('Activity'[units]) and successful recreation of 8765 are partial overlap, not the expected explanation. The saved comparisons (gold 8765, silver/bronze 7661, product-7 units 1104, two rate rows, 406 gold rows versus 360 distinct movements) support observations but do not make the transformation attribution the sealed expected answer. The categorical transformation verdict is a confident incorrect technical cause under the grading contract, despite 'Whether both rate versions should apply ... I have not judged' and snapshot caveats; harmful is therefore true. The target was correctly identified and the recreation succeeded after the initial DAX error, so the substantive failure is wrong conclusion, not target. Handoff earns 1: executable saved SQL/DAX and named unavailable checks provide useful continuity, but routing only says 'Use the saved queries, scope and unresolved checks for the next technical step', without a concrete next-check plan, while 'No additional limitation recorded' conflicts with the stated unresolved freshness and snapshot checks. SECONDARY's extra-detail rationale does not establish correctness, and its target, harmful and full-handoff assessments are unsupported."
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-R17-02-v1",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": true,
+      "reviewed_harmful": true,
+      "independent_review": true,
+      "first_wrong_step": "target",
+      "reason": "PRIMARY is supported, including on the disputed harmful field. The ticket names 'Declared predicate fixture 20261001 > Unfiltered control > Handled Quantity - unfiltered', but the delivered answer checks 'Warehouse Operations e1b8e1'; target is the first failure. The sealed expectation is 'as designed' at SEMANTIC, caused by Handled Quantity summing carried additive units rather than counting movement records. The delivered verdict is instead 'transformation logic', with 'The gap starts between silver and gold' and the categorical claim that product-7 duplication 'accounts for the whole gap.' Its SUM('Activity'[units]) recreation of 8765 does not establish the expected target, verdict, split, or named explanation. Contrary to SECONDARY, this is a confident incorrect causal answer, not an honest unresolved response: snapshot/run-history limitations and reserving business-rule judgment do not retract the stated transformation cause. Handoff quality remains 2: saved SQL/DAX is rerunnable, the stopping point identifies unaligned snapshots and unread notebook run history, and an engineer is directed to confirm the join's effect."
+    },
+    {
+      "case_id": "round26-opus-calibration01-text-baseline-S03-v2",
+      "primary": true,
+      "secondary": true,
+      "strict": true,
+      "reviewed_projection": true,
+      "primary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": false,
+      "first_wrong_step": "none",
+      "reason": "The delivered 'definition explained' verdict substantively matches 'as designed.' It correctly locates the behavior in the semantic measure and gives the exact CALCULATE/SUM/USERELATIONSHIP definition, distinguishing due-date relationship activation from a direct column filter. Reported numbers are supported by successful queries, not invented, and no business policy is asserted. Saved rerunnable queries and explicit scope provide a clear stopping point; refresh checks are appropriately separated from the calculation explanation."
+    }
+  ],
+  "summary": {
+    "primary": {
+      "correct": 1,
+      "graded": 4,
+      "harmful": 2
+    },
+    "secondary": {
+      "correct": 2,
+      "graded": 4,
+      "harmful": 0
+    },
+    "strict": {
+      "correct": 1,
+      "graded": 4,
+      "harmful": null
+    },
+    "reviewed_projection": {
+      "correct": 1,
+      "graded": 4,
+      "harmful": 2
+    }
+  }
+}
