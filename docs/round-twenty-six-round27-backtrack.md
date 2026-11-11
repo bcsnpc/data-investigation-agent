@@ -74,3 +74,8 @@ At least two graded appearances and no full-correct nonharmful result. Reviewed 
 Three delivered stale conclusions are listed separately: the fixed named cause requires automatic updates Off, while the public PartD contract permits a timing-based explanation and a settings pointer when APIs cannot read that switch. Their recorded grades remain failures; this is a contract issue for owner review, not a post-hoc score correction. Four native-fact supplemental code-blind reviews retain their original limited-evidence reviews.
 
 UNVERIFIABLE means the supplied native evidence cannot establish the authored expectation; it does not mean the expectation is wrong. Full structured reviews, source hashes and evidence limits are in the adjacent JSON.
+
+
+## Frozen Opus calibration follow-up
+
+The additional public-dev calibration is2/10correct with2confirmed harmful answers. Eight failures split into3intake blocks,2verdict-only contract failures with matching layer/cause,2wrong causal conclusions and1technical stop. The five already-listed persistent cases text-R17-09-v1, text-baseline-S02-v1, text-different-warehouse-v2, text-older-export-movement-1-v1, text-older-export-movement-1-v2 failed again; their separate code-blind input/expectation reviews remain unchanged. No expectation or engine change follows this measurement. Full cases: [calibration backtrack](round-twenty-six-opus-calibration-backtrack.md).

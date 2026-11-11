@@ -1,0 +1,51 @@
+{
+  "owner_steer": "r26-steer-v5-gate.md",
+  "received_utc": "2026-11-02",
+  "v5_scored_admissions": 0,
+  "partial_v5_allowed": false,
+  "gates": {
+    "fixed_image_full_suite_and_dev2": {
+      "status": "PASS",
+      "workflow_run": 42904742997,
+      "source": "ca249b730f463661b1d8ad7cf1e7a1794cd0073a",
+      "dev_pass": 6,
+      "selected": 28,
+      "fully_graded": 28,
+      "expectations_unchanged": true
+    },
+    "freeze_and_frozen_full_suite": {
+      "status": "PASS",
+      "source": "ca249b730f463661b1d8ad7cf1e7a1794cd0073a",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e59d3d97ee706a1666650b4dfbc7b1f7020ee044274ed73862c81d9d822a4770",
+      "workflow_run": 42929942388,
+      "qualification_basis": "Native completed-success full-repository and all-eight-image-contract jobs; numeric XML downloading separately"
+    },
+    "opus_dev_calibration": {
+      "status": "FAILED",
+      "tickets_about": 10,
+      "minimum_fraction_correct": 0.7,
+      "maximum_harmful": 0,
+      "graded": 10,
+      "official_correct": 2,
+      "reviewed_correct": 2,
+      "official_harmful": 2,
+      "reviewed_harmful": 2
+    },
+    "full_v5_budget": {
+      "status": "NOT_ADMITTED_PRIOR_GATE_FAILED",
+      "estimated_actual_calibration_mean_multiplier": 52,
+      "margin_usd": 3,
+      "provider_balance_verified": false,
+      "owner_reported_console_balance_usd": 74.32,
+      "owner_reported_date": "2026-11-10",
+      "note": "Use lower owner-reported balance less later spend and ledger availability; protect3USD. Workspace key cannot independently read billing.",
+      "planning_estimate_usd": 28.463598800000003
+    }
+  },
+  "release_waits_on_all_gates": false,
+  "owner_resume_authority": "r26-resume-2026-11-10.md",
+  "v5_requires_all_gates": true,
+  "release_without_v5_allowed_if_calibration_or_budget_gate_fails": true,
+  "no_further_dev_loops": true,
+  "calibration_below_threshold_action": "KEEP_V5_SEALED_AND_CLOSE_ROUND"
+}

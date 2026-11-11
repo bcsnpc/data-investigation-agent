@@ -16818,3 +16818,6 @@ No engine changes followed this measurement. G1's five raw zeros group as conclu
 ## Round26 final-pass and Round27 planning (2026-11-10)
 
 The final same-image failed-only pass has no further development loop by owner direction. See [first wrong step per failure](round-twenty-six-dev06-backtrack.md) and [Round27 intake versus conclusion analysis and code-blind independent input/expectation review](round-twenty-six-round27-backtrack.md). Both remain labelled partial until the pass and independent grading finish. No score or expectation is changed.
+
+
+Round26 final calibration,2026-11-11: Final Opus calibration adds8backtracked public-dev failures:3intake blocks,2verdict-contract-only failures (layer/cause agree),2conclusion/causal failures with confirmed harm,1technical/blocking stop. The full source is round-twenty-six-opus-calibration-backtrack.md/json. Original tapes, all grader decisions and expectations unchanged; zero new estate/model calls for backtrack construction.

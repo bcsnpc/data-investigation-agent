@@ -199,3 +199,6 @@ The frozen v0.24 engine completed all 180 requested outcomes. Official / strict 
 
 
 Round26 final failed-only cohort is28selected records, not a new80-ticket score: official5/28,strict2/28, independently reviewed saved-evidence projection3/28. Harm official1,secondary0,reviewed0; the original flag and dispute both remain. Earlier dev02 reviewed harm2 is not erased. Evidence-review packets preserve the recorded question/answer/query/numeric fields, label bounded history/row samples and hash omissions; they are not represented as complete raw provider tapes. Fixed stale named-cause expectations were not changed to match the public PartD fallback; that contract mismatch is recorded for owner review. Calibration gates and held-out denominators remain separate.
+
+
+Round26 final calibration,2026-11-11: Final frozen-image public-dev Opus calibration: official2/10, secondary4/10, strict2/10, independently reviewed projection2/10; official/reviewed harmful2,secondary0. All10outcomes have both grades; all field disagreements reviewed. V5quality gate fails; v5 remains sealed/unopened,0admissions, score/intervals N/A rather than0/40. Original scores and expectations unchanged. See round-twenty-six-calibration-final.json.

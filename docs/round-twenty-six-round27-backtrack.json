@@ -679,6 +679,11 @@
           "pass": "dev06",
           "correct": false,
           "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "opus-calibration01",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection, unchanged input/expectation"
         }
       ],
       "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-R17-09-v1-native-definitions",
@@ -811,6 +816,11 @@
           "pass": "dev06",
           "correct": false,
           "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "opus-calibration01",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection, unchanged input/expectation"
         }
       ],
       "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-baseline-S02-v1-native-definitions",
@@ -856,6 +866,11 @@
           "pass": "dev06",
           "correct": false,
           "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "opus-calibration01",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection, unchanged input/expectation"
         }
       ],
       "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-different-warehouse-v2",
@@ -1166,6 +1181,11 @@
           "pass": "dev06",
           "correct": false,
           "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "opus-calibration01",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection, unchanged input/expectation"
         }
       ],
       "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-older-export-movement-1-v1",
@@ -1210,6 +1230,11 @@
           "pass": "dev06",
           "correct": false,
           "basis": "independently reviewed saved-evidence projection"
+        },
+        {
+          "pass": "opus-calibration01",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection, unchanged input/expectation"
         }
       ],
       "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-older-export-movement-1-v2",
@@ -1312,5 +1337,22 @@
     }
   ],
   "audit_context_notes": "Four stale cases received a fresh supplemental review with saved native job/refresh facts, native control insert/load audit and the public PartD fallback contract; all earlier limited-evidence reviews remain unchanged. No DIA answer, prior grade or engine code was supplied. These judgments never alter scores or expectations. Input SOUND is not independent validation of every opaque catalog address; the legacy warehouse-scope form still has its unresolved report address recorded separately.",
-  "review_limits": "Reviewer receives exact public dev ticket, fixed expectation and labelled saved native evidence, not engine code, DIA answer or previous grading. UNVERIFIABLE is not an expectation error. Passes have unequal selected cohorts; not a common-image whole-set score."
+  "review_limits": "Reviewer receives exact public dev ticket, fixed expectation and labelled saved native evidence, not engine code, DIA answer or previous grading. UNVERIFIABLE is not an expectation error. Passes have unequal selected cohorts; not a common-image whole-set score.",
+  "opus_calibration_followup": {
+    "headline": {
+      "correct": 2,
+      "total": 10,
+      "harmful": 2
+    },
+    "backtrack": "round-twenty-six-opus-calibration-backtrack.json",
+    "persistent_cases_still_failing": [
+      "text-R17-09-v1",
+      "text-baseline-S02-v1",
+      "text-different-warehouse-v2",
+      "text-older-export-movement-1-v1",
+      "text-older-export-movement-1-v2"
+    ],
+    "existing_code_blind_soundness_reviews_retained": true,
+    "source_expectations_unchanged": true
+  }
 }
