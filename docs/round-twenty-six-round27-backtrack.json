@@ -1,10 +1,10 @@
 {
-  "partial": true,
+  "partial": false,
   "scope": "Round27 planning from saved dev evidence only; no engine or expectation changes",
   "failure_groups": {
     "intake blocked (NEEDS_INPUT)": 11,
-    "unresolved investigation / query or budget stop": 5,
-    "delivered conclusion does not fully answer the question": 5
+    "unresolved investigation / query or budget stop": 6,
+    "delivered conclusion does not fully answer the question": 8
   },
   "cases": [
     {
@@ -46,6 +46,22 @@
       "reason": "The delivered answer did not establish a cause for the discrepancy, while the expected answer indicates that the cause is 'source changed history'.",
       "outcome_sha256": "cfa4c6e60c2249a15ef2eb756e5a36f0ec16f4134261ef7fcecedd6387f7321f",
       "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "form-v2-stale-model-v1",
+      "group": "unresolved investigation / query or budget stop",
+      "status": "BLOCKED",
+      "reason": "The investigation stopped due to a safety or budget boundary, specifically a denied DAX function. The expected answer indicates that the cause of the discrepancy is due to the model's automatic updates being off while the real load advanced, resulting in a 31-unit discrepancy. The delivered answer did not identify this cause.",
+      "outcome_sha256": "18749c41254aa7eb9b152b1ab083905db671973bf4d01c5c88e004f79e0728aa",
+      "primary_first_wrong_step": "target"
+    },
+    {
+      "case": "form-v2-stale-model-v2",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer correctly identifies the staleness of the model and provides evidence to support this conclusion. However, it does not fully match the expected cause, which specifically mentions that the real load advanced the landing by 31 units while the model's automatic updates were off.",
+      "outcome_sha256": "88a489f88f6b510081f3e5b86d6a5403c9ab2d7b33b6f8441186565d261c122c",
+      "primary_first_wrong_step": "target"
     },
     {
       "case": "text-R17-04-v1",
@@ -174,6 +190,22 @@
       "reason": "The delivered answer does not match the expected answer in terms of the verdict, layer/split point, and named cause. The delivered answer does not establish a clear target or validated cause.",
       "outcome_sha256": "84d2540a4691af3fcd56764f1beccbe15a6ad914be0313229454e74a92564ef4",
       "primary_first_wrong_step": "intake"
+    },
+    {
+      "case": "text-stale-total-v1",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer matches the expected answer in substance.",
+      "outcome_sha256": "6ae9ce633126c3f8dfad6d441c87a9e64aff8599356c9f11572e0a93329b154f",
+      "primary_first_wrong_step": "none"
+    },
+    {
+      "case": "text-stale-total-v2",
+      "group": "delivered conclusion does not fully answer the question",
+      "status": "ANSWERED",
+      "reason": "The delivered answer matches the expected answer in terms of the verdict, layer/split point, and named cause. There is no harmful information provided, and the handoff quality is good.",
+      "outcome_sha256": "83db4b33081aec7809ff904881001083cf267d43a05d87c4438f3c0560127260",
+      "primary_first_wrong_step": "none"
     }
   ],
   "every_graded_pass_failures": [
@@ -346,6 +378,83 @@
         "source_sha256": "b2985437df6cd1c064dfe03c31e56b0836bc0053453fb8dbe419e2199da69c86"
       },
       "review_result_sha256": "e739ab42f827371c0e2326a7babd1c2407af30f7720a85c66501019a31aeed16"
+    },
+    {
+      "case": "form-v2-stale-model-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "independently reviewed deferred original-pass cohort: round-twenty-six-dev01-stale-completion.json"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\form-v2-stale-model-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 5,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expected Bronze-to-semantic-model gap is supported: successful native aggregate reads return Movement Units 7661 and both landing and source totals 7692, a difference of 31. Separately labelled fixture-control evidence confirms automatic updates were off for this model; that supports the setting for expectation audit only, not as an investigator-readable API finding. The packet does not establish the claimed load increments of 7+11+13, their timing, or the model's last refresh/update time. Thus it does not fully establish the asserted causal history or the timing facts required by the public stale-cause contract. The expectation addresses the ticket's question, but its complete factual soundness cannot be verified; it is not disproved by these omissions.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies Movement Units, the report/page/card, an explicitly unfiltered scope, exact reported and comparison totals, and the source system. This determines a meaningful investigation without needing a visual definition or an invented report selection. Native unfiltered aggregate reads reproduce the stated discrepancy. The ticket's concern about freshness is a question to investigate, not an established causal fact.",
+          "missing_native_facts": [
+            "Successful native refresh/update history establishing the semantic model's last refresh/update time.",
+            "Native load or data-change timestamps establishing when newer source/landing data became available relative to the model refresh/update.",
+            "Native change or load records establishing the claimed increments of 7, 11 and 13 and tying those changes to the 31-unit gap.",
+            "Current query-bound model/source mapping and measure-definition attestation; the supplied definitions are retained metadata, not current deployment observations."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "8700463db01e882d4ea02e9312d0c8fe9d740c9759416f124a36e9522a5d3e9a"
+      },
+      "review_result_sha256": "1d6a060070d76570d32737db2a9b465118156b56f35ad540bb4502f1737957bb"
+    },
+    {
+      "case": "form-v2-stale-model-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "independently reviewed deferred original-pass cohort: round-twenty-six-dev01-stale-completion.json"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\form-v2-stale-model-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the ticket's source-versus-model discrepancy, not a different question. Successful native aggregates establish Movement Units = 7661 and both Bronze and ordersops = 7692, a difference of 31. Fixture-control evidence independently supports automatic updates being off for the same model, but is explicitly not investigator evidence or an API-readable setting. The packet does not establish the claimed real load of 7+11+13 or the last model refresh/update time and newer data time. Thus it supports the discrepancy and the audit-only off setting, but cannot fully establish the stated causal history or the native refresh/update facts required by the public contract. Missing support does not itself make the expectation wrong.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies Movement Units, exact reported and source values, ordersops as the comparison source, and an explicitly unfiltered scope. This determines a valid aggregate comparison without inventing report selections or requiring additional visual metadata. Native aggregate reads reproduce both figures; inability to establish a refresh cause is an evidence limitation, not an unclear question.",
+          "missing_native_facts": [
+            "Native evidence of the last semantic-model refresh/update time and the newer source or landing data time required by the public stale-cause contract.",
+            "Native load/change evidence establishing that landing advanced specifically through increments of 7, 11 and 13 and linking that load temporally to the model's older state.",
+            "A current native definition or query-bound attestation confirming that the retained SUM(Movements[units]) definition and Direct Lake source binding still describe the queried model."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "9e8ebc6042ef009e9d2e7bff7fc7f6e9630b80fafe0cda493851a2ccdfea93eb"
+      },
+      "review_result_sha256": "df7af2bf1264acd7fb6ef5ba2b64e9da556c2a337cbeb363f7fd6a9750d02e42"
     },
     {
       "case": "form-v2-warehouse-scope-v2",
@@ -1112,6 +1221,81 @@
         "source_sha256": "a639bad1d58d3ae8dac77a8d7082bde5cf2fa2160747919f62ea2b8fe688603e"
       },
       "review_result_sha256": "becb1dcbc6a25df025c0d658c803058f0d1f81bd3f4dbe0eece9f0f4e752fd93"
+    },
+    {
+      "case": "text-stale-total-v1",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "independently reviewed deferred original-pass cohort: round-twenty-six-dev01-stale-completion.json"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-stale-total-v1",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The expectation addresses the ticket's total comparison, not a different selection. Successful aggregate reads establish Movement Units = 7661 and both Bronze and application totals = 7692; the retained measure is SUM(Movements[units]). Bronze also contains 31 units with source-modified timestamps later than the supplied cutoff, matching the total gap. This supports investigating the Bronze-to-semantic refresh boundary and does not establish pipeline loss. However, no successful native refresh-history or framing read establishes that 2026-11-10T20:32:06.497000 was the model's last refresh/update: its appearance as a query parameter is not proof. Source-modified timestamps also do not establish load completion after framing. Fixture-control evidence confirms automatic updates Off for post-run audit only, not as an investigator-readable API finding. Under the public contract, an investigator may name verified refresh and newer-data times and point to automatic-update/refresh settings; the packet cannot fully substantiate the fixed causal account or its required refresh boundary. This is incomplete factual support, not proof that the expectation is wrong.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket names the semantic model, Movement Units measure, all-movements scope with no row selection, Bronze lakehouse, and compared totals. That determines a legitimate aggregate discrepancy question without requiring a visual or an invented report selection. Native aggregate reads corroborate the stated values. Missing causal telemetry limits the answer that can be established, not the clarity or validity of the question.",
+          "missing_native_facts": [
+            "A successful native read of the target model's refresh/update or Direct Lake framing history establishing the last relevant boundary and timestamp; the cutoff embedded in SQL does not establish that fact.",
+            "Native load-completion or commit timing for the newer Bronze data relative to that verified model boundary, sufficient to support the claim that the load completed after framing.",
+            "If automatic updates being held off must be stated as an investigator finding, an investigator-accessible native observation of that setting; the supplied UI observation is expressly fixture-control-only."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "fecbb30f3791ffcbc9b65ea08345211a1d861383e158d0d7cf9ab2c89f55e58e"
+      },
+      "review_result_sha256": "5082a645cdd8af4d0dd29cdc58e21a4851b986ed7e5bf29f82017024d87ba461"
+    },
+    {
+      "case": "text-stale-total-v2",
+      "passes": [
+        {
+          "pass": "dev01",
+          "correct": false,
+          "basis": "independently reviewed deferred original-pass cohort: round-twenty-six-dev01-stale-completion.json"
+        },
+        {
+          "pass": "dev06",
+          "correct": false,
+          "basis": "independently reviewed saved-evidence projection"
+        }
+      ],
+      "review_folder": ".local\\round-twenty-six\\dev06\\soundness-review\\text-stale-total-v2",
+      "engine_code_supplied": false,
+      "native_reads_supplied": 8,
+      "independent_review": {
+        "engine_answer_supplied": false,
+        "engine_code_supplied": false,
+        "expectations_and_scores_unchanged": true,
+        "model": "gpt-6.1-sol",
+        "output": {
+          "expectation_assessment": "UNVERIFIABLE",
+          "expectation_reason": "The exact unfiltered totals are established: the named model returns 7661, while Bronze and the application source each return 7692. Retained definitions show SUM('Movements'[units]) and a Direct Lake partition over the named Bronze table, supporting the stated BRONZE -> SEMANTIC discrepancy rather than a demonstrated warehouse_id mapping problem or pipeline-loss verdict. Fixture-control evidence independently supports automatic updates being Off for expectation audit, but is explicitly not an investigator-readable API finding. The packet does not establish the model's last refresh/framing time or the newer load's completion time, so the named causal assertion that the load completed after model framing cannot be verified. Query observation times do not establish that chronology. Under the public contract, an investigator unable to read the automatic-update setting should name those refresh/update and newer-data times and point to settings to check, not present the control-only observation as an API finding. Thus the expectation is partially supported, but its full stale-refresh causal account is unverifiable here, not demonstrated wrong.",
+          "input_assessment": "SOUND",
+          "input_reason": "The ticket identifies the model, named measure, unfiltered total scope, Bronze comparator and exact discrepancy. No visual or invented report selection is required. Successful native aggregate reads reproduce both totals for that scope. The warehouse_id mapping suggestion is a tentative diagnostic question, not an ambiguity or a required conclusion; an investigation can validly find that suggestion unsupported.",
+          "missing_native_facts": [
+            "The target semantic model's last successful refresh/update or Direct Lake framing time for the observed state.",
+            "The completion/commit time of the newer Bronze load, sufficient to establish that it occurred after the model's refresh/framing boundary."
+          ]
+        },
+        "provider": "openai",
+        "source_sha256": "3f7b24bcffb7eca05cd7ba2062b0348e773c777559c8354ce2de04786bef2af7"
+      },
+      "review_result_sha256": "210d70e67e0b9016a554769a2ed8ccc57cb4928aa21e6ac99184d49c570f60ec"
     }
   ],
   "review_limits": "Reviewer receives exact public dev ticket, fixed expectation and labelled saved native evidence, not engine code, DIA answer or previous grading. UNVERIFIABLE is not an expectation error. Passes have unequal selected cohorts; not a common-image whole-set score."

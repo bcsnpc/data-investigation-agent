@@ -1,42 +1,42 @@
 {
   "scope": "Final same-image failed-only pass; partial until28 outcomes saved",
-  "saved_outcomes": 23,
+  "saved_outcomes": 28,
   "rows": [
     {
       "step": "INTAKE",
       "provider": "openai",
       "model": "gpt-6.1-sol",
-      "calls": 35,
-      "actual_microdollars": 1037068,
-      "input_tokens": 2389924,
-      "cached_input_tokens": 2036301,
-      "output_tokens": 7791,
-      "actual_usd_per_call": 0.02963051428571429,
-      "cached_input_ratio": 0.8520358806388822
+      "calls": 37,
+      "actual_microdollars": 1229330,
+      "input_tokens": 2527232,
+      "cached_input_tokens": 2101476,
+      "output_tokens": 8680,
+      "actual_usd_per_call": 0.033225135135135135,
+      "cached_input_ratio": 0.8315326808144247
     },
     {
       "step": "INTAKE_FALLBACK",
       "provider": "openai",
       "model": "gpt-6-astra",
-      "calls": 28,
-      "actual_microdollars": 6065512,
-      "input_tokens": 1965123,
+      "calls": 29,
+      "actual_microdollars": 6932850,
+      "input_tokens": 2033693,
       "cached_input_tokens": 1580076,
-      "output_tokens": 5388,
-      "actual_usd_per_call": 0.21662542857142858,
-      "cached_input_ratio": 0.8040595932163025
+      "output_tokens": 5762,
+      "actual_usd_per_call": 0.23906379310344827,
+      "cached_input_ratio": 0.7769491265397481
     },
     {
       "step": "INVESTIGATOR",
       "provider": "openai",
       "model": "gpt-6-astra",
-      "calls": 66,
-      "actual_microdollars": 10507924,
-      "input_tokens": 2257030,
-      "cached_input_tokens": 1504218,
-      "output_tokens": 13367,
-      "actual_usd_per_call": 0.15921096969696968,
-      "cached_input_ratio": 0.6664590191534894
+      "calls": 84,
+      "actual_microdollars": 12853003,
+      "input_tokens": 2722082,
+      "cached_input_tokens": 1802369,
+      "output_tokens": 16578,
+      "actual_usd_per_call": 0.15301194047619046,
+      "cached_input_ratio": 0.6621288410856102
     }
   ],
   "cost_basis": "Actual normalized provider usage, not reservation size; grader and soundness-review calls are separate from investigation calls."

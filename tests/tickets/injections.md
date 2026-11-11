@@ -480,3 +480,9 @@ Round26 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_requ
 
 
 Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-six\dev06\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-six\dev06\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round26 dev06 final stale restoration verified 2026-11-11T00:12:25.648034+00:00: original360business rows SHA256 0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b, business-schema SHA256 bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd. Original real restoration load Completed. Automatic updates restored On and verified on a freshly loaded native settings page; refresh schedule remains Off unchanged. Own model refresh e0773fcf-6fb9-456a-bd08-44839e3a539f Completed, and native model read is7661. Temporal history leftOn as approved. No remaining owned rows/schedules/access objects or altered pipeline definition. Exact per-control readbacks are retained privately under .local/round-twenty-six/dev06/injections/.

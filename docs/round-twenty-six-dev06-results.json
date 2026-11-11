@@ -1,5 +1,5 @@
 {
-  "partial": true,
+  "partial": false,
   "selected": 28,
   "image": {
     "dev_pass": 6,
@@ -23,21 +23,22 @@
     "workflow_run": 42904742997
   },
   "overall": {
-    "saved": 24,
-    "graded": 24,
-    "primary_correct": 3,
+    "saved": 28,
+    "graded": 28,
+    "primary_correct": 5,
     "strict_correct": 2,
     "reviewed_correct": 3,
     "primary_harmful": 1,
     "reviewed_harmful": 0,
     "outcomes": {
       "UNRESOLVED": 5,
-      "NEEDS_INPUT": 11,
-      "ANSWERED": 8
+      "BLOCKED": 1,
+      "ANSWERED": 11,
+      "NEEDS_INPUT": 11
     },
-    "actual_investigation_model_usd": 17.610504,
-    "median_lifecycle_seconds": 246.21619550000014,
-    "p90_lifecycle_seconds": 355.1328482000008
+    "actual_investigation_model_usd": 21.015183,
+    "median_lifecycle_seconds": 249.72934329999953,
+    "p90_lifecycle_seconds": 453.1555380000009
   },
   "per_fixture": {
     "baseline": {
@@ -56,6 +57,22 @@
       "actual_investigation_model_usd": 10.326322,
       "median_lifecycle_seconds": 246.78810519999934,
       "p90_lifecycle_seconds": 420.94454680000035
+    },
+    "stale": {
+      "saved": 4,
+      "graded": 4,
+      "primary_correct": 2,
+      "strict_correct": 0,
+      "reviewed_correct": 0,
+      "primary_harmful": 0,
+      "reviewed_harmful": 0,
+      "outcomes": {
+        "BLOCKED": 1,
+        "ANSWERED": 3
+      },
+      "actual_investigation_model_usd": 3.404679,
+      "median_lifecycle_seconds": 436.98048755000036,
+      "p90_lifecycle_seconds": 528.3293113
     },
     "history": {
       "saved": 3,
@@ -134,6 +151,36 @@
       "physical_requests": 37,
       "actual_model_usd": 1.135899,
       "ticket_lifecycle_seconds_including_control_admission": 243.88801219999914
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "kind": "form",
+      "fixture": "stale",
+      "status": "BLOCKED",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "reviewed_harmful": false,
+      "physical_requests": 29,
+      "actual_model_usd": 0.409163,
+      "ticket_lifecycle_seconds_including_control_admission": 528.3293113
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "kind": "form",
+      "fixture": "stale",
+      "status": "ANSWERED",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "reviewed_harmful": false,
+      "physical_requests": 28,
+      "actual_model_usd": 0.423173,
+      "ticket_lifecycle_seconds_including_control_admission": 405.28691140000046
     },
     {
       "ticket": "form-v2-warehouse-scope-v2",
@@ -464,6 +511,36 @@
       "physical_requests": 0,
       "actual_model_usd": 0.434374,
       "ticket_lifecycle_seconds_including_control_admission": 151.66658649999954
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "kind": "text",
+      "fixture": "stale",
+      "status": "ANSWERED",
+      "primary": true,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "reviewed_harmful": false,
+      "physical_requests": 36,
+      "actual_model_usd": 0.946799,
+      "ticket_lifecycle_seconds_including_control_admission": 453.1555380000009
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "kind": "text",
+      "fixture": "stale",
+      "status": "ANSWERED",
+      "primary": true,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "reviewed_harmful": false,
+      "physical_requests": 38,
+      "actual_model_usd": 1.625544,
+      "ticket_lifecycle_seconds_including_control_admission": 420.80543709999984
     },
     {
       "ticket": "text-waiting-fixture-load-v1",

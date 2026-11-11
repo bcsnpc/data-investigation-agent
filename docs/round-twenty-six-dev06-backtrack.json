@@ -1,12 +1,12 @@
 {
-  "partial": true,
+  "partial": false,
   "scope": "Final same-image failed-only dev pass; first wrong step from independent saved-evidence review, with previously inspected four traces preserved",
   "counts": {
     "target": 5,
-    "query validation": 1,
+    "query validation": 2,
     "query error": 3,
     "triage": 1,
-    "wrong conclusion": 4,
+    "wrong conclusion": 7,
     "conclusion": 1,
     "intake": 6
   },
@@ -411,6 +411,78 @@
           "row_count": 1,
           "result_digest": "ec7a04d03e8c7c17d0c0e66bf86119b5948df88ffdb70098dd8123316fb116c4",
           "query_sha256": "ae0d32fe1e117e6170b41e9dd2b4c17662c322306f8dca42f1a621ca64398b88"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-form-v2-stale-model-v1",
+      "first_wrong_step": "query validation",
+      "what_went_wrong": "SECONDARY is supported. Saved results g6/g9/g11 show the semantic model at 7661 and Bronze and ordersops both at 7692, establishing the expected Bronze-to-semantic-model split in substance; PRIMARY's target failure and denial of layer credit are unsupported. The delivered verdict 'not established' does not match 'refresh stale', and it never names the cause: automatic model updates off while landing advanced by 7+11+13=31. The saved triage includes refresh schedule 'enabled':false and a model refresh ending 20:32:06Z before the successful load ending 23:25:49Z, but the answer does not connect these facts. Its explicit stopping point is 'GatewayDenied: DAX_FUNCTION_NOT_ALLOWED', supporting query validation as the first evidenced failure, not wrong targeting. This is an honest unresolved stop, not a harmful causal assertion. Handoff quality is 1: saved executable queries and a clear stopping point are retained, but 'next_checks':[] and generic engineer routing do not provide sensible specific follow-up checks; PRIMARY's score of 2 is therefore unsupported.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "18749c41254aa7eb9b152b1ab083905db671973bf4d01c5c88e004f79e0728aa",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "f8398d0926256a0a564c7f41820a405db5fc9c2f066c8640e5b6c1bcc378b48f"
+        },
+        {
+          "sequence": 3,
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "0310b330a29fc8c4f4f0f732a3bf8d60e9f44fa19c4ec69702f0c77d995613ad",
+          "query_sha256": "e89b1c3150977f6c81cfe41b106f0c115715034e7d5cae8f19730ccb2e021a20"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-form-v2-stale-model-v2",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The delivered verdict is 'refresh stale'; its model total 7661 versus lakehouse and ordersops totals 7692 correctly locates the Bronze-to-semantic-model split. But the sealed cause is 'Real load advanced landing by7+11+13=31 while model automatic updates were off.' The answer explicitly says the automatic-update switch is 'unreadable' and its 'ON/OFF state ... remain undetermined'; the triage evidence likewise records AUTOMATIC_UPDATES as UNAVAILABLE with CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES. Disabled refresh scheduling does not establish that separate switch. Thus cause credit is zero, while verdict and layer credit remain true: this is a partial answer, contrary to PRIMARY's partial=false. There is no evidence of incorrect target selection, so PRIMARY's target failure is unsupported; the shortfall is the incomplete causal conclusion. It is honest uncertainty, not a confidently incorrect cause. Handoff earns 2 for saved rerunnable DAX and source/lakehouse SQL, a clear unresolved automatic-update stopping point, and the specific next check 'semantic model settings \u2192 Refresh \u2192 Keep your Direct Lake data up to date.'",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "88a489f88f6b510081f3e5b86d6a5403c9ab2d7b33b6f8441186565d261c122c",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:fe5c049b6be6cad46e97fab148afa776230822417be466a4d09f027853d4f4cc:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "9aebf0f79ed7f6d83123c869d130641c8164cc6219c37dcf6a01957daa24e111"
+        },
+        {
+          "sequence": 3,
+          "id": "query:e0d434660a84a61a7feb3ef028663d552bf2ee050babcdfc72213ed11e860327:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "1da5b2f96539df1cd75ad0a4e474de819ccb0dcccc5725a449ff745c37af4bc2",
+          "query_sha256": "9d6f943ab8d4b01cc538060985abc28016d7fc4da89672bbc3202af5320e82ab"
         }
       ]
     },
@@ -974,6 +1046,158 @@
       "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
       "independent_stage_review": false,
       "query_trace": []
+    },
+    {
+      "case_id": "round26-dev06-text-stale-total-v1",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The sealed named cause specifies 'load completed after model framing, automatic updates are held off.' The delivered answer establishes the stale model boundary: model 7661 versus Bronze/application 7692, three absent movements totaling 31, and model refresh ending 20:32:06.497 before the audited load ending 23:25:49.9766667. Thus verdict and BRONZE -> SEMANTIC split match. But it explicitly says the Direct Lake automatic-update switch's 'ON/OFF state and why the model did not pick up the newer data remain unestablished.' The saved triage records AUTOMATIC_UPDATES as UNAVAILABLE with CHECK_HAS_NO_INSTALLED_NATIVE_FACT_PORT:AUTOMATIC_UPDATES. This honest limitation is not the expected held-off cause, and the disabled refresh schedule is explicitly distinguished from that switch. Partial cause coverage earns no cause credit; PRIMARY's full-match judgment is unsupported. No confident incorrect cause is asserted, so harmful is false. Saved executable SQL/DAX, results, a clear unresolved switch-state stopping point, and the specific model settings check support handoff quality 2.",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "6ae9ce633126c3f8dfad6d441c87a9e64aff8599356c9f11572e0a93329b154f",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "f8398d0926256a0a564c7f41820a405db5fc9c2f066c8640e5b6c1bcc378b48f"
+        },
+        {
+          "sequence": 3,
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "6356daf6a7b6156518fe18ac8c44fb511e80582b49e09bb322cb2e84dbb11a95",
+          "query_sha256": "e89b1c3150977f6c81cfe41b106f0c115715034e7d5cae8f19730ccb2e021a20"
+        },
+        {
+          "sequence": 4,
+          "id": "query:1f03c9b3708c527a4b3cc246f8d00a6e8fb66ec904d7d2027038e5144748ede6:4",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "5239e66af21219ab814e6df0fe21749ac297eaa93d4319e1c0dc8c971259e52e",
+          "query_sha256": "512a83a492a5a054e9c5cb6cd0debf8b409bdcc47881c8b08f0e5ee32d1ab8f8"
+        },
+        {
+          "sequence": 5,
+          "id": "query:6fd2ca7875108e7bb8dc036ce4ba3f321195cbba3b91d390abd52b32488ae70d:5",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "77017965c9b33efbff31a1cc4d6249f5fe520cc0748b3b8683022f5ce3e940b5",
+          "query_sha256": "59b1c5be49a83395d71ca23d77479e11c4b6aa89c141a605f0d1b01fca1b1e8e"
+        },
+        {
+          "sequence": 6,
+          "id": "query:a25b13d96dd7c807f5043b1a2dc750bd0d90bea08dad530cde6d5a42f2c11f46:6",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "3617c2a8ab10525275cc16f3ad2c2bbed3b3720e1dd4e264a32e99cef684d47f",
+          "query_sha256": "ab0d8491979276af63e83cce127d383ee03eb3c03ca71af81043bd4059a47006"
+        },
+        {
+          "sequence": 7,
+          "id": "query:85f1c7706ee91091be8870e41010e30d4abf77f0649c9b7ae1a1b455cf3330a9:6",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f",
+          "query_sha256": "b61597d06a411bcb0a3ec8a573cfbe361f1811de00534162e872c83a79331d94"
+        }
+      ]
+    },
+    {
+      "case_id": "round26-dev06-text-stale-total-v2",
+      "first_wrong_step": "wrong conclusion",
+      "what_went_wrong": "SECONDARY is supported. The sealed cause says 'load completed after model framing, automatic updates are held off.' The delivered answer establishes the timing but explicitly says 'the separate Direct Lake automatic-update switch is unreadable; its state and why the model did not incorporate the newer data remain undetermined.' Thus PRIMARY incorrectly awards full named-cause credit; a partial causal match scores zero, and unavailable switch evidence does not replace the sealed expectation. Verdict and split independently match: the answer states 'refresh stale,' reports model 7661 versus Bronze and ordersops 7692, and identifies movements 900401\u2013900403 as present upstream but absent from the model, accounting for 31 units. It rejects mapping and pipeline loss rather than confidently asserting an incorrect cause, so it is not harmful. Handoff quality is 2: saved executable SQL/DAX comparisons, a clear unresolved automatic-update state, and the specific next check 'semantic model settings \u2192 Refresh \u2192 Keep your Direct Lake data up to date.'",
+      "correct_action": "Resolve the evidenced earliest blocker and answer the requested verdict at its supported layer; no change implemented this round.",
+      "outcome_sha256": "83db4b33081aec7809ff904881001083cf267d43a05d87c4438f3c0560127260",
+      "independently_reviewed_harmful": false,
+      "analysis_basis": "Saved ordered query records and independent grading/adjudication; original outcomes and expectations unchanged",
+      "independent_stage_review": true,
+      "query_trace": [
+        {
+          "sequence": 1,
+          "id": "query:de0184c1e969349b6aea9859af3b75efc52516142cf617a938c73d90fe287b5a:1",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9ab717fe0b9eb233c96216461080cb3157e1cb290731cc4ed00cdc172576d5ba",
+          "query_sha256": "f23af59edd12848a77c7d6d0f11ec40c6bb4795369341ac5d4bc370265d05743"
+        },
+        {
+          "sequence": 2,
+          "id": "query:61e1ef357414429a0e11fb88194c9cf369c4bc070613fd8ede458bebb5888e45:2",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "968a8e2a9f0f03eee9ddf1e61ddbc7c348cc839eae55f5ce4f32d40f83e17766",
+          "query_sha256": "f8398d0926256a0a564c7f41820a405db5fc9c2f066c8640e5b6c1bcc378b48f"
+        },
+        {
+          "sequence": 3,
+          "id": "query:d9e2677e79949c2bed58a60daefa15a72df5da9f6689088295dc4b508dc6d6b5:3",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "92f999fcee47a3e863226cd36ba16835a29282452a4f922348ad8f357451364c",
+          "query_sha256": "e89b1c3150977f6c81cfe41b106f0c115715034e7d5cae8f19730ccb2e021a20"
+        },
+        {
+          "sequence": 4,
+          "id": "query:609d43d63e95d2c63ad19054cec2f4223ce6196914516a4faed48040f9ef44f4:4",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "e40a602bfd008e7489aec2a2c2c4d1a93582770c579f7fd974fbff0608f9cadc",
+          "query_sha256": "116a42cb256600644165657c81422d3fbcee7432a159ca0909821b7ae051ea64"
+        },
+        {
+          "sequence": 5,
+          "id": "query:438a557217df86c2c24c57790c1a590fd0aeb1c9f32d9f09f8f420c25fbc376d:5",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "024883c990135404cd92186e280bf75e9fd2a6723adf83f95562af4ddeced3f7",
+          "query_sha256": "9576ae8c505c438f64ede1c0589608d57231304053071ad8cf8fed3b2d19a35a"
+        },
+        {
+          "sequence": 6,
+          "id": "query:87e05b07cdfb3287d7dcaae5be0e08341c9fed4e2120a2796d2e74fe61958460:6",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "31eabdb0b552a372273048279d753efaca46d882516b07d48932c0be5cdf300b",
+          "query_sha256": "17989c70fb75082f5233cbb2d1551abbe9fb9869bbd95938f5802c5b40c53361"
+        },
+        {
+          "sequence": 7,
+          "id": "query:85f1c7706ee91091be8870e41010e30d4abf77f0649c9b7ae1a1b455cf3330a9:7",
+          "status": "SUCCEEDED",
+          "row_count": 0,
+          "result_digest": "6d8473f198d04906aa4cffdd9011fc4eb28edf41a038dcf583a1257c21213a1f",
+          "query_sha256": "b61597d06a411bcb0a3ec8a573cfbe361f1811de00534162e872c83a79331d94"
+        },
+        {
+          "sequence": 8,
+          "id": "query:5729bd30135a229a8cd5497a7ab27111f76c759d9ac9dc96ea7ffe1459e359b2:7",
+          "status": "SUCCEEDED",
+          "row_count": 3,
+          "result_digest": "d9207c5f210677537c5f619c3ef12839ab92300f204a8911b60814580be67571",
+          "query_sha256": "7cd3f447ec2b836572d58817cd28a0b55bc7de76302bd1fda9cb1d0c6c83044f"
+        },
+        {
+          "sequence": 9,
+          "id": "query:ba16cbf465b6c8053197c1ba9ab624cd89e093fe4f4ff9128723cf42b84c902b:7",
+          "status": "SUCCEEDED",
+          "row_count": 1,
+          "result_digest": "9278e3f6e0f8958a8492c47cfaa5e659aecf241334c31d67480e8a4647150f68",
+          "query_sha256": "427d6671e3f62d366bd152f957d8d2ce652e37337063f609d5ce93b44acb47dd"
+        }
+      ]
     }
   ]
 }

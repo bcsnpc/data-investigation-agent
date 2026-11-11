@@ -1,7 +1,7 @@
 {
   "scope": "Dev06 failed-only continuation on ca249b73 / e59d3d97; partial until every selected outcome is saved and graded",
   "review_scope": "Saved evidence projections, not raw provider tapes",
-  "observed_at_utc": "2026-11-10T23:12:05.678464+00:00",
+  "observed_at_utc": "2026-11-11T00:02:03.758646+00:00",
   "cases": [
     {
       "case_id": "round26-dev06-form-v2-warehouse-scope-v2",
@@ -72,6 +72,34 @@
       "independent_review": true,
       "primary_first_wrong_step": "intake",
       "primary_reason": "The delivered answer did not establish a cause for the discrepancy, while the expected answer indicates that the cause is 'source changed history'."
+    },
+    {
+      "case_id": "round26-dev06-form-v2-stale-model-v1",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The investigation stopped due to a safety or budget boundary, specifically a denied DAX function. The expected answer indicates that the cause of the discrepancy is due to the model's automatic updates being off while the real load advanced, resulting in a 31-unit discrepancy. The delivered answer did not identify this cause."
+    },
+    {
+      "case_id": "round26-dev06-form-v2-stale-model-v2",
+      "kind": "form",
+      "primary": false,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "target",
+      "primary_reason": "The delivered answer correctly identifies the staleness of the model and provides evidence to support this conclusion. However, it does not fully match the expected cause, which specifically mentions that the real load advanced the landing by 31 units while the model's automatic updates were off."
     },
     {
       "case_id": "round26-dev06-text-R17-04-v1",
@@ -338,28 +366,56 @@
       "independent_review": true,
       "primary_first_wrong_step": "none",
       "primary_reason": "Delivered answer fully matches the expected answer."
+    },
+    {
+      "case_id": "round26-dev06-text-stale-total-v1",
+      "kind": "text",
+      "primary": true,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "none",
+      "primary_reason": "The delivered answer matches the expected answer in substance."
+    },
+    {
+      "case_id": "round26-dev06-text-stale-total-v2",
+      "kind": "text",
+      "primary": true,
+      "secondary": false,
+      "strict": false,
+      "reviewed_projection": false,
+      "primary_harmful": false,
+      "secondary_harmful": false,
+      "reviewed_harmful": false,
+      "independent_review": true,
+      "primary_first_wrong_step": "none",
+      "primary_reason": "The delivered answer matches the expected answer in terms of the verdict, layer/split point, and named cause. There is no harmful information provided, and the handoff quality is good."
     }
   ],
-  "saved_outcomes": 24,
+  "saved_outcomes": 28,
   "summary": {
     "primary": {
-      "correct": 3,
-      "graded": 24,
+      "correct": 5,
+      "graded": 28,
       "harmful": 1
     },
     "secondary": {
       "correct": 2,
-      "graded": 24,
+      "graded": 28,
       "harmful": 0
     },
     "strict": {
       "correct": 2,
-      "graded": 24,
+      "graded": 28,
       "harmful": null
     },
     "reviewed_projection": {
       "correct": 3,
-      "graded": 24,
+      "graded": 28,
       "harmful": 0
     }
   }
