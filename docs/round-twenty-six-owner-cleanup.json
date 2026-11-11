@@ -1,0 +1,324 @@
+{
+    "owner_date":  "2026-11-10",
+    "evidence_deleted":  false,
+    "source_lock_verification":  {
+                                     "completed":  true,
+                                     "sourceLockFilesChecked":  52,
+                                     "mismatches":  [
+
+                                                    ],
+                                     "before":  {
+                                                    "C:/":  15877881856,
+                                                    "D:/":  17923862528
+                                                },
+                                     "after":  {
+                                                   "C:/":  9739288576,
+                                                   "D:/":  27540692992
+                                               },
+                                     "deltaC":  -6138593280,
+                                     "deltaD":  9616830464,
+                                     "evidenceTouched":  false
+                                 },
+    "removed":  [
+                    {
+                        "At":  "2026-11-11T04:26:13.4129444Z",
+                        "Path":  "C:\\Users\\chait\\AppData\\Local\\npm-cache\\_npx",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable cache/build output",
+                        "LogicalBytes":  1896116080
+                    },
+                    {
+                        "At":  "2026-11-11T04:35:59.1380523Z",
+                        "Path":  "C:\\Users\\chait\\AppData\\Local\\Temp\\uvc",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable cache/build output",
+                        "LogicalBytes":  76435702
+                    },
+                    {
+                        "At":  "2026-11-11T04:47:09.794Z",
+                        "Path":  "C:\\Users\\chait\\.cache\\codex-runtimes\\codex-primary-runtime.previous-3b1bfd9d-013b-44ce-9e06-cdeed2b6fc06",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved obsolete runtime; active codex-primary-runtime preserved"
+                    },
+                    {
+                        "At":  "2026-11-11T04:47:09.875Z",
+                        "Path":  "C:\\Users\\chait\\.cache\\codex-runtimes\\codex-primary-runtime.previous-430f93f0-e6f0-401e-a580-211c3d5af80e",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved obsolete runtime; active codex-primary-runtime preserved"
+                    },
+                    {
+                        "At":  "2026-11-11T04:47:09.926Z",
+                        "Path":  "C:\\Users\\chait\\.cache\\codex-runtimes\\codex-primary-runtime.previous-4c61413a-3098-4af4-88d1-4096becaa8f9",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved obsolete runtime; active codex-primary-runtime preserved"
+                    },
+                    {
+                        "At":  "2026-11-11T04:47:53.181Z",
+                        "Path":  "C:\\Users\\chait\\.cache\\codex-runtimes\\codex-primary-runtime.previous-62099713-4d1c-4aee-b20f-7c4365010925",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved obsolete runtime; active codex-primary-runtime preserved"
+                    },
+                    {
+                        "At":  "2026-11-11T04:47:53.241Z",
+                        "Path":  "C:\\Users\\chait\\.cache\\codex-runtimes\\codex-primary-runtime.previous-a567a8d1-1601-462d-b8fe-74d84fe803f5",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved obsolete runtime; active codex-primary-runtime preserved"
+                    },
+                    {
+                        "At":  "2026-11-11T04:48:02.396Z",
+                        "Path":  "C:\\Users\\chait\\.cache\\codex-runtimes\\codex-primary-runtime.previous-cb251f58-c105-4bfa-99ff-7c42056426b8",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved obsolete runtime; active codex-primary-runtime preserved"
+                    },
+                    {
+                        "At":  "2026-11-11T04:48:19.796Z",
+                        "Path":  "C:\\Users\\chait\\.cache\\codex-runtimes\\codex-primary-runtime.previous-f9bf0531-5743-4b79-b7c9-6ffa9260c8f8",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved obsolete runtime; active codex-primary-runtime preserved"
+                    },
+                    {
+                        "At":  "2026-11-11T04:56:34.886Z",
+                        "Path":  "D:\\split_loop_v1\\build",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T04:56:35.020Z",
+                        "Path":  "D:\\split_loop_v1\\.dart_tool",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T04:58:33.768Z",
+                        "Path":  "D:\\portffolio_website\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T04:58:40.019Z",
+                        "Path":  "D:\\portffolio_website\\.next",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T04:59:34.857Z",
+                        "Path":  "D:\\nifty-predictor\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T04:59:37.191Z",
+                        "Path":  "D:\\nifty-predictor\\.next",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:02.191Z",
+                        "Path":  "D:\\nifty-predictor-temp\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:02.439Z",
+                        "Path":  "D:\\nifty-predictor-temp\\.next",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:14.739Z",
+                        "Path":  "D:\\quiz\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:15.039Z",
+                        "Path":  "D:\\quiz\\dist",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:37.520Z",
+                        "Path":  "D:\\semantic_app\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:37.964Z",
+                        "Path":  "D:\\semantic_app\\dist",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:40.732Z",
+                        "Path":  "D:\\vilsem-acceptance-050\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:00:51.020Z",
+                        "Path":  "D:\\vilsem-consumer-stress2-040\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:01:10.020Z",
+                        "Path":  "D:\\vilsem-core-release-040\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:01:32.799Z",
+                        "Path":  "D:\\vilsem-core-release-050\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:01:33.216Z",
+                        "Path":  "D:\\vilsem-core-release-050\\dist",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:01:45.755Z",
+                        "Path":  "D:\\vilsem-mcp\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:01:46.624Z",
+                        "Path":  "D:\\vilsem-mcp\\dist",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:01:52.302Z",
+                        "Path":  "D:\\vilsem-mcp-acceptance-050\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:01:57.546Z",
+                        "Path":  "D:\\vilsem-mcp-acceptance-050-gutter\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:02:01.532Z",
+                        "Path":  "D:\\vilsem-mcp-candidate-073\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:02:04.532Z",
+                        "Path":  "D:\\vilsem-mcp-git-070\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:02:08.545Z",
+                        "Path":  "D:\\vilsem-mcp-git-071\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:02:11.966Z",
+                        "Path":  "D:\\vilsem-mcp-git-072\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:02:29.690Z",
+                        "Path":  "D:\\vilsem-mcp-git-073\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:03:09.120Z",
+                        "Path":  "D:\\vilsem-mcp-public-050\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:03:36.587Z",
+                        "Path":  "D:\\vilsem-mcp-public-060\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:04:04.432Z",
+                        "Path":  "D:\\vilsem-mcp-public-070\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:04:50.745Z",
+                        "Path":  "D:\\vilsem-mcp-public-071\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:05:29.797Z",
+                        "Path":  "D:\\vilsem-mcp-public-072\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:06:06.176Z",
+                        "Path":  "D:\\vilsem-mcp-public-073\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:06:24.942Z",
+                        "Path":  "D:\\vilsem-public-core\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:06:30.435Z",
+                        "Path":  "D:\\vilsem-tag-consumer-stress2-040\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:06:43.482Z",
+                        "Path":  "D:\\semantic_app\\ui\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:06:59.833Z",
+                        "Path":  "D:\\semantic_app\\vilsem-renderer\\node_modules",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    },
+                    {
+                        "At":  "2026-11-11T05:07:00.143Z",
+                        "Path":  "D:\\semantic_app\\vilsem-renderer\\dist",
+                        "Status":  "REMOVED",
+                        "Reason":  "Owner-approved regenerable build/dependency directory"
+                    }
+                ],
+    "retained":  [
+                     "Active VSCode installer temp",
+                     "Active codex-primary-runtime",
+                     "Locked/partly removable previous runtime 615f4cc4-59df-4905-8732-9b07eae626af",
+                     "D:/semantic_app/cache",
+                     "D:/cache",
+                     "C:/Users/chait/AppData/Local/Temp/claude"
+                 ],
+    "current_free":  [
+                         {
+                             "drive":  "C",
+                             "free_bytes":  16212361216,
+                             "free_gib":  15.09893798828125
+                         },
+                         {
+                             "drive":  "D",
+                             "free_bytes":  27550126080,
+                             "free_gib":  25.658054351806641
+                         }
+                     ],
+    "space_note":  "Drive deltas include concurrent paging and other writes; logical bytes are not guaranteed physical savings. Standalone D batch observed net +9,616,830,464 bytes; earlier partial Flutter cleanup is outside that interval.",
+    "archive_status":  "DEFERRED_UNTIL_MERGED_AND_TAGGED"
+}
