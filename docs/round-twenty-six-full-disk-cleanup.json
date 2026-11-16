@@ -1,0 +1,46 @@
+{
+  "at": "2026-11-16T07:07:56.302821+00:00",
+  "before_free_bytes": {
+    "C": 14645694464,
+    "D": 23182327808
+  },
+  "free_bytes": {
+    "C": 73859256320,
+    "D": 197801238528
+  },
+  "archive_batches": 248,
+  "evidence_files_removed": 41881,
+  "all_52_source_contents_preserved": true,
+  "source_unchanged_in_place": 50,
+  "approved_removed_worktree_source_files_preserved_in_git": 2,
+  "remaining_retention_bytes_by_reason": {
+    "SOURCE_OR_LOCKFILE_PROTECTED": 54003471,
+    "LEDGER_OR_ACCOUNTING_PROTECTED": 478237836,
+    "SEALED_SET_OR_ORACLE_PROTECTED": 9107894935,
+    "CREDENTIAL_PATTERN": 117234,
+    "SENSITIVE_PATH": 787379,
+    "UNIDENTIFIED_OR_CONTAINER_FILE_RETAINED": 6433928072,
+    "CURRENT_LITERAL_PATH": 7874277464,
+    "RESUME_PROTECTED": 1594387,
+    "CURRENT_REFERENCE_ID": 26522766085,
+    "CURRENT_AUDIT_SCRIPT_INPUT": 1598537364
+  },
+  "audit": {
+    "observed_at_utc": "2026-11-16T07:07:07.928406+00:00",
+    "status": "PASS",
+    "batches": 248,
+    "deletion_rows": 41881,
+    "source_files_checked": 52,
+    "errors": [],
+    "source_files_unchanged_in_place": 50,
+    "source_files_preserved_in_approved_pushed_worktree_history": 2,
+    "kind": "offline receipt/source audit; upload MD5/size/tier checks occurred before each deletion; no body download"
+  },
+  "archive_index_sha256": "57ffe7148e1df67a2d9ef7dcf30c9379c064fbc08ce56958405ab779b405e497",
+  "account": "diaplatformd5dd7d65",
+  "container": "evidence-archive",
+  "archive_body_downloaded": false,
+  "scope": "owner approved historical cleanup; protected current evidence retained",
+  "policy_block": "Dart Pub hosted/hosted-hashes/_temp retained; no alternate deletion route",
+  "admin_work": "skipped overnight; owner-admin-cleanup.ps1 remains unexecuted"
+}

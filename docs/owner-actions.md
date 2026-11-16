@@ -558,40 +558,333 @@ Cleanup completion receipt (owner2026-11-10): approved npm/uv caches, seven obso
 
 Round26 final calibration,2026-11-11: Final calibration quality gate failed2/10,harm2; held-out v5 is intentionally not run and needs no credit top-up this round. Keep it sealed. No further dev loop is authorised. Continue release checks. Post-release evidence archive work remains gated on merged/tagged round and dependency/hash checks; no evidence was cleaned during Round26.
 
-## Full disk cleanup — owner instruction 2026-11-13, received 2026-11-15
 
+## Full disk cleanup — owner instruction 2026-11-13, executed from 2026-11-15
 
-**Status: in progress; Round 26 paused.** No new ticket/model run has been admitted. All three previously launched release smokes are now saved as PASS; the third was recovered from its existing Azure execution. Calibration is already final (2/10, two harmful answers); v5 remains unadmitted.
+Round 26 was paused throughout cleanup; no ticket or model run was admitted. Existing release smoke captures were recovered without resubmitting their runs.
 
-| Drive | Initial free GB | Current free GB | Target GB |
-|---|---:|---:|---:|
-| C: | 14.65 | 73.45 | 60 |
-| D: | 23.18 | 95.83 | 120 |
+| Drive | Initial free GB | Final free GB | Net recovered GB | Target GB |
+|---|---:|---:|---:|---:|
+| C: | 14.65 | 73.86 | 59.21 | 60 |
+| D: | 23.18 | 197.80 | 174.62 | 120 |
 
-GB uses decimal units. Volume deltas include paging, active application writes and temporary archive staging; file logical sizes are not presented as exact freed disk space. The initial command observed C14,645,694,464/D23,182,327,808 bytes free; the later full-inventory baseline differs because the system was active.
+GB is decimal. Free space is the authoritative volume measurement. File sizes below are logical or allocated bytes as labelled; they are not additive estimates of exact space freed. Paging, running applications, sparse/compressed files, hard links and temporary archive staging affect volume deltas.
 
-Removed 1346 project cache/build paths, 11 clean pushed worktrees, and 2,976,856,442 logical bytes of byte-identical Round14 replay copies. 18 tracked-content paths were retained and 1 paths were only partially removable. npm, pip, Electron, Dart Pub and obsolete runtime/installer caches were processed; individual Gradle failures remain recorded. Source/lock/Git content was excluded from cache deletion.
+| Step | Completed work / measured amount |
+|---|---|
+| Processes | No abandoned DIA controller/poller/grader was found initially. Active Codex and user apps were retained. Only this cleanup’s own metadata scans/preparation were stopped or paused to avoid redundant disk traffic. No Azure execution was killed. |
+| Caches/build outputs | 1,346 project paths removed; 18 tracked-content paths retained. Removed paths total 15.35 GB of reported allocated pre-removal bytes. Cache roots are recorded separately and may overlap this amount. |
+| Unused Python environments | 10 removed, after package/rebuild inventories and process checks. Current DIA and Azure CLI environments retained. |
+| Duplicate replay copies | 2.98 GB logical removed only after exact hash match with retained canonical originals. |
+| Historical evidence | 41,881 eligible files; 441.82 GB logical originals removed after verified upload; 248 immutable Archive batches. [Blob paths and checksums](evidence-archive.md). |
+| Git duplicates | 13 clean, pushed worktrees and one redundant clone removed; canonical repositories, unique or unpushed work, dirty worktrees and protected ignored data retained. No forced git removal. |
+| Docker / WSL | Docker installation/CLI absent; WSL reports not installed. No prune or VHDX compaction claimed. Claude app-state virtual disks retained because they are unrelated application data. |
+| System | D: Recycle Bin cleared; C: returned path-not-found. DISM error740 required elevation; the approved elevation attempt was canceled. DISM/cleanmgr did not run. Page-file/hibernation settings unchanged. |
 
-No earlier DIA poller/controller or grader watcher was found at admission. Active Codex application helpers were kept. Only this task’s own preparation processes were stopped to refine maintenance protection; no Azure run was killed. Two bounded archive queues handle the old D: evidence and identified old C: evidence separately.
+Removed cache categories: npm including `_npx`, pip, Electron/electron-builder, Dart Pub, Flutter SDK regenerable cache, Dart analysis cache, node-gyp, obsolete Codex runtime/installer versions, browser cache/code-cache/GPU/shader cache, identified temporary Node/Playwright outputs, and dependency/build/cache folders across DIA, vilsem, semantic_app, SplitLoop, portfolio, nifty, quiz and other projects. Source and lockfiles were excluded. Gradle locked/partial failures were retained and logged. Browser credentials, cookies and profiles were not cleared.
 
-Archive: 66 verified batches, 17,886,394,840 stored bytes, 13127 eligible local evidence files removed. See [archive index](evidence-archive.md). Every deletion has a local SHA-256 and matching uploaded archive/manifest receipt. Protected files remain even when an archival copy exists.
+Source integrity: 52 source/config/lock-file checks; all content preserved: **True**. 50 files remain byte-identical in place; 2 package files belonged to the approved removed clean/pushed vilsem worktree and reconstruct to their exact original Windows CRLF SHA-256 from preserved Git commit 3e3fcc2bf8818d43c38293ef1b857339004bb499 in D:/semantic_app. The removed paths are not described as still present. Previously observed tracked deletions in other repositories were generated `dist` output, including nested renderer outputs; no missing source was inferred from those build artifacts.
 
-Docker CLI/installation was not found, and WSL reports not installed. The only inventoried VHDX files belong to Claude app state (rootfs7,826,571,264; sessiondata608,174,080; smol-bin37,748,736 bytes); they were retained. No Docker/WSL disk compaction was performed.
+The cleanup audit/rebuild manifests, per-file deletion journals, hash receipts and inventories are retained in `D:\data_investigation_agent\.local\round-twenty-six\full-disk-cleanup-20261115\`. Secrets and evidence bodies are not committed. A disposable junction-deletion test was rejected by automatic tool policy and never ran; read-only source integrity checks were used instead.
 
-DISM returned error740 (elevation required). The approved RunAs request was canceled by Windows/user interaction; no repeated elevation prompt was issued. Windows component cleanup and the administrator-only cleanmgr selection remain pending. Page file allocation is12,800MiB; no page-file or hibernation setting changed. Recycle Bin clearing reported “path not found”; no nonempty-bin cleanup is claimed.
+Administrator work remains optional and unexecuted: `D:\data_investigation_agent\.local\round-twenty-six\full-disk-cleanup-20261115\owner-admin-cleanup.ps1`. It selects Windows component/update/delivery-optimization/thumbnails/error/setup cleanup, excludes Downloads and broad Temp, and restores its cleanmgr selection flags. Page-file allocation observed:12,800MiB. No hibernation file size was established; no hibernation setting was changed.
 
-Conditional data retained for review includes unmatched replay scratch, semantic_app cache content beyond identified dependencies, D:/cache content beyond identified dependencies, Temp/claude source/logs beyond identified dependencies, sealed/held-out material, unknown containers/types and referenced evidence. Personal Downloads/Documents/Desktop/Pictures are untouched. Their sizes and the largest20 remaining folders will be included at completion.
+### Retained evidence and unknown material
 
-Evidence/source of the maintenance record: private inventories, cache-removals.jsonl, project-removals.jsonl, worktrees.json, worktree-removals.jsonl, replay-duplicate-removals.jsonl, archive receipts, manifests and evidence-deletions.jsonl. A fresh RESUME note is saved before archive waits. Targets remain pending; do not treat this checkpoint as cleanup or release completion.
+| Reason | Remaining logical GB |
+|---|---:|
+| CURRENT_REFERENCE_ID | 26.52 |
+| SEALED_SET_OR_ORACLE_PROTECTED | 9.11 |
+| CURRENT_LITERAL_PATH | 7.87 |
+| UNIDENTIFIED_OR_CONTAINER_FILE_RETAINED | 6.43 |
+| CURRENT_AUDIT_SCRIPT_INPUT | 1.60 |
+| LEDGER_OR_ACCOUNTING_PROTECTED | 0.48 |
+| SOURCE_OR_LOCKFILE_PROTECTED | 0.05 |
+| RESUME_PROTECTED | 0.00 |
+| SENSITIVE_PATH | 0.00 |
+| CREDENTIAL_PATTERN | 0.00 |
 
-### Cleanup continuation checkpoint, 2026-11-15
+Unidentified/container files were not unpacked or deleted:
 
-C: 73.45 GB free; D: 95.83 GB free (targets 60/120 GB). The C-only archive queue completed; the primary old-evidence queue and a separate unused-worktree evidence queue continue. The index now records 66 verified archive batches (17,886,394,840 stored bytes); 13,127 eligible source files were removed only after checksum/size/tier verification. No archive body was downloaded.
+| Retained source folder | Files | Logical GB | File types requiring review |
+|---|---:|---:|---|
+| `D:\data_investigation_agent\.local\round-eighteen` | 547 | 1.45 | (no suffix), .bundle, .gz, .idx, .pack, .rev, .sample, .zip |
+| `D:\data_investigation_agent\.local\round-nineteen` | 13 | 1.23 | (no suffix), .gz, .zip |
+| `C:\temp\dia-r26-cold-evidence` | 159 | 0.96 | (no suffix), .apply_patch, .before-checksum-02, .before-controller01-0000, .before-controller01-0001, .before-controller02-batch-0003, .before-controller02-batch-0005, .before-enhanced-security-40ce5de02316, .before-enterprise-binding-157b6386a218, .before-enterprise-binding-96a79fde3eae, .bin, .body, .exe, .exit, .partial, .patch, .zip |
+| `D:\data_investigation_agent\.local\round-ten-20261007` | 8 | 0.93 | .claim, .gz, .initial-draft |
+| `D:\data_investigation_agent\.local\round-twenty` | 1545 | 0.77 | (no suffix), .exit, .interrupted, .zip |
+| `D:\data_investigation_agent\.local\round-seven-20261005` | 1 | 0.32 | .gz |
+| `D:\data_investigation_agent\.local\round-six-20261005` | 2 | 0.25 | (no suffix), .aesgcm |
+| `D:\data_investigation_agent\.local\round-five-i-20261005` | 1 | 0.25 | .gz |
+| `D:\data_investigation_agent\.local\round-sixteen` | 19 | 0.18 | .bim, .patch, .pbir, .pbism, .zip |
+| `C:\Users\chait\.codex\dia-round-thirteen-captures` | 16 | 0.04 | (no suffix), .bin, .dia2, .sqlite-journal |
+| `D:\data_investigation_agent\.local\round-twenty-three` | 22 | 0.02 | .pid, .zip |
+| `D:\data_investigation_agent\.local\round-twenty-five` | 11 | 0.01 | .pyc, .zip |
+| `C:\temp\dia-hospital-estate\.local\hospital-estate` | 23 | 0.01 | .dll, .pbir, .pyc, .sqlite-journal |
+| `D:\data_investigation_agent\.local\round-fourteen` | 5 | 0.01 | .patch, .prof, .sqlite-journal |
+| `D:\data_investigation_agent\.local\round-twenty-four` | 1016 | 0.00 | (no suffix), .zip |
+| `D:\dia-r18-final-tests\.local` | 409 | 0.00 | .body, .exit |
+| `D:\data_investigation_agent\.local\process-tapes` | 3 | 0.00 | .bin, .sqlite-journal |
+| `D:\data_investigation_agent\.local\round-nine-20261006` | 23 | 0.00 | (no suffix), .pyd, .pyi, .typed |
+| `D:\data_investigation_agent\.local\round-twenty-one` | 968 | 0.00 | (no suffix), .exit, .superseded |
+| `D:\dia-r14-ports-validation\.local` | 144 | 0.00 | .body |
+| `D:\dia-r14-hybrid-capture\.local` | 96 | 0.00 | .body |
+| `D:\dia-r14-empty-contract-validation\.local` | 96 | 0.00 | .body |
+| `D:\dia-r14-hybrid-build\.local` | 96 | 0.00 | .body |
+| `D:\dia-round-thirteen-regression\.local` | 68 | 0.00 | .body |
+| `C:\temp\dia-r22-4d7-validation\.local` | 66 | 0.00 | .body |
+| `C:\temp\dia-r22-temporal-validation\.local` | 66 | 0.00 | .body |
+| `D:\dia-r18-validation-4377\.local` | 54 | 0.00 | .body |
+| `D:\dia-r14-git-launch-validation\.local` | 48 | 0.00 | .body |
+| `D:\dia-r14-punctuation-validation\.local` | 48 | 0.00 | .body |
+| `D:\dia-r14-causal-validation\.local` | 34 | 0.00 | .body |
+| `D:\dia-r14-final-validation\.local` | 34 | 0.00 | .body |
+| `D:\dia-r14-regression-a985774\.local` | 34 | 0.00 | .body |
+| `D:\dia-r14-rollback-validation\.local` | 34 | 0.00 | .body |
+| `D:\dia-round-nine-validation-8de0e84\.local` | 16 | 0.00 | .body |
+| `D:\dia-estate-manifest\.local` | 12 | 0.00 | .body |
+| `D:\dia-round-five-manifest\.local` | 12 | 0.00 | .body |
+| `D:\data_investigation_agent\.local\round-five-h-20261005` | 7 | 0.00 | (no suffix), .bim, .pbir, .pbism |
+| `D:\data_investigation_agent\.local\round-seventeen` | 6 | 0.00 | (no suffix), .bim, .pbir, .pbism |
+| `D:\data_investigation_agent\.local\round-five-e-live-20261005` | 1 | 0.00 | (no suffix) |
+| `D:\data_investigation_agent\.local\round-six-g-20261005` | 3 | 0.00 | .claim |
+| `D:\data_investigation_agent\.local\round-five-g-live-20261005` | 1 | 0.00 | (no suffix) |
+| `D:\data_investigation_agent\.local\round-six-c-20261005` | 1 | 0.00 | (no suffix) |
+| `D:\data_investigation_agent\.local\round-five-f-live-20261005` | 1 | 0.00 | (no suffix) |
+| `D:\data_investigation_agent\.local\round-fifteen` | 2 | 0.00 | (no suffix), .exit |
+| `D:\data_investigation_agent\.local\round-twelve-d` | 6 | 0.00 | .exit |
+| `D:\data_investigation_agent\.local\round-twelve-e` | 6 | 0.00 | .exit |
 
-All 52 source/config/lock files in the pre-cleanup audit remain present with identical SHA-256. Ten unused virtual environments, thirteen clean pushed worktrees and one redundant clone were removed after dependency/source checks. Current environments and active worktrees remain. Existing storage lifecycle delete rules cover three screenshot prefixes only and do not match evidence-archive.
+These are surviving paths from the retention journal, deduplicated by path; they are not a claim that every remaining file was eligible for deletion. Unknown `semantic_app/cache`, `D:/cache` and `Temp/claude` contents were retained beyond positively identified regenerable dependencies. Unpushed demo work, current test/runtime inputs, all ledgers/seals/RESUME, and unrelated app state remain. No blanket deletion of Temp, Windows, or installed applications was attempted. Automatic tool policy rejected deletion of the identified remaining D:/pub-cache/hosted, hosted-hashes and _temp cache folders before execution, giving only blocked by policy; those folders remain and the action was not retried through another route.
 
-The administrator cleanup request was canceled; it was not retried. The prepared, unexecuted owner script is `D:\data_investigation_agent\.local\round-twenty-six\full-disk-cleanup-20261115\owner-admin-cleanup.ps1`. Page file and hibernation settings were not changed. A disposable junction-deletion test was rejected by automatic tool policy and did not execute; source integrity was checked read-only instead.
+### Personal folders — untouched
 
-### Disk targets reached ? 2026-11-16T05:16:00.109526+00:00
+| Folder | Actual path | Logical GB |
+|---|---|---:|
+| Pictures | `C:\Users\chait\OneDrive\Pictures` | 3.74 |
+| Documents | `C:\Users\chait\OneDrive\Documents` | 1.25 |
+| Desktop | `C:\Users\chait\OneDrive\Desktop` | 0.09 |
+| Downloads | `C:\Users\chait\Downloads` | 5.16 |
+| Documents_unredirected | `C:\Users\chait\Documents` | 4.16 |
 
-Observed free space: C:73.90GB, D:121.73GB, versus60/120GB targets. Remaining eligible archival continues; Round26 remains paused. The index now records 124 completed verified batches and 20042 eligible original-file removals. Historical documentation citations are not treated as current runtime dependencies; current code, tests, CI, acceptance and Round26 inputs remain protected. No protected-name deletion was found in the journal audit.
+### Repository/worktree audit
+
+The audit covered all discovered repository groups and worktrees; remote URLs and credential material are omitted. Pushed status is the recorded audit observation, not a guarantee about future remote retention. Installed plugins, unique projects, personal locations, unpushed work and protected ignored data were retained.
+
+| Repository / worktree | HEAD | Pushed containing ref found | Disposition |
+|---|---|---|---|
+| `C:\Users\chait\.cache\plugins\.install-staging\3acb3ccb010bd3190b85841d8c364b5eb9541225\claude-code\repo` | `8db97f0ce511` | yes | Retained: working changes or generated-output deletions |
+| `C:\Users\chait\.cache\plugins\github.com-vercel-vercel-plugin` | `8db97f0ce511` | yes | Retained: unique project, installed plugin or canonical repository |
+| `C:\Users\chait\.claude\plugins\cache\vercel\vercel-plugin\8db97f0ce511` | `8db97f0ce511` | yes | Retained: working changes or generated-output deletions |
+| `C:\Users\chait\.claude\plugins\marketplaces\vercel` | `8db97f0ce511` | yes | Retained: working changes or generated-output deletions |
+| `C:\Users\chait\.codex\vendor_imports\skills` | `49f948faa925` | yes | Retained: unique project, installed plugin or canonical repository |
+| `C:\Users\chait\AppData\Local\Temp\claude\c9570c89b2196cc7\aed82cb6-84a9-4dd3-bab9-e9ad69ead511\scratchpad\awesome` | `48dff43c3f7c` | no | Retained: pushed containing ref not confirmed |
+| `C:\Users\chait\AppData\Local\Temp\claude\c9570c89b2196cc7\aed82cb6-84a9-4dd3-bab9-e9ad69ead511\scratchpad\sec\vilsem-app` | `db44ceb63cf5` | yes | Retained: unique project, installed plugin or canonical repository |
+| `C:\Users\chait\AppData\Local\Temp\claude\c9570c89b2196cc7\aed82cb6-84a9-4dd3-bab9-e9ad69ead511\scratchpad\sec\vilsem-mcp` | `029a577307b8` | yes | Removed after clean/pushed/ignored-file checks |
+| `C:\Users\chait\develop\flutter` | `2c9eb20739df` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\data_investigation_agent` | `1e702289a320` | yes | Retained: working changes or generated-output deletions |
+| `C:\dia-r21-capture` | `8a18884e2738` | no | Retained: pushed containing ref not confirmed |
+| `C:\dia-r21-facts-ledger` | `aa0f5aa6c805` | no | Retained: pushed containing ref not confirmed |
+| `C:\temp\dia-hospital-estate` | `ee8b6bb37447` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r21-access` | `886708fbd21d` | no | Retained: pushed containing ref not confirmed |
+| `C:\temp\dia-r21-ask` | `4786b7a1cfe5` | no | Retained: pushed containing ref not confirmed |
+| `C:\temp\dia-r21-collector-build` | `ce57e18c1529` | yes | Retained: working changes or generated-output deletions |
+| `C:\temp\dia-r21-final-validation` | `8ae02f162850` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r22-4d7-validation` | `4d7cac322808` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r22-owner-steer` | `47b8f148a73b` | yes | Retained: working changes or generated-output deletions |
+| `C:\temp\dia-r22-temporal-validation` | `fcce8061e451` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r23-build` | `3dcb8ec379a2` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r24-build` | `18b8859ddf6c` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r24-main` | `edb04fd5bc0d` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r25-main-release` | `188077989737` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r25-quality` | `9c5e3026e599` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-r26-build` | `fafa046886fb` | yes | Current Round26 worktree; protected |
+| `C:\temp\dia-round-twenty-two` | `9c770d322f2e` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-budget-inputs` | `9c32f42af81b` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-declaration-contract` | `5f73e492b4e7` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-estate-manifest` | `b9b8be9781e0` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-fifteen-source-09ad` | `09ad88be0523` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-fifteen-source-515` | `515bb1c1b536` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-catalog-guard` | `179ebe554f69` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-causal-validation` | `2e7fde66fa60` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-clock-replay` | `bfea0318ea5f` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-comment-clock` | `cc184f1bc2d6` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-empty-contract-validation` | `4257bf4c2b0e` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-final-validation` | `8fa21616378d` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-git-launch-validation` | `ce0de1e7db84` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-hybrid-build` | `f9f360dd0736` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-hybrid-capture` | `8b5608ff1a5c` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-loop-clock` | `9ddad5b1fd01` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r14-ports-validation` | `29fefe890aa5` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-punctuation-validation` | `5b7796264067` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-regression-a985774` | `a985774dff87` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-r14-replay-9c` | `9c87b2a7755d` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-replay-bc0` | `bc0d671deeae` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-resolver-delivery` | `7763fa3d68cf` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r14-result-reuse` | `39671813f23a` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r14-rollback-validation` | `551a04991b75` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r15-metadata-replay` | `9f7b42b7aee6` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-r18-capture-export` | `63aa7569c2e0` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r18-estates` | `2bf05308e850` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r18-final-tests` | `db3bed8905c9` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-r18-guardrails` | `0c303661024b` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r18-resume-stage` | `b8da799360af` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r18-storage` | `32e65d3db196` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r18-validation-4377` | `4377cbfb7a0e` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-r19-graph` | `a14cfd2ab8d4` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r19-main` | `44c1c60192a6` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-r19-state` | `892ae3c4cf84` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r19-storage` | `196a9df36f0d` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r20-bronze` | `bad6f57b08c1` | no | Retained: working changes or generated-output deletions |
+| `D:\dia-r20-confidence` | `a8740e4ed482` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r20-directlake` | `422fd5451c57` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r20-runner` | `d77c4ffd672e` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r20-schedules` | `e4838fbe7dfc` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r20-state` | `a186ced764ee` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-r20-value-route` | `7f7ad1a7282a` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-round-eight-offline` | `c23673d7cbc4` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-round-eight-proposers` | `6a5551d3b805` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-eleven-demo` | `d4e420d89b18` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-round-eleven-eval` | `9422f43a5390` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-eleven-final` | `44490b49315e` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-round-eleven-intake` | `cc8b0d79380d` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-eleven-links` | `141991296962` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-fifteen-budget` | `518b59e0a4d3` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-round-fifteen-demo` | `978f3b8f54fc` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-round-five-manifest` | `ec5b8439bf09` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-translation` | `feb0cc84c47f` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-4e61a5e` | `4e61a5eb7f57` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-55469a3` | `55469a39b907` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-5907162` | `59071626a503` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-5f09cec` | `5f09cec8da48` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-624ca67` | `624ca671290c` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-8de0e84` | `8de0e8473dac` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-review` | `bb3d27b8f24d` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-review-final` | `382cb1b54d61` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-nine-validation-v4` | `fa830490f5fb` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-seven-freshness` | `bfa6e920cba2` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-seven-gate` | `4539bac58290` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-seven-history` | `909a5af311eb` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-seven-install` | `d80792b9ecb9` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-seven-neutrality` | `edd5177bc1c2` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-seven-record` | `b244928e5e4d` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-six-c-main` | `78218b2c5668` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-round-sixteen-smoke-source` | `a4654045e05d` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-round-ten-e-baseline` | `45958a0d4f80` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-ten-filter-effects` | `5ae814cd8793` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-ten-intake-rules` | `4b6161ec5902` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-thirteen-regression` | `6af19177f40b` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-round-twelve-questionnaire` | `51070af3f778` | no | Retained: pushed containing ref not confirmed |
+| `D:\dia-round-twenty` | `a9b54f23d8ca` | yes | Retained: working changes or generated-output deletions |
+| `D:\dia-round-twenty-one` | `32f15e143d7f` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\dia-surface-inventory` | `54da37d7b5b1` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\skynwhy-site-dia` | `41d54c227a35` | yes | Retained: unique project, installed plugin or canonical repository |
+| `D:\Projects\dashboard-ai-desinger` | `000000000000` | no | Retained: working changes or generated-output deletions |
+| `D:\Projects\semanticui` | `492038bf7573` | yes | Retained: working changes or generated-output deletions |
+| `D:\cricfab` | `8574679a8187` | no | Retained: pushed containing ref not confirmed |
+| `D:\nifty-predictor` | `7f79654753f5` | yes | Retained: working changes or generated-output deletions |
+| `D:\nifty-predictor-temp` | `989598ab870c` | no | Retained: pushed containing ref not confirmed |
+| `D:\portffolio_website` | `fbf527420ba3` | yes | Retained: working changes or generated-output deletions |
+| `D:\portfolio-prompt-book-preview` | `92ad5859323d` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\semantic_app` | `147536d26386` | yes | Retained: working changes or generated-output deletions |
+| `D:\semantic_app\cache\public-release-beta3` | `efddb3c9e746` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\semantic_app\cache\release-beta3` | `a22aaa415aef` | yes | Retained: working changes or generated-output deletions |
+| `D:\vilsem-core-release-040` | `3e3fcc2bf881` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\vilsem-core-release-050` | `db44ceb63cf5` | yes | Retained: working changes or generated-output deletions |
+| `D:\vilsem-public-core` | `713c4bc2fc62` | yes | Retained: working changes or generated-output deletions |
+| `D:\vilsem-security-private` | `40f9e51dd832` | yes | Retained: working changes or generated-output deletions |
+| `D:\vilsem-security-public` | `cdf72938fb46` | yes | Retained: ignored source, protected or unidentified files |
+| `D:\semantic_test` | `a403b7e4fc15` | yes | Retained: unique project, installed plugin or canonical repository |
+| `D:\skynwhy\mvp` | `8bd6760101bb` | yes | Retained: unique project, installed plugin or canonical repository |
+| `D:\split_loop\splitloop` | `192905721509` | yes | Retained: working changes or generated-output deletions |
+| `D:\split_loop_v1` | `070572574275` | no | Retained: working changes or generated-output deletions |
+| `D:\vilsem-mcp` | `029a577307b8` | yes | Retained: working changes or generated-output deletions |
+| `D:\vilsem-mcp-docs` | `4169f0af958b` | yes | Retained: ignored source, protected or unidentified files |
+| `C:\temp\dia-hospital-release-20261031` | `1bf6261bb4c0` | yes | Removed after clean/pushed/ignored-file checks |
+| `C:\temp\dia-r21-map-audit` | `d649e93d0813` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-r19-merge424` | `df422e4ed548` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-r19-merge425` | `9b30ce8a213b` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-r19b-attempt03-replay` | `ff0347dba28f` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-round-eight-blind-estate` | `bcc759ea3baa` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-round-five-gate` | `bb2d2ca95c38` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-round-five-recorded-engine` | `5c3daad78f29` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-round-five-regrade` | `2d6d67f2f537` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-round-four-test-baseline` | `59c89c5e4871` | yes | Removed after clean/pushed/ignored-file checks |
+| `D:\dia-round-twelve-form` | `6497abbf535d` | yes | Removed after clean/pushed/ignored-file checks |
+
+These sizes were obtained from metadata only; file contents were not read or modified. Redirected OneDrive folders and the separate nonredirected Documents folder are listed separately.
+
+### Largest 20 remaining folders per drive
+
+Common system/profile/repository containers are expanded so these are non-overlapping folder groups, rather than twenty nested names for the same data. Sizes are logical metadata totals, not exact occupied disk; hard links and compression still affect physical occupancy. These are retained items for owner review, not deletion recommendations.
+
+**C:** (metadata snapshot 2026-11-16T05:10:14.790995+00:00; inaccessible entries: 1040)
+
+| Folder | Logical GB | What it is |
+|---|---:|---|
+| `C:/Windows\WinSxS` | 26.15 | Windows component store; admin cleanup was not completed |
+| `C:/Windows\System32` | 10.98 | Windows system files; not manually removed |
+| `C:/Users\chait\AppData\Local\Claude-Data` | 9.93 | Claude application state/runtime; not a Docker or WSL cleanup target |
+| `C:/Users\chait\AppData\Local\Google` | 7.36 | User application data; only identified caches were removed |
+| `C:/Users\chait\AppData\Local\Android` | 6.67 | User application data; only identified caches were removed |
+| `C:/Program Files (x86)\Microsoft` | 6.65 | Installed applications; no uninstall authorized |
+| `C:/Users\chait\AppData\Local\Packages` | 5.12 | User application data; only identified caches were removed |
+| `C:/Program Files\Microsoft Office` | 4.95 | Installed applications; no uninstall authorized |
+| `C:/Users\chait\Downloads` | 4.79 | Protected personal files / OneDrive |
+| `C:/Users\chait\anaconda3` | 4.77 | Python base distribution used by the current DIA environment; retained |
+| `C:/Users\chait\.codex` | 4.34 | Active Codex state and installations; protected |
+| `C:/Users\chait\AppData\Local\Microsoft` | 4.25 | User application data; only identified caches were removed |
+| `C:/Users\chait\Documents` | 4.16 | Protected personal files / OneDrive |
+| `C:/Program Files\JetBrains` | 3.67 | Installed applications; no uninstall authorized |
+| `C:/Users\chait\AppData\Local\CapCut` | 3.55 | User application data; only identified caches were removed |
+| `C:/Users\chait\Videos` | 3.48 | User profiles, application state and personal files |
+| `C:/Users\chait\.vscode` | 3.44 | User profiles, application state and personal files |
+| `C:/android-sdk` | 3.09 | Retained installed tool, project or unidentified data; inspect before deletion |
+| `C:/Users\chait\AppData\Local\Programs` | 2.71 | User application data; only identified caches were removed |
+| `C:/Users\chait\AppData\Roaming\Code` | 2.52 | User application data; only identified caches were removed |
+
+**D:** (metadata snapshot 2026-11-16T07:05:24.557677+00:00; inaccessible entries: 1)
+
+| Folder | Logical GB | What it is |
+|---|---:|---|
+| `D:/data_investigation_agent\.local\process-tapes` | 17.48 | DIA captures; current/referenced/protected members retained |
+| `D:/data_investigation_agent\.local\round-seventeen` | 11.50 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/semantic_app` | 9.90 | Project source, models or unidentified cache data; retained |
+| `D:/dia-round-fifteen-demo` | 7.39 | DIA worktree/local data; unique or protected contents retained |
+| `D:/data_investigation_agent\.local\round-eleven` | 4.41 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/data_investigation_agent\.local\round-sixteen` | 4.02 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/data_investigation_agent\.local\round-ten-20261007` | 3.82 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/data_investigation_agent\.local\round-eighteen` | 3.51 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/data_investigation_agent\.local\round-twenty` | 3.02 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/data_investigation_agent\.local\round-nineteen` | 1.61 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/split_loop` | 1.27 | Retained installed tool, project or unidentified data; inspect before deletion |
+| `D:/data_investigation_agent\.local\planner-recordings` | 0.75 | DIA local environments, captures, ledgers and protected evidence |
+| `D:/data_investigation_agent\.local\round-twenty-six` | 0.75 | Current Round26 evidence and maintenance records; protected |
+| `D:/vilsem-core-release-050` | 0.74 | Retained installed tool, project or unidentified data; inspect before deletion |
+| `D:/data_investigation_agent\.local\round-seven-20261005` | 0.65 | Historical DIA evidence with protected/referenced/unknown members |
+| `D:/vilsem-fresh-test` | 0.55 | Retained installed tool, project or unidentified data; inspect before deletion |
+| `D:/vilsem-copilot-test2` | 0.55 | Retained installed tool, project or unidentified data; inspect before deletion |
+| `D:/vilsem-copilot-test` | 0.55 | Retained installed tool, project or unidentified data; inspect before deletion |
+| `D:/data_investigation_agent\.local\unknown-domain-v4` | 0.48 | DIA local environments, captures, ledgers and protected evidence |
+| `D:/dia-r18-guardrails` | 0.40 | DIA worktree/local data; unique or protected contents retained |
+
+### Mixed caches retained for owner review
+
+Only identified dependencies/build products within these locations were removed. Remaining material is not assumed regenerable.
+
+| Folder | Remaining logical GB | Disposition |
+|---|---:|---|
+| `D:/semantic_app/cache` | 3.43 | Remaining contents retained; no blanket deletion |
+| `D:/cache` | 0.00 | Remaining contents retained; no blanket deletion |
+| `C:/Users/chait/AppData/Local/Temp/claude` | 0.40 | Remaining contents retained; no blanket deletion |
+| `C:/temp/claude` | absent | Remaining contents retained; no blanket deletion |
+
+### Process check
+
+No obsolete Python ticket or grader worker was found in the closing process inventory. The archive launcher/worker are allowed to complete and exit; active shell/Node support processes and unidentified application state are retained. No arbitrary application termination is claimed. Sanitized process snapshots are in the private maintenance directory.
+
+### Result and next step
+
+Both owner free-space targets were reached. Protected data remains; reaching the target did not authorize deletion of unknown or unpushed material.
+Owner overnight steer2026-11-16: skip every administrative prompt, UAC or sign-in task; leave it for the morning, without retrying through another route. The existing owner-admin-cleanup.ps1 remains unexecuted. Standing hygiene is recorded in CLAUDE.md; laptop admission requires decimal40GB C:/80GB D:. Current source includes a tested host-only admission check; frozen cloud investigation image and recorded measurements are unchanged.
+Next: verify the preserved Round26 environment/image/fixture/infrastructure, then resume release closure from saved results. Calibration is final2/10 with two harmful answers, so v5 stays sealed/unadmitted. Do not repeat stale cohorts, calibration or the three already-passed release smokes.
