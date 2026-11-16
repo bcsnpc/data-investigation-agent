@@ -1,0 +1,330 @@
+{
+  "status": "RELEASED",
+  "recorded_at_utc": "2026-11-16T08:01:42.184541+00:00",
+  "pr": 434,
+  "merge_commit": "149d290d043bf716b4175a50f2832cf433987c41",
+  "merge_commit_parents": [
+    "188077989737446237b4aa01b6e07101470eaaad",
+    "4b887440794ec2adc9f9d92b3c7f7e6c830e3dd8"
+  ],
+  "tag": "v0.26",
+  "remote_peeled_tag_commit": "149d290d043bf716b4175a50f2832cf433987c41",
+  "tag_object": "809db4f4a08d93e15bf231a713d93417c3030b76",
+  "ready_head": "4b887440794ec2adc9f9d92b3c7f7e6c830e3dd8",
+  "ready_head_checks": [
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133155617871",
+      "name": "publish",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152865024",
+      "name": "offline-shards (0)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152864848",
+      "name": "full-repository",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152865130",
+      "name": "offline-shards (7)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152865051",
+      "name": "offline-shards (3)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152864979",
+      "name": "offline-shards (1)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152864941",
+      "name": "offline-shards (5)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152865041",
+      "name": "offline-shards (4)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152865156",
+      "name": "offline-shards (2)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152864998",
+      "name": "offline-shards (6)",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152867084",
+      "name": "focused-dev",
+      "state": "SKIPPED"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724260/job/133152479619",
+      "name": "portal",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724491/job/133152480919",
+      "name": "round-ten-earned-3",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724491/job/133152480354",
+      "name": "round-ten-earned-2",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724420/job/133152479993",
+      "name": "round-thirteen-billing-metadata-replay",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724260/job/133152479803",
+      "name": "generator-tests",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724328/job/133152480294",
+      "name": "ledger-access-rotation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724491/job/133152480660",
+      "name": "round-ten-earned-1",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724260/job/133152479492",
+      "name": "model-step-regression",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724413/job/133152480244",
+      "name": "deny-by-default",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724390/job/133152479971",
+      "name": "current-intake-evaluation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724260/job/133152479680",
+      "name": "powershell-syntax",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724319/job/133152479760",
+      "name": "build",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724275/job/133152479414",
+      "name": "known-domain-acceptance",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823724491/job/133152480732",
+      "name": "round-ten-earned-4",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823717629/job/133152460079",
+      "name": "powershell-syntax",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823717629/job/133152460369",
+      "name": "model-step-regression",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823717458/job/133152459593",
+      "name": "ledger-access-rotation",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823717412/job/133152459407",
+      "name": "deny-by-default",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823717629/job/133152460298",
+      "name": "generator-tests",
+      "state": "SUCCESS"
+    },
+    {
+      "link": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43823717629/job/133152460168",
+      "name": "portal",
+      "state": "SUCCESS"
+    }
+  ],
+  "merge_ci_runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 43825913877,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "149d290d043bf716b4175a50f2832cf433987c41",
+      "status": "completed",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913877",
+      "workflowName": "Round Thirteen billing metadata replay"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43825913754,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "149d290d043bf716b4175a50f2832cf433987c41",
+      "status": "completed",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913754",
+      "workflowName": "Validation"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43825913900,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "149d290d043bf716b4175a50f2832cf433987c41",
+      "status": "completed",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913900",
+      "workflowName": "Cloud worker offline foundation"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43825913930,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "149d290d043bf716b4175a50f2832cf433987c41",
+      "status": "completed",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913930",
+      "workflowName": "Round Ten earned acceptance"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43825913951,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "149d290d043bf716b4175a50f2832cf433987c41",
+      "status": "completed",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913951",
+      "workflowName": "Live access guardrail red team"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43825913927,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "149d290d043bf716b4175a50f2832cf433987c41",
+      "status": "completed",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913927",
+      "workflowName": "Round Twenty-One foundation"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 43825913968,
+      "event": "push",
+      "headBranch": "main",
+      "headSha": "149d290d043bf716b4175a50f2832cf433987c41",
+      "status": "completed",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913968",
+      "workflowName": "Known-domain acceptance"
+    }
+  ],
+  "merge_full_suite": {
+    "tests": 5916,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 53,
+    "xml_sha256": "aa16e677a44ec1f7d8eb38339af5c2dc4f4d80e8d441aa95df9974881f71223f"
+  },
+  "all_eight_image_contract_shards": "PASS",
+  "smokes": [
+    {
+      "attempt": 1,
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "PASS",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "execution": {
+        "endTime": "2026-11-11T06:38:18+00:00",
+        "execution_name": "job-dia-worker-qocowt7",
+        "startTime": "2026-11-11T06:31:53+00:00",
+        "status": "Succeeded"
+      },
+      "pass": true,
+      "seal": "3519a93d0222a4f962c27dc2318c2498dd577dcd70f70ea208bcceef6c825667",
+      "status": "PASS"
+    },
+    {
+      "attempt": 2,
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "PASS",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "execution": {
+        "endTime": "2026-11-11T06:46:40+00:00",
+        "execution_name": "job-dia-worker-1r3vuxs",
+        "startTime": "2026-11-11T06:38:36+00:00",
+        "status": "Succeeded"
+      },
+      "pass": true,
+      "seal": "fa4a4ad46e45c0b0cf22ce0f4844ea3fe810947a0a7b7207bcff4ca4d888fcdb",
+      "status": "PASS"
+    },
+    {
+      "attempt": 3,
+      "checks": {
+        "blob_write_read": "PASS",
+        "check_access": "PASS",
+        "family_a_demo": "PASS",
+        "gold_read": "PASS",
+        "postgres_write_read": "PASS",
+        "sign_in": "PASS"
+      },
+      "execution": {
+        "endTime": "2026-11-11T06:53:27+00:00",
+        "execution_name": "job-dia-worker-ve7k0io",
+        "startTime": "2026-11-11T06:47:02+00:00",
+        "status": "Succeeded"
+      },
+      "pass": true,
+      "seal": "2fa99ffe7dfad0f48820a6f1be4eee9d9a1c17ad51fe207357df6edac01ca2eb",
+      "status": "PASS"
+    }
+  ],
+  "quality": "Calibration2/10 with2confirmed harmful; v5FAILED/SEALED/NOTRUN, not0/40",
+  "end_round_disk_check": {
+    "status": "PASS",
+    "drives": {
+      "C:/": {
+        "free_bytes": 73865056256,
+        "minimum_free_bytes": 40000000000
+      },
+      "D:/": {
+        "free_bytes": 197795348480,
+        "minimum_free_bytes": 80000000000
+      }
+    }
+  },
+  "end_round_hygiene": "Eligible cleanup complete; no new worktree or duplicate raw capture copy; Docker absent. Protected current local evidence retained; sealed cloud captures remain in Blob.",
+  "summary_worktree": "C:/temp/dia-r26-build; dirty D:/data_investigation_agent main worktree preserved",
+  "published_or_deployed_new_cloud_image": false
+}

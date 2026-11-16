@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "recorded_at_utc": "2026-11-16T07:52:40.685303+00:00",
+  "workflow_run": 43825913900,
+  "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/43825913900",
+  "tested_head": "149d290d043bf716b4175a50f2832cf433987c41",
+  "full_repository": {
+    "tests": 5916,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 53,
+    "xml_sha256": "aa16e677a44ec1f7d8eb38339af5c2dc4f4d80e8d441aa95df9974881f71223f"
+  },
+  "all_eight_image_contract_shards": "PASS",
+  "frozen_investigation_source": "ca249b730f463661b1d8ad7cf1e7a1794cd0073a",
+  "post_measurement_source_changes": [
+    "scripts/investigator/adapters/runner_deployment.py",
+    "scripts/investigator/disk_hygiene.py",
+    "scripts/investigator/investigator_harness.py",
+    "scripts/investigator/unified_runner.py",
+    "scripts/test_disk_hygiene.py"
+  ],
+  "source_diff_sha256": "d5e164630eedbadd672c1530a881cdefc2cfb1cd51e7663b0ea026b4f2630e1d",
+  "change_scope": "owner-approved laptop admission only; no scored engine rerun",
+  "live_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e59d3d97ee706a1666650b4dfbc7b1f7020ee044274ed73862c81d9d822a4770",
+  "published_or_deployed_image": false,
+  "artifact_verification": "XML locally hashed; no claim of independently checked ZIP digest"
+}

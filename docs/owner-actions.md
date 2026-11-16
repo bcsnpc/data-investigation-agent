@@ -889,3 +889,8 @@ No obsolete Python ticket or grader worker was found in the closing process inve
 Both owner free-space targets were reached. Protected data remains; reaching the target did not authorize deletion of unknown or unpushed material.
 Owner overnight steer2026-11-16: skip every administrative prompt, UAC or sign-in task; leave it for the morning, without retrying through another route. The existing owner-admin-cleanup.ps1 remains unexecuted. Standing hygiene is recorded in CLAUDE.md; laptop admission requires decimal40GB C:/80GB D:. Current source includes a tested host-only admission check; frozen cloud investigation image and recorded measurements are unchanged.
 Next: verify the preserved Round26 environment/image/fixture/infrastructure, then resume release closure from saved results. Calibration is final2/10 with two harmful answers, so v5 stays sealed/unadmitted. Do not repeat stale cohorts, calibration or the three already-passed release smokes.
+
+
+### Round26 end-of-round hygiene — 2026-11-16
+
+Release closure reused the existing C:/temp/dia-r26-build worktree; dirty D: main edits remain untouched. No new duplicate raw capture copy or worktree was created. The disk admission check passes both40GB C:/80GB D: floors; verified archive staging is empty, Docker/WSL absent, and maintenance Python workers exited. Current protected evidence and small qualification records remain; sealed cloud captures remain in Blob. The earlier admin/policy/unknown-material exceptions remain owner actions, not silent deletions.
