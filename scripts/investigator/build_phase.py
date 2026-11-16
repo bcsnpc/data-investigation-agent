@@ -226,10 +226,17 @@ def physical_group_rows(groups):
 def round24_limits(now):
     policy=POLICY.get('round24')
     if not policy or now < datetime.fromisoformat(policy['effective_at']).timestamp():return None
-    return policy['october'] if month_window(now)[0]=='2026-10' else policy['default']
+    month = month_window(now)[0]
+    current = policy['october'] if month == '2026-10' else policy['default']
+    override = POLICY.get('round26', {}).get('monthly_physical_overrides', {}).get(month)
+    if override:
+        return {**current, 'total_limit': override['total_limit'], 'limits': dict(override['limits'])}
+    return current
 
 
 def model_ceiling(now):
+    override=POLICY.get('monthly_model_overrides',{}).get(month_window(now)[0])
+    if override is not None and month_window(now)[0]>='2026-11':return override['ceiling_microdollars']
     current=round24_limits(now)
     if current is not None:return current['model_microdollars']
     month=month_window(now)[0]
@@ -270,6 +277,13 @@ def ensure_model_account(state, now, *, provision=False):
     from .shared_state import sha, encoded
     month, _, _ = month_window(now)
     account = 'model-microdollars:' + month
+    if state.backend == 'postgresql' and not provision:
+        present = state._read_transaction(lambda db: state.sql(db,
+            'SELECT 1 FROM state_accounts WHERE identity=?', (account,)).fetchone())
+        if not present:
+            from .model_spend import SpendHold
+            raise SpendHold('MONTHLY_MODEL_ACCOUNT_NOT_PROVISIONED:'+account)
+        return account
     with state.transaction() as db:
         if state.sql(db, 'SELECT 1 FROM state_accounts WHERE identity=?', (account,)).fetchone():
             return account

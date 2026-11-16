@@ -1,0 +1,46 @@
+[
+  {
+    "check": "sessions",
+    "duration_seconds": 3.962853899996844,
+    "rows": [
+      [
+        "active",
+        null,
+        null,
+        1
+      ]
+    ]
+  },
+  {
+    "check": "reservation_volume",
+    "duration_seconds": 0.4309823000075994,
+    "rows": [
+      [
+        "model-microdollars:2026-10",
+        2014
+      ],
+      [
+        "enrichment:round-twenty-one",
+        1085
+      ],
+      [
+        "model-microdollars:2026-11",
+        501
+      ],
+      [
+        "model-microdollars",
+        6
+      ]
+    ]
+  },
+  {
+    "check": "reservation_indexes",
+    "duration_seconds": 0.4304409000033047,
+    "rows": [
+      [
+        "state_reservations_pkey",
+        "CREATE UNIQUE INDEX state_reservations_pkey ON dia_state.state_reservations USING btree (account, identity)"
+      ]
+    ]
+  }
+]

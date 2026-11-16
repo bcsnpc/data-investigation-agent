@@ -1,3 +1,5 @@
+import os as _test_os
+from unittest.mock import patch as _test_patch
 """Synthetic federation, principal binding and no credential leakage."""
 import copy
 import io
@@ -22,6 +24,7 @@ def policy():
         {'method':'POST','url':URL,'purpose':'auth_federation','authentication':D,'scope':SCOPE}]}}}
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class FederationTests(unittest.TestCase):
     def test_public_exchange_resource_id_is_same_audience_not_an_arbitrary_guid(self):
         grant=policy()['identities'][auth.channel(D,SCOPE)]['http'][0]

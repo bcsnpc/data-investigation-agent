@@ -1,0 +1,14 @@
+{
+  "status": "PLUMBING_FAILURE_UNSCORED",
+  "execution": "job-dia-worker-cr3km0a",
+  "run_id": "3876c614-24ee-4f0a-813b-6eb6f9a4e101",
+  "ticket": "v2-application-baseline-v1",
+  "column": "sol-cascade",
+  "error": "GUIDED_OWNER_DIAGNOSTIC_CACHE_REQUIRED",
+  "cause": "Retired Round23 diagnostic spec restriction still pinned caching to Opus plus diagnostic budget; rejected configured Sol before any investigation or model dispatch.",
+  "capture": "benchmark-first-plumbing",
+  "replacement_allowed": 1,
+  "replacement_submitted": false,
+  "source": "7a49be3e",
+  "image": "sha256:32fcea45b331c0bfe27eb19eeabd509a8f3042f9fe7496f62f71eaf87fe83d1c"
+}

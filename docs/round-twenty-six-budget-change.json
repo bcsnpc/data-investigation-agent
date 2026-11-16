@@ -1,0 +1,90 @@
+{
+  "observed_at_utc": "2026-11-01T16:50:03.176516+00:00",
+  "approval": "owner Round26 2026-11-01",
+  "before": {
+    "providers": {
+      "month_utc": "2026-11",
+      "providers": {
+        "anthropic": {
+          "charged_microdollars": 30526751,
+          "committed_microdollars": 30526751,
+          "ceiling_microdollars": 150000000,
+          "warning_microdollars": 100000000,
+          "warning": false
+        },
+        "openai": {
+          "ceiling_microdollars": 180000000,
+          "warning_microdollars": 140000000,
+          "charged_microdollars": 0,
+          "committed_microdollars": 0,
+          "provisioned": false,
+          "warning": false
+        }
+      },
+      "combined_charged_microdollars": 30526751,
+      "combined_committed_microdollars": 30526751
+    },
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-11",
+      "used": {
+        "INVESTIGATION": 1560,
+        "RESTORATION": 18,
+        "SCAN": 177
+      },
+      "limits": {
+        "SCAN": 2500,
+        "INVESTIGATION": 6405,
+        "RESTORATION": 95
+      },
+      "total": 1755,
+      "total_limit": 9000,
+      "historical_restoration_requests": 0,
+      "restoration_remaining": 77,
+      "warnings": []
+    }
+  },
+  "after": {
+    "providers": {
+      "month_utc": "2026-11",
+      "providers": {
+        "anthropic": {
+          "charged_microdollars": 30526751,
+          "committed_microdollars": 30526751,
+          "ceiling_microdollars": 150000000,
+          "warning_microdollars": 100000000,
+          "warning": false
+        },
+        "openai": {
+          "ceiling_microdollars": 180000000,
+          "warning_microdollars": 140000000,
+          "charged_microdollars": 0,
+          "committed_microdollars": 0,
+          "provisioned": true,
+          "warning": false
+        }
+      },
+      "combined_charged_microdollars": 30526751,
+      "combined_committed_microdollars": 30526751
+    },
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-11",
+      "used": {
+        "INVESTIGATION": 1560,
+        "RESTORATION": 18,
+        "SCAN": 177
+      },
+      "limits": {
+        "SCAN": 2500,
+        "INVESTIGATION": 6405,
+        "RESTORATION": 95
+      },
+      "total": 1755,
+      "total_limit": 9000,
+      "historical_restoration_requests": 0,
+      "restoration_remaining": 77,
+      "warnings": []
+    }
+  }
+}

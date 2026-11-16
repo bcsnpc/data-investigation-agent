@@ -1,0 +1,48 @@
+{
+  "reason": "Deploy fully tested generic fixes and Anthropic calibration/v5 purpose restriction; no new execution admitted",
+  "before": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:118253a7ae0ab7bac5dd178a36f6983e2a83a8091876c05df8b653421c94e50a",
+    "resources": {
+      "cpu": 0.5,
+      "memory": "1Gi"
+    },
+    "identity": {
+      "type": "UserAssigned",
+      "userAssignedIdentities": {
+        "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourcegroups/rg-dia-platform/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-dia-worker": {
+          "clientId": "4a0140cc-f1b5-4b08-852d-8fcab6c130e8",
+          "principalId": "21e3405b-57e9-4581-834e-971b465f80ec"
+        }
+      }
+    },
+    "schedule": {
+      "cronExpression": "0 6 * * *",
+      "parallelism": 1,
+      "replicaCompletionCount": 1
+    },
+    "timeout": 3600
+  },
+  "after": {
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:fbcab3129e22114fc47dc62fcb9f5e41647cd7812acef091365dca7495d17871",
+    "resources": {
+      "cpu": 0.5,
+      "memory": "1Gi"
+    },
+    "identity": {
+      "type": "UserAssigned",
+      "userAssignedIdentities": {
+        "/subscriptions/d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9/resourcegroups/rg-dia-platform/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-dia-worker": {
+          "clientId": "4a0140cc-f1b5-4b08-852d-8fcab6c130e8",
+          "principalId": "21e3405b-57e9-4581-834e-971b465f80ec"
+        }
+      }
+    },
+    "schedule": {
+      "cronExpression": "0 6 * * *",
+      "parallelism": 1,
+      "replicaCompletionCount": 1
+    },
+    "timeout": 3600
+  },
+  "workflow": 41556845874
+}

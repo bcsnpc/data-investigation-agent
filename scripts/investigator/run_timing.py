@@ -3,6 +3,29 @@ import time
 from datetime import datetime,timezone
 
 
+class GuidedTiming:
+    """Observation only: no timing field is sent in a model request."""
+    def __init__(self,context,*,now=None):
+        self.context=context;self.now=now or (lambda:datetime.now(timezone.utc).isoformat())
+        started=getattr(context,'started_at',None)
+        self.stamps={'worker_started_at_utc':datetime.fromtimestamp(started,timezone.utc).isoformat()
+                     if isinstance(started,(float,int)) else None,
+                     'guided_started_at_utc':self.now(),'first_model_dispatch_at_utc':None,
+                     'answer_completed_at_utc':None,
+                     'first_model_time_source':'CLIENT_DISPATCH_INTENT_AFTER_RESERVATION_BEFORE_SEND'}
+    def __getattr__(self,name):return getattr(self.context,name)
+    def record(self,kind,value):
+        if (kind=='guided-case-event' and isinstance(value,dict)
+                and value.get('event')=='REASONING_REQUEST' and self.stamps['first_model_dispatch_at_utc'] is None):
+            self.stamps['first_model_dispatch_at_utc']=self.now()
+        return self.context.record(kind,value)
+    def finish(self,result):
+        self.stamps['answer_completed_at_utc']=self.now()
+        result.setdefault('timing',{})['timestamps']=dict(self.stamps)
+        self.context.record('guided-observational-timestamps',dict(self.stamps))
+        return result
+
+
 class RunTiming:
     def __init__(self,clock=None):
         self.clock=clock or time.perf_counter;self.started=self.clock()

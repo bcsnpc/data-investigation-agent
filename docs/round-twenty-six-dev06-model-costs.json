@@ -1,0 +1,43 @@
+{
+  "scope": "Final same-image failed-only pass; partial until28 outcomes saved",
+  "saved_outcomes": 28,
+  "rows": [
+    {
+      "step": "INTAKE",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "calls": 37,
+      "actual_microdollars": 1229330,
+      "input_tokens": 2527232,
+      "cached_input_tokens": 2101476,
+      "output_tokens": 8680,
+      "actual_usd_per_call": 0.033225135135135135,
+      "cached_input_ratio": 0.8315326808144247
+    },
+    {
+      "step": "INTAKE_FALLBACK",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "calls": 29,
+      "actual_microdollars": 6932850,
+      "input_tokens": 2033693,
+      "cached_input_tokens": 1580076,
+      "output_tokens": 5762,
+      "actual_usd_per_call": 0.23906379310344827,
+      "cached_input_ratio": 0.7769491265397481
+    },
+    {
+      "step": "INVESTIGATOR",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "calls": 84,
+      "actual_microdollars": 12853003,
+      "input_tokens": 2722082,
+      "cached_input_tokens": 1802369,
+      "output_tokens": 16578,
+      "actual_usd_per_call": 0.15301194047619046,
+      "cached_input_ratio": 0.6621288410856102
+    }
+  ],
+  "cost_basis": "Actual normalized provider usage, not reservation size; grader and soundness-review calls are separate from investigation calls."
+}

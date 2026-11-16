@@ -1,0 +1,208 @@
+{
+  "source": "https://pricing.us-east-1.amazonaws.com/offers/v1.0/aws/AmazonBedrock/current/us-east-1/index.json",
+  "publicationDate": "2026-10-30T16:04:56Z",
+  "region": "us-east-1",
+  "products": [
+    {
+      "sku": "ARFVY95XGU794VBG",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaPro-output-tokens",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Output tokens",
+        "model": "Nova Pro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0032000000",
+          "description": "$ 0.0032 per 1K tokens for Nova Pro-output-tokens in us-east-1 (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "sku": "4GSM2HNMJEMXJEDM",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaPro-cache-read-input-token-count",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Prompt cache read input tokens",
+        "model": "Nova Pro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0002000000",
+          "description": "$0.0002 per 1K cache read input tokens of Nova Pro in US East (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "sku": "7JUJCEZMJF9JADGK",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaMicro-cache-write-input-token-count",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Prompt cache write input tokens",
+        "model": "Nova Micro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0000000000",
+          "description": "$0.00 per 1K tokens for USE1-NovaMicro-cache-write-input-token-count in US East (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "sku": "XAR69MSGZSU6FEM9",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaMicro-input-tokens",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Input tokens",
+        "model": "Nova Micro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0000350000",
+          "description": "$ 0.000035 per 1K tokens for Nova Micro-input-tokens in us-east-1 (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "sku": "ZQ5FR9UVF8V64SX8",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaMicro-cache-read-input-token-count",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Prompt cache read input tokens",
+        "model": "Nova Micro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0000087500",
+          "description": "$0.00000875 per 1K cache read input tokens of Nova Micro in US East (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "sku": "8X836UXRHN5Q5T2H",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaPro-input-tokens",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Input tokens",
+        "model": "Nova Pro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0008000000",
+          "description": "$ 0.0008 per 1K tokens for Nova Pro-input-tokens in us-east-1 (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "sku": "YUSGHKDUPQRC75RK",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaMicro-output-tokens",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Output tokens",
+        "model": "Nova Micro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0001400000",
+          "description": "$ 0.00014 per 1K tokens for Nova Micro-output-tokens in us-east-1 (N. Virginia)"
+        }
+      ]
+    },
+    {
+      "sku": "XQ27CMF66QP5ZU2W",
+      "attributes": {
+        "servicecode": "AmazonBedrock",
+        "location": "US East (N. Virginia)",
+        "locationType": "AWS Region",
+        "usagetype": "USE1-NovaPro-cache-write-input-token-count",
+        "operation": "",
+        "feature": "On-demand Inference",
+        "inferenceType": "Prompt cache write input tokens",
+        "model": "Nova Pro",
+        "regionCode": "us-east-1",
+        "servicename": "Amazon Bedrock"
+      },
+      "prices": [
+        {
+          "unit": "1K tokens",
+          "usd": "0.0000000000",
+          "description": "$0.00 per 1K tokens for USE1-NovaPro-cache-write-input-token-count in US East (N. Virginia)"
+        }
+      ]
+    }
+  ],
+  "smoke": {
+    "cache_read_ratio": 0.0,
+    "cost_microdollars": 24,
+    "estate_reads": 0,
+    "investigator_run": false,
+    "model": "amazon.nova-micro-v1:0",
+    "normalized_usage": {
+      "cache_write_tokens": 0,
+      "cached_input_tokens": 0,
+      "input_tokens": 433,
+      "output_tokens": 61
+    },
+    "passed": true,
+    "tool_calls": 1
+  },
+  "identity": {
+    "arn": "arn:aws:iam::890968193286:user/dia-bedrock",
+    "identity_setup": "owner already provisioned; noIAMcommandsornewkeybyagent",
+    "credentials_only_in_keyvault": true,
+    "region": "us-east-1"
+  },
+  "owner_login": "skipped per owner: keys alreadyinKeyVault; AWS logout found no session/cache",
+  "agent_created_iam_identity_or_key": false,
+  "iam_permission_listing": "Not established from the invocation-only key; no IAM introspection grant added",
+  "credential_values_in_receipt": false
+}

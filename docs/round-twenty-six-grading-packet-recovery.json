@@ -1,0 +1,35 @@
+{
+  "scope": "Dev06 unsent grading packets only; not an investigator engine change",
+  "reason": "EXACT_GRADER_PACKET_DOES_NOT_FIT before any provider dispatch",
+  "repair": "Shorten only reversible opaque-address aliases from grading_ref_N to collision-checked gN; existing exact lossless pool and round-trip assertions retained",
+  "maximum_task_bytes": 23920,
+  "task_bound": 24000,
+  "outcomes_expectations_scores_and_original_captures_unchanged": true,
+  "grading_criteria_unchanged": true,
+  "existing_labelled_row_and_history_sampling_policy_unchanged": true,
+  "failed_preparations_preserved": [
+    "grading/form-batch02-unsent-oversized",
+    "grading/form-batch02-unsent-oversized-atom"
+  ],
+  "no_ticket_rerun": true,
+  "additional_unsent_history_packet_repair": [
+    "Short opaque-address references cover native URI fields generically, while query/prose/row literals stay protected",
+    "Exact JSON-string wrappers and multi-parent verbatim slices round-trip without changing content",
+    "Existing labelled native-history sampling is applied consistently to both runs and recent_runs views; full history remains in immutable captures"
+  ],
+  "history_packet_bytes": 23199,
+  "checks": {
+    "actual_history_packet_outer_pool_roundtrip": true,
+    "synthetic_roundtrips": 3,
+    "alias_and_JSON_unwrap_roundtrip_asserted_per_packet": true,
+    "sealed_expectation_hashes_unchanged": true
+  },
+  "secondary_schema_retry": {
+    "case": "round26-dev06-form-v2-source-history-v1",
+    "original_response": "Missing required verdict_match; response and normalized charge preserved",
+    "action": "One fresh same-task independent secondary call, schema-valid; no operator-inferred field, no ticket rerun, no uncertainty refund",
+    "provider": "openai",
+    "model": "gpt-6.1-sol",
+    "engine_unchanged": true
+  }
+}

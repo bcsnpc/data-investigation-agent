@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import time
+from datetime import datetime,timezone
 
 from .estate_graph_contract import digest
 from .planner_recording import _safe
@@ -28,7 +29,8 @@ class CaseLog:
 
     def append(self, event, value):
         body = {'sequence': len(self.events), 'previous': self.events[-1]['sha256'] if self.events else None,
-                'event': event, 'value': copy.deepcopy(value)}
+                'event': event, 'value': copy.deepcopy(value),
+                'recorded_at_utc':datetime.now(timezone.utc).isoformat()}
         body['sha256'] = digest(body); raw = bytes_of(body); _safe(raw)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self.path.open('ab') as stream:
@@ -56,6 +58,8 @@ class RunHarness:
             if any(v['event']=='SUBMIT_ATTEMPT'for v in self.log.events):
                 raise RunStillActive('SUBMISSION_UNCERTAIN_RECONCILE_BEFORE_RETRY')
             try:
+                from .disk_hygiene import require_laptop_headroom
+                require_laptop_headroom()
                 admission = self.admit(ticket)
                 if admission is not None:self.log.append('ADMISSION', admission)
             except Exception as error:

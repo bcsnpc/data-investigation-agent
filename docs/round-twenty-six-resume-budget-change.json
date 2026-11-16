@@ -1,0 +1,74 @@
+{
+  "observed_at": "2026-11-02T02:46:34.312306+00:00",
+  "approval": "owner round-26-resume-plus-bedrock.md dated2026-11-01",
+  "before": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 48943582,
+        "committed_microdollars": 48943582,
+        "ceiling_microdollars": 150000000,
+        "warning_microdollars": 100000000,
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 180000000,
+        "warning_microdollars": 140000000,
+        "charged_microdollars": 68263052,
+        "committed_microdollars": 68263052,
+        "provisioned": true,
+        "warning": false
+      },
+      "bedrock": {
+        "ceiling_microdollars": 5000000,
+        "warning_microdollars": 4000000,
+        "scope": "round26-total",
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 0,
+        "committed_microdollars": 0,
+        "provisioned": false,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 117206634,
+    "combined_committed_microdollars": 117206634
+  },
+  "after": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 48943582,
+        "committed_microdollars": 48943582,
+        "ceiling_microdollars": 74943582,
+        "warning_microdollars": 100000000,
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 180000000,
+        "warning_microdollars": 140000000,
+        "charged_microdollars": 68263052,
+        "committed_microdollars": 68263052,
+        "provisioned": true,
+        "warning": false
+      },
+      "bedrock": {
+        "ceiling_microdollars": 5000000,
+        "warning_microdollars": 4000000,
+        "scope": "round26-total",
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 0,
+        "committed_microdollars": 0,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 117206634,
+    "combined_committed_microdollars": 117206634
+  },
+  "anthropic_additional_allowance_microdollars": 26000000,
+  "untouched_credit_margin_microdollars": 3000000,
+  "balance_verification": "Provider credit balance unverified: existing workspace key cannot access admin usage/cost API; API usage is not prepaid balance. Conservative owner29USD upper bound used, no newcredential requested.",
+  "aws_scope": "5USDtotalround26; onlyNova; noAzureallocationchanged"
+}

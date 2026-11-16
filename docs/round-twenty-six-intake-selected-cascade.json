@@ -1,0 +1,305 @@
+{
+  "kind": "SAVED_SOL_FIRST_LEG_PLUS_ONE_ASTRA_FALLBACK_NOT_AN_INVESTIGATION_SCORE",
+  "first_leg_reused": true,
+  "records": 40,
+  "ready": 29,
+  "fallback_tickets": 13,
+  "first_leg_cost_microdollars": 1520745,
+  "total_cost_microdollars": 7733820,
+  "estate_reads": 0,
+  "cases": [
+    {
+      "id": "R17-01-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-02-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-03-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-04-v1",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 2,
+      "fallback_cost_microdollars": 275500,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-05-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-06-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-07-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-08-v1",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 2,
+      "fallback_cost_microdollars": 1022713,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-09-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-10-v1",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 2,
+      "fallback_cost_microdollars": 273090,
+      "estate_reads": 0
+    },
+    {
+      "id": "R17-11-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "R17-12-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "failed-fixture-load-v1",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "failed-fixture-load-v2",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "failed-billing-transform-v1",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "failed-billing-transform-v2",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "failed-billing-load-v1",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "failed-billing-load-v2",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "baseline-S01-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "baseline-S01-v2",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "baseline-S02-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "baseline-S02-v2",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "baseline-S03-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "baseline-S03-v2",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "access-export-1-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6-astra",
+      "fallback_calls": 2,
+      "fallback_cost_microdollars": 290757,
+      "estate_reads": 0
+    },
+    {
+      "id": "access-export-1-v2",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "different-warehouse-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "different-warehouse-v2",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 2,
+      "fallback_cost_microdollars": 252500,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900501-v1",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 4,
+      "fallback_cost_microdollars": 818970,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900501-v2",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 3,
+      "fallback_cost_microdollars": 406145,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900502-v1",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 4,
+      "fallback_cost_microdollars": 589270,
+      "estate_reads": 0
+    },
+    {
+      "id": "latency-900502-v2",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 4,
+      "fallback_cost_microdollars": 772310,
+      "estate_reads": 0
+    },
+    {
+      "id": "history-source-900201-v1",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "history-source-900201-v2",
+      "status": "READY",
+      "resolved_by_model": "gpt-6.1-sol",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "older-export-movement-1-v1",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 2,
+      "fallback_cost_microdollars": 331650,
+      "estate_reads": 0
+    },
+    {
+      "id": "older-export-movement-1-v2",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 2,
+      "fallback_cost_microdollars": 332260,
+      "estate_reads": 0
+    },
+    {
+      "id": "stale-total-v1",
+      "status": "NEEDS_INPUT",
+      "resolved_by_model": null,
+      "fallback_calls": 3,
+      "fallback_cost_microdollars": 430635,
+      "estate_reads": 0
+    },
+    {
+      "id": "stale-total-v2",
+      "status": "READY",
+      "resolved_by_model": "gpt-6-astra",
+      "fallback_calls": 3,
+      "fallback_cost_microdollars": 417275,
+      "estate_reads": 0
+    },
+    {
+      "id": "waiting-fixture-load-v1",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    },
+    {
+      "id": "waiting-fixture-load-v2",
+      "status": "READY",
+      "resolved_by_model": "NO_MODEL_OPERATIONAL",
+      "fallback_calls": 0,
+      "fallback_cost_microdollars": 0
+    }
+  ]
+}

@@ -18,3 +18,12 @@ acceptance/oracle/oracle-seal-before-a1.json -text
 # Raw-byte independent billing expectation seal.
 acceptance/billing/independent-expectations.json -text
 acceptance/billing/independent-expectations-seal.json -text
+
+# Materialize the original Windows bytes pinned by historical seals on all runners.
+acceptance/model_steps/intake-round-ten-f-split.json text eol=crlf
+acceptance/oracle/oracle-draft-before-owner-review.json text eol=crlf
+tests/tickets/independent-baseline-arithmetic.json text eol=crlf
+docs/runs/round-twenty-two-failure-controls.json text eol=crlf
+docs/runs/round-twenty-two-context-native.json text eol=crlf
+docs/runs/round-twenty-two-temporal-before-after.json text eol=crlf
+tests/fixtures/round24-route-sources/** -text

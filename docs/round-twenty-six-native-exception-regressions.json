@@ -1,0 +1,94 @@
+{
+  "scope": "PUBLIC_EXCEPTION_METADATA_ONLY_NO_SEALED_TICKET_WORDING",
+  "count": 11,
+  "receipts": [
+    {
+      "receipt": "docs/runs/round25-g2-baseline3-native-exception.json",
+      "sha256": "ef139354dca3fe9edccba022fa4f4e28f4cf0ec1e20b85c83f14c289a1b41988",
+      "ticket_id": "v4-application-baseline-3",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-application-baseline-2-native-exception.json",
+      "sha256": "c595fa340cb7ea7f51f23c242843bf21190c8dc0fdbae22fd1a882bc9a668913",
+      "ticket_id": "v4-application-baseline-2",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-fixture-quantity-3-native-exception.json",
+      "sha256": "626ac026617cfc13234cca4ee7e3745fe66188e4223dcd193d271464af802fd6",
+      "ticket_id": "v4-fixture-quantity-3",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-record-absent-everywhere-1-native-exception.json",
+      "sha256": "f61e67210d30563a88348c1400662da45c39ce6ce9a5484b90b91dd05b89243d",
+      "ticket_id": "v4-record-absent-everywhere-1",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-record-absent-everywhere-2-native-exception.json",
+      "sha256": "cdb9c41fc66993f57799fe38b0a60f3d69520378b80d8146515a5a0a06812221",
+      "ticket_id": "v4-record-absent-everywhere-2",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-record-absent-everywhere-3-native-exception.json",
+      "sha256": "847720cc8159ec28d29920a02e6824bac4e1e42af5fc1264de1a8206978ee6c2",
+      "ticket_id": "v4-record-absent-everywhere-3",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-record-repeated-gold-2-native-exception.json",
+      "sha256": "f006827970557dc52c8eb09b8da1d3e34c3e472f4e55e590917b16efe80b43da",
+      "ticket_id": "v4-record-repeated-gold-2",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-record-repeated-gold-3-native-exception.json",
+      "sha256": "4f3e2a089d2627b51846115ae20f82d9e087549023128aecb9f579a39b41d7b2",
+      "ticket_id": "v4-record-repeated-gold-3",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-warehouse-scope-2-native-exception.json",
+      "sha256": "005d4acfca333c65b891e0bd131bbbd6c064686c17602a701edabdd129266251",
+      "ticket_id": "v4-warehouse-scope-2",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g2-v4-warehouse-scope-3-native-exception.json",
+      "sha256": "e0f88fde526eab367fccf4d87c859059504a4b928e1a1d1465a56ec24b1db0d6",
+      "ticket_id": "v4-warehouse-scope-3",
+      "error_type": "ValueError",
+      "error_message": "COMPARISON_DETAILS_REQUIRED",
+      "regression": "test_round26_intake_fallbacks.ComparisonFallbackTests.test_each_native_comparison_exception_has_generic_reproduction"
+    },
+    {
+      "receipt": "docs/runs/round25-g3-R17-11-v1-native-exception.json",
+      "sha256": "b1285cdd5e161a2b9730b2d09cf5ba1926c347510e7e98d7869c847495afb28c",
+      "ticket_id": "R17-11-v1",
+      "error_type": "URLError",
+      "error_message": "<urlopen error [Errno 99] Cannot assign requested address>",
+      "regression": "test_round26_provider_transport.ProviderTransportTests.test_anthropic_urlerror_regression_retries_without_zeroing_unknown_usage"
+    }
+  ]
+}

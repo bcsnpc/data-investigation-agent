@@ -14,6 +14,30 @@ HEADER={'entry_point':'runner','context_identity':'fixture','config':{},'profile
 
 
 class Timing(unittest.TestCase):
+    def test_guided_timestamps_observe_paid_dispatch_without_changing_native_body(self):
+        from copy import deepcopy
+        from unittest.mock import Mock
+        from investigator.run_timing import GuidedTiming
+        clock=iter(['start','dispatch','finish'])
+        context=SimpleNamespace(started_at=0.0,record=Mock(return_value='reference'),root='root')
+        timed=GuidedTiming(context,now=lambda:next(clock))
+        body={'event':'REASONING_REQUEST','body':{'model':'synthetic','messages':[{'content':'unchanged'}]}}
+        before=deepcopy(body)
+        self.assertEqual(timed.record('guided-case-event',body),'reference')
+        context.record.assert_called_once_with('guided-case-event',before)
+        self.assertEqual(body,before);self.assertEqual(timed.root,'root')
+        result=timed.finish({'status':'ANSWERED'})
+        self.assertEqual(result['timing']['timestamps']['first_model_dispatch_at_utc'],'dispatch')
+        self.assertEqual(result['timing']['timestamps']['answer_completed_at_utc'],'finish')
+
+    def test_no_model_route_never_invents_first_call_time(self):
+        from unittest.mock import Mock
+        from investigator.run_timing import GuidedTiming
+        context=SimpleNamespace(record=Mock())
+        result=GuidedTiming(context,now=lambda:'observed').finish({'status':'NEEDS_INPUT'})
+        self.assertIsNone(result['timing']['timestamps']['first_model_dispatch_at_utc'])
+        self.assertIsNone(result['timing']['timestamps']['worker_started_at_utc'])
+
     def test_step_publish_seal_sidecar_is_observational_and_does_not_rewrite_tape(self):
         with tempfile.TemporaryDirectory() as directory:
             clock=[0.0];sent={}

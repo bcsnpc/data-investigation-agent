@@ -1,0 +1,22 @@
+{
+  "month_utc": "2026-11",
+  "providers": {
+    "anthropic": {
+      "charged_microdollars": 30526751,
+      "committed_microdollars": 30526751,
+      "ceiling_microdollars": 150000000,
+      "warning_microdollars": 100000000,
+      "warning": false
+    },
+    "openai": {
+      "ceiling_microdollars": 180000000,
+      "warning_microdollars": 140000000,
+      "charged_microdollars": 15111366,
+      "committed_microdollars": 15111366,
+      "provisioned": true,
+      "warning": false
+    }
+  },
+  "combined_charged_microdollars": 45638117,
+  "combined_committed_microdollars": 45638117
+}

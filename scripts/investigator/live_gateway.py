@@ -128,8 +128,10 @@ class Gateway:
                 _url(endpoint['url'])
                 if endpoint.get('method') not in ('GET','HEAD','POST','PUT'):
                     _deny('MUTATING_METHOD_IN_POLICY')
-                if endpoint.get('purpose') not in ('metadata','dax','model','reasoning_model','blob_read','kql','platform_blob','auth_refresh','auth_federation','scanner_metadata','scanner_dax','scanner_auth'):
+                if endpoint.get('purpose') not in ('metadata','dax','model','reasoning_model','configured_ai','blob_read','kql','platform_blob','auth_refresh','auth_federation','scanner_metadata','scanner_dax','scanner_auth'):
                     _deny('INVALID_ENDPOINT_PURPOSE')
+                if endpoint.get('purpose') == 'configured_ai' and permissions.get('role') != 'model':
+                    _deny('MODEL_IDENTITY_REQUIRED', identity=identity)
                 if endpoint.get('purpose','').startswith('scanner_')and permissions.get('role')!='scanner':
                     _deny('SCANNER_IDENTITY_REQUIRED',identity=identity)
                 if endpoint['method']=='PUT' and endpoint['purpose']!='platform_blob':
@@ -183,6 +185,18 @@ class Gateway:
         permissions=self.identity(identity);_url(url)
         method=method.upper()
         matches=[item for item in permissions.get('http',[]) if item['method']==method and item['url']==url]
+        if not matches and permissions.get('role')=='reader' and method=='GET' and not body:
+            # Only a cursor on an already granted job-list resource may vary.
+            from urllib.parse import parse_qs
+            parsed=urlsplit(url)
+            try:query=parse_qs(parsed.query,keep_blank_values=True,strict_parsing=True)
+            except ValueError:query={}
+            if (re.fullmatch(r'/v1/workspaces/[0-9a-fA-F-]{36}/items/[0-9a-fA-F-]{36}/jobs/instances',parsed.path)
+                    and set(query)=={'continuationToken'} and len(query['continuationToken'])==1
+                    and 0<len(query['continuationToken'][0])<=8192):
+                base=parsed._replace(query='').geturl()
+                matches=[{**item,'url':url}for item in permissions.get('http',[])
+                         if item['method']=='GET'and item['url']==base and item['purpose']=='metadata']
         if not matches and permissions.get('role')=='scanner':
             from .adapters.scanner_policy import followup
             bound=followup(identity,method,url)
@@ -250,6 +264,10 @@ class Gateway:
             from .adapters.reasoning_anthropic import authorize_body
             try:authorize_body(permissions,method,url,body)
             except Exception:_deny('REASONING_MODEL_REQUEST_REFUSED',identity=identity,target=url)
+        elif purpose=='configured_ai':
+            from .adapters.configured_ai_policy import authorize_body
+            try:authorize_body(permissions,method,url,body)
+            except Exception:_deny('CONFIGURED_AI_REQUEST_REFUSED',identity=identity,target=url)
         elif purpose=='platform_blob':
             if method not in ('GET','HEAD','PUT'):
                 _deny('PLATFORM_BLOB_OPERATION_BLOCKED',identity=identity,target=url)

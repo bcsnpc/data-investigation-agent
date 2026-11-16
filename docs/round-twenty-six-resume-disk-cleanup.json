@@ -1,0 +1,46 @@
+{
+  "approval": "Owner disk steer 2026-11-10",
+  "deleted_categories": [
+    {
+      "category": "Python bytecode caches only",
+      "folders": 3538,
+      "logical_bytes": 808165408,
+      "path_list": ".local\\round-twenty-six\\resume-20261110\\pycache-removed.json"
+    },
+    {
+      "category": "pip cache purge",
+      "files": 674,
+      "reported_bytes": 135200000
+    },
+    {
+      "category": "npm content-cache purge through npm cache clean --force",
+      "remaining_cache_directories": [
+        "_npx",
+        "_prebuilds",
+        "_logs"
+      ],
+      "removed_count_and_bytes_not_measured_separately": true
+    }
+  ],
+  "relocations": [
+    {
+      "from": "D:\\data_investigation_agent\\.local\\round-thirteen",
+      "to": "C:\\temp\\dia-r26-cold-evidence\\round-thirteen",
+      "files_verified": 2164,
+      "status": "HASH_VERIFIED_ORIGINAL_PATH_JUNCTION_RESTORED"
+    },
+    {
+      "from": "D:\\data_investigation_agent\\.local\\round-nineteen-b",
+      "to": "C:\\temp\\dia-r26-cold-evidence\\round-nineteen-b",
+      "files_verified": 640,
+      "status": "HASH_VERIFIED_ORIGINAL_PATH_JUNCTION_RESTORED"
+    }
+  ],
+  "free_d_before_bytes": 6313132032,
+  "free_d_after_bytes": 16492924928,
+  "free_c_after_bytes": 4419264512,
+  "evidence_discarded": false,
+  "old_worktrees_removed": 0,
+  "docker_available": false,
+  "sealed_sets_ledgers_resume_and_r26_evidence_untouched": true
+}

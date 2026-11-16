@@ -1,0 +1,70 @@
+{
+  "scope": "SAVED_DEV_CAPTURE_ONLY_ZERO_ESTATE_OR_MODEL_CALLS",
+  "case": "v2-fixture-quantity-v1",
+  "proof": [
+    {
+      "model": "gpt-6-astra",
+      "request_number": 1,
+      "strict": false,
+      "wire_layer_enum": [
+        "addr170",
+        "addr178",
+        "addr181"
+      ],
+      "current_layer_enum": [],
+      "current_layers_impossible_under_wire_schema": [],
+      "source_artifact": "03cc5482-eae4-4bea-9399-8f4a0b1a782a/00000059-normal-audit-batch.json",
+      "source_sha256": "39dd975a696a2d998b30813fe6f2d86ea2c5559a11ad7e18887cb99c4fdd223e"
+    },
+    {
+      "model": "gpt-6-astra",
+      "request_number": 2,
+      "strict": false,
+      "wire_layer_enum": [
+        "addr170",
+        "addr178",
+        "addr181"
+      ],
+      "current_layer_enum": [],
+      "current_layers_impossible_under_wire_schema": [],
+      "source_artifact": "03cc5482-eae4-4bea-9399-8f4a0b1a782a/00000059-normal-audit-batch.json",
+      "source_sha256": "39dd975a696a2d998b30813fe6f2d86ea2c5559a11ad7e18887cb99c4fdd223e"
+    },
+    {
+      "model": "gpt-6-astra",
+      "request_number": 3,
+      "strict": false,
+      "wire_layer_enum": [
+        "addr170",
+        "addr178",
+        "addr181"
+      ],
+      "current_layer_enum": [
+        "addr170",
+        "addr178",
+        "addr181"
+      ],
+      "current_layers_impossible_under_wire_schema": [],
+      "source_artifact": "03cc5482-eae4-4bea-9399-8f4a0b1a782a/00000059-normal-audit-batch.json",
+      "source_sha256": "39dd975a696a2d998b30813fe6f2d86ea2c5559a11ad7e18887cb99c4fdd223e"
+    },
+    {
+      "model": "gpt-6-astra",
+      "request_number": 4,
+      "strict": false,
+      "wire_layer_enum": [
+        "addr170",
+        "addr178",
+        "addr181"
+      ],
+      "current_layer_enum": [
+        "addr170",
+        "addr178",
+        "addr181"
+      ],
+      "current_layers_impossible_under_wire_schema": [],
+      "source_artifact": "03cc5482-eae4-4bea-9399-8f4a0b1a782a/00000072-normal-audit-batch.json",
+      "source_sha256": "52fa5a1ea5880624ff3e539b16d823f85cb3c351a7365776ff15ed92ae7481db"
+    }
+  ]
+}

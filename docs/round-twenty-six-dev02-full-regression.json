@@ -1,0 +1,65 @@
+{
+  "source": "b739823f28b7ea446bff93758477c2f6c2baca46",
+  "workflow_run": 41489426055,
+  "complete_repository": {
+    "counts": {
+      "tests": 5873,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 53
+    },
+    "receipts": [
+      {
+        "name": "full-repository.xml",
+        "sha256": "53847a8f99486a3af1d04618c2e59f44f0e48b8bfa0d6d7ea97d94236b1da3e8"
+      }
+    ]
+  },
+  "image_shards": {
+    "counts": {
+      "tests": 1124,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2
+    },
+    "receipts": [
+      {
+        "name": "shard-0.xml",
+        "sha256": "b48773e8c7dfb480346ebedbc097fed057549474daa875d87dce02496f0c0f42"
+      },
+      {
+        "name": "shard-1.xml",
+        "sha256": "661ebb2064508658e6766ece2018d1e87f297efbd27bb28c87ad754a05650183"
+      },
+      {
+        "name": "shard-2.xml",
+        "sha256": "d809f42536e54dee48a7a6ecfecb1982583252aecbd4f6af6ee922d18084b382"
+      },
+      {
+        "name": "shard-3.xml",
+        "sha256": "4affafc8ce0c693f7bb55018985c676c11ba4e5eba3489e1dbd08ac8dffb2df1"
+      },
+      {
+        "name": "shard-4.xml",
+        "sha256": "ebf5a33d437051b09b247328620a79f7d712c19094507447d86e7a0fba446c0d"
+      },
+      {
+        "name": "shard-5.xml",
+        "sha256": "9d96de51b870b5dc732d9e1b003876df18ce1cf4a8b8d7fe363d096932a3c246"
+      },
+      {
+        "name": "shard-6.xml",
+        "sha256": "d74f27ed5f2c99b19b37caa279712da722bab0a48a0f007f707f1277be766a35"
+      },
+      {
+        "name": "shard-7.xml",
+        "sha256": "5c3f1636068ad642ff373d42b7215d3b8401cf20983ac52f2340919ddab60f3b"
+      }
+    ]
+  },
+  "full_suite_passed": true,
+  "publication_status": "PUBLISHED",
+  "no_expectation_or_seal_changed": true,
+  "browser_control": "Native pipe and browser host unavailable; stale4 not admitted, automatic update unchanged.",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:4324d42ce65a744467d5771904f6051cee9745eaab092d310ac00fc0e08b389c"
+}

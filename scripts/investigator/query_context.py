@@ -28,5 +28,8 @@ def sheet(layer):
         if example not in accepted:accepted.append(example)
         if len(accepted)==3:break
     return {'dialect':layer['dialect'],'examples':accepted,'sample_values':samples,
+       'metadata_reads':({'examples':['EVALUATE INFO.PARTITIONS()','EVALUATE INFO.VIEW.TABLES()'],'scope':'Admitted model; native permissions still apply.'} if layer['dialect']=='DAX' else
+                         {'examples':["SELECT name,temporal_type_desc,history_table_id FROM sys.tables","SELECT TABLE_SCHEMA,TABLE_NAME,COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS"],'scope':'Current admitted SQL database only; no writes or EXEC.'} if layer['dialect']=='T-SQL' else
+                         {'examples':['DESCRIBE HISTORY <admitted_schema>.<admitted_table> LIMIT 10'],'scope':'Exact admitted table; no paths or execution.'}),
        'sample_note':'No invented sample values. Use a bounded DISTINCT lookup on the admitted column when a filter value is unknown.',
        'rules':'Use exact native names and types. CAST/TRY_CAST/CONVERT apply on T-SQL. SQL endpoint routes use T-SQL, even for lakehouse tables. DAX uses EVALUATE and the retained measure definitions. Examples illustrate syntax only and do not recreate the ticket scope.'}

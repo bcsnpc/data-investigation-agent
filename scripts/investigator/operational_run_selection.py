@@ -49,7 +49,7 @@ def validate(selector,text):
 def select(selector,facts,text):
     seconds,fraction=validate(selector,text);precision=len(fraction);found={};insufficient=False
     for fact in facts:
-        payload=fact['value'];runs=payload.get('recent_runs',[payload])
+        payload=fact['value'];runs=payload.get('recent_runs',payload.get('runs',[payload]))
         for run in runs:
             if not isinstance(run,dict)or not run.get('run_id')or not isinstance(run.get('start'),str):continue
             match=STAMP.fullmatch(run['start'])

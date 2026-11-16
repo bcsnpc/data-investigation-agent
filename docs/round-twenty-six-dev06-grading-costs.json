@@ -1,0 +1,356 @@
+{
+  "scope": "DEV06_RETURNED_NORMALIZED_GRADING_AND_REVIEW_USAGE_ONLY",
+  "observed_at_utc": "2026-11-11T01:45:17.338Z",
+  "new_provider_or_estate_calls": 0,
+  "uncertain_or_missing_usage_charges_remain_in_ledger": true,
+  "groups": [
+    {
+      "purpose": "GRADING",
+      "step": "GRADING",
+      "provider": "bedrock",
+      "model": "amazon.nova-pro-v1:0",
+      "calls": 28,
+      "actual_microdollars": 180548,
+      "input_tokens": 200558,
+      "cached_input_tokens": 3972,
+      "mean_actual_usd_per_call": 0.006448142857142856,
+      "cache_read_ratio": 0.0198047447621137
+    },
+    {
+      "purpose": "GRADING",
+      "step": "GRADING",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "calls": 29,
+      "actual_microdollars": 439563,
+      "input_tokens": 154032,
+      "cached_input_tokens": 8163,
+      "mean_actual_usd_per_call": 0.015157344827586206,
+      "cache_read_ratio": 0.052995481458398254
+    },
+    {
+      "purpose": "DISAGREEMENT_REVIEW",
+      "step": "GRADING",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "calls": 24,
+      "actual_microdollars": 441861,
+      "input_tokens": 143889,
+      "cached_input_tokens": 0,
+      "mean_actual_usd_per_call": 0.018410875,
+      "cache_read_ratio": 0
+    }
+  ],
+  "sources": [
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch01/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "8ec7163045a8758bb527e32df9216b701a7c7629ae16c4be95001669e0edaeae"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch01/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "a5c0960595f5b763fb30d1972829571b903c23c4674ab5021ec493a9a2058eda"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch01/independent-review/round26-dev06-form-v2-warehouse-scope-v2/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "7f6311bfc5a52f709b97222303d1fcd1f069ce41ce65d116eefe423c81b278a3"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch02/primary-provider.jsonl",
+      "observed_usage_records": 3,
+      "sha256": "cae83740f5be7e97d72bdcda46ae81eb2513a25dafe979663f17c3a9d17f94ac"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch02/secondary-provider.jsonl",
+      "observed_usage_records": 3,
+      "sha256": "bbcc8c11b1369e08c40165f9955cf4bd60509baa0dd8daba2e6c699c3c78481f"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch02/independent-review/round26-dev06-form-v2-before-temporal-retention-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "febbee08d38dbe68180f2ff3d660ca5c6421f3e50bc5852c739aa10299864b4c"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch02/independent-review/round26-dev06-form-v2-billing-invoices-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "6b44a17d82f6f34df51dc8fee4c1959c6b891ebfec0783a11162c409517c444d"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch02/independent-review/round26-dev06-form-v2-other-collected-definition-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "d805d9e1b2529ebd291aa23cebe18fe6ebb61a24c8befb0aa925548bd8857aa2"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch03/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "f59a5c014f0ee25896b92fd46a0c7e9f747d6872d0d39165e1e537a60e61e985"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch03/secondary-provider.jsonl",
+      "observed_usage_records": 2,
+      "sha256": "7ad44c1784e6af0c2ed2175b0bd6700b1b221ffbec8d3d9754e1317b2bb91b49"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch03/independent-review/round26-dev06-form-v2-source-history-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "c9c2bb04202f69e3397c960c5455ddd530911bae97906a079fb286973b949dd2"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch04/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "2619f25392930ecc6d32bba584148b5d957735d9610b9aa791722259bc69ae74"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch04/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "bcba7bac3cd768e2c48e3e73e74c652fa35467ecbb80b2b8068077f5e2944895"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch04/independent-review/round26-dev06-form-v2-stale-model-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "22f04602d38a8927914e87b63afba945bdf5cb09a498bcbed28c429679893617"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch05/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "9f0b1fae87ebeb082dfea031df0ef09b89b8aff7c99f3b8fea9cbed83af04333"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch05/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "4526d7f7508acb2ee04f9f2589039ed80966365d1998b6d7e21a534014ac19c4"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/form-batch05/independent-review/round26-dev06-form-v2-stale-model-v2/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "93cec39f3f466ac1249570e72bcb1934970daa192f1d463eee2927e3fde0c43c"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch01/primary-provider.jsonl",
+      "observed_usage_records": 2,
+      "sha256": "f17b7a4c261249ee3f21a37c8ae7925a21640767929e033383f1de2f5b46953d"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch01/secondary-provider.jsonl",
+      "observed_usage_records": 2,
+      "sha256": "e8b95a7e93f0b9818ea6e7e97029e1cc4fbb305029bc645472d658fd39322be4"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch01/independent-review/round26-dev06-text-R17-04-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "fb251831e0e40ae4b756e223b2bda4c11a29239118711f2eaf38eae98c797e95"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch01/independent-review/round26-dev06-text-R17-08-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "a975fdb2628e282b1994d5af7073ec66eb558858131e68a8c1bfb2c0edcf9e3c"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch02/primary-provider.jsonl",
+      "observed_usage_records": 2,
+      "sha256": "320d9bf0f6ebd60dd863af39807276109fb4eddf2207f38223bf59bedc91f107"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch02/secondary-provider.jsonl",
+      "observed_usage_records": 2,
+      "sha256": "490d9e145d8d42ca73a5ca26859185656a7554e43500497bebfe232e8d900048"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch02/independent-review/round26-dev06-text-R17-05-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "f56871a4e68b7870a2780e9c0c9eb259d8d357e7dff20f34fdf2822dd63aa329"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch02/independent-review/round26-dev06-text-R17-10-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "58293492cdb7933e8ec354cd5ac94a01cb96769959d89a3de5ace577fb000e48"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch03/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "715a114a9d5d448a48937a87648a7e0ccaa682bbbae0f512e0e07730a0719fd1"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch03/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "b45a54779ecb25c5cd3becbce4560b91b68c1581d1e17c0c0c0cca7b12710dcb"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch03/independent-review/round26-dev06-text-R17-11-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "2c9baf8071a260e1bf63cb022afd9b4bdf6d8e2d77ad40175841d7855dbfd51c"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch04/primary-provider.jsonl",
+      "observed_usage_records": 3,
+      "sha256": "e296e269eae59db73c6b99ee5ac8aadb703b97e897e105a529dc32d06084c512"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch04/secondary-provider.jsonl",
+      "observed_usage_records": 3,
+      "sha256": "ce4c82f2c571bc4c5897a98b7ee55ae87beb3c222b0220bfbb3fd93890746547"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch04/independent-review/round26-dev06-text-different-warehouse-v2/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "34a0de62e4e57da57dba3d99b1a55144a799a2d0a13049b65d66792d90c927bf"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch04/independent-review/round26-dev06-text-older-export-movement-1-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "b2266117e2e511d41c2544b6e263b62669f4b1c5f82e0ce245c7d52c0e637297"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch04/independent-review/round26-dev06-text-R17-09-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "5fdbe9fc688afe2941d9ba76b29e8cf570e33673c29b580a2087ba383a8871d8"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch05/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "70f65b8e1f733e5964dbd5cb4c039704da6283b366648aea8285b1eb84194ee5"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch05/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "f32f8535917bd13f2a8c2f2737da1521a35bc322ccbb30304035f4b6ac984e8f"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch05/independent-review/round26-dev06-text-baseline-S02-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "1d5f240b98602725a7560e9f7d8f6c4429a16a4479a845d9ece4d63782465996"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch06/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "062d58e631f7b8bebf86f34eedbe1c040ffe94aeb45da997168ba83dbe78cb1d"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch06/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "23100594658cc9e51360dcbfe3e4ddc23e2596230cd815d506b2adc1f6a78a45"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch07/primary-provider.jsonl",
+      "observed_usage_records": 4,
+      "sha256": "db701b773592f524e5626461f6e28215802b858f05ab4084985132d4fbb67928"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch07/secondary-provider.jsonl",
+      "observed_usage_records": 4,
+      "sha256": "4301aa0d6b93b78a2810871fc49abec9ac11fdb8acf55fb66c4a53cd958880b3"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch07/independent-review/round26-dev06-text-history-source-900201-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "b141f8670ed2e76892e487178af84fdcb490ecd02687f13b4023ac7540e6dd34"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch07/independent-review/round26-dev06-text-history-source-900201-v2/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "ab02e2fc10259529073a7a04e9bde6b810a75319cb89580ad84b8ee81f1593f4"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch07/independent-review/round26-dev06-text-latency-900501-v2/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "2c2ddf10fd62045af20efac2df82813b315edb0b7b9c4707fd560c2d858da103"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch08/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "01ab7254d8d4494c268b1489188047de7898a1165b7315eb479117ef6877f4fc"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch08/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "17ed9121dac2441537c43a6006daacabe3fcc9bbacb3f330125e6588672f1bde"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch08/independent-review/round26-dev06-text-latency-900502-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "ef0b4baf29d3b8a8903124494d84fe7bb11cc1e2f9c7b26ee9f7e97f293dc55f"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch09/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "021cac49a6c77d31c55db39ec24392f80d548586af5be3632f5fa62b5e4356a5"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch09/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "bf9548b147fdf4126a132e7b13a9286dac8e759daf3c73d6de27a0d486088157"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch10/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "6956149876fdffead5c3dce510ca7328197459f8ba70b82cd7473a22e73a2735"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch10/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "c8b76501b2c7c5e252f6c23e5d01d8d9402afaec082fcf580c1958c684ac268b"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch10/independent-review/round26-dev06-text-access-export-1-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "68ae6c1742bafd524769909960187f67aca753135224f9f46af1c13c1b11471b"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch11/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "184715fe7ddfade26ccddc5cceb97f688f478337a324efad9077a6a395ccf418"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch11/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "c076206da6f5ea8d0a63904ccb81e080b3a5cb05a7461594eeacdac4579b1f01"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch12/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "7701e207491f136933f5d278f334d1e34844c464d259ec7d6193f94a7b57a3d7"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch12/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "eab4ea74de324d5bdf0df2fb4dbf28bdc6354a68a8124f09c13afd8cca945a20"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch12/independent-review/round26-dev06-text-waiting-fixture-load-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "7caed2d6d9d9b1f995579653336c3dae499a94cf94e5d6aa5ead4664a1a97679"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch13/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "88a929c5089ce8eb9050317d530f44812ecb5077ed3e62735d3d6601948e8a4f"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch13/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "3a041d791655dbe5184653f1394d90e96e4b7b5b0eabd0c2d086047d0056c699"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch13/independent-review/round26-dev06-text-stale-total-v1/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "8b4bccce281f849a6598a1ac6d6c386f362e2d698b21d784bf6c1a60a91fe8a4"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch14/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "f2ee22bcadc06650e2d3c5c6b44c8693de04fbd0a3b48d02f1ad47a7ea91232f"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch14/secondary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "7bddaca2d183b2ff28dc0a48794a9632c5ccd29fd7207433037db2723e201b45"
+    },
+    {
+      "path": ".local/round-twenty-six/dev06/grading/text-batch14/independent-review/round26-dev06-text-stale-total-v2/primary-provider.jsonl",
+      "observed_usage_records": 1,
+      "sha256": "fe9b6ef35ccf32b5ce3f015e992bceb40a55649f2f883790489ef53e55ab4fdf"
+    }
+  ]
+}

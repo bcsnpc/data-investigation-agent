@@ -1,4 +1,4 @@
-﻿"""Anthropic transport for legacy structured-call interfaces; no Azure fallback."""
+"""Compatibility entry point for explicitly configured structured AI calls."""
 import json,os
 from contextvars import ContextVar
 from .reasoning_anthropic import Client
@@ -14,21 +14,22 @@ CLIENT=ContextVar('runtime_anthropic_client',default=None)
 def installed_client():
     supplied=CLIENT.get()
     if supplied is not None:return supplied
-    config=json.loads(os.environ[CONFIG_ENV])
-    if set(config)!={'model','rate_card','secret_reference','gateway_identity','worker_identity'} or config['model']!='claude-opus-5-5':raise ValueError('ANTHROPIC_RUNTIME_CONFIGURATION')
+    config=json.loads(os.environ.get('DIA_RUNTIME_AI_JSON') or os.environ[CONFIG_ENV])
+    from .provider_runtime import validate, client
+    provider=validate(config)
     state=configured_state()
     if state is None:raise ValueError('ANTHROPIC_SHARED_BUDGET_REQUIRED')
     record=ACTIVE.get()
     metadata=getattr(record,'metadata',{})
     session=SESSION.get() or metadata.get('session_id') or os.environ.get('DIA_RUN_ID')
     if not session:raise ValueError('ANTHROPIC_TICKET_ID_REQUIRED')
-    budget=TicketBudget(state,case_id='structured:'+str(session),owner=config['worker_identity'],rate=RateCard(model=config['model'],**config['rate_card']),actual_usage_limit=3000000)
+    budget=TicketBudget(state,case_id='structured:'+str(session),owner=config['worker_identity'],rate=RateCard(model=config['model'],**config['rate_card']),actual_usage_limit=3000000,provider=provider)
     # The caller's ordinary recording context remains in force; no credential
     # or raw response is copied to shared accounting.
     def record(value):
         from ..process_tape import event
         event('ANTHROPIC_STRUCTURED',value)
-    return Client(model=config['model'],budget=budget,identity=config['gateway_identity'],secret_reference=config['secret_reference'],record=record)
+    return client(config,budget=budget,record=record)
 
 
 def generate(payload,instructions,schema,name,*,max_tokens,image_data_url=None):

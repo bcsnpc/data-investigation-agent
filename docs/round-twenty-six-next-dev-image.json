@@ -1,0 +1,7 @@
+{
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:3c3cb713064b52b30cd0cc6753a4cd3edd4d79b3e42dee9f98c21f770bea8975",
+  "source": "76197296c64d034436a44b181635436d97510da5",
+  "workflow_run": 41353746190,
+  "qualification": "FOCUSED_DEV_NOT_FULL_RELEASE_SUITE",
+  "benchmark_pin_unchanged": true
+}

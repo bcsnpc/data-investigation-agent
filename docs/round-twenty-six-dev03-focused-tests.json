@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-11-02T23:19:05.877500+00:00",
+  "tests": 186,
+  "failures": 0,
+  "errors": 0,
+  "seconds": 19.354,
+  "scope": "Eight focused intake/target/extraction modules, including four new native-container regressions",
+  "full_suite": false,
+  "runtime_fix": "Named native-container containment scopes table candidate resolution; no global same-name escape"
+}

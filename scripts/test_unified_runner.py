@@ -273,7 +273,7 @@ class RunnerTests(unittest.TestCase):
             def execute(argv,**kwargs):
                 calls.append(argv)
                 if 'show' in argv:return SimpleNamespace(stdout=json.dumps({'properties':{'template':{'containers':[{'name':'worker','image':'old','env':[{'name':'EXISTING_REF','secretRef':'existing-vault-ref'}]}]}}}))
-                template=json.loads(Path(argv[argv.index('--yaml')+1]).read_bytes())
+                template=json.loads(Path(argv[argv.index('--body')+1].removeprefix('@')).read_bytes())
                 container=template['containers'][0]
                 self.assertEqual(container['image'],config['image'])
                 self.assertEqual(container['command'][0:3],['python','/app/scripts/dia.py','run'])
@@ -301,8 +301,9 @@ class RunnerTests(unittest.TestCase):
             def execute(argv,**kwargs):
                 calls.append(argv)
                 if 'show' in argv:return SimpleNamespace(stdout=json.dumps(job))
-                self.assertIn('start',argv);self.assertNotIn('update',argv)
-                template=json.loads(Path(argv[argv.index('--yaml')+1]).read_bytes())
+                self.assertIn('rest',argv);self.assertEqual(argv[argv.index('--method')+1],'post')
+                self.assertTrue(argv[argv.index('--url')+1].endswith('/start?api-version=2025-01-01'));self.assertNotIn('update',argv)
+                template=json.loads(Path(argv[argv.index('--body')+1].removeprefix('@')).read_bytes())
                 self.assertEqual(template['containers'][0]['resources'],{'cpu':1,'memory':'2Gi'})
                 return SimpleNamespace(stdout='{"name":"larger-execution"}')
             with patch('investigator.build_phase.admit_platform'):

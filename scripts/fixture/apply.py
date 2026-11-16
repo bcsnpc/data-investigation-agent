@@ -433,14 +433,14 @@ class PipelineWaitScenario(PipelineFailureScenario):
 
     def __init__(self,control,item_id,*,seconds=300):
         super().__init__(control,item_id)
-        if type(seconds)is not int or not 60<=seconds<=600:raise ValueError('SCENARIO_WAIT_BOUND')
+        if type(seconds)is not int or not 60<=seconds<=3600:raise ValueError('SCENARIO_WAIT_BOUND')
         self.seconds=seconds
 
     @classmethod
     def waiting(cls,before,*,seconds):
         import base64
         from investigator.process_tape import bytes_of
-        if type(seconds)is not int or not 60<=seconds<=600:raise ValueError('SCENARIO_WAIT_BOUND')
+        if type(seconds)is not int or not 60<=seconds<=3600:raise ValueError('SCENARIO_WAIT_BOUND')
         result=copy.deepcopy(before);content=cls.content(before)
         if not content['properties'].get('activities'):raise ValueError('SCENARIO_ORIGINAL_ACTIVITIES_REQUIRED')
         # Removing all original activities also prevents on-skipped/error paths

@@ -1,0 +1,304 @@
+{
+  "kind": "LIVE_BENCHMARK_UNGRADED_NOT_QUALITY_SCORE",
+  "cases": [
+    {
+      "column": "sol-cascade",
+      "ticket": "v2-application-baseline-v1",
+      "status": "ANSWERED",
+      "graded": false,
+      "cost_microdollars": 415137,
+      "calls": 5,
+      "cache_read_ratio": 0.5452724180608856,
+      "cascade": {
+        "escalated": true,
+        "resolved_by_model": "gpt-6-astra",
+        "shared_deadline_seconds": 900,
+        "shared_tool_limit": 15,
+        "stages": [
+          {
+            "model": "gpt-6.1-sol",
+            "model_calls": 3,
+            "status": "UNRESOLVED",
+            "tools_used": 7
+          },
+          {
+            "model": "gpt-6-astra",
+            "model_calls": 2,
+            "status": "ANSWERED",
+            "tools_used": 8
+          }
+        ]
+      },
+      "execution": {
+        "endTime": "2026-11-01T18:59:46+00:00",
+        "execution_name": "job-dia-worker-fydvz1z",
+        "startTime": "2026-11-01T18:55:30+00:00",
+        "status": "Succeeded"
+      },
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
+      "step_costs": [
+        {
+          "actual_microdollars": 69041,
+          "cache_read_ratio": 0.6145624783610062,
+          "cached_input_tokens": 40826,
+          "calls": 3,
+          "calls_detail": [
+            {
+              "actual_microdollars": 51865,
+              "usage": {
+                "cache_write_tokens": 20413,
+                "cached_input_tokens": 0,
+                "input_tokens": 20504,
+                "output_tokens": 65
+              }
+            },
+            {
+              "actual_microdollars": 7212,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 20413,
+                "input_tokens": 22798,
+                "output_tokens": 40
+              }
+            },
+            {
+              "actual_microdollars": 9964,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 20413,
+                "input_tokens": 23129,
+                "output_tokens": 249
+              }
+            }
+          ],
+          "input_tokens": 66431,
+          "mean_microdollars_per_call": 23013.666666666668,
+          "model": "gpt-6.1-sol",
+          "provider": "openai",
+          "step": "INVESTIGATOR"
+        },
+        {
+          "actual_microdollars": 346096,
+          "cache_read_ratio": 0.4449409302933868,
+          "cached_input_tokens": 20413,
+          "calls": 2,
+          "calls_detail": [
+            {
+              "actual_microdollars": 266393,
+              "usage": {
+                "cache_write_tokens": 20413,
+                "cached_input_tokens": 0,
+                "input_tokens": 20876,
+                "output_tokens": 132
+              }
+            },
+            {
+              "actual_microdollars": 79703,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 20413,
+                "input_tokens": 25002,
+                "output_tokens": 268
+              }
+            }
+          ],
+          "input_tokens": 45878,
+          "mean_microdollars_per_call": 173048.0,
+          "model": "gpt-6-astra",
+          "provider": "openai",
+          "step": "INVESTIGATOR_FALLBACK"
+        }
+      ],
+      "timing": {
+        "investigation_wall_seconds": 147.82954195700006,
+        "model_seconds": 56.37528149100012,
+        "native_query_sum_seconds": 84.43796709499986,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.8489431349998995
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 217.46259584300003
+          }
+        ],
+        "route_schema_seconds": 30.900272094,
+        "triage_seconds": 37.934048453999935,
+        "wall_seconds": 222.5575955669999
+      }
+    },
+    {
+      "column": "openai",
+      "ticket": "v2-application-baseline-v1",
+      "status": "ANSWERED",
+      "graded": false,
+      "cost_microdollars": 436823,
+      "calls": 4,
+      "cache_read_ratio": 0.6814309120699071,
+      "cascade": null,
+      "execution": {
+        "endTime": "2026-11-01T18:59:41+00:00",
+        "execution_name": "job-dia-worker-h8ws746",
+        "startTime": "2026-11-01T18:56:30+00:00",
+        "status": "Succeeded"
+      },
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
+      "step_costs": [
+        {
+          "actual_microdollars": 436823,
+          "cache_read_ratio": 0.6814309120699071,
+          "cached_input_tokens": 62385,
+          "calls": 4,
+          "calls_detail": [
+            {
+              "actual_microdollars": 264018,
+              "usage": {
+                "cache_write_tokens": 20795,
+                "cached_input_tokens": 0,
+                "input_tokens": 20878,
+                "output_tokens": 65
+              }
+            },
+            {
+              "actual_microdollars": 41945,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 20795,
+                "input_tokens": 22710,
+                "output_tokens": 40
+              }
+            },
+            {
+              "actual_microdollars": 54825,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 20795,
+                "input_tokens": 23033,
+                "output_tokens": 233
+              }
+            },
+            {
+              "actual_microdollars": 76035,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 20795,
+                "input_tokens": 24929,
+                "output_tokens": 278
+              }
+            }
+          ],
+          "input_tokens": 91550,
+          "mean_microdollars_per_call": 109205.75,
+          "model": "gpt-6-astra",
+          "provider": "openai",
+          "step": "INVESTIGATOR"
+        }
+      ],
+      "timing": {
+        "investigation_wall_seconds": 98.40007241900003,
+        "model_seconds": 19.825483948000056,
+        "native_query_sum_seconds": 74.02461149999999,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.705492189000097
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 152.33311029000015
+          }
+        ],
+        "route_schema_seconds": 24.676519783999993,
+        "triage_seconds": 28.54158740899993,
+        "wall_seconds": 157.1480406390001
+      }
+    },
+    {
+      "column": "anthropic",
+      "ticket": "v2-application-baseline-v1",
+      "status": "ANSWERED",
+      "graded": false,
+      "cost_microdollars": 316737,
+      "calls": 4,
+      "cache_read_ratio": 0.6841517649466887,
+      "cascade": null,
+      "execution": {
+        "endTime": "2026-11-01T18:59:51+00:00",
+        "execution_name": "job-dia-worker-qtid5td",
+        "startTime": "2026-11-01T18:56:40+00:00",
+        "status": "Succeeded"
+      },
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
+      "step_costs": [
+        {
+          "actual_microdollars": 316737,
+          "cache_read_ratio": 0.6841517649466887,
+          "cached_input_tokens": 110301,
+          "calls": 4,
+          "calls_detail": [
+            {
+              "actual_microdollars": 196471,
+              "usage": {
+                "cache_write_tokens": 36767,
+                "cached_input_tokens": 0,
+                "input_tokens": 36961,
+                "output_tokens": 593
+              }
+            },
+            {
+              "actual_microdollars": 29030,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 36767,
+                "input_tokens": 39601,
+                "output_tokens": 517
+              }
+            },
+            {
+              "actual_microdollars": 42838,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 36767,
+                "input_tokens": 41688,
+                "output_tokens": 790
+              }
+            },
+            {
+              "actual_microdollars": 48398,
+              "usage": {
+                "cache_write_tokens": 0,
+                "cached_input_tokens": 36767,
+                "input_tokens": 42973,
+                "output_tokens": 811
+              }
+            }
+          ],
+          "input_tokens": 161223,
+          "mean_microdollars_per_call": 79184.25,
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "step": "INVESTIGATOR"
+        }
+      ],
+      "timing": {
+        "investigation_wall_seconds": 99.23712327300007,
+        "model_seconds": 32.34636964499987,
+        "native_query_sum_seconds": 70.95984993800005,
+        "phases": [
+          {
+            "phase": "startup-and-intake",
+            "seconds": 2.857116646999998
+          },
+          {
+            "phase": "triage-and-investigation",
+            "seconds": 151.50173282699996
+          }
+        ],
+        "route_schema_seconds": 23.19112704700001,
+        "triage_seconds": 28.48943959799999,
+        "wall_seconds": 156.29489499800002
+      }
+    }
+  ]
+}

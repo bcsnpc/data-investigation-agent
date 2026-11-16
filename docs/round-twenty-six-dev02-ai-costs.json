@@ -1,0 +1,42 @@
+{
+  "scope": "dev02 selected saved outcomes only; grading, controls and failed/environment attempts excluded, not whole-round ledger spend. Outcomes with model_calls=0 have no cost object; explicit actual-cost total covers cost_records only.",
+  "tickets": 30,
+  "ticket_actual_usd": 24.111433,
+  "steps": [
+    {
+      "step": "INTAKE",
+      "provider": "openai",
+      "model": "gpt-6.1-sol",
+      "calls": 49,
+      "actual_microdollars": 1439395,
+      "input_tokens": 3024171,
+      "cached_input_tokens": 2522761,
+      "actual_usd_per_call": 0.029375408163265306,
+      "cached_input_ratio": 0.8341991904558307
+    },
+    {
+      "step": "INTAKE_FALLBACK",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "calls": 34,
+      "actual_microdollars": 6439157,
+      "input_tokens": 2085151,
+      "cached_input_tokens": 1675486,
+      "actual_usd_per_call": 0.18938697058823528,
+      "cached_input_ratio": 0.8035322142137428
+    },
+    {
+      "step": "INVESTIGATOR",
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "calls": 84,
+      "actual_microdollars": 16232881,
+      "input_tokens": 3438800,
+      "cached_input_tokens": 2221760,
+      "actual_usd_per_call": 0.19324858333333333,
+      "cached_input_ratio": 0.6460858438990346
+    }
+  ],
+  "cost_records": 26,
+  "zero_model_call_outcomes_without_cost_object": 4
+}

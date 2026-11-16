@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "case_id": "round26-openai-cache-20261101T174024",
+  "model": "gpt-6-astra",
+  "calls": [
+    {
+      "usage": {
+        "input_tokens": 3457,
+        "cached_input_tokens": 0,
+        "cache_write_tokens": 3446,
+        "output_tokens": 19
+      },
+      "cost_microdollars": 44135
+    },
+    {
+      "usage": {
+        "input_tokens": 3500,
+        "cached_input_tokens": 3446,
+        "cache_write_tokens": 0,
+        "output_tokens": 19
+      },
+      "cost_microdollars": 4936
+    }
+  ],
+  "cache_records": [
+    {
+      "event": "REASONING_CACHE_USAGE",
+      "provider": "openai",
+      "successful_call": 1,
+      "total_input_tokens": 3457,
+      "cache_read_input_tokens": 0,
+      "cache_creation_input_tokens": 3446,
+      "cache_read_ratio": 0.0,
+      "cache_assertion_applies": true,
+      "prefix_sha256": "aae134c973d84778539d6b53a8ca21c69a1ba1c6e1dd5ff88fb42543d8f94d9d"
+    },
+    {
+      "event": "REASONING_CACHE_USAGE",
+      "provider": "openai",
+      "successful_call": 2,
+      "total_input_tokens": 3500,
+      "cache_read_input_tokens": 3446,
+      "cache_creation_input_tokens": 0,
+      "cache_read_ratio": 0.9845714285714285,
+      "cache_assertion_applies": true,
+      "prefix_sha256": "aae134c973d84778539d6b53a8ca21c69a1ba1c6e1dd5ff88fb42543d8f94d9d"
+    }
+  ],
+  "cost_microdollars": 49071,
+  "estate_reads": 0,
+  "not_a_quality_score": true
+}

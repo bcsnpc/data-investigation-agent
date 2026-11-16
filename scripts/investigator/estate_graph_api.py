@@ -61,9 +61,9 @@ class GraphAPI:
             at=self.at,max_nodes=len(self.allowed),max_edges=10000,
             edge_kinds={'CONTAINS','COMPUTED_FROM'},edge_targets=self.allowed)
         if retained['truncated']:raise ValueError('INTAKE_CATALOG_TRUNCATED')
-        kinds={'REPORT','PAGE','VISUAL','MEASURE','SOURCE','TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK'}
+        kinds={'REPORT','PAGE','VISUAL','MEASURE','SOURCE','TABLE','VIEW','MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK','REFRESH_SCHEDULE'}
         nodes=[{'id':n['id'],'kind':n['kind'],'label':n['label'],'owner':n['owner'],
-                'properties':{k:v for k,v in n['properties'].items() if k in ('workspace','last_activity','asset_id')}}
+                'properties':{k:v for k,v in n['properties'].items() if k in ('workspace','last_activity','asset_id','system_of_record')}}
                for n in retained['nodes'] if n['id'] in self.allowed and n['kind'] in kinds]
         if not self.at:
             from .enrichment import EnrichmentStore

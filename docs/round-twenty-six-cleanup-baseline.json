@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "observed_at_utc": "2026-11-16T07:11:44.819224+00:00",
+  "source": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "model_quantity": 7661,
+  "physical_control_requests": 3,
+  "identity": "EXISTING_PUBLISHER_CONTROL_NOT_INVESTIGATOR",
+  "limitation": "Read-only baseline, not fresh UI readback of automatic-update setting",
+  "evidence_folder": ".local\\round-twenty-six\\cleanup-baseline-20261116-070942"
+}

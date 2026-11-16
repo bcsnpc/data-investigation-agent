@@ -1,3 +1,5 @@
+import os as _test_os
+from unittest.mock import patch as _test_patch
 """Contributor scanner red-team: privilege is never an investigation capability."""
 import copy
 import json
@@ -29,6 +31,7 @@ def gateway(method,url,purpose='scanner_metadata'):
     return Gateway({'version':1,'live_enabled':True,'identities':{'dia-scanner':permissions([{'method':method,'url':url,'purpose':purpose}])}})
 
 
+@_test_patch.dict(_test_os.environ, {'DIA_LIVE_ACCESS_DISABLED': '0'})
 class ScannerGuardrailTests(unittest.TestCase):
     def test_refresh_history_and_schedule_only_get_with_exact_model_and_shape(self):
         with auth.job(DECL,[W],kind='SCAN'):

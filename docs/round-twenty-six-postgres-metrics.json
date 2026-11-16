@@ -1,0 +1,76 @@
+{
+  "from": "2026-10-31T20:37:18.466551+00:00",
+  "to": "2026-11-01T20:37:18.466551+00:00",
+  "metrics": {
+    "cpu_credits_remaining": {
+      "average": {
+        "min": 286.75,
+        "max": 288.0
+      },
+      "maximum": {
+        "min": 288.0,
+        "max": 288.0
+      },
+      "minimum": {
+        "min": 286.0,
+        "max": 288.0
+      }
+    },
+    "cpu_percent": {
+      "average": {
+        "min": 9.546282853447867,
+        "max": 19.627345783943426
+      },
+      "maximum": {
+        "min": 16.318977119784655,
+        "max": 82.01128443411882
+      },
+      "minimum": {
+        "min": 6.761325219743068,
+        "max": 8.406482106684672
+      }
+    },
+    "active_connections": {
+      "average": {
+        "min": 8.445378151260504,
+        "max": 8.711864406779661
+      },
+      "maximum": {
+        "min": 10.0,
+        "max": 12.0
+      },
+      "minimum": {
+        "min": 6.0,
+        "max": 8.0
+      }
+    },
+    "max_connections": {
+      "average": {
+        "min": 50.0,
+        "max": 50.0
+      },
+      "maximum": {
+        "min": 50.0,
+        "max": 50.0
+      },
+      "minimum": {
+        "min": 50.0,
+        "max": 50.0
+      }
+    },
+    "connections_failed": {
+      "average": {
+        "min": 0.0,
+        "max": 0.0
+      },
+      "maximum": {
+        "min": 0.0,
+        "max": 0.0
+      },
+      "minimum": {
+        "min": 0.0,
+        "max": 0.0
+      }
+    }
+  }
+}

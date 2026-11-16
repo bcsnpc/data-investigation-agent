@@ -8,7 +8,9 @@ from copy import deepcopy
 import json
 import time
 from urllib.request import Request,build_opener
-from urllib.error import HTTPError
+from urllib.error import HTTPError,URLError
+from http.client import IncompleteRead
+from .provider_failures import retryable
 from ..estate_graph_contract import canonical
 from ..round23_calendar import require_live_window
 
@@ -61,7 +63,7 @@ def authorize_body(permissions,method,url,raw):
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
     for index,tool in enumerate(body['tools']):
         fields={'name','description','input_schema'}
-        cached=body['model']=='claude-opus-5-5'
+        cached=body['model'] in permissions.get('reasoning_models', [])
         if not isinstance(tool,dict) or not fields<=set(tool)<=fields|({'cache_control'}if cached else set()) or tool['name'] not in names:
             raise ValueError('SERVER_OR_UNKNOWN_TOOL_REFUSED')
         if 'cache_control'in tool and (index!=len(body['tools'])-1 or tool['cache_control']!={'type':'ephemeral'}):
@@ -95,8 +97,8 @@ class Client:
         self.sleep=sleep
         self.count_tokens=(send is None) if count_tokens is None else count_tokens
         if diagnostic_prompt_cache is None:diagnostic_prompt_cache=(model=='claude-opus-5-5')
-        if type(diagnostic_prompt_cache)is not bool or (diagnostic_prompt_cache and model!='claude-opus-5-5'):
-            raise ValueError('OWNER_DIAGNOSTIC_CACHE_MODEL_REQUIRED')
+        if type(diagnostic_prompt_cache)is not bool:
+            raise ValueError('CACHE_CONFIGURATION_BOOLEAN_REQUIRED')
         from .anthropic_prompt_cache import StablePrefix
         self.diagnostic_cache=StablePrefix()if diagnostic_prompt_cache else None
         self.diagnostic_helper_usage=StablePrefix()if diagnostic_prompt_cache else None
@@ -149,7 +151,15 @@ class Client:
         input_bound=None
         if self.count_tokens:
             count_body={k:v for k,v in body.items() if k!='max_tokens'}
-            counted=(self.send or self._http)('POST',BASE+'/messages/count_tokens',count_body)
+            for count_attempt in range(3):
+                try:
+                    counted=(self.send or self._http)('POST',BASE+'/messages/count_tokens',count_body)
+                    break
+                except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError)as error:
+                    if count_attempt==2 or not retryable(error):raise
+                    self.record({'event':'REASONING_COUNT_TRANSIENT','error_type':type(error).__name__,
+                        'attempt':count_attempt+1,'wait_seconds':30*(count_attempt+1),'paid_request_dispatched':False})
+                    self.sleep(30*(count_attempt+1))
             count=counted.get('input_tokens')
             if type(count) is not int or count<0:raise ValueError('PROVIDER_TOKEN_COUNT_REQUIRED')
             input_bound=count+4096
@@ -165,21 +175,23 @@ class Client:
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(body).encode()).hexdigest()}
                                 if private_summary else {'body':body})})
                 response=(self.send or self._http)('POST',BASE+'/messages',body)
-                self.budget.settle(identity,response.get('usage'))
                 _safe(canonical(response).encode())
                 self.record({'event':'REASONING_RESPONSE','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(response).encode()).hexdigest(),'usage':response.get('usage')}
                                 if private_summary else {'body':response})})
+                self.budget.settle(identity,response.get('usage'))
                 if cache_investigation:
                     observed=self.diagnostic_cache.observe(response.get('usage'));observed.update(phase='INVESTIGATION',cache_assertion_applies=True);self.record(observed)
                 elif self.diagnostic_helper_usage is not None:
                     self.diagnostic_helper_usage.prefix_sha256=__import__('hashlib').sha256(canonical([body['tools'],body['system']]).encode()).hexdigest()
                     observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='INTAKE_HELPER_UNCHANGED',cache_assertion_applies=False,subsequent_cache_read_check='NOT_APPLICABLE_NO_ADMITTED_PATH_PREFIX');self.record(observed)
                 return response
-            except ProviderHTTPError as error:
-                if attempt==2 or error.http_status not in (408,429,502,503,504):raise
+            except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError)as error:
+                if attempt==2 or not retryable(error):raise
                 wait=30*(attempt+1)
-                self.record({'event':'REASONING_TRANSIENT','status':error.http_status,'attempt':attempt+1,'wait_seconds':wait})
+                self.record({'event':'REASONING_TRANSIENT','status':getattr(error,'http_status',None),
+                    'error_type':type(error).__name__,'attempt':attempt+1,'wait_seconds':wait,
+                    'unknown_usage_retains_full_reservation':True})
             finally:
                 # Unknown failures remain charged. Each retry gets a new
                 # reservation; 429 is never delivered as an investigation result.

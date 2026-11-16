@@ -1,0 +1,96 @@
+{
+  "approval": "Owner 2026-11-10: $74.32 Anthropic balance, calibration and v5 only",
+  "before": {
+    "month_utc": "2026-11",
+    "ceiling_microdollars": 70255301,
+    "charged_microdollars": 49255301,
+    "additional_pending_commitment_microdollars": 0,
+    "committed_microdollars": 49255301,
+    "remaining_microdollars": 21000000,
+    "warning": false,
+    "monthly_credit_microdollars": 100000000,
+    "by_ai_step_microdollars": {
+      "INTAKE": 0,
+      "INTAKE_FALLBACK": 0,
+      "INVESTIGATOR": 32708323,
+      "INVESTIGATOR_FALLBACK": 0,
+      "SCREENSHOT": 0,
+      "SUMMARY": 0,
+      "ENRICHMENT": 0,
+      "WRITER": 2503025,
+      "GRADING": 12493114,
+      "SMOKE": 1550839,
+      "UNATTRIBUTED_HISTORICAL": 0
+    },
+    "grading_remaining_microdollars": 0,
+    "model_account": {
+      "identity": "model-microdollars:2026-11",
+      "unit": "MICRODOLLARS",
+      "ceiling": "70255301",
+      "protected": "3000000",
+      "opening": "0",
+      "charged": "49255301",
+      "violated": false
+    },
+    "grading_account": {
+      "identity": "enrichment:round-twenty-one",
+      "unit": "MICRODOLLARS",
+      "ceiling": "25000000",
+      "protected": "12850910",
+      "opening": "0",
+      "charged": "10806285",
+      "violated": false
+    },
+    "reserved_maxima_included": true,
+    "basis": "Larger recorded ledger/console baseline plus subsequent charges across both existing accounts."
+  },
+  "after": {
+    "month_utc": "2026-11",
+    "ceiling_microdollars": 120575301,
+    "charged_microdollars": 49255301,
+    "additional_pending_commitment_microdollars": 0,
+    "committed_microdollars": 49255301,
+    "remaining_microdollars": 71320000,
+    "warning": false,
+    "monthly_credit_microdollars": 100000000,
+    "by_ai_step_microdollars": {
+      "INTAKE": 0,
+      "INTAKE_FALLBACK": 0,
+      "INVESTIGATOR": 32708323,
+      "INVESTIGATOR_FALLBACK": 0,
+      "SCREENSHOT": 0,
+      "SUMMARY": 0,
+      "ENRICHMENT": 0,
+      "WRITER": 2503025,
+      "GRADING": 12493114,
+      "SMOKE": 1550839,
+      "UNATTRIBUTED_HISTORICAL": 0
+    },
+    "grading_remaining_microdollars": 0,
+    "model_account": {
+      "identity": "model-microdollars:2026-11",
+      "unit": "MICRODOLLARS",
+      "ceiling": "120575301",
+      "protected": "3000000",
+      "opening": "0",
+      "charged": "49255301",
+      "violated": false
+    },
+    "grading_account": {
+      "identity": "enrichment:round-twenty-one",
+      "unit": "MICRODOLLARS",
+      "ceiling": "25000000",
+      "protected": "12850910",
+      "opening": "0",
+      "charged": "10806285",
+      "violated": false
+    },
+    "reserved_maxima_included": true,
+    "basis": "Larger recorded ledger/console baseline plus subsequent charges across both existing accounts."
+  },
+  "remaining_balance_microdollars": 74320000,
+  "untouched_margin_microdollars": 3000000,
+  "model_account_ceiling_microdollars": 120575301,
+  "credit_source": "Owner exact Console reading in chat, not an API observation",
+  "counters_preserved": true
+}

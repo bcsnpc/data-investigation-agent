@@ -1,0 +1,84 @@
+{
+  "mode": "openai",
+  "default_mode": "anthropic",
+  "dev_mode": "openai",
+  "full_primary_benchmark_graded": false,
+  "authorized_openai_benchmark_complete": true,
+  "owner_resume_override": true,
+  "default_supported": false,
+  "selection_rule": "Owner resume steer: OpenAI for all new dev, Opus held-out only. Two Opus stale cases not run to preserve credit; no full forty-case support claim. Mixed primary graders disclosed in partial report.",
+  "benchmark": {
+    "scope": "PROVIDER_BENCHMARK_NOT_ROUND26_HELDOUT_HEADLINE",
+    "at": "2026-11-02T03:42:00.039423+00:00",
+    "columns": {
+      "sol-cascade": {
+        "score": 13,
+        "requested": 40,
+        "graded": 40,
+        "not_run": [],
+        "harmful": 1,
+        "selected_outcome_actual_usd": 17.687005,
+        "mean_actual_usd_per_ticket_with_cost": 0.442175125,
+        "cost_records": 40,
+        "missing_cost_records": [],
+        "harness_median_seconds": 193.32120104999922,
+        "harness_p90_seconds": 282.25680940000166,
+        "timed_records": 40,
+        "missing_timing_records": [],
+        "physical_in_selected_outcomes": 929,
+        "supported_by_benchmark": false,
+        "original_environment_failure_charges_retained_in_ledger": true
+      },
+      "openai": {
+        "score": 28,
+        "requested": 40,
+        "graded": 40,
+        "not_run": [],
+        "harmful": 0,
+        "selected_outcome_actual_usd": 27.433859,
+        "mean_actual_usd_per_ticket_with_cost": 0.685846475,
+        "cost_records": 40,
+        "missing_cost_records": [],
+        "harness_median_seconds": 203.22691535000195,
+        "harness_p90_seconds": 280.4915164999984,
+        "timed_records": 40,
+        "missing_timing_records": [],
+        "physical_in_selected_outcomes": 1052,
+        "supported_by_benchmark": false,
+        "original_environment_failure_charges_retained_in_ledger": true
+      },
+      "anthropic": {
+        "score": 34,
+        "requested": 40,
+        "graded": 38,
+        "not_run": [
+          "v2-stale-model-v1",
+          "v2-stale-model-v2"
+        ],
+        "harmful": 0,
+        "selected_outcome_actual_usd": 14.830898,
+        "mean_actual_usd_per_ticket_with_cost": 0.3902867894736842,
+        "cost_records": 38,
+        "missing_cost_records": [],
+        "harness_median_seconds": 206.8202661000032,
+        "harness_p90_seconds": 286.978972900004,
+        "timed_records": 36,
+        "missing_timing_records": [
+          "v2-failed-application-load-v2",
+          "v2-warehouse-scope-v2"
+        ],
+        "physical_in_selected_outcomes": 985,
+        "supported_by_benchmark": false,
+        "original_environment_failure_charges_retained_in_ledger": true
+      }
+    },
+    "benchmark_image": {
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1e0016e4d41beb6b04cfa9e674d4262d97fb0ab7f8ee3276cc59ecc179fbfac4",
+      "source": "a8b99cc68951e1a29d4d8ae77b5c85e970d82a94",
+      "workflow_run": 41338743215,
+      "qualification": "FOCUSED_DEV_NOT_FULL_RELEASE_SUITE"
+    }
+  },
+  "selected_at": "2026-11-02T03:42:03.923265+00:00",
+  "no_expectation_changes": true
+}

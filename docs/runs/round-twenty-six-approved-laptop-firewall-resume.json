@@ -1,0 +1,13 @@
+{
+  "approval": "Standing owner approval2026-10-23, applied2026-11-10",
+  "status": "BOTH_EXACT_32_RULES_VERIFIED",
+  "rules": [
+    "pg-dia-d5dd7d65/OwnerCurrentIp",
+    "sql-orderops-9696025/investigator-client-20260918"
+  ],
+  "range_width_before_and_after": "/32",
+  "all_other_rules_unchanged": true,
+  "identity_role_secret_changes": false,
+  "private_before_after_receipt": ".local\\round-twenty-six\\firewall-maintenance\\20261110-202426\\record.json",
+  "receipt_sha256": "9430ebc04aa1a0e60e3a422ba95658ea9dd3de0a44a77be4a22ce6dc42d21527"
+}

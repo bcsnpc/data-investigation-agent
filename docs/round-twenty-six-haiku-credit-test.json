@@ -1,0 +1,24 @@
+{
+  "billing_check_after_utc": "2026-11-03T03:35:38.730142+00:00",
+  "claude_guard_restored": true,
+  "credit_coverage": "UNVERIFIED_BILLING_CHECK_REQUIRED",
+  "elapsed_seconds": 23.732,
+  "error_code": "ResourceNotFoundException",
+  "error_type": "BedrockError",
+  "estate_reads": 0,
+  "http_status": 404,
+  "maxTokens": 20,
+  "model": "anthropic.claude-3-haiku-20240307-v1:0",
+  "no_retry_admitted": true,
+  "passed": false,
+  "prompt": "Reply OK.",
+  "safe_error": "BEDROCK_ResourceNotFoundException",
+  "started_at_utc": "2026-11-02T03:35:38.730142+00:00",
+  "wire_dispatches": 1,
+  "earlier_predispatch_attempt": {
+    "network_model_calls": 0,
+    "elapsed_seconds": 27.451,
+    "diagnosis": "UnifiedClient wrapper attribute did not initialize transport; SDK before-send failed before HTTP send",
+    "retained_locally": true
+  }
+}
