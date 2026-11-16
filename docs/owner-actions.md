@@ -559,14 +559,15 @@ Cleanup completion receipt (owner2026-11-10): approved npm/uv caches, seven obso
 Round26 final calibration,2026-11-11: Final calibration quality gate failed2/10,harm2; held-out v5 is intentionally not run and needs no credit top-up this round. Keep it sealed. No further dev loop is authorised. Continue release checks. Post-release evidence archive work remains gated on merged/tagged round and dependency/hash checks; no evidence was cleaned during Round26.
 
 
+
 ## Full disk cleanup — owner instruction 2026-11-13, executed from 2026-11-15
 
 Round 26 was paused throughout cleanup; no ticket or model run was admitted. Existing release smoke captures were recovered without resubmitting their runs.
 
 | Drive | Initial free GB | Final free GB | Net recovered GB | Target GB |
 |---|---:|---:|---:|---:|
-| C: | 14.65 | 73.86 | 59.21 | 60 |
-| D: | 23.18 | 197.80 | 174.62 | 120 |
+| C: | 14.65 | 73.87 | 59.22 | 60 |
+| D: | 23.18 | 197.80 | 174.61 | 120 |
 
 GB is decimal. Free space is the authoritative volume measurement. File sizes below are logical or allocated bytes as labelled; they are not additive estimates of exact space freed. Paging, running applications, sparse/compressed files, hard links and temporary archive staging affect volume deltas.
 
@@ -818,22 +819,22 @@ These sizes were obtained from metadata only; file contents were not read or mod
 
 Common system/profile/repository containers are expanded so these are non-overlapping folder groups, rather than twenty nested names for the same data. Sizes are logical metadata totals, not exact occupied disk; hard links and compression still affect physical occupancy. These are retained items for owner review, not deletion recommendations.
 
-**C:** (metadata snapshot 2026-11-16T05:10:14.790995+00:00; inaccessible entries: 1040)
+**C:** (metadata snapshot 2026-11-16T07:22:40.351035+00:00; inaccessible entries: 1040)
 
 | Folder | Logical GB | What it is |
 |---|---:|---|
 | `C:/Windows\WinSxS` | 26.15 | Windows component store; admin cleanup was not completed |
 | `C:/Windows\System32` | 10.98 | Windows system files; not manually removed |
 | `C:/Users\chait\AppData\Local\Claude-Data` | 9.93 | Claude application state/runtime; not a Docker or WSL cleanup target |
-| `C:/Users\chait\AppData\Local\Google` | 7.36 | User application data; only identified caches were removed |
+| `C:/Users\chait\AppData\Local\Google` | 7.38 | User application data; only identified caches were removed |
 | `C:/Users\chait\AppData\Local\Android` | 6.67 | User application data; only identified caches were removed |
 | `C:/Program Files (x86)\Microsoft` | 6.65 | Installed applications; no uninstall authorized |
 | `C:/Users\chait\AppData\Local\Packages` | 5.12 | User application data; only identified caches were removed |
 | `C:/Program Files\Microsoft Office` | 4.95 | Installed applications; no uninstall authorized |
 | `C:/Users\chait\Downloads` | 4.79 | Protected personal files / OneDrive |
 | `C:/Users\chait\anaconda3` | 4.77 | Python base distribution used by the current DIA environment; retained |
-| `C:/Users\chait\.codex` | 4.34 | Active Codex state and installations; protected |
-| `C:/Users\chait\AppData\Local\Microsoft` | 4.25 | User application data; only identified caches were removed |
+| `C:/Users\chait\.codex` | 4.35 | Active Codex state and installations; protected |
+| `C:/Users\chait\AppData\Local\Microsoft` | 4.24 | User application data; only identified caches were removed |
 | `C:/Users\chait\Documents` | 4.16 | Protected personal files / OneDrive |
 | `C:/Program Files\JetBrains` | 3.67 | Installed applications; no uninstall authorized |
 | `C:/Users\chait\AppData\Local\CapCut` | 3.55 | User application data; only identified caches were removed |
@@ -881,7 +882,7 @@ Only identified dependencies/build products within these locations were removed.
 
 ### Process check
 
-No obsolete Python ticket or grader worker was found in the closing process inventory. The archive launcher/worker are allowed to complete and exit; active shell/Node support processes and unidentified application state are retained. No arbitrary application termination is claimed. Sanitized process snapshots are in the private maintenance directory.
+No obsolete Python ticket or grader worker was found in the closing process inventory. The archive launcher/worker completed and exited. The closing snapshot contained only the active Node support process, with no Python workers; subsequent metadata checks are short-lived maintenance. Active shell/Node support processes and unidentified application state are retained; no arbitrary application termination is claimed. Sanitized process snapshots are in the private maintenance directory.
 
 ### Result and next step
 
