@@ -388,6 +388,8 @@ def main(args):
         # expose provider/evidence bodies again during process shutdown.
         print(json.dumps({k:result[k] for k in ('run_id','status','exit_code','exit_reason')}))
         return result['exit_code']
+    from .disk_hygiene import require_laptop_headroom
+    require_laptop_headroom()
     config=load(args.estate)
     if args.runtime=='local':
         # Same digest and entrypoint in the cloud. Mount only the explicitly selected

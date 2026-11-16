@@ -9,6 +9,13 @@ from investigator.disk_hygiene import require_laptop_headroom
 
 
 class DiskHygieneTests(unittest.TestCase):
+    def test_local_cli_checks_before_loading_estate_or_starting_docker(self):
+        from investigator.unified_runner import main
+        with patch('investigator.disk_hygiene.require_laptop_headroom',
+                   side_effect=ValueError('LAPTOP_DISK_HEADROOM_LOW:D:/')):
+            with self.assertRaisesRegex(ValueError, 'HEADROOM_LOW'):
+                main(SimpleNamespace(runtime='local'))
+
     def test_direct_launch_blocks_before_any_azure_request(self):
         from investigator.adapters.runner_deployment import launch
         execute = Mock()
