@@ -557,3 +557,29 @@ Cleanup completion receipt (owner2026-11-10): approved npm/uv caches, seven obso
 
 
 Round26 final calibration,2026-11-11: Final calibration quality gate failed2/10,harm2; held-out v5 is intentionally not run and needs no credit top-up this round. Keep it sealed. No further dev loop is authorised. Continue release checks. Post-release evidence archive work remains gated on merged/tagged round and dependency/hash checks; no evidence was cleaned during Round26.
+
+## Full disk cleanup — owner instruction 2026-11-13, received 2026-11-15
+
+
+**Status: in progress; Round 26 paused.** No new ticket/model run has been admitted. All three previously launched release smokes are now saved as PASS; the third was recovered from its existing Azure execution. Calibration is already final (2/10, two harmful answers); v5 remains unadmitted.
+
+| Drive | Initial free GB | Current free GB | Target GB |
+|---|---:|---:|---:|
+| C: | 14.65 | 21.77 | 60 |
+| D: | 23.18 | 32.84 | 120 |
+
+GB uses decimal units. Volume deltas include paging, active application writes and temporary archive staging; file logical sizes are not presented as exact freed disk space. The initial command observed C14,645,694,464/D23,182,327,808 bytes free; the later full-inventory baseline differs because the system was active.
+
+Removed 1273 project cache/build paths, 11 clean pushed worktrees, and 2,976,856,442 logical bytes of byte-identical Round14 replay copies. 18 tracked-content paths were retained and 0 paths were only partially removable. npm, pip, Electron, Dart Pub and obsolete runtime/installer caches were processed; individual Gradle failures remain recorded. Source/lock/Git content was excluded from cache deletion.
+
+No earlier DIA poller/controller or grader watcher was found at admission. Active Codex application helpers were kept. Only this task’s own preparation processes were stopped to refine maintenance protection; no Azure run was killed. Two bounded archive queues handle the old D: evidence and identified old C: evidence separately.
+
+Archive: 1 verified batches, 1,100,165,116 stored bytes, 635 eligible local evidence files removed. See [archive index](evidence-archive.md). Every deletion has a local SHA-256 and matching uploaded archive/manifest receipt. Protected files remain even when an archival copy exists.
+
+Docker CLI/installation was not found, and WSL reports not installed. The only inventoried VHDX files belong to Claude app state (rootfs7,826,571,264; sessiondata608,174,080; smol-bin37,748,736 bytes); they were retained. No Docker/WSL disk compaction was performed.
+
+DISM returned error740 (elevation required). The approved RunAs request was canceled by Windows/user interaction; no repeated elevation prompt was issued. Windows component cleanup and the administrator-only cleanmgr selection remain pending. Page file allocation is12,800MiB; no page-file or hibernation setting changed. Recycle Bin clearing reported “path not found”; no nonempty-bin cleanup is claimed.
+
+Conditional data retained for review includes unmatched replay scratch, semantic_app cache content beyond identified dependencies, D:/cache content beyond identified dependencies, Temp/claude source/logs beyond identified dependencies, sealed/held-out material, unknown containers/types and referenced evidence. Personal Downloads/Documents/Desktop/Pictures are untouched. Their sizes and the largest20 remaining folders will be included at completion.
+
+Evidence/source of the maintenance record: private inventories, cache-removals.jsonl, project-removals.jsonl, worktrees.json, worktree-removals.jsonl, replay-duplicate-removals.jsonl, archive receipts, manifests and evidence-deletions.jsonl. A fresh RESUME note is saved before archive waits. Targets remain pending; do not treat this checkpoint as cleanup or release completion.
