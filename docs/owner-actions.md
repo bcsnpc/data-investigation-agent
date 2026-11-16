@@ -400,6 +400,8 @@ Round25 checkpoint2026-10-28: no new identity, scope or resource approval is req
 
 ### Round25 stale-control UI follow-up, 2026-10-31
 
+**Resolved / historical, 2026-11-16:** no OFF action is pending for this completed cohort or Round26. All later stale cases finished and the fixture was restored; the last independent setting readback was ON, and the fresh post-cleanup source hashes/model7,661 check passed. Do not reapply an injection from these historical steps. This does not close unrelated HealthNet actions.
+
 Browser control stopped before input because Edge's current URL could not be verified. No setting changed. If the stale cohorts are still pending, use the existing Fabric owner session: fixture workspace ? semantic model **Application load fixture 20261003** (`0c89889c-6fe6-49ab-91e9-4b00a51070e6`) ? Settings ? Direct Lake ? **Keep your Direct Lake data up to date**. The controlled cohort needs an actual fresh OFF observation, then its real +31 copy and scoped admissions; afterwards restore ON, refresh this same model and verify 7,661. Do not turn it off while another fault cohort is active. The existing publisher's SDK-derived settings POST previously returned401; this is not permission to add a role or fabricate UI evidence. No owner action has been executed by this entry.
 
 
