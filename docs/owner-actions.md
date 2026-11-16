@@ -591,3 +591,7 @@ C: 73.45 GB free; D: 95.83 GB free (targets 60/120 GB). The C-only archive queue
 All 52 source/config/lock files in the pre-cleanup audit remain present with identical SHA-256. Ten unused virtual environments, thirteen clean pushed worktrees and one redundant clone were removed after dependency/source checks. Current environments and active worktrees remain. Existing storage lifecycle delete rules cover three screenshot prefixes only and do not match evidence-archive.
 
 The administrator cleanup request was canceled; it was not retried. The prepared, unexecuted owner script is `D:\data_investigation_agent\.local\round-twenty-six\full-disk-cleanup-20261115\owner-admin-cleanup.ps1`. Page file and hibernation settings were not changed. A disposable junction-deletion test was rejected by automatic tool policy and did not execute; source integrity was checked read-only instead.
+
+### Disk targets reached ? 2026-11-16T05:16:00.109526+00:00
+
+Observed free space: C:73.90GB, D:121.73GB, versus60/120GB targets. Remaining eligible archival continues; Round26 remains paused. The index now records 124 completed verified batches and 20042 eligible original-file removals. Historical documentation citations are not treated as current runtime dependencies; current code, tests, CI, acceptance and Round26 inputs remain protected. No protected-name deletion was found in the journal audit.
