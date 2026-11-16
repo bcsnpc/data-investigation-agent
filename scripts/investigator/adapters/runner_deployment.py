@@ -61,6 +61,8 @@ def demo_preflight(job,resource,*,execute,cli):
 
 def launch(config,target,*,execute=subprocess.run):
     """Read existing job and start its pinned override; never update its roles."""
+    from ..disk_hygiene import require_laptop_headroom
+    require_laptop_headroom()
     import tempfile
     from .runner_schedule import bind_execution
     config=bind_execution(config)

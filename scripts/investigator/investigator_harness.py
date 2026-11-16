@@ -58,6 +58,8 @@ class RunHarness:
             if any(v['event']=='SUBMIT_ATTEMPT'for v in self.log.events):
                 raise RunStillActive('SUBMISSION_UNCERTAIN_RECONCILE_BEFORE_RETRY')
             try:
+                from .disk_hygiene import require_laptop_headroom
+                require_laptop_headroom()
                 admission = self.admit(ticket)
                 if admission is not None:self.log.append('ADMISSION', admission)
             except Exception as error:
