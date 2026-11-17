@@ -112,6 +112,16 @@ def select_unique(inventory, observations, figure):
     """A failed/unread candidate or truncated inventory cannot confer uniqueness."""
     from .investigation_read_tools import compare_figure
     expected = {r['id'] for r in inventory['candidates']}
+    if len(expected) == 1 and inventory['exhaustive']:
+        candidate = inventory['candidates'][0]
+        explicit = candidate.get('explicit', {})
+        if candidate['id'] in [explicit.get(k) for k in ('visual', 'table', 'measure')]:
+            return {'selected': candidate['id'], 'matches': [], 'exhaustive': True,
+                    'observations': deepcopy(observations), 'reason': 'EXPLICIT_TARGET'}
+    if not figure:
+        return {'selected': None, 'matches': [], 'exhaustive': False,
+                'observations': deepcopy(observations),
+                'reason': 'NO_REPORTED_VALUE_FOR_TARGET_DISAMBIGUATION'}
     by_id = {}
     for observation in observations:
         identity = observation['candidate']

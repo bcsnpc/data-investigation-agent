@@ -21,7 +21,7 @@ def inventory(root):
             if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign)):
                 targets = node.targets if isinstance(node, ast.Assign) else [node.target]
                 names = [t.id for t in targets if isinstance(t, ast.Name)]
-                if not any(any(word in n.lower() for word in ('instruction', 'prompt', 'system')) for n in names):
+                if not any(any(word in n.lower() for word in ('instruction', 'prompt', 'system', 'guidance')) for n in names):
                     continue
                 if not any(isinstance(n, ast.Constant) and isinstance(n.value, str) and len(n.value) > 60
                            for n in ast.walk(node)):

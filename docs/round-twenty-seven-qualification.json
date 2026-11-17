@@ -1,0 +1,12 @@
+{
+  "source": "cb091b76f3275f7cccf5ebe775d50c708277b316",
+  "workflow": 44163209442,
+  "full_suite": {
+    "passed": 5892,
+    "skipped": 53,
+    "failed": 0
+  },
+  "all_eight_shards": "PASS",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:06e5b6632d33f55b2d1ece1d7ecbeb39db738ac04aac5795b3c8c32d072f46b2",
+  "scored_runs": 0
+}

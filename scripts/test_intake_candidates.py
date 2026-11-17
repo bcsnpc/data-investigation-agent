@@ -27,6 +27,16 @@ class CandidatesTests(unittest.TestCase):
         self.assertEqual(sibling['retained_scope']['properties']['filters'], [{'warehouse': 2}])
         self.assertEqual(self.raw, before)
 
+    def test_explicit_target_does_not_depend_on_value_or_read_success(self):
+        inv = enumerate_targets(self.catalog, text='quantity', proposal=request(),
+                                explicit={'report': 'report', 'page': 'page', 'visual': 'card'})
+        observations = [{'candidate': 'card', 'status': 'FAILED', 'evidence_id': 'q1'}]
+        result = select_unique(inv, observations, None)
+        self.assertEqual(result['selected'], 'card')
+        self.assertEqual(result['reason'], 'EXPLICIT_TARGET')
+        self.assertEqual(result['observations'], observations)
+        self.assertEqual(select_unique(inv, observations, {'state': 'NUMBER', 'value': '950', 'precision': 'EXACT'})['selected'], 'card')
+
     def test_wrong_parent_cannot_be_replaced_by_matching_number(self):
         with self.assertRaisesRegex(ValueError, 'VISUAL_OUTSIDE'):
             enumerate_targets(self.catalog, text='Othercard', proposal=request(),

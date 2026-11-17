@@ -172,9 +172,7 @@ class ReadTools:
             else:row['reason']=record.get('error','Native candidate check failed.')
             observations.append(row)
         figure=self.intake.get('reported_figure')
-        if figure:return select_unique(self.target_inventory,observations,figure)
-        return {'selected':None,'matches':[],'exhaustive':False,'observations':observations,
-                'reason':'NO_REPORTED_VALUE_FOR_TARGET_DISAMBIGUATION'}
+        return select_unique(self.target_inventory,observations,figure)
 
     def registry(self):
         ids=sorted(self.visible)

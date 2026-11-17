@@ -9,6 +9,7 @@ class PromptExportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             source = """raise RuntimeError('must never import')
 INSTRUCTIONS = 'Answer only from native evidence. Never invent a cause or choose another named target.'
+guidance = 'Answer the exact question, preserve explicit targets, and explain the implemented rule with evidence.'
 def request_for(payload):
     system = 'Grade verdict, layer and cause independently. A bare clarification is a failure.'
     system += payload['rubric']
@@ -21,6 +22,7 @@ def toolbox():
             self.assertIn("system += payload['rubric']", result)
             self.assertIn("'description':'Bounded native read'", result)
             self.assertIn('INSTRUCTIONS =', result)
+            self.assertIn('guidance =', result)
             self.assertNotIn("raise RuntimeError", result)
 
 
