@@ -6,7 +6,8 @@ from .shared_state import encoded, sha
 
 
 def policy(provider):
-    return json.loads(Path(__file__).with_name('build_phase_policy.json').read_text())['round26']['providers'][provider]
+    configuration=json.loads(Path(__file__).with_name('build_phase_policy.json').read_text())
+    return configuration[configuration.get('active_provider_policy','round26')]['providers'][provider]
 
 
 def account_for(provider, now):

@@ -97,5 +97,31 @@
         "approval": "Owner approved 2026-11-01: 5,500 additional investigation requests; model caps unchanged"
       }
     }
+  },
+  "active_provider_policy": "round27",
+  "round27": {
+    "approval": "Owner round-27-redesign-and-prove (1).md, executed2026-11-17",
+    "per_ticket_actual_microdollars": 3000000,
+    "providers": {
+      "anthropic": {
+        "ceiling_microdollars": 120575301,
+        "warning_microdollars": 114575301
+      },
+      "openai": {
+        "ceiling_microdollars": 180000000,
+        "warning_microdollars": 140000000
+      },
+      "azure_openai": {
+        "ceiling_microdollars": 0,
+        "warning_microdollars": 0
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; existing account retained, historical charges not reset",
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false
+      }
+    }
   }
 }
