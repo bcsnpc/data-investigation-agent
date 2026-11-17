@@ -906,3 +906,6 @@ OpenAI remaining credit and expiry could not be independently read: Windows comp
 ## Round27 Direct Lake automatic-update API research, 2026-11-17
 
 The Microsoft documentation describes Keep your Direct Lake data up to date as a portal model setting, separate from refresh schedules and DirectLakeBehavior (query fallback). No documented REST or TOM read for that switch has been established in this research; do not infer OFF from schedule.enabled=false, partition RefreshedTime or DirectLakeBehavior. The native INFO.PARTITIONS schema exposes partition refresh/modified times, not that switch. Sources: https://learn.microsoft.com/en-us/fabric/fundamentals/direct-lake-how-it-works and https://learn.microsoft.com/en-us/dax/info-partitions-function-dax . Existing stale expectations and sealed v5 are unchanged. Research is not proof that no undocumented endpoint exists; native switch fast-path availability remains unestablished.
+
+
+Round27 credit action resolved2026-11-17: owner supplied OpenAI31.06USD, expiryNovember29. Recorded as owner-reported, not independently viewed. Account ceiling202.938628USD includes29.06USD new allowance and preserves2USD cash. Conservative start-of-Nov29UTC expiry guard is tested. Browser access is still unavailable; no owner sign-in was requested or changed.

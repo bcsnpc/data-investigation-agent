@@ -123,6 +123,9 @@ def run(plan,context):
                                 graph_spec['allowed_objects'],record)
     def ai_configuration(step):
         if 'ai_routing' not in spec:return spec['reasoning']
+        if step in ('SCREENSHOT','SUMMARY'):
+            from investigator.adapters.provider_runtime import select
+            return select(spec['ai_routing'],tenant=graph_spec['estate'],step='INVESTIGATOR')
         if step=='INTAKE':
             from investigator.adapters.provider_runtime import intake_selection
             return intake_selection(spec['ai_routing'],tenant=graph_spec['estate'],

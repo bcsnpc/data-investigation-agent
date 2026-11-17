@@ -24,6 +24,17 @@ class ProviderPolicyTests(unittest.TestCase):
         self.assertEqual(approved['allowed_vendor'], 'amazon-nova-only')
         self.assertIs(approved['allow_claude'], False)
 
+    def test_openai_credit_expiry_and_round_purposes(self):
+        from datetime import datetime,timezone
+        from investigator.provider_budget import check_credit
+        before=datetime(2026,11,28,tzinfo=timezone.utc).timestamp()
+        expired=datetime(2026,11,29,tzinfo=timezone.utc).timestamp()
+        check_credit('openai',before,owner='round27-secondary',purpose='GRADING')
+        with self.assertRaisesRegex(SpendHold,'PURPOSE_NOT_APPROVED'):
+            check_credit('openai',before,owner='round27-dev',purpose='INTAKE')
+        with self.assertRaisesRegex(SpendHold,'CREDIT_EXPIRED'):
+            check_credit('openai',expired,owner='round27-secondary',purpose='GRADING')
+
 
 if __name__ == '__main__':
     unittest.main()

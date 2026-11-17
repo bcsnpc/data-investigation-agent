@@ -5,6 +5,19 @@ from .build_phase import month_window, ensure_model_account
 from .shared_state import encoded, sha
 
 
+def check_credit(provider,now,*,owner=None,purpose=None):
+    """Confirmed prepaid expiry and round purpose limits before dispatch."""
+    from datetime import datetime,timezone
+    from .model_spend import SpendHold
+    approved=policy(provider)
+    expiry=approved.get('credit_expiry_utc')
+    if expiry and now>=datetime.fromisoformat(expiry.replace('Z','+00:00')).timestamp():
+        raise SpendHold('PROVIDER_CREDIT_EXPIRED:'+provider)
+    if (isinstance(owner,str)and owner.startswith('round27-') and
+            'allowed_purposes'in approved and purpose not in approved['allowed_purposes']):
+        raise SpendHold('PROVIDER_PURPOSE_NOT_APPROVED:'+provider)
+
+
 def policy(provider):
     configuration=json.loads(Path(__file__).with_name('build_phase_policy.json').read_text())
     return configuration[configuration.get('active_provider_policy','round26')]['providers'][provider]

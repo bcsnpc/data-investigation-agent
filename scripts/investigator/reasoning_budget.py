@@ -167,7 +167,8 @@ class TicketBudget:
         return result
 
     def _account(self):
-        from .provider_budget import ensure_account
+        from .provider_budget import ensure_account,check_credit
+        check_credit(self.provider,self.clock(),owner=self.owner,purpose=self.purpose)
         return ensure_account(self.state, self.provider, self.clock())
 
     def _ceiling(self):
