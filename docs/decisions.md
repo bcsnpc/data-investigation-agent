@@ -629,3 +629,8 @@ Round26 owner final-pass decision applied,2026-11-11: frozen public-dev Opus cal
 ### Owner disk hygiene, 2026-11-16
 
 Require decimal free-space floors C:40GB and D:80GB before new laptop admissions. The check runs in the case harness and direct Azure launch; saved outcomes and polling remain recoverable. Linux/cloud workers retain their existing storage checks. This is host admission maintenance after measurement, not an investigation-reasoning fix or a new scored image: preserve frozen e59 measurements and three same-image saved smokes. New disk tests cover both exact thresholds, either low drive, unavailable drive, no Windows probing on Linux, and rejection before Azure/submission. No model, request or restoration budget changed. Record the owner's archival/no-duplicates/one-active-worktree/end-of-round rules in CLAUDE.md; protected dirty/unique worktrees remain exceptions. Overnight admin/sign-in tasks are skipped for owner action.
+
+
+## Round27 owner mandate, 2026-11-17
+
+Owner supplied round-27-redesign-and-prove (1).md: Opus for intake and investigation only, never Anthropic grading; Nova Pro primary, Sol secondary while actual credit remains and a different-model disagreement review. Bedrock round cap20USD is approved, Amazon models only with Claude guard unchanged; applying/readback is pending. Ticket actual-usage cap3USD; physical allocations and restoration reserve unchanged. No new context/glossary file, resources, roles or identities. v5 remains sealed until fresh calibration and full40 budget gates; harmful0 required for freeze. Existing R26 cash/ledger history is retained, not reset.

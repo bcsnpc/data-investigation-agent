@@ -100,7 +100,7 @@ def schema(properties,required=None):
             'additionalProperties':False}
 
 
-def toolbox(layers,read_tools,intake=None):
+def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
     tools=[]
     for kind in ('sql','dax'):
         ids=[i for i,l in layers.items() if (l['dialect']=='DAX')==(kind=='dax')]
@@ -136,6 +136,10 @@ def toolbox(layers,read_tools,intake=None):
         submit['required'].append('classified_issue_type')
     submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
     submit['properties']['routing']={'enum':['ENGINEER','BUSINESS_OWNER']}
+    if conclusion_contract:
+        from .conclusion_contract import fields
+        submit['properties'].update(fields())
+        submit['required'].extend(fields())
     return tools
 
 
@@ -158,13 +162,31 @@ class Investigator:
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
         self.model_seconds=0
         self.refresh_tools()
-        self.stable=INSTRUCTIONS+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
+        guidance=INSTRUCTIONS
+        if self.context.get('conclusion_contract')=='question-first-v1':
+            guidance+='''
+The conclusion must answer the exact selected question, not an incidental
+divergence. Judge the number against implemented rules, never business intent.
+Use exactly one verdict_class: DEVIATION for an evidenced flow/access/history
+difference; AS DESIGNED when the requested number follows its implemented rule;
+UNRESOLVED only for genuinely missing access or evidence, naming the exact fact.
+Explain the implemented calculation in plain words and lead with a direct answer
+including why. A sum-versus-count question requires that explanation; finding
+an upstream join difference does not replace it. Preserve every explicit user
+report/page/visual choice. Candidate values narrow only within that scope and
+only when exactly one candidate matches at the stated precision. Otherwise
+return side-by-side checked findings, never promote one candidate as the target.
+Submit all required conclusion fields, including routing and a single record-only
+context_gap. No fix suggestions, no glossary request and no business context file.
+'''
+        self.stable=guidance+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
         from .model_case_presentation import Presentation
-        self.presentation=Presentation(context,self.triage,INSTRUCTIONS)
+        self.presentation=Presentation(context,self.triage,guidance)
 
     def refresh_tools(self):
         self.read_tools=self.read_tools_factory()
-        self.tools=toolbox(self.queries.layers,self.read_tools,self.context.get('intake'))
+        self.tools=toolbox(self.queries.layers,self.read_tools,self.context.get('intake'),
+            conclusion_contract=self.context.get('conclusion_contract')=='question-first-v1')
         if len({t['name'] for t in self.tools})!=len(self.tools):raise ValueError('DUPLICATE_TOOL')
         self.schemas={t['name']:Draft202012Validator(t['input_schema']) for t in self.tools}
 
@@ -190,9 +212,19 @@ class Investigator:
         if name in ('submit_finding','ask_user_choice'):
             if not set(args['evidence_ids'])<=known:raise ValueError('UNKNOWN_EVIDENCE_REFERENCE')
             if name=='submit_finding':
+                conclusion=None
+                if self.context.get('conclusion_contract')=='question-first-v1':
+                    from .conclusion_contract import validate
+                    conclusion=validate(args,self.case_view())
                 answer=self.validate_finding(deepcopy(args),self.case_view())
                 if not isinstance(answer,dict) or not answer.get('business'):
                     raise ValueError('VALIDATOR_MUST_RETURN_BUSINESS_ANSWER')
+                if conclusion is not None:
+                    from .conclusion_contract import render
+                    answer['business']=render(conclusion)+'\n'+answer['business']
+                    answer['conclusion']=conclusion
+                    answer['context_gap']=deepcopy(conclusion['context_gap'])
+                    answer.setdefault('technical',{})['conclusion']=deepcopy(conclusion)
                 self.state['outcome']={'status':'ANSWERED',**answer}
                 return answer
             if not self.state['candidate_checks'] or not any(q['purpose'] in ('recreate','record','lookup') for q in self.queries.records):

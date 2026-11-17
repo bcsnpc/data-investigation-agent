@@ -29,9 +29,10 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing','intake_cascade','investigator_cascade'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing','intake_cascade','intake_strategy','investigator_cascade'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
     if 'intake_cascade' in value and type(value['intake_cascade'])is not bool:raise ValueError('INTAKE_CASCADE_BOOLEAN_REQUIRED')
+    if value.get('intake_strategy','investigator') not in ('investigator','configured','cascade'):raise ValueError('INTAKE_STRATEGY_CONFIGURATION')
     if 'investigator_cascade' in value and type(value['investigator_cascade'])is not bool:raise ValueError('INVESTIGATOR_CASCADE_BOOLEAN_REQUIRED')
     if type(value['max_requests']) is not int or not 1<=value['max_requests']<=100:
         raise ValueError('GUIDED_PHYSICAL_REQUEST_BOUND')
@@ -122,6 +123,10 @@ def run(plan,context):
                                 graph_spec['allowed_objects'],record)
     def ai_configuration(step):
         if 'ai_routing' not in spec:return spec['reasoning']
+        if step=='INTAKE':
+            from investigator.adapters.provider_runtime import intake_selection
+            return intake_selection(spec['ai_routing'],tenant=graph_spec['estate'],
+                strategy=spec.get('intake_strategy','cascade' if spec.get('intake_cascade') else 'investigator'))
         from investigator.adapters.provider_runtime import select
         return select(spec['ai_routing'],tenant=graph_spec['estate'],step=step)
     investigator_configuration = ai_configuration('INVESTIGATOR')
@@ -151,7 +156,7 @@ def run(plan,context):
         admission = admit_operational(submitted, {'candidates': list(catalog.nodes.values())})
         if admission['status'] == 'READY':operational_admission = admission
     if set(submitted)=={'text'} and operational_admission is None:
-        if spec.get('intake_cascade'):
+        if spec.get('intake_strategy','cascade' if spec.get('intake_cascade') else 'investigator')=='cascade':
             from investigator.intake_cascade import Cascade
             mapped=Cascade(catalog=catalog,first_model=model(case_id,'INTAKE'),
                 fallback_model=lambda:model(case_id,'INTAKE_FALLBACK'),record=record).resolve(submitted['text'])

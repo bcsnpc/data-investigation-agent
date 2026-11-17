@@ -896,3 +896,8 @@ Next: verify the preserved Round26 environment/image/fixture/infrastructure, the
 ### Round26 end-of-round hygiene — 2026-11-16
 
 Release closure reused the existing C:/temp/dia-r26-build worktree; dirty D: main edits remain untouched. No new duplicate raw capture copy or worktree was created. The disk admission check passes both40GB C:/80GB D: floors; verified archive staging is empty, Docker/WSL absent, and maintenance Python workers exited. Current protected evidence and small qualification records remain; sealed cloud captures remain in Blob. The earlier admin/policy/unknown-material exceptions remain owner actions, not silent deletions.
+
+
+## Round27 credit observation, 2026-11-17
+
+OpenAI remaining credit and expiry could not be independently read: Windows computer-use and browser inventory both returned `Computer Use native pipe is unavailable ... os error 2`. No sign-in or billing setting was changed. The shared ledger reports OpenAI charged173.878628USD/180USD, which is an internal cap, not proof of cash balance or expiry. Keep the existing cap until a real balance/expiry can be observed; do not manufacture an increase. Offline redesign continues. Anthropic opening charged51.719843USD versus49.255301USD at the owner-reported74.32USD cash observation gives a ledger-derived remaining71.855458USD, with3USD protected; this is not a fresh Console balance. No December grant is admitted without owner confirmation.

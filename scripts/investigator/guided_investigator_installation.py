@@ -182,6 +182,9 @@ class Factory:
         context=deepcopy(self.context_for(path,intake))
         # A context builder cannot replace the selected target/path/intake.
         context.update(intake=intake,path=deepcopy(path),layers=deepcopy(layers))
+        context['conclusion_contract']='question-first-v1'
+        context['explicit_target']={field:deepcopy(intake[field]) for field in
+            ('report','page','visual','measure','table') if intake.get(field)}
         from .query_context import sheet
         context['query_dialect_sheets']={i:sheet(layer)for i,layer in layers.items()}
         context['route_registry_hash']=digest(self.routes)
