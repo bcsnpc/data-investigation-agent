@@ -187,6 +187,11 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         self.read_tools=self.read_tools_factory()
         self.tools=toolbox(self.queries.layers,self.read_tools,self.context.get('intake'),
             conclusion_contract=self.context.get('conclusion_contract')=='question-first-v1')
+        if self.context.get('candidate_inventory'):
+            finding_tool=next(t for t in self.tools if t['name']=='submit_finding')['input_schema']
+            finding_tool['properties']['selected_target']={'anyOf':[{'type':'null'},{'enum':[
+                candidate['id']for candidate in self.context['candidate_inventory']['candidates']]}]}
+            finding_tool['required'].append('selected_target')
         if len({t['name'] for t in self.tools})!=len(self.tools):raise ValueError('DUPLICATE_TOOL')
         self.schemas={t['name']:Draft202012Validator(t['input_schema']) for t in self.tools}
 
@@ -212,6 +217,15 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         if name in ('submit_finding','ask_user_choice'):
             if not set(args['evidence_ids'])<=known:raise ValueError('UNKNOWN_EVIDENCE_REFERENCE')
             if name=='submit_finding':
+                if self.context.get('candidate_inventory'):
+                    checks=[record['result']for record in self.state['evidence'].values()
+                            if record.get('tool')=='check_target_candidates']
+                    if not checks:raise ValueError('CHECK_TARGET_CANDIDATES_BEFORE_CONCLUSION')
+                    resolution=checks[-1]
+                    if args['selected_target']!=resolution.get('selected'):
+                        raise ValueError('TARGET_NOT_A_UNIQUE_OBSERVED_MATCH')
+                    if resolution.get('selected')is None and args.get('verdict_class')!='UNRESOLVED':
+                        raise ValueError('UNSELECTED_TARGET_REQUIRES_SIDE_BY_SIDE_FINDINGS_AND_EXACT_UNDECIDED_DISTINCTION')
                 conclusion=None
                 if self.context.get('conclusion_contract')=='question-first-v1':
                     from .conclusion_contract import validate
@@ -225,6 +239,8 @@ context_gap. No fix suggestions, no glossary request and no business context fil
                     answer['conclusion']=conclusion
                     answer['context_gap']=deepcopy(conclusion['context_gap'])
                     answer.setdefault('technical',{})['conclusion']=deepcopy(conclusion)
+                if self.context.get('candidate_inventory'):
+                    answer['target_resolution']=deepcopy(resolution)
                 self.state['outcome']={'status':'ANSWERED',**answer}
                 return answer
             if not self.state['candidate_checks'] or not any(q['purpose'] in ('recreate','record','lookup') for q in self.queries.records):
@@ -243,6 +259,8 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         result=self.read_tools[name]['run'](deepcopy(args))
         if name=='list_candidates' and isinstance(result,dict):
             self.state['candidate_checks']=bool(result.get('checks')) or len(result.get('candidates',[]))<=1
+        if name=='check_target_candidates' and isinstance(result,dict):
+            self.state['candidate_checks']=bool(result.get('exhaustive'))
         return result
 
     def case_view(self):
@@ -468,6 +486,9 @@ context_gap. No fix suggestions, no glossary request and no business context fil
     def closing_action_reserved(self):
         # The seven-action cascade stage hands off to another model; it is
         # not a final-delivery boundary. Keep that existing handoff unchanged.
+        if self.context.get('conclusion_contract')=='question-first-v1':
+            return (self.state['tools_used']>=self.tool_limit-1
+                    and any(q['status']=='SUCCEEDED' for q in self.queries.records))
         return (self.tool_limit==15 and self.state['tools_used']==14
                 and any(q['status']=='SUCCEEDED' for q in self.queries.records))
 

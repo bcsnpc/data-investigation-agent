@@ -121,6 +121,32 @@ def text(value):
 
 def attach(outcome,*,queries=(),context=None,candidates=()):
     value=deepcopy(outcome);summary=report(outcome=value,queries=queries,context=context,candidates=candidates)
+    if (context or {}).get('conclusion_contract')=='question-first-v1':
+        if not value.get('conclusion'):
+            # A timeout, hard stop or exhausted model budget cannot erase the
+            # saved findings. This does not manufacture a causal explanation
+            # or upgrade status/score; the honest missing evidence is explicit.
+            missing=[f['name']+' has not been measured.' for f in summary['findings_per_layer']
+                     if f['status']=='NOT_CHECKED']
+            missing.extend(q['layer']+': '+q.get('error','Native read failed.')
+                           for q in queries if q['status']=='ERROR')
+            missing.extend(summary['limitations'])
+            missing=list(dict.fromkeys(missing))
+            if not missing:missing=['The causal explanation for the stated question has not been established from these checks.']
+            value['conclusion']={
+                'direct_answer':'The saved checks do not establish the cause of the stated discrepancy because '+missing[0],
+                'verdict_class':'UNRESOLVED',
+                'calculation_explanation':'; '.join(c['name']+' = '+c['expression'] for c in summary['calculation'])or'The calculation definition was not established.',
+                'undecided':missing,'routing':summary['routing']['to'],
+                'context_gap':{'type':'other','note':missing[0]}}
+            value['context_gap']=deepcopy(value['conclusion']['context_gap'])
+            from .conclusion_contract import render
+            if isinstance(value.get('business'),dict):
+                value['business']['text']=render(value['conclusion'])+'\n'+str(value['business'].get('text',''))
+            else:value['business']=render(value['conclusion'])+'\n'+str(value.get('business',''))
+        summary['verdict_class']=value['conclusion']['verdict_class']
+        summary['direct_answer']=value['conclusion']['direct_answer']
+        summary['context_gap']=deepcopy(value['conclusion']['context_gap'])
     value['investigation_report']=summary
     if isinstance(value.get('technical'),dict):value['technical']['investigation_report']=deepcopy(summary)
     body=text(summary)

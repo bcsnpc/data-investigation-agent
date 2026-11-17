@@ -41,6 +41,27 @@ class ConclusionTests(unittest.TestCase):
         checked['context_gap']['note'] = 'changed copy'
         self.assertEqual(value, before)
 
+    def test_limit_keeps_observations_and_names_missing_layer_without_success_upgrade(self):
+        from investigator.terminal_findings import attach
+        query={'id':'q1','layer':'serving','purpose':'recreate','status':'SUCCEEDED',
+               'row_count':1,'text':'SELECT SUM(units) FROM dbo.Items','result':{'rows':[{'value':7}]}}
+        result=attach({'status':'UNRESOLVED','business':'Limit reached.','stop':'TOOL_OR_TIME_LIMIT'},
+                      queries=[query],context={'conclusion_contract':'question-first-v1',
+                      'layers':{'serving':{'label':'Serving'},'source':{'label':'Application'}}})
+        self.assertEqual(result['status'],'UNRESOLVED')
+        self.assertEqual(result['conclusion']['verdict_class'],'UNRESOLVED')
+        self.assertIn('Application has not been measured.',result['conclusion']['undecided'])
+        self.assertIn('"value": 7',result['business'])
+        self.assertIn('q1',result['business'])
+
+    def test_hard_stop_keeps_its_status_and_partial_conclusion(self):
+        from investigator.terminal_findings import attach
+        result=attach({'status':'BLOCKED','business':'Monthly cap reached.','stop':'MONTHLY_MODEL_EXHAUSTED'},
+                      context={'conclusion_contract':'question-first-v1'})
+        self.assertEqual(result['status'],'BLOCKED')
+        self.assertEqual(result['conclusion']['verdict_class'],'UNRESOLVED')
+        self.assertIn('MONTHLY_MODEL_EXHAUSTED',result['conclusion']['undecided'])
+
 
 if __name__ == '__main__':
     unittest.main()

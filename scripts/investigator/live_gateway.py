@@ -391,6 +391,10 @@ def validate_dax(query,*,allow_define=False):
     inspected=query
     for scalar in SCALARS:inspected=inspected.replace(scalar,'1')
     tokens,gaps=tokenize(inspected)
+    from .investigation_metadata import dax_rowset_expression
+    try:metadata=dax_rowset_expression(query)
+    except ValueError:_deny('DAX_METADATA_READ_GRAMMAR_REJECTED',target=query)
+    if metadata is not None:return query
     if allow_define is True and tokens and tokens[0][1].upper()=='DEFINE':
         # The same recursive grammar owns syntax; only the investigative
         # validator binds discovered model members. This independent gateway

@@ -148,6 +148,7 @@ def run(plan,context):
     from investigator.estate_graph_contract import digest
     case_id='guided:'+digest([graph_spec['estate'],request_key])
     pending_intake = None
+    pending_inventory = None
     initial_intake_queries=[]
     candidate_binding=None
     operational_admission = None
@@ -165,11 +166,28 @@ def run(plan,context):
         record({'event':'GUIDED_INTAKE_ADMISSION','status':mapped['status'],
                 'resolution':intake_resolution,'confidence':mapped.get('resolution_confidence')})
         if mapped['status']!='READY':
-            from investigator.guided_intake_candidates import inventory as candidate_inventory
-            if not candidate_inventory(submitted['text'],mapped,catalog):
+            from investigator.intake_candidates import enumerate_targets,explicit_names
+            from investigator.guided_intake import VERSION,SCHEMA
+            proposal={key:value for key,value in (mapped.get('prefilled')or{}).items()if key in SCHEMA['properties']}
+            # An unsuccessful extraction is not authority for a numeric fact.
+            # Preserve the text for investigation; only checked provenance can
+            # supply the structured primary value used to select a candidate.
+            if not mapped.get('source'):
+                proposal={key:value for key,value in proposal.items()if key=='issue_type'}
+            if mapped.get('code')=='AMBIGUOUS_PRIMARY_FIGURE':proposal.pop('reported_figure',None)
+            explicit=explicit_names(catalog,submitted['text'])
+            proposal.update(version=VERSION,description=submitted['text'])
+            proposal.setdefault('issue_type','SOMETHING_ELSE')
+            proposal.setdefault('compared_with',{'kind':'NOTHING'})
+            pending_inventory=enumerate_targets(catalog,text=submitted['text'],proposal=proposal,explicit=explicit)
+            if not pending_inventory['candidates']:
                 return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
                     step_costs=step_costs(ai_usage),cost=budget(case_id).status())
-            pending_intake=mapped
+            # Keep only actual named selections on the common intake. Each
+            # plausible candidate retains its own complete native address.
+            common={key:value for key,value in proposal.items()if key not in ('report','page','visual','measure','table')}
+            common.update(explicit)
+            pending_intake={**mapped,'candidate_common_intake':common}
         else:submitted={'intake':mapped['intake'],'source':mapped['source']}
     if pending_intake is None and operational_admission is None and (not isinstance(submitted,dict) or not {'intake'}<=set(submitted)<={'intake','source'}):
         raise ValueError('GUIDED_TICKET_ENVELOPE')
@@ -266,29 +284,16 @@ def run(plan,context):
         job_runs=lambda node:history(node,{'JOB_RUN','RUN_HISTORY','SCHEDULE','TABLE_LOAD'}),
         refresh_history=lambda node:history(node,{'REFRESH_RUN','REFRESH_STATE','SCHEDULE','RUN_HISTORY'}))
     if pending_intake is not None:
-        from investigator.guided_intake_candidates import resolve as resolve_candidates
-        from investigator.investigative_queries import Queries
-        from investigator.model_spend import SpendHold
-        from investigator.live_gateway import GatewayDenied
-        from investigator.planner_recording import _safe
-        from investigator.guided_intake_candidates import probe_target
-        def probe_candidate(measure,proposal):
-            return probe_target(factory,catalog,measure,proposal,execute_native,record,initial_intake_queries)
-        try:
-            with guard_scope(record):mapped=resolve_candidates(submitted['text'],pending_intake,catalog,probe_candidate,record=record)
-        except BaseException:
-            meter.close();raise
-        if mapped['status']!='READY':
-            try:return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
-                step_costs=step_costs(ai_usage),cost=budget(case_id).status(),physical_requests=meter.used)
-            finally:meter.close()
-        candidate_binding=mapped
-        submitted={'intake':mapped['intake'],'source':mapped['source']}
+        submitted={'intake':pending_intake['candidate_common_intake'],
+                   'source':pending_intake.get('source',{'kind':'UNRESOLVED_TEXT','text':submitted['text']})}
     phases.append({'phase':'startup-and-intake','seconds':time.monotonic()-started})
     try:
         with guard_scope(record):
             cases=Cases(state=state,graph=graph,estate=graph_spec['estate'],engine_factory=factory)
-            queued=cases.submit({'request_key':request_key,**submitted})
+            if pending_inventory:
+                queued=cases.submit_candidates(request_key=request_key,intake=submitted['intake'],
+                    inventory=pending_inventory,source=submitted['source'])
+            else:queued=cases.submit({'request_key':request_key,**submitted})
             investigated=time.monotonic();result=cases.run(queued['id'])
             phases.append({'phase':'triage-and-investigation','seconds':time.monotonic()-investigated})
         outcome=result['outcome']

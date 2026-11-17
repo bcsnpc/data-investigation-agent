@@ -4,6 +4,35 @@ This enumerates catalog addresses only. It never builds a query, guesses a
 binding or chooses a target because of a similar name or value elsewhere.
 """
 from copy import deepcopy
+import re
+
+
+def explicit_names(catalog,text):
+    """Verbatim native names constrain scope; model-proposed IDs do not."""
+    result={}
+    for field,kind in (('report','REPORT'),('page','PAGE'),('visual','VISUAL')):
+        within=None
+        if field=='page' and result.get('report'):
+            within={p['id']for p in catalog.pages(result['report'])}
+        if field=='visual' and result.get('report'):
+            pages=[p for p in catalog.pages(result['report'])if not result.get('page') or p['id']==result['page']]
+            within={v['id']for p in pages for v in catalog.visuals(result['report'],p['id'])}
+        named=[r for r in catalog.ranked(text,kind,within=within)if r['confidence']=='NAMED']
+        if named:
+            longest=max(len(r.get('matched_name')or r['name'])for r in named)
+            named=[r for r in named if len(r.get('matched_name')or r['name'])==longest]
+        if len(named)==1:result[field]=named[0]['id']
+    # Parent addresses come from containment, not another similar name.
+    if result.get('visual') and not result.get('report'):
+        reports=catalog.reports_for(result['visual'])
+        if len(reports)==1:result['report']=reports[0]['id']
+    if result.get('page') and not result.get('report'):
+        reports=catalog.reports_for(result['page'])
+        if len(reports)==1:result['report']=reports[0]['id']
+    if result.get('visual') and result.get('report') and not result.get('page'):
+        parents=[p for p in catalog.pages(result['report'])if any(v['id']==result['visual']for v in catalog.visuals(result['report'],p['id']))]
+        if len(parents)==1:result['page']=parents[0]['id']
+    return result
 
 
 def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
@@ -28,6 +57,10 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
     else:
         reports = ([{'id': explicit['report']}] if explicit.get('report')
                    else catalog.report_matches(text))
+        if not reports and re.search(r'\d',text) and not(catalog.table_matches(text)or catalog.measure_matches(text)):
+            # A number without a resolved subject still gets bounded checks,
+            # not a bare intake refusal. Truncation forbids target selection.
+            reports=catalog.reports()
         for report in reports:
             report_id = report['id']
             pages = catalog.pages(report_id)
