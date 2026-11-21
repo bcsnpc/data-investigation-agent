@@ -317,6 +317,38 @@ def admit(request, catalog):
     return result
 
 
+def admit_investigation_candidate(request, catalog):
+    """Preserve a loose comparison label for the bounded investigator.
+
+    Target admission stays strict. This does not resolve the source, select a
+    substitute or authorize an endpoint; existing path/query guards still do
+    that. The original comparison remains visible beside the admitted target.
+    """
+    try:
+        return admit(request, catalog)
+    except ValueError as error:
+        if str(error) != 'SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS':
+            raise
+        comparison = request.get('compared_with', {})
+        supplied = comparison.get('source')
+        import re
+        if (not isinstance(supplied, str) or supplied in catalog.nodes
+                or re.fullmatch(r'[a-fA-F0-9]{64}|[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}', supplied)
+                or re.match(r'[A-Za-z][A-Za-z0-9+.-]*://', supplied)):
+            raise
+        pending = deepcopy(request)
+        pending['compared_with'] = {'kind': 'NOTHING'}
+        result = admit(pending, catalog)
+        result['comparison_context'] = deepcopy(comparison)
+        result['source_resolution'] = {
+            'status': 'PENDING_INVESTIGATOR', 'supplied': supplied,
+            'basis': 'SOURCE_LABEL_NOT_EXACT_CATALOG_NAME'}
+        result.setdefault('format_warnings', []).append(
+            'The source comparison is unresolved, not absent. Check the declared '
+            'path and native candidates before answering; do not select a source by name alone.')
+        return result
+
+
 def prefill(text, proposed, catalog, *, provenance=None):
     """Validate model-extracted fields; never manufacture a report or figure.
 

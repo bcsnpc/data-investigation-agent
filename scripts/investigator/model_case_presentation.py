@@ -35,7 +35,7 @@ class Presentation:
 
     def restore(self,value,field=None):
         if isinstance(value,str):
-            return self.reverse.get(value,value) if field in ('node','layer','id','checked','evidence_ids','candidate','asset_ids') else value
+            return self.reverse.get(value,value) if field in ('node','layer','id','checked','evidence_ids','candidate','asset_ids','selected_target') else value
         if isinstance(value,list):return [self.restore(v,field) for v in value]
         if isinstance(value,dict):return {k:self.restore(v,k) for k,v in value.items()}
         return value

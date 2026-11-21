@@ -134,7 +134,7 @@ def attach(outcome,*,queries=(),context=None,candidates=()):
             missing=list(dict.fromkeys(missing))
             if not missing:missing=['The causal explanation for the stated question has not been established from these checks.']
             value['conclusion']={
-                'direct_answer':'The saved checks do not establish the cause of the stated discrepancy because '+missing[0],
+                'direct_answer':'The investigation did not establish the cause of the stated discrepancy. The checked findings and remaining limits follow.',
                 'verdict_class':'UNRESOLVED',
                 'calculation_explanation':'; '.join(c['name']+' = '+c['expression'] for c in summary['calculation'])or'The calculation definition was not established.',
                 'undecided':missing,'routing':summary['routing']['to'],

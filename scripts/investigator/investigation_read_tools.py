@@ -178,7 +178,7 @@ class ReadTools:
         ids=sorted(self.visible)
         def entry(description,properties,run,required=None):
             return {'description':description,'schema':schema(properties,required),'run':run}
-        node={'enum':ids}
+        node={'enum':ids,'description':'A graph node ID from this exact enum. Do not pass a native query-layer ID, inventory asset address or evidence ID.'}
         registry={
             'get_definition':entry('Read the retained DAX, SQL, notebook or view definition for an admitted path object.',{'node':node},self.definitions),
             'get_lineage':entry('Read upstream lineage within the admitted estate and activate its known native query routes. Use a list_candidates result to open an upstream object not active yet; no unrelated catalog dump.',{'node':node,'operation':{'enum':['PATH','SEARCH','NEIGHBOURS','PRODUCERS','CONSUMERS','CANDIDATE_BINDINGS']},'words':{'type':'string','maxLength':256}},self.lineage,[]),

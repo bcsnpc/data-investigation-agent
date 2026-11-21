@@ -30,6 +30,12 @@ of data. BLANK is a value; zero is different. Preserve the stated precision.
 Use the supplied tools. Cite evidence for every factual claim. On rejection use
 the precise feedback and continue with a different or corrected check. Query
 repeats reuse saved evidence. Read the current-state recitation each turn.
+Retained-definition references identify native code already supplied in context.
+Cite their evidence IDs for calculation or binding statements, together with
+actual query results for the observed effect. They never establish freshness.
+An unresolved comparison_context is still part of the user's question. Resolve
+it from the declared path and bounded native checks, not by choosing a source
+whose name merely resembles the supplied label.
 Distinguish current rows from history: selecting period columns from a current
 table is not a history read. Do not claim historical absence or a before/after
 change unless the cited query actually reads retained native history.
@@ -106,12 +112,12 @@ def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
         ids=[i for i,l in layers.items() if (l['dialect']=='DAX')==(kind=='dax')]
         if not ids:continue
         tools.append({'name':'run_'+kind,'description':'Run your read-only query on one admitted layer. Use an exact layer ID from the admitted context or current state.',
-                      'input_schema':schema({'layer':{'enum':ids},'query':{'type':'string','minLength':1},
+                      'input_schema':schema({'layer':{'enum':ids,'description':'An admitted native query-layer ID from this exact enum; not a graph node, inventory asset or evidence ID.'},'query':{'type':'string','minLength':1},
                           'purpose':{'enum':['recreate','compare','record','lookup','security','different_question','history']}})})
     for name,tool in read_tools.items():
         tools.append({'name':name,'description':tool['description'],'input_schema':deepcopy(tool['schema'])})
     tools.extend([
-        {'name':'get_evidence','description':'Read full saved case evidence by its ID; no estate read.',
+        {'name':'get_evidence','description':'Read full saved case evidence by its ID; no estate read. Cite the requested original evidence ID, not the fetch wrapper.',
          'input_schema':schema({'id':{'type':'string'}})},
         {'name':'ask_user_choice','description':'Last resort, after triage, candidate checks and recreation. Ask a grounded multiple-choice question about an unreadable user fact or policy.',
          'input_schema':schema({'question':{'type':'string'},'choices':{'type':'array','minItems':2,'maxItems':6,'items':{'type':'string'}},
@@ -126,7 +132,7 @@ def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
                                'cause':{'type':'string'},
                                'numbers':{'type':'array','description':'Literal scalar values only, not objects, ratios or annotations.',
                                    'items':{'oneOf':[{'type':'number'},{'type':'null'},{'type':'string','pattern':r'^-?\d+(\.\d+)?$'}]}},
-                               'checked':{'type':'array','description':'Exact layer IDs that were read, not prose descriptions.',
+                               'checked':{'type':'array','description':'Only native query-layer IDs from this enum that were read. Graph/job nodes and inventory asset addresses do not belong here; cite their observations in evidence_ids.',
                                           'items':{'enum':list(layers)}},
                                'evidence_ids':{'type':'array','items':{'type':'string'},'minItems':1}})}])
     if (intake or {}).get('issue_type')=='SOMETHING_ELSE' and not intake.get('classified_issue_type'):
@@ -260,7 +266,10 @@ context_gap. No fix suggestions, no glossary request and no business context fil
             return question
         if name=='get_evidence':
             if args['id'] not in known:raise ValueError('UNKNOWN_EVIDENCE_REFERENCE')
-            if args['id'] in self.state['evidence']:return deepcopy(self.state['evidence'][args['id']])
+            if args['id'] in self.state['evidence']:
+                record=self.state['evidence'][args['id']]
+                from .retained_definition_evidence import KIND,resolve
+                return {**resolve(record,self.context),'evidence_id':args['id']} if record.get('kind')==KIND else deepcopy(record)
             return deepcopy(next(q for q in self.queries.records if q['id']==args['id']))
         if name in ('run_sql','run_dax'):
             return self.queries.run(args['layer'],args['query'],kind=name[4:],purpose=args['purpose'])
@@ -423,6 +432,13 @@ context_gap. No fix suggestions, no glossary request and no business context fil
                         'pending':None,'outcome':None,'elapsed_seconds':0}
             self._elapsed_before=0
             self.evidence({'kind':'TRIAGE','facts':self.triage})
+            from .retained_definition_evidence import references
+            definitions=[{'evidence_id':self.evidence(reference),**reference}
+                         for reference in references(self.context)]
+            if definitions:
+                self.state['messages'].append({'role':'user','content':canonical({
+                    'retained_definition_references':definitions,
+                    'instruction':'The native content is already in the admitted context. Cite these IDs for its retained definition; get_evidence returns full details. These references do not prove current values or deployment freshness.'})})
         try:
             if not saved:
                 self.prime_access_definitions()

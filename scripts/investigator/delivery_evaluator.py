@@ -46,9 +46,12 @@ def payload(ticket, draft, case):
         if identity not in known:
             raise ValueError('EVALUATOR_UNKNOWN_CITED_EVIDENCE:' + str(identity))
         record=known[identity]
+        if record.get('kind')=='RETAINED_DEFINITION_REFERENCE':
+            from .retained_definition_evidence import resolve
+            record=resolve(record,case.get('context',{}))
         if record.get('kind') in ('MODEL_RESPONSE','DELIVERY_EVALUATION') or record.get('rejected_tool'):
             raise ValueError('EVALUATOR_REQUIRES_NATIVE_EVIDENCE')
-        selected[identity] = deepcopy(known[identity])
+        selected[identity] = deepcopy(record)
         def references(value):
             if isinstance(value, dict):
                 for key, item in value.items():
@@ -61,7 +64,7 @@ def payload(ticket, draft, case):
             elif isinstance(value, list):
                 for item in value:
                     references(item)
-        references(known[identity])
+        references(record)
     return {'ticket': deepcopy(ticket), 'draft': deepcopy(draft), 'cited_evidence': selected}
 
 

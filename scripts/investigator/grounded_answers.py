@@ -49,6 +49,9 @@ def cited(args,case):
             rows=facts.get('facts',[]) if isinstance(facts,dict) else facts
             current=[f for f in rows if f.get('state') in ('OBSERVED','OBSERVED_NEGATIVE') and f.get('source') and f.get('observed_at')]
             if current:found.append({'facts':current})
+        elif record.get('kind')=='RETAINED_DEFINITION_REFERENCE':
+            from .retained_definition_evidence import resolve
+            found.append(resolve(record,case.get('context',{})))
         elif record.get('tool') in ('run_sql','run_dax'):
             value=record['result'];value=value.get('record',value)
             if value.get('id') not in queries:raise ValueError('QUERY_SUPPORT_NOT_RETAINED')
