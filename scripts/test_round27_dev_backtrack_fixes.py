@@ -230,5 +230,39 @@ class RetainedDefinitionTests(unittest.TestCase):
         self.assertIn('retained_definition_references', str(model.complete.call_args.kwargs['messages']))
 
 
+class CandidateRefusalTests(unittest.TestCase):
+    def test_correction_limit_without_query_id_does_not_crash_or_select(self):
+        from investigator.investigation_read_tools import ReadTools
+        tools = object.__new__(ReadTools)
+        tools.intake = {'reported_figure': {'state': 'NUMBER', 'value': '7', 'precision': 'EXACT'}}
+        tools.target_inventory = {'exhaustive': True, 'candidates': [{'id': 'one'}, {'id': 'two'}]}
+        tools.queries = Mock()
+        tools.queries.run.side_effect = [
+            {'id': 'query:one', 'status': 'SUCCEEDED', 'result': {'rows': [{'value': 7}]}},
+            {'error': 'QUERY_CORRECTION_LIMIT', 'layer': 'model', 'purpose': 'recreate'}]
+        result = tools.check_targets({'checks': [
+            {'candidate': name, 'layer': 'model', 'kind': 'dax', 'query': 'EVALUATE ROW("v",7)'}
+            for name in ('one', 'two')]})
+        self.assertIsNone(result['selected'])
+        self.assertFalse(result['exhaustive'])
+        self.assertEqual(result['reason'], 'CANDIDATES_NOT_EXHAUSTED')
+        self.assertEqual(result['observations'][1]['status'], 'ERROR')
+        self.assertIsNone(result['observations'][1]['evidence_id'])
+        self.assertEqual(result['observations'][1]['reason'], 'QUERY_CORRECTION_LIMIT')
+        self.assertEqual(tools.queries.run.call_count, 2)
+
+    def test_unrecorded_success_cannot_confer_uniqueness(self):
+        from investigator.investigation_read_tools import ReadTools
+        tools = object.__new__(ReadTools)
+        tools.intake = {'reported_figure': {'state': 'NUMBER', 'value': '7', 'precision': 'EXACT'}}
+        tools.target_inventory = {'exhaustive': True, 'candidates': [{'id': 'one'}]}
+        tools.queries = Mock()
+        tools.queries.run.return_value = {'status': 'SUCCEEDED', 'result': {'rows': [{'value': 7}]}}
+        result = tools.check_targets({'checks': [
+            {'candidate': 'one', 'layer': 'model', 'kind': 'dax', 'query': 'EVALUATE ROW("v",7)'}]})
+        self.assertIsNone(result['selected'])
+        self.assertEqual(result['observations'][0]['status'], 'ERROR')
+
+
 if __name__ == '__main__':
     unittest.main()

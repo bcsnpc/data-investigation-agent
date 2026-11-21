@@ -162,14 +162,16 @@ class ReadTools:
             seen.add(check['candidate'])
             record=self.queries.run(check['layer'],check['query'],kind=check['kind'],purpose='recreate')
             record=record.get('record',record)
-            row={'candidate':check['candidate'],'status':record['status'],'evidence_id':record['id'],
+            row={'candidate':check['candidate'],'status':record.get('status','ERROR'),'evidence_id':record.get('id'),
                  'truncated':bool(record.get('truncated'))}
-            if record['status']=='SUCCEEDED':
+            if row['status']=='SUCCEEDED' and row['evidence_id']:
                 rows=record['result']['rows']
                 if len(rows)==1 and isinstance(rows[0],dict)and len(rows[0])==1:
                     row['value']=next(iter(rows[0].values()))
                 else:row.update(status='UNAVAILABLE',reason='Candidate check must return one scalar cell, not a sample or row count.')
-            else:row['reason']=record.get('error','Native candidate check failed.')
+            else:
+                row['status']='ERROR'
+                row['reason']=record.get('error','Native candidate check has no recorded result.')
             observations.append(row)
         figure=self.intake.get('reported_figure')
         return select_unique(self.target_inventory,observations,figure)

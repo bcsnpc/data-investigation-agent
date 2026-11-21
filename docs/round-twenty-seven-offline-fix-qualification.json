@@ -1,0 +1,24 @@
+{
+  "source": "062a2bfbe29e50e4c02d537e3845b536fbdcd819",
+  "workflow": 44935273252,
+  "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/44935273252",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:021d0e3055aa67606f1f722ac61de56c4a77f0edd89207026f7ef0b9e2be42cd",
+  "full_suite": {
+    "passed": 5924,
+    "skipped": 53,
+    "failures": 0,
+    "errors": 0,
+    "junit_sha256": "584da2b639ebe1613ddd57c07f5291ad8c68ef27a59975ee8d84630617117d2c"
+  },
+  "image_shards": {
+    "count": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "publication": "SUCCESS",
+  "live_deployed": false,
+  "live_quality_run": false,
+  "freeze_earned": false,
+  "p1_remaining_keeps_prior_repair_image": "sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+  "observed_at_utc": "2026-11-21T18:32:56.242178+00:00"
+}
