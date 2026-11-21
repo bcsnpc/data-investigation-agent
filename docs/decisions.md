@@ -656,3 +656,6 @@ Round27 sequencing, owner-approved 2026-11-20: no new Anthropic credit. Use exis
 
 
 Round27 owner steer, 2026-11-20: budget over purity for pass1. Stop new admissions and drain in-flight tickets. Qualify one new image with only the two known investigator plumbing repairs (pure metadata gateway revalidation, evaluator output bound and incomplete-versus-rejected diagnostics), using full suite and all image shards. Continue remaining pass1 tickets on that image; publish the image split. Rerun once only old-image tickets whose saved trace establishes one of these two bugs as the first wrong step; preserve originals labelled plumbing defect. Protect $14.34 calibration and the existing $3 reserve. No other engine or expectation changes authorized by this steer.
+
+
+Owner budget order, 2026-11-21: finish pass 1 including faults within current dev allowance. Make generic fixes from its backtrack; qualify offline with full suite and all image shards. Pass 2 = pass-1 failures plus the 20-ticket regression guard. Calibration only after pass 2. Protect $14.34 calibration and existing $3 reserve. If pass 2 cannot fit, pause Opus only pending owner-confirmed Dec 1 balance; continue grading, backtracks, docs, tests and fixture restores. After pass 2: calibration, then full v5 budget gate; never partial v5. No limits, counters, expectations or held-out changes.
