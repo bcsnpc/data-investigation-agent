@@ -75,6 +75,26 @@ def sql(text, layer, rows):
     return bound
 
 
+def compiled_control_objects(payload):
+    """Revalidate an investigation metadata read at the transport boundary.
+
+    The caller's metadata flag conveys no authority. The gateway must still
+    admit CATALOG, the connection, and every existing user-object route anchor.
+    """
+    try:
+        anchors=payload['read_only_objects'];limit=payload['max_rows']
+        if (not isinstance(anchors,list) or not anchors or
+                any(not isinstance(a,str) or not a for a in anchors) or
+                type(limit)is not int or not 2<=limit<=251 or
+                payload.get('parameters')!=[]):return None
+        bound=sql(payload['query'],{'objects':[{'id':a}for a in anchors]},limit-1)
+        if bound is None or any(payload.get(k)!=bound[k]
+                for k in ('query','parameters','max_rows','result_columns')):return None
+        return anchors
+    except (KeyError,TypeError,ValueError):
+        return None
+
+
 def dax_rowset_expression(text):
     """Read-only INFO rowsets with projection and literal TOPN composition.
 

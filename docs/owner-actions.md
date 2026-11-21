@@ -909,3 +909,7 @@ The Microsoft documentation describes Keep your Direct Lake data up to date as a
 
 
 Round27 credit action resolved2026-11-17: owner supplied OpenAI31.06USD, expiryNovember29. Recorded as owner-reported, not independently viewed. Account ceiling202.938628USD includes29.06USD new allowance and preserves2USD cash. Conservative start-of-Nov29UTC expiry guard is tested. Browser access is still unavailable; no owner sign-in was requested or changed.
+
+
+## Round27 browser control,2026-11-20
+The native helper now lists Edge, but inspecting its New Tab stopped browser control because the current URL could not be verified. No browser input or model setting changed. The32static cases are running: do not toggle automatic updates during them. The four later stale-refresh cases still need a verified OFF control immediately before their injection and ON/readback after restore. If the browser cannot be controlled in a later authorized turn, owner must operate this one toggle. Original source data remains unchanged and model7661 freshly verified. No undocumented API or cached screenshot is represented as native switch evidence.
