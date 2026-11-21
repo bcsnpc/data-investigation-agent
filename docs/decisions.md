@@ -650,3 +650,6 @@ Round27 owner budget ordering2026-11-20: no new Anthropic credit. Proceed with d
 
 
 Round27 owner standing /32 approval2026-11-20: before source-control admission, existing SQL server rule investigator-client-20260918 in rg-investigator-dev was read at184.105.12.85/32 and replaced with the independently confirmed current24.72.228.28/32; native readback matched. Other SQL rules unchanged. No identity, role, credential or database change. Source initially returned40613 while serverless resumed, then existing safe retry passed baseline hash checks; this is not an engine score.
+
+
+Round27 sequencing, owner-approved 2026-11-20: no new Anthropic credit. Use existing available $68.86 for dev and fresh calibration; retain $3 reserve and protect the calibration estimate before dev admission. Cut the optional third failed-only pass first. After calibration check the full v5 budget; if short, keep v5 sealed pending the owner-confirmed exact new balance after Dec 1. Never partial v5. Existing caps and historical usage remain unchanged.
