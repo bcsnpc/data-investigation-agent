@@ -314,8 +314,10 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         if kind=='contract' and any(r['kind']=='contract' for r in repairs):
             raise ValueError('DELIVERY_CONTRACT_REPAIR_EXHAUSTED')
         schema=next(t for t in self.tools if t['name']=='submit_finding')['input_schema']
-        packet={'draft':deepcopy(args),'reason':reason,'case':self.case_view()}
-        packet['case'].pop('messages',None)
+        from .delivery_evaluator import payload
+        case=self.case_view()
+        packet=payload(self.context['intake'],args,case)
+        packet.update(reason=reason,explicit_target=deepcopy(self.context.get('explicit_target',{})))
         self.state['pending']={'kind':'DELIVERY_REPAIR','repair_kind':kind};self.save()
         started=self.clock()
         try:

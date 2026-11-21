@@ -58,6 +58,8 @@ class CandidateInvestigationTests(unittest.TestCase):
                 if kwargs['tools'][0]['name']=='repair_delivery':
                     import json
                     packet=json.loads(kwargs['messages'][0]['content'])
+                    self.assertNotIn('case',packet)
+                    self.assertIn('cited_evidence',packet)
                     draft=packet['draft']
                     draft.setdefault('calculation_explanation','The two queries sum quantity in their separate key scopes.')
                     return tool('repair_delivery',draft)
