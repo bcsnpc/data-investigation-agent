@@ -1,0 +1,101 @@
+{
+  "source": "3934ef5d84ffc3221679e58f0912f40d0b782638",
+  "workflow": 44943235321,
+  "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/44943235321",
+  "full_suite": {
+    "passed": 5944,
+    "skipped": 53,
+    "errors": 0,
+    "failures": 0,
+    "junit_sha256": "b60c10051f8db279bbfed06f76a91c54ea75274e28da28989c18d1a1898945fe"
+  },
+  "image_shards": [
+    {
+      "shard": 0,
+      "tests": 175,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "junit_sha256": "3ec22a8931f44ebaa0ea274a85b47accc493e4bdd0c156845b74bcf5ac2ba339"
+    },
+    {
+      "shard": 1,
+      "tests": 148,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "junit_sha256": "91488a8f9b2385e9e1f054db8651141b6faf86e04ed1da347e6e3f7df1b06245"
+    },
+    {
+      "shard": 2,
+      "tests": 166,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "ab835207647a0cdfde9a9ee3f09821b5426b5ac9598560f58869c3e076245444"
+    },
+    {
+      "shard": 3,
+      "tests": 129,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "c47e7cd97c20a02ae01aa164bbbc8fc32e293542f1063ce34134e071660c061a"
+    },
+    {
+      "shard": 4,
+      "tests": 105,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "cd4fe484084e78ea79f910f9a9bd7741383cfb0d97bb389d50b974997a82fbed"
+    },
+    {
+      "shard": 5,
+      "tests": 175,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "a0916f8b828d11db8a06d87bda2b183cb881c01e5d5b18e6cc2e3447a0cca339"
+    },
+    {
+      "shard": 6,
+      "tests": 167,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "faa6013b256027ad137fe7475f10d782ff34cd618c2d4d9a59a542db4c74c2f4"
+    },
+    {
+      "shard": 7,
+      "tests": 95,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "junit_sha256": "6b09bec9c8556b47c4fb4349203a03955a3a69712f0cae5134091b205a763ff2"
+    }
+  ],
+  "flags": 33,
+  "flag_defaults": "CURRENT_BEHAVIOR_ALL_TRUE",
+  "focused_flag_tests": 18,
+  "published": false,
+  "deployed": false,
+  "new_model_calls": 0,
+  "new_estate_queries": 0,
+  "expectations_or_scores_changed": false,
+  "calibration_or_pass2_started": false,
+  "safety_budgets_identity_unchanged": true,
+  "earlier_failures_preserved": [
+    {
+      "workflow": 44940760620,
+      "reason": "Strict image stager omitted two public configuration/prompt JSON files; fixed with an exact two-file allowlist."
+    },
+    {
+      "source": "3f003d58",
+      "reason": "Focused hook-coverage assertion missed dynamic auxiliary flag names; made dependencies explicit and all18 focused tests passed."
+    }
+  ],
+  "superseded_offline_ci_checks_cancelled_not_deleted": true,
+  "owner_instruction": "STOP_AND_REPORT_AFTER_DIAGNOSIS",
+  "observed_utc": "2026-11-21T20:03:38.795650+00:00"
+}

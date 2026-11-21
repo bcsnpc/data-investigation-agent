@@ -122,7 +122,26 @@
       "new_query_count": 3,
       "new_query_errors": 0,
       "old_failed_queries": [],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 4
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 6
+        }
+      ]
     },
     {
       "ticket": "v2-billing-invoices-v2",
@@ -244,7 +263,26 @@
           "native_dispatched": false
         }
       ],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 5
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 6
+        }
+      ]
     },
     {
       "ticket": "v2-billing-mrr-v1",
@@ -379,6 +417,25 @@
           "error": "Unsupported SQL syntax or function nodes: National. Remove these constructs or choose a supported diagnostic; no query executed.",
           "native_dispatched": false
         }
+      ],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 4
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 8
+        }
       ]
     },
     {
@@ -494,7 +551,26 @@
       "new_query_count": 6,
       "new_query_errors": 0,
       "old_failed_queries": [],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 8
+        }
+      ]
     },
     {
       "ticket": "v2-failed-billing-transform-v1",
@@ -626,6 +702,25 @@
           "error": "SQL object unavailable or view dependencies not validated",
           "native_dispatched": false
         }
+      ],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 5
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 8
+        }
       ]
     },
     {
@@ -746,6 +841,25 @@
           "error": "Unknown or ambiguous DAX member",
           "native_dispatched": false
         }
+      ],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 7
+        }
       ]
     },
     {
@@ -862,7 +976,26 @@
       "new_query_count": 9,
       "new_query_errors": 0,
       "old_failed_queries": [],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 5
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 1
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 8
+        }
+      ]
     },
     {
       "ticket": "v2-record-absent-everywhere-v1",
@@ -929,7 +1062,21 @@
       "new_query_count": 4,
       "new_query_errors": 0,
       "old_failed_queries": [],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 5
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        }
+      ]
     },
     {
       "ticket": "v2-record-repeated-gold-v2",
@@ -1070,7 +1217,26 @@
           "native_dispatched": false
         }
       ],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 6
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 7
+        }
+      ]
     },
     {
       "ticket": "v2-screenshot-record-01-v1",
@@ -1212,6 +1378,25 @@
           "text": "EVALUATE CALCULATETABLE(SELECTCOLUMNS('Movements',\"movement_id\",'Movements'[movement_id],\"warehouse_id\",'Movements'[warehouse_id],\"product_id\",'Movements'[product_id],\"units\",'Movements'[units]),'Movements'[warehouse_id]=1,'Movements'[product_id]=4) ORDER BY [movement_id]",
           "error": "One table-valued EVALUATE required",
           "native_dispatched": false
+        }
+      ],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 6
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 10
         }
       ]
     },
@@ -1402,6 +1587,30 @@
           "error": "Unknown or ambiguous DAX member",
           "native_dispatched": false
         }
+      ],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 8
+        },
+        {
+          "step": "SCREENSHOT",
+          "model": "gpt-6.1-terra",
+          "calls": 2
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 11
+        }
       ]
     },
     {
@@ -1574,6 +1783,35 @@
           "error": "Unknown or ambiguous DAX member",
           "native_dispatched": false
         }
+      ],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 6
+        },
+        {
+          "step": "SCREENSHOT",
+          "model": "gpt-6.1-terra",
+          "calls": 2
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 1
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 9
+        },
+        {
+          "step": "SCREENSHOT",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        }
       ]
     },
     {
@@ -1693,6 +1931,25 @@
           "text": "EVALUATE FILTER(SELECTCOLUMNS('Movements',\"movement_id\",'Movements'[movement_id],\"warehouse_id\",'Movements'[warehouse_id],\"product_id\",'Movements'[product_id],\"units\",'Movements'[units]),[warehouse_id]=3 && [product_id]=2)",
           "error": "Unknown or ambiguous DAX member",
           "native_dispatched": false
+        }
+      ],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 1
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 11
         }
       ]
     },
@@ -1841,7 +2098,26 @@
           "native_dispatched": false
         }
       ],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 7
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 9
+        }
+      ]
     },
     {
       "ticket": "v2-warehouse-scope-v1",
@@ -1958,8 +2234,41 @@
       "new_query_count": 6,
       "new_query_errors": 0,
       "old_failed_queries": [],
-      "new_failed_queries": []
+      "new_failed_queries": [],
+      "old_step_models": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 3
+        }
+      ],
+      "new_step_models": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "calls": 2
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "calls": 9
+        }
+      ]
     }
   ],
-  "limitations": "Saved observational pairs establish exercised branches and divergent proposals, not isolated causal effects of stochastic prompt decisions. No score/expectation change."
+  "limitations": "Saved observational pairs establish exercised branches and divergent proposals, not isolated causal effects of stochastic prompt decisions. No score/expectation change.",
+  "core_intake_fields_compared": [
+    "report",
+    "page",
+    "visual",
+    "measure",
+    "table",
+    "issue_type",
+    "reported_figure",
+    "compared_with",
+    "details",
+    "description",
+    "screenshot"
+  ],
+  "core_intake_fields_identical_in_all_15_pairs": true
 }
