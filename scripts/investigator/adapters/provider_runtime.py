@@ -18,6 +18,14 @@ def intake_selection(configuration, *, tenant, strategy='investigator'):
                   step='INVESTIGATOR' if strategy == 'investigator' else 'INTAKE')
 
 
+def auxiliary_selection(configuration, *, tenant, step):
+    """R27 auxiliary-to-investigator routing is independently reversible by role."""
+    from ..regression_features import enabled
+    if step not in ('SCREENSHOT','SUMMARY','EVALUATOR'):raise ValueError('AUXILIARY_STEP_REQUIRED')
+    selected='INVESTIGATOR' if enabled('r27_reasoning_model_'+step.lower()) else step
+    return select(configuration,tenant=tenant,step=selected)
+
+
 def select(configuration, *, tenant, step):
     if step not in STEPS:
         raise ValueError('CONFIGURED_AI_STEP_REQUIRED')

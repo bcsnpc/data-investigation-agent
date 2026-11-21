@@ -120,6 +120,18 @@
     "r26_native_candidate_scope": {
       "default": true,
       "description": "Enable retained native candidate-scope compilation; off refuses the optional probe, never drops its filters."
+    },
+    "r27_reasoning_model_screenshot": {
+      "default": true,
+      "description": "Use investigator model for screenshot; off restores that role's configured ai_routing selection."
+    },
+    "r27_reasoning_model_summary": {
+      "default": true,
+      "description": "Use investigator model for summary; off restores that role's configured ai_routing selection."
+    },
+    "r27_reasoning_model_evaluator": {
+      "default": true,
+      "description": "Use investigator model for evaluator; off restores that role's configured ai_routing selection."
     }
   }
 }

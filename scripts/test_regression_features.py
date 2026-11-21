@@ -8,7 +8,7 @@ from investigator.regression_features import DEFAULTS,enabled,configured,snapsho
 
 class FeatureTests(unittest.TestCase):
  def test_each_flag_is_independent_scoped_and_defaults_to_current(self):
-  self.assertEqual(len(DEFAULTS),30)
+  self.assertEqual(len(DEFAULTS),33)
   self.assertTrue(all(DEFAULTS.values()))
   for name in DEFAULTS:
    with self.subTest(feature=name),configured({name:False}):
@@ -44,6 +44,17 @@ class FeatureTests(unittest.TestCase):
   routing={'steps':{'INTAKE':config('configured'),'INVESTIGATOR':config('reasoning')}};before=deepcopy(routing)
   with configured({'r27_reasoning_model_intake':False}):self.assertEqual(intake_selection(routing,tenant='x')['model'],'configured')
   self.assertEqual(intake_selection(routing,tenant='x')['model'],'reasoning');self.assertEqual(routing,before)
+ def test_auxiliary_model_roles_switch_independently(self):
+  from investigator.adapters.provider_runtime import auxiliary_selection
+  from test_intake_model_routing import config
+  routing={'steps':{'INVESTIGATOR':config('reasoning'),**{name:config(name.lower())for name in ('SCREENSHOT','SUMMARY','EVALUATOR')}}};before=deepcopy(routing)
+  for role in ('SCREENSHOT','SUMMARY','EVALUATOR'):
+   self.assertEqual(auxiliary_selection(routing,tenant='x',step=role)['model'],'reasoning')
+   with configured({'r27_reasoning_model_'+role.lower():False}):
+    self.assertEqual(auxiliary_selection(routing,tenant='x',step=role)['model'],role.lower())
+    for other in ('SCREENSHOT','SUMMARY','EVALUATOR'):
+     if other!=role:self.assertEqual(auxiliary_selection(routing,tenant='x',step=other)['model'],'reasoning')
+  self.assertEqual(routing,before)
  def test_evaluator_disabled_still_requires_code_validation(self):
   from investigator.ai_investigation import Investigator
   loop=object.__new__(Investigator);loop.refresh_tools=lambda:None;loop.schemas={'submit_finding':Mock()};loop.context={'conclusion_contract':'question-first-v1'};loop.state={'evidence':{},'outcome':None};loop.queries=SimpleNamespace(records=[]);loop.case_view=Mock(return_value={});loop.validate_finding=Mock(return_value={'business':'grounded','technical':{}});loop.evaluate_draft=Mock(side_effect=AssertionError('must not call a model'))
