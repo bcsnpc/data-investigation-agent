@@ -653,3 +653,6 @@ Round27 owner standing /32 approval2026-11-20: before source-control admission, 
 
 
 Round27 sequencing, owner-approved 2026-11-20: no new Anthropic credit. Use existing available $68.86 for dev and fresh calibration; retain $3 reserve and protect the calibration estimate before dev admission. Cut the optional third failed-only pass first. After calibration check the full v5 budget; if short, keep v5 sealed pending the owner-confirmed exact new balance after Dec 1. Never partial v5. Existing caps and historical usage remain unchanged.
+
+
+Round27 owner steer, 2026-11-20: budget over purity for pass1. Stop new admissions and drain in-flight tickets. Qualify one new image with only the two known investigator plumbing repairs (pure metadata gateway revalidation, evaluator output bound and incomplete-versus-rejected diagnostics), using full suite and all image shards. Continue remaining pass1 tickets on that image; publish the image split. Rerun once only old-image tickets whose saved trace establishes one of these two bugs as the first wrong step; preserve originals labelled plumbing defect. Protect $14.34 calibration and the existing $3 reserve. No other engine or expectation changes authorized by this steer.
