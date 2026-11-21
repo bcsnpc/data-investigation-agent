@@ -1263,3 +1263,6 @@ Round27 owner budget ordering2026-11-20: no new Anthropic credit. Proceed with d
 
 
 Round27 owner standing /32 approval2026-11-20: before source-control admission, existing SQL server rule investigator-client-20260918 in rg-investigator-dev was read at184.105.12.85/32 and replaced with the independently confirmed current24.72.228.28/32; native readback matched. Other SQL rules unchanged. No identity, role, credential or database change. Source initially returned40613 while serverless resumed, then existing safe retry passed baseline hash checks; this is not an engine score.
+
+
+Section8 owner confirmation2026-11-21: Anthropic Console remaining cash is exactly120USD, not an estimate. Native charged/committed103.284651USD, no pending exposure; additional spendable117USD after excluding3USD cash reserve. Normalized and raw model ceiling220.284651USD read back; historical counters preserved. Opus intake/investigation/evaluator only, never grading; auto-reload off. OpenAI grading/reviews/release smokes and its2USDreserve/Nov29expiry unchanged. AWSdisabled; physical ceilings unchanged. Proof/dev/calibration order and never-partial-v5 gate remain. See docs/round-twenty-seven-confirmed-repair-credit.json.

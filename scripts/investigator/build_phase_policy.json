@@ -104,8 +104,15 @@
     "per_ticket_actual_microdollars": 3000000,
     "providers": {
       "anthropic": {
-        "ceiling_microdollars": 120575301,
-        "warning_microdollars": 114575301
+        "ceiling_microdollars": 220284651,
+        "warning_microdollars": 214284651,
+        "owner_confirmed_cash_microdollars": 120000000,
+        "protected_cash_microdollars": 3000000,
+        "allowed_purposes": [
+          "INTAKE",
+          "INVESTIGATOR"
+        ],
+        "credit_source": "Owner Console confirmation2026-11-21:120USD remaining; historical counters preserved; reserve3 excluded from ceiling"
       },
       "openai": {
         "ceiling_microdollars": 202938628,
