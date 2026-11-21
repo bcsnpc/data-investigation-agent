@@ -926,3 +926,10 @@ Owner decision needed before another credential rotation. Azure read-only metada
 
 
 Section8 owner-approved rotation executed2026-11-21: existing investigator app531419ef-1610-415a-b8bf-01a4b6aad751 received one30daysecret, stored/readback only in existing KeyVault. Existing billing, mainfixture and application-loadfixture fixed connections updated; sameServicePrincipal/SSONone/modelbindings/users unchanged. Owner-controlled reads passed600/8765/7661 respectively. Expired key0b4b4562 removed only after all3reads and scopecomparison passed. Newexpiry2026-12-21T21:28:50.276696Z. No new identity/permission or data/modeldefinition change, no secret logged. See docs/round-twenty-seven-connection-rotation.json; not an investigator caller attestation.
+
+### Round27 Anthropic authorization hard stop, 2026-11-21
+The Microsoft/Fabric fixed-connection rotation is COMPLETE. A separate credential now blocks Opus: Anthropic returns HTTP401 authentication_error / invalid x-api-key. The pinned aa83144a536a475d94d0a606942e06bf version is already the latest enabled version of anthropic-api-key; older versions were not tried. No provider retry is authorized until this is corrected. Obtain a valid Anthropic workspace API key and run the owner-only hidden-prompt helper:
+
+`D:\data_investigation_agent\.local\llm-env\Scripts\python.exe D:\data_investigation_agent\.local\round-twenty-seven\store_anthropic_key.py`
+
+It writes directly to the existing Key Vault secret with no plaintext secret file, command-line secret or environment variable. Never paste the key into chat. Reply stored afterward; the runner must then pin the new existing Key Vault version and update only its credential references/gateway version declarations. Do not rerun the completed Entra fixed-connection rotation. Three interrupted proof captures are sealed and excluded from quality scoring; no data injection was made. See round-twenty-seven-proof-auth-interruptions.json.

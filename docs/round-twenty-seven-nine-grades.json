@@ -5,7 +5,7 @@
   "models": {
     "primary": "gpt-6.1-sol",
     "secondary": "gpt-6-astra",
-    "reviewer": "gpt-6.1-terra (not called; no disagreements)"
+    "reviewer": "gpt-6.1-terra (one diagnostic first-failing-step review)"
   },
   "count": 9,
   "official_correct": 1,
@@ -105,7 +105,7 @@
       "strict_correct": false,
       "reviewed_correct": false,
       "harmful": false,
-      "disagreement": false,
+      "disagreement": true,
       "field_scores": {
         "verdict_match": false,
         "layer_match": false,
@@ -117,7 +117,14 @@
       "grade_sha256": {
         "primary": "6e6a821ddafdfbe6147f782b5236779f328587e15c4a7f39e2d360ddf77202de",
         "secondary": "381c2f0af912ca070fc090ac05de5eef2dfdcbb5b26c2fc01254ff7d5daaea7d"
-      }
+      },
+      "disagreement_fields": [
+        "failing_step"
+      ],
+      "independent_review_model": "gpt-6.1-terra",
+      "independent_review_winner": "PRIMARY",
+      "independent_review_sha256": "498aa7fa8df8432488b3fca413dc70853a953df8bae0ffb813816ed34ea6ac26",
+      "reviewed_failing_step": "wrong conclusion"
     },
     {
       "case_id": "round27-dev01-text-history-source-900201-v1",
@@ -206,7 +213,11 @@
   ],
   "cost_microdollars": {
     "primary-provider": 185974,
-    "secondary-provider": 921810
+    "secondary-provider": 921810,
+    "independent-diagnostic-review": 13678
   },
-  "total_cost_microdollars": 1107784
+  "total_cost_microdollars": 1121462,
+  "diagnostic_step_disagreements": 1,
+  "score_field_disagreements": 0,
+  "prior_report_sha256": "6c1ff187ac322a772d2c03f7d45ad488f0115e49e8c41a4759e1a2e025ddfbe2"
 }

@@ -17,3 +17,5 @@ Official **1/9**, strict **1/9**, reviewed **1/9**; harmful **0**. The sole corr
 | round27-dev01-text-latency-900501-v2 | 0 | 0 | 0 | 0 |
 
 Per-field results and grade hashes: [structured record](round-twenty-seven-nine-grades.json). No engine output, expectation or old grade was modified. The four provisional failing proof candidates remain failures, so the predeclared 15-ticket proof denominator is unchanged.
+
+Diagnostic correction, 2026-11-21: the score fields agree on all nine, but the graders disagreed on screenshot-03's first failing step (primary: wrong conclusion; secondary: query validation). Terra independently reviewed that saved-evidence disagreement and selected PRIMARY, retaining incorrect/zero harmful. The 1/9 official/strict/reviewed scores are unchanged. The earlier statement that Terra was not called is superseded by this completed diagnostic review; the original grades remain immutable. See the structured record for the review hash and actual cost.
