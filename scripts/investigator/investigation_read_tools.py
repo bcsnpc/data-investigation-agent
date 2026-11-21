@@ -225,6 +225,9 @@ class ReadTools:
         if not enabled('r27_contribution_tool'):registry.pop('contribution_analysis',None)
         if not enabled('r27_row_diff_tool'):registry.pop('row_layer_diff',None)
         if not enabled('r27_identifier_role_descriptions'):
+            for tool in registry.values():
+                for key in ('node','layer','checked'):
+                    tool['schema']['properties'].get(key,{}).pop('description',None)
             for name in ('get_definition','get_lineage','get_job_runs','get_refresh_history','get_security_definitions'):
                 if name in registry:registry[name]['description']=name.replace('_',' ')+' within the admitted path.'
         # Empty enum tools are unavailable on this path, not invented scopes.

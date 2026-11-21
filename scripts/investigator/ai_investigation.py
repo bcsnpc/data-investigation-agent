@@ -148,6 +148,11 @@ def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
         from .conclusion_contract import fields
         submit['properties'].update(fields())
         submit['required'].extend(fields())
+    if not enabled('r27_identifier_role_descriptions'):
+        for tool in tools:
+            for key in ('node','layer','checked'):
+                tool['input_schema']['properties'].get(key,{}).pop('description',None)
+            if tool['name']=='get_evidence':tool['description']='Read full saved case evidence by its ID; no estate read.'
     return tools
 
 

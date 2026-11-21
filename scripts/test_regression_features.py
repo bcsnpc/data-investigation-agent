@@ -57,6 +57,14 @@ class FeatureTests(unittest.TestCase):
   with configured({'r27_evaluator_format_repair':False}):result=evaluate(model,{})
   self.assertEqual(model.complete.call_args.kwargs['max_tokens'],1600);self.assertIsNone(result['format_error']);self.assertFalse(result['approved'])
   evaluate(model,{});self.assertEqual(model.complete.call_args.kwargs['max_tokens'],3200)
+ def test_identifier_hint_switch_removes_hints_but_preserves_enums(self):
+  from investigator.ai_investigation import toolbox
+  layers={'native':{'dialect':'T-SQL'}}
+  original=toolbox(layers,{})
+  with configured({'r27_identifier_role_descriptions':False}):changed=toolbox(layers,{})
+  old=next(t for t in original if t['name']=='run_sql')['input_schema']['properties']['layer']
+  new=next(t for t in changed if t['name']=='run_sql')['input_schema']['properties']['layer']
+  self.assertIn('description',old);self.assertNotIn('description',new);self.assertEqual(old['enum'],new['enum'])
  def test_optional_analysis_tools_disable_separately(self):
   from investigator.investigation_read_tools import ReadTools
   tools=object.__new__(ReadTools);tools.visible={'node'};tools.nodes={'node':{'kind':'TABLE'}};tools.queries=SimpleNamespace(layers={'native':{}});tools.target_inventory=None
