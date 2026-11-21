@@ -89,6 +89,18 @@ class FeatureTests(unittest.TestCase):
   value=request();value['compared_with']={'kind':'SOURCE_SYSTEM','source':'the application rows'}
   with configured({'r27_source_label_deferral':False}):
    with self.assertRaisesRegex(ValueError,'SOURCE_NAME_UNRESOLVED'):admit_investigation_candidate(value,Catalog(graph()))
+ def test_terminal_report_off_finishes_an_unresolved_case(self):
+  from investigator.ai_investigation import Investigator
+  loop=object.__new__(Investigator);loop.context={'conclusion_contract':'question-first-v1'};loop.state={'outcome':{'status':'UNRESOLVED','business':'Not established'},'model_calls':0,'tools_used':0};loop.queries=SimpleNamespace(records=[],layers={});loop.model_seconds=0;loop.save=Mock();loop.case_view=Mock(return_value={});loop.evaluate_draft=Mock(side_effect=AssertionError('no report to evaluate'))
+  with configured({'r26_terminal_report':False}):result=loop.finish()
+  self.assertEqual(result['status'],'UNRESOLVED');self.assertEqual(result['handoff']['investigation_report'],{});loop.evaluate_draft.assert_not_called()
+ def test_legacy_contract_still_requires_unresolved_when_no_candidate_wins(self):
+  from investigator.ai_investigation import Investigator
+  loop=object.__new__(Investigator);loop.refresh_tools=lambda:None;loop.schemas={'submit_finding':Mock()};loop.context={'candidate_inventory':{'candidates':[]}};loop.state={'evidence':{'check':{'tool':'check_target_candidates','result':{'selected':None}}},'outcome':None};loop.queries=SimpleNamespace(records=[]);loop.case_view=Mock(return_value={});loop.validate_finding=Mock(return_value={'business':'All candidates checked; cannot distinguish them.'})
+  loop.dispatch('submit_finding',{'evidence_ids':['check'],'selected_target':None,'verdict':'not found'})
+  self.assertEqual(loop.state['outcome']['target_resolution']['selected'],None)
+  with self.assertRaisesRegex(ValueError,'UNSELECTED_TARGET'):
+   loop.dispatch('submit_finding',{'evidence_ids':['check'],'selected_target':None,'verdict':'as designed'})
  def test_baseline_prompt_is_retained_text_only(self):
   for key in ('intake','investigator'):
    text=baseline_prompt(key);self.assertIsInstance(text,str);self.assertGreater(len(text),100)

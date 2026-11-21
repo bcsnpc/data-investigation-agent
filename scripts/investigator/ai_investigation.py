@@ -234,7 +234,8 @@ context_gap. No fix suggestions, no glossary request and no business context fil
                     resolution=checks[-1]
                     if args['selected_target']!=resolution.get('selected'):
                         raise ValueError('TARGET_NOT_A_UNIQUE_OBSERVED_MATCH')
-                    if resolution.get('selected')is None and args.get('verdict_class')!='UNRESOLVED':
+                    unresolved=(args.get('verdict_class')=='UNRESOLVED' if self.context.get('conclusion_contract')=='question-first-v1' else args.get('verdict')=='not found')
+                    if resolution.get('selected')is None and not unresolved:
                         raise ValueError('UNSELECTED_TARGET_REQUIRES_SIDE_BY_SIDE_FINDINGS_AND_EXACT_UNDECIDED_DISTINCTION')
                 conclusion=None
                 if self.context.get('conclusion_contract')=='question-first-v1':
@@ -575,7 +576,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
             measured={q['layer'] for q in self.queries.records if q['status']=='SUCCEEDED'}
             remaining=sorted(set(self.queries.layers)-measured)
             outcome['handoff']={**self.case_view(),'stopping_point':outcome.get('stop',outcome.get('question')),
-                                'investigation_report':deepcopy(outcome['investigation_report']),
+                                'investigation_report':deepcopy(outcome.get('investigation_report',{})),
                                 'ruled_out':deepcopy(outcome.get('ruled_out',[])),
                                 'next_checks':['Check the unread layer '+name+'.' for name in remaining]
                                               +['Review '+q['id']+': '+q['error'] for q in self.queries.records if q['status']=='ERROR']}
