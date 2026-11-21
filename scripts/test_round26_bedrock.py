@@ -76,7 +76,12 @@ class BedrockTests(unittest.TestCase):
    account=ensure_account(state,'bedrock',at(11));state.reserve(account,'old','w',19999900);state.settle(account,'old','w',19999900)
    self.assertEqual(account,account_for('bedrock',at(12)));self.assertEqual(int(state.totals(account)['ceiling']),20000000)
    rate=RateCard(model=MODEL,input_rate=1,output_rate=1,source='https://aws.amazon.com/bedrock/pricing/',observed_at='2026-11-01');budget=TicketBudget(state,case_id='nova-test',owner='w',provider='bedrock',clock=lambda:at(12),rate=rate,actual_usage_limit=3000000)
-   with self.assertRaisesRegex(Exception,'MONTHLY_MODEL_EXHAUSTED'):budget.reserve({'model':MODEL,'max_tokens':100},input_tokens_upper_bound=100)
+   # Current owner policy disables dispatch before the historical cap check.
+   with self.assertRaisesRegex(Exception,'PROVIDER_DISABLED_BY_OWNER:bedrock'):budget.reserve({'model':MODEL,'max_tokens':100},input_tokens_upper_bound=100)
+   # Retain the original accounting regression under its former enabled policy.
+   from investigator.provider_budget import policy
+   with patch('investigator.provider_budget.policy',return_value={**policy('bedrock'),'enabled':True}):
+    with self.assertRaisesRegex(Exception,'MONTHLY_MODEL_EXHAUSTED'):budget.reserve({'model':MODEL,'max_tokens':100},input_tokens_upper_bound=100)
    self.assertEqual(int(state.totals(account)['charged']),19999900)
  def test_zero_cost_cache_writes_use_documented_rate_not_reservation_rate(self):
   rate=RateCard(model=MODEL,input_rate='.035',output_rate='.14',cache_read_rate='.00875',cache_write_rate=0,source='https://aws.amazon.com/bedrock/pricing/',observed_at='2026-11-01')
