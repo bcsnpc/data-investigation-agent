@@ -36,3 +36,8 @@ Historical PostgreSQL root cause remains NOT ESTABLISHED from retained metrics/l
 _pending_
 
 Initialization admitted no runs. The dev queue is now active; v5 remains sealed and unopened. No expectation changed.
+
+
+## Owner-approved pass 1 image split (in progress)
+
+Owner stopped new original-image admissions and allowed the two already-tested plumbing repairs mid-pass. All 29 old-image outcomes are saved unchanged. Repair image `1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178`, source `be73c5ff`, passed 5,910 tests with 53 skips, zero failures/errors, and all eight image shards. The remaining 21 tickets use this image; five trace-established one-time plumbing reruns are isolated from their originals. See [image split](round-twenty-seven-image-split.md) and [qualification](round-twenty-seven-plumbing-qualification.json). Final pass score, calibration and v5 gate are pending. No freeze or release is claimed.
