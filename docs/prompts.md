@@ -4350,3 +4350,7 @@ do not spend the explanation repeating long object names or the entire contract.
 Use plain text without backticks and complete sentences within each field bound.
 Return only the requested schema.'''
 ```
+
+## Offline follow-up builders, 2026-11-21
+
+The baseline export above is preserved. Current native-role tool descriptions and the retained-definition evidence-reference message builder are exported verbatim in [the offline prompt delta](round-twenty-seven-offline-prompt-delta.md), source f0d14fcd. No runtime ticket/evidence values were rendered. The live pass-1 image split remains unchanged.
