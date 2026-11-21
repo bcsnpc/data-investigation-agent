@@ -1,12 +1,12 @@
 {
-  "source": "cb091b76f3275f7cccf5ebe775d50c708277b316",
-  "workflow": 44163209442,
+  "source": "0b12e9e5c0a82a0da53bf71c04de2a5b3de89461",
+  "workflow": 44865236859,
   "full_suite": {
-    "passed": 5892,
+    "passed": 5902,
     "skipped": 53,
     "failed": 0
   },
   "all_eight_shards": "PASS",
-  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:06e5b6632d33f55b2d1ece1d7ecbeb39db738ac04aac5795b3c8c32d072f46b2",
-  "scored_runs": 0
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+  "evaluator_amendment_included": true
 }

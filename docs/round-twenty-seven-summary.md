@@ -1,6 +1,6 @@
 # Round 27: redesign and prove
 
-Status: IN PROGRESS. Owner instruction dated 2026-11-16, started 2026-11-17.
+Status: IN PROGRESS. Started2026-11-17; resumed2026-11-20 under the amended prompt, including its separate Opus evaluator. Existing branch/PR435 retained.
 
 Baseline: main `6fa39d32`, v0.26 `149d290d`. Work uses the clean existing C:/temp/dia-r26-build checkout. The unrelated dirty D:/data_investigation_agent worktree is preserved as a standing-hygiene exception.
 
@@ -10,14 +10,16 @@ Baseline verbatim literals plus dynamic prompt/tool builders are exported in doc
 
 ## Intake and conclusion redesign
 
-IN PROGRESS. Default intake shares the configured investigator; cheap/cascade routes require explicit installation configuration. Installed guided investigations now require question-first-v1 delivery fields and preserve the explicit target in case context. New contract checks structure and declared references, not semantic truth; independent grading remains required. Ambiguous free-text intake now queues a bounded candidate inventory and routes its combined native paths to one investigator, within the same ticket cap. The AI writes each scalar check; code requires exhaustive successful checks and a unique match before a target can be selected. Terminal limits retain a structured UNRESOLVED conclusion with native partial findings and named gaps; hard-stop statuses are not upgraded. Live qualification and scoring remain pending. Focused checks: 180 Round23 tests, five new conclusion tests, two routing tests and one exporter test pass; full qualification not yet run.
+IN PROGRESS. Default intake shares the configured investigator; cheap/cascade routes require explicit installation configuration. Installed guided investigations now require question-first-v1 delivery fields and preserve the explicit target in case context. New contract checks structure and declared references, not semantic truth; independent grading remains required. Ambiguous free-text intake now queues a bounded candidate inventory and routes its combined native paths to one investigator, within the same ticket cap. The AI writes each scalar check; code requires exhaustive successful checks and a unique match before a target can be selected. Terminal limits retain a structured UNRESOLVED conclusion with native partial findings and named gaps; hard-stop statuses are not upgraded. Qualified image source0b12e9e5 passed5902tests with53skips and all8image shards. The separate Opus evaluator receives only the ticket, draft and cited native evidence, checks four dimensions, returns specific reasons, and downgrades after an initial rejection plus two retries. Its cost has a separate EVALUATOR ledger purpose within the same case/monthly cap. Independent grading remains separate. See round-twenty-seven-evaluator.md and round-twenty-seven-qualification.json.
 
 ## Tools and native facts
 
-IN PROGRESS. Contribution analysis and row-level layer diff are installed over bounded AI-authored native queries, with exact-decimal arithmetic, source query IDs, duplicate-key checks and explicit truncation limits. Saved metadata failures were traced to missing SQL result-column transport fields and unsupported projected INFO rowsets. SQL metadata projection/cursor schema and documented INFO.PARTITIONS projections now have focused transport/gateway tests; writes and business-table escapes remain refused. No new estate read has been admitted.
+IN PROGRESS. Contribution analysis and row-level layer diff are installed over bounded AI-authored native queries, with exact-decimal arithmetic, source query IDs, duplicate-key checks and explicit truncation limits. Saved metadata failures were traced to missing SQL result-column transport fields and unsupported projected INFO rowsets. SQL metadata projection/cursor schema and documented INFO.PARTITIONS projections now have focused transport/gateway tests; writes and business-table escapes remain refused. Read-only baseline admission later verified360source rows, original row/schema hashes, temporalON and model7661; no fixture injection changed during the static queue.
 
 ## Dev passes and fixed regression guard
-_pending_
+IN PROGRESS. Fixed55cohort slots comprise50unique byte-identical inputs (32static,18fault-dependent); duplicate inputs share only when expectation identity, estate and fixture also agree. All20regression guard IDs and10fresh post-freeze calibration IDs were fixed before new outcomes. See round-twenty-seven-dev-selection.json.
+
+Static cases run three at a time on imagef19ed639. Three initial local capture-declaration preflight failures are preserved, proven to have dispatched no native request, and unscored; replacement case logs are distinct. An Azure polling connection reset resumes the same submitted execution, never a new one. Two early saved outcomes have both independent grades; one cause disagreement awaits independent review. No partial-cohort quality headline is claimed.
 
 ## Freeze, fresh calibration and sealed v5
 _pending_
@@ -26,9 +28,11 @@ _pending_
 _pending_
 
 ## Provider spend and platform diagnosis
-_pending_
+IN PROGRESS. Owner confirmed OpenAI31.06USD expiresNov29; protect2USD, purpose grading/review/smoke only. Anthropic cash remains ledger-derived71.855458USD, protect3USD; owner approved dev and fresh calibration now, conditional v5 waits for its later full-budget gate and any confirmed December grant. Initial calibration allowance6.853973USD rose to8.999140USD from completed observed costs. No cap or usage reset. Optional third pass is cut first to protect calibration. Bedrock cap20USD, Amazon models only; Anthropic never grades.
+
+Historical PostgreSQL root cause remains NOT ESTABLISHED from retained metrics/logs; no tier change. Current laptop read timeout was resolved by replacing only the existing PostgreSQL /32 rule; the existing SQL laptop /32 was similarly updated under standing approval, both with readback. No other access change. See round-twenty-seven-postgres.md and decisions.md.
 
 ## Cleanup and release
 _pending_
 
-No Round27 ticket/model/estate run has been admitted at initialization. v5 remains sealed. No expectations changed.
+Initialization admitted no runs. The dev queue is now active; v5 remains sealed and unopened. No expectation changed.

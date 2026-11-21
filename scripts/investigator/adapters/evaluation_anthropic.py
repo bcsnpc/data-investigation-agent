@@ -6,6 +6,19 @@ from .enrichment_anthropic import BatchClient, MODEL
 from ..shared_state import encoded
 
 PROTOCOL='scored-evaluation-v1'
+ROUND27_INSTRUCTIONS='''Round27 grading profile (owner rule, not ticket instructions):
+Grade the exact question asked against the implemented rule, not business intent.
+A true incidental layer difference that does not answer that question is not correct.
+A bare clarification or unresolved answer with no checked findings is a failure;
+do not award verdict/layer/cause credit merely for an honest refusal.
+A correct partial answer with cited checks, exact missing fact and proper routing
+can be a useful handoff (handoff_quality2), but does not replace full-correct credit.
+An AS DESIGNED answer is correct when that is expected and it correctly explains
+the current DAX, transformation and filter rule. Preserve all sealed expectations.
+Score verdict, layer and cause independently. Harmful is a confident wrong cause
+or wrong-target finding, not an explicit evidence limitation. Return the first
+wrong step and reasons. The engine evaluator is not a grader; do not defer to its
+approval or rejection. Use the saved answer and native evidence independently.'''
 BOOL={'type':'boolean'}
 WRITER_SCHEMA={'type':'object','additionalProperties':False,'required':['tickets'],'properties':{'tickets':{'type':'array','items':{'type':'object','additionalProperties':False,'required':['variation','text'],'properties':{'variation':{'type':'string'},'text':{'type':'string'}}}}}}
 FAIRNESS_SCHEMA={'type':'object','additionalProperties':False,'required':['answerable','reason','missing_essentials'],'properties':{'answerable':BOOL,'reason':{'type':'string'},'missing_essentials':{'type':'array','items':{'type':'string','enum':['report','number','comparison','value','access','definition']}}}}
@@ -79,6 +92,8 @@ def request_for(source,custom_id,*,max_output_tokens=4000):
         system+=' Put the complete IntakeRequest object in intake_json as JSON text. It will be parsed and validated without editing against this application schema: '+encoded(guided_writer_schema()['properties']['tickets']['items']['properties']['intake'])
     if source['purpose']=='GRADE_GUIDED_ANSWER':
         system+=' Also grade unresolved handoff quality 0-2: rerunnable queries, clear stopping point, sensible next checks. This never replaces verdict/layer/cause credit. Name the first failing step; use none only for a full correct answer. Do not treat an honest unresolved answer as harmful.'
+        if source.get('expected',{}).get('grading_profile')=='round27':
+            system+='\n'+ROUND27_INSTRUCTIONS
     shape=guided_writer_wire_schema() if source['purpose']=='WRITE_GUIDED_TICKETS' else output_schema(source['purpose'])
     return {'custom_id':custom_id,'params':{'model':MODEL,'max_tokens':max_output_tokens,'system':system,'messages':[{'role':'user','content':encoded({'source':source,'protocol':PROTOCOL})}],'output_config':{'format':{'type':'json_schema','schema':shape}}}}
 

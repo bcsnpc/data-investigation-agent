@@ -1257,3 +1257,9 @@ Owner revised Downloads round-27-redesign-and-prove.md adds PartC.4: separate Op
 
 
 Round27 resume2026-11-20: owner standing /32 approval applied to existing PostgreSQL rule OwnerCurrentIp only:184.105.12.85/32 ->24.72.228.28/32, confirmed by independent public-IP services and Azure readback. The first ledger read timed out with old rule; it succeeded after replacement. AllowAzureServices unchanged; no rule added, no SQL/identity/role/tier change. This establishes the present laptop connectivity cause, not the historical lock holder.
+
+
+Round27 owner budget ordering2026-11-20: no new Anthropic credit. Proceed with dev and fresh calibration inside current68.855458USD available after protected3USD. Preserve calibration estimate throughout; cut optional third failed-only pass first. Conditional v5 is not reserved ahead of dev: after calibration passes, check actual mean x40x1.3 against confirmed remaining balance minus3. If short, keep v5 sealed and wait for explicit December grant/balance confirmation. Never partial v5; no ceiling or counter reset.
+
+
+Round27 owner standing /32 approval2026-11-20: before source-control admission, existing SQL server rule investigator-client-20260918 in rg-investigator-dev was read at184.105.12.85/32 and replaced with the independently confirmed current24.72.228.28/32; native readback matched. Other SQL rules unchanged. No identity, role, credential or database change. Source initially returned40613 while serverless resumed, then existing safe retry passed baseline hash checks; this is not an engine score.
