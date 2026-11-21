@@ -15,6 +15,15 @@ from test_round23_reasoning import MemoryCheckpoint,tool
 
 class CandidateInvestigationTests(unittest.TestCase):
     def test_ambiguous_intake_reaches_checks_on_each_retained_scope_without_asking(self):
+        self.run_case()
+
+    def test_evaluator_specific_rejection_returns_to_loop_then_approves(self):
+        self.run_case(rejections=1)
+
+    def test_evaluator_stops_after_two_retries_and_downgrades_without_confident_draft(self):
+        self.run_case(rejections=3)
+
+    def run_case(self,rejections=0):
         with TemporaryDirectory()as tmp:
             state=SharedState.offline(Path(tmp)/'state.sqlite');state.migrate()
             raw=graph();raw['nodes'] += [
@@ -30,13 +39,18 @@ class CandidateInvestigationTests(unittest.TestCase):
             native_graph.path_to_source.side_effect=lambda target:{'nodes':deepcopy(raw['nodes']),'edges':deepcopy(raw['edges'])}
             route={'kind':'SOURCE_SQL','config':{},'objects':sql_objects(),'asset_ids':['table'],
                    'path_nodes':['table-node'],'label':'Serving','dialect':'T-SQL'}
-            events=[];reads=[];model=Mock();turn=[0]
+            events=[];reads=[];model=Mock();turn=[0];reviews=[0]
             def native(layer,bound,**kwargs):
                 reads.append(bound['query'])
                 # SQL compiler parameterizes constants; use its native bound values.
                 value=7 if '1' in str(bound['parameters'])else 9
                 return {'rows':[{'value':value}]}
             def complete(**kwargs):
+                if kwargs['tools'][0]['name']=='evaluate_delivery':
+                    reviews[0]+=1
+                    return tool('evaluate_delivery',{k:{'passed':not(k=='question' and reviews[0]<=rejections),
+                        'reason':'The real layer difference does not answer the selected question.' if k=='question' and reviews[0]<=rejections else 'Supported by the cited scoped checks.'}
+                        for k in ('question','support','target','claims')})
                 turn[0]+=1
                 if turn[0]==1:
                     return tool('check_target_candidates',{'checks':[
@@ -60,9 +74,17 @@ class CandidateInvestigationTests(unittest.TestCase):
             self.assertEqual(queued['status'],'QUEUED')
             engine=factory(queued)
             result=engine.run()
-            self.assertEqual(result['status'],'ANSWERED')
+            self.assertEqual(result['status'],'UNRESOLVED' if rejections>=3 else 'ANSWERED')
             self.assertEqual(len(reads),2)
-            self.assertEqual(result['target_resolution']['selected'],'card')
+            if rejections<3:self.assertEqual(result['target_resolution']['selected'],'card')
+            else:
+                self.assertEqual(result['conclusion']['verdict_class'],'UNRESOLVED')
+                self.assertIn('DELIVERY_EVALUATOR_REJECTED_AFTER_TWO_RETRIES',result['stop'])
+                self.assertNotIn('Card matches 7 and Second card returns 9',result['business'])
+            self.assertEqual(len(result['delivery_evaluations']),min(rejections+1,3))
+            if rejections:
+                self.assertFalse(result['delivery_evaluations'][0]['approved'])
+                self.assertIn('does not answer',result['delivery_evaluations'][0]['checks']['question']['reason'])
             self.assertNotIn('question',result)
             self.assertEqual(result['case']['context']['candidate_inventory']['candidates'][1]['retained_scope']['properties']['filters'],[{'id':2}])
 

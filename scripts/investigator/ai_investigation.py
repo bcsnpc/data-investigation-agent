@@ -145,7 +145,7 @@ def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
 
 class Investigator:
     def __init__(self,*,queries,model,read_tools,validate_finding=None,validate_question=None,
-                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900,initial_tools_used=0):
+                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900,initial_tools_used=0,evaluator_model=None):
         if type(tool_limit) is not int or not 1<=tool_limit<=15:raise ValueError('TOOL_LIMIT')
         if type(initial_tools_used)is not int or not 0<=initial_tools_used<tool_limit:raise ValueError('INITIAL_TOOL_COUNT')
         self.initial_tools_used=initial_tools_used
@@ -153,6 +153,7 @@ class Investigator:
         validate_finding=validate_finding or finding;validate_question=validate_question or question
         if not callable(validate_finding) or not callable(validate_question):raise ValueError('CONSUMER_VALIDATORS_REQUIRED')
         self.queries,self.model=queries,model
+        self.evaluator_model=evaluator_model if evaluator_model is not None else model
         self.read_tools_factory=read_tools if callable(read_tools) else lambda:read_tools
         self.validate_finding,self.validate_question=validate_finding,validate_question
         self.checkpoint,self.case_id=checkpoint,case_id
@@ -241,6 +242,10 @@ context_gap. No fix suggestions, no glossary request and no business context fil
                     answer.setdefault('technical',{})['conclusion']=deepcopy(conclusion)
                 if self.context.get('candidate_inventory'):
                     answer['target_resolution']=deepcopy(resolution)
+                if conclusion is not None:
+                    review=self.evaluate_draft(args)
+                    if review is None:return {'delivered':False,'downgraded':True}
+                    answer['delivery_evaluation']=deepcopy(review)
                 self.state['outcome']={'status':'ANSWERED',**answer}
                 return answer
             if not self.state['candidate_checks'] or not any(q['purpose'] in ('recreate','record','lookup') for q in self.queries.records):
@@ -248,6 +253,9 @@ context_gap. No fix suggestions, no glossary request and no business context fil
             question=self.validate_question(deepcopy(args),self.case_view())
             if not isinstance(question,dict) or not question.get('question') or not question.get('choices'):
                 raise ValueError('VALIDATOR_MUST_RETURN_GROUNDED_NAMED_CHOICES')
+            if self.context.get('conclusion_contract')=='question-first-v1':
+                review=self.evaluate_draft({**deepcopy(args),'structured_question':question})
+                if review is None:return {'delivered':False,'downgraded':True}
             self.state['outcome']={'status':'NEEDS_INPUT','business':question['question'],'question':question,'question_reason':args['reason']}
             return question
         if name=='get_evidence':
@@ -262,6 +270,33 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         if name=='check_target_candidates' and isinstance(result,dict):
             self.state['candidate_checks']=bool(result.get('exhaustive'))
         return result
+
+    def evaluate_draft(self,args):
+        from .delivery_evaluator import evaluate,payload
+        attempts=self.state.setdefault('delivery_evaluations',[])
+        if sum(not item['approved'] for item in attempts)>=3:
+            raise ValueError('DELIVERY_EVALUATOR_RETRIES_EXHAUSTED')
+        packet=payload(self.context['intake'],args,self.case_view())
+        self.state['pending']={'kind':'DELIVERY_EVALUATOR','attempt':len(attempts)+1};self.save()
+        evaluator_started=self.clock()
+        try:
+            review=evaluate(self.evaluator_model,packet)
+        finally:
+            self.model_seconds+=max(0,self.clock()-evaluator_started)
+        self.state['model_calls']+=1
+        review.update(attempt=len(attempts)+1,retry=sum(not item['approved'] for item in attempts),step='EVALUATOR')
+        attempts.append(review)
+        self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
+        self.state['pending']=None;self.save()
+        if not review['approved']:
+            reasons='; '.join(k+': '+v['reason'] for k,v in review['checks'].items() if not v['passed'])
+            if sum(not item['approved'] for item in attempts)>=3:
+                self.state['outcome']={'status':'UNRESOLVED',
+                    'business':'The draft explanation was not established by the cited evidence.',
+                    'stop':'DELIVERY_EVALUATOR_REJECTED_AFTER_TWO_RETRIES: '+reasons}
+                return None
+            raise ValueError('DELIVERY_EVALUATOR_REJECTED: '+reasons)
+        return review
 
     def case_view(self):
         context=deepcopy(self.context);context['layers']=deepcopy(self.queries.layers)
@@ -496,6 +531,22 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         outcome=deepcopy(self.state['outcome'])
         from .terminal_findings import attach
         outcome=attach(outcome,queries=self.queries.records,context=self.context)
+        if (self.context.get('conclusion_contract')=='question-first-v1'
+                and not self.state.get('delivery_evaluations')
+                and outcome['status'] not in ('BLOCKED','UNESTABLISHED')):
+            cited=[q['id'] for q in self.queries.records]
+            draft={'conclusion':deepcopy(outcome.get('conclusion')),
+                   'findings_per_layer':deepcopy(outcome['investigation_report']['findings_per_layer']),
+                   'business':deepcopy(outcome.get('business')),'evidence_ids':cited}
+            try:
+                review=self.evaluate_draft(draft)
+                if review is not None:outcome['delivery_evaluation']=deepcopy(review)
+            except (SpendHold,UsageHold,GatewayDenied) as error:
+                outcome['evaluator_unavailable']=type(error).__name__+': '+str(error)
+                self.state['pending']=None
+            except ValueError as error:
+                outcome['status']='UNRESOLVED'
+                outcome['evaluator_unresolved']=str(error)
         outcome['case']=self.case_view()
         if outcome['status']!='ANSWERED':
             measured={q['layer'] for q in self.queries.records if q['status']=='SUCCEEDED'}
@@ -506,6 +557,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
                                 'next_checks':['Check the unread layer '+name+'.' for name in remaining]
                                               +['Review '+q['id']+': '+q['error'] for q in self.queries.records if q['status']=='ERROR']}
         outcome['model_calls']=self.state['model_calls'];outcome['tools_used']=self.state['tools_used']
+        outcome['delivery_evaluations']=deepcopy(self.state.get('delivery_evaluations',[]))
         outcome['timing']={**self.context.get('phase_timings',{}),'model_seconds':self.model_seconds,
             'native_query_sum_seconds':sum(q.get('duration_seconds',0)for q in self.queries.records),
             'investigation_wall_seconds':self.state.get('elapsed_seconds',0)}

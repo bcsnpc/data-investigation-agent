@@ -59,7 +59,8 @@ def authorize_body(permissions,method,url,raw):
     if not counted and (type(body['max_tokens']) is not int or not 1<=body['max_tokens']<=16000):raise ValueError('REASONING_OUTPUT_BOUND')
     names={'run_sql','run_dax','get_definition','get_lineage','get_job_runs','get_refresh_history',
            'get_security_definitions','record_trace','list_candidates','get_evidence','ask_user_choice','submit_finding',
-           'lookup_intake_catalog','resolve_intake','describe_screenshot','plan_screenshot_lookup','lookup_screenshot'}
+           'lookup_intake_catalog','resolve_intake','describe_screenshot','plan_screenshot_lookup','lookup_screenshot',
+           'get_target_candidates','check_target_candidates','contribution_analysis','row_layer_diff','evaluate_delivery'}
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
     for index,tool in enumerate(body['tools']):
         fields={'name','description','input_schema'}

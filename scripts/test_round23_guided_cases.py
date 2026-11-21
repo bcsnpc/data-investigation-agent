@@ -137,6 +137,8 @@ class Tests(unittest.TestCase):
         native=NativeQueries({'gold':route},source=native_read,fabric=Mock(),dax=Mock(),offline=True)
         model=Mock();step=[0]
         def complete(**kwargs):
+            if kwargs['tools'][0]['name']=='evaluate_delivery':
+                return tool('evaluate_delivery',{k:{'passed':True,'reason':'Supported partial handoff.'} for k in ('question','support','target','claims')})
             step[0]+=1
             if step[0]==1:return tool('run_sql',{'layer':'gold','query':'SELECT SUM(quantity) AS quantity FROM dbo.Items','purpose':'recreate'})
             q=next(event['query'] for _,event in events if event['event']=='QUERY_RESULT')
@@ -177,6 +179,8 @@ class Tests(unittest.TestCase):
         native=NativeQueries(routes,source=native_read,fabric=Mock(),dax=Mock(),offline=True)
         events=[];step=[0];model=Mock()
         def complete(**kwargs):
+            if kwargs['tools'][0]['name']=='evaluate_delivery':
+                return tool('evaluate_delivery',{k:{'passed':True,'reason':'Supported partial handoff.'} for k in ('question','support','target','claims')})
             step[0]+=1
             if step[0]==1:return tool('list_candidates',{'words':'Movements'})
             if step[0]==2:return tool('get_lineage',{'node':'source-node'})

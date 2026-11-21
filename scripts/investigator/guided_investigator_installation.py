@@ -249,6 +249,7 @@ class Factory:
                                             'schema':schema({}),'run':resolve}
             return tools
         engine=Investigator(queries=queries,model=model,read_tools=registry,
+              evaluator_model=self.model_for_step(case['id'],'EVALUATOR') if self.model_for_step else model,
             checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage,initial_tools_used=len(initial_queries))
         if self.investigator_cascade:
             if not self.model_for_step:raise ValueError('INVESTIGATOR_FALLBACK_CONFIGURATION_REQUIRED')

@@ -123,7 +123,7 @@ def run(plan,context):
                                 graph_spec['allowed_objects'],record)
     def ai_configuration(step):
         if 'ai_routing' not in spec:return spec['reasoning']
-        if step in ('SCREENSHOT','SUMMARY'):
+        if step in ('SCREENSHOT','SUMMARY','EVALUATOR'):
             from investigator.adapters.provider_runtime import select
             return select(spec['ai_routing'],tenant=graph_spec['estate'],step='INVESTIGATOR')
         if step=='INTAKE':
@@ -257,7 +257,11 @@ def run(plan,context):
         try:
             result = operational_run(operational_admission, operational_history, record=record,
                 history_for_selector=(lambda node,kinds,selector,text:history_reader(node,kinds,selector=selector,text=text))if history_reader else None)
+            from investigator.delivery_evaluator import evaluate_native
+            result=evaluate_native(model(case_id,'EVALUATOR'),submitted,result)
+            record({'event':'DELIVERY_EVALUATION','route':'NATIVE_OPERATIONAL','evaluations':result['delivery_evaluations']})
             result.update(ticket=submitted, physical_requests=meter.used,
+                          ai_step_costs=step_costs(ai_usage),cost=budget(case_id).status(),
                           timing={'wall_seconds':time.monotonic()-started},
                           outputs={'business':result['business'],'technical':json.dumps(result.get('technical',result.get('history',{})))})
             context.record('guided-investigator-result',result)

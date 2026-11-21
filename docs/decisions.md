@@ -637,3 +637,10 @@ Owner supplied round-27-redesign-and-prove (1).md: Opus for intake and investiga
 
 
 Round27 owner credit decision2026-11-17: OpenAI cash31.06USD expiresNov29, supplied in chat. Keep2USD, add29.06USD above current173.878628USD charged: ceiling202.938628USD, read back from cloud. No counters reset. OpenAI only grading/review/release smokes. Anthropic screenshot/summary are intake/investigation helpers routed to the same Opus model and ticket cap, never graders. A stale synthetic budget assertion was updated for the explicitly approved20USD Bedrock and202.938628USD OpenAI ceilings; no ticket or acceptance expectation changed. The first local full suite was interrupted after the hosted stale-cap assertion was established; its partial log remains, not a pass.
+
+
+### Round27 amended evaluator, owner2026-11-20
+Owner revised Downloads round-27-redesign-and-prove.md adds PartC.4: separate Opus engine evaluator receives only ticket, structured draft and cited evidence; checks exact question, support, unique target and all claims. At most two retries after first rejection; failed drafts never authorize a confident finding. Evaluator is not a grader. Its calls use the same case actual3USD cap and unchanged Anthropic envelope/protected3USD; record EVALUATOR purpose and retry/cost. No model balance, role, identity or estate ceiling increase. Continue existing branch/PR435; keep completed work and sealed v5.
+
+
+Round27 resume2026-11-20: owner standing /32 approval applied to existing PostgreSQL rule OwnerCurrentIp only:184.105.12.85/32 ->24.72.228.28/32, confirmed by independent public-IP services and Azure readback. The first ledger read timed out with old rule; it succeeded after replacement. AllowAzureServices unchanged; no rule added, no SQL/identity/role/tier change. This establishes the present laptop connectivity cause, not the historical lock holder.

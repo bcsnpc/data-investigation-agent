@@ -1250,3 +1250,10 @@ Owner round-27-redesign-and-prove (1).md authorizes Opus for all Round27 intake/
 
 ### Section8 Round27 exact OpenAI cash and expiry ? 2026-11-17
 Owner reports31.06USD remaining, expiresNovember29. Preserve2USD cash; allow29.06USD additional usage above charged173.878628USD, making the account/internal ceiling202.938628USD. Cloud account and code policy read back; usage/reservations unchanged. Conservative expiry cutoff2026-11-29T00:00UTC prevents further OpenAI admission until renewed owner authority. Round27 OpenAI is grading/review/release-smoke only. Screenshot/summary helpers route to the same Opus investigation model and shared ticket budget, with distinct usage-step labels; Anthropic remains forbidden for grading/writer/enrichment/smoke. No actual provider cash API observation is claimed. See docs/round-twenty-seven-openai-credit.json.
+
+
+### Round27 amended evaluator, owner2026-11-20
+Owner revised Downloads round-27-redesign-and-prove.md adds PartC.4: separate Opus engine evaluator receives only ticket, structured draft and cited evidence; checks exact question, support, unique target and all claims. At most two retries after first rejection; failed drafts never authorize a confident finding. Evaluator is not a grader. Its calls use the same case actual3USD cap and unchanged Anthropic envelope/protected3USD; record EVALUATOR purpose and retry/cost. No model balance, role, identity or estate ceiling increase. Continue existing branch/PR435; keep completed work and sealed v5.
+
+
+Round27 resume2026-11-20: owner standing /32 approval applied to existing PostgreSQL rule OwnerCurrentIp only:184.105.12.85/32 ->24.72.228.28/32, confirmed by independent public-IP services and Azure readback. The first ledger read timed out with old rule; it succeeded after replacement. AllowAzureServices unchanged; no rule added, no SQL/identity/role/tier change. This establishes the present laptop connectivity cause, not the historical lock holder.

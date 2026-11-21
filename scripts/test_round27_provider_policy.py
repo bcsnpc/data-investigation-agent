@@ -24,6 +24,18 @@ class ProviderPolicyTests(unittest.TestCase):
         self.assertEqual(approved['allowed_vendor'], 'amazon-nova-only')
         self.assertIs(approved['allow_claude'], False)
 
+    def test_round27_read_tools_and_evaluator_pass_gateway_without_write_tools(self):
+        from investigator.adapters.reasoning_anthropic import authorize_body,BASE
+        body={'model':'opus-test','max_tokens':20,'system':[{'type':'text','text':'Native evidence only.',
+              'cache_control':{'type':'ephemeral'}}],'messages':[], 'tools':[]}
+        for name in ('get_target_candidates','check_target_candidates','contribution_analysis','row_layer_diff','evaluate_delivery'):
+            body['tools']=[{'name':name,'description':'Approved bounded read or local evaluation.',
+                            'input_schema':{'type':'object','properties':{}}}]
+            authorize_body({'reasoning_models':['opus-test']},'POST',BASE+'/messages',body)
+        body['tools'][0]['name']='execute_sql_write'
+        with self.assertRaisesRegex(ValueError,'UNKNOWN_TOOL_REFUSED'):
+            authorize_body({'reasoning_models':['opus-test']},'POST',BASE+'/messages',body)
+
     def test_openai_credit_expiry_and_round_purposes(self):
         from datetime import datetime,timezone
         from investigator.provider_budget import check_credit
