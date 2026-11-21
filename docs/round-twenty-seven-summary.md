@@ -1,6 +1,6 @@
 # Round 27: redesign and prove
 
-Status: IN PROGRESS. Started2026-11-17; resumed2026-11-20 under the amended prompt, including its separate Opus evaluator. Existing branch/PR435 retained.
+Status: IN PROGRESS. Opus admissions are paused at the protected budget floor; offline work continues. Started2026-11-17; resumed2026-11-20 under the amended prompt, including its separate Opus evaluator. Existing branch/PR435 retained.
 
 Baseline: main `6fa39d32`, v0.26 `149d290d`. Work uses the clean existing C:/temp/dia-r26-build checkout. The unrelated dirty D:/data_investigation_agent worktree is preserved as a standing-hygiene exception.
 
@@ -54,3 +54,5 @@ Anthropic charged/committed $103.284651 against the existing $120.575301 ceiling
 All owned latency schedules were removed and source row/schema hashes restored. No access injection or stale toggle was started. Automatic updates were not changed during these cohorts. The Nova primary authorization blocker and reviewed harmful flag remain open; this is not a final score or release qualification.
 
 Offline fix source062a2bfbe29e50e4c02d537e3845b536fbdcd819 qualified in workflow44935273252: 5,924 passed,53 skipped,zero failures/errors; all8image shards PASS; publication SUCCESS. Candidate image sha256:021d0e3055aa67606f1f722ac61de56c4a77f0edd89207026f7ef0b9e2be42cd. Receipt: docs/round-twenty-seven-offline-fix-qualification.json. No Azure deployment or live quality run; freeze not earned. Remaining pass1 cases keep prior repair image1df39718; calibration waits for pass2.
+
+Saved-output checkpoint (2026-11-21): all42 measured attempts have secondary grades,4/42 correct and0 secondary harmful. This is not a final independent score: primary/review coverage remains33, official3/33,strict3/33,reviewed4/33,harm1; nine primary grades await existing Nova authorization. Eight main inputs are not run. Separate plumbing reruns0/5,harm0. Trace review covers29 reviewed-zero main cases plus5 reruns. Costs reconcile to444 provider calls/$51.564808 for these two cohorts. No freeze, calibration or v5 admission. See round-twenty-seven-secondary-progress.json and round-twenty-seven-pass1-progress.md.

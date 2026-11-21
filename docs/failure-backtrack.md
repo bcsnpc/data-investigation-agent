@@ -16844,3 +16844,74 @@ Form source-history v2 explicitly asks why the same historical record changed fr
 The correct action after presence was to isolate the current-window temporal evidence, cite the exact versions and retained calculation, and use the correct identifier roles in delivery. No larger cap is implied. Both form-history tickets are saved, original source/schema hashes match and the original real restoration load succeeded. The later text-history cohort reads the original retained windows without a new source mutation.
 
 The complete per-ticket first-wrong-step table is not yet earned. A private worklist links the graded failures to their immutable outputs, both graders, independent review and saved query/evaluator diagnostics; its heuristic categories are not substituted for verified first steps.
+
+## Round 27 saved-trace review, 2026-11-21
+
+29 reviewed-zero main outcomes from the 33-pair snapshot; five separately scored plumbing reruns. Remaining primary grades are unavailable. No held-out input accessed.
+
+Earliest relevant recorded mistake or obstruction, including subsequently recovered mistakes explicitly marked in the explanation. No claim that every early mistake caused the final score; grader labels retained separately. This is an operator analysis of dev traces, not an independent regrade; all original outcomes, reasons and harm flags remain. The ordered indexes verify the existing capture seal and each downloaded audit-batch hash. They exclude model thinking. Only saved captures were read; no estate or model call was made for this analysis.
+
+The count groups below describe first relevant trace errors, including recoverable ones. They do not establish that every such error caused the final failure.
+
+| Cohort | First relevant step | Count |
+|---|---|---:|
+| main | budget stop | 2 |
+| main | conclusion | 3 |
+| main | intake | 2 |
+| main | query | 9 |
+| main | query validation | 2 |
+| main | tool choice | 5 |
+| main | write-up | 6 |
+| plumbing-rerun | query | 3 |
+| plumbing-rerun | tool choice | 2 |
+
+| Cohort / ticket | Step / audit sequence | What went wrong; correct action |
+|---|---|---|
+| main / form-v2-before-temporal-retention-v1 | query validation / 21 | The temporal-catalog read is blocked by the metadata transport defect. Current movement totals cannot establish the requested historical snapshot or its earliest retained boundary. |
+| main / form-v2-other-collected-definition-v1 | tool choice / 51 | The first draft uses a graph ID in the native-layer enum. After correction, delivery remains unresolved despite measured payment agreement; cite the retained SUM rule and avoid adding unmeasured filter claims. |
+| main / form-v2-billing-invoices-v1 | tool choice / 69 | The first otherwise substantive draft uses a graph ID in the native-layer enum. Its account-history explanation then fails malformed evaluation/definition support. Keep the measured 700-to-950 split and cite the account_id-only join directly. |
+| main / form-v2-warehouse-scope-v2 | intake / pre-investigation | UNKNOWN_REPORT stopped the explicit form before investigation. Resolve the submitted report in the catalog; do not replace it or ask for a report already supplied. |
+| main / form-v2-application-baseline-v1 | write-up / 36 | The first draft includes retained lineage statements without citable retained-definition evidence; the subsequent evaluator also returns malformed checks. Cite the retained rule and the three agreeing totals, rather than turning evaluator failure into a data cause. |
+| main / form-v2-fixture-quantity-v1 | query / 22 | The first DAX uses an ambiguous member and is refused; a corrected query later recovers 8765. That recovered error must not become the terminal explanation; retained join evidence and the 7661-to-8765 split still need valid citations. |
+| main / form-v2-billing-mrr-v1 | query / 44 | A diagnostic uses unsupported National-literal syntax and is rejected before dispatch. Correct the read syntax, then use native layer IDs and cite the retained MRR rule; later evaluator malformation is a separate obstruction. |
+| main / form-v2-billing-invoices-v2 | write-up / 65 | The draft reaches delivery, but the evaluator cannot establish valid structured checks; later attempts to read again hit the physical cap. Preserve the measured invoice split and cite its rule before spending the remaining steps. |
+| main / form-v2-record-absent-everywhere-v1 | query validation / 36 | A sys.tables metadata read reaches the business-object allowlist and ends SQL_OBJECT_NOT_ALLOWED. Permit only independently validated metadata transport; current record absence does not prove historical absence. |
+| main / form-v2-record-repeated-gold-v2 | write-up / 56 | The draft reaches delivery, then malformed evaluator output and unsupported definition claims prevent acceptance. Cite the exact retained transform and scoped repeated-key results instead of reciting uncited lineage. |
+| main / form-v2-warehouse-scope-v1 | conclusion / 36 | The first draft is rejected because its AS DESIGNED contract does not state the implemented-rule verdict; later scope/definition checks also reject it. Report the two different warehouse scopes explicitly and support each scoped total. |
+| main / form-v2-screenshot-record-01-v1 | query / 35 | The DAX recreation violates the single table-valued EVALUATE contract. Later attempts try to cite a failed query and retrace the same row. Correct the query once and use only successful keyed results to support the finding. |
+| main / form-v2-screenshot-record-04-v1 | query / 21 | An ambiguous DAX member is rejected before dispatch, then corrected. Subsequent drafts still lack implemented-rule/source coverage. Recover the query without treating that temporary error as the record cause. |
+| main / form-v2-failed-application-load-v1 | tool choice / 43 | The first finding passes a graph object ID where a native query-layer ID is required. Use the exact tool enum; later drafts must also distinguish a failed run from proof that it caused the old visible number. |
+| main / form-v2-failed-billing-transform-v1 | query / 48 | The warehouse diagnostic references an unavailable or unvalidated object. Later delivery also cites failed reads. Stay on the admitted objects and separate the native failed run from unproved effects on the displayed value. |
+| main / text-R17-04-v1 | tool choice / 52 | The candidate-check wrapper assumes a query correction-limit refusal has an id and raises KeyError. Return that candidate as unavailable, preserve the other checked results and do not confer uniqueness. |
+| main / text-R17-05-v1 | write-up / 72 | The draft reaches the evaluator, which repeatedly returns no valid structured decision. Retain its measured evidence and distinguish evaluator failure from a technical rejection of the proposed cause. |
+| main / text-R17-08-v1 | query / 65 | A historical warehouse read uses unsupported OPTION FOR TIMESTAMP syntax. Do not infer a historical comparison from current totals; use a native supported history route or name its exact unavailable boundary. |
+| main / text-R17-09-v1 | query / 30 | The first DAX has an ambiguous member and is rejected; a corrected recreation follows. A later DESCRIBE HISTORY proposal is also sent to a SELECT-only SQL route. Choose the declared dialect/history capability, not a different engine syntax. |
+| main / text-R17-11-v1 | query / 30 | The initial recreation has an ambiguous DAX member, later corrected. The delivery still needs to tie measured 8765 to its retained calculation instead of citing a partial rule as a full explanation. |
+| main / text-R17-10-v1 | conclusion / 83 | The first finding selects no unique target yet lacks the required side-by-side findings and exact remaining distinction. Preserve every checked candidate and ask only about the distinction the checks could not resolve. |
+| main / text-baseline-S02-v1 | tool choice / 73 | The first finding uses a graph ID as a native layer. Later attempts exhaust the final-action reserve while retrieving definitions. Cite the already-retained definition and exact native layer before delivery. |
+| main / text-different-warehouse-v2 | budget stop / 9 | Intake completes, but the native physical cap is reached before an investigation finding. This is an unanswered limit stop, not evidence that the compared warehouse values are equivalent or wrong. |
+| main / text-older-export-movement-1-v2 | budget stop / 9 | Intake completes, but the native physical cap is reached before a historical investigation. Preserve the unanswered stop; do not claim a historical cause from the requested export date alone. |
+| main / text-R17-02-v1 | write-up / 66 | The delivery draft uses retained lineage/transform assertions without resolving them into cited evidence. Numeric contribution alone is not the causal rule; cite the exact retained definition and its measured split. |
+| main / text-failed-billing-load-v1 | conclusion / 4 | The native fast-path draft does not answer what caused the failure and whether the job finished or stopped partway through. Fill the answer from the recorded run status/error, and name any missing failure detail without inventing it. |
+| main / text-baseline-S01-v1 | intake / 3 | The loose application-source phrase is rejected as an unresolved exact source name; the model repairs the intake on its next attempt. Preserve it as an unbound comparison for investigation without silently choosing an endpoint. |
+| main / text-baseline-S03-v2 | query / 22 | The metadata DAX violates the single table-valued EVALUATE contract; later metadata projections and a native HTTP 400 also fail. Use documented retained/model metadata and report exactly which relationship fact was not obtained. |
+| main / text-R17-01-v1 | write-up / 76 | The first draft reaches delivery without sufficient cited causal support, followed by incomplete evaluation and late definition reads. Link the measured layer split to its retained operation before declaring the cause. |
+| plumbing-rerun / form-v2-before-temporal-retention-v1 | query / 57 | The temporal read names r22_valid_from where the admitted schema cannot resolve it; the subsequent source transport also fails. Obtain the actual retained temporal column metadata and earliest available bound, or state that evidence is unavailable. |
+| plumbing-rerun / form-v2-record-absent-everywhere-v1 | query / 38 | The metadata diagnostic uses unsupported National-literal syntax. Subsequent corrected reads do not cure missing definition citations or malformed evaluation; a missing current key alone does not establish an old export claim. |
+| plumbing-rerun / text-older-export-movement-1-v1 | tool choice / 73 | The model sends source queries to a native layer not active on this candidate path, then uses a SQL address where a graph node is required. Activate the admitted upstream node through lineage and use its returned layer enum. |
+| plumbing-rerun / text-R17-08-v1 | query / 71 | A history proposal is not a SELECT/CTE read for its SQL route, followed by unsupported temporal syntax. Keep the requested historical scope and report the unavailable native snapshot instead of substituting current values. |
+| plumbing-rerun / text-R17-09-v1 | tool choice / 41 | A job lookup uses a Fabric address instead of the graph-node enum. Later findings likewise mix graph/native layer IDs and omit source coverage. Use each returned identifier in its declared role without broadening the path. |
+
+### Walkthrough: candidate-check correction limit
+
+R17-04 reaches intake resolution and proposes five candidate scalar checks at native audit sequence 52. The next saved error feedback (64) is KeyError(id), not a native data result. The query layer can legitimately return QUERY_CORRECTION_LIMIT without a recorded query ID; the wrapper indexed that missing field. Subsequent reading and asking cannot repair the missing exhaustive candidate result. The generic offline fix reports the refusal as ERROR with no evidence ID, so the candidate remains unavailable and cannot confer uniqueness. Two synthetic tests cover the id-less refusal and an unrecorded success. This fix has no live quality result yet.
+
+### Walkthrough: an intake label that escaped as an exception
+
+Text latency 900501-v1 names an application export and Bronze, a movement identifier, and 17 units. Three saved intake model calls cost $0.597561. SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS then escapes candidate submission before investigation, yielding worker exit 1, a partial capture and no sealed final answer. This is an engine intake error, not an environment exclusion and not zero model calls. The offline generic fix preserves an unresolved loose source label as comparison context for investigation; it does not choose a source or admit an unknown explicit address. The original partial files and the superseded zero-call observation remain retained.
+
+### Walkthrough: complete numeric agreement still failed delivery
+
+Application-baseline-v1 submits scoped DAX, landing SQL and source SQL at sequence 21. Each returns 7661, with 360 rows and 360 distinct IDs. The first draft (36) also describes a retained Direct Lake/copy path without resolving those definitions into citable evidence. The first evaluation is incomplete; a later valid rejection identifies uncited lineage claims; later evaluation is again incomplete. Final output is UNRESOLVED, not the supported calculation explanation. The appropriate next action is to cite the already-retained SUM rule and distinguish numerical agreement from lineage claims that still lack a citation. The qualified offline fix makes those retained definitions addressable without new data reads; it does not manufacture current or numeric evidence.
+
+The earlier fixture-quantity, absent-record transport and source-history-v2 walkthroughs above remain part of this report. The reviewed harmful fixture-quantity flag is retained even though the reviewer text and winner label conflict. No freeze is earned by this offline analysis.

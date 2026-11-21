@@ -67,3 +67,22 @@ Fourteen new synthetic tests pass. Existing focused checks also pass: 180 Round2
 Measurement correction, 2026-11-21: the partial 900501-v1 timing summary reported no top-level model events, but its nested normal-audit batch contains three Opus INTAKE calls totalling $0.597561. The earlier zero-model-call observation was wrong and is retained privately as superseded. The native failure remains SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS before investigation, with no delivered answer. The shared ledger already charged these calls; the $17.290650 headroom and protected allowances do not change. Original native files/outcomes and the original secondary grade remain preserved; grading metadata is being corrected, not the ticket, expectation or answer.
 
 Offline fix source062a2bfbe29e50e4c02d537e3845b536fbdcd819 qualified in workflow44935273252: 5,924 passed,53 skipped,zero failures/errors; all8image shards PASS; publication SUCCESS. Candidate image sha256:021d0e3055aa67606f1f722ac61de56c4a77f0edd89207026f7ef0b9e2be42cd. Receipt: docs/round-twenty-seven-offline-fix-qualification.json. No Azure deployment or live quality run; freeze not earned. Remaining pass1 cases keep prior repair image1df39718; calibration waits for pass2.
+
+## Saved-output closure and offline follow-up, 2026-11-21
+
+All 42 measured main attempts now have a saved independent Sol secondary grade: 4/42 match verdict, layer and cause; 0 secondary harmful flags. This is not the official or reviewed final score. Primary/review coverage remains 33 paired outcomes: official 3/33, strict 3/33, reviewed 4/33, with one reviewed harmful flag retained. Nine primary grades are missing because Nova authorization is blocked. Five plumbing reruns remain separate: 0/5, harmful 0. Eight planned main inputs were not admitted and are not scored as failures.
+
+The final screenshot packet fits at 23,871 characters under the unchanged 24,000-character bound. Its final unsent projection omits repetitive transport retry timestamps; original full projection/capture hashes and the omission disclosure remain. No ticket, expectation, query, parameter, native identity or answer wording was changed. Existing labelled samples remain labelled. No complete-capture byte equivalence is claimed. The correction from zero to three calls on the partial native intake error was regraded independently with the corrected input metadata; the original grade/packet remain superseded, not deleted.
+
+| Cohort | Attempts | All recorded provider calls | Actual Anthropic cost |
+|---|---:|---:|---:|
+| dev01 | 42 | 377 | $44.154557 |
+| dev01-plumbing | 5 | 67 | $7.410251 |
+
+The two cohorts reconcile to $51.564808 since the recorded Round 27 opening ledger total, using 444 recorded provider calls. Per-ticket and per-step model, cost and cache ratios are in round-twenty-seven-pass1-costs.json. The native result model_calls field counts the investigation/evaluator loop only; intake and screenshot calls are included in the all-step count and cost above. Calibration $14.34 and the separate $3 cash reserve remain protected; no additional Opus dispatch occurred in this offline follow-up.
+
+Saved-trace review now lists all 29 reviewed-zero main cases in the 33-pair snapshot and all five separate plumbing reruns, with source seals, audit sequence numbers and grader labels retained separately. The first relevant error may be recovered later; the report explicitly does not equate every early error with the cause of the final failure. See failure-backtrack.md and round-twenty-seven-saved-trace-backtrack.json.
+
+A further generic candidate-check fix handles id-less correction-limit responses without crashing or selecting an unmeasured candidate. Both new synthetic tests pass (16 focused tests total). Qualification is running separately on source f0d14fcd in workflow 44937209248; no Azure worker deployment or live quality claim.
+
+Authoritative read-only budget readback 2026-11-21T18:50:56.796731+00:00: Anthropic charged/committed $103.284651, cap $120.575301; $17.290650 headroom, of which $14.34 is calibration-protected. Available after that is $2.950650, below the unchanged $4 single-worker buffer. Remaining eight P1 inputs estimate $10.93; provisional P2 lower-bound 38 inputs estimate $51.93 at observed main mean plus30%. These are estimates, not admissions or final selections. Physical11,901/14,500 (investigation9,446/11,905; SCAN2,404/2,500; restoration51/95,44remaining). No counter reset or allocation borrowing.
