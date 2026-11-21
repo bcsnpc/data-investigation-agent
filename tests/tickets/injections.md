@@ -486,3 +486,15 @@ Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_r
 
 
 Round26 dev06 final stale restoration verified 2026-11-11T00:12:25.648034+00:00: original360business rows SHA256 0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b, business-schema SHA256 bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd. Original real restoration load Completed. Automatic updates restored On and verified on a freshly loaded native settings page; refresh schedule remains Off unchanged. Own model refresh e0773fcf-6fb9-456a-bd08-44839e3a539f Completed, and native model read is7661. Temporal history leftOn as approved. No remaining owned rows/schedules/access objects or altered pipeline definition. Exact per-control readbacks are retained privately under .local/round-twenty-six/dev06/injections/.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\dev01\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\dev01\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-seven\dev01\injections\waiting\status.json.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\dev01\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.

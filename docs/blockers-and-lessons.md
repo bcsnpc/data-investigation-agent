@@ -843,3 +843,5 @@ Round27 resume2026-11-20: owner standing /32 approval applied to existing Postgr
 
 
 Round27 local capture binding preflight: generated run IDs/prefixes must update the exact runner_captures declaration together. Three attempts raised SCHEDULE_EXACT_CAPTURE_BINDING_REQUIRED before any external execute call; originals and zero-dispatch proof are retained, unscored. All50runner configs then passed pure bind_execution preflight before replacements. Later poll ConnectionResetError10054 is an idempotent GET failure, resumed on the same execution with existing bounded control_plane_retry helper; never resubmit a started case.
+
+Round27 recovery 2026-11-21: history admission stopped before any model/ticket dispatch because serialized fault controller inherited three-worker $12 concurrency buffer. Original source row/schema hashes restored, temporal remains ON; receipt retained at .local\round-twenty-seven\dev01\injections\form-current-history-pre-admission-restored-20261121-170640. Local coordinator now supplies the already-existing one-worker $4 buffer and skips its three completed cohorts. No limit, image, engine or reserve change.
