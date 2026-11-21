@@ -501,3 +501,9 @@ Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restora
 
 
 Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\dev01\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-seven\dev01\injections\text-retained-original-history\status.json.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01\injections\form-latency\status.json. Temporal remains ON.
