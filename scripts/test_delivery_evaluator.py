@@ -37,6 +37,16 @@ class DeliveryEvaluatorTests(unittest.TestCase):
         result=evaluate(model,{})
         self.assertFalse(result['approved']);self.assertEqual(result['usage'],{'input_tokens':8})
 
+    def test_truncated_evaluator_names_missing_check_without_false_claim_diagnosis(self):
+        checks={k:{'passed':True,'reason':'Supported.'}for k in CHECKS if k!='claims'}
+        model=Mock();model.complete.return_value={**tool('evaluate_delivery',checks),'stop_reason':'max_tokens'}
+        result=evaluate(model,{})
+        self.assertFalse(result['approved'])
+        self.assertEqual(result['format_error']['missing_checks'],['claims'])
+        self.assertEqual(result['format_error']['stop_reason'],'max_tokens')
+        self.assertIn('output-token limit',result['checks']['claims']['reason'])
+        self.assertEqual(model.complete.call_args.kwargs['max_tokens'],3200)
+
     def test_approval_needs_all_four_checks(self):
         model=Mock();model.complete.return_value=tool('evaluate_delivery',{k:{'passed':True,'reason':'Supported by q1.'} for k in CHECKS})
         self.assertTrue(evaluate(model,{})['approved'])

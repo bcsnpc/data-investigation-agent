@@ -18,6 +18,7 @@ Judge implemented rules, never intent; do not suggest fixes. A partial UNRESOLVE
 handoff is valid only with checked findings and exact missing evidence.
 For each check return a boolean and a specific reason naming the failed claim,
 missing evidence or target problem. You are an engine evaluator, not a score grader.
+Keep each reason under 80 words; name the evidence gap instead of restating the draft.
 Use only evaluate_delivery; do not query the estate or request additional context.'''
 
 CHECKS = ('question', 'support', 'target', 'claims')
@@ -66,20 +67,31 @@ def payload(ticket, draft, case):
 
 def evaluate(model, packet):
     response = model.complete(system=INSTRUCTIONS,
-        messages=[{'role': 'user', 'content': canonical(packet)}], tools=[deepcopy(TOOL)], max_tokens=1600)
+        messages=[{'role': 'user', 'content': canonical(packet)}], tools=[deepcopy(TOOL)], max_tokens=3200)
+    format_error=None;result=None
     try:
         calls = [b for b in response.get('content', []) if isinstance(b,dict) and b.get('type') == 'tool_use']
         if len(calls) != 1 or calls[0].get('name') != TOOL['name']:
             raise ValueError('EVALUATOR_STRUCTURED_RESULT_REQUIRED')
         result = calls[0]['input']
         Draft202012Validator(SCHEMA).validate(result)
-    except (ValueError,KeyError,TypeError,__import__('jsonschema').ValidationError):
-        result={k:{'passed':False,'reason':'The evaluator did not establish a valid structured check; no confident answer is authorized.'} for k in CHECKS}
+    except (ValueError,KeyError,TypeError,__import__('jsonschema').ValidationError) as error:
+        # Retain structural diagnostics, never arbitrary model text. A truncated
+        # check is not evidence that the draft's actual causal claims are false.
+        format_error={'kind':type(error).__name__,
+                      'path':[str(x)for x in getattr(error,'absolute_path',[])],
+                      'missing_checks':[k for k in CHECKS if not isinstance(result,dict) or k not in result],
+                      'stop_reason':response.get('stop_reason') if response.get('stop_reason')in ('max_tokens','tool_use','end_turn','stop_sequence')else None}
+        reason='Evaluator structured result incomplete or invalid'
+        if format_error['missing_checks']:reason+='; missing checks: '+', '.join(format_error['missing_checks'])
+        if format_error['stop_reason']=='max_tokens':reason+='; evaluator reached its output-token limit'
+        result={k:{'passed':False,'reason':reason+'. No confident answer is authorized.'} for k in CHECKS}
     model_name=response.get('model', getattr(model, 'model', None))
     return {'approved': all(result[k]['passed'] for k in CHECKS), 'checks': deepcopy(result),
             'usage': deepcopy(response.get('usage', {})),
             'cost_microdollars': response.get('cost_microdollars'),
-            'model': model_name if isinstance(model_name,str) else None}
+            'model': model_name if isinstance(model_name,str) else None,
+            'format_error':format_error}
 
 
 def evaluate_native(model,ticket,outcome):
