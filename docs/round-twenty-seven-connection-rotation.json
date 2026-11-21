@@ -1,0 +1,53 @@
+{
+  "observed_at_utc": "2026-11-21T21:32:29.876371+00:00",
+  "approval": "Owner reply yes, 2026-11-21; same existing investigator app,30days,existingKV,existingfixture/billingconnections,no newidentityorpermissions",
+  "status": "COMPLETE",
+  "application_id": "531419ef-1610-415a-b8bf-01a4b6aad751",
+  "old_expired_key_id": "0b4b4562-5df3-44b1-98c4-6fb28e80df6e",
+  "old_key_removed_after_all_reads": true,
+  "new_key_id": "1a7bc508-0219-4a1a-9464-2c2aab35c9de",
+  "new_expiry_utc": "2026-12-21T21:28:50.276696Z",
+  "secret_store": "Existing kv-dia-d5dd7d65 / investigator-fixed-connection-20261021; values only in memory and KeyVault",
+  "connection_scope_and_model_users_unchanged": true,
+  "key_credential_count_unchanged": true,
+  "targets": {
+    "fixture": {
+      "connection_id": "2f322058-f720-40a0-bd1e-d174b8e7f5da",
+      "credential_type": "ServicePrincipal",
+      "sso": "None",
+      "readback": [
+        {
+          "[read_probe]": 8765
+        }
+      ],
+      "read_evidence_sha256": "bcbcd3f1e93f0c6137d533716b49b4d78e6c83132e7b60634d1022634c9ea5aa"
+    },
+    "billing": {
+      "connection_id": "5099b9ff-1f27-488c-98c5-01c030dc4f3c",
+      "credential_type": "ServicePrincipal",
+      "sso": "None",
+      "readback": [
+        {
+          "[read_probe]": 600
+        }
+      ],
+      "read_evidence_sha256": "7168f15b7b5dd2b9ea5ed12837085e1eb232992a8acce7bad2818119ee13fc08"
+    },
+    "fixture-application": {
+      "connection_id": "b1a57512-f71a-41a3-b868-4ee2999c42b9",
+      "credential_type": "ServicePrincipal",
+      "sso": "None",
+      "readback": [
+        {
+          "[read_probe]": 7661
+        }
+      ],
+      "read_evidence_sha256": "e0a37521cff4cdb7772992b8dc236053ae3479fdb5d5b6ccfb40138ed5448131"
+    }
+  },
+  "readback_caller": "Existing owner control-plane sign-in using existing fixed ServicePrincipal data connection; not an investigator caller attestation",
+  "checkpoint_sha256": "227f3ea2251311db4862c2da902054b5a20769a9b3918ec5de808d73f21d2765",
+  "permission_grants_changed": false,
+  "no_secret_values_in_report": true,
+  "no_data_or_model_definitions_changed": true
+}
