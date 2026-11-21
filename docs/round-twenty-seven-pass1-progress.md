@@ -27,3 +27,9 @@ Round27 2026-11-21: Nova Pro primary grading returned BEDROCK_AccessDeniedExcept
 ## Preliminary pass-2 affordability (not a final ticket selection)
 
 At 2026-11-21 17:27 UTC, Anthropic headroom was $24.005655 after the separately protected $3 reserve; protecting calibration $14.34 leaves $9.665655. The current reviewed-failure plus fixed-guard union already contains at least 38 tickets. Based on 36 saved main outcomes, mean actual usage times that minimum union times 1.3 estimates $50.37. It does not fit. This is preliminary: pass 1 continues within its existing admission allowance; final selection/cost gate follows complete grading. No pass-2 or calibration Opus run is admitted. Offline fixes, tests, grading preparation, backtracks and restores continue under the owner order.
+
+## History cohort and continued secondary grading
+
+The form-history cohort saved both outcomes: v1 ANSWERED (33 physical requests, 10 model calls, $1.164078); v2 UNRESOLVED (40 physical requests, 11 model calls, $1.140823). These are engine statuses, not correctness scores. Original source row and schema hashes match after restoration; the original real restoration load must reach terminal success before the next fixture cohort. The first history secondary grade is correct on verdict/layer/cause and not harmful, but primary grading is authorization-blocked, so no official/strict/reviewed score is inferred from it.
+
+Saved-output Sol secondary grading continues independently while Nova primary/review invocation is blocked. Original grader roles and prior results remain unchanged. No denied Nova dispatch is automatically retried. Lossless key-only aliases allowed one formerly oversized screenshot packet to fit the unchanged 24,000-character bound; exact codec round trips passed, SQL/literal strings remained unchanged, and the other screenshot remains explicitly unsent/ungraded.
