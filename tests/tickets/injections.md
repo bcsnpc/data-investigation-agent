@@ -515,3 +515,5 @@ Round27 text latency 900501-v1: native job-dia-worker-vofcccb Failed before any 
 
 
 Round27 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+Round27 post-cohort native UI readback, 2026-11-21: Application load fixture20261003 automatic Direct Lake updates ON; configured refresh schedule OFF, unchanged; Apply disabled. No setting was modified. The four stale tickets were not admitted because the protected Opus floor was reached. Local observation receipt: .local/round-twenty-seven/automatic-updates-post-cohort-on-observation.json.
