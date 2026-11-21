@@ -913,3 +913,6 @@ Round27 credit action resolved2026-11-17: owner supplied OpenAI31.06USD, expiryN
 
 ## Round27 browser control,2026-11-20
 The native helper now lists Edge, but inspecting its New Tab stopped browser control because the current URL could not be verified. No browser input or model setting changed. The32static cases are running: do not toggle automatic updates during them. The four later stale-refresh cases still need a verified OFF control immediately before their injection and ON/readback after restore. If the browser cannot be controlled in a later authorized turn, owner must operate this one toggle. Original source data remains unchanged and model7661 freshly verified. No undocumented API or cached screenshot is represented as native switch evidence.
+
+
+Round27 update 2026-11-20 owner date / Nov21 UTC: owner opened the fixture workspace in Edge. Windows Computer Use can now read the model refresh panel; Keep your Direct Lake data up to date is visibly ON and Apply disabled. No setting changed. The browser-tab host remains unavailable, but this does not block the working native UI path. The prior request to manually toggle is not needed while this native control remains available; stale cohorts will wait until other tickets are terminal, use a fresh OFF observation, and restore ON afterward.
