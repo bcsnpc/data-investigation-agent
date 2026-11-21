@@ -137,11 +137,17 @@ class Tests(unittest.TestCase):
         native=NativeQueries({'gold':route},source=native_read,fabric=Mock(),dax=Mock(),offline=True)
         model=Mock();step=[0]
         def complete(**kwargs):
+            if kwargs['tools'][0]['name']=='evaluate_delivery':
+                return tool('evaluate_delivery',{k:{'passed':True,'reason':'Supported partial handoff.'} for k in ('question','support','target','claims')})
             step[0]+=1
             if step[0]==1:return tool('run_sql',{'layer':'gold','query':'SELECT SUM(quantity) AS quantity FROM dbo.Items','purpose':'recreate'})
             q=next(event['query'] for _,event in events if event['event']=='QUERY_RESULT')
-            return tool('submit_finding',{'verdict':'observed value','cause':'The native quantity is 7.',
-                'numbers':[7],'checked':['gold'],'evidence_ids':[q['id']]})
+            return tool('submit_finding',{'verdict':'not found','cause':'The native quantity is 7; its cause is not established.',
+                'numbers':[7],'checked':['gold'],'evidence_ids':[q['id']],
+                'direct_answer':'The selected card returns 7; the cause is not established because the definition was not read.',
+                'verdict_class':'UNRESOLVED','calculation_explanation':'The executed query sums quantity; the model definition is not established.',
+                'undecided':['The retained model calculation has not been read.'],'routing':'ENGINEER',
+                'context_gap':{'type':'metric definition','note':'The retained model calculation.'}})
         model.complete.side_effect=complete
         factory=Factory(state=self.state,graph=self.graph,routes={'gold':route},native=native,
             context_for=lambda p,i:{},triage_for=lambda *a:SimpleNamespace(run=lambda:{'facts':[]}),
@@ -173,6 +179,8 @@ class Tests(unittest.TestCase):
         native=NativeQueries(routes,source=native_read,fabric=Mock(),dax=Mock(),offline=True)
         events=[];step=[0];model=Mock()
         def complete(**kwargs):
+            if kwargs['tools'][0]['name']=='evaluate_delivery':
+                return tool('evaluate_delivery',{k:{'passed':True,'reason':'Supported partial handoff.'} for k in ('question','support','target','claims')})
             step[0]+=1
             if step[0]==1:return tool('list_candidates',{'words':'Movements'})
             if step[0]==2:return tool('get_lineage',{'node':'source-node'})
@@ -181,8 +189,12 @@ class Tests(unittest.TestCase):
                 self.assertIn('source',sql['input_schema']['properties']['layer']['enum'])
                 return tool('run_sql',{'layer':'source','query':'SELECT SUM(quantity) AS quantity FROM dbo.Items','purpose':'compare'})
             q=next(event['query'] for _,event in events if event['event']=='QUERY_RESULT')
-            return tool('submit_finding',{'verdict':'observed value','cause':'The application quantity is 9.',
-                        'numbers':[9],'checked':['source'],'evidence_ids':[q['id']]})
+            return tool('submit_finding',{'verdict':'not found','cause':'The application quantity is 9; comparison is not established.',
+                        'numbers':[9],'checked':['source'],'evidence_ids':[q['id']],
+                        'direct_answer':'The application returns 9; the discrepancy remains undecided because the selected card was not measured.',
+                        'verdict_class':'UNRESOLVED','calculation_explanation':'The executed query sums application quantity.',
+                        'undecided':['The selected card value is unmeasured.'],'routing':'ENGINEER',
+                        'context_gap':{'type':'other','note':'The selected card value.'}})
         model.complete.side_effect=complete
         factory=Factory(state=self.state,graph=self.graph,routes=routes,native=native,
             context_for=lambda *a:{},triage_for=lambda *a:SimpleNamespace(run=lambda:{'facts':[]}),

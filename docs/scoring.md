@@ -202,3 +202,7 @@ Round26 final failed-only cohort is28selected records, not a new80-ticket score:
 
 
 Round26 final calibration,2026-11-11: Final frozen-image public-dev Opus calibration: official2/10, secondary4/10, strict2/10, independently reviewed projection2/10; official/reviewed harmful2,secondary0. All10outcomes have both grades; all field disagreements reviewed. V5quality gate fails; v5 remains sealed/unopened,0admissions, score/intervals N/A rather than0/40. Original scores and expectations unchanged. See round-twenty-six-calibration-final.json.
+
+
+## Round27 grading profile
+PrimaryNovaPro,secondaryOpenAISol,disagreementreviewNovaLite(neither grading model),saved evidence only; Opus is investigation/intake/evaluator and never grades. Bare clarification/unresolved without checked findings is failure. A correct partial answer with exact missing fact and proper routing may earn useful-handoff quality2 but not full-correct credit. AS DESIGNED is correct when the sealed expected answer is as designed and the implemented rule explanation is supported. Exact-question correctness takes precedence over a true incidental layer finding; wrong-target confident findings are harmful. All original expected records and historical profiles remain unchanged. Official/strict/reviewed and Wilson95intervals are reported separately; reviewer does not defer to engine evaluator.

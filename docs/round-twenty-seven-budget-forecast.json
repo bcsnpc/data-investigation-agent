@@ -1,0 +1,31 @@
+{
+  "basis": "Counterfactual repricing of all10 saved R26 calibration outcomes at retained Opus rates; not a new measured run. Includes native-only zero-AI case. Normalized input tokens include cache read/write, subtracted once.",
+  "saved_outcomes": 10,
+  "old_usage_all_opus_mean_usd": 0.46722868,
+  "new_evaluator_allowance_usd_per_ticket": 0.06,
+  "evaluator_allowance_assumption": "One uncached check of approximately10000input/1000outputtokens at4/20USD per million. Rejections/retries or longer citations can increase it.",
+  "estimated_usd_per_ticket": 0.52722868,
+  "planned_calls_by_ticket_stage": {
+    "dev1_unique": 50,
+    "dev2_failure_plus_guard_estimate": [
+      40,
+      50
+    ],
+    "fresh_calibration": 10,
+    "conditional_v5_with_owner_factor": 52
+  },
+  "estimated_total_usd_range": [
+    80.138759,
+    85.411046
+  ],
+  "available_anthropic_after_protected3_usd": 68.855458,
+  "new_credit_confirmation_pending": false,
+  "opus_admissions": "DEV_AND_FRESH_CALIBRATION_APPROVED_WITHIN_EXISTING_BALANCE",
+  "offline_work": "CONTINUES",
+  "no_partial_v5": true,
+  "owner_steer_date": "2026-11-20",
+  "conditional_v5": "WAIT_FOR_FULL_BUDGET_AFTER_CALIBRATION; NEVER_PARTIAL",
+  "calibration_protected_estimate_usd": 6.85397284,
+  "third_pass": "CUT_FIRST_IF_NEEDED_TO_PROTECT_CALIBRATION",
+  "anthropic_protected_cash_usd": 3
+}

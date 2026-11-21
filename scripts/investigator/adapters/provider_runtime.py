@@ -1,7 +1,19 @@
 """Trusted installation routing, shared by all AI steps; never ticket-selected."""
 from copy import deepcopy
 
-STEPS = frozenset(('INTAKE', 'INTAKE_FALLBACK', 'INVESTIGATOR', 'INVESTIGATOR_FALLBACK', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'SECONDARY_GRADING', 'REVIEWER', 'SMOKE'))
+STEPS = frozenset(('INTAKE', 'INTAKE_FALLBACK', 'INVESTIGATOR', 'INVESTIGATOR_FALLBACK', 'EVALUATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'SECONDARY_GRADING', 'REVIEWER', 'SMOKE'))
+
+
+def intake_selection(configuration, *, tenant, strategy='investigator'):
+    """Default intake shares the reasoning model; cheap/cascade routes are opt-in.
+
+    The installation chooses the model. Ticket text cannot change providers,
+    invoke a fallback or alter an identity or secret reference.
+    """
+    if strategy not in ('investigator', 'configured', 'cascade'):
+        raise ValueError('INTAKE_STRATEGY_CONFIGURATION')
+    return select(configuration, tenant=tenant,
+                  step='INVESTIGATOR' if strategy == 'investigator' else 'INTAKE')
 
 
 def select(configuration, *, tenant, step):

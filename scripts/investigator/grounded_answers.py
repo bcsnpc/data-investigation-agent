@@ -53,10 +53,18 @@ def cited(args,case):
             value=record['result'];value=value.get('record',value)
             if value.get('id') not in queries:raise ValueError('QUERY_SUPPORT_NOT_RETAINED')
             found.append(native_query(queries[value['id']]))
-        elif record.get('tool') in ('record_trace','list_candidates'):
+        elif record.get('tool') in ('record_trace','list_candidates','check_target_candidates'):
             value=record['result']
-            for check in value.get('layers',value.get('checks',[])):
-                if check.get('query_id') in queries:found.append(native_query(queries[check['query_id']]))
+            for check in value.get('layers',value.get('checks',value.get('observations',[]))):
+                identity=check.get('query_id',check.get('evidence_id'))
+                if identity in queries:found.append(native_query(queries[identity]))
+        elif record.get('tool') in ('contribution_analysis','row_layer_diff'):
+            value=record['result']
+            ids=value.get('query_ids',[])
+            if len(ids)!=2 or any(identity not in queries for identity in ids):
+                raise ValueError('ANALYSIS_SOURCE_QUERIES_NOT_RETAINED')
+            for identity in ids:found.append(native_query(queries[identity]))
+            found.append({'derived_analysis':deepcopy(value),'source':'DETERMINISTIC_FROM_CITED_NATIVE_RESULTS'})
         elif record.get('tool')=='get_evidence':
             value=record['result']
             if value.get('id') in queries:found.append(native_query(queries[value['id']]))

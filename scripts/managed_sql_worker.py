@@ -14,6 +14,15 @@ from threading import Event, RLock, Thread
 
 from investigator.adapters.managed_identity import FIELDS, Tokens, validate
 
+
+def metadata_columns_from_cursor(payload):
+    """Empty columns means native metadata schema, never an unbound data read."""
+    if payload.get('result_columns')!=[]:return False
+    from investigator.investigation_metadata import sql
+    compiled=sql(payload['query'],{'objects':[{'id':'admitted-metadata-route'}]},250)
+    if compiled is None:raise ValueError('Dynamic result columns require a metadata-only read')
+    return True
+
 DB_GUARD = """SELECT COUNT(*) FROM sys.fn_my_permissions(NULL,'DATABASE')
 WHERE permission_name NOT IN ('CONNECT','SELECT','VIEW DEFINITION','VIEW DATABASE STATE',
 'VIEW DATABASE PERFORMANCE STATE','VIEW DATABASE SECURITY STATE',
@@ -144,7 +153,7 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
             raise ValueError('Read-only object guards required')
         if type(payload.get('max_rows')) is not int or not 2 <= payload['max_rows'] <= 251:
             raise ValueError('Row bound required')
-        if not 1 <= len(payload.get('result_columns', [])) <= 16:
+        if not metadata_columns_from_cursor(payload) and not 1 <= len(payload.get('result_columns', [])) <= 16:
             raise ValueError('Result columns required')
     if connect is None:
         import pyodbc
@@ -190,6 +199,10 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
             protocol.before('sql_quantity')
             cursor.execute(query, *values)
             protocol.done('sql_quantity')
+            if not columns:
+                columns=[col[0] for col in (cursor.description[:-3] if fabric else cursor.description)]
+                if not 1<=len(columns)<=128 or len(set(columns))!=len(columns):
+                    raise ValueError('Native metadata column bound/uniqueness')
             expected = columns + (['__surface_identity','__surface_object','__surface_engine'] if fabric else [])
             if [col[0] for col in cursor.description] != expected:
                 raise ValueError('Unexpected columns')

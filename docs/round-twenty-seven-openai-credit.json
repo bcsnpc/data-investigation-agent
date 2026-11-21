@@ -1,0 +1,95 @@
+{
+  "approval": "Round27 owner instruction and exact owner chat2026-11-17",
+  "owner_reported_cash_microdollars": 31060000,
+  "expiry_date_owner_reported": "2026-11-29",
+  "conservative_cutoff_utc": "2026-11-29T00:00:00Z",
+  "protected_cash_microdollars": 2000000,
+  "additional_allowance_microdollars": 29060000,
+  "before": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 51719843,
+        "committed_microdollars": 51719843,
+        "ceiling_microdollars": 120575301,
+        "warning_microdollars": 114575301,
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 180000000,
+        "warning_microdollars": 140000000,
+        "charged_microdollars": 173878628,
+        "committed_microdollars": 173878628,
+        "provisioned": true,
+        "warning": true
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; existing account retained, historical charges not reset",
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 852297,
+        "committed_microdollars": 852297,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 226450768,
+    "combined_committed_microdollars": 226450768
+  },
+  "after": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 51719843,
+        "committed_microdollars": 51719843,
+        "ceiling_microdollars": 120575301,
+        "warning_microdollars": 114575301,
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 202938628,
+        "warning_microdollars": 197126628,
+        "allowed_purposes": [
+          "GRADING",
+          "SMOKE"
+        ],
+        "credit_expiry_utc": "2026-11-29T00:00:00Z",
+        "owner_reported_cash_microdollars": 31060000,
+        "protected_cash_microdollars": 2000000,
+        "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff",
+        "charged_microdollars": 173878628,
+        "committed_microdollars": 173878628,
+        "provisioned": true,
+        "warning": false
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; existing account retained, historical charges not reset",
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 852297,
+        "committed_microdollars": 852297,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 226450768,
+    "combined_committed_microdollars": 226450768
+  },
+  "usage_counters_preserved": true,
+  "anthropic_helper_purposes_before": [
+    "INTAKE",
+    "INVESTIGATOR"
+  ],
+  "anthropic_helper_purposes_after": [
+    "INTAKE",
+    "INVESTIGATOR",
+    "SCREENSHOT",
+    "SUMMARY"
+  ],
+  "source": "Owner exact reading; not an independent Console/API observation",
+  "physical_policy_changed": false
+}

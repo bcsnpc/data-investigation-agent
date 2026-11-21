@@ -45,7 +45,8 @@ class ProviderBudgetTests(unittest.TestCase):
         self.state.settle(anthropic, 'old', 'worker', 12345)
         openai = ensure_account(self.state, 'openai', NOW)
         self.assertNotEqual(anthropic, openai)
-        self.assertEqual(int(self.state.totals(openai)['ceiling']), 180000000)
+        # Round27 owner cash31.06 less2 reserve, added above charged173.878628.
+        self.assertEqual(int(self.state.totals(openai)['ceiling']), 202938628)
         self.assertEqual(int(self.state.totals(anthropic)['charged']), 12345)
         observed = report(self.state, NOW)
         self.assertEqual(observed['combined_charged_microdollars'], 12345)

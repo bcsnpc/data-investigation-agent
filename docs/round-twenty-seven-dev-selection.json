@@ -1,0 +1,760 @@
+{
+  "status": "FIXED_BEFORE_ANY_ROUND27_AI_RUN",
+  "selection_rule": "Previously full-correct nonharmful Opus/Nova-graded public dev cases, excluding the25 every-pass failures; one per family in lexical order, then lexical variant fill to20. No v5 opened.",
+  "failed25": [
+    "form-v2-before-temporal-retention-v1",
+    "form-v2-billing-invoices-v1",
+    "form-v2-other-collected-definition-v1",
+    "form-v2-source-history-v1",
+    "form-v2-stale-model-v1",
+    "form-v2-stale-model-v2",
+    "form-v2-warehouse-scope-v2",
+    "text-R17-04-v1",
+    "text-R17-05-v1",
+    "text-R17-08-v1",
+    "text-R17-09-v1",
+    "text-R17-10-v1",
+    "text-R17-11-v1",
+    "text-baseline-S02-v1",
+    "text-different-warehouse-v2",
+    "text-history-source-900201-v1",
+    "text-history-source-900201-v2",
+    "text-latency-900501-v1",
+    "text-latency-900501-v2",
+    "text-latency-900502-v1",
+    "text-latency-900502-v2",
+    "text-older-export-movement-1-v1",
+    "text-older-export-movement-1-v2",
+    "text-stale-total-v1",
+    "text-stale-total-v2"
+  ],
+  "r26_calibration10": [
+    "baseline-S01-v1",
+    "R17-02-v1",
+    "baseline-S03-v2",
+    "R17-01-v1",
+    "failed-billing-load-v1",
+    "older-export-movement-1-v2",
+    "older-export-movement-1-v1",
+    "different-warehouse-v2",
+    "R17-09-v1",
+    "baseline-S02-v1"
+  ],
+  "regression_guard20": [
+    {
+      "id": "v2-access-export-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch09\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-access-export-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-application-baseline-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-application-baseline-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-billing-invoices-v2",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-rest\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-billing-invoices-v2",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-billing-mrr-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-billing-mrr-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-failed-application-load-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch06\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-failed-application-load-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-failed-billing-transform-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch07\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-failed-billing-transform-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-fixture-quantity-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-rest\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-fixture-quantity-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-latency-record-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch09\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-latency-record-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-other-collected-definition-v2",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch04\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-other-collected-definition-v2",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-record-absent-everywhere-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch03\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-record-absent-everywhere-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-record-repeated-gold-v2",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch03\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-record-repeated-gold-v2",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-screenshot-record-01-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch04\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-screenshot-record-01-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-screenshot-record-02-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch04\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-screenshot-record-02-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-screenshot-record-03-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch04\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-screenshot-record-03-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-screenshot-record-04-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch04\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-screenshot-record-04-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-source-history-v2",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch08\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-source-history-v2",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-waiting-application-load-v2",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch09\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-waiting-application-load-v2",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-warehouse-scope-v1",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-rest\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-warehouse-scope-v1",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-access-export-v2",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic-batch09\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-access-export-v2",
+      "prior_correct": true,
+      "prior_harmful": false
+    },
+    {
+      "id": "v2-application-baseline-v2",
+      "prior_grade_file": ".local\\round-twenty-six\\grading\\benchmark-anthropic\\grader-primary-results.json",
+      "prior_case_id": "round26-anthropic-v2-application-baseline-v2",
+      "prior_correct": true,
+      "prior_harmful": false
+    }
+  ],
+  "new_round27_model_calls_before_selection": 0,
+  "expectations_changed": false,
+  "input_records": [
+    {
+      "group": "every-pass-failure",
+      "id": "form-v2-before-temporal-retention-v1",
+      "source_file": ".local/round-twenty-six/dev06/form-inputs/v2-before-temporal-retention-v1-ticket.json",
+      "source_sha256": "dcbd63c39693c1f37d93bfa25effbb604673182f0f7a44ed3f2bb18f72d0d731",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "form-v2-billing-invoices-v1",
+      "source_file": ".local/round-twenty-six/dev06/form-inputs/v2-billing-invoices-v1-ticket.json",
+      "source_sha256": "0aa5d25e87046139562c6010c9e516445e959c18bf683c096bb44ef67b6c30cb",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "form-v2-other-collected-definition-v1",
+      "source_file": ".local/round-twenty-six/dev06/form-inputs/v2-other-collected-definition-v1-ticket.json",
+      "source_sha256": "c17684ca8ee083cb201f05ad54d1a5fb5100b337ed61ef4b6631b8b7d6e17778",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "form-v2-source-history-v1",
+      "source_file": ".local/round-twenty-six/dev06/form-inputs/v2-source-history-v1-ticket.json",
+      "source_sha256": "c4a7226d4a43b3119564df35a96a2cb704873b242dc06946ef177db11a028534",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "form-v2-stale-model-v1",
+      "source_file": ".local/round-twenty-six/dev06/form-inputs/v2-stale-model-v1-ticket.json",
+      "source_sha256": "38b85f2cd6b21109e8391ac088669a7c5f6f76f2f7cabf0f74ef4f57b4249424",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "form-v2-stale-model-v2",
+      "source_file": ".local/round-twenty-six/dev06/form-inputs/v2-stale-model-v2-ticket.json",
+      "source_sha256": "048ededb57338a8d4a00710973a8e118ad5926837162dc5a406c626c00bf8e19",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "form-v2-warehouse-scope-v2",
+      "source_file": ".local/round-twenty-six/dev06/form-inputs/v2-warehouse-scope-v2-ticket.json",
+      "source_sha256": "e0e645360fb71103ef99d6ca3cf44da79d0273bf915a5e77ebaae63d55d2b51c",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-R17-04-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/R17-04-v1-ticket.json",
+      "source_sha256": "aacb06832baaf12f9f152b58e8fbd13b6c6f1e255b283f54a67bff99fcb96f84",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-R17-05-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/R17-05-v1-ticket.json",
+      "source_sha256": "ebc37e8482251a687e684a0716cbeba84de90ac7a049657e07e476213b2f038c",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-R17-08-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/R17-08-v1-ticket.json",
+      "source_sha256": "d35a8a01ad34cfcf3e19e1e99d94f776b77a03be7cc1dd4b39ea1553f70f81dd",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-R17-09-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/R17-09-v1-ticket.json",
+      "source_sha256": "e49a50f955553f9fac3646ca6078a02a5859baffb1d31c3138aa5994418fc45a",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-R17-10-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/R17-10-v1-ticket.json",
+      "source_sha256": "896cf491b28269fda90b1a83a56dd6ffa8852c520b44272718ce9711396ea605",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-R17-11-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/R17-11-v1-ticket.json",
+      "source_sha256": "803e9a42b4974fb04c9cd7d5f45b9d6c26e6992d8ea302a7bf93a236eba4068d",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-baseline-S02-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/baseline-S02-v1-ticket.json",
+      "source_sha256": "47523d0805e06261e01045da354cd98e040fbaf2830ba445db853d2c9295e555",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-different-warehouse-v2",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/different-warehouse-v2-ticket.json",
+      "source_sha256": "d1bd92b00837a38dcd66a322f384c41f7d8ce0c3056de0f457220ce050240ae9",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-history-source-900201-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/history-source-900201-v1-ticket.json",
+      "source_sha256": "5bcf4336079d4b3430c09a8b517701a60cc2acef8ae035808553e0b8fd582c2b",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-history-source-900201-v2",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/history-source-900201-v2-ticket.json",
+      "source_sha256": "d4c43539ea31bb496c991eb90e8a3c7b8fbf8809d59fe6cc8e0b2562b7d73b76",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-latency-900501-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/latency-900501-v1-ticket.json",
+      "source_sha256": "c2df2fd0ec0cd3b5e95ed3d4f109a5e943ae49c495cd2aa36f2be17b3e59a6e7",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-latency-900501-v2",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/latency-900501-v2-ticket.json",
+      "source_sha256": "3bf31c8bb8ebf46a18042fceed5f67d390aa8c73614e2471b43a9095d16f6340",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-latency-900502-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/latency-900502-v1-ticket.json",
+      "source_sha256": "5849ac46524b125a6cddc5781a8849aab6f87b4107cd6d876fda1c3dae78b364",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-latency-900502-v2",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/latency-900502-v2-ticket.json",
+      "source_sha256": "85ab9d8139cb8316f96dc716c499d926d3645ede3dfc4543394c9a8fc7a96034",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-older-export-movement-1-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/older-export-movement-1-v1-ticket.json",
+      "source_sha256": "f32c4c2532c8fcf5387011d60846d476c22f1ab9d2c0bb09fe9c94d81697bbab",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-older-export-movement-1-v2",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/older-export-movement-1-v2-ticket.json",
+      "source_sha256": "f13e02505949ec5c78f2188617b8830ef1edbb48748ee830121190c81d25b21b",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-stale-total-v1",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/stale-total-v1-ticket.json",
+      "source_sha256": "13d397888f519bf81c871d02b1a3ad0fdbc231da6c50465119f1849359bc964d",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "every-pass-failure",
+      "id": "text-stale-total-v2",
+      "source_file": ".local/round-twenty-six/dev06/text-inputs/stale-total-v2-ticket.json",
+      "source_sha256": "19d7fd9afc6c30cafce1e6b8734bf07404a3955199a5249e767c38dcb6dd00ca",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-baseline-S01-v1",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/baseline-S01-v1-ticket.json",
+      "source_sha256": "b20deeda6199f604bcb9a5d429513a58d93ee5b3082dd03dc8a2a72bc1af5f12",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-R17-02-v1",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/R17-02-v1-ticket.json",
+      "source_sha256": "5d4b6621e8bb1de848313c852c97d90ac70e0f0239b311184eebc2f6bdeb0e4f",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-baseline-S03-v2",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/baseline-S03-v2-ticket.json",
+      "source_sha256": "7a1c25ad483cb468944466ed756bc1d561bbddf64ca9b58b1a604404ba8561ae",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-R17-01-v1",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/R17-01-v1-ticket.json",
+      "source_sha256": "74e45ece0079cd326916668b2926017c43e07abfe587f4eeecb6b1e45920e5f7",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-failed-billing-load-v1",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/failed-billing-load-v1-ticket.json",
+      "source_sha256": "2d05798c351b42ccc4bfe474a6c01933edb3c0ed31ca5d711f095d9821934b87",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-older-export-movement-1-v2",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/older-export-movement-1-v2-ticket.json",
+      "source_sha256": "f13e02505949ec5c78f2188617b8830ef1edbb48748ee830121190c81d25b21b",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-older-export-movement-1-v1",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/older-export-movement-1-v1-ticket.json",
+      "source_sha256": "f32c4c2532c8fcf5387011d60846d476c22f1ab9d2c0bb09fe9c94d81697bbab",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-different-warehouse-v2",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/different-warehouse-v2-ticket.json",
+      "source_sha256": "d1bd92b00837a38dcd66a322f384c41f7d8ce0c3056de0f457220ce050240ae9",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-R17-09-v1",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/R17-09-v1-ticket.json",
+      "source_sha256": "e49a50f955553f9fac3646ca6078a02a5859baffb1d31c3138aa5994418fc45a",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "prior-calibration",
+      "id": "text-baseline-S02-v1",
+      "source_file": ".local/round-twenty-six/opus-calibration01/text-inputs/baseline-S02-v1-ticket.json",
+      "source_sha256": "47523d0805e06261e01045da354cd98e040fbaf2830ba445db853d2c9295e555",
+      "input_shape": [
+        "text"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-access-export-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-access-inputs-v4/v2-access-export-v1-ticket.json",
+      "source_sha256": "110136a3dfb732cdfaa509c3bde26012e868d1fcaad24f00a0a886450102668f",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-application-baseline-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-application-baseline-v1-ticket.json",
+      "source_sha256": "aa4c4ae98cbfd865eeb853a5fb12e174add9ae94b520a78d22921287f54c227d",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-billing-invoices-v2",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-billing-invoices-v2-ticket.json",
+      "source_sha256": "9b486cbe603c773dd08802489065f39bd08a7a63324498e4a26e723b4d15b0d0",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-billing-mrr-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-billing-mrr-v1-ticket.json",
+      "source_sha256": "47eeba5b13f073c99c55731a315e27d0987601ca1d1cb765a96da8d6dea7f31a",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-failed-application-load-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-failed-application-load-v1-ticket.json",
+      "source_sha256": "97520c427108e4cd168855ebe8033867c88f07b13dcfcd2074ce2df3ecd51768",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-failed-billing-transform-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-failed-billing-transform-v1-ticket.json",
+      "source_sha256": "301bb4084b7312d71e6ea95d864d66d941eee059566b89984ebbec08f515feaa",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-fixture-quantity-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-fixture-quantity-v1-ticket.json",
+      "source_sha256": "80144fa321633c9c009d1f6fd2ce8a9fd0a4eb22bd421063c5199bff67394832",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-latency-record-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-latency-record-v1-ticket.json",
+      "source_sha256": "9a9e1e7f2b1405cfc144efe1a1abc30a34f0d402d27d86e18a83e0999c007c0d",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-other-collected-definition-v2",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-other-collected-definition-v2-ticket.json",
+      "source_sha256": "29dffecacd9cd97374f7358207521c2234457ca138093ecd0caad2ac982318fd",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-record-absent-everywhere-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-record-absent-everywhere-v1-ticket.json",
+      "source_sha256": "87dfbdac14cf2c82870dfefd7a1069f5434cadb6eaac17fe780be5d5c096fe54",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-record-repeated-gold-v2",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-record-repeated-gold-v2-ticket.json",
+      "source_sha256": "6377e0558fb199d9360320fe642feb88d9d6dfa2a0d43102d2fb2c6f1cace861",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-screenshot-record-01-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-screenshot-record-01-v1-ticket.json",
+      "source_sha256": "c2a48d44b44a089bc49f1912b7a5406e1e1af03ce63d18d86ea865b9b7d97703",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-screenshot-record-02-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-screenshot-record-02-v1-ticket.json",
+      "source_sha256": "a08596e4e958baab6aa43d960d73215fab59ce72ac720f7476107ced005fe38f",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-screenshot-record-03-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-screenshot-record-03-v1-ticket.json",
+      "source_sha256": "346be0736aac8fe5311ddc92b6c7c631900a99ad217aa5c81d2fdaa066e784a1",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-screenshot-record-04-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-screenshot-record-04-v1-ticket.json",
+      "source_sha256": "e81582dc277db052508db1e2b4ffbb3f577bdfad29e80a7eb242e10758ac7218",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-source-history-v2",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-source-history-v2-ticket.json",
+      "source_sha256": "5e4a541cc11fec08f5900b49395700d86c237845348957954fce0f4fb2a84d2c",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-waiting-application-load-v2",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-waiting-application-load-v2-ticket.json",
+      "source_sha256": "34d03182d2f6a6f910ff6cf8a13330301785a93aef1e0ad6eebc922b3dbf9920",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-warehouse-scope-v1",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-warehouse-scope-v1-ticket.json",
+      "source_sha256": "9f99114bae541aa141075d0009777111cbe764559d7a0691f24052a56c97867d",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-access-export-v2",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-access-inputs-v4/v2-access-export-v2-ticket.json",
+      "source_sha256": "de8b2a2897a95b2795efb247b371646a39bf083b267c84a3aebb5396ae099b03",
+      "input_shape": [
+        "intake"
+      ]
+    },
+    {
+      "group": "regression-guard",
+      "id": "form-v2-application-baseline-v2",
+      "source_file": ".local/round-twenty-six/benchmark-anthropic-inputs-v3/v2-application-baseline-v2-ticket.json",
+      "source_sha256": "e4ace9ad7d4e888aa9d5fba429092afe616bdc827a93b0b3d17caf7c164a63b6",
+      "input_shape": [
+        "intake"
+      ]
+    }
+  ],
+  "fresh_post_freeze_calibration10": [
+    {
+      "id": "R17-03-v1",
+      "case_id": "R17-03",
+      "estate": "fixture",
+      "text_sha256": "8830e3ce5f1e8b0f3561dc646c16dcbd1e4771e54b360e2bdd75548cc1270473",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "R17-06-v1",
+      "case_id": "R17-06",
+      "estate": "fixture",
+      "text_sha256": "aaf886846279a956b7214c2877702bbbe192325740b6d7bf9fee30c1a540b07a",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "R17-07-v1",
+      "case_id": "R17-07",
+      "estate": "fixture",
+      "text_sha256": "5ebad41418396c76d4a8f4c9c810feded91c40a25b6259d7517b7758c82d8719",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "R17-12-v1",
+      "case_id": "R17-12",
+      "estate": "fixture",
+      "text_sha256": "44d51b1aed8155c7b745810b3d243f702e237b98c9c92b24e8d170fc926c93fd",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "access-export-1-v1",
+      "case_id": "access-export-1",
+      "estate": "billing",
+      "text_sha256": "37bae019b9b46d47c946b9df30772532d30a72534cd288206451164d8cac0330",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "access-export-1-v2",
+      "case_id": "access-export-1",
+      "estate": "billing",
+      "text_sha256": "e67312a4eac46e1a3f72e05c82b6d65db580c3217a84d80b757f1a65a896e35f",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "baseline-S01-v2",
+      "case_id": "baseline-S01",
+      "estate": "fixture",
+      "text_sha256": "284ab9d282e418ab2033f8db4d37570690d8f14fd8267a5cc7ff2ff2e719f3b2",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "baseline-S02-v2",
+      "case_id": "baseline-S02",
+      "estate": "billing",
+      "text_sha256": "b54361e33adfc22ffd27f1cf21387bba1dfffe87a3207e96fcd4f76b8bc2e810",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "baseline-S03-v1",
+      "case_id": "baseline-S03",
+      "estate": "dia-sample-estate",
+      "text_sha256": "651de3c3cbc31611e00d547e341e36a4553adf2252b157d13a8c877b0bd8ce0b",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    },
+    {
+      "id": "different-warehouse-v1",
+      "case_id": "different-warehouse",
+      "estate": "fixture",
+      "text_sha256": "0e8daf326cd72f8b538cbc4b800bbe67a7505ca31a7b5335031ba13ddbfd72af",
+      "source_file": "tests/tickets/scored-set-v1-dev.json"
+    }
+  ],
+  "fresh_calibration_selection_rule": "Lexically first10 unsealed R22dev free-text IDs not in any Round27dev slot, with exact text-hash exclusion against every selected dev input.",
+  "requested_dev_slots": 55,
+  "unique_source_hashes": 50,
+  "deduplication_note": "55 cohort slots represent 50 distinct input byte hashes. Execute each identical input once and retain all cohort memberships; never report these as 55 independent outcomes. Confirm matching expectation identity before sharing a grade."
+}

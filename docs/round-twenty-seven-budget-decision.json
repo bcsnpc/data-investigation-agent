@@ -1,0 +1,85 @@
+{
+  "observed_at_utc": "2026-11-17T19:27:15.660384+00:00",
+  "approval": "Owner Round27, recorded2026-11-17",
+  "before": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 51719843,
+        "committed_microdollars": 51719843,
+        "ceiling_microdollars": 120575301,
+        "warning_microdollars": 114575301,
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 180000000,
+        "warning_microdollars": 140000000,
+        "charged_microdollars": 173878628,
+        "committed_microdollars": 173878628,
+        "provisioned": true,
+        "warning": true
+      },
+      "bedrock": {
+        "ceiling_microdollars": 5000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; existing account retained, historical charges not reset",
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 852297,
+        "committed_microdollars": 852297,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 226450768,
+    "combined_committed_microdollars": 226450768
+  },
+  "after": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 51719843,
+        "committed_microdollars": 51719843,
+        "ceiling_microdollars": 120575301,
+        "warning_microdollars": 114575301,
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 180000000,
+        "warning_microdollars": 140000000,
+        "charged_microdollars": 173878628,
+        "committed_microdollars": 173878628,
+        "provisioned": true,
+        "warning": true
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; existing account retained, historical charges not reset",
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 852297,
+        "committed_microdollars": 852297,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 226450768,
+    "combined_committed_microdollars": 226450768
+  },
+  "anthropic_allowed_purposes": [
+    "INTAKE",
+    "INVESTIGATOR"
+  ],
+  "anthropic_allowed_owner_prefixes": [
+    "round27-"
+  ],
+  "anthropic_cash_derived_microdollars": 71855458,
+  "cash_source": "Owner reported74.32 Nov10 minus subsequent ledger charges; not fresh Console",
+  "margin_microdollars": 3000000,
+  "openai_credit_expiry": "NOT_OBSERVED_NATIVE_BROWSER_UNAVAILABLE",
+  "all_usage_counters_preserved": true,
+  "physical_policy_changed": false,
+  "bedrock_account": "Existing legacy-named account retained; no historical charge reset",
+  "allow_claude_on_bedrock": false
+}

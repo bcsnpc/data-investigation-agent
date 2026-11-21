@@ -629,3 +629,33 @@ Round26 owner final-pass decision applied,2026-11-11: frozen public-dev Opus cal
 ### Owner disk hygiene, 2026-11-16
 
 Require decimal free-space floors C:40GB and D:80GB before new laptop admissions. The check runs in the case harness and direct Azure launch; saved outcomes and polling remain recoverable. Linux/cloud workers retain their existing storage checks. This is host admission maintenance after measurement, not an investigation-reasoning fix or a new scored image: preserve frozen e59 measurements and three same-image saved smokes. New disk tests cover both exact thresholds, either low drive, unavailable drive, no Windows probing on Linux, and rejection before Azure/submission. No model, request or restoration budget changed. Record the owner's archival/no-duplicates/one-active-worktree/end-of-round rules in CLAUDE.md; protected dirty/unique worktrees remain exceptions. Overnight admin/sign-in tasks are skipped for owner action.
+
+
+## Round27 owner mandate, 2026-11-17
+
+Owner supplied round-27-redesign-and-prove (1).md: Opus for intake and investigation only, never Anthropic grading; Nova Pro primary, Sol secondary while actual credit remains and a different-model disagreement review. Bedrock round cap20USD is approved, Amazon models only with Claude guard unchanged; applied and read back on the existing account, preserving its0.852297USD charge (docs/round-twenty-seven-budget-decision.json). Ticket actual-usage cap3USD; physical allocations and restoration reserve unchanged. No new context/glossary file, resources, roles or identities. v5 remains sealed until fresh calibration and full40 budget gates; harmful0 required for freeze. Existing R26 cash/ledger history is retained, not reset.
+
+
+Round27 owner credit decision2026-11-17: OpenAI cash31.06USD expiresNov29, supplied in chat. Keep2USD, add29.06USD above current173.878628USD charged: ceiling202.938628USD, read back from cloud. No counters reset. OpenAI only grading/review/release smokes. Anthropic screenshot/summary are intake/investigation helpers routed to the same Opus model and ticket cap, never graders. A stale synthetic budget assertion was updated for the explicitly approved20USD Bedrock and202.938628USD OpenAI ceilings; no ticket or acceptance expectation changed. The first local full suite was interrupted after the hosted stale-cap assertion was established; its partial log remains, not a pass.
+
+
+### Round27 amended evaluator, owner2026-11-20
+Owner revised Downloads round-27-redesign-and-prove.md adds PartC.4: separate Opus engine evaluator receives only ticket, structured draft and cited evidence; checks exact question, support, unique target and all claims. At most two retries after first rejection; failed drafts never authorize a confident finding. Evaluator is not a grader. Its calls use the same case actual3USD cap and unchanged Anthropic envelope/protected3USD; record EVALUATOR purpose and retry/cost. No model balance, role, identity or estate ceiling increase. Continue existing branch/PR435; keep completed work and sealed v5.
+
+
+Round27 resume2026-11-20: owner standing /32 approval applied to existing PostgreSQL rule OwnerCurrentIp only:184.105.12.85/32 ->24.72.228.28/32, confirmed by independent public-IP services and Azure readback. The first ledger read timed out with old rule; it succeeded after replacement. AllowAzureServices unchanged; no rule added, no SQL/identity/role/tier change. This establishes the present laptop connectivity cause, not the historical lock holder.
+
+
+Round27 owner budget ordering2026-11-20: no new Anthropic credit. Proceed with dev and fresh calibration inside current68.855458USD available after protected3USD. Preserve calibration estimate throughout; cut optional third failed-only pass first. Conditional v5 is not reserved ahead of dev: after calibration passes, check actual mean x40x1.3 against confirmed remaining balance minus3. If short, keep v5 sealed and wait for explicit December grant/balance confirmation. Never partial v5; no ceiling or counter reset.
+
+
+Round27 owner standing /32 approval2026-11-20: before source-control admission, existing SQL server rule investigator-client-20260918 in rg-investigator-dev was read at184.105.12.85/32 and replaced with the independently confirmed current24.72.228.28/32; native readback matched. Other SQL rules unchanged. No identity, role, credential or database change. Source initially returned40613 while serverless resumed, then existing safe retry passed baseline hash checks; this is not an engine score.
+
+
+Round27 sequencing, owner-approved 2026-11-20: no new Anthropic credit. Use existing available $68.86 for dev and fresh calibration; retain $3 reserve and protect the calibration estimate before dev admission. Cut the optional third failed-only pass first. After calibration check the full v5 budget; if short, keep v5 sealed pending the owner-confirmed exact new balance after Dec 1. Never partial v5. Existing caps and historical usage remain unchanged.
+
+
+Round27 owner steer, 2026-11-20: budget over purity for pass1. Stop new admissions and drain in-flight tickets. Qualify one new image with only the two known investigator plumbing repairs (pure metadata gateway revalidation, evaluator output bound and incomplete-versus-rejected diagnostics), using full suite and all image shards. Continue remaining pass1 tickets on that image; publish the image split. Rerun once only old-image tickets whose saved trace establishes one of these two bugs as the first wrong step; preserve originals labelled plumbing defect. Protect $14.34 calibration and the existing $3 reserve. No other engine or expectation changes authorized by this steer.
+
+
+Owner budget order, 2026-11-21: finish pass 1 including faults within current dev allowance. Make generic fixes from its backtrack; qualify offline with full suite and all image shards. Pass 2 = pass-1 failures plus the 20-ticket regression guard. Calibration only after pass 2. Protect $14.34 calibration and existing $3 reserve. If pass 2 cannot fit, pause Opus only pending owner-confirmed Dec 1 balance; continue grading, backtracks, docs, tests and fixture restores. After pass 2: calibration, then full v5 budget gate; never partial v5. No limits, counters, expectations or held-out changes.

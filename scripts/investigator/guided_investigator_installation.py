@@ -164,8 +164,15 @@ class Factory:
         if self.begin_case:self.begin_case()
         self.routes=deepcopy(self.registry)
         intake=deepcopy(case['intake'])
-        root=intake.get('visual') or intake.get('page') or intake.get('report') or intake.get('table') or intake['measure']
-        path=self.target_path(intake)
+        inventory=case.get('candidate_inventory')
+        if inventory:
+            paths=[self.target_path(candidate['intake'])for candidate in inventory['candidates']]
+            nodes={node['id']:node for part in paths for node in part['nodes']}
+            edges={edge.get('id')or digest(edge):edge for part in paths for edge in part['edges']}
+            path={'nodes':list(nodes.values()),'edges':list(edges.values()),
+                  'stops':[stop for part in paths for stop in part.get('stops',[])],
+                  'target_selection':'Unselected plausible candidates; preserve each retained scope separately.'}
+        else:path=self.target_path(intake)
         # Catalog containment projections need not carry persisted edge IDs.
         # Give those edges a local identity without rewriting retained graph
         # records or losing them from later case-file/handoff composition.
@@ -182,6 +189,10 @@ class Factory:
         context=deepcopy(self.context_for(path,intake))
         # A context builder cannot replace the selected target/path/intake.
         context.update(intake=intake,path=deepcopy(path),layers=deepcopy(layers))
+        context['conclusion_contract']='question-first-v1'
+        context['explicit_target']={field:deepcopy(intake[field]) for field in
+            ('report','page','visual','measure','table') if intake.get(field)}
+        if inventory:context['candidate_inventory']=deepcopy(inventory)
         from .query_context import sheet
         context['query_dialect_sheets']={i:sheet(layer)for i,layer in layers.items()}
         context['route_registry_hash']=digest(self.routes)
@@ -213,6 +224,7 @@ class Factory:
                             job_runs=self.job_runs,refresh_history=self.refresh_history,security_definitions=self.security,
                             definition_reader=self.definition_for,
                             candidates=(self.candidate_details(self.graph.intake_catalog()) if self.candidate_details else self.graph.intake_catalog()),expand=expand)
+        read_tools.target_inventory=deepcopy(inventory) if inventory else None
         triage_started=monotonic()
         triage=self.triage_for(path,case['id']).run()
         context['phase_timings']={'route_schema_seconds':max(0,triage_started-route_started),'triage_seconds':max(0,monotonic()-triage_started)}
@@ -237,6 +249,7 @@ class Factory:
                                             'schema':schema({}),'run':resolve}
             return tools
         engine=Investigator(queries=queries,model=model,read_tools=registry,
+              evaluator_model=self.model_for_step(case['id'],'EVALUATOR') if self.model_for_step else model,
             checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage,initial_tools_used=len(initial_queries))
         if self.investigator_cascade:
             if not self.model_for_step:raise ValueError('INVESTIGATOR_FALLBACK_CONFIGURATION_REQUIRED')

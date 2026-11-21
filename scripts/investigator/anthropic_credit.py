@@ -79,6 +79,9 @@ def admit(state,db,account,bound,now=None,*,purpose=None,owner=None):
     if prefixes is not None and (not isinstance(owner,str)or not any(owner.startswith(p)for p in prefixes)):
         from .model_spend import SpendHold
         raise SpendHold('ANTHROPIC_RESERVED_FOR_APPROVED_COHORTS')
+    if 'allowed_purposes' in policy and purpose not in policy['allowed_purposes']:
+        from .model_spend import SpendHold
+        raise SpendHold('ANTHROPIC_PURPOSE_NOT_APPROVED')
     model=state._totals(db,policy['model_account']);grading=grading_totals(state,db,policy['grading_account'])
     model_delta=max(0,int(model['charged'])-policy['baseline_model_charged'])
     grading_delta=grading_charge(state,db,policy,grading)

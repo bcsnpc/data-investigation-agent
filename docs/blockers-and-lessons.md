@@ -837,3 +837,9 @@ After two calibration outcomes were sealed, Windows refused CreateProcess for ba
 
 
 Round26 final calibration,2026-11-11: Final public-dev Opus calibration2/10,harm2, closes the v5gate. Three cases never reach reasoning because common intake asks again; two answered cases fail the typed verdict contract while layer/cause match; two make the wrong causal answer to the semantic-measure question; one is blocked at a technical read. Do not conflate all eight with model incapacity or claim that finding a join answers a definition question. Local uncertain launch was reconciled via complete Azure Activity Log window, not a blind repeat. Primary grading preflight recovery had a count-only OpenAI request but no generation reservation/send; original count event and intents are retained.
+
+
+Round27 resume2026-11-20: owner standing /32 approval applied to existing PostgreSQL rule OwnerCurrentIp only:184.105.12.85/32 ->24.72.228.28/32, confirmed by independent public-IP services and Azure readback. The first ledger read timed out with old rule; it succeeded after replacement. AllowAzureServices unchanged; no rule added, no SQL/identity/role/tier change. This establishes the present laptop connectivity cause, not the historical lock holder.
+
+
+Round27 local capture binding preflight: generated run IDs/prefixes must update the exact runner_captures declaration together. Three attempts raised SCHEDULE_EXACT_CAPTURE_BINDING_REQUIRED before any external execute call; originals and zero-dispatch proof are retained, unscored. All50runner configs then passed pure bind_execution preflight before replacements. Later poll ConnectionResetError10054 is an idempotent GET failure, resumed on the same execution with existing bounded control_plane_retry helper; never resubmit a started case.

@@ -391,6 +391,10 @@ def validate_dax(query,*,allow_define=False):
     inspected=query
     for scalar in SCALARS:inspected=inspected.replace(scalar,'1')
     tokens,gaps=tokenize(inspected)
+    from .investigation_metadata import dax_rowset_expression
+    try:metadata=dax_rowset_expression(query)
+    except ValueError:_deny('DAX_METADATA_READ_GRAMMAR_REJECTED',target=query)
+    if metadata is not None:return query
     if allow_define is True and tokens and tokens[0][1].upper()=='DEFINE':
         # The same recursive grammar owns syntax; only the investigative
         # validator binds discovered model members. This independent gateway
@@ -463,11 +467,14 @@ def authorize_sql_payload(payload):
     if catalog_objects is None:
         from .adapters.graph_sql_changes import compiled_control_objects as graph_catalog_objects
         catalog_objects=graph_catalog_objects(payload)
+    if catalog_objects is None:
+        from .investigation_metadata import compiled_control_objects as investigation_catalog_objects
+        catalog_objects=investigation_catalog_objects(payload)
     if catalog_objects is not None:
         gateway=current()
         gateway.sql_control(identity,payload['server'],payload['database'],'CATALOG')
         # Reuse normal connection/object/row/time admission; SELECT 1 has no
-        # additional object authority. Only the exact compiler shape above can
+        # additional object authority. Only a revalidated compiler shape can
         # use catalog views, and all user-object permission guards remain.
         gateway.sql(identity,payload['server'],payload['database'],'SELECT 1',
             objects=catalog_objects,max_rows=payload['max_rows'],timeout=30)

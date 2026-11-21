@@ -100,7 +100,7 @@ def schema(properties,required=None):
             'additionalProperties':False}
 
 
-def toolbox(layers,read_tools,intake=None):
+def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
     tools=[]
     for kind in ('sql','dax'):
         ids=[i for i,l in layers.items() if (l['dialect']=='DAX')==(kind=='dax')]
@@ -136,12 +136,16 @@ def toolbox(layers,read_tools,intake=None):
         submit['required'].append('classified_issue_type')
     submit=next(t for t in tools if t['name']=='submit_finding')['input_schema']
     submit['properties']['routing']={'enum':['ENGINEER','BUSINESS_OWNER']}
+    if conclusion_contract:
+        from .conclusion_contract import fields
+        submit['properties'].update(fields())
+        submit['required'].extend(fields())
     return tools
 
 
 class Investigator:
     def __init__(self,*,queries,model,read_tools,validate_finding=None,validate_question=None,
-                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900,initial_tools_used=0):
+                 checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900,initial_tools_used=0,evaluator_model=None):
         if type(tool_limit) is not int or not 1<=tool_limit<=15:raise ValueError('TOOL_LIMIT')
         if type(initial_tools_used)is not int or not 0<=initial_tools_used<tool_limit:raise ValueError('INITIAL_TOOL_COUNT')
         self.initial_tools_used=initial_tools_used
@@ -149,6 +153,7 @@ class Investigator:
         validate_finding=validate_finding or finding;validate_question=validate_question or question
         if not callable(validate_finding) or not callable(validate_question):raise ValueError('CONSUMER_VALIDATORS_REQUIRED')
         self.queries,self.model=queries,model
+        self.evaluator_model=evaluator_model if evaluator_model is not None else model
         self.read_tools_factory=read_tools if callable(read_tools) else lambda:read_tools
         self.validate_finding,self.validate_question=validate_finding,validate_question
         self.checkpoint,self.case_id=checkpoint,case_id
@@ -158,13 +163,36 @@ class Investigator:
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
         self.model_seconds=0
         self.refresh_tools()
-        self.stable=INSTRUCTIONS+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
+        guidance=INSTRUCTIONS
+        if self.context.get('conclusion_contract')=='question-first-v1':
+            guidance+='''
+The conclusion must answer the exact selected question, not an incidental
+divergence. Judge the number against implemented rules, never business intent.
+Use exactly one verdict_class: DEVIATION for an evidenced flow/access/history
+difference; AS DESIGNED when the requested number follows its implemented rule;
+UNRESOLVED only for genuinely missing access or evidence, naming the exact fact.
+Explain the implemented calculation in plain words and lead with a direct answer
+including why. A sum-versus-count question requires that explanation; finding
+an upstream join difference does not replace it. Preserve every explicit user
+report/page/visual choice. Candidate values narrow only within that scope and
+only when exactly one candidate matches at the stated precision. Otherwise
+return side-by-side checked findings, never promote one candidate as the target.
+Submit all required conclusion fields, including routing and a single record-only
+context_gap. No fix suggestions, no glossary request and no business context file.
+'''
+        self.stable=guidance+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
         from .model_case_presentation import Presentation
-        self.presentation=Presentation(context,self.triage,INSTRUCTIONS)
+        self.presentation=Presentation(context,self.triage,guidance)
 
     def refresh_tools(self):
         self.read_tools=self.read_tools_factory()
-        self.tools=toolbox(self.queries.layers,self.read_tools,self.context.get('intake'))
+        self.tools=toolbox(self.queries.layers,self.read_tools,self.context.get('intake'),
+            conclusion_contract=self.context.get('conclusion_contract')=='question-first-v1')
+        if self.context.get('candidate_inventory'):
+            finding_tool=next(t for t in self.tools if t['name']=='submit_finding')['input_schema']
+            finding_tool['properties']['selected_target']={'anyOf':[{'type':'null'},{'enum':[
+                candidate['id']for candidate in self.context['candidate_inventory']['candidates']]}]}
+            finding_tool['required'].append('selected_target')
         if len({t['name'] for t in self.tools})!=len(self.tools):raise ValueError('DUPLICATE_TOOL')
         self.schemas={t['name']:Draft202012Validator(t['input_schema']) for t in self.tools}
 
@@ -190,9 +218,34 @@ class Investigator:
         if name in ('submit_finding','ask_user_choice'):
             if not set(args['evidence_ids'])<=known:raise ValueError('UNKNOWN_EVIDENCE_REFERENCE')
             if name=='submit_finding':
+                if self.context.get('candidate_inventory'):
+                    checks=[record['result']for record in self.state['evidence'].values()
+                            if record.get('tool')=='check_target_candidates']
+                    if not checks:raise ValueError('CHECK_TARGET_CANDIDATES_BEFORE_CONCLUSION')
+                    resolution=checks[-1]
+                    if args['selected_target']!=resolution.get('selected'):
+                        raise ValueError('TARGET_NOT_A_UNIQUE_OBSERVED_MATCH')
+                    if resolution.get('selected')is None and args.get('verdict_class')!='UNRESOLVED':
+                        raise ValueError('UNSELECTED_TARGET_REQUIRES_SIDE_BY_SIDE_FINDINGS_AND_EXACT_UNDECIDED_DISTINCTION')
+                conclusion=None
+                if self.context.get('conclusion_contract')=='question-first-v1':
+                    from .conclusion_contract import validate
+                    conclusion=validate(args,self.case_view())
                 answer=self.validate_finding(deepcopy(args),self.case_view())
                 if not isinstance(answer,dict) or not answer.get('business'):
                     raise ValueError('VALIDATOR_MUST_RETURN_BUSINESS_ANSWER')
+                if conclusion is not None:
+                    from .conclusion_contract import render
+                    answer['business']=render(conclusion)+'\n'+answer['business']
+                    answer['conclusion']=conclusion
+                    answer['context_gap']=deepcopy(conclusion['context_gap'])
+                    answer.setdefault('technical',{})['conclusion']=deepcopy(conclusion)
+                if self.context.get('candidate_inventory'):
+                    answer['target_resolution']=deepcopy(resolution)
+                if conclusion is not None:
+                    review=self.evaluate_draft(args)
+                    if review is None:return {'delivered':False,'downgraded':True}
+                    answer['delivery_evaluation']=deepcopy(review)
                 self.state['outcome']={'status':'ANSWERED',**answer}
                 return answer
             if not self.state['candidate_checks'] or not any(q['purpose'] in ('recreate','record','lookup') for q in self.queries.records):
@@ -200,6 +253,9 @@ class Investigator:
             question=self.validate_question(deepcopy(args),self.case_view())
             if not isinstance(question,dict) or not question.get('question') or not question.get('choices'):
                 raise ValueError('VALIDATOR_MUST_RETURN_GROUNDED_NAMED_CHOICES')
+            if self.context.get('conclusion_contract')=='question-first-v1':
+                review=self.evaluate_draft({**deepcopy(args),'structured_question':question})
+                if review is None:return {'delivered':False,'downgraded':True}
             self.state['outcome']={'status':'NEEDS_INPUT','business':question['question'],'question':question,'question_reason':args['reason']}
             return question
         if name=='get_evidence':
@@ -211,7 +267,36 @@ class Investigator:
         result=self.read_tools[name]['run'](deepcopy(args))
         if name=='list_candidates' and isinstance(result,dict):
             self.state['candidate_checks']=bool(result.get('checks')) or len(result.get('candidates',[]))<=1
+        if name=='check_target_candidates' and isinstance(result,dict):
+            self.state['candidate_checks']=bool(result.get('exhaustive'))
         return result
+
+    def evaluate_draft(self,args):
+        from .delivery_evaluator import evaluate,payload
+        attempts=self.state.setdefault('delivery_evaluations',[])
+        if sum(not item['approved'] for item in attempts)>=3:
+            raise ValueError('DELIVERY_EVALUATOR_RETRIES_EXHAUSTED')
+        packet=payload(self.context['intake'],args,self.case_view())
+        self.state['pending']={'kind':'DELIVERY_EVALUATOR','attempt':len(attempts)+1};self.save()
+        evaluator_started=self.clock()
+        try:
+            review=evaluate(self.evaluator_model,packet)
+        finally:
+            self.model_seconds+=max(0,self.clock()-evaluator_started)
+        self.state['model_calls']+=1
+        review.update(attempt=len(attempts)+1,retry=sum(not item['approved'] for item in attempts),step='EVALUATOR')
+        attempts.append(review)
+        self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
+        self.state['pending']=None;self.save()
+        if not review['approved']:
+            reasons='; '.join(k+': '+v['reason'] for k,v in review['checks'].items() if not v['passed'])
+            if sum(not item['approved'] for item in attempts)>=3:
+                self.state['outcome']={'status':'UNRESOLVED',
+                    'business':'The draft explanation was not established by the cited evidence.',
+                    'stop':'DELIVERY_EVALUATOR_REJECTED_AFTER_TWO_RETRIES: '+reasons}
+                return None
+            raise ValueError('DELIVERY_EVALUATOR_REJECTED: '+reasons)
+        return review
 
     def case_view(self):
         context=deepcopy(self.context);context['layers']=deepcopy(self.queries.layers)
@@ -436,6 +521,9 @@ class Investigator:
     def closing_action_reserved(self):
         # The seven-action cascade stage hands off to another model; it is
         # not a final-delivery boundary. Keep that existing handoff unchanged.
+        if self.context.get('conclusion_contract')=='question-first-v1':
+            return (self.state['tools_used']>=self.tool_limit-1
+                    and any(q['status']=='SUCCEEDED' for q in self.queries.records))
         return (self.tool_limit==15 and self.state['tools_used']==14
                 and any(q['status']=='SUCCEEDED' for q in self.queries.records))
 
@@ -443,6 +531,22 @@ class Investigator:
         outcome=deepcopy(self.state['outcome'])
         from .terminal_findings import attach
         outcome=attach(outcome,queries=self.queries.records,context=self.context)
+        if (self.context.get('conclusion_contract')=='question-first-v1'
+                and not self.state.get('delivery_evaluations')
+                and outcome['status'] not in ('BLOCKED','UNESTABLISHED')):
+            cited=[q['id'] for q in self.queries.records]
+            draft={'conclusion':deepcopy(outcome.get('conclusion')),
+                   'findings_per_layer':deepcopy(outcome['investigation_report']['findings_per_layer']),
+                   'business':deepcopy(outcome.get('business')),'evidence_ids':cited}
+            try:
+                review=self.evaluate_draft(draft)
+                if review is not None:outcome['delivery_evaluation']=deepcopy(review)
+            except (SpendHold,UsageHold,GatewayDenied) as error:
+                outcome['evaluator_unavailable']=type(error).__name__+': '+str(error)
+                self.state['pending']=None
+            except ValueError as error:
+                outcome['status']='UNRESOLVED'
+                outcome['evaluator_unresolved']=str(error)
         outcome['case']=self.case_view()
         if outcome['status']!='ANSWERED':
             measured={q['layer'] for q in self.queries.records if q['status']=='SUCCEEDED'}
@@ -453,6 +557,7 @@ class Investigator:
                                 'next_checks':['Check the unread layer '+name+'.' for name in remaining]
                                               +['Review '+q['id']+': '+q['error'] for q in self.queries.records if q['status']=='ERROR']}
         outcome['model_calls']=self.state['model_calls'];outcome['tools_used']=self.state['tools_used']
+        outcome['delivery_evaluations']=deepcopy(self.state.get('delivery_evaluations',[]))
         outcome['timing']={**self.context.get('phase_timings',{}),'model_seconds':self.model_seconds,
             'native_query_sum_seconds':sum(q.get('duration_seconds',0)for q in self.queries.records),
             'investigation_wall_seconds':self.state.get('elapsed_seconds',0)}
