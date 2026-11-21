@@ -44,3 +44,11 @@ Owner stopped new original-image admissions and allowed the two already-tested p
 
 
 Owner budget order, 2026-11-21: finish pass 1 including faults within current dev allowance. Make generic fixes from its backtrack; qualify offline with full suite and all image shards. Pass 2 = pass-1 failures plus the 20-ticket regression guard. Calibration only after pass 2. Protect $14.34 calibration and existing $3 reserve. If pass 2 cannot fit, pause Opus only pending owner-confirmed Dec 1 balance; continue grading, backtracks, docs, tests and fixture restores. After pass 2: calibration, then full v5 budget gate; never partial v5. No limits, counters, expectations or held-out changes.
+
+## Admission checkpoint: protected Opus floor
+
+At 2026-11-21T18:07:55.106873+00:00, 42/50 planned unique tickets had measured attempts: 41 sealed native outcomes and one native intake error with a preserved partial unsealed capture. Eight are NOT RUN: two remaining text-latency tickets, two access forms and all four stale tickets. They are not scored as engine failures and have not been submitted. Of the 42 attempts, 29 used the original image and 13 the qualified repair image; the five owner-approved plumbing reruns remain separate.
+
+Anthropic charged/committed $103.284651 against the existing $120.575301 ceiling; headroom $17.290650. Calibration $14.34 stays protected, and the $3 cash reserve is already excluded from that ceiling. The existing single-run buffer stopped admission before the next ticket. Opus admissions are paused only; saved-output grading, backtracks and offline fixes/qualification continue. No calibration, pass 2 or v5 was admitted. The remaining pass-1 inputs and image assignments stay unchanged for later completion when sufficient credit is confirmed.
+
+All owned latency schedules were removed and source row/schema hashes restored. No access injection or stale toggle was started. Automatic updates were not changed during these cohorts. The Nova primary authorization blocker and reviewed harmful flag remain open; this is not a final score or release qualification.
