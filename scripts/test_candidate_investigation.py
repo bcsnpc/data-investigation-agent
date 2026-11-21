@@ -65,6 +65,7 @@ class CandidateInvestigationTests(unittest.TestCase):
                     reviews[0]+=1
                     return tool('evaluate_delivery',{k:{'passed':not(k==('claims' if soft else 'question') and reviews[0]<=rejections),
                         'severity':'soft' if soft else 'hard',
+                        'failure_kind':'citation_format' if soft else 'wrong_question',
                         'reason':('Citation formatting needs a rewrite.' if soft else 'The real layer difference does not answer the selected question.') if k==('claims' if soft else 'question') and reviews[0]<=rejections else 'Supported by the cited scoped checks.'}
                         for k in ('question','support','target','claims')})
                 turn[0]+=1

@@ -27,13 +27,16 @@ REPAIR_POLICY = '''Classify failures explicitly. Wrong question, an overridden o
 non-unique target, and unsupported factual claims are HARD failures. Wording,
 citation formatting where the underlying evidence is present, and write-up
 completeness are SOFT failures. Never call absent evidence a formatting issue.
-For each failed check set severity to hard or soft and name the specific issue.'''
+For each failed check set severity and failure_kind. Hard kinds are wrong_question,
+target or unsupported_claim. Soft kinds are wording, citation_format or
+completeness. Missing evidence is unsupported_claim, never citation_format.'''
 
 CHECKS = ('question', 'support', 'target', 'claims')
 PROPERTIES = {name: {'type': 'object', 'additionalProperties': False,
                     'properties': {'passed': {'type': 'boolean'},
                                    'reason': {'type': 'string', 'minLength': 1},
-                                   'severity': {'enum': ['hard', 'soft']}},
+                                   'severity': {'enum': ['hard', 'soft']},
+                                   'failure_kind': {'enum': ['wrong_question','target','unsupported_claim','wording','citation_format','completeness']}},
                     'required': ['passed', 'reason']} for name in CHECKS}
 SCHEMA = {'type': 'object', 'additionalProperties': False,
           'properties': PROPERTIES, 'required': list(CHECKS)}
@@ -105,6 +108,7 @@ def evaluate(model, packet):
         # An incomplete evaluator is not a substantive rejection. Older
         # structured responses without severity remain conservatively hard.
         severity=('soft' if format_error else result[key].get('severity','hard')) if enabled('r27_evaluator_hard_soft') else 'hard'
+        if not format_error and result[key].get('failure_kind') not in ('wording','citation_format','completeness'):severity='hard'
         if not format_error and key in ('question','target'):severity='hard'
         (hard if severity=='hard' else soft).append(key)
     evaluation={'approved': all(result[k]['passed'] for k in CHECKS), 'checks': deepcopy(result),

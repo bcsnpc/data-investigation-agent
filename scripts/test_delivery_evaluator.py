@@ -8,7 +8,7 @@ from test_round23_reasoning import tool
 class DeliveryEvaluatorTests(unittest.TestCase):
     def test_soft_presentation_issue_is_not_a_hard_evidence_failure(self):
         checks={k:{'passed':k!='claims','reason':'Citation label format only; native q1 supports the statement.',
-                   'severity':'soft'} for k in CHECKS}
+                   'severity':'soft','failure_kind':'citation_format'} for k in CHECKS}
         model=Mock();model.complete.return_value=tool('evaluate_delivery',checks)
         result=evaluate(model,{})
         self.assertEqual(result['hard_failures'],[])
@@ -27,6 +27,12 @@ class DeliveryEvaluatorTests(unittest.TestCase):
             checks={k:{'passed':k!=failure,'reason':'Explicit target overridden.', 'severity':'soft'} for k in CHECKS}
             model=Mock();model.complete.return_value=tool('evaluate_delivery',checks)
             self.assertEqual(evaluate(model,{})['hard_failures'],[failure])
+
+    def test_unsupported_claim_cannot_be_downgraded_to_presentation(self):
+        checks={k:{'passed':k!='claims','reason':'The claimed join was never read.',
+                   'severity':'soft','failure_kind':'unsupported_claim'} for k in CHECKS}
+        model=Mock();model.complete.return_value=tool('evaluate_delivery',checks)
+        self.assertEqual(evaluate(model,{})['hard_failures'],['claims'])
 
     def test_aws_disabled_before_dispatch_without_changing_keys(self):
         from investigator.provider_budget import check_credit
