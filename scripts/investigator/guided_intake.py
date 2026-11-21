@@ -3,6 +3,8 @@
 The catalog is a projection of admitted graph records, not a hand-maintained
 list of fixture names. This module does no network or model calls.
 """
+from .regression_features import enabled
+
 from copy import deepcopy
 from urllib.parse import parse_qs, urlsplit
 from jsonschema import Draft202012Validator, ValidationError
@@ -84,6 +86,7 @@ class Catalog:
         return self.children(report, 'PAGE')
 
     def named_pages(self, text, report):
+        if not enabled('r26_named_page_lookup'):return []
         pages=[p for p in self.ranked(text,'PAGE',within={p['id']for p in self.pages(report)})
                if p['confidence']=='NAMED']
         if pages:
@@ -196,6 +199,8 @@ class Catalog:
         """Resolve native container names through retained containment only."""
         direct = [*self.ranked(text, 'TABLE'), *self.ranked(text, 'VIEW')]
         direct.sort(key=lambda r: -r['score'])
+        if not enabled('r26_native_containment'):
+            return [r for r in direct if r['score']>=.86 and direct[0]['score']-r['score']<.08]
         containers = [r for kind in ('MODEL', 'SOURCE') for r in self.ranked(text, kind)
                       if r['confidence'] in ('NAMED', 'NORMALIZED')]
         contained = []
@@ -324,6 +329,7 @@ def admit_investigation_candidate(request, catalog):
     substitute or authorize an endpoint; existing path/query guards still do
     that. The original comparison remains visible beside the admitted target.
     """
+    if not enabled('r27_source_label_deferral'):return admit(request,catalog)
     try:
         return admit(request, catalog)
     except ValueError as error:

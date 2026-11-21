@@ -4,6 +4,8 @@ These checks bind references and literal values. They do not pretend to prove
 the semantic equivalence of arbitrary model-written calculations; independent
 grading evaluates verdict, layer and causal interpretation.
 """
+from .regression_features import enabled
+
 from copy import deepcopy
 from decimal import Decimal,InvalidOperation
 from .clarification_grounding import QUESTIONS,label
@@ -102,12 +104,12 @@ def finding(args,case):
         off_claim = re.search(r'(?:automatic\s+(?:updates?|refresh(?:es)?|framing)|auto[ -]?sync)[^.!?\n]{0,55}\b(?:off|disabled)\b', args['cause'], re.I)
         if off_claim and (not known or any(known)):
             raise ValueError('AUTOMATIC_UPDATE_SETTING_UNREADABLE: report native refresh and newer-data timestamps; do not infer the switch is OFF')
-    if normalized == 'latency':
+    if normalized == 'latency' and enabled('r26_source_history_requirement'):
         from .history_comparison import disposition
         history = disposition(case, args['evidence_ids'])
         if not history['ruled_out']:
             raise ValueError('CHECK_SOURCE_HISTORY_BEFORE_LATENCY: ' + history['reason'])
-    if normalized in ('as designed','consistent to source','consistent to boundary'):
+    if enabled('r26_current_fault_consistency') and normalized in ('as designed','consistent to source','consistent to boundary'):
         from .triage_hints import current_job_hints
         current_faults=current_job_hints(case)
         if current_faults:

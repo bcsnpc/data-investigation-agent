@@ -4,6 +4,8 @@ This never upgrades an unresolved/safety result to a successful investigation.
 No new queries or model calls: every value below is already in the case file.
 """
 from copy import deepcopy
+from .regression_features import enabled
+
 import json
 import re
 
@@ -120,6 +122,7 @@ def text(value):
 
 
 def attach(outcome,*,queries=(),context=None,candidates=()):
+    if not enabled('r26_terminal_report'):return deepcopy(outcome)
     value=deepcopy(outcome);summary=report(outcome=value,queries=queries,context=context,candidates=candidates)
     if (context or {}).get('conclusion_contract')=='question-first-v1':
         if not value.get('conclusion'):
@@ -134,7 +137,7 @@ def attach(outcome,*,queries=(),context=None,candidates=()):
             missing=list(dict.fromkeys(missing))
             if not missing:missing=['The causal explanation for the stated question has not been established from these checks.']
             value['conclusion']={
-                'direct_answer':'The investigation did not establish the cause of the stated discrepancy. The checked findings and remaining limits follow.',
+                'direct_answer':('The investigation did not establish the cause of the stated discrepancy. The checked findings and remaining limits follow.' if enabled('r27_neutral_unresolved_wording') else 'The saved checks do not establish the cause of the stated discrepancy because '+missing[0]),
                 'verdict_class':'UNRESOLVED',
                 'calculation_explanation':'; '.join(c['name']+' = '+c['expression'] for c in summary['calculation'])or'The calculation definition was not established.',
                 'undecided':missing,'routing':summary['routing']['to'],

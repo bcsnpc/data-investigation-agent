@@ -3,6 +3,8 @@ from copy import deepcopy
 from decimal import Decimal,localcontext,ROUND_HALF_EVEN
 from collections import deque
 from datetime import datetime
+from .regression_features import enabled
+
 import re
 from .ai_investigation import schema
 
@@ -162,6 +164,8 @@ class ReadTools:
             seen.add(check['candidate'])
             record=self.queries.run(check['layer'],check['query'],kind=check['kind'],purpose='recreate')
             record=record.get('record',record)
+            if not enabled('r27_candidate_refusal_handling'):
+                record['status'];record['id']  # historical strict response shape, useful for offline diagnosis
             row={'candidate':check['candidate'],'status':record.get('status','ERROR'),'evidence_id':record.get('id'),
                  'truncated':bool(record.get('truncated'))}
             if row['status']=='SUCCEEDED' and row['evidence_id']:
@@ -218,6 +222,11 @@ class ReadTools:
                     'kind':{'enum':['sql','dax']},'query':{'type':'string','minLength':1}})}},self.check_targets)
         registry['record_trace']=entry('Run your key lookup queries in source-to-model order. Distinguish presence, duplicates, absence, truncation and failed reads. Then inspect definitions/jobs for the cause.',
             {'key':{'type':'string'},'queries':{'type':'array','minItems':1,'maxItems':5,'items':record_query}},self.record_trace)
+        if not enabled('r27_contribution_tool'):registry.pop('contribution_analysis',None)
+        if not enabled('r27_row_diff_tool'):registry.pop('row_layer_diff',None)
+        if not enabled('r27_identifier_role_descriptions'):
+            for name in ('get_definition','get_lineage','get_job_runs','get_refresh_history','get_security_definitions'):
+                if name in registry:registry[name]['description']=name.replace('_',' ')+' within the admitted path.'
         # Empty enum tools are unavailable on this path, not invented scopes.
         return {name:value for name,value in registry.items()
                 if all(prop.get('enum')!=[] for prop in value['schema']['properties'].values())}

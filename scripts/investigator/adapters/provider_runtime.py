@@ -10,6 +10,8 @@ def intake_selection(configuration, *, tenant, strategy='investigator'):
     The installation chooses the model. Ticket text cannot change providers,
     invoke a fallback or alter an identity or secret reference.
     """
+    from ..regression_features import enabled
+    if strategy=='investigator' and not enabled('r27_reasoning_model_intake'):strategy='configured'
     if strategy not in ('investigator', 'configured', 'cascade'):
         raise ValueError('INTAKE_STRATEGY_CONFIGURATION')
     return select(configuration, tenant=tenant,

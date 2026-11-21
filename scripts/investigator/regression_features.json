@@ -1,0 +1,125 @@
+{
+  "version": 1,
+  "features": {
+    "r26_native_containment": {
+      "default": true,
+      "description": "Resolve loose table names through declared native container membership."
+    },
+    "r26_named_page_lookup": {
+      "default": true,
+      "description": "Use named-page lookup during intake prefill."
+    },
+    "r26_source_history_requirement": {
+      "default": true,
+      "description": "Require matched source-history evidence before a latency claim."
+    },
+    "r26_metadata_reads": {
+      "default": true,
+      "description": "Admit bounded catalog/INFO/Delta metadata reads through independent validation."
+    },
+    "r26_temporal_extensions": {
+      "default": true,
+      "description": "Permit newly supported BETWEEN temporal / Spark VERSION syntax."
+    },
+    "r26_operational_fastpath": {
+      "default": true,
+      "description": "Route report-free named job questions through native status facts."
+    },
+    "r26_access_priming": {
+      "default": true,
+      "description": "Read access definitions before other access-question tools."
+    },
+    "r26_operational_priming": {
+      "default": true,
+      "description": "Read native run evidence first for operational question kinds."
+    },
+    "r26_final_action_reserve": {
+      "default": true,
+      "description": "Reserve the final tool slot for delivery."
+    },
+    "r26_terminal_report": {
+      "default": true,
+      "description": "Append per-layer findings and honest unresolved handoff."
+    },
+    "r27_reasoning_model_intake": {
+      "default": true,
+      "description": "Default extraction to the configured investigator model; off uses configured INTAKE."
+    },
+    "r27_candidate_routing": {
+      "default": true,
+      "description": "Pass bounded unresolved target alternatives into investigation."
+    },
+    "r27_structured_delivery": {
+      "default": true,
+      "description": "Require/render question-first structured conclusion fields."
+    },
+    "r27_question_first_prompt": {
+      "default": true,
+      "description": "Append the Round27 question-first/candidate/as-designed reasoning guidance."
+    },
+    "r27_delivery_evaluator": {
+      "default": true,
+      "description": "Run the separate model delivery evaluator after code evidence checks."
+    },
+    "r27_evaluator_format_repair": {
+      "default": true,
+      "description": "Use3200 output tokens and distinguish malformed/truncated evaluation from rejection."
+    },
+    "r27_contribution_tool": {
+      "default": true,
+      "description": "Expose bounded contribution analysis."
+    },
+    "r27_row_diff_tool": {
+      "default": true,
+      "description": "Expose bounded row-level layer comparison."
+    },
+    "r27_metadata_gateway_revalidation": {
+      "default": true,
+      "description": "Revalidate pure catalog SQL payloads at transport; off restores refusal."
+    },
+    "r27_retained_definition_references": {
+      "default": true,
+      "description": "Give existing retained definitions independently citable case evidence IDs."
+    },
+    "r27_identifier_role_descriptions": {
+      "default": true,
+      "description": "Explain graph/native/evidence identifier roles in tool descriptions."
+    },
+    "r27_selected_target_restore": {
+      "default": true,
+      "description": "Restore a reversible selected_target alias before local validation."
+    },
+    "r27_source_label_deferral": {
+      "default": true,
+      "description": "Retain loose unbound source labels for investigation without selecting a source."
+    },
+    "r27_neutral_unresolved_wording": {
+      "default": true,
+      "description": "Do not turn the first failed query into a discrepancy cause."
+    },
+    "r27_candidate_refusal_handling": {
+      "default": true,
+      "description": "Represent id-less query-limit refusal as unavailable candidate, never a match."
+    },
+    "r26_investigation_prompt": {
+      "default": true,
+      "description": "Use the current investigation prompt; off uses the exact v0.24 literal, with safety still enforced in code."
+    },
+    "r26_extraction_prompt": {
+      "default": true,
+      "description": "Use the current extraction prompt; off uses the exact v0.24 literal."
+    },
+    "r26_metadata_prompt": {
+      "default": true,
+      "description": "Show newly added metadata examples in query-dialect guidance."
+    },
+    "r26_current_fault_consistency": {
+      "default": true,
+      "description": "Require current native faults to be explained before an as-designed conclusion."
+    },
+    "r26_native_candidate_scope": {
+      "default": true,
+      "description": "Enable retained native candidate-scope compilation; off refuses the optional probe, never drops its filters."
+    }
+  }
+}

@@ -1,4 +1,6 @@
 """Independent delivery check: no investigation transcript or hidden expectations."""
+from .regression_features import enabled
+
 from copy import deepcopy
 from jsonschema import Draft202012Validator
 from .estate_graph_contract import canonical
@@ -70,7 +72,7 @@ def payload(ticket, draft, case):
 
 def evaluate(model, packet):
     response = model.complete(system=INSTRUCTIONS,
-        messages=[{'role': 'user', 'content': canonical(packet)}], tools=[deepcopy(TOOL)], max_tokens=3200)
+        messages=[{'role': 'user', 'content': canonical(packet)}], tools=[deepcopy(TOOL)], max_tokens=3200 if enabled('r27_evaluator_format_repair') else 1600)
     format_error=None;result=None
     try:
         calls = [b for b in response.get('content', []) if isinstance(b,dict) and b.get('type') == 'tool_use']
@@ -85,7 +87,7 @@ def evaluate(model, packet):
                       'path':[str(x)for x in getattr(error,'absolute_path',[])],
                       'missing_checks':[k for k in CHECKS if not isinstance(result,dict) or k not in result],
                       'stop_reason':response.get('stop_reason') if response.get('stop_reason')in ('max_tokens','tool_use','end_turn','stop_sequence')else None}
-        reason='Evaluator structured result incomplete or invalid'
+        reason=('Evaluator structured result incomplete or invalid' if enabled('r27_evaluator_format_repair') else 'The evaluator did not establish a valid structured check')
         if format_error['missing_checks']:reason+='; missing checks: '+', '.join(format_error['missing_checks'])
         if format_error['stop_reason']=='max_tokens':reason+='; evaluator reached its output-token limit'
         result={k:{'passed':False,'reason':reason+'. No confident answer is authorized.'} for k in CHECKS}
@@ -94,7 +96,7 @@ def evaluate(model, packet):
             'usage': deepcopy(response.get('usage', {})),
             'cost_microdollars': response.get('cost_microdollars'),
             'model': model_name if isinstance(model_name,str) else None,
-            'format_error':format_error}
+            'format_error':format_error if enabled('r27_evaluator_format_repair') else None}
 
 
 def evaluate_native(model,ticket,outcome):
@@ -103,6 +105,7 @@ def evaluate_native(model,ticket,outcome):
     There is no investigation reasoning transcript for this route. A rejection
     keeps the observed facts in a handoff, never the rejected causal answer.
     """
+    if not enabled('r27_delivery_evaluator'):return deepcopy(outcome)
     from .terminal_findings import attach
     from .conclusion_contract import render
     result=deepcopy(outcome)

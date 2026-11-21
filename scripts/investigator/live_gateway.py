@@ -8,6 +8,8 @@ Rejected attempts log hashes, never SQL, ticket text, URLs with secrets or token
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
+from .regression_features import enabled
+
 import hashlib
 import json
 from .adapters.platform_credentials import FORBIDDEN_HTTP_SEGMENTS
@@ -392,7 +394,7 @@ def validate_dax(query,*,allow_define=False):
     for scalar in SCALARS:inspected=inspected.replace(scalar,'1')
     tokens,gaps=tokenize(inspected)
     from .investigation_metadata import dax_rowset_expression
-    try:metadata=dax_rowset_expression(query)
+    try:metadata=dax_rowset_expression(query) if enabled('r26_metadata_reads') else None
     except ValueError:_deny('DAX_METADATA_READ_GRAMMAR_REJECTED',target=query)
     if metadata is not None:return query
     if allow_define is True and tokens and tokens[0][1].upper()=='DEFINE':
@@ -467,7 +469,7 @@ def authorize_sql_payload(payload):
     if catalog_objects is None:
         from .adapters.graph_sql_changes import compiled_control_objects as graph_catalog_objects
         catalog_objects=graph_catalog_objects(payload)
-    if catalog_objects is None:
+    if catalog_objects is None and enabled('r27_metadata_gateway_revalidation'):
         from .investigation_metadata import compiled_control_objects as investigation_catalog_objects
         catalog_objects=investigation_catalog_objects(payload)
     if catalog_objects is not None:

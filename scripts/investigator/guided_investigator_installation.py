@@ -3,6 +3,8 @@
 The installation owns graph-to-native route bindings, schemas, model/key/budget
 factories and read-only collectors. A case only contributes IntakeRequest/1.
 """
+from .regression_features import enabled
+
 from copy import deepcopy
 from .ai_investigation import Investigator
 from .investigative_queries import Queries
@@ -189,12 +191,13 @@ class Factory:
         context=deepcopy(self.context_for(path,intake))
         # A context builder cannot replace the selected target/path/intake.
         context.update(intake=intake,path=deepcopy(path),layers=deepcopy(layers))
-        context['conclusion_contract']='question-first-v1'
+        if enabled('r27_structured_delivery'):context['conclusion_contract']='question-first-v1'
+        else:context.pop('conclusion_contract',None)
         context['explicit_target']={field:deepcopy(intake[field]) for field in
             ('report','page','visual','measure','table') if intake.get(field)}
         if inventory:context['candidate_inventory']=deepcopy(inventory)
         from .query_context import sheet
-        context['query_dialect_sheets']={i:sheet(layer)for i,layer in layers.items()}
+        context['query_dialect_sheets']={i:{k:v for k,v in sheet(layer).items() if enabled('r26_metadata_prompt') or k!='metadata_reads'}for i,layer in layers.items()}
         context['route_registry_hash']=digest(self.routes)
         from .facts_ledger import FactLedger
         scope={k:intake[k] for k in ('report','page','visual','table','measure','details') if k in intake}

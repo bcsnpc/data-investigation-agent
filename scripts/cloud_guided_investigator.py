@@ -12,7 +12,7 @@ def intake_question_outcome(text, mapped, *, resolution, step_costs, cost,physic
     value=attach({'status':'NEEDS_INPUT','business':mapped.get('question','A named choice is needed before investigation.')},
                  candidates=mapped.get('candidate_checks',()))
     business=value['business']
-    return {'status':'NEEDS_INPUT','ticket':{'text':text},'business':business,'investigation_report':value['investigation_report'],
+    return {'status':'NEEDS_INPUT','ticket':{'text':text},'business':business,'investigation_report':value.get('investigation_report',{}),
             'outputs':{'business':business,'technical':json.dumps(mapped)},
             'intake':mapped,'intake_resolution':resolution,'ai_step_costs':step_costs,
             'cost':cost,'physical_requests':physical_requests}
@@ -29,8 +29,10 @@ def specification(options):
         raise ValueError('GUIDED_RUNNER_OPTIONS')
     value=json.loads(reference(options['spec'],maximum=500000).read_bytes())
     required={'version','ticket','assets','graph','reasoning','max_requests'}
-    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing','intake_cascade','intake_strategy','investigator_cascade'} or value['version']!='guided-investigation/1':
+    if not isinstance(value,dict) or not required<=set(value)<=required|{'collector','screenshots','diagnostic_budget','diagnostic_prompt_cache','ai_routing','intake_cascade','intake_strategy','investigator_cascade','regression_flags'} or value['version']!='guided-investigation/1':
         raise ValueError('GUIDED_RUNNER_SPECIFICATION')
+    from investigator.regression_features import validate as validate_features
+    validate_features(value.get('regression_flags',{}))
     if 'intake_cascade' in value and type(value['intake_cascade'])is not bool:raise ValueError('INTAKE_CASCADE_BOOLEAN_REQUIRED')
     if value.get('intake_strategy','investigator') not in ('investigator','configured','cascade'):raise ValueError('INTAKE_STRATEGY_CONFIGURATION')
     if 'investigator_cascade' in value and type(value['investigator_cascade'])is not bool:raise ValueError('INVESTIGATOR_CASCADE_BOOLEAN_REQUIRED')
@@ -60,6 +62,14 @@ def execute(plan,context):
 
 
 def run(plan,context):
+    from investigator.regression_features import configured
+    spec=specification(plan['options'])
+    with configured(spec.get('regression_flags',{})):
+        return _run(plan,context)
+
+
+def _run(plan,context):
+    from investigator.regression_features import enabled,snapshot
     from investigator.shared_state import configured_state
     from investigator.estate_manifest import load
     from investigator.adapters.estate_installation import configuration
@@ -132,6 +142,7 @@ def run(plan,context):
                 strategy=spec.get('intake_strategy','cascade' if spec.get('intake_cascade') else 'investigator'))
         from investigator.adapters.provider_runtime import select
         return select(spec['ai_routing'],tenant=graph_spec['estate'],step=step)
+    record({'event':'REGRESSION_FEATURE_CONFIGURATION','flags':snapshot()})
     investigator_configuration = ai_configuration('INVESTIGATOR')
     rate=RateCard(model=investigator_configuration['model'],**investigator_configuration['rate_card'])
     budgets={}
@@ -155,7 +166,7 @@ def run(plan,context):
     initial_intake_queries=[]
     candidate_binding=None
     operational_admission = None
-    if set(submitted)=={'text'}:
+    if set(submitted)=={'text'} and enabled('r26_operational_fastpath'):
         from investigator.operational_intake import admit as admit_operational
         admission = admit_operational(submitted, {'candidates': list(catalog.nodes.values())})
         if admission['status'] == 'READY':operational_admission = admission
@@ -169,6 +180,8 @@ def run(plan,context):
         record({'event':'GUIDED_INTAKE_ADMISSION','status':mapped['status'],
                 'resolution':intake_resolution,'confidence':mapped.get('resolution_confidence')})
         if mapped['status']!='READY':
+            if not enabled('r27_candidate_routing'):
+                return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,step_costs=step_costs(ai_usage),cost=budget(case_id).status())
             from investigator.intake_candidates import enumerate_targets,explicit_names
             from investigator.guided_intake import VERSION,SCHEMA
             proposal={key:value for key,value in (mapped.get('prefilled')or{}).items()if key in SCHEMA['properties']}
@@ -309,7 +322,7 @@ def run(plan,context):
             saved=outcome.get('case',{})
             outcome=attach(outcome,queries=saved.get('queries',[])if isinstance(saved,dict)else[],
                            context=saved.get('context',{})if isinstance(saved,dict)else{})
-            outcome.setdefault('handoff',{})['investigation_report']=outcome['investigation_report']
+            outcome.setdefault('handoff',{})['investigation_report']=outcome.get('investigation_report',{})
         if candidate_binding and isinstance(outcome.get('business'),str):
             outcome['business']='Assumption: '+candidate_binding['resolution_assumption']+' '+outcome['business']
         output={**outcome,'ticket':submitted['intake'],'case_id':queued['id'],

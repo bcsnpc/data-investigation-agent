@@ -4,6 +4,8 @@ No code-owned layer frontier or SQL templates select investigative actions.
 Consumer-supplied validators still own claims/questions, and installed ports
 own read-only execution, physical admission and fact collection.
 """
+from .regression_features import enabled
+
 from copy import deepcopy
 from time import monotonic
 from jsonschema import Draft202012Validator
@@ -169,8 +171,9 @@ class Investigator:
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
         self.model_seconds=0
         self.refresh_tools()
-        guidance=INSTRUCTIONS
-        if self.context.get('conclusion_contract')=='question-first-v1':
+        from .regression_features import baseline_prompt
+        guidance=INSTRUCTIONS if enabled("r26_investigation_prompt") else baseline_prompt("investigator")
+        if self.context.get('conclusion_contract')=='question-first-v1' and enabled('r27_question_first_prompt'):
             guidance+='''
 The conclusion must answer the exact selected question, not an incidental
 divergence. Judge the number against implemented rules, never business intent.
@@ -248,7 +251,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
                     answer.setdefault('technical',{})['conclusion']=deepcopy(conclusion)
                 if self.context.get('candidate_inventory'):
                     answer['target_resolution']=deepcopy(resolution)
-                if conclusion is not None:
+                if conclusion is not None and enabled('r27_delivery_evaluator'):
                     review=self.evaluate_draft(args)
                     if review is None:return {'delivered':False,'downgraded':True}
                     answer['delivery_evaluation']=deepcopy(review)
@@ -259,7 +262,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
             question=self.validate_question(deepcopy(args),self.case_view())
             if not isinstance(question,dict) or not question.get('question') or not question.get('choices'):
                 raise ValueError('VALIDATOR_MUST_RETURN_GROUNDED_NAMED_CHOICES')
-            if self.context.get('conclusion_contract')=='question-first-v1':
+            if self.context.get('conclusion_contract')=='question-first-v1' and enabled('r27_delivery_evaluator'):
                 review=self.evaluate_draft({**deepcopy(args),'structured_question':question})
                 if review is None:return {'delivered':False,'downgraded':True}
             self.state['outcome']={'status':'NEEDS_INPUT','business':question['question'],'question':question,'question_reason':args['reason']}
@@ -356,6 +359,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         return result
 
     def prime_operational_run(self):
+        if not enabled('r26_operational_priming'):return
         """Read the current triage run before asking the model about values."""
         from .triage_hints import job_hint
         self.refresh_tools()
@@ -379,6 +383,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
                 self.state['pending']=None;self.save();return
 
     def prime_access_definitions(self):
+        if not enabled('r26_access_priming'):return
         """Access questions start with roles/views, before value recreation."""
         intake=self.context.get('intake',{})
         if intake.get('issue_type')!='OTHERS_SEE_DIFFERENT_NUMBER':return
@@ -434,7 +439,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
             self.evidence({'kind':'TRIAGE','facts':self.triage})
             from .retained_definition_evidence import references
             definitions=[{'evidence_id':self.evidence(reference),**reference}
-                         for reference in references(self.context)]
+                         for reference in (references(self.context) if enabled('r27_retained_definition_references') else [])]
             if definitions:
                 self.state['messages'].append({'role':'user','content':canonical({
                     'retained_definition_references':definitions,
@@ -535,6 +540,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         return self.finish()
 
     def closing_action_reserved(self):
+        if not enabled('r26_final_action_reserve'):return False
         # The seven-action cascade stage hands off to another model; it is
         # not a final-delivery boundary. Keep that existing handoff unchanged.
         if self.context.get('conclusion_contract')=='question-first-v1':
@@ -548,6 +554,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         from .terminal_findings import attach
         outcome=attach(outcome,queries=self.queries.records,context=self.context)
         if (self.context.get('conclusion_contract')=='question-first-v1'
+                and enabled('r27_delivery_evaluator') and enabled('r26_terminal_report')
                 and not self.state.get('delivery_evaluations')
                 and outcome['status'] not in ('BLOCKED','UNESTABLISHED')):
             cited=[q['id'] for q in self.queries.records]

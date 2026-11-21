@@ -4,6 +4,8 @@ SQLGlot owns syntax/CTE/alias qualification. An explicit AST allowlist is the
 security boundary, not a keyword regex. Native SQL remains the calculation engine.
 """
 from . import proposal_limits as limits
+from .regression_features import enabled
+
 import re
 from sqlglot import parse, exp
 from sqlglot.errors import OptimizeError
@@ -27,11 +29,11 @@ def temporal_read(node, *, dialect='tsql'):
     from datetime import datetime
     if not isinstance(node.parent,exp.Table) or set(node.args)-{'this','kind','expression'}:return False
     kind=node.args.get('kind');value=node.args.get('expression')
-    if dialect == 'spark' and node.args.get('this') == 'VERSION':
+    if enabled('r26_temporal_extensions') and dialect == 'spark' and node.args.get('this') == 'VERSION':
         return kind == 'AS OF' and isinstance(value, exp.Literal) and value.is_int and int(value.this) >= 0
     if node.args.get('this') != 'TIMESTAMP':return False
     if kind=='ALL':return value is None
-    if kind == 'BETWEEN' and dialect == 'tsql':
+    if enabled('r26_temporal_extensions') and kind == 'BETWEEN' and dialect == 'tsql':
         if not isinstance(value, exp.Tuple) or len(value.expressions) != 2:return False
         try:
             dates = [datetime.fromisoformat(v.this.replace('Z', '+00:00'))
