@@ -1,0 +1,1965 @@
+{
+  "baseline_code": "v0.24:02040ba5e360c96a376bf208739bb23781a021a1",
+  "round25_frozen_merge": "7f5d2b0d3a498485b03184384a9bac5e8ddbdf0",
+  "passing_trace_source": "Fixed guard-selected R26 primary-passing Opus runs; not fresh v0.24 reruns",
+  "summary": {
+    "matched_guard_pairs": 15,
+    "confirmed_reviewed_regressions": 11,
+    "provisional_secondary_only": 4,
+    "old_query_results": 96,
+    "old_errors": 9,
+    "new_query_results": 129,
+    "new_errors": 9,
+    "new_model_calls": 0,
+    "new_estate_queries": 0
+  },
+  "pairs": [
+    {
+      "ticket": "v2-application-baseline-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "1d6f4c1a08809ca08dbd706c270098f1ef9861e5c417ef163a5565c5ebf02fd0",
+      "new_capture_seal": "8990b69ac8073f4af38647409f335b90be1e07c1395c6b17292882dd4f695799",
+      "old_index_sha256": "66aacccb0ba05fc8370ac561443c329ffe014c61b3559ff4e4cefa185c6486b6",
+      "new_index_sha256": "71771d95e92c4671ac4081bd1aff4d678b57c99f691259375eb0bf2700b86059",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "get_definition",
+            "run_dax",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          36,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          51,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          56,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          36,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          41,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          46,
+          [
+            "get_definition",
+            "get_evidence"
+          ]
+        ],
+        [
+          51,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          56,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          61,
+          [
+            "get_definition",
+            "get_definition"
+          ]
+        ],
+        [
+          66,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          71,
+          [
+            "evaluate_delivery",
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 6,
+      "old_query_errors": 0,
+      "new_query_count": 3,
+      "new_query_errors": 0,
+      "old_failed_queries": [],
+      "new_failed_queries": []
+    },
+    {
+      "ticket": "v2-billing-invoices-v2",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "94287b07800519304dfbc9dec1f2d3f62e01d1b8a76e0510ffe60f23246d229b",
+      "new_capture_seal": "1de61c1ce37fea99eac7af68a04123612a34a0f112b35484035e05819cdb743b",
+      "old_index_sha256": "6fecdaf41b652ca7cbb4930ff1d7560f400f372fe02a09365cccc4282effc645",
+      "new_index_sha256": "d376989a3bcf90c5231171b1aa9c9e8a1a6612284521678daa5ffdf9ee4bad55",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          25,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          48,
+          [
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          62,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          67,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          72,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          25,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          48,
+          [
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          65,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          70,
+          [
+            "evaluate_delivery",
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          75,
+          [
+            "get_evidence",
+            "get_evidence",
+            "get_evidence"
+          ]
+        ],
+        [
+          80,
+          [
+            "contribution_analysis",
+            "run_sql"
+          ]
+        ],
+        [
+          90,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          95,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 8,
+      "old_query_errors": 1,
+      "new_query_count": 9,
+      "new_query_errors": 0,
+      "old_failed_queries": [
+        {
+          "text": "SELECT SUM(i.amount) AS amount FROM [silver].[invoices] AS i LEFT JOIN [bronze].[account_plan_history] AS h ON i.account_id = h.account_id",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "native_dispatched": false
+        }
+      ],
+      "new_failed_queries": []
+    },
+    {
+      "ticket": "v2-billing-mrr-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "f37e2e3757eb3dde89d11796a9026db5a3f50ce7356b798a7772a5c80a409753",
+      "new_capture_seal": "e626a6bf8cd2b610c039c6d2d2f7640ddee20eea46897ace7d1452ca00972e32",
+      "old_index_sha256": "dedf69ebde18f84dc2673acddb38c9da5a32bbcf970e47060ac70583560af370",
+      "new_index_sha256": "9485299d46afdc5b1fe2d74e28099a0fa3b735a600ded232d2e028807f7258e1",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          25,
+          [
+            "run_dax",
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          45,
+          [
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          57,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          62,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          25,
+          [
+            "run_dax",
+            "run_dax",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          44,
+          [
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          60,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          65,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          70,
+          [
+            "evaluate_delivery",
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          75,
+          [
+            "get_definition"
+          ]
+        ],
+        [
+          80,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          85,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          90,
+          [
+            "get_evidence"
+          ]
+        ],
+        [
+          95,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          100,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 7,
+      "old_query_errors": 1,
+      "new_query_count": 7,
+      "new_query_errors": 1,
+      "old_failed_queries": [
+        {
+          "text": "SELECT SUM(p.[monthly_price]) AS mrr_active FROM [app].[subscriptions] s LEFT JOIN [app].[plans] p ON s.[plan_id] = p.[plan_id] WHERE s.[status] = N'ACTIVE'",
+          "error": "Unsupported SQL syntax or function nodes: National. Remove these constructs or choose a supported diagnostic; no query executed.",
+          "native_dispatched": false
+        }
+      ],
+      "new_failed_queries": [
+        {
+          "text": "SELECT SUM(p.monthly_price) AS mrr_active FROM [app].[subscriptions] s LEFT JOIN [app].[plans] p ON s.plan_id = p.plan_id WHERE s.status = N'ACTIVE'",
+          "error": "Unsupported SQL syntax or function nodes: National. Remove these constructs or choose a supported diagnostic; no query executed.",
+          "native_dispatched": false
+        }
+      ]
+    },
+    {
+      "ticket": "v2-failed-application-load-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "8a5f1b369323e04ee74af6c89715256e18b3720180596c4fbc0051af19256868",
+      "new_capture_seal": "205f9f8f0b1eab04e845077fe5b24f5cd9c8687853c1b2b9f4a3af5a5b5be879",
+      "old_index_sha256": "981762cf63131575f3854537631f6068667a0e69d50e8227e7a50fb1df279cb5",
+      "new_index_sha256": "96d7c65ac82a91886949e2953f78e4d67f72b8ee9039149d0a77295e138bea0f",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          23,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          38,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          43,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "get_job_runs",
+            "get_evidence"
+          ]
+        ],
+        [
+          28,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          43,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          48,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          53,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          58,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          63,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          68,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          73,
+          [
+            "get_definition",
+            "get_definition",
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          90,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          95,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 3,
+      "old_query_errors": 0,
+      "new_query_count": 6,
+      "new_query_errors": 0,
+      "old_failed_queries": [],
+      "new_failed_queries": []
+    },
+    {
+      "ticket": "v2-failed-billing-transform-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "048a04b6ffb62377e932a0ad1c1b62f3daa963610656674c820632a8a86d2115",
+      "new_capture_seal": "1c486dc791de3ea25360eba450b2e017d1eb5be58c0a1207ef8fb54a3966f6ea",
+      "old_index_sha256": "0cf7431eef241c3b7b4adeee22c2fc9fda193541e2ca681f2006bbcb1259c33b",
+      "new_index_sha256": "223a96c458d7be6717490b2dcb016fdddd24a963e01e1dddd28d09647666bb18",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          25,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "get_refresh_history"
+          ]
+        ],
+        [
+          48,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          61,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          66,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          71,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          25,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "get_refresh_history"
+          ]
+        ],
+        [
+          48,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          58,
+          [
+            "run_sql"
+          ]
+        ],
+        [
+          67,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          72,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          77,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          82,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          87,
+          [
+            "get_definition",
+            "get_definition",
+            "get_definition"
+          ]
+        ],
+        [
+          92,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          97,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 7,
+      "old_query_errors": 0,
+      "new_query_count": 8,
+      "new_query_errors": 1,
+      "old_failed_queries": [],
+      "new_failed_queries": [
+        {
+          "text": "SELECT SUM(i.amount) AS amount FROM [silver].[invoices] AS i LEFT JOIN [bronze].[account_plan_history] AS h ON i.account_id=h.account_id",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "native_dispatched": false
+        }
+      ]
+    },
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "6272755f94a344a1d8d6ba29ae60d9866c739b6a6b4fdcc72fb8f4ad54177250",
+      "new_capture_seal": "d11f4c57e3b7d3159b71d14a682ae6fcbfd3831b6565da7015818a98f14525f7",
+      "old_index_sha256": "50c2181c9ddf2555decd80bcf016dae76bd7a2363f8b114506aab1f526fadb4f",
+      "new_index_sha256": "70aab3302138d8d76c6822160425aac6a85e98f9d08941ad6cbf5e3b816cab2f",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          22,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          45,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          58,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          22,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          44,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          63,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          68,
+          [
+            "evaluate_delivery",
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          73,
+          [
+            "contribution_analysis",
+            "get_definition"
+          ]
+        ],
+        [
+          86,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          91,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          96,
+          [
+            "get_evidence"
+          ]
+        ],
+        [
+          101,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          106,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 7,
+      "old_query_errors": 0,
+      "new_query_count": 11,
+      "new_query_errors": 1,
+      "old_failed_queries": [],
+      "new_failed_queries": [
+        {
+          "text": "EVALUATE ROW(\"Handled Quantity\", [Handled Quantity], \"Activity Entries\", [Activity Entries])",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        }
+      ]
+    },
+    {
+      "ticket": "v2-latency-record-v1",
+      "new_grade_status": "SECONDARY_ONLY_FAILURE_PRIMARY_PENDING",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "1473ae1f51461975499acb0326f848983436767bad037d601e2ca5b2f038d1ae",
+      "new_capture_seal": "36088747bb8918789daf0f520b77d79cf208358d56afa5bfd53bb11bbb706569",
+      "old_index_sha256": "2abd54a4ce51adeb40e22b8364e850de21546492dddb223e08cb2d6f5f0850d9",
+      "new_index_sha256": "7608af7d5754fd047065c8d27fcfd36f338912035fc697c78cded0a7d2a7c05a",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          36,
+          [
+            "run_sql",
+            "get_job_runs"
+          ]
+        ],
+        [
+          47,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          62,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          67,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "record_trace",
+            "get_job_runs",
+            "get_job_runs"
+          ]
+        ],
+        [
+          38,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          51,
+          [
+            "run_sql",
+            "get_evidence"
+          ]
+        ],
+        [
+          60,
+          [
+            "get_evidence",
+            "get_evidence"
+          ]
+        ],
+        [
+          65,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          80,
+          [
+            "run_sql"
+          ]
+        ],
+        [
+          88,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          93,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          98,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 7,
+      "old_query_errors": 0,
+      "new_query_count": 9,
+      "new_query_errors": 0,
+      "old_failed_queries": [],
+      "new_failed_queries": []
+    },
+    {
+      "ticket": "v2-record-absent-everywhere-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "835f4edebd4130a834fd4b772ac6ad9cf2fabfb89f22e756b1bca35ca82f82b0",
+      "new_capture_seal": "bf51fe867059fa1929378aa84e7c384a8c0f8e2213797bbc6e1aa0084ff14b84",
+      "old_index_sha256": "52c2f7d4c19e6b06692a85097b8e4a894026c977b757134de5d3a915f3c6a9aa",
+      "new_index_sha256": "4eda27d090cf1ec5820e0253ba82cc8668ec31aa66e25865ba05ddda06c31619",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          36,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          49,
+          [
+            "run_dax"
+          ]
+        ],
+        [
+          56,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          61,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          36,
+          [
+            "run_sql",
+            "run_sql",
+            "run_sql"
+          ]
+        ]
+      ],
+      "old_query_count": 6,
+      "old_query_errors": 0,
+      "new_query_count": 4,
+      "new_query_errors": 0,
+      "old_failed_queries": [],
+      "new_failed_queries": []
+    },
+    {
+      "ticket": "v2-record-repeated-gold-v2",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "0e982b2fe96564cf452a4f542f79896f4dc62a19bd1394319c81e1931915a114",
+      "new_capture_seal": "0758bea0ee160fd95bd987dd459f18644757c9fb461f95f1c89e4435f2033c23",
+      "old_index_sha256": "4bd4c746f26eed808c5e241fcd8854454a08a588aee993bebc3045c955de49b1",
+      "new_index_sha256": "01b31ee89836201f197bbbe9fe5e51c9efc36acff03a9c181fcbbdb123f34690",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          22,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          45,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          58,
+          [
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          76,
+          [
+            "run_dax"
+          ]
+        ],
+        [
+          82,
+          [
+            "run_dax"
+          ]
+        ],
+        [
+          89,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          22,
+          [
+            "record_trace",
+            "run_sql"
+          ]
+        ],
+        [
+          49,
+          [
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          56,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          61,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          66,
+          [
+            "get_definition",
+            "record_trace"
+          ]
+        ],
+        [
+          71,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          76,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          81,
+          [
+            "get_definition",
+            "get_definition",
+            "get_definition"
+          ]
+        ],
+        [
+          86,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          91,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 13,
+      "old_query_errors": 2,
+      "new_query_count": 7,
+      "new_query_errors": 0,
+      "old_failed_queries": [
+        {
+          "text": "EVALUATE TOPN(10, SELECTCOLUMNS('Activity',\"movement_id\",'Activity'[movement_id],\"product_id\",'Activity'[product_id],\"units\",'Activity'[units],\"rate_version\",'Activity'[rate_version],\"unit_cost\",'Activity'[unit_cost]), [movement_id], ASC)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        },
+        {
+          "text": "EVALUATE FILTER(SELECTCOLUMNS('Activity',\"movement_id\",'Activity'[movement_id],\"product_id\",'Activity'[product_id],\"units\",'Activity'[units],\"rate_version\",'Activity'[rate_version],\"unit_cost\",'Activity'[unit_cost]),[movement_id]=6)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        }
+      ],
+      "new_failed_queries": []
+    },
+    {
+      "ticket": "v2-screenshot-record-01-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "aead88422a61f166fe98f0431c9709195a1221bc9cfad31f1900390fb9d52979",
+      "new_capture_seal": "727196dad5edb74ee1acecd519ec1368ebb1f5d2b82e6a668173e20e2275fbbd",
+      "old_index_sha256": "33a1be60c79bbf00340a6ea672fc505f9ad7971cc348562f16b9dffcf19183f3",
+      "new_index_sha256": "fe179afcebafac6ff4e2af9307c7b660fffdbaf7d517aa5cdbc228230033bafc",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          36,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          51,
+          [
+            "get_evidence",
+            "get_evidence",
+            "get_evidence"
+          ]
+        ],
+        [
+          56,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          61,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          66,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          35,
+          [
+            "get_evidence",
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          50,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          65,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          70,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          75,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          80,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          95,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          102,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          107,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          112,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          117,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "old_query_count": 6,
+      "old_query_errors": 0,
+      "new_query_count": 13,
+      "new_query_errors": 1,
+      "old_failed_queries": [],
+      "new_failed_queries": [
+        {
+          "text": "EVALUATE CALCULATETABLE(SELECTCOLUMNS('Movements',\"movement_id\",'Movements'[movement_id],\"warehouse_id\",'Movements'[warehouse_id],\"product_id\",'Movements'[product_id],\"units\",'Movements'[units]),'Movements'[warehouse_id]=1,'Movements'[product_id]=4) ORDER BY [movement_id]",
+          "error": "One table-valued EVALUATE required",
+          "native_dispatched": false
+        }
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-02-v1",
+      "new_grade_status": "SECONDARY_ONLY_FAILURE_PRIMARY_PENDING",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "32bb6dd6dc99391222f0e2b67ccb041a2603cca7b74d0cec2f274c54ec1f79a5",
+      "new_capture_seal": "87479a54c78f0ae271bacdcf722e6e620a9667bd270e0592ee1af5bb62fcc3b8",
+      "old_index_sha256": "68f88d3d1ff9cd51badf6a82f0c7787ee7b701180d0e5d2d1d9d5031460863b4",
+      "new_index_sha256": "f813e1a6ae38f99a541845f4a49f88a848f2a5c5e3a6f83ac17543762c127b54",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "run_dax",
+            "lookup_screenshot"
+          ]
+        ],
+        [
+          28,
+          []
+        ],
+        [
+          34,
+          []
+        ],
+        [
+          41,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          55,
+          [
+            "get_evidence",
+            "get_evidence",
+            "get_evidence"
+          ]
+        ],
+        [
+          60,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          65,
+          [
+            "run_dax"
+          ]
+        ],
+        [
+          72,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          77,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          82,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          35,
+          [
+            "get_evidence",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          46,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          60,
+          [
+            "run_dax"
+          ]
+        ],
+        [
+          67,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          72,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          77,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          82,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          95,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          110,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          115,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          120,
+          [
+            "get_definition",
+            "get_definition",
+            "get_definition",
+            "row_layer_diff"
+          ]
+        ],
+        [
+          125,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          130,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 6,
+      "old_query_errors": 1,
+      "new_query_count": 14,
+      "new_query_errors": 2,
+      "old_failed_queries": [
+        {
+          "text": "EVALUATE FILTER(SELECTCOLUMNS('Movements',\"movement_id\",'Movements'[movement_id],\"warehouse_id\",'Movements'[warehouse_id],\"product_id\",'Movements'[product_id],\"units\",'Movements'[units]),[movement_id]=4 || ([warehouse_id]=1 && [product_id]=2 && [units]=21))",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        }
+      ],
+      "new_failed_queries": [
+        {
+          "text": "EVALUATE TOPN(50, FILTER(SELECTCOLUMNS('Movements', \"movement_id\", 'Movements'[movement_id], \"warehouse_id\", 'Movements'[warehouse_id], \"product_id\", 'Movements'[product_id], \"units\", 'Movements'[units]), [warehouse_id] = 1 && [product_id] = 2), [movement_id], ASC)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        },
+        {
+          "text": "EVALUATE FILTER(SELECTCOLUMNS('Movements', \"movement_id\", 'Movements'[movement_id], \"warehouse_id\", 'Movements'[warehouse_id], \"product_id\", 'Movements'[product_id], \"units\", 'Movements'[units]), [warehouse_id] = 1 && [product_id] = 2 && [units] = 21)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        }
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-03-v1",
+      "new_grade_status": "SECONDARY_ONLY_FAILURE_PRIMARY_PENDING",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "5e9dda7af9847d61bd5e43a2a99e40fb17b7dbf569fa6046a004c473288a09a9",
+      "new_capture_seal": "93b517e8df98237e643aaa223208cd423bf5b9e5067171a429d6361d040cca29",
+      "old_index_sha256": "27ec5a639a73ce4ea50f878c0bf356a94f65dcb3de96b0d4d43719b39d5b4515",
+      "new_index_sha256": "d202142bbb805c308ce0a39629ffdcb7b5146251b4156b647b0e351e92fbdc5b",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          35,
+          [
+            "get_evidence",
+            "get_evidence",
+            "lookup_screenshot",
+            "run_sql"
+          ]
+        ],
+        [
+          40,
+          []
+        ],
+        [
+          46,
+          []
+        ],
+        [
+          60,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          66,
+          [
+            "run_dax"
+          ]
+        ],
+        [
+          73,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          78,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          35,
+          [
+            "get_evidence",
+            "get_evidence",
+            "lookup_screenshot",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          40,
+          []
+        ],
+        [
+          46,
+          []
+        ],
+        [
+          64,
+          [
+            "record_trace",
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          89,
+          []
+        ],
+        [
+          94,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          99,
+          [
+            "row_layer_diff",
+            "row_layer_diff"
+          ]
+        ],
+        [
+          111,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          116,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          121,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          126,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 8,
+      "old_query_errors": 3,
+      "new_query_count": 14,
+      "new_query_errors": 2,
+      "old_failed_queries": [
+        {
+          "text": "EVALUATE CALCULATETABLE(SELECTCOLUMNS('Movements', \"movement_id\", 'Movements'[movement_id], \"warehouse_id\", 'Movements'[warehouse_id], \"product_id\", 'Movements'[product_id], \"units\", 'Movements'[units]), 'Movements'[warehouse_id] = 2, 'Movements'[product_id] = 3) ORDER BY [movement_id]",
+          "error": "One table-valued EVALUATE required",
+          "native_dispatched": false
+        },
+        {
+          "text": "EVALUATE TOPN(101, SELECTCOLUMNS(FILTER('Movements', 'Movements'[warehouse_id] = 2 && 'Movements'[product_id] = 3 && 'Movements'[units] = 3), \"movement_id\", 'Movements'[movement_id], \"warehouse_id\", 'Movements'[warehouse_id], \"product_id\", 'Movements'[product_id], \"units\", 'Movements'[units]), [movement_id], ASC)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        },
+        {
+          "text": "EVALUATE FILTER(SELECTCOLUMNS('Movements', \"movement_id\", 'Movements'[movement_id], \"warehouse_id\", 'Movements'[warehouse_id], \"product_id\", 'Movements'[product_id], \"units\", 'Movements'[units]), [warehouse_id] = 2 && [product_id] = 3)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        }
+      ],
+      "new_failed_queries": [
+        {
+          "text": "EVALUATE FILTER(SELECTCOLUMNS('Movements',\"movement_id\",'Movements'[movement_id],\"warehouse_id\",'Movements'[warehouse_id],\"product_id\",'Movements'[product_id],\"units\",'Movements'[units]),[warehouse_id]=2 && [product_id]=3)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        },
+        {
+          "text": "EVALUATE TOPN(50, FILTER(SELECTCOLUMNS('Movements', \"movement_id\", 'Movements'[movement_id], \"warehouse_id\", 'Movements'[warehouse_id], \"product_id\", 'Movements'[product_id], \"units\", 'Movements'[units]), [warehouse_id] = 2 && [product_id] = 3 && [units] = 3), [movement_id], ASC)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        }
+      ]
+    },
+    {
+      "ticket": "v2-screenshot-record-04-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "8307ca8c35877809eb15e854a2cd74837c70a0c9fa3f9e2f7acb4a37593d20ad",
+      "new_capture_seal": "14ffac4adda999835b35fc7674cdfb09ae0b57ea5b6712b5df7c5a71c90722d0",
+      "old_index_sha256": "78ea3439368c6db3be77a399857b6c472b15d30fb5a0ef8db20ee5da5775ccd9",
+      "new_index_sha256": "1b7179bb37d8f3c6bed66d35f7e10f6ad22e7b14b5e85958278a6b98d7a6771e",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          36,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql",
+            "get_evidence"
+          ]
+        ],
+        [
+          35,
+          [
+            "run_dax"
+          ]
+        ],
+        [
+          42,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          47,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          52,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          57,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          72,
+          [
+            "get_job_runs",
+            "get_definition"
+          ]
+        ],
+        [
+          79,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          84,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          89,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          98,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          103,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 3,
+      "old_query_errors": 0,
+      "new_query_count": 8,
+      "new_query_errors": 1,
+      "old_failed_queries": [],
+      "new_failed_queries": [
+        {
+          "text": "EVALUATE FILTER(SELECTCOLUMNS('Movements',\"movement_id\",'Movements'[movement_id],\"warehouse_id\",'Movements'[warehouse_id],\"product_id\",'Movements'[product_id],\"units\",'Movements'[units]),[warehouse_id]=3 && [product_id]=2)",
+          "error": "Unknown or ambiguous DAX member",
+          "native_dispatched": false
+        }
+      ]
+    },
+    {
+      "ticket": "v2-source-history-v2",
+      "new_grade_status": "SECONDARY_ONLY_FAILURE_PRIMARY_PENDING",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "65b607a86442d2281968892d3dd3ec05d80513bdbc2e754390f24012b4616ad2",
+      "new_capture_seal": "5e51134be0c377f12b0503a119b329a24c14611a856dca1c371dfd0ad5ff7aa8",
+      "old_index_sha256": "6af3f67e8916e05590b23ea73346c5d704564a8a83f71719e9ec679f2881a6eb",
+      "new_index_sha256": "aa720ed734c536c6785384da700812b64275140a666c1e00873c96091b137b0f",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          36,
+          [
+            "get_evidence",
+            "run_dax",
+            "get_job_runs"
+          ]
+        ],
+        [
+          45,
+          [
+            "get_evidence",
+            "get_evidence"
+          ]
+        ],
+        [
+          50,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          60,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          65,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          70,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "record_trace"
+          ]
+        ],
+        [
+          36,
+          [
+            "run_sql",
+            "run_sql",
+            "run_dax"
+          ]
+        ],
+        [
+          51,
+          [
+            "run_sql",
+            "run_sql",
+            "get_job_runs"
+          ]
+        ],
+        [
+          66,
+          [
+            "run_sql",
+            "get_lineage"
+          ]
+        ],
+        [
+          75,
+          [
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          87,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          92,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          97,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          102,
+          [
+            "get_evidence",
+            "get_evidence"
+          ]
+        ],
+        [
+          107,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          112,
+          [
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 6,
+      "old_query_errors": 1,
+      "new_query_count": 10,
+      "new_query_errors": 0,
+      "old_failed_queries": [
+        {
+          "text": "SELECT t.temporal_type_desc, t.history_table_id, CAST(t.is_tracked_by_cdc AS int) AS is_tracked_by_cdc FROM sys.tables t JOIN sys.schemas s ON s.schema_id = t.schema_id WHERE s.name = 'app' AND t.name = 'stock_movements_round_two_20261003'",
+          "error": "SQL object unavailable or view dependencies not validated",
+          "native_dispatched": false
+        }
+      ],
+      "new_failed_queries": []
+    },
+    {
+      "ticket": "v2-warehouse-scope-v1",
+      "new_grade_status": "REVIEWED_FAILURE",
+      "old_prior_primary_pass": true,
+      "old_capture_seal": "b868b8de54a0a50af60414b705830e7fbdb983728e4ffb1a771d2b1e295d32bb",
+      "new_capture_seal": "5fc829e73556d57ce1daf1a939b5efe337473c044bafbc268feb7022c39a1a92",
+      "old_index_sha256": "23ced9a4d109a3c5cf987930c6a2cbf2f6498a656f63393e5da1c8492b903d01",
+      "new_index_sha256": "1f299b36eb93bf235a7044a0ab5c5d7f0b28ef2f1b02c3b17ae62c394d9a43aa",
+      "old_model_ids": [
+        "claude-opus-5-5"
+      ],
+      "old_actions": [
+        [
+          21,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          36,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          41,
+          [
+            "submit_finding"
+          ]
+        ]
+      ],
+      "new_actions": [
+        [
+          21,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          36,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          41,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          46,
+          [
+            "get_evidence",
+            "get_evidence"
+          ]
+        ],
+        [
+          51,
+          [
+            "run_dax",
+            "run_sql",
+            "run_sql"
+          ]
+        ],
+        [
+          66,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          71,
+          [
+            "get_definition",
+            "get_definition"
+          ]
+        ],
+        [
+          76,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          81,
+          [
+            "evaluate_delivery"
+          ]
+        ],
+        [
+          86,
+          [
+            "submit_finding"
+          ]
+        ],
+        [
+          91,
+          [
+            "evaluate_delivery",
+            "evaluate_delivery",
+            "evaluate_delivery",
+            "evaluate_delivery"
+          ]
+        ]
+      ],
+      "old_query_count": 3,
+      "old_query_errors": 0,
+      "new_query_count": 6,
+      "new_query_errors": 0,
+      "old_failed_queries": [],
+      "new_failed_queries": []
+    }
+  ],
+  "limitations": "Saved observational pairs establish exercised branches and divergent proposals, not isolated causal effects of stochastic prompt decisions. No score/expectation change."
+}
