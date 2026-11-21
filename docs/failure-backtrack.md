@@ -16821,3 +16821,26 @@ The final same-image failed-only pass and independent grading are complete; ther
 
 
 Round26 final calibration,2026-11-11: Final Opus calibration adds8backtracked public-dev failures:3intake blocks,2verdict-contract-only failures (layer/cause agree),2conclusion/causal failures with confirmed harm,1technical/blocking stop. The full source is round-twenty-six-opus-calibration-backtrack.md/json. Original tapes, all grader decisions and expectations unchanged; zero new estate/model calls for backtrack construction.
+
+
+## Round 27 pass 1: partial backtrack, 2026-11-21
+
+This section uses saved public-dev traces only. Pass 1 and grading are incomplete. Original outcomes/expectations are unchanged; the separate five plumbing reruns are not replacement scores. Nova primary authorization is currently blocked, while saved-output Sol secondary grading continues. Any reviewed harm flag remains a freeze blocker.
+
+### Fixture quantity: real split, unsupported explanation and stale error in fallback
+
+The selected report/measure is retained. A first DAX recreation was rejected for an ambiguous member; a later native recreation returned 8,765. Native Bronze/Silver totals were 7,661 and Gold/model totals 8,765. Product-7 rates had two rows; product-7 units were 1,104 in Silver and 2,208 in Gold. These are useful checked facts. They do not by themselves cite the operation that caused duplication. The saved evaluator rejected unsupported transformation/definition claims, and incomplete evaluator results are also retained. The final unresolved fallback then led with the earlier DAX failure despite the later successful recreation.
+
+The needed actions were to obtain and cite the retained producing definition, distinguish a proven join mechanism from circumstantial duplication, and deliver the checked split without presenting the earlier read error as the discrepancy cause. The primary grader and independent reviewer marked harmful, while Sol did not. The review also names SECONDARY despite conflicting harm fields; all of this is retained without an operator score override. First wrong step remains subject to the ordered saved-trace review; the substantive conclusion and fallback defects are established.
+
+### Record absent: correct absence checks, metadata transport blocked
+
+The original absent-record trace contains successful record checks through its admitted layers, followed by a pure catalog lookup denied at the gateway as SQL_OBJECT_NOT_ALLOWED. This was one of the five owner-approved plumbing reruns. The original denial and outcome are preserved as plumbing defect. The qualified transport fix revalidates the bounded metadata-only shape and existing endpoint/object allowlist; it does not open business-table bypasses, writes or execution. The rerun still graded incorrect independently. Therefore fixing the transport did not establish the requested complete answer, and the rerun must be backtracked separately rather than credited as a closed gap.
+
+### Changed record: fixture valid, history read late, delivery never established
+
+Form source-history v2 explicitly asks why the same historical record changed from 41 to 47 across exports in the current test window. Its native fixture was valid: a real load established 41, the source changed to 47, and temporal history remained on. Presence checks succeeded. The model then spent reads on global row/min/max summaries before the relevant native temporal read. That read succeeded but included older test windows too. The saved delivery sequence contains unsupported retained-definition claims, an unsupported Direct Lake statement, and identifier-role validation errors (a graph node in checked query layers; an inventory address in get_lineage's graph-node field). The 40-request allowance and 15-tool limit were reached; the final result was UNRESOLVED.
+
+The correct action after presence was to isolate the current-window temporal evidence, cite the exact versions and retained calculation, and use the correct identifier roles in delivery. No larger cap is implied. Both form-history tickets are saved, original source/schema hashes match and the original real restoration load succeeded. The later text-history cohort reads the original retained windows without a new source mutation.
+
+The complete per-ticket first-wrong-step table is not yet earned. A private worklist links the graded failures to their immutable outputs, both graders, independent review and saved query/evaluator diagnostics; its heuristic categories are not substituted for verified first steps.
