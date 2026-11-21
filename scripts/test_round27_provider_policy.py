@@ -28,7 +28,7 @@ class ProviderPolicyTests(unittest.TestCase):
         from investigator.adapters.reasoning_anthropic import authorize_body,BASE
         body={'model':'opus-test','max_tokens':20,'system':[{'type':'text','text':'Native evidence only.',
               'cache_control':{'type':'ephemeral'}}],'messages':[], 'tools':[]}
-        for name in ('get_target_candidates','check_target_candidates','contribution_analysis','row_layer_diff','evaluate_delivery'):
+        for name in ('get_target_candidates','check_target_candidates','contribution_analysis','row_layer_diff','evaluate_delivery','repair_delivery'):
             body['tools']=[{'name':name,'description':'Approved bounded read or local evaluation.',
                             'input_schema':{'type':'object','properties':{}}}]
             authorize_body({'reasoning_models':['opus-test']},'POST',BASE+'/messages',body)

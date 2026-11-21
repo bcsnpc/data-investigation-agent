@@ -126,7 +126,8 @@
       "bedrock": {
         "ceiling_microdollars": 20000000,
         "warning_microdollars": 16000000,
-        "scope": "round27; existing account retained, historical charges not reset",
+        "scope": "round27; owner dropped AWS dependency 2026-11-21; historical charges retained",
+        "enabled": false,
         "allowed_vendor": "amazon-nova-only",
         "allow_claude": false
       }

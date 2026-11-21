@@ -10,6 +10,8 @@ def check_credit(provider,now,*,owner=None,purpose=None):
     from datetime import datetime,timezone
     from .model_spend import SpendHold
     approved=policy(provider)
+    if approved.get('enabled') is False:
+        raise SpendHold('PROVIDER_DISABLED_BY_OWNER:'+provider)
     expiry=approved.get('credit_expiry_utc')
     if expiry and now>=datetime.fromisoformat(expiry.replace('Z','+00:00')).timestamp():
         raise SpendHold('PROVIDER_CREDIT_EXPIRED:'+provider)

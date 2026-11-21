@@ -1,6 +1,14 @@
 {
   "version": 1,
   "features": {
+    "r27_evaluator_hard_soft": {
+      "default": true,
+      "description": "Separate unsupported/question/target failures from repairable delivery presentation issues."
+    },
+    "r27_delivery_saved_evidence_repair": {
+      "default": true,
+      "description": "Repair a malformed structured delivery once using saved evidence only, with all deterministic checks retained."
+    },
     "r26_native_containment": {
       "default": true,
       "description": "Resolve loose table names through declared native container membership."

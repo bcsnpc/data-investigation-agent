@@ -6,6 +6,40 @@ from test_round23_reasoning import tool
 
 
 class DeliveryEvaluatorTests(unittest.TestCase):
+    def test_soft_presentation_issue_is_not_a_hard_evidence_failure(self):
+        checks={k:{'passed':k!='claims','reason':'Citation label format only; native q1 supports the statement.',
+                   'severity':'soft'} for k in CHECKS}
+        model=Mock();model.complete.return_value=tool('evaluate_delivery',checks)
+        result=evaluate(model,{})
+        self.assertEqual(result['hard_failures'],[])
+        self.assertEqual(result['soft_failures'],['claims'])
+        self.assertEqual(result['rejection_level'],'soft')
+
+    def test_wrong_question_target_and_unsupported_claim_remain_hard(self):
+        for failure in ('question','target','support','claims'):
+            checks={k:{'passed':k!=failure,'reason':'Substantive evidence mismatch.', 'severity':'hard'} for k in CHECKS}
+            model=Mock();model.complete.return_value=tool('evaluate_delivery',checks)
+            result=evaluate(model,{})
+            self.assertEqual(result['hard_failures'],[failure])
+
+    def test_wrong_question_and_explicit_target_cannot_be_labelled_soft(self):
+        for failure in ('question','target'):
+            checks={k:{'passed':k!=failure,'reason':'Explicit target overridden.', 'severity':'soft'} for k in CHECKS}
+            model=Mock();model.complete.return_value=tool('evaluate_delivery',checks)
+            self.assertEqual(evaluate(model,{})['hard_failures'],[failure])
+
+    def test_aws_disabled_before_dispatch_without_changing_keys(self):
+        from investigator.provider_budget import check_credit
+        from investigator.model_spend import SpendHold
+        with self.assertRaisesRegex(SpendHold,'PROVIDER_DISABLED_BY_OWNER:bedrock'):
+            check_credit('bedrock',1795219200,owner='round27-grading',purpose='GRADING')
+
+    def test_evaluator_truncation_is_format_failure_not_four_false_claims(self):
+        model=Mock();model.complete.return_value={'content':[],'stop_reason':'max_tokens'}
+        result=evaluate(model,{})
+        self.assertEqual(result['hard_failures'],[])
+        self.assertEqual(result['rejection_level'],'soft')
+
     def test_only_ticket_draft_and_cited_native_records_are_sent(self):
         case={'messages':['private reasoning'], 'context':{'hidden':'uncited catalog'},
               'queries':[{'id':'q1','result':{'rows':[{'value':7}]}}, {'id':'q2','result':'uncited'}],

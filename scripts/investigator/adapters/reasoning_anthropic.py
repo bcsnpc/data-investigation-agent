@@ -60,7 +60,7 @@ def authorize_body(permissions,method,url,raw):
     names={'run_sql','run_dax','get_definition','get_lineage','get_job_runs','get_refresh_history',
            'get_security_definitions','record_trace','list_candidates','get_evidence','ask_user_choice','submit_finding',
            'lookup_intake_catalog','resolve_intake','describe_screenshot','plan_screenshot_lookup','lookup_screenshot',
-           'get_target_candidates','check_target_candidates','contribution_analysis','row_layer_diff','evaluate_delivery'}
+           'get_target_candidates','check_target_candidates','contribution_analysis','row_layer_diff','evaluate_delivery','repair_delivery'}
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
     for index,tool in enumerate(body['tools']):
         fields={'name','description','input_schema'}
