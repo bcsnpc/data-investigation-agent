@@ -25,6 +25,8 @@ class CloudOfflineWorkerTests(unittest.TestCase):
             self.assertTrue(admitted(name), name)
         self.assertTrue(admitted('infra/scripts/WorkerResponseBounds.json'))
         self.assertTrue(admitted('scripts/investigator/build_phase_policy.json'))
+        self.assertTrue(admitted('scripts/investigator/regression_features.json'))
+        self.assertTrue(admitted('scripts/investigator/regression_baseline_prompts.json'))
         self.assertFalse(admitted('scripts/investigator/private-budget-ledger.json'))
         self.assertTrue(admitted('acceptance/model_steps/intake-resolution-policy.json'))
         self.assertTrue(admitted('scripts/investigator/windows_ocr.ps1'))

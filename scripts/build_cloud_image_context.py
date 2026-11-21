@@ -11,6 +11,7 @@ import shutil
 import subprocess
 
 PUBLIC_CODE_POLICIES = frozenset({'scripts/investigator/build_phase_policy.json','infra/scripts/WorkerResponseBounds.json',
+    'scripts/investigator/regression_features.json','scripts/investigator/regression_baseline_prompts.json',
     'acceptance/model_steps/intake-resolution-policy.json'})
 
 
