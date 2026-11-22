@@ -181,6 +181,10 @@
       "default": true,
       "description": "Do not claim record absence when a nonempty lookup returned different literal keys. Preserve empty-result, truncation and failed-read distinctions."
     },
+    "r27_slim_evaluator": {
+      "default": false,
+      "description": "Owner-selected question-only blocking evaluator; all other model checks advisory, unchanged native code validation, at most two exact-question retries."
+    },
     "r27_record_arrival_history": {
       "default": true,
       "description": "Allow cited keyed native source absence at the completed load and presence now to support record-arrival latency, without claiming a detailed source-change timeline."

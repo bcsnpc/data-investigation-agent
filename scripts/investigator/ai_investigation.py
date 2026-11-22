@@ -378,7 +378,9 @@ that detailed timeline undecided rather than inventing a source-history cause.
     def evaluate_draft(self,args):
         from .delivery_evaluator import evaluate,payload
         attempts=self.state.setdefault('delivery_evaluations',[])
-        if not enabled('r27_evaluator_advisory') and sum(not item['approved'] for item in attempts)>=3:
+        slim=enabled('r27_slim_evaluator')
+        def rejected(item):return bool(item.get('blocking_failures')) if slim else not item['approved']
+        if (slim or not enabled('r27_evaluator_advisory')) and sum(rejected(item) for item in attempts)>=3:
             raise ValueError('DELIVERY_EVALUATOR_RETRIES_EXHAUSTED')
         packet=payload(self.context['intake'],args,self.case_view())
         self.state['pending']={'kind':'DELIVERY_EVALUATOR','attempt':len(attempts)+1};self.save()
@@ -388,10 +390,20 @@ that detailed timeline undecided rather than inventing a source-history cause.
         finally:
             self.model_seconds+=max(0,self.clock()-evaluator_started)
         self.state['model_calls']+=1
-        review.update(attempt=len(attempts)+1,retry=sum(not item['approved'] for item in attempts),step='EVALUATOR')
+        review.update(attempt=len(attempts)+1,retry=sum(rejected(item) for item in attempts),step='EVALUATOR')
         attempts.append(review)
         self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
         self.state['pending']=None;self.save()
+        if slim:
+            if not review['blocking_failures']:
+                return {**review,'delivered_with_warning':not review['approved']}
+            reasons='question: '+review['checks']['question']['reason']
+            if sum(rejected(item) for item in attempts)>=3:
+                self.state['outcome']={'status':'UNRESOLVED',
+                    'business':'The draft did not establish an answer to the exact question asked; the checked findings and remaining limits follow.',
+                    'stop':'DELIVERY_EVALUATOR_REJECTED_AFTER_TWO_RETRIES: '+reasons}
+                return None
+            raise ValueError('DELIVERY_EVALUATOR_REJECTED: '+reasons)
         if enabled('r27_evaluator_advisory'):
             return review
         if not review['approved']:
@@ -668,12 +680,18 @@ that detailed timeline undecided rather than inventing a source-history cause.
             try:
                 review=self.evaluate_draft(draft)
                 if review is not None:outcome['delivery_evaluation']=deepcopy(review)
+                elif enabled('r27_slim_evaluator'):
+                    outcome=attach(deepcopy(self.state['outcome']),queries=self.queries.records,context=self.context)
             except (SpendHold,UsageHold,GatewayDenied) as error:
                 outcome['evaluator_unavailable']=type(error).__name__+': '+str(error)
                 self.state['pending']=None
             except ValueError as error:
-                outcome['status']='UNRESOLVED'
-                outcome['evaluator_unresolved']=str(error)
+                if enabled('r27_slim_evaluator'):
+                    outcome=attach({'status':'UNRESOLVED','business':'The exact requested answer was not established; the checked findings and remaining limits follow.',
+                        'stop':str(error),'evaluator_unresolved':str(error)},queries=self.queries.records,context=self.context)
+                else:
+                    outcome['status']='UNRESOLVED'
+                    outcome['evaluator_unresolved']=str(error)
         outcome['case']=self.case_view()
         if outcome['status']!='ANSWERED':
             measured={q['layer'] for q in self.queries.records if q['status']=='SUCCEEDED'}
