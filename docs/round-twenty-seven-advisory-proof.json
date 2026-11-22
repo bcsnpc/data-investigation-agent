@@ -1,5 +1,5 @@
 {
-  "at_utc": "2026-11-22T02:41:58.995674+00:00",
+  "at_utc": "2026-11-22T02:44:40.112855+00:00",
   "label": "both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic)",
   "baseline": {
     "correct": 7,
@@ -330,6 +330,8 @@
         "reason": "The sole evaluator's substantive rejection of the failed-job answer is contrary to the sealed expectation and the reported operational ledger. The equal query results concern current values, not whether the named pipeline run failed. A possible ancillary linkage issue remains unverified in the retained packet and is not sufficient to sustain the rejection."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": null,
+      "review_source_sha256": "e8daed78240a293f8eb983896a995d14d75224247bd3cb33fdc73de53afe991a",
       "reviews_complete": true
     },
     {
@@ -496,6 +498,8 @@
         "reason": "The sole rejection is unjustified: the ticket answer matches the sealed expectation and native comparisons, while the refresh and schedule claims challenged by the evaluator are supported by the retained triage ledger. A lack of draft citation to those ledger facts and a descriptive notebook label do not establish a false claim warranting rejection."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": null,
+      "review_source_sha256": "cb9ead3ec548f7ca7b72f6bf9ae62c5cb5fd0e7833a5c93edbf6edd4a7ac0c43",
       "reviews_complete": true
     },
     {
@@ -652,6 +656,8 @@
         "reason": "The evaluator's rejection is justified by its stated claims failure: q10 measures the minimum source_modified_at_utc, not the temporal retention boundary; q9's period-column read was rejected. Its passing assessment of the UNRESOLVED answer, however, conflicts with the sealed expectation and the current-record checks. That mistaken approval is not the stated reason for rejection."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": null,
+      "review_source_sha256": "cd597abf6057fa8651a91abdbb09f40be873d32e16c47ee95418f6cfa1b93570",
       "reviews_complete": true
     },
     {
@@ -818,6 +824,8 @@
         "reason": "Attempt 1 would reject a supported, appropriate answer solely because its evaluator output was incomplete. The validation error supplies no substantive evidence of an incorrect target or claim. The saved model, Lakehouse and source queries independently support the answer, and it matches the sealed AS DESIGNED expectation."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": null,
+      "review_source_sha256": "40723a2ebbf0b40d6d0dc7b16182ca1096dc14b6579dfb0025b808a0e019b637",
       "reviews_complete": true
     },
     {
@@ -974,6 +982,8 @@
         "reason": "The single evaluator rejection was not justified: it elevated unresolved identity and lineage documentation concerns above the correct, query-supported answer to the sealed question. The delivered answer independently matches the expected verdict, source layer and pass-through cause."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": null,
+      "review_source_sha256": "04af4683547bbb04191711c682983fa2f248e36ad23b6adf4d7f8cee4acdcbb6",
       "reviews_complete": true
     },
     {
@@ -1097,6 +1107,16 @@
         "reason": "The hard rejection targets the asserted copy-job name, pipeline linkage and source primary-key constraint, none of which is needed to answer the ticket or match the sealed cause. The retained packet does not establish those assertions as false; the missing cited definitions and constraint evidence do make them unverified. The decisive source, landing and model reads are query:c0f133409c103fe92d733851ae00f6a24fe1e7159fba215e40fb2e23dd1197df:3, query:25f71694c693d4389deee00c5d35fad2d251e68d65be8c4cc33faa70c7a15489:2 and query:cbc4a9a1f5985743800355c963562b18dbf9fcd2cfa0f871cb05d9a81511d9e7:4. They support movement 7 as the unique observed match and agreement on 20 units. The evaluator itself recognizes the supported direct-column path. Its ancillary support objections do not justify rejecting the answer to the exact question."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": {
+        "from": "/per_evaluation/0/reason",
+        "kind": "STRUCTURAL_FIELD_COPY_ONLY",
+        "new_model_calls": 0,
+        "original_arguments_sha256": "b2042d4204402829f5f999523a957580b9aff0234030d4a838f19c3d891925d4",
+        "original_provider_log_sha256": "c69d2c2dea0fa4ea06b5d707ca90a70b81a0186dbd0d52a715982fb65711a60b",
+        "substantive_judgments_unchanged": true,
+        "to": "/reason"
+      },
+      "review_source_sha256": "4966c7e9f273a8240ff7f3701e1d733d6f5f08fb9d5ff6c5ab89254ca3899baf",
       "reviews_complete": true
     },
     {
@@ -1220,6 +1240,8 @@
         "reason": "The rejection is justified because the draft does not answer the historical-change question despite the source temporal evidence. However, the evaluator also gives substantive unsupported-claim reasons that do not hold: the retained measure definition supports the DAX, and successful queries do not disprove a time or tool budget stop. It also attributes a row version to the model query that it does not return."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": null,
+      "review_source_sha256": "ca195a6650b5a7f2582b6111a6c7a9839278b402ecfaf7262ed4ea55263c818e",
       "reviews_complete": true
     },
     {
@@ -1333,6 +1355,8 @@
         "reason": "The sole evaluator rejection is not justified on the retained evidence. The delivered diagnosis matches the sealed verdict, scope split and cause despite its formal AS DESIGNED label; the flagged job-history note does not establish a wrong diagnosis or warrant rejecting the supported answer."
       },
       "reviewer": "gpt-6.1-terra",
+      "review_structural_recovery": null,
+      "review_source_sha256": "50c73cdeb0fcb6ea0163e339a3ca6f0adf9d18175cc774887f400d74fd39f7a3",
       "reviews_complete": true
     }
   ]

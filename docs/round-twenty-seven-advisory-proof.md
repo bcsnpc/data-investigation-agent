@@ -20,3 +20,5 @@ Only failed proof tickets ran once. Evaluator findings were recorded without blo
 “Would reject” means at least one recorded evaluator check rejected the draft; hard and soft counts are retained separately in the JSON. The independent reviewer, not the operator, judged whether those rejections were justified. Cases that never reached evaluation are marked accordingly.
 
 Additional independent Terra answer/rejection review on every advisory case; previous grader/disagreement projection retained separately; official and strict unchanged.
+
+1 completed review(s) omitted a duplicate overall-reason field. The exact single-attempt reviewer reason was copied into that field without a new model call or a substantive judgment change. Raw responses and recovery hashes are retained.
