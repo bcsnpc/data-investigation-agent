@@ -1,0 +1,50 @@
+{
+  "status": "PARTIAL_SEALED_CAPTURE_USAGE",
+  "indexed_cases": 16,
+  "required": 39,
+  "recorded_provider_pricing_not_invoice": true,
+  "excludes_grading_and_controls": true,
+  "by_step": {
+    "INVESTIGATOR": {
+      "calls": 60,
+      "cost_microdollars": 6976871,
+      "input_tokens": 3415698,
+      "cached_input_tokens": 2236179,
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "cache_read_ratio": 0.6546770235541901
+    },
+    "EVALUATOR": {
+      "calls": 19,
+      "cost_microdollars": 3589787,
+      "input_tokens": 735175,
+      "cached_input_tokens": 23366,
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "cache_read_ratio": 0.03178290883123066
+    },
+    "INTAKE": {
+      "calls": 6,
+      "cost_microdollars": 842828,
+      "input_tokens": 591327,
+      "cached_input_tokens": 450200,
+      "models": [
+        "claude-opus-5-5"
+      ],
+      "cache_read_ratio": 0.7613384810773058
+    }
+  },
+  "cost_microdollars": 11409486,
+  "classified_evaluations": 15,
+  "provider_evaluator_calls": 19,
+  "question_blocking_rejections": 3,
+  "raw_would_reject": 14,
+  "advisory_check_counts": {
+    "support": 3,
+    "claims": 14,
+    "target": 2
+  },
+  "checks_unchanged": "Exact-question only model blocking; native code/safety remain active."
+}

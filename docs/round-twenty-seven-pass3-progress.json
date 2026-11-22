@@ -1,19 +1,19 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 12,
-    "official": 8,
-    "strict": 8,
-    "reviewed": 8,
+    "measured": 16,
+    "official": 11,
+    "strict": 11,
+    "reviewed": 11,
     "useful_handoff": 0,
     "harmful": 1
   },
   "denominator_required": 39,
   "guard": {
-    "measured": 8,
-    "official": 6,
-    "strict": 6,
-    "reviewed": 6,
+    "measured": 11,
+    "official": 9,
+    "strict": 9,
+    "reviewed": 9,
     "useful_handoff": 0,
     "harmful": 0
   },
@@ -29,10 +29,10 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 9,
-      "official": 7,
-      "strict": 7,
-      "reviewed": 7,
+      "measured": 13,
+      "official": 10,
+      "strict": 10,
+      "reviewed": 10,
       "useful_handoff": 0,
       "harmful": 1
     }
@@ -305,6 +305,144 @@
       }
     },
     {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict and locates the origin in the source application: movement_id 4 in ordersops stores units 21. It explains that the visible warehouse/product/units values identify that movement, that the Copy Job carries units unchanged to the lakehouse and model, and that the visual uses unsummarized columns rather than the SUM measure. Successful native queries cover the requested warehouse/product in all three layers; the source and lakehouse samples explicitly show movement 4 with units 21. The saved queries are rerunnable, and the answer clearly limits cross-layer agreement to current snapshots, identifying source/table history as unchecked. There is no substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict and source-application origin: the visible warehouse/product/units values uniquely identify movement_id 4, whose stored units=21 is carried unchanged through the copy, lakehouse and model. It correctly explains that the visual uses unsummarized columns, not the SUM measure. Successful native queries scoped to warehouse 1/product 2 returned 19 records at all three layers; the retained source and lakehouse samples explicitly show movement 4 with 21 units, and the answer reports agreement and uniqueness across the full results. The model sample omits that row but is explicitly only a sample, not contrary evidence. Saved rerunnable queries, snapshot limitations and identified history checks provide a useful technical handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Matches the sealed AS DESIGNED verdict, source-application origin and named cause: the visible values identify movement_id 2, whose stored units=17 is carried unchanged through the copy job and Direct Lake model to an unaggregated visual column, not the SUM measure. Native queries cover the specified warehouse/product in all three layers; retained samples are explicitly partial and do not contradict the reported complete-row agreement. The answer appropriately qualifies snapshot alignment and rendered-visual verification. Saved SQL/DAX, parameters, checked scope and explicit remaining checks provide a useful rerunnable handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches the sealed expectation. The answer locates the value in the source application: movement_id 2 stores units=17, carried unchanged through the copy mapping and Direct Lake model into an unaggregated visual column. Successful native queries cover warehouse_id=1/product_id=4 in all three layers, returning 15 records each; the answer identifies movement 2 as the unique 17-unit match and reports agreement across layers. This answers the exact record-level question rather than substituting a SUM measure or incidental layer discrepancy. Saved rerunnable queries, explicit snapshot/rendered-visual limitations, and engineer routing provide a useful handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict, locates the origin at the source application, and identifies movement_id 5 through the visible warehouse/product/units combination. It explains that source units=3 is copied unchanged through bronze and exposed as a raw, non-summarized model column in this visual, rather than calculated by the SUM measure. Native queries check all three layers for warehouse 2/product 3 and return eight rows each; the source and bronze samples explicitly include movement 5. The differently ordered model sample omits five rows from the grader and does not establish a contradiction. Saved runnable queries, explicit snapshot/per-run attribution limitations, and engineering routing provide a useful handoff. No disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict and identifies the source application as the origin of units=3. It resolves the visible warehouse/product/units combination to movement_id 5 and explains unchanged propagation through the Copy Job, Direct Lake column and raw-column visual, rather than attributing the value to the unused SUM measure. Successful native queries cover the requested warehouse/product pair in all three layers; the source and lakehouse samples include movement 5 with units 3. The model sample omits five of eight returned rows, so its displayed subset does not contradict the reported agreement. Saved queries, explicit snapshot/per-run attribution limitations and engineer routing provide a useful handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The answer stopped at UNKNOWN_REPORT and requested catalog clarification without admitting a target, running queries, or checking any findings. It therefore did not answer the explicit comparison: 2948 is scoped to warehouse_id 1, whereas 2084 is scoped to warehouse_id 2. The sealed verdict is 'different question', at selection scope / DEV, caused by different warehouse restrictions rather than ingestion or arithmetic. None of those conclusions was delivered. The handoff contains no rerunnable queries or checked partial findings; resolving the target is a stated stopping point but not a useful technical handoff. The explicit evidence limitation is honest and not harmful.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stops at UNKNOWN_REPORT and asks for catalog clarification, with no checked findings or queries. It does not identify the expected verdict of different question, the selection-scope split, or the warehouse_id 1 versus 2 restriction mismatch stated in the ticket. Target resolution is the first failed step. The handoff gives a clear stopping point and a sensible target-resolution next check, but no rerunnable queries or verified findings, so it merits only 1. This is an honest unresolved answer, not a harmful asserted cause.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The answer stops at UNKNOWN_REPORT, says no layer was admitted or read, and leaves the verdict not established. It does not identify the expected different-question verdict, selection-scope/DEV split, or warehouse_id 1 versus 2 restriction mismatch. This is an honest limitation, not a confident incorrect cause. The handoff has a clear stopping point and a sensible next check, 'Resolve the selected target from the catalog choices,' but queries are empty and no findings were checked. Secondary is supported over Primary on handoff quality: those limited but actionable details merit 1, not 0.",
+        "verdict_match": false,
+        "winning_grader": "SECONDARY"
+      }
+    },
+    {
       "ticket": "text-R17-01-v1",
       "estate": "fixture",
       "fixture": "baseline",
@@ -435,5 +573,5 @@
   ],
   "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
   "expectations_unchanged": true,
-  "reported_at_utc": "2026-11-22T08:24:43.259000+00:00"
+  "reported_at_utc": "2026-11-22T08:30:37.583819+00:00"
 }
