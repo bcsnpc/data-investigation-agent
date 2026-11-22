@@ -1,6 +1,6 @@
 # Round 27 quality report
 
-Round 27 is in progress. The delivery repairs have passed offline qualification, but their live quality has not yet been established. The 15-ticket proof cohort must recover at least 11 correct answers with no reviewed harmful answer before the remaining development work can continue. No calibration or held-out v5 run has started.
+Round 27 is in progress. Twelve valid proof results are reviewed: five correct, zero harmful; three serialized fault cases remain. The 15-ticket cohort must recover at least 11 correct answers with no reviewed harmful answer. If it misses, the owner selected one failed-ticket-only ablation: evaluator advisory mode, with intake guards and delivery repair retained. No calibration or held-out v5 run has started.
 
 Both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic). New grades use Sol, Astra and an independent Terra review of disagreements, including disagreements about the first wrong step. Historical grades retain their original provider and rules.
 
