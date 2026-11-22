@@ -181,6 +181,10 @@
       "default": true,
       "description": "Do not claim record absence when a nonempty lookup returned different literal keys. Preserve empty-result, truncation and failed-read distinctions."
     },
+    "r27_record_arrival_history": {
+      "default": true,
+      "description": "Allow cited keyed native source absence at the completed load and presence now to support record-arrival latency, without claiming a detailed source-change timeline."
+    },
     "r27_future_job_schedule": {
       "default": true,
       "description": "Expose supported enabled UTC Cron schedules' future first start as a declared next due time, without inferring past recurrence, execution or completion."
