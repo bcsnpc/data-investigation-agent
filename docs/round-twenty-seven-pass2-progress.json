@@ -1,0 +1,300 @@
+{
+  "status": "PARTIAL_NOT_A_FINAL_GATE",
+  "overall": {
+    "measured": 8,
+    "official": 7,
+    "strict": 7,
+    "reviewed": 7,
+    "useful_handoff": 1,
+    "harmful": 0
+  },
+  "denominator_required": 48,
+  "guard": {
+    "measured": 3,
+    "official": 3,
+    "strict": 3,
+    "reviewed": 3,
+    "useful_handoff": 0,
+    "harmful": 0
+  },
+  "guard_required": 20,
+  "gate": "PENDING",
+  "by_estate": {
+    "billing": {
+      "measured": 7,
+      "official": 6,
+      "strict": 6,
+      "reviewed": 6,
+      "useful_handoff": 1,
+      "harmful": 0
+    },
+    "dia-sample-estate": {
+      "measured": 1,
+      "official": 1,
+      "strict": 1,
+      "reviewed": 1,
+      "useful_handoff": 0,
+      "harmful": 0
+    }
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches. The answer traces the value through the model, gold, bronze and source application, finding 600 throughout rather than attributing it to the incidental pipeline failure. Its calculation matches the expected cause: three ACTIVE subscriptions contribute 100 plus two plan-2 prices totaling 500 (250 each), while CHURNED is excluded and REMOVEFILTERS(Plans) removes plan filters. Saved executable queries, scoped snapshot limitations and clear follow-up routing provide a rerunnable handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches. The answer explains the implemented ACTIVE-only subscription calculation, related monthly plan prices totaling 100 + 250 + 250 = 600, exclusion of CHURNED rows, and REMOVEFILTERS(Plans). It traces the value through the model, gold and bronze to the source application, where the native query also returns 600, matching the expected source-layer explanation without inventing a divergence. The separately reported pipeline failure is not substituted as the cause. Saved rerunnable queries, snapshot/freshness limitations and engineer routing provide a useful handoff for the ancillary unresolved checks.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed expectation: transformation logic at the Silver-to-Gold split. It identifies the account_id-only join to account_plan_history without effective-date restrictions as duplicating invoice 101's 250 amount. Native checks support source, bronze and silver totals of 700, gold and measure totals of 950, and two gold rows totaling 500 for invoice 101. It appropriately separates the failed pipeline run from the duplication cause and preserves snapshot and build-run limitations. Saved rerunnable queries, the explicit stopping point and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed transformation-logic verdict and locates the split at Silver to Gold: source, bronze and silver total 700, while gold and the measure total 950. It correctly attributes the extra 250 to invoice 101 being duplicated by the account_id-only join to account_plan_history without an effective-date restriction; the checked invoice has two gold rows totaling 500 and its account has two history rows. It explains the unfiltered SUM measure and distinguishes the separate failed pipeline run from the demonstrated duplication. Saved rerunnable queries, explicit snapshot/build-run limitations and engineer routing provide a useful handoff. No disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed expectation: transformation logic is responsible, the first value split is Silver to Gold (700 to 950), and invoice 101 contributes the extra 250 because the account_id-only join to account_plan_history duplicates it across two plan records without effective-date restrictions. Native results support the duplicate gold rows, source/silver totals, and model total. The separate failed pipeline run is not incorrectly blamed. Saved rerunnable queries, explicit limits concerning bronze history and deployed procedure/run provenance, and engineer routing provide a useful handoff without undermining the correct diagnosis.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed transformation-logic deviation: invoice 101 is duplicated for plan IDs 1 and 2, adding 250 through an account_id-only join to account_plan_history without effective-date restrictions. It correctly locates the split at Silver to Gold, with source, bronze and silver totals of 700 versus gold and the unfiltered SUM measure at 950. Native checks support the duplicate and totals. It distinguishes failed pipeline runs from the cause and explicitly limits claims about deployed procedure provenance and the unread bronze history copy. Saved rerunnable queries, exact remaining checks and engineer routing provide a useful handoff; these qualifications do not negate the correct answer.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Matches the sealed AS DESIGNED expectation: the plain SUM(Payments[amount]) includes 200 + 100 + 250 = 550, with no implemented refund exclusion or date window. It identifies the three payment rows, verifies the partial payment against its invoice, and traces the unfiltered payment path through gold/bronze to source app.payments, where the total also equals 550. This substantively matches the source-application/DEV attribution rather than blaming the incidental pipeline failure. Saved SQL/DAX, explicit snapshot and external-filter limitations, and engineer routing provide a reproducible handoff. No disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches the sealed expectation. The answer explains SUM(Payments[amount]), identifies payments 201\u2013203 and 200+100+250=550, and traces the unchanged payment path through to source application app.payments, with native totals of 550 at every checked layer. This substantively matches the expected source-application attribution rather than blaming the incidental pipeline failure. It answers partial-payment inclusion, absence of refund exclusion and absence of an implemented date window, while explicitly qualifying unverified external report filters. The rejected invoice SQL lookup was recovered with a successful semantic query. Saved rerunnable queries, checked findings, explicit remaining evidence gaps and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly gives AS DESIGNED and explains SUM(Payments[amount]) as 200 + 100 + 250 = 550, identifying all three payment rows and the card's lack of additional filters. Native reads establish the same rows and total through the model, warehouse, bronze and source application, matching the expected source-layer agreement rather than claiming a divergent layer. The pipeline failure is explicitly incidental, not the cause. Saved rerunnable queries, scoped snapshot limitations and routed follow-up checks provide a useful handoff. Initial rejected DAX queries were recovered and do not undermine the completed answer.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly gives AS DESIGNED, explains SUM(Payments[amount]) in the current filter context with no card-specific filters, and identifies payments 201, 202 and 203 contributing 200 + 100 + 250 = 550. Native checks confirm the same rows and total through the source application, bronze, serving and model, matching the expected source-path finding. It correctly separates the incidental pipeline failure from the calculation's cause. Saved rerunnable queries, explicit snapshot and refresh-history limitations, and engineer routing provide a useful handoff for those ancillary checks. No substantive disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered DEVIATION verdict conflicts with the sealed AS DESIGNED answer: the question asks how the current calculation works, and no intended rule requiring deduplication or a different history join is established. The layer matches substantively: silver/refined is 700 and gold/serving is 950. The named cause also matches: invoice 101 has two account-plan-history matches, repeating 250 so 700 + 250 = 950; SUM includes every status without deduplication. It does not decide that VOID should be excluded. The incorrect verdict is not a fabricated technical cause, so it is not harmful under the stated definition. Saved rerunnable SQL/DAX, checked results, explicit provenance and snapshot stopping points, and engineering routing provide a strong handoff, without curing the verdict error.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered DEVIATION verdict conflicts with the sealed AS DESIGNED verdict: the question asks how the implemented calculation works, not whether the join should be changed. Its explanation nevertheless correctly identifies the REFINED -> SERVING (silver -> gold) split and the named cause: invoice 101 has two account-plan-history matches, repeating 250 so that 700 becomes 950. It correctly explains SUM(Billing[amount]), inclusion of all statuses, and absence of filtering or deduplication, without deciding whether VOID should count. Thus layer and cause match independently despite the wrong verdict. This is not a confidently incorrect cause. Saved executable queries, checked results, explicit unknown execution/snapshot alignment, and engineer/owner routing provide a useful handoff, but do not cure the verdict error.",
+        "verdict_match": false
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-failed-billing-load-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The selected run and FAILED verdict match. The pipeline's retained error identifies controlled failure 2011 before the original activities, substantively matching the sealed cause and establishing that the original workload did not complete. It does not blame the restored current definition. The answer unnecessarily exposes technical details and incorrectly describes the request as status-only, but its reported native facts still answer the cause and completion questions in substance. No rerunnable queries or concrete next checks are supplied for the generic engineer handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer identifies the requested historical run and correctly reports FAILED at the pipeline layer. Its retained native error identifies controlled failure 2011 before the original activities, matching the sealed controlled SQL THROW2011 cause in substance and establishing that the job did not complete its intended work. It does not blame the restored current definition. The explanation is overly technical and incorrectly describes the request as status-only, but it nevertheless supplies the requested cause and noncompletion evidence. The generic engineer routing provides no rerunnable queries or concrete next checks, so it earns no handoff credit.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "estate": "dia-sample-estate",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly gives AS DESIGNED at the semantic-model layer and identifies the exact CALCULATE(SUM(Sales[Sales Amount]), USERELATIONSHIP(Sales[DueDateKey], 'Date'[DateKey])) rule. It explains that Date-table filters use the due-date relationship rather than the default order-date relationship, without inventing business policy. The reported numerical comparisons are supported by successful native queries, not invented results. Although the opening 'Yes, essentially' is informal, the detailed explanation correctly distinguishes relationship-based date filtering from a mere column substitution. Saved rerunnable queries, explicit limits on deployment-change verification, and engineer routing provide a useful handoff. No substantive disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches the sealed expectation. The answer correctly locates the behavior in the semantic measure and gives the exact CALCULATE/SUM/USERELATIONSHIP definition, explaining that Date filters use DueDateKey instead of the normally active OrderDateKey. Its numeric comparisons are supported by native query results, not invented policy or results. The initial 'Yes, essentially' is qualified by an accurate relationship-based explanation. Saved rerunnable queries, explicit limits on deployment/change verification, and engineering routing provide a useful handoff; those ancillary limitations do not prevent answering the definition question.",
+        "verdict_match": true
+      },
+      "review": null
+    }
+  ],
+  "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
+  "expectations_unchanged": true
+}
