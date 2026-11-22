@@ -1,20 +1,20 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 18,
+    "measured": 25,
     "official": 16,
     "strict": 16,
     "reviewed": 16,
-    "useful_handoff": 1,
-    "harmful": 0
+    "useful_handoff": 4,
+    "harmful": 3
   },
   "denominator_required": 48,
   "guard": {
-    "measured": 12,
+    "measured": 14,
     "official": 11,
     "strict": 11,
     "reviewed": 11,
-    "useful_handoff": 0,
+    "useful_handoff": 2,
     "harmful": 0
   },
   "guard_required": 20,
@@ -37,12 +37,12 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 9,
+      "measured": 16,
       "official": 8,
       "strict": 8,
       "reviewed": 8,
-      "useful_handoff": 0,
-      "harmful": 0
+      "useful_handoff": 3,
+      "harmful": 3
     }
   },
   "rows": [
@@ -527,6 +527,122 @@
       "review": null
     },
     {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Expected AS DESIGNED at the source application (DEV): the visible values uniquely identify movement 5, whose units=3 is carried unchanged through the application path. The delivered answer instead concludes unresolved and says the calculation was not established, without identifying the source-carried value as the explanation or locating the expected layer/split. Its own successful native checks identify movement 5 and show units=3 in ordersops, bronze and the model; the earlier DAX validation failures were subsequently overcome for that record. Thus the checked partial findings are useful but do not earn verdict, layer or cause credit. The handoff retains rerunnable queries, cited findings, the precise remaining definition gap, a clear stopping point and engineer routing with follow-up checks. The unresolved conclusion is an explicit evidence limitation, not a confident false cause.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Expected AS DESIGNED: the visible values uniquely identify movement 5, with units=3 carried unchanged from the source application. The delivered answer instead declares UNRESOLVED, establishes neither the source-application explanation nor the carry-through cause, and describes a discrepancy although the ticket asks for lineage/calculation. The first failed step was DAX query validation: g7 and g9 were rejected before native dispatch for unknown or ambiguous members. Later successful checks recovered movement 5 with units=3 in ordersops (g17), bronze (g14), and the model (g10/g11), but the answer never synthesized these into the expected explanation. These are useful partial findings, not full verdict, layer, or cause matches. The handoff retains rerunnable queries, checked row evidence, an explicit missing calculation definition and stopping point, engineer routing, and failed-query follow-up checks. Its evidence limitation is honest, not a confident incorrect cause.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "PRIMARY is supported. The expected answer is AS DESIGNED at the source application (DEV), with movement 5's units=3 carried unchanged. The answer instead says the calculation and verdict were not established; it does not state the expected layer or cause. Its checked partial evidence is useful: g13 identifies one bronze row matching the visible values, g17 and g14 show units=3 for movement 5 in ordersops and bronze, and g10/g11 show it in the model. Although g7 and g9 failed validation before dispatch, later checks recovered the relevant record, so the first consequential failure is the unresolved conclusion, not query validation. The saved queries, findings, stated definition gap, stopping point and engineer routing make a useful handoff. The explicit uncertainty is not a confident wrong cause.",
+        "verdict_match": false,
+        "winning_grader": "PRIMARY"
+      }
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at UNKNOWN_REPORT and requested catalog clarification instead of answering the stated comparison. The expected verdict is different question: the report is restricted to warehouse_id 1 (2948), whereas the source export is for warehouse_id 2 (2084), a selection-scope difference rather than an ingestion or arithmetic fault. No verdict, layer, or cause was established. The handoff contains no executed queries or checked findings and only asks to resolve the target, so it earns 0. This is an honest unresolved answer, not a harmful asserted cause.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at UNKNOWN_REPORT and requested catalog clarification without checking any layer or retaining queries. It did not answer the stated comparison: 2948 is restricted to warehouse_id 1, while 2084 is restricted to warehouse_id 2. The expected verdict is different question, at selection scope (DEV), caused by different warehouse restrictions rather than ingestion or arithmetic. None of these findings was delivered. Target resolution is the first documented failure. Although the stopping point and a target-resolution next check are stated, there are no checked findings or rerunnable queries, so this bare unresolved handoff earns 0. The explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The sealed verdict is 'different question': warehouse_id 1 and warehouse_id 2 are different selection scopes. The delivered answer instead explicitly classifies the result as AS DESIGNED, so verdict credit fails under the preserved expectation. Independently, its selection-scope split and named cause match: all three layers return 2948 for warehouse 1 and 2084 for warehouse 2, explaining the 864 difference without an ingestion or arithmetic fault. The answer supplies rerunnable DAX/SQL, checked findings, snapshot limitations, and business-owner routing to clarify intended comparison scope, warranting handoff quality 2. The correct causal explanation is not harmful.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Although labelled AS DESIGNED, the answer substantively gives the expected 'different question' diagnosis: the report selects warehouse 1 while the export selects warehouse 2. It locates the difference in selection scope, not ingestion or arithmetic, and explains the unchanged copy and SUM measure. Native queries show 2948 for warehouse 1 and 2084 for warehouse 2 across source, lakehouse and model, supporting the stated 864-unit difference. Rerunnable queries, explicit snapshot/filter limitations and business-owner routing provide a useful handoff. The verdict label is not a substantive disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "review": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "PRIMARY is supported: the sealed verdict is 'different question', but the saved answer repeatedly classifies it as 'AS DESIGNED'. Its substantive diagnosis nevertheless matches the selection-scope split and cause: report warehouse_id 1 versus export warehouse_id 2, not ingestion or arithmetic. Queries g4, g6 and g8 each show 2948 and 2084 for warehouses 1 and 2 respectively. SECONDARY overlooks the distinct sealed verdict classification. The answer is not harmful; its rerunnable queries, snapshot limitations, identified scope question and business-owner routing make a useful handoff.",
+        "verdict_match": false,
+        "winning_grader": "PRIMARY"
+      }
+    },
+    {
       "ticket": "text-baseline-S02-v1",
       "estate": "billing",
       "fixture": "baseline",
@@ -618,6 +734,154 @@
         "layer_match": true,
         "partial": false,
         "reason": "The AS DESIGNED verdict matches the sealed expectation. The answer correctly locates the behavior in the semantic measure and gives the exact CALCULATE/SUM/USERELATIONSHIP definition, explaining that Date filters use DueDateKey instead of the normally active OrderDateKey. Its numeric comparisons are supported by native query results, not invented policy or results. The initial 'Yes, essentially' is qualified by an accurate relationship-based explanation. Saved rerunnable queries, explicit limits on deployment/change verification, and engineering routing provide a useful handoff; those ancillary limitations do not prevent answering the definition question.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-R17-01-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": true,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED at the semantic layer: Handled Quantity sums carried additive units rather than counting movement records, and its unfiltered value is 8765. The delivered answer verifies that DAX and value, but concludes DEVIATION in transformation logic and names the product-rate join as the cause. The observed silver-to-gold duplication is supported by the queries but is incidental to the exact displayed-card question; it does not establish that the implemented measure is incorrect. Thus the verdict, split point and named cause do not match. The confident wrong-target deviation diagnosis is harmful, notwithstanding the caveat about unknown business intent. The saved SQL/DAX, explicit missing rate-selection rule, stopping limitations and engineering routing provide a rerunnable technical handoff, independently of correctness.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED at the SEMANTIC layer: Handled Quantity sums carried units rather than counting movement records, and the unfiltered card evaluates to 8765. The delivery correctly reproduces 8765 and explains SUM('Activity'[units]), but ultimately declares DEVIATION at transformation logic and names rate-join duplication as the cause. The observed source-to-gold difference does not establish a defect in the displayed card under its implemented rule. Thus the semantic explanation is only a partial cause match, not full credit. The confident wrong-target deviation diagnosis is harmful, notwithstanding its caveats about business intent. Saved queries and cited results are rerunnable, but the unresolved rate-version business rule and engineering routing concern a different question, limiting handoff quality.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected verdict is AS DESIGNED at the semantic layer: the unfiltered card sums carried units rather than counting movement records. The answer correctly cites SUM('Activity'[units]) and reproduces 8765 in g5 and g6, but declares DEVIATION at transformation logic and names the product-rate join as the cause. The g8\u2013g10 rate-version findings support an observed upstream difference, not a defect in the rule asked about. The confident wrong-target deviation is harmful despite the business-rule caveat. SECONDARY is better supported on handoff quality: the saved queries are rerunnable and limitations are stated, but the proposed engineering routing and missing rate-selection rule concern the incidental upstream difference, with no specific next check for the card question. This merits 1 rather than PRIMARY's 2.",
+        "verdict_match": false,
+        "winning_grader": "SECONDARY"
+      }
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": true,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer reproduces 8765 and correctly identifies SUM('Activity'[units]) on the named unfiltered card, but then classifies the result as a transformation DEVIATION. The sealed expectation is AS DESIGNED at the SEMANTIC layer: this measure sums carried additive units rather than counting movement records. The observed silver-to-gold fanout is incidental to the question and does not establish that the card is incorrect. Thus the verdict, selected split, and named causal diagnosis do not match; partial calculation correctness earns no full-match credit. The confident wrong-target transformation diagnosis is harmful despite its business-intent caveat. Saved queries and snapshot limitations provide some handoff value, but the engineer routing and unresolved business-rule question pursue an unestablished defect rather than clearly closing the requested verification.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The ticket asks to verify the named unfiltered card's 8765, not to reconcile it to one row per movement. The answer correctly reproduces 8765 and identifies SUM('Activity'[units]) over gold, but then labels the result DEVIATION and assigns transformation logic as the cause. The sealed answer is AS DESIGNED at the SEMANTIC layer: the measure sums carried additive units rather than counting movement records. The observed 1104 silver-to-gold difference and rate-join fanout do not establish a defect in the requested card. Thus the correct arithmetic is only partial support, not a matching verdict, split point, or named cause. The confident wrong-target deviation diagnosis is harmful; the explicit snapshot and business-intent limitations are not. Saved queries and snapshot limitations provide some handoff value, but engineering routing to investigate an asserted transformation defect is not justified by this verification question.",
+        "verdict_match": false
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": true,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The ticket names the Handled Quantity card for Declared predicate fixture 20261001, but the answer applies the saved scope of the 'extra visual predicate' card on 'Saved predicate selections'. It then diagnoses DEVIATION at the gold join rather than the expected AS DESIGNED semantic behavior. The checked SUM('Activity'[units]) and unfiltered 8765 support the expected explanation: this measure sums carried additive units, not movement records. The observed silver/gold duplication is an incidental layer difference, not the cause answering this question; confidently presenting it as the defect is harmful despite filter-state caveats. Verdict, split point and named cause therefore all fail. Separately, the saved rerunnable DAX/SQL, observed comparisons, explicit runtime/snapshot limitations and engineering routing provide a useful handoff.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer substitutes the 'Handled Quantity - extra visual predicate' card on 'Saved predicate selections' for the ticket's named Declared predicate fixture. It then diagnoses DEVIATION at the gold transformation join, whereas the sealed answer is AS DESIGNED at SEMANTIC: SUM(Activity[units]) sums carried additive units rather than counting movements, and evaluates to 8765 unfiltered. The native queries confirm that calculation; the genuine gold/silver difference does not establish an error in the implemented measure. Correct arithmetic and snapshot/filter qualifications are partial findings, not matching verdict, split, or cause. The confident transformation-defect diagnosis is harmful, independently of its honest live-state limitations. Rerunnable queries, missing live filter state, and engineer routing provide some handoff value, but the handoff does not resolve the target substitution or give a concrete check of the named visual.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The ticket names the Handled Quantity card for Declared predicate fixture 20261001, but the answer investigates the 'extra visual predicate' card on 'Saved predicate selections'. It confidently declares DEVIATION at the gold join, rather than the expected AS DESIGNED semantic explanation that the measure sums carried units, not movement records. Query g5 confirms SUM('Activity'[units]) evaluates to 8765 unfiltered; g6 and g8 show a real filtered gold/silver difference, but that difference does not establish the cause asked about. The wrong-target defect diagnosis is harmful despite the stated snapshot and live-filter limitations. Both graders agree on the substantive scores; SECONDARY is supported on handoff quality: the saved queries, limitations and engineer routing are useful, but the handoff neither resolves the target substitution nor gives a concrete check of the named visual, so it falls short of quality 2.",
+        "verdict_match": false,
+        "winning_grader": "SECONDARY"
+      }
+    },
+    {
+      "ticket": "text-R17-04-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered 'not found' verdict matches, but its reason is unresolved target selection and access to the second model, not the sealed semantic limitation. The question asks whether 8765 is intended for the view; recreating SUM(units) cannot establish business intent or physical unit meaning. The answer does not identify that semantic boundary, instead centering card ambiguity and a possible silver-to-gold join expansion. Those observations do not answer the intended-value question. Its uncertainty is explicit, so it is not harmful. The handoff is useful: it provides rerunnable queries, measured model/gold/silver totals, precise permission failures and unverified facts, and engineering routing with sensible next checks.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The not-found verdict matches, but the answer makes unresolved card identity and a 401 on another model its stopping reason. The sealed expectation is a SEMANTIC limitation: reproducing SUM(units) does not establish business intent or physical unit meaning. The answer reproduces 8765 but does not identify that required limitation; the silver/gold difference and tentative join fan-out do not answer whether the value is intended for this view. Thus layer and named cause do not match. The handoff is useful: saved rerunnable queries, checked totals, explicit missing target/access and row-level facts, and engineer routing. Its causal speculation is qualified rather than asserted, so it is not harmful.",
         "verdict_match": true
       },
       "review": null

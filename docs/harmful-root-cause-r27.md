@@ -56,3 +56,8 @@ B: Explicit report/page/visual choices constrain candidate enumeration through r
 C: The conclusion carries a direct answer, the rule as implemented, the verdict class, evidence per layer and an explicit missing-fact statement. Definition/interpretation questions must distinguish the implemented aggregation from separate pipeline observations. A quantitative split is not automatically the cause of the user?s interpretation. Supported AS DESIGNED means correct under implemented logic, not approval of business intent.
 
 Tests must exercise both classes generically with synthetic catalog identities and values, retain the wrong-cell and comparison-span regressions, and rerun the harmful public dev cases on the qualified image before freeze. Evidence-only phrasing changes do not erase a causal error.
+
+## Pass2 partial recurrence, 2026-11-22UTC
+
+The saved-output score at25 graded outcomes contains3 harmful answers. R17-01-v1 and R17-02-v1 reproduce the requested card at8765 and quote its additive SUM definition, then label an incidental Silver-to-Gold fan-out as a transformation DEVIATION. This substitutes an unasked numerical-cause question for verification of the named card. R17-05-v1 additionally selects the extra-visual-predicate card on Saved predicate selections instead of the named card's scope. Independent graders retain all three harmful flags; independent Terra reviews settle the R17-01 handoff disagreement and R17-05 target/handoff disagreement without curing the harm. These are not unsupported-data fabrications: the wrong conclusion or referent is attached to real query results. Freeze remains blocked until generic causes are fixed and safely rerun. No expectation, score or running pass2 image changed.
+
