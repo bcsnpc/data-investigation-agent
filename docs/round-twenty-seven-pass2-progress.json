@@ -1,19 +1,19 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 9,
-    "official": 8,
-    "strict": 8,
-    "reviewed": 8,
+    "measured": 18,
+    "official": 16,
+    "strict": 16,
+    "reviewed": 16,
     "useful_handoff": 1,
     "harmful": 0
   },
   "denominator_required": 48,
   "guard": {
-    "measured": 4,
-    "official": 4,
-    "strict": 4,
-    "reviewed": 4,
+    "measured": 12,
+    "official": 11,
+    "strict": 11,
+    "reviewed": 11,
     "useful_handoff": 0,
     "harmful": 0
   },
@@ -33,6 +33,14 @@
       "official": 1,
       "strict": 1,
       "reviewed": 1,
+      "useful_handoff": 0,
+      "harmful": 0
+    },
+    "fixture": {
+      "measured": 9,
+      "official": 8,
+      "strict": 8,
+      "reviewed": 8,
       "useful_handoff": 0,
       "harmful": 0
     }
@@ -226,6 +234,294 @@
         "layer_match": true,
         "partial": false,
         "reason": "The delivered answer matches the sealed failed-job verdict and locates the failure in the Billing Warehouse transformation pipeline. It identifies the latest native run by name, run ID, start/end times and error 2011: a controlled failure before the original activities ran. It does not invent a successful completion. Current source/Bronze/Silver and gold/model comparisons address report impact, with explicit point-in-time and historical-version limitations; the join duplication is correctly separated from the run failure. Saved rerunnable queries, identified missing history and automatic-update facts, and engineer routing provide a strong handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly classifies the result as AS DESIGNED, explains the unfiltered SUM('Movements'[units]) rather than a row count, and traces the one-to-one copy from the declared application source through the lakehouse to the model. Successful native queries independently return 7661 units, 360 rows and 360 distinct IDs in all three layers, matching the sealed source-application baseline and named cause. Its snapshot-alignment caveat does not undermine the calculation explanation requested. Rerunnable queries, the checked scope, and business-owner routing for any intended-definition change are provided. Aggregate agreement does not prove row-by-row identity despite the loose 'same 360 rows' wording, but that does not change the correct verdict, layer or cause.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the expected AS DESIGNED verdict and traces the value through the model and landing table to the declared source application. It correctly explains the unfiltered SUM('Movements'[units]), rather than a row count, and the one-to-one copy transformation. Native queries independently return 7661 units, 360 rows and 360 distinct IDs at all three layers, matching the sealed cause. Snapshot alignment and business-definition caveats do not prevent answering the implemented-rule question. Rerunnable queries, a clear stopping point and business-owner routing are provided. Aggregate agreement alone does not establish identical row contents, so the 'same rows' wording is stronger than these checks prove, but this does not change the supported verdict, layer or named cause.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly gives AS DESIGNED and explains the implemented SUM('Movements'[units]), direct units mapping, overwrite-copy transformation, and unfiltered card scope. Native checks reproduce 7661 across 360 model rows and matching totals in landing and the declared application source, matching the expected source-application attribution and named cause. Snapshot and unchecked filter/deployment limitations are explicitly qualified rather than offered as alternative causes. Saved rerunnable queries, a clear stopping point, and remaining checks support the engineer handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches the expectation. The answer explains the implemented SUM('Movements'[units]) measure, direct units mapping and one-to-one copy, and the unfiltered total of 7661 across 360 rows. Executed checks independently return 7661 in the model, landing table and declared source application, matching both the expected source-application endpoint and named cause without inventing a layer discrepancy. Snapshot and unavailable-metadata caveats do not undermine this calculation answer. Saved rerunnable queries, explicit remaining checks and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-before-temporal-retention-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The substantive not-found verdict matches the sealed expectation despite the additional UNRESOLVED label. Native temporal reads return no rows for movement 1 and no rows for the entire source table at the requested timestamp, with 363 rows by October 25. The answer correctly locates the limitation at the source-history boundary and explains that the historical quantity cannot be established from retained evidence; it does not mistake the empty result for zero or substitute today's 16. It also explains the SUM measure and unchanged overwrite mapping. Saved SQL, parameters, validator failures, and explicit unexamined Delta/model history provide a clear stopping point and sensible engineer follow-up.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The substantive verdict is the expected 'not found': the requested historical quantity cannot be established from retained temporal evidence. The answer correctly locates the boundary in source history, citing no rows for the requested movement or the whole table at 2026-10-20 12:00 UTC, versus 363 whole-table rows on October 25. It explains SUM('Movements'[units]), the unchanged copy mapping and the movement filter, without substituting today's 16 for the historical value. The UNRESOLVED label and unverified alternative history stores do not contradict this scoped not-found conclusion. Saved queries, explicit validator failures, the missing earliest-history timestamp, and engineer routing with Delta/model-history follow-ups provide a useful handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed expectation: a transformation deviation at Silver to Gold, caused by joining movements to product rates on product_id alone and repeating matches. Native checks show silver/bronze at 7661 units and 360 rows, versus gold/model at 8765 units and 406 rows with 360 distinct movements, and two rate rows for product 7. This explains the 1104-unit excess and answers the exact unfiltered quantity question. Saved SQL/DAX, identified assets, explicit source-boundary and rate-selection limitations, and engineering routing provide a rerunnable, useful handoff. No disagreement with the sealed verdict, split, or cause.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered DEVIATION/transformation-logic verdict matches the sealed expectation. It correctly locates the split at Silver to Gold and identifies the product_id-only left join to product rates as duplicating movements and carried units. Native checks show bronze and silver at 7661 units/360 rows, gold and model at 8765 units/406 rows, gold retaining 360 distinct movements, and two silver rate rows for product 7. These support the named cause and 1104-unit difference. The direct source-query limitation is explicitly disclosed and does not contradict the expected explanation. Saved rerunnable queries, engineer routing, and the unresolved rate-version business rule provide a clear handoff. No disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches the sealed expectation. Executed native queries resolve the visible warehouse 1/product 4/units 17 combination to movement_id 2 and confirm units 17 in the application source, lakehouse, and model. The answer correctly attributes the value to the source application record, carried unchanged through one-to-one copying and displayed as a nonsummarized column rather than the SUM measure. It includes rerunnable queries, a clear stopping point, and appropriate snapshot limitations; there is no substantive disagreement.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches the sealed expectation. Native queries identify the visible warehouse 1/product 4/units 17 combination uniquely as movement_id 2 and confirm units 17 in the source application, lakehouse, and model. The answer correctly locates the value's origin in the source application and explains unchanged one-to-one copying, Direct Lake access, and the visual's unaggregated column grouping rather than the SUM measure. The initially rejected DAX draft was recovered with successful native queries and does not invalidate the finding. Saved queries, explicit snapshot/history limitations, and engineer routing provide a useful handoff; no substantive disagreement with the expectation remains.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed AS DESIGNED verdict in substance and explicitly labels it AS DESIGNED. It locates the absence at the source application, with exact-key checks also finding no record in the lakehouse or model, so there is no downstream loss or split. This matches the named cause: movement 900099 is absent at every compared reachable layer. The reported zero is a matching-row count, not an assertion that a BLANK measure equals zero. The retained-history limitation is appropriately qualified and does not undermine the current-record finding. Saved queries, checked results, the precise unresolved historical/business question, and business-owner routing provide a clear, useful handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Matches the sealed AS DESIGNED verdict and source-application split: exact-key checks find movement 900099 absent in the source, lakehouse and model, and retained temporal history has zero versions for that key. The answer correctly explains the unfiltered SUM measure and one-to-one full-copy transformation; its zero counts describe matching records, not a conversion of BLANK to numeric zero. It appropriately limits historical claims, identifies the missing source-owner confirmation and history-coverage fact, and supplies rerunnable queries and sensible owner routing.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer stops at UNRESOLVED rather than identifying transformation logic. Its successful queries show movement 6 once in Bronze/Silver and twice in Gold/the model, with the two rows carrying product 7's rate versions 1 and 2. However, it never identifies the Silver-to-Gold split or names the non-unique product-rate join as the cause, so none of the three substantive credits pass. The first failure is the conclusion, not query execution or evidence selection. The handoff preserves rerunnable queries, checked results and a budget stopping point, but supplies no exact missing fact or actionable next checks (next_checks is empty), warranting quality 1. The explicit evidence limitation is not a confident false cause and is not harmful.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer stops at UNRESOLVED rather than the expected transformation-logic verdict. Its successful checks show movement 6 once in Bronze/Silver and twice in Gold/the model, with product 7 rate versions 1 and 2, but it never identifies Silver-to-Gold as the split or names the non-unique product-rate join as the cause. Those partial observations do not earn verdict, layer, or cause credit. The first failure is the unresolved conclusion after relevant successful queries, not intake or query execution. The handoff preserves rerunnable queries, checked results, engineer routing and a budget stopping point, but provides no specific missing fact or actionable next checks (next_checks is empty), so merits 1 rather than 2. The explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed AS DESIGNED verdict and source-application/DEV attribution. Native queries scoped to warehouse_id=1 and product_id=2 succeeded at ordersops, lakehouse and model, returning 19 records per layer and identifying movement_id 4 with units=21. It correctly explains the unchanged source units, one-to-one copy, Direct Lake column mapping and raw-column visual rather than attributing 21 to an aggregate measure. Saved queries and parameters are rerunnable, and snapshot alignment and business-sign semantics are explicitly separated as remaining limitations. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered AS DESIGNED answer matches the sealed expectation. It resolves the visible warehouse 1/product 2/units 21 combination to movement_id 4 using successful native queries across the model, lakehouse and ordersops; the supplied result samples independently show that key and value at all three layers. It locates the value in the source application and explains its unchanged propagation through the one-to-one copy, Direct Lake column and unsummarized visual, rather than attributing 21 to an aggregation. Saved rerunnable queries, explicit snapshot limitations and clearly separated business-sign semantics provide a useful handoff without leaving the requested derivation unresolved. No substantive disagreement.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict, locates the value in the source application, and identifies movement_id 7 as the unique match for warehouse_id=3, product_id=2, units=20. It explains the unchanged source-to-lakehouse-to-model/report path and distinguishes the plain units column from the SUM measure. Successful native queries cover all three layers using the visible warehouse/product filters; source and lakehouse samples explicitly include movement 7 with units 20, while the model result is a labelled partial sample of 12 rows. The answer appropriately limits snapshot/history claims rather than asserting temporal alignment. Saved queries, explicit remaining checks, and engineer routing provide a rerunnable handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict and source-application origin. It identifies movement_id 7 from the visible warehouse/product/units values and explains that its source units=20 is copied unchanged through the lakehouse, Direct Lake model and plain-column report visual, rather than calculated with the SUM measure. Successful native queries cover the correct slice in all three layers; source and lakehouse samples explicitly show movement 7 with 20 units, and the saved answer reports unique matching and agreement across all 12 returned records (the model sample is explicitly incomplete). Saved rerunnable queries, precise snapshot/history limitations and engineer routing provide a useful handoff. No substantive disagreement with the expectation.",
         "verdict_match": true
       },
       "review": null

@@ -1,8 +1,8 @@
 # Round 27 pass 2: partial checkpoint
 
-**8/9 raw-reviewed correct, 1 useful handoffs, 0 harmful.** Official 8/9; strict 8/9. The required final denominator is48.
+**16/18 raw-reviewed correct, 1 useful handoffs, 0 harmful.** Official 16/18; strict 16/18. The required final denominator is48.
 
-The fixed guard has 4 correct among 4 measured; 16 guard tickets remain. Its20/20 and zero-harm gate is **pending**, not passed.
+The fixed guard has 11 correct among 12 measured; 8 guard tickets remain. Its20/20 and zero-harm gate is **pending**, not passed.
 
 Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic).
 
