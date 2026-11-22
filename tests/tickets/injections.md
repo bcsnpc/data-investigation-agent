@@ -585,3 +585,6 @@ Round27 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly ve
 
 
 Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev02-advisory\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev02-advisory\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.

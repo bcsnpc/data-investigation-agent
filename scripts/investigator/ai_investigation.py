@@ -210,6 +210,16 @@ availability claims to the exact objects and coverage actually checked. A
 candidate shortlist does not exclude the declared system-of-record object:
 inspect its admitted native binding before ruling out that historical path.
 '''
+        if enabled('r27_future_job_schedule'):
+            guidance+='''
+For a source row absent from the delivered layer, compare its presence at the
+last successful load with the current source and the enabled next load. A
+declared future first scheduled start is usable evidence of when the next load
+is scheduled, not proof that it ran or will succeed. Application-modified
+timestamps are not temporal validity intervals: ordering those timestamps does
+not prove deletion/reinsertion times. If period columns cannot be read, keep
+that detailed timeline undecided rather than inventing a source-history cause.
+'''
         self.stable=guidance+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
         from .model_case_presentation import Presentation
         self.presentation=Presentation(context,self.triage,guidance)

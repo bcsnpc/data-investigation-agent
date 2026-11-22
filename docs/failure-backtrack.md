@@ -17011,3 +17011,10 @@ The next qualified batch addresses the demonstrated Unicode, delivery-reference/
 
 For form-v2-record-repeated-gold-v2, both independent graders retain a zero score and nonharmful label because the delivered answer is UNRESOLVED. The earlier normal tool transcript shows a more specific obstruction: the first submit_finding draft already names the Silver-to-Gold product-rate join and the two rate versions. Its next feedback, audit sequence83, is SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried. Attempts to query that source then fail the admitted native-layer enum. The run eventually delivers an unresolved fallback. This is a delivery/source-admission obstruction before the final weak conclusion; the advisory evaluator does not bypass that deterministic check. This observation changes no grade, expectation or engine code. The source-layer reachability gap remains open; no missing source read is asserted to have happened. Seal-verified ordered normal-audit index: dev02-advisory-form-v2-record-repeated-gold-v2.json.
 
+
+
+## Round 27 pass2 latency-900501-v1 saved-trace backtrack
+
+First wrong step: **triage**. The fresh facts retain an enabled native schedule starting2026-11-23T18:38:43 UTC, but expose `next_due: null` with an unsupported-recurrence note. The answer subsequently treats source-modified timestamps as a deletion/reinsertion timeline and substitutes source-history DEVIATION for scheduled latency. The correct action is to relate current source presence and absence at the last completed copy to the retained next load; the unsupported detailed change timeline must remain undecided.
+
+The saved temporal AS OF reads succeeded. A separate query of the catalog-discovered hidden period columns was refused before dispatch, so this is a schema-validation coverage gap, not a blanket prohibition on temporal syntax. Both graders mark this answer harmful; that grade, the original output, and every query remain unchanged. This review used only the saved capture and grades. Result SHA256: `8264715ac85fe47c834f647435222f6b583e98663c8c61516bdb4df56e619711`.
