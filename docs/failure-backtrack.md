@@ -17006,3 +17006,8 @@ All eight captures are seal-checked and indexed; no estate read or model call wa
 The evaluator advisory switch does not disable deterministic target or native-reference checks. The last case's unknown-reference packet error is retained as an integration obstruction, not silently labelled a model evaluator rejection. No unsupported reference is accepted to improve a score.
 
 The next qualified batch addresses the demonstrated Unicode, delivery-reference/class and native-column-target problems generically. It does not claim to add an automatic-update inspection API or a historical SQL capability. Pass 2 must measure whether these repairs help, using every reviewed failure plus the full fixed guard.
+
+### Pass2 partial: repeated-record guard regression (saved trace only)
+
+For form-v2-record-repeated-gold-v2, both independent graders retain a zero score and nonharmful label because the delivered answer is UNRESOLVED. The earlier normal tool transcript shows a more specific obstruction: the first submit_finding draft already names the Silver-to-Gold product-rate join and the two rate versions. Its next feedback, audit sequence83, is SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried. Attempts to query that source then fail the admitted native-layer enum. The run eventually delivers an unresolved fallback. This is a delivery/source-admission obstruction before the final weak conclusion; the advisory evaluator does not bypass that deterministic check. This observation changes no grade, expectation or engine code. The source-layer reachability gap remains open; no missing source read is asserted to have happened. Seal-verified ordered normal-audit index: dev02-advisory-form-v2-record-repeated-gold-v2.json.
+
