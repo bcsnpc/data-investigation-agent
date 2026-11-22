@@ -1,5 +1,8 @@
 # Round 27: redesign and prove
 
+Current checkpoint (2026-11-22 UTC): owner repair-and-finish steer supersedes the older diagnosis stop and funding pause recorded below. The qualified delivery-repair image passed 5,953 tests and all eight shards. The owner-confirmed $120 Anthropic balance is recorded; AWS is disabled. The nine blocked primary grades are complete under Sol/Astra/Terra. Three proof attempts stopped on invalid credentials and remain sealed, unscored interruptions. The newly stored key passed metadata-only authentication; a distinct family-quantity replacement is running before the remaining proof admissions. No new quality improvement, freeze, calibration, v5 or release is claimed. The current consolidated report is [quality-report-v0.27.md](quality-report-v0.27.md). Historical checkpoints below retain their original dates and conditions.
+
+
 Status: IN PROGRESS. Opus admissions are paused at the protected budget floor; offline work continues. Started2026-11-17; resumed2026-11-20 under the amended prompt, including its separate Opus evaluator. Existing branch/PR435 retained.
 
 Baseline: main `6fa39d32`, v0.26 `149d290d`. Work uses the clean existing C:/temp/dia-r26-build checkout. The unrelated dirty D:/data_investigation_agent worktree is preserved as a standing-hygiene exception.
