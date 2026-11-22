@@ -538,3 +538,6 @@ Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native 
 
 
 Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\proof03-evaluator-advisory\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\proof03-evaluator-advisory\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
