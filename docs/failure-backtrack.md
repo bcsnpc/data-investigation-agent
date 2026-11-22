@@ -16966,3 +16966,12 @@ The failed-only advisory proof recovered six of eight tickets; those original fa
 | form-v2-source-history-v2 | Evidence citation / conclusion | Native temporal evidence was present, but a fetch-wrapper citation was rejected as `CITE_ORIGINAL_NATIVE_EVIDENCE_NOT_A_FETCH_WRAPPER`; the final answer did not establish the historical change. Reviewer judgment of evaluator reasons was mixed. | Preserve the original native evidence ID in fetched model-visible results and final citations; keep model-generated wrapper support invalid. |
 
 The proposed fixes are not applied to the image running the remaining eight pass-1 cases. Finish those cases, merge their backtracks, then qualify one generic repair batch before pass 2. No per-ticket exception or golden change is authorized.
+
+
+### P1 completion access pair: recovered query errors, then rejected delivery
+
+Both access tickets reproduced the same saved rule and the10/1 versus25/2 scoped values, yet ended UNRESOLVED and graded incorrect/harm0. The first query obstacle was the validator rejecting valid T-SQL `N'...'` literals (`National`); the model recovered by using plain string literals. This query obstacle was not the reason the answer ultimately failed.
+
+At the first substantive draft, both tickets labelled the observed mapping `access difference` and its implemented-rule class AS DESIGNED. The legacy class/verdict coupling rejected that otherwise plausible pairing. The drafts also supplied same-case query IDs in `checked`, which expects native layer IDs. A later verdict-label correction therefore still failed the enum, and the single saved-evidence repair allowance was already spent. The final fallback lost the established cause. The independently graded outcome remains unchanged.
+
+The generic repair should reformat unambiguous reference roles from the saved case, preserve original native evidence IDs, and avoid treating the broad question class as a one-to-one synonym of the legacy technical detail. It must not guess unknown references, change the explicit target, turn failed query evidence into native support, or judge intended business access policy. These changes await the complete P1 backtrack and one qualification batch.

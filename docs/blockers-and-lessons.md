@@ -888,3 +888,6 @@ Round27 startup diagnosis confirmed by replacement control, 2026-11-22 UTC: same
 
 
 Round27 owner catalog restore: PostgreSQL returned `IdleInTransactionSessionTimeout` after30.743s while the helper reconciled graph records locally. Source objects were already restored and no scored job remained active. The dev-only owner restoration helper uses a transaction-local120s idle bound to finish that pure reconciliation; server settings, worker30s default, statement30s and lock5s bounds stay unchanged. CAS, graph history and payload hash checks remain enforced. This is a non-safety progress workaround under the owner build-phase steer, not a permission change. Long graph computation should move out of the write transaction in a later generic maintenance fix. No ticket is retried.
+
+
+Round27 budget CI follow-up: the approved November override exposed three historical budget tests that still hard-coded14,500/11,905 as the current November limit. Updated those current-policy assertions to20,500/17,905, preserving their October/history and December-reset checks. Focused budget modules:25tests/2subtests PASS. No scored expectation, engine result or ledger row changed.
