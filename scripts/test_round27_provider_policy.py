@@ -6,6 +6,17 @@ from investigator.model_spend import SpendHold
 
 
 class ProviderPolicyTests(unittest.TestCase):
+    def test_active_anthropic_policy_admits_owner_approved_investigation_steps(self):
+        from investigator.provider_budget import check_credit
+        from datetime import datetime,timezone
+        now=datetime(2026,11,22,tzinfo=timezone.utc).timestamp()
+        for purpose in ('INTAKE','INVESTIGATOR','EVALUATOR','SCREENSHOT'):
+            with self.subTest(purpose=purpose):
+                check_credit('anthropic',now,owner='round27-proof-opus',purpose=purpose)
+        for purpose in ('GRADING','REVIEWER','WRITER','ENRICHMENT','SMOKE'):
+            with self.subTest(purpose=purpose),self.assertRaisesRegex(SpendHold,'PURPOSE_NOT_APPROVED'):
+                check_credit('anthropic',now,owner='round27-proof-opus',purpose=purpose)
+
     def test_anthropic_grading_rejected_before_any_reservation(self):
         state = Mock()
         approved = {'model_account': 'model', 'grading_account': 'grading',

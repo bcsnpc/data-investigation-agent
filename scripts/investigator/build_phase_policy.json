@@ -110,7 +110,9 @@
         "protected_cash_microdollars": 3000000,
         "allowed_purposes": [
           "INTAKE",
-          "INVESTIGATOR"
+          "INVESTIGATOR",
+          "EVALUATOR",
+          "SCREENSHOT"
         ],
         "credit_source": "Owner Console confirmation2026-11-21:120USD remaining; historical counters preserved; reserve3 excluded from ceiling"
       },
