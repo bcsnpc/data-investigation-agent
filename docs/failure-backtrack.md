@@ -16938,3 +16938,19 @@ eight incorrect outcomes among nine newly completed primary grades; one correct 
 | text-latency-900501-v2 | target | 43 | The first record trace follows a warehouse chain instead of the application-load/Bronze path named in the ticket. Bind the explicit application path before reading its record and future load schedule; the later 401 is a separate limitation. |
 
 The original unsealed intake-error capture remains partial; its missing sequence is not reconstructed. One screenshot first-step disagreement was independently reviewed by Terra; this operator trace table does not override that review or either grade.
+
+## Round 27 proof delivery checkpoint before advisory
+
+These saved-trace counts describe the seven valid reviewed failures available before the remaining three fault cases. They do not change grades or expectations. A failed early query may have been recovered; it is not automatically treated as the terminal cause. No new model or estate call was used for this table.
+
+| Ticket | Model calls | Successful queries | Failed queries | Evaluator hard / soft | End |
+|---|---:|---:|---:|---|---|
+| form-v2-failed-application-load-v1 | 7 | 3 | 0 | 3 / 0 | Evaluator retries exhausted |
+| form-v2-fixture-quantity-v1 | 19 | 7 | 1 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-record-absent-everywhere-v1 | 19 | 9 | 0 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-screenshot-record-01-v1 | 19 | 7 | 1 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-screenshot-record-03-v1 | 19 | 8 | 1 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-screenshot-record-04-v1 | 19 | 6 | 0 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-warehouse-scope-v1 | 19 | 3 | 0 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+
+All six static failures reached 19 model calls. Each retained one saved-evidence delivery repair, then finished UNRESOLVED. The failed-job case instead exhausted three hard evaluator checks: the native failed run was established, while the evaluator disputed the causal connection to old data and uncited producer relationships. The owner-selected advisory comparison will test the evaluator separately while leaving the structural delivery and deterministic evidence checks enabled. Whether a rejection was justified is assigned to the independent reviewer, not inferred here.
