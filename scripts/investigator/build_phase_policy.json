@@ -88,13 +88,13 @@
     },
     "monthly_physical_overrides": {
       "2026-11": {
-        "total_limit": 14500,
+        "total_limit": 20500,
         "limits": {
           "SCAN": 2500,
-          "INVESTIGATION": 11905,
+          "INVESTIGATION": 17905,
           "RESTORATION": 95
         },
-        "approval": "Owner approved 2026-11-01: 5,500 additional investigation requests; model caps unchanged"
+        "approval": "Owner approved 2026-11-21: 6,000 additional November investigation requests for Round27; all other limits unchanged"
       }
     }
   },

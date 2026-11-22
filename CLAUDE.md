@@ -1272,3 +1272,6 @@ Section8 owner-approved rotation executed2026-11-21: existing investigator app53
 
 
 Section8 execution correction, owner approval2026-11-21/executionUTC2026-11-22: confirmed120USD Anthropic top-up already sets provider and cloud ceilings220284651microUSD. Correct the overlooked November monthly_model_overrides ceiling120575301 to the SAME approved220284651; no further allowance, counter, reserve or permission change. The stale duplicate refused a billing proof before model dispatch at0modelcost. Preserve original outcome/grade, qualify corrected configuration, then use a distinct replacement. A local control manifest omission prevented history admission; source rows/schema hash and real restoration load are restored, temporalON. See docs/round-twenty-seven-duplicate-cap-correction.json.
+
+
+Owner approval under §8, 2026-11-21 local / Nov22 UTC: add 6,000 November-only investigation requests for remaining Round27 work. Total14,500 ->20,500; INVESTIGATION11,905 ->17,905. SCAN2,500, RESTORATION95, model limits/reserves and $20 Azure cap unchanged. Cloud policy read back; no usage or reservation rows written. December default remains9,000. Existing P1 image retains its lower source ceiling until next qualification. Receipt: docs/round-twenty-seven-request-increase.json.

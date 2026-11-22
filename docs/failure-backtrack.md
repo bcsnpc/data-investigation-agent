@@ -16954,3 +16954,15 @@ These saved-trace counts describe the seven valid reviewed failures available be
 | form-v2-warehouse-scope-v1 | 19 | 3 | 0 | 1 / 0 | TOOL_OR_TIME_LIMIT |
 
 All six static failures reached 19 model calls. Each retained one saved-evidence delivery repair, then finished UNRESOLVED. The failed-job case instead exhausted three hard evaluator checks: the native failed run was established, while the evaluator disputed the causal connection to old data and uncited producer relationships. The owner-selected advisory comparison will test the evaluator separately while leaving the structural delivery and deterministic evidence checks enabled. Whether a rejection was justified is assigned to the independent reviewer, not inferred here.
+
+
+## Round 27 advisory proof follow-up (2026-11-21 local / Nov22 UTC)
+
+The failed-only advisory proof recovered six of eight tickets; those original failures remain in their prior tables. Two still fail on the same qualified image. This is saved-trace diagnosis, not a score or expectation change.
+
+| Ticket | First terminal obstruction in advisory run | What the trace shows | Generic repair candidate |
+|---|---|---|---|
+| form-v2-record-absent-everywhere-v1 | Conclusion contract | Nine native reads succeeded, but the structured AS DESIGNED class paired with legacy not-found detail was rejected as `AS_DESIGNED_REQUIRES_IMPLEMENTED_RULE_VERDICT`. The reviewer also rejected a claimed temporal-retention boundary derived from a current-row minimum. | Distinguish supported current row absence from an unresolved historical search in the delivery schema; never turn a current-row minimum into retention evidence. |
+| form-v2-source-history-v2 | Evidence citation / conclusion | Native temporal evidence was present, but a fetch-wrapper citation was rejected as `CITE_ORIGINAL_NATIVE_EVIDENCE_NOT_A_FETCH_WRAPPER`; the final answer did not establish the historical change. Reviewer judgment of evaluator reasons was mixed. | Preserve the original native evidence ID in fetched model-visible results and final citations; keep model-generated wrapper support invalid. |
+
+The proposed fixes are not applied to the image running the remaining eight pass-1 cases. Finish those cases, merge their backtracks, then qualify one generic repair batch before pass 2. No per-ticket exception or golden change is authorized.

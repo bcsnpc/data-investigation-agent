@@ -95,13 +95,23 @@ class MonthlyTests(unittest.TestCase):
     def test_owner_increase_effective_now_and_every_future_month(self):
         for date in ('2026-10-26','2026-11-01','2027-01-01'):
             status=b.physical_status([],[],instant(date))
-            self.assertEqual(status['total_limit'],14500 if date=='2026-11-01' else 9000)
-            expected_investigation = 6905 if date=='2026-10-26' else 11905 if date=='2026-11-01' else 6405
+            self.assertEqual(status['total_limit'],20500 if date=='2026-11-01' else 9000)
+            expected_investigation = 6905 if date=='2026-10-26' else 17905 if date=='2026-11-01' else 6405
             self.assertEqual(status['limits'],{'INVESTIGATION':expected_investigation,'SCAN':2000 if date=='2026-10-26' else 2500,'RESTORATION':95})
         rows,alloc=self.rows(6905)
         with self.assertRaises(UsageHold): b.admit_physical(rows,alloc,instant('2026-10-26'),'INVESTIGATION')
         b.admit_physical(rows,alloc,instant('2026-10-26'),'RESTORATION')
         self.assertEqual(b.physical_status([],[],instant('2026-10-25'))['total_limit'],6000)
+
+    def test_november_only_owner_increase_preserves_usage_and_other_allocations(self):
+        rows, allocations = self.rows(11906, at='2026-11-21')
+        status = b.admit_physical(rows, allocations, instant('2026-11-22'), 'INVESTIGATION')
+        self.assertEqual(status['used']['INVESTIGATION'], 11906)
+        self.assertEqual(status['limits'], {'SCAN': 2500, 'INVESTIGATION': 17905, 'RESTORATION': 95})
+        rows, allocations = self.rows(95, 'RESTORATION', at='2026-11-21')
+        with self.assertRaises(UsageHold):
+            b.admit_physical(rows, allocations, instant('2026-11-22'), 'RESTORATION')
+        self.assertEqual(b.physical_status([], [], instant('2026-12-01'))['total_limit'], 9000)
 
     def test_restoration_reset_preserves_gross_usage_and_protects_new_95(self):
         reset=b.POLICY['restoration_reset']
