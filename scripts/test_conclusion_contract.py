@@ -30,6 +30,25 @@ class ConclusionTests(unittest.TestCase):
         value['undecided'] = ['The earlier native snapshot is outside the observed retention period.']
         self.assertEqual(validate(value, {})['verdict_class'], 'UNRESOLVED')
 
+    def test_implemented_access_rule_is_compatible_with_question_class(self):
+        from investigator.regression_features import configured
+        value = self.value()
+        value.update(verdict='access difference', direct_answer='The view uses the caller mapping.',
+                     calculation_explanation='The retained mapping yields 10/1 and 25/2.')
+        self.assertEqual(validate(value, {})['verdict_class'], 'AS DESIGNED')
+        with configured({'r27_conclusion_detail_compatibility': False}):
+            with self.assertRaisesRegex(ValueError, 'IMPLEMENTED_RULE_VERDICT'):
+                validate(value, {})
+            self.assertNotIn('description', fields()['verdict_class'])
+
+    def test_current_record_absence_does_not_require_an_unresolved_label(self):
+        value = self.value()
+        value.update(verdict='not found', direct_answer='The current record is absent at every checked layer.')
+        self.assertEqual(validate(value, {})['verdict_class'], 'AS DESIGNED')
+        value['verdict_class'] = 'DEVIATION'
+        with self.assertRaisesRegex(ValueError, 'DEVIATION_REQUIRES'):
+            validate(value, {})
+
     def test_explicit_target_not_overridden_by_same_number_elsewhere(self):
         case = {'intake': {'visual': 'other'}, 'context': {'explicit_target': {'visual': 'chosen'}}}
         with self.assertRaisesRegex(ValueError, 'EXPLICIT_TARGET_CHANGED:visual'):

@@ -4,6 +4,7 @@ This validates structure, references and declared coverage, not the truth of
 arbitrary causal prose. Independent grading still evaluates causal correctness.
 """
 from copy import deepcopy
+from .regression_features import enabled
 
 CONTEXT_TYPES = ('glossary/synonym', 'metric definition', 'business rule',
                  'schedule/SLA', 'source of truth', 'owner', 'other')
@@ -14,7 +15,7 @@ def fields():
     text = {'type': 'string', 'minLength': 1}
     return {
         'direct_answer': {**text, 'description': 'One or two sentences answering the exact user question, including why; distinguish incidental observations.'},
-        'verdict_class': {'enum': list(VERDICTS)},
+        'verdict_class': {'enum': list(VERDICTS), **({'description': 'Question-level disposition, separate from the technical verdict detail. AS DESIGNED describes the observed implemented rule, not approval of business policy; a supported access rule or current record absence can explain the question.'} if enabled('r27_conclusion_detail_compatibility') else {})},
         'calculation_explanation': {**text, 'description': 'Explain the implemented calculation and filters from cited definitions; for a status-only ask say no quantity calculation was requested.'},
         'undecided': {'type': 'array', 'items': text, 'description': 'Exact unavailable fact or unresolved distinction, with a reason; empty only when nothing remains undecided within the asked scope.'},
         'routing': {'enum': ['ENGINEER', 'BUSINESS_OWNER']},
@@ -34,7 +35,11 @@ def validate(value, case):
         raise ValueError('DIRECT_ANSWER_AND_IMPLEMENTED_CALCULATION_REQUIRED')
     if value['verdict_class'] == 'UNRESOLVED' and not value['undecided']:
         raise ValueError('UNRESOLVED_REQUIRES_EXACT_MISSING_EVIDENCE')
-    if value['verdict_class'] == 'AS DESIGNED' and value.get('verdict') not in ('as designed', 'definition explained'):
+    implemented_details = {'as designed', 'definition explained'}
+    if enabled('r27_conclusion_detail_compatibility'):
+        implemented_details.update({'access difference', 'record missing', 'duplicate record',
+                                    'blank or error', 'observed value', 'consistent to boundary', 'not found'})
+    if value['verdict_class'] == 'AS DESIGNED' and value.get('verdict') not in implemented_details:
         raise ValueError('AS_DESIGNED_REQUIRES_IMPLEMENTED_RULE_VERDICT')
     if value['verdict_class'] == 'DEVIATION' and value.get('verdict') in ('as designed', 'definition explained', 'not found'):
         raise ValueError('DEVIATION_REQUIRES_EVIDENCED_FLOW_OR_ACCESS_DIFFERENCE')

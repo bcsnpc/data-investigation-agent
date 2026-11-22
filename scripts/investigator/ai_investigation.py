@@ -227,6 +227,11 @@ context_gap. No fix suggestions, no glossary request and no business context fil
     def dispatch(self,name,args):
         self.refresh_tools()
         if name not in self.schemas:raise ValueError('UNKNOWN_TOOL')
+        if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair') and enabled('r27_delivery_reference_reformat'):
+            from .delivery_references import reformat
+            args,changes=reformat(args,queries=self.queries.records,evidence=self.state['evidence'],
+                                  layers=getattr(self.queries,'layers',{}))
+            if changes:self.evidence({'kind':'DELIVERY_REFERENCE_REFORMAT','changes':changes})
         if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair'):
             try:
                 self.schemas[name].validate(args)

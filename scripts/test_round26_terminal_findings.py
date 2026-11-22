@@ -57,5 +57,28 @@ class TerminalTests(unittest.TestCase):
         q['metadata_scope']['history_limit']=2
         self.assertEqual(attach({'status':'UNRESOLVED'},queries=[q])['investigation_report']['retention_limits'],[])
 
+    def test_answered_summary_preserves_validated_explanation_as_prose(self):
+        from investigator.regression_features import configured
+        conclusion = {'direct_answer': 'Different caller mappings explain the totals.',
+                      'verdict_class': 'AS DESIGNED', 'calculation_explanation': 'The retained view sums the caller-matched rows.',
+                      'undecided': [], 'routing': 'BUSINESS_OWNER',
+                      'context_gap': {'type': 'business rule', 'note': 'Which visibility groups are intended.'}}
+        outcome = {'status': 'ANSWERED', 'business': 'Caller mapping explains the result.',
+                   'conclusion': conclusion, 'technical': {'verdict': 'access difference'}}
+        result = attach(outcome)
+        calculation = result['investigation_report']['calculation'][0]
+        self.assertEqual(calculation['expression'], conclusion['calculation_explanation'])
+        self.assertEqual(calculation['source'], 'DELIVERED_CONCLUSION')
+        self.assertNotIn('calculation definition was not established', result['business'])
+        with configured({'r27_terminal_calculation_consistency': False}):
+            self.assertEqual(attach(outcome)['investigation_report']['calculation'], [])
+
+    def test_summary_does_not_upgrade_an_unresolved_or_malformed_explanation(self):
+        result = attach({'status': 'UNRESOLVED', 'conclusion': {'calculation_explanation': 'Not verified.'}})
+        self.assertEqual(result['status'], 'UNRESOLVED')
+        self.assertEqual(result['investigation_report']['calculation'], [])
+        result = attach({'status': 'ANSWERED', 'conclusion': {'calculation_explanation': 'Missing validated structure.'}})
+        self.assertEqual(result['investigation_report']['calculation'], [])
+
 
 if __name__=='__main__':unittest.main()

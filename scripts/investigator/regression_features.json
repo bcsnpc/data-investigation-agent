@@ -144,6 +144,26 @@
     "r27_reasoning_model_evaluator": {
       "default": true,
       "description": "Use investigator model for evaluator; off restores that role's configured ai_routing selection."
+    },
+    "r27_delivery_reference_reformat": {
+      "default": true,
+      "description": "Reformat exact same-case query/layer and fetched-original citation roles from saved evidence before delivery validation; unknown references remain invalid."
+    },
+    "r27_conclusion_detail_compatibility": {
+      "default": true,
+      "description": "Keep question-level AS DESIGNED compatible with supported access/presence/observed-value technical details. Native support, explicit target and deviation contradictions remain validated."
+    },
+    "r27_terminal_calculation_consistency": {
+      "default": true,
+      "description": "Keep a validated answered calculation explanation in the terminal summary, labelled as delivered prose rather than new native evidence. Unresolved and hard-stop results remain unchanged."
+    },
+    "r27_unicode_sql_literals": {
+      "default": true,
+      "description": "Normalize T-SQL national string literals into the existing length/count-bounded Unicode parameter binder. SELECT-only roots, native object allowlists and write rejection remain unchanged."
+    },
+    "r27_native_column_target": {
+      "default": true,
+      "description": "Use admitted native column-name containment to disambiguate a table inside an exactly named container. Unique-match and explicit-target checks remain unchanged; tied schemas remain tied."
     }
   }
 }

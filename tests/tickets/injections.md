@@ -555,3 +555,9 @@ Round27 benchmark access ACCESS_SCORED_COHORT_COMPLETED; restoration_required=Fa
 
 
 Round27 access-workpath-replacement completed2/2 scored tickets. Native source objects removed and original roles verified identical; original catalog owner restored with SHA-256 2428c1d30ac56d7d114a943a2312ea3c430c74cf46fd9c97077cddde68e0cbd8. Catalog first restore rolled back on PostgreSQL idle timeout; bounded owner-only transaction-local recovery succeeded, originals retained. Source/catalog restoration_required=false; existing fixed identities unchanged. Native probe read-only PASS10/1 and25/2. Both scored outcomes retained UNRESOLVED/incorrect/harm0.
+
+
+Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01-completion-advisory\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+
+Round27 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\dev01-completion-advisory\injections\stale\status.json. No source/model figure was authored from an engine query.

@@ -204,6 +204,7 @@ class Catalog:
         containers = [r for kind in ('MODEL', 'SOURCE') for r in self.ranked(text, kind)
                       if r['confidence'] in ('NAMED', 'NORMALIZED')]
         contained = []
+        column_candidates = []
         within = set()
         for parent in containers:
             children = [*self.children(parent['id'], 'TABLE'), *self.children(parent['id'], 'VIEW')]
@@ -212,6 +213,19 @@ class Catalog:
                 child = children[0]
                 contained.append({**child, 'score':parent['score'], 'confidence':parent['confidence'],
                     'basis':'NATIVE_CONTAINMENT_OF_NAMED_CONTAINER', 'via':parent['id']})
+            elif enabled('r27_native_column_target'):
+                import re
+                witnesses=[]
+                for child in children:
+                    columns=self.nodes[child['id']].get('properties',{}).get('column_names',[])
+                    matched=[name for name in columns if isinstance(name,str) and name and
+                             re.search(r'(?<!\w)'+re.escape(name)+r'(?!\w)',text,re.I)]
+                    if matched:witnesses.append((child,matched))
+                maximum=max((len(matches) for _,matches in witnesses),default=0)
+                for child,matches in witnesses:
+                    if len(matches)==maximum:
+                        column_candidates.append({**child,'score':parent['score'],'confidence':parent['confidence'],
+                            'basis':'NATIVE_CONTAINMENT_AND_NAMED_COLUMNS','via':parent['id'],'matched_columns':matches})
         if containers:
             # A generic table word can also name unrelated semantic tables.
             # Resolve it inside the explicitly named native containers first,
@@ -220,7 +234,7 @@ class Catalog:
             scoped = [r for r in direct if r['id'] in within and r['score'] >= .86]
             if scoped:
                 return [r for r in scoped if scoped[0]['score']-r['score'] < .08]
-            return list({r['id']:r for r in contained}.values())
+            return list({r['id']:r for r in [*contained,*column_candidates]}.values())
         if direct and direct[0]['confidence'] in ('NAMED', 'NORMALIZED'):
             return [r for r in direct if direct[0]['score']-r['score'] < .08]
         return [r for r in direct if r['score'] >= .86 and direct[0]['score']-r['score'] < .08]

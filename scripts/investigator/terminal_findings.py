@@ -55,6 +55,19 @@ def report(*,outcome,queries=(),context=None,candidates=()):
     for q in queries:
         if q['status']=='SUCCEEDED'and q['purpose']=='recreate'and not q.get('metadata_scope'):
             calculations.append({'name':'Native recreation','expression':q['text'],'source':'EXECUTED_QUERY','evidence_id':q['id']})
+    if not calculations and outcome.get('status')=='ANSWERED' and enabled('r27_terminal_calculation_consistency'):
+        # The delivery consumer has already validated this explanation. Copy it
+        # as explanatory prose, never relabel it as a native definition/query.
+        conclusion=outcome.get('conclusion')or(technical.get('conclusion')if isinstance(technical,dict)else None)
+        if isinstance(conclusion,dict):
+            from jsonschema import Draft202012Validator
+            from .conclusion_contract import fields
+            properties=fields()
+            shape={'type':'object','properties':properties,'required':list(properties)}
+            if Draft202012Validator(shape).is_valid(conclusion) and conclusion['calculation_explanation'].strip():
+                calculations.append({'name':'Calculation explanation','expression':conclusion['calculation_explanation'],
+                    'source':'DELIVERED_CONCLUSION',
+                    'qualification':'Explanation from the validated answer, not an additional native observation.'})
     retention=[]
     for q in queries:
         if q['status']!='SUCCEEDED' or q.get('purpose')!='history':continue
