@@ -1,6 +1,6 @@
 # Round 27 quality report
 
-Round 27 is in progress. The complete baseline proof is 7/15 correct with zero harmful, below the 11/15 gate. The owner-selected failed-ticket-only advisory ablation has seven graded results so far: six correct, zero harmful. Carrying forward the seven baseline-correct cases gives a provisional 13/15; the history rerun and independent evaluator-rejection reviews must finish before its gate is decided. Intake guards and delivery repair remain on. No calibration or held-out v5 run has started.
+Round 27 is in progress. The baseline proof was 7/15 correct, zero harmful. The owner-selected evaluator-advisory ablation reran only its eight failed tickets once: six recovered, zero harmful. Carrying forward the seven baseline-correct cases gives **13/15 correct, zero reviewed harmful; proof gate PASS**. Official, strict and independently reviewed projections agree. Intake guards and delivery repair remained on. The remaining eight pass-1 tickets are now being completed; no calibration or held-out v5 run has started.
 
 Both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic). New grades use Sol, Astra and an independent Terra review of disagreements, including disagreements about the first wrong step. Historical grades retain their original provider and rules.
 
@@ -16,7 +16,9 @@ Screenshot vision remains Opus; an older passing screenshot trace used Terra. Th
 
 The [predeclared proof plan](round-twenty-seven-proof-plan.md) contains 15 cases: 11 static and four serialized fault cases. Three initial attempts stopped on an invalid provider key before reasoning, were sealed and recorded as authentication interruptions, and are unscored. Their original tapes and results remain preserved. Distinct replacement attempts use the owner-stored key verified by a metadata-only HTTP 200 check. No secret value was printed or written to a file.
 
-Live proof grading and its gate are pending. No improvement percentage is claimed from offline tests.
+Proof grading and rejection review are complete. Six advisory answers were correct and the independent reviewer judged their evaluator rejections wrong. The absent-record answer remained incorrect with a justified rejection; the source-history answer remained incorrect with mixed rejection reasons. All eight were harmless. Seven recorded hard rejections and one soft rejection are draft-check results, not eight final-delivery blocks. Full per-ticket reasons and preserved earlier projections are in [the advisory proof](round-twenty-seven-advisory-proof.md).
+
+The advisory image is `sha256:6056863e6003b77c27237974a4557acb8b29be0c533b686fff1b31c9ad50aded`, source `f9874ad9`. Qualification: 5,961 passed, 53 skipped, no failures/errors, all eight shards passed. The installation profile explicitly enables advisory; its factory default remains off. The remaining pass-1 cohort uses this same image/profile. No score is inferred from offline tests.
 
 ## Pass 1 and pass 2
 
