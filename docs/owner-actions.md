@@ -936,3 +936,6 @@ It writes directly to the existing Key Vault secret with no plaintext secret fil
 
 ## 2026-11-21: replacement Anthropic credential incomplete
 Owner confirmed storage. The latest enabled Key Vault version 26b235dc5ed24089af418531628fc2e4 contains one character and lacks the expected API-key prefix. Metadata-only provider discovery returned HTTP 400 with an empty body; zero generation calls were made. No older version was tried. The three earlier authentication-interrupted proof attempts remain sealed and unscored; admission pause remains in place. The private hidden-prompt helper now refuses incomplete key shapes before writing to Key Vault. Owner must store the complete key through that helper; no key belongs in chat or files.
+
+
+Resolved 2026-11-21 local / Nov22 UTC: owner approved +6,000 November investigation requests. Cloud/source readback total20,500, INV17,905, SCAN2,500, REST95; counters/history/model/$20Azure limits unchanged. December reverts9,000. Receipt: round-twenty-seven-request-increase.json.
