@@ -526,3 +526,6 @@ Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLI
 
 
 Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\proof02\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\proof02-budget-corrected\injections\dev-failed-billing\status.json. No grant/identity change.
