@@ -1,0 +1,301 @@
+{
+  "status": "PARTIAL_NOT_A_FINAL_GATE",
+  "overall": {
+    "measured": 8,
+    "official": 6,
+    "strict": 6,
+    "reviewed": 6,
+    "useful_handoff": 0,
+    "harmful": 1
+  },
+  "denominator_required": 39,
+  "guard": {
+    "measured": 4,
+    "official": 4,
+    "strict": 4,
+    "reviewed": 4,
+    "useful_handoff": 0,
+    "harmful": 0
+  },
+  "guard_required": 20,
+  "gate": "PENDING",
+  "by_estate": {
+    "billing": {
+      "measured": 1,
+      "official": 1,
+      "strict": 1,
+      "reviewed": 1,
+      "useful_handoff": 0,
+      "harmful": 0
+    },
+    "fixture": {
+      "measured": 7,
+      "official": 5,
+      "strict": 5,
+      "reviewed": 5,
+      "useful_handoff": 0,
+      "harmful": 1
+    }
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the expected AS DESIGNED verdict and traces the calculation through the declared source application, lakehouse landing and model. It explains SUM('Movements'[units]), rather than row count, the unchanged units mapping and unfiltered card context. Native queries independently return 7661 units, 360 rows and 360 distinct movement IDs at all three layers, supporting the named cause and source-application endpoint. Snapshot and business-intent qualifications appropriately limit claims without undermining the implemented-rule answer. Rerunnable queries and a clear stopping point are supplied; any intended alternative movement-sign logic is sensibly routed to the business owner. No disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered AS DESIGNED verdict matches the sealed expectation. It explains SUM('Movements'[units]), the unfiltered card, and unchanged source-to-landing mapping, distinguishing 360 rows from 7661 summed units. Native model, landing and declared application-source queries independently return 7661 units and 360 distinct movement IDs, matching both the expected source-application scope and named cause. Snapshot and business-intent caveats do not undermine the implemented-rule answer. Rerunnable queries, explicit evidence limits and business-owner routing provide a clear handoff; there is no grading disagreement.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches. The answer explains the unfiltered SUM('Movements'[units]), the Direct Lake mapping and overwrite copy with unchanged units, and traces the total through landing to the declared application source. Native reads show 7661 in all three layers and 360 model rows, matching the sealed source-application layer and named cause. Incidental pipeline failures are explicitly excluded as the cause. Saved rerunnable queries, snapshot-alignment and automatic-update limitations, and engineer routing provide a useful handoff without undermining the completed calculation explanation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered AS DESIGNED answer matches the sealed expectation and the calculation question. It explains the unfiltered SUM('Movements'[units]), the unchanged 1:1 overwrite copy from the application source, and the Direct Lake mapping. Native checks show 7661 in the model, landing table and declared application source, with 360 model rows, correctly tracing the value through to the source application rather than blaming incidental failed runs. Saved rerunnable queries, explicit snapshot-alignment and automatic-update limitations, and engineer routing provide a useful handoff. No substantive disagreement.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed expectation: transformation logic at the Silver-to-Gold split. It identifies the product_id-only left join to product rates as duplicating product 7's 46 movements, adding 1104 units to 7661 to produce 8765. Native totals and the duplicate-rate check support that explanation. Saved rerunnable queries, explicit snapshot/business-rule limitations, and engineer routing provide a useful handoff. No substantive disagreement.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed transformation-logic deviation, locates the split at Silver to Gold, and identifies the product_id-only left join to multiple product-rate rows as the cause. Native checks support 7661 upstream versus 8765 in gold/model, two rate rows for product 7, and 1104 product-7 units accounting for the difference. It answers the actual unfiltered quantity discrepancy rather than an incidental difference. Saved SQL/DAX, explicit snapshot and rate-selection limitations, and engineer routing provide a useful rerunnable handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly identifies transformation logic and the Silver-to-Gold split: source, Bronze and Silver total 700, while Gold and the measure total 950. It attributes the extra 250 to invoice 101 being duplicated by the account_id-only join to account_plan_history without effective-date restrictions, matching the sealed cause. Saved queries, explicit snapshot/deployment limitations and engineer routing provide a useful rerunnable handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed transformation-logic/DEVIATION verdict, locates the split between silver.invoices (700) and gold.invoice_activity (950), and identifies the account_id-only join to account_plan_history without effective-date restrictions as duplicating invoice 101 by 250. Native checks corroborate two history rows for account 1, two gold copies totaling 500 for the 250 invoice, and a model total of 950 across five rows and four invoices. The separate pipeline failure is not incorrectly blamed for the discrepancy. Saved rerunnable queries, explicit snapshot/deployment and export limitations, and engineering routing provide a useful handoff for remaining checks.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-R17-01-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict and semantic-layer explanation: the named Handled Quantity card on the Unfiltered control page uses SUM('Activity'[units]), not a movement-record count, and its native evaluation returns 8765. It preserves the named visual and unfiltered context, explains the transformation and direct gold-column mapping, and explicitly limits snapshot alignment and intended-business-correctness claims. The silver-to-gold difference is correctly presented as incidental, not the answer to the card question, and its full causal attribution is expressly unverified. Rerunnable native queries, checked findings, exact remaining uncertainties, and business-owner routing provide a useful handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed AS DESIGNED verdict and semantic explanation: the named Unfiltered control card uses SUM('Activity'[units]), not a movement-record count, and its native evaluation returns 8765. It preserves the visual and unfiltered context, limits correctness to the implemented definition, and qualifies snapshot alignment without judging intended business correctness. The silver/gold difference is explicitly incidental rather than the answer to the card question. Rerunnable queries, checked results, exact remaining limitations, and business-owner routing provide a useful handoff. No disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The AS DESIGNED verdict matches. The answer preserves the named unfiltered visual and locates its rule at the semantic layer: Handled Quantity sums Activity[units], reproducing 8765 rather than the 406 movement rows. It explains the retained filter and transformation rules, qualifies current reads versus aligned snapshots, and does not judge intended business correctness. The gold-join duplication is explicitly incidental, not a replacement for the semantic explanation. Rerunnable queries, checked results, limitations, and business-owner routing provide a clear handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Matches the sealed AS DESIGNED answer for the named unfiltered card. It identifies the semantic rule SUM('Activity'[units]), recreates 8765, and distinguishes that additive total from the 406 Activity rows. Retained page/visual definitions establish the unfiltered context, and snapshot alignment is explicitly qualified. The silver-to-gold join difference is correctly presented as incidental, not as a defect or a judgment of intended business correctness. Rerunnable queries, explicit evidence limits, and business-owner routing for the remaining intended-rate-rule question provide a clear handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": true,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED at the semantic layer: Handled Quantity sums carried additive units rather than counting movement records, and its unfiltered value is 8765. The delivered checks reproduce that value and identify SUM(Activity[units]), but the answer concludes UNRESOLVED and does not adopt that semantic explanation as the answer to the ticket. Saved-filter results of 665 and an incidental silver/gold difference do not establish a defect explaining the reported 8765. In particular, confidently declaring 665 'too high' and attributing incorrectness to the rate-version join judges intended business correctness without an established rule; this is the harmful causal overclaim, not the honest limitation concerning historical view state. The unresolved handoff is nevertheless useful: it includes rerunnable DAX/SQL, checked totals, the precise missing view-state and snapshot evidence, and engineer routing with sensible outstanding checks.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": true,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED at the semantic layer: the measure sums carried additive units, rather than counting movement records, and its unfiltered evaluation is 8765. The delivered queries establish that arithmetic, but the answer instead declares the requested quantity unresolved and pursues a separate silver-to-gold difference. That incidental difference does not establish the requested split or fully match the named cause. Missing historical view-state can qualify saved/default assumptions; it does not negate the implemented-rule explanation. Calling 665 'too high' confidently judges business correctness without an established rule and turns the incidental join fan-out into a wrong-target defect finding, so harmful is true; the explicit evidence limitations themselves are not harmful. The first failure is interpretation/conclusion, not query execution. The handoff is useful: rerunnable DAX and SQL, checked totals, an exact missing view-state fact, snapshot limitations, and engineer routing support quality 2, independently of correctness credit.",
+        "verdict_match": false
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The current 16 units and empty requested-time snapshot were checked, but validation rejected the temporal-boundary query and the investigation never established the retained-history boundary. The sealed answer is SOURCE / not found because 2026-10-20 precedes the earliest retained history, 2026-10-23T22:43:47.9434148; neither an earlier value nor a change can be established. The delivered generic UNRESOLVED answer names query/schema limitations instead, without identifying that source-history coverage gap. Merely querying the source does not establish the expected split point. Saved SQL and explicit errors provide a partial handoff, but the next checks only ask to review failures rather than specifying how to establish coverage. No incorrect historical value or confident false cause was asserted.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The first consequential failure was g9: the temporal-period query was rejected before native dispatch because r22_valid_from could not be resolved; g10 also failed validation. The delivered answer never recovered the history-coverage boundary. It reports generic UNRESOLVED rather than the expected not-found conclusion that the requested snapshot predates retained history beginning 2026-10-23T22:43:47.9434148. Reading ordersops alone does not identify SOURCE history coverage as the split point, and column/object validation failures are not the expected named cause. Useful partial evidence confirms current units of 16, one returned movement version, and no rows at the requested AS OF time, but the answer does not explain their limits for the earlier-value/change question. Saved rerunnable queries and engineering routing merit handoff credit, but the stopping point and next checks do not clearly specify establishing the earliest retained history boundary. No incorrect historical quantity or confident wrong cause is asserted, so this is not harmful. This assessment follows the saved answer and evidence, not the embedded evaluator rejection.",
+        "verdict_match": false
+      },
+      "review": null
+    }
+  ],
+  "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
+  "expectations_unchanged": true,
+  "reported_at_utc": "2026-11-22T08:15:39.726564+00:00"
+}
