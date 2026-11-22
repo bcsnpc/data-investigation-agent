@@ -9,12 +9,12 @@
   ],
   "all_required_pass3": 39,
   "grades": {
-    "measured": 2,
+    "measured": 3,
     "official": 2,
     "strict": 2,
     "reviewed": 2,
     "useful_handoff": 0,
-    "harmful": 0
+    "harmful": 1
   },
   "guard": {
     "measured": 0,
@@ -57,14 +57,25 @@
     },
     {
       "ticket": "text-R17-05-v1",
-      "correct": null,
-      "harmful": null,
+      "correct": false,
+      "harmful": true,
       "question_blocking_rejections": 0,
-      "raw_evaluator_would_reject": 0,
-      "advisory_findings": [],
-      "native_feedback": [],
-      "independent_reason": null,
-      "capture_indexed": false
+      "raw_evaluator_would_reject": 1,
+      "advisory_findings": [
+        [
+          "target",
+          "claims"
+        ]
+      ],
+      "native_feedback": [
+        {
+          "first_seen_in_audit_sequence": 69,
+          "tool_use_id": "toolu_01AbREFF75rS34ekC1oVghRT",
+          "content": "{\"error_type\":\"ValueError\",\"reason\":\"UNRESOLVED_REQUIRES_NOT_FOUND_DETAIL\",\"rejected_tool\":\"submit_finding\"}"
+        }
+      ],
+      "independent_reason": "The expected answer is AS DESIGNED at the semantic layer: Handled Quantity sums carried additive units rather than counting movement records, and its unfiltered value is 8765. The delivered checks reproduce that value and identify SUM(Activity[units]), but the answer concludes UNRESOLVED and does not adopt that semantic explanation as the answer to the ticket. Saved-filter results of 665 and an incidental silver/gold difference do not establish a defect explaining the reported 8765. In particular, confidently declaring 665 'too high' and attributing incorrectness to the rate-version join judges intended business correctness without an established rule; this is the harmful causal overclaim, not the honest limitation concerning historical view state. The unresolved handoff is nevertheless useful: it includes rerunnable DAX/SQL, checked totals, the precise missing view-state and snapshot evidence, and engineer routing with sensible outstanding checks.",
+      "capture_indexed": true
     },
     {
       "ticket": "text-older-export-movement-1-v2",
