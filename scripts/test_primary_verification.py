@@ -68,5 +68,32 @@ class PrimaryVerificationTests(unittest.TestCase):
   c=self.case();c['context']['explicit_target']={'visual':'named'};c['intake']['visual']='other'
   a=self.args();a.update(verdict='as designed',verdict_class='AS DESIGNED')
   with self.assertRaisesRegex(ValueError,'EXPLICIT_TARGET_CHANGED'):validate(a,c)
+ def multi_column_case(self):
+  c=self.case();c['context']['layers']['semantic']['objects']=[
+   {'id':'table','kind':'SemanticTable','name':'Items'},
+   {'id':'native-measure','kind':'Measure','name':'Units','parent_id':'table'},
+   {'id':'other-measure','kind':'Measure','name':'Other','parent_id':'table'}]
+  q=c['queries'][0];q.update(text='EVALUATE ROW("quantity",[Units],"entries",COUNTROWS(Items))',asset_ids=['native-measure','table'],result={'rows':[{'[quantity]':12,'[entries]':406}]})
+  return c
+ def test_parsed_measure_projection_survives_extra_diagnostic_columns(self):
+  c=self.multi_column_case();self.assertEqual(recreation(c,self.args()),'MATCH')
+  with self.assertRaisesRegex(ValueError,'PRIMARY_QUESTION_IS_DISPLAY_VERIFICATION'):validate(self.args(),c)
+ def test_other_column_matching_figure_is_never_used_as_selected_measure(self):
+  c=self.multi_column_case();c['queries'][0]['result']['rows']=[{'[quantity]':9,'[entries]':12}]
+  self.assertEqual(recreation(c,self.args()),'DIFFERS');validate(self.args(),c)
+ def test_expression_aliases_and_native_asset_binding_not_value_search(self):
+  for text,assets in [
+   ('EVALUATE ROW("quantity",[Other],"entries",[Units])',['native-measure','other-measure']),
+   ('EVALUATE ROW("quantity",[Units]*2,"entries",COUNTROWS(Items))',['native-measure','table']),
+   ('EVALUATE ROW("quantity",[Units],"QUANTITY",COUNTROWS(Items))',['native-measure','table']),
+   ('EVALUATE CALCULATETABLE(ROW("quantity",[Units],"entries",COUNTROWS(Items)))',['native-measure','table'])]:
+   c=self.multi_column_case();c['queries'][0].update(text=text,asset_ids=assets)
+   # In the first case the native Units projection is entries=406, not quantity=12.
+   expected='DIFFERS' if '[Other]' in text else 'UNESTABLISHED'
+   with self.subTest(text=text):self.assertEqual(recreation(c,self.args()),expected)
+ def test_missing_or_ambiguous_result_alias_does_not_bind(self):
+  for row in [{'[not_quantity]':12,'[entries]':406},{'quantity':12,'[quantity]':12,'[entries]':406}]:
+   c=self.multi_column_case();c['queries'][0]['result']['rows']=[row]
+   with self.subTest(row=row):self.assertEqual(recreation(c,self.args()),'UNESTABLISHED')
 
 if __name__=='__main__':unittest.main()

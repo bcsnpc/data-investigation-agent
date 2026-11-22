@@ -68,10 +68,15 @@ def recreation(case, args):
         if layer.get('dialect') != 'DAX':
             continue
         rows = query.get('result', {}).get('rows', [])
-        if len(rows) != 1 or not isinstance(rows[0], dict) or len(rows[0]) != 1:
+        if len(rows) != 1 or not isinstance(rows[0], dict) or not rows[0]:
             continue
+        if len(rows[0])==1:value=next(iter(rows[0].values()))
+        else:
+            column=direct_row_measure_column(query,layer,asset,rows[0])
+            if column is None:continue
+            value=rows[0][column]
         try:
-            observations.append(compare_figure(figure, next(iter(rows[0].values())))['matches'])
+            observations.append(compare_figure(figure,value)['matches'])
         except (ValueError, TypeError, ArithmeticError, KeyError):
             continue
     if not observations:
@@ -79,6 +84,35 @@ def recreation(case, args):
     if all(observations):
         return 'MATCH'
     return 'DIFFERS' if not any(observations) else 'MIXED'
+
+
+def direct_row_measure_column(query,layer,asset,row):
+    """Bind a native ROW projection by its parsed measure, never by its value.
+
+    A second diagnostic column must not erase a measured target or become the
+    target merely because its numeric value happens to match the ticket.
+    Other table expressions remain unestablished by this narrow binder.
+    """
+    from .query_dax import Parser
+    try:
+        parser=Parser(query.get('text',''),layer.get('objects',[]),identity=True)
+        parser.take('EVALUATE');parser.take('ROW');parser.take('(')
+        labels=[];selected=[]
+        while True:
+            kind,label=parser.take()
+            if kind!='string':return None
+            label=label[1:-1].replace('""','"')
+            labels.append(label)
+            parser.take(',');expression,_=parser.expression()
+            if expression==repr(asset):selected.append(label)
+            if not parser.peek(','):break
+            parser.take(',')
+        parser.take(')')
+        if parser.peek() or len(selected)!=1 or len({x.casefold() for x in labels})!=len(labels):return None
+        if parser.references!=set(query.get('asset_ids',[])):return None
+        matches=[k for k in row if k in (selected[0],'['+selected[0]+']')]
+        return matches[0] if len(matches)==1 else None
+    except (ValueError,KeyError,TypeError):return None
 
 
 def is_display_verification(case, args):
