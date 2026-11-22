@@ -1,5 +1,5 @@
 {
-  "at_utc": "2026-11-22T02:44:40.112855+00:00",
+  "at_utc": "2026-11-22T03:00:26.075133+00:00",
   "label": "both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic)",
   "baseline": {
     "correct": 7,
@@ -308,6 +308,7 @@
       "would_reject": true,
       "hard_rejections": 1,
       "soft_rejections": 0,
+      "default_enforcement_on_saved_draft": "RETRY_OR_DOWNGRADE",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": true,
@@ -476,6 +477,7 @@
       "would_reject": true,
       "hard_rejections": 1,
       "soft_rejections": 0,
+      "default_enforcement_on_saved_draft": "RETRY_OR_DOWNGRADE",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": true,
@@ -634,6 +636,7 @@
       "would_reject": true,
       "hard_rejections": 1,
       "soft_rejections": 0,
+      "default_enforcement_on_saved_draft": "RETRY_OR_DOWNGRADE",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": false,
@@ -802,6 +805,7 @@
       "would_reject": true,
       "hard_rejections": 0,
       "soft_rejections": 1,
+      "default_enforcement_on_saved_draft": "REWRITE_THEN_DELIVER_WITH_WARNING",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": true,
@@ -960,6 +964,7 @@
       "would_reject": true,
       "hard_rejections": 1,
       "soft_rejections": 0,
+      "default_enforcement_on_saved_draft": "RETRY_OR_DOWNGRADE",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": true,
@@ -1085,6 +1090,7 @@
       "would_reject": true,
       "hard_rejections": 1,
       "soft_rejections": 0,
+      "default_enforcement_on_saved_draft": "RETRY_OR_DOWNGRADE",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": true,
@@ -1218,6 +1224,7 @@
       "would_reject": true,
       "hard_rejections": 1,
       "soft_rejections": 0,
+      "default_enforcement_on_saved_draft": "RETRY_OR_DOWNGRADE",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": false,
@@ -1333,6 +1340,7 @@
       "would_reject": true,
       "hard_rejections": 1,
       "soft_rejections": 0,
+      "default_enforcement_on_saved_draft": "RETRY_OR_DOWNGRADE",
       "reviewer_rejection_assessment": {
         "answer_review": {
           "cause_match": true,

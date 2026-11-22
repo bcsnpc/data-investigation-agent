@@ -541,3 +541,11 @@ Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. 
 
 
 Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\proof03-evaluator-advisory\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\dev01-completion-advisory\injections\access\status.json.
+
+Round27 access setup correction,2026-11-22UTC: the earlier unconditional controller footer said both reader values were verified, but this attempt stopped before the cloud probe. Only the local SQL reader10/1 and unchanged roles were verified. The three owned objects were removed and the catalog restored; no scored ticket was admitted. The missing billing-route preflight error and source status remain in dev01-completion-advisory/injections/access/. This is an unscored setup error, not an engine outcome. Future controller footers derive verification flags from actual saved probes instead of printing expected values.
+
+
+Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; SQL reader read-only verified=True, cloud reader read-only verified=False. Expected probe values are not a verification claim. No impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\dev01-completion-advisory\injections\access-scope-replacement\status.json.
