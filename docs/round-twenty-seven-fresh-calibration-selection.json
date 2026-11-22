@@ -1,0 +1,88 @@
+{
+  "status": "PREDECLARED_NOT_ADMITTED",
+  "selection_rule": "First ten lexical IDs in the existing public dev set, excluding every Round27 used ID or normalized text from pass1 and either proof plan. No score or expected-correctness selection.",
+  "records": [
+    {
+      "id": "R17-03-v1",
+      "estate": "fixture",
+      "case_id": "R17-03",
+      "text_sha256": "8830e3ce5f1e8b0f3561dc646c16dcbd1e4771e54b360e2bdd75548cc1270473",
+      "fixture_admission": null
+    },
+    {
+      "id": "R17-06-v1",
+      "estate": "fixture",
+      "case_id": "R17-06",
+      "text_sha256": "aaf886846279a956b7214c2877702bbbe192325740b6d7bf9fee30c1a540b07a",
+      "fixture_admission": null
+    },
+    {
+      "id": "R17-07-v1",
+      "estate": "fixture",
+      "case_id": "R17-07",
+      "text_sha256": "5ebad41418396c76d4a8f4c9c810feded91c40a25b6259d7517b7758c82d8719",
+      "fixture_admission": null
+    },
+    {
+      "id": "R17-12-v1",
+      "estate": "fixture",
+      "case_id": "R17-12",
+      "text_sha256": "44d51b1aed8155c7b745810b3d243f702e237b98c9c92b24e8d170fc926c93fd",
+      "fixture_admission": null
+    },
+    {
+      "id": "access-export-1-v1",
+      "estate": "billing",
+      "case_id": "access-export-1",
+      "text_sha256": "37bae019b9b46d47c946b9df30772532d30a72534cd288206451164d8cac0330",
+      "fixture_admission": "LIVE_ACCESS"
+    },
+    {
+      "id": "access-export-1-v2",
+      "estate": "billing",
+      "case_id": "access-export-1",
+      "text_sha256": "e67312a4eac46e1a3f72e05c82b6d65db580c3217a84d80b757f1a65a896e35f",
+      "fixture_admission": "LIVE_ACCESS"
+    },
+    {
+      "id": "baseline-S01-v2",
+      "estate": "fixture",
+      "case_id": "baseline-S01",
+      "text_sha256": "284ab9d282e418ab2033f8db4d37570690d8f14fd8267a5cc7ff2ff2e719f3b2",
+      "fixture_admission": null
+    },
+    {
+      "id": "baseline-S02-v2",
+      "estate": "billing",
+      "case_id": "baseline-S02",
+      "text_sha256": "b54361e33adfc22ffd27f1cf21387bba1dfffe87a3207e96fcd4f76b8bc2e810",
+      "fixture_admission": null
+    },
+    {
+      "id": "baseline-S03-v1",
+      "estate": "dia-sample-estate",
+      "case_id": "baseline-S03",
+      "text_sha256": "651de3c3cbc31611e00d547e341e36a4553adf2252b157d13a8c877b0bd8ce0b",
+      "fixture_admission": null
+    },
+    {
+      "id": "different-warehouse-v1",
+      "estate": "fixture",
+      "case_id": "different-warehouse",
+      "text_sha256": "0e8daf326cd72f8b538cbc4b800bbe67a7505ca31a7b5335031ba13ddbfd72af",
+      "fixture_admission": null
+    }
+  ],
+  "public_dev_source_sha256": "68fcba6df4aea127e11e9e77c236dce9dbc98d6808daef027faffd0f54096858",
+  "public_dev_expectations_sha256": "dc06aaa71a12bf29ff3033f2db572c73d4a56acc479788ed873cc5217364b60f",
+  "public_dev_only_no_held_out_access": true,
+  "unchanged_wording_required": true,
+  "fresh_10_required": true,
+  "admission_requires": "Pass2 guard20/20 and0reviewedharm, then engine freeze/full qualification, native fixture admissions and budget headroom.",
+  "calibration_gate": {
+    "reviewed_correct_at_least": 7,
+    "denominator": 10,
+    "reviewed_harmful": 0
+  },
+  "v5_sealed": true
+}
