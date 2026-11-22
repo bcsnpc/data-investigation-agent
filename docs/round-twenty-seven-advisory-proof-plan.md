@@ -14,3 +14,5 @@ These eight failed tickets are fixed in the ablation plan before admission. Each
 - form-v2-warehouse-scope-v1
 
 The earlier zero-model-call billing cap failure and invalid history-control preparation remain recorded separately. The complete baseline selects twelve earlier valid outcomes plus three distinct cap-corrected tail attempts. If this one advisory ablation also misses the gate, stop Opus and close Part 6 without calibration or v5. No calibration or v5 is admitted by this plan.
+
+Every advisory case receives the requested independent Terra review, including cases where Sol and Astra agree. It uses the same verdict/layer/cause, harm and handoff rubric for the final answer and separately judges the evaluator rejection. Official and strict scores are unchanged. The additional reviewed projection and the earlier disagreement-only projection are both retained; the gate uses the additional independent answer review for the eight ablation cases. No operator judgment changes a grade or expectation.
