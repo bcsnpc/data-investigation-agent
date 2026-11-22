@@ -1,11 +1,11 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 19,
+    "measured": 20,
     "official": 14,
     "strict": 14,
     "reviewed": 14,
-    "useful_handoff": 0,
+    "useful_handoff": 1,
     "harmful": 1
   },
   "denominator_required": 39,
@@ -29,11 +29,11 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 16,
+      "measured": 17,
       "official": 13,
       "strict": 13,
       "reviewed": 13,
-      "useful_handoff": 0,
+      "useful_handoff": 1,
       "harmful": 1
     }
   },
@@ -665,9 +665,51 @@
         "verdict_match": true
       },
       "review": null
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer leaves the report/model target unresolved and therefore does not deliver the sealed AS DESIGNED conclusion at the semantic layer. It does reproduce the retained successful refresh end time (2026-10-07T21:15:37.357Z) and disabled schedules, but explicitly treats those histories as unassigned nodes rather than establishing the requested model refresh facts; that is only a partial named-cause match. Avoiding a query-bound freshness claim is appropriate, but does not substitute for the expected answer. The handoff is useful: saved rerunnable DAX/SQL, checked values and authorization failures, an explicit stopping point, precise missing model/history and warehouse mappings, and sensible next checks with engineer routing. The uncertainty is honest, not a confident incorrect cause.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered answer substitutes target/mapping uncertainty and UNRESOLVED/not found for the sealed AS DESIGNED answer. Its first divergence is declining to select the report/model target. Independently, it addresses the semantic-model refresh layer and reports the expected historical facts: latest successful API refresh ended 2026-10-07T21:15:37.357Z and scheduling is disabled, without claiming query-bound freshness or inventing a recent refresh. Those satisfy the layer and named-cause substance, but not the verdict. The unresolved handoff includes executed, rerunnable DAX/SQL, checked values and authorization failures, precise missing mappings/settings, and sensible engineer follow-up. Its explicit evidence limitations are not a confident incorrect cause.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "PRIMARY is supported. The answer gives UNRESOLVED/not found rather than the sealed AS DESIGNED verdict. It reports the expected 2026-10-07T21:15:37.357Z refresh end and disabled schedules, but explicitly says neither refresh node is linked to either model; it therefore does not establish those facts for the requested semantic-model target. Mentioning that layer and the unassigned history is only partial credit, not a matching layer or named cause. The first failure is leaving the target unresolved. The refusal is honest, not harmful. The handoff is useful: it includes rerunnable DAX and SQL, 8765 and 8463 observations, 401 failures, specific missing mappings and settings, and engineer routing.",
+        "verdict_match": false,
+        "winning_grader": "PRIMARY"
+      }
     }
   ],
   "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
   "expectations_unchanged": true,
-  "reported_at_utc": "2026-11-22T08:38:36.000065+00:00"
+  "reported_at_utc": "2026-11-22T08:46:14.578219+00:00"
 }

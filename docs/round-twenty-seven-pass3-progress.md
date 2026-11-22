@@ -1,6 +1,6 @@
 # Round27 pass3 progress
 
-**Partial: 14/19 reviewed correct; 0 useful handoffs; 1 harmful.** Official14/19; strict14/19. Required denominator39.
+**Partial: 14/20 reviewed correct; 1 useful handoffs; 1 harmful.** Official14/20; strict14/20. Required denominator39.
 
 Full fixed guard: 11/13 currently measured, out of20 required. No positive guard result carried forward. The freeze/calibration gate is not passed.
 
