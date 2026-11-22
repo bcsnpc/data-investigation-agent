@@ -1,19 +1,19 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 16,
-    "official": 11,
-    "strict": 11,
-    "reviewed": 11,
+    "measured": 18,
+    "official": 13,
+    "strict": 13,
+    "reviewed": 13,
     "useful_handoff": 0,
     "harmful": 1
   },
   "denominator_required": 39,
   "guard": {
-    "measured": 11,
-    "official": 9,
-    "strict": 9,
-    "reviewed": 9,
+    "measured": 13,
+    "official": 11,
+    "strict": 11,
+    "reviewed": 11,
     "useful_handoff": 0,
     "harmful": 0
   },
@@ -29,10 +29,10 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 13,
-      "official": 10,
-      "strict": 10,
-      "reviewed": 10,
+      "measured": 15,
+      "official": 12,
+      "strict": 12,
+      "reviewed": 12,
       "useful_handoff": 0,
       "harmful": 1
     }
@@ -443,6 +443,70 @@
       }
     },
     {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Matches the sealed expectation: identifies movement_id 7 from the visible warehouse/product/units values and explains that source application units=20 is copied unchanged into the lakehouse and read directly by the model/report. Correctly distinguishes the raw-column visual from the unused SUM measure and concludes AS DESIGNED. Native source, lakehouse and model checks support the key and value agreement; the initial rejected DAX query was subsequently recovered. Saved queries, scoped limitations and routing provide a rerunnable technical handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered AS DESIGNED answer matches the sealed expectation: it identifies movement_id 7 from warehouse 3, product 2, units 20 and traces the unchanged source units through the copy job, lakehouse, Direct Lake model and raw-column visual. Native source and lakehouse lookups and key-specific reads, plus the successful model reads, support the identification and agreement. The source application is correctly identified as the origin; no downstream discrepancy is invented. The initial rejected DAX query was recovered with successful queries, so it is not an unresolved failing step. Screenshot identity and snapshot-timing qualifications do not negate the answer. Saved queries, explicit evidence limits and engineering routing provide a usable handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The substantive verdict matches the sealed 'different question' finding: the answer explicitly attributes the 864-unit difference to comparing warehouse 1 with warehouse 2, not ingestion or arithmetic. Although labelled AS DESIGNED, it correctly locates the split at selection scope and names the exact warehouse restriction mismatch. Native checks return 2948 and 2084 respectively in all three layers and support that explanation. Rerunnable queries, snapshot limitations and routing are supplied.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer substantively matches the expected 'different question' verdict despite labeling it AS DESIGNED: it explicitly identifies report warehouse 1 versus export warehouse 2 as unequal comparison scopes, not a pipeline or arithmetic defect. It locates the discrepancy at selection scope and names the exact warehouse restrictions as the cause. Native queries return 2948 and 2084 consistently across model, lakehouse and source, supporting that conclusion. It explains the SUM measure and unchanged 1:1 copy. Rerunnable queries, explicit limits on other filters and snapshot/deployment equivalence, and business-owner routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
       "ticket": "text-R17-01-v1",
       "estate": "fixture",
       "fixture": "baseline",
@@ -573,5 +637,5 @@
   ],
   "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
   "expectations_unchanged": true,
-  "reported_at_utc": "2026-11-22T08:30:37.583819+00:00"
+  "reported_at_utc": "2026-11-22T08:33:49.443303+00:00"
 }
