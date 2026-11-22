@@ -1,0 +1,30 @@
+# Round 27 pass2 saved-trace backtrack checkpoint
+
+44/48 graded. All 20 currently reviewed failures/harmful outputs are included. This is operator diagnosis from saved native traces, separate from the unchanged independent grades.
+
+| Ticket | First wrong step | What went wrong and the correct action |
+|---|---|---|
+| form-v2-record-repeated-gold-v2 | triage | The declared source is advertised as reachable but omitted from the native query enum; the correct join draft is later rejected for not reading it. Expose the already-authorized exact comparison source, and do not interpret a compound literal key lookup as absence. |
+| form-v2-screenshot-record-03-v1 | write-up | Recovered native reads establish source units3 carried unchanged, but malformed record-only context metadata consumes repair; later failed-query citation and repair exhaustion suppress the substantive draft. Keep metadata nonblocking and cite only successful reads. |
+| form-v2-warehouse-scope-v2 | intake | UNKNOWN_REPORT stops the explicit form before reads. Resolve the submitted catalog target without replacing it; no technical cause has been established. |
+| form-v2-warehouse-scope-v1 | write-up | The first draft correctly identifies the warehouse1-versus2 comparison, but encodes AS DESIGNED and subsequently hits source-consistency/repair rejection. Preserve the distinct different-question verdict with the demonstrated two scopes. |
+| text-baseline-S02-v1 | conclusion | The supported700-to950 calculation explanation is labelled DEVIATION, although the question asks how the implemented rule works. Explain that rule without judging an unstated intended design. |
+| text-R17-01-v1 | conclusion | The selected card is recreated as8765 and its SUM rule is known, but the answer substitutes an incidental upstream join DEVIATION for verification of that card. Answer the selected calculation question first. |
+| text-R17-02-v1 | conclusion | The card value and SUM rule are verified, then an upstream fanout is presented as the defect answering the card question. Separate implementation verification from incidental path observations. |
+| text-R17-05-v1 | target | A shared visual alias selects the extra-predicate card on another page instead of preserving the named target scope. Treat shared aliases as candidates and respect native visual titles and named scope. |
+| text-R17-04-v1 | conclusion | Candidate reads and401s dominate the answer, but the requested intended value cannot be established from SUM or physical units. State the business-meaning limitation instead of making target ambiguity the sole cause. |
+| text-R17-08-v1 | conclusion | The relevant last refresh and disabled schedule are found, but the answer leaves the whole status unresolved because snapshot freshness and other candidates cannot be established. Deliver the bounded native refresh facts without claiming query-bound freshness. |
+| text-R17-10-v1 | target | Multiple same-title visuals are treated as an unresolved target even after candidate checks establish the named measure and separate differently scoped/calculated visuals. Explain the supported measure-level rule and retain only the exact unresolved visual distinction. |
+| text-R17-11-v1 | conclusion | The answer explains SUM but labels the business-definition question AS DESIGNED, even while acknowledging its missing intended meaning. Route that missing business meaning to its owner without claiming it resolved. |
+| text-baseline-S01-v1 | conclusion | The implemented join and7661-to8765 arithmetic are supported but called DEVIATION for a calculation-explanation question. Describe implementation without asserting an unstated correctness rule. |
+| text-different-warehouse-v2 | intake | The explicit warehouse1-versus2 comparison becomes compared_with NOTHING; the run then stops without reads. Preserve the two stated selection scopes before investigation. |
+| text-older-export-movement-1-v2 | target | An unverified current40-unit candidate and a non-temporal shortlist replace the unidentified historical export source. Inspect the exact admitted declared source and its actual retention boundary; do not infer global history absence from the shortlist. |
+| text-history-source-900201-v1 | triage | The declared temporal source is omitted from the toolbox, so the model tries invalid warehouse time-travel syntax and ends on current absence. Expose the authorized source and query its native retained before/after versions. |
+| text-history-source-900201-v2 | triage | The exact declared source is called reachable but missing from the query layers; only current warehouse rows are checked. Native temporal history is required to explain the two old exports. |
+| text-latency-900501-v1 | triage | The enabled future schedule is retained but next_due is null. A correct latency draft also meets an unchanged-total history guard; the later deletion/reinsertion timeline is unsupported. Use the declared next load and keyed absence-at-load/presence-now evidence. |
+| text-latency-900501-v2 | triage | The arrival-after-load split is supported but the enabled future schedule is not normalized, leaving the required next load unresolved. State its native declared start and distinguish a missing row from zero. |
+| text-latency-900502-v2 | triage | Current/source-as-of checks reject the type-mismatch hypothesis, but next load remains unresolved despite a retained enabled future schedule. Report the scheduled load and due time, and missing row versus zero. |
+
+Counts: triage: 6, write-up: 2, intake: 2, conclusion: 7, target: 3.
+
+Transient query errors that were recovered are not automatically treated as the first consequential failure. The accompanying JSON retains each result hash and the independent grader reason. No expectation, output or score changed; no new estate/model calls were made. Both graders same vendor (OpenAI), independent of investigator vendor (Anthropic).

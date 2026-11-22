@@ -588,3 +588,6 @@ Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native 
 
 
 Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev02-advisory\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+
+Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; SQL reader read-only verified=True, cloud reader read-only verified=True. Expected probe values are not a verification claim. No impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\dev02-advisory\injections\access\status.json.
