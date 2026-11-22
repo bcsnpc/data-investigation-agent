@@ -15,3 +15,5 @@ The last repair was checked against the retained fixture graph and the unchanged
 Focused verification: 55 tests passed across delivery references, conclusion compatibility, terminal findings, Unicode query literals, native column targeting and feature flags. The first combined invocation lacked `PYTHONPATH=scripts` and failed imports; the corrected invocation passed. Earlier focused checks are retained separately. These checks do not replace qualification of the eventual batch.
 
 The advisory evaluator remains explicitly enabled only in the selected test installation profile; its factory default remains off. Intake guards and saved-evidence delivery repair stay enabled.
+
+Qualification completed on source `35f4aa5c424cb3b51bf0d648316ad20c8cfb3296`: **5,985 passed, 53 skipped, zero failures/errors**, with all eight image shards passing. The published image is `sha256:362005b034505414cdbc30d871f27513a00bd41f9bb855224070507efce69348`. Artifact hashes and the workflow are recorded in `round-twenty-seven-generic-repair-qualification.json`. No pass-2 ticket was admitted by qualification or publication.
