@@ -1,0 +1,242 @@
+{
+  "at_utc": "2026-11-22T00:04:38.693123+00:00",
+  "label": "both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic)",
+  "expected": 15,
+  "saved": 1,
+  "graded_and_reviewed": 1,
+  "official": 0,
+  "strict": 0,
+  "reviewed": 0,
+  "reviewed_wilson95": [
+    0.0,
+    0.7934506856227626
+  ],
+  "harmful": 0,
+  "useful_handoff": 0,
+  "gate": "PENDING",
+  "rows": [
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "fixture": "failed-fixture",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "fixture": "failed-billing",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": true
+      },
+      "saved": true,
+      "outcome_status": "BLOCKED",
+      "after": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "The delivered answer is explicitly UNRESOLVED, not the expected transformation-logic verdict, and does not identify the Silver-to-Gold split or name the product_id left join to product rates as the cause of repeated movement units. Its checked results do support that diagnosis: bronze and silver total 7661, gold and the measure total 8765, gold has 406 rows for 360 movements, product 7 units double from 1104 to 2208, and product 7 has two rate rows. Merely listing these observations does not supply the requested explanation or earn layer/cause credit. The initial DAX timeout was recovered by a successful measure query, so the substantive failure is the unresolved conclusion, not that transient query error. The handoff retains rerunnable queries, checked findings, an explicit spending-policy stop and engineering routing, but its next check revisits the timeout and does not specify the missing join-definition check. The answer honestly limits its conclusion and asserts no incorrect technical cause, so it is not harmful.",
+          "verdict_match": false
+        },
+        "secondary": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "The delivered verdict is explicitly UNRESOLVED, not the expected transformation-logic verdict. Its checked totals and row counts are consistent with the expected Silver-to-Gold duplication, but it does not identify that split as the explanation or name the movements-to-product-rates left join on product_id as the cause. Duplicate rate rows and doubled product-7 units are reported without the causal conclusion. Intake and target are correct, and successful native queries provide relevant evidence; the first substantive failure is the unresolved conclusion, not the earlier recovered DAX timeout. The handoff preserves rerunnable queries, checked findings, engineer routing and a clear provider-budget stopping point, but its only concrete next check revisits a timeout rather than identifying the missing join-definition check. This is useful partial work, not a correct blocked answer or full resolution. It makes no confident incorrect causal claim and is not harmful.",
+          "verdict_match": false
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof01\\grading\\form-batch01"
+      }
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "fixture": "latency",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "fixture": "history",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    }
+  ]
+}
