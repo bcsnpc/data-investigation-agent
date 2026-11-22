@@ -9,18 +9,18 @@
   ],
   "all_required_pass3": 39,
   "grades": {
-    "measured": 6,
-    "official": 4,
-    "strict": 4,
-    "reviewed": 4,
+    "measured": 12,
+    "official": 8,
+    "strict": 8,
+    "reviewed": 8,
     "useful_handoff": 0,
     "harmful": 1
   },
   "guard": {
-    "measured": 2,
-    "official": 2,
-    "strict": 2,
-    "reviewed": 2,
+    "measured": 8,
+    "official": 6,
+    "strict": 6,
+    "reviewed": 6,
     "useful_handoff": 0,
     "harmful": 0
   },

@@ -1,19 +1,19 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 9,
-    "official": 6,
-    "strict": 6,
-    "reviewed": 6,
+    "measured": 12,
+    "official": 8,
+    "strict": 8,
+    "reviewed": 8,
     "useful_handoff": 0,
     "harmful": 1
   },
   "denominator_required": 39,
   "guard": {
-    "measured": 5,
-    "official": 4,
-    "strict": 4,
-    "reviewed": 4,
+    "measured": 8,
+    "official": 6,
+    "strict": 6,
+    "reviewed": 6,
     "useful_handoff": 0,
     "harmful": 0
   },
@@ -21,7 +21,7 @@
   "gate": "PENDING",
   "by_estate": {
     "billing": {
-      "measured": 2,
+      "measured": 3,
       "official": 1,
       "strict": 1,
       "reviewed": 1,
@@ -29,10 +29,10 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 7,
-      "official": 5,
-      "strict": 5,
-      "reviewed": 5,
+      "measured": 9,
+      "official": 7,
+      "strict": 7,
+      "reviewed": 7,
       "useful_handoff": 0,
       "harmful": 1
     }
@@ -199,6 +199,112 @@
       "review": null
     },
     {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the expected transformation-logic deviation and correctly locates the first duplication at Silver to Gold. It identifies the product_id-only left join against two product 7 rate rows, without a uniqueness or rate-version restriction, as the cause of movement 6 appearing twice. Source, Bronze and Silver checks show one movement row; Gold and Activity show two with the distinct rate versions and values. Saved queries are rerunnable, and the remaining applicable-rate business rule and technical follow-up are clearly scoped. No disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed transformation-logic/DEVIATION verdict, identifies Silver-to-Gold as the first duplication point, and names the product_id-only join to two product-7 rate rows without a uniqueness restriction. Native checks show movement 6 once in source, Bronze and Silver, but twice in Gold and Activity, with the two rate versions and corresponding values. Saved SQL/DAX, scoped findings, the explicit missing rate-selection business rule, and engineer routing provide a useful handoff. No substantive disagreement with the expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Matches the sealed AS DESIGNED verdict and source-application split: movement_id 900099 is absent in the source, landing table and semantic model, with no matching retained source-history version. The answer correctly explains the unfiltered overwrite mapping and SUM('Movements'[units]); an absent record supplies no value rather than establishing a recorded zero. Native key lookups and layer counts support that conclusion. The historical-retention and identifier caveats are appropriately scoped, with rerunnable checks and business-owner routing for whether the movement should exist.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer matches the sealed AS DESIGNED verdict, locates the absence at the source application rather than a downstream split, and identifies movement_id 900099 as absent in source, landing, and semantic-model checks. It explains the unfiltered overwrite mapping and SUM measure without treating the missing record as an observed zero. The retained-history lookup also returned no matching record. The rejected hidden-period query does not invalidate these findings; the answer explicitly leaves the historical retention boundary and September existence unresolved. Rerunnable queries, the exact historical limitation, and source-owner routing provide a useful handoff for that remaining question.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": true,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer reframes a calculation/row-composition question with no comparator as an unexplained discrepancy and returns UNRESOLVED instead of the expected AS DESIGNED verdict. It never identifies the source application as the resolved origin/split. However, cause credit is warranted independently: the saved business answer explicitly gives SUM(Payments[amount]), lists payments 201/202/203 with amounts 200/100/250, and shows matching 550 totals through the reachable path. Thus the embedded evaluator's claim that the answer never names the rows or explains the calculation is contradicted by the saved answer. The handoff preserves rerunnable queries and checked results, but its remaining ambiguous-member check is not a demonstrated blocker after the successful full Payments read; it lacks a necessary missing fact and a sensible resolution-focused next step. The unresolved framing is not a confident false technical cause, so it is not harmful.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered verdict is UNRESOLVED, not the expected AS DESIGNED, despite successful recreation of 550 and retrieval of all three payment rows. Independently of the embedded evaluator rejection, the saved answer does provide SUM(Payments[amount]), amounts 200, 100 and 250, and matching totals across the reachable payment path; this substantively matches the named cause. It does not establish the expected source-application/DEV layer conclusion: listing source observations is not a resolved layer finding. The failed SELECTCOLUMNS query was superseded by a successful Payments read, so it does not justify the final stopping point. Saved rerunnable queries and engineer routing provide some handoff value, but the next check revisits that superseded error without identifying a genuinely missing fact. The unresolved wording is not a confident incorrect cause and is not harmful.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": true,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "PRIMARY is better supported on the first failure: the answer targets an alleged discrepancy, saying its cause was not established, although the intake asks which rows make up 550 and has compared_with NOTHING. The relevant queries do not cure that wrong framing; the later UNRESOLVED verdict is also wrong. The expected verdict is AS DESIGNED, and the answer does not resolve the expected source-application/DEV layer. Independently, the saved answer gives SUM(Payments[amount]), payment IDs 201, 202 and 203 with amounts 200, 100 and 250, and matching 550 totals across the checked path, so the named cause matches. The embedded evaluator's claim that the rows and calculation were never named is contradicted by the saved business answer. The handoff retains rerunnable queries and results, but its proposed ambiguous-member check revisits g10 after the successful full Payments read g11; it identifies no necessary missing fact. The unresolved answer does not assert a confident incorrect cause.",
+        "verdict_match": false,
+        "winning_grader": "PRIMARY"
+      }
+    },
+    {
       "ticket": "text-R17-01-v1",
       "estate": "fixture",
       "fixture": "baseline",
@@ -329,5 +435,5 @@
   ],
   "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
   "expectations_unchanged": true,
-  "reported_at_utc": "2026-11-22T08:18:25.246866+00:00"
+  "reported_at_utc": "2026-11-22T08:24:43.259000+00:00"
 }
