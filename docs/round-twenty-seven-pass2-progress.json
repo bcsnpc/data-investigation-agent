@@ -1,11 +1,11 @@
 {
-  "status": "PARTIAL_NOT_A_FINAL_GATE",
+  "status": "FINAL",
   "overall": {
-    "measured": 44,
-    "official": 24,
-    "strict": 24,
-    "reviewed": 24,
-    "useful_handoff": 12,
+    "measured": 48,
+    "official": 26,
+    "strict": 26,
+    "reviewed": 26,
+    "useful_handoff": 14,
     "harmful": 5
   },
   "denominator_required": 48,
@@ -18,7 +18,7 @@
     "harmful": 0
   },
   "guard_required": 20,
-  "gate": "PENDING",
+  "gate": "FAIL",
   "by_estate": {
     "billing": {
       "measured": 10,
@@ -37,11 +37,11 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 33,
-      "official": 14,
-      "strict": 14,
-      "reviewed": 14,
-      "useful_handoff": 11,
+      "measured": 37,
+      "official": 16,
+      "strict": 16,
+      "reviewed": 16,
+      "useful_handoff": 13,
       "harmful": 5
     }
   },
@@ -835,6 +835,70 @@
       "review": null
     },
     {
+      "ticket": "form-v2-stale-model-v1",
+      "estate": "fixture",
+      "fixture": "stale",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The verdict 'refresh stale' and Bronze-to-semantic-model split match: the recreated model returns 7661/360 rows while landing and source return 7692/363. The named cause is only partial: the sealed cause specifically includes Direct Lake automatic updates being off, whereas the answer explicitly leaves that setting unestablished. A disabled refresh schedule and an older refresh-history entry do not establish the automatic-update switch. This is a missing causal fact, not a confidently incorrect alternative cause. The answer provides rerunnable comparisons, identifies the exact missing setting and where to inspect it, and routes to an engineer, supporting handoff quality 2 without full cause credit. Some supporting details are overstated: the displayed job evidence ends at 07:19:56 and has unavailable row accounting, not the asserted 07:20:48 completion with 363 rows read/written.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The refresh-stale verdict and Bronze-to-semantic-model split match: the model returns 7661/360 rows while landing and source both return 7692/363 rows. Named-cause credit fails because the sealed cause includes Direct Lake automatic updates being off; the delivered answer explicitly leaves that setting unestablished. A disabled refresh schedule and older refresh history do not establish that separate setting. The checked totals and historical source queries support the stale-model finding but do not complete the required mechanism. This is an explicit evidence limitation, not a confidently incorrect cause. The remaining handoff is useful: saved rerunnable queries, identified historical-read failure, the exact missing automatic-update fact, its settings location, and engineer routing.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "estate": "fixture",
+      "fixture": "stale",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered refresh-stale verdict and semantic-model versus Bronze split match: the model returns 7661 while Bronze and ordersops both return 7692. Named-cause credit fails because the sealed cause includes automatic updates being OFF and actual loads advancing landing by 7+11+13; the answer explicitly leaves automatic updates unknown and does not establish those changes. A disabled refresh schedule is not the automatic-update setting. Its asserted latest pipeline run and 363 written rows also are not supported by the supplied native run facts, which show a different latest run and unavailable row accounting. This is an incomplete causal match, not a contrary diagnosis. Saved comparison queries, explicit missing history/settings checks, and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered refresh-stale verdict and Bronze-to-semantic-model split match: native checks reproduce 7661 in the model versus 7692 in both landing and ordersops. The named cause is only partial: the sealed cause includes the real +7/+11/+13 load advancement and automatic updates being OFF, whereas the answer explicitly leaves automatic-update state and historical changes unknown. Disabled scheduled refresh is not evidence that Direct Lake automatic updates were off. Thus the causal conclusion does not earn full cause credit, but it does not confidently assert an incorrect cause. The handoff is useful: saved rerunnable current-value queries, a clearly identified failed historical query, exact missing facts, the setting location to check, and engineer routing.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
       "ticket": "text-baseline-S02-v1",
       "estate": "billing",
       "fixture": "baseline",
@@ -1490,6 +1554,70 @@
         "layer_match": true,
         "partial": true,
         "reason": "The waiting-for-load verdict matches latency, and the checked source row, empty Bronze lookup and temporal source query correctly locate the split at SOURCE -> BRONZE. Named-cause credit fails because the sealed expectation requires identifying the enabled future application load and its due time, whereas the answer explicitly leaves the next load unresolved. Native schedule evidence retains enabled=true and a UTC start of 2026-11-23T18:38:43; next_due=null does not erase that evidence. The answer names the audited pipeline only in discussing its past run, and does not explicitly distinguish missing-row/BLANK from a zero quantity. These omissions make the causal answer partial, not fully correct. Its evidence limitation is not a confident false cause and is not harmful. Saved rerunnable queries, checked timing findings, a clear schedule stopping point and engineer routing provide a useful unresolved handoff.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "estate": "fixture",
+      "fixture": "stale",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly identifies refresh staleness at BRONZE -> SEMANTIC: the model retains 360 rows/7661 units, while both current upstream layers have 363 rows/7692 units. The application temporal read at the model refresh time reproduces 7661, supporting the older-model-snapshot cause rather than pipeline loss or a measure defect. It explains the direct units mapping and unfiltered SUM. Its explicit inability to inspect the automatic-update switch limits the configuration claim, but does not contradict the expected stale model-refresh boundary. Saved queries, failed historical checks, exact remaining uncertainties and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly diagnoses refresh stale at BRONZE -> SEMANTIC: native checks show model 7661/360 versus lakehouse and application 7692/363, and application temporal history at the model refresh matches 7661/360. It attributes the difference to the older model snapshot, not pipeline loss or the SUM calculation, matching the sealed cause in substance. It appropriately leaves the automatic-update switch unverified rather than claiming to have observed it. Some supporting load-run assertions exceed the supplied native evidence: the stated latest run times differ from the retained job fact, whose row accounting is unavailable. These do not overturn the independently supported stale-model diagnosis. Saved queries, explicit historical/settings limitations and engineer routing provide a useful handoff for the remaining checks.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "estate": "fixture",
+      "fixture": "stale",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly identifies refresh stale at the Bronze-to-semantic boundary, not a warehouse_id mapping or pipeline-loss issue. Native checks show semantic 7661/360 versus Bronze and source 7692/363; source temporal checks reproduce the semantic totals at the earlier model refresh. This matches the sealed named cause in substance. The automatic-update setting is explicitly unverified rather than falsely asserted. Saved queries, failed-check details, and the settings check provide a useful rerunnable handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer correctly rejects warehouse_id mapping as the explanation and identifies refresh staleness at BRONZE -> SEMANTIC. Native checks show the model at 360 rows/7661 units versus Bronze and source at 363 rows/7692 units; retained source history also matches the model's older total at its refresh time. This substantively matches the sealed cause: newer loaded data has not crossed the model refresh boundary, rather than pipeline loss. The answer appropriately leaves the automatic-update switch unverified instead of asserting its state. Saved queries, explicit limitations, the settings location to check, and engineer routing provide a useful handoff for remaining details.",
         "verdict_match": true
       },
       "review": null

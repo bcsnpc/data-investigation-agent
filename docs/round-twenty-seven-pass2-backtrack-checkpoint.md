@@ -1,6 +1,6 @@
 # Round 27 pass2 saved-trace backtrack checkpoint
 
-44/48 graded. All 20 currently reviewed failures/harmful outputs are included. This is operator diagnosis from saved native traces, separate from the unchanged independent grades.
+48/48 graded. All 22 currently reviewed failures/harmful outputs are included. This is operator diagnosis from saved native traces, separate from the unchanged independent grades.
 
 | Ticket | First wrong step | What went wrong and the correct action |
 |---|---|---|
@@ -8,6 +8,8 @@
 | form-v2-screenshot-record-03-v1 | write-up | Recovered native reads establish source units3 carried unchanged, but malformed record-only context metadata consumes repair; later failed-query citation and repair exhaustion suppress the substantive draft. Keep metadata nonblocking and cite only successful reads. |
 | form-v2-warehouse-scope-v2 | intake | UNKNOWN_REPORT stops the explicit form before reads. Resolve the submitted catalog target without replacing it; no technical cause has been established. |
 | form-v2-warehouse-scope-v1 | write-up | The first draft correctly identifies the warehouse1-versus2 comparison, but encodes AS DESIGNED and subsequently hits source-consistency/repair rejection. Preserve the distinct different-question verdict with the demonstrated two scopes. |
+| form-v2-stale-model-v1 | conclusion | The source and Bronze advance to7692 while the model remains7661, but automatic-update OFF is unavailable to the investigator. The answer correctly locates refresh staleness yet leaves this required causal setting unestablished and overstates job timing/row accounting. Report only native job facts and the exact missing setting; do not treat the owner control receipt as investigation evidence. |
+| form-v2-stale-model-v2 | conclusion | The source and Bronze advance to7692 while the model remains7661, but automatic-update OFF is unavailable to the investigator. The answer correctly locates refresh staleness yet leaves this required causal setting unestablished and overstates job timing/row accounting. Report only native job facts and the exact missing setting; do not treat the owner control receipt as investigation evidence. |
 | text-baseline-S02-v1 | conclusion | The supported700-to950 calculation explanation is labelled DEVIATION, although the question asks how the implemented rule works. Explain that rule without judging an unstated intended design. |
 | text-R17-01-v1 | conclusion | The selected card is recreated as8765 and its SUM rule is known, but the answer substitutes an incidental upstream join DEVIATION for verification of that card. Answer the selected calculation question first. |
 | text-R17-02-v1 | conclusion | The card value and SUM rule are verified, then an upstream fanout is presented as the defect answering the card question. Separate implementation verification from incidental path observations. |
@@ -25,6 +27,6 @@
 | text-latency-900501-v2 | triage | The arrival-after-load split is supported but the enabled future schedule is not normalized, leaving the required next load unresolved. State its native declared start and distinguish a missing row from zero. |
 | text-latency-900502-v2 | triage | Current/source-as-of checks reject the type-mismatch hypothesis, but next load remains unresolved despite a retained enabled future schedule. Report the scheduled load and due time, and missing row versus zero. |
 
-Counts: triage: 6, write-up: 2, intake: 2, conclusion: 7, target: 3.
+Counts: triage: 6, write-up: 2, intake: 2, conclusion: 9, target: 3.
 
 Transient query errors that were recovered are not automatically treated as the first consequential failure. The accompanying JSON retains each result hash and the independent grader reason. No expectation, output or score changed; no new estate/model calls were made. Both graders same vendor (OpenAI), independent of investigator vendor (Anthropic).

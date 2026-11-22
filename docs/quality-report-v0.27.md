@@ -46,3 +46,12 @@ The expired fixed-connection secret was rotated under owner approval without new
 
 ### Historical partial proof checkpoint, 2026-11-22 00:43 UTC (superseded by final proof above)
 Nine of the predeclared 15 cases are saved and fully graded/reviewed: official5/9, strict5/9, reviewed5/9, harmful0. These are partial denominators; the 11/15 gate is not decided. Five correct: application baseline, billing MRR, billing invoices, repeated-Gold record, screenshot02. Four unresolved failures: family quantity, absent-everywhere record, screenshots01 and03. Two static and four serialized fault cases remain. All six initially indexed captures passed seal and audit-batch hash checks; later saved captures will be indexed likewise. Proof investigation spend so far $12.269985, grading/review $1.241640. The separate policy-blocked pilot and three authentication interruptions remain preserved and excluded from this proof score. Sourceb692051f/image6e570bed remains pinned; the release-only smoke patch has separate full qualification. Current rows and call-cost/cache breakdown: round-twenty-seven-proof-progress.json.
+
+
+## Pass2 final and owner-selected pass3 (2026-11-22)
+
+All48 pass2 outcomes are independently graded: official26/48, strict26/48, reviewed26/48; useful handoffs14; harmful5. The full guard is17/20 correct,0 harmful. The gate fails. Billing9/10, sample1/1, fixture16/37 correct. Original outcomes, expectations and grades are unchanged.
+
+Pass3 is39 distinct tickets: every22 pass2 failure plus the full20 fixed guard, including all5 harmful cases. Exact-question evaluator rejection blocks after the existing retries; unsupported-claim, wording and completeness checks remain advisory. All requested code checks remain enabled. Gate remains0 reviewed harmful and20/20 guard, with no carried scores.
+
+At07:53UTC, Anthropic headroom is$37.972844, of which$14.34 remains protected for calibration (the cash reserve is already excluded). The full pass3 forecast is$42.533902 against$23.632844 available for dev, a projected$18.901058 shortfall. Bounded cases may proceed within existing guards; unfinished cases stay pending at the protected floor. No subset can satisfy the full-pass gate; no calibration before that gate and no partial v5.

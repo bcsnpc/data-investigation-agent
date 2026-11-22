@@ -1,6 +1,6 @@
 {
-  "status": "PARTIAL_SAVED_TRACE_REVIEW",
-  "measured": 44,
+  "status": "FINAL_SAVED_TRACE_REVIEW",
+  "measured": 48,
   "required": 48,
   "scores_unchanged": true,
   "no_new_estate_or_model_calls": true,
@@ -8,7 +8,7 @@
     "triage": 6,
     "write-up": 2,
     "intake": 2,
-    "conclusion": 7,
+    "conclusion": 9,
     "target": 3
   },
   "rows": [
@@ -43,6 +43,22 @@
       "harmful": false,
       "result_sha256": "d3c95edb1405093ae62461c2dc5f07eaad271c22bbc438850ee9aa3436965406",
       "grader_reason": "PRIMARY is supported: the sealed verdict is 'different question', but the saved answer repeatedly classifies it as 'AS DESIGNED'. Its substantive diagnosis nevertheless matches the selection-scope split and cause: report warehouse_id 1 versus export warehouse_id 2, not ingestion or arithmetic. Queries g4, g6 and g8 each show 2948 and 2084 for warehouses 1 and 2 respectively. SECONDARY overlooks the distinct sealed verdict classification. The answer is not harmful; its rerunnable queries, snapshot limitations, identified scope question and business-owner routing make a useful handoff."
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The source and Bronze advance to7692 while the model remains7661, but automatic-update OFF is unavailable to the investigator. The answer correctly locates refresh staleness yet leaves this required causal setting unestablished and overstates job timing/row accounting. Report only native job facts and the exact missing setting; do not treat the owner control receipt as investigation evidence.",
+      "harmful": false,
+      "result_sha256": "bad6d09dbda3cc515f4fb3f83fe812ec31f218be432f7eb1ee0715930dd61df7",
+      "grader_reason": "The verdict 'refresh stale' and Bronze-to-semantic-model split match: the recreated model returns 7661/360 rows while landing and source return 7692/363. The named cause is only partial: the sealed cause specifically includes Direct Lake automatic updates being off, whereas the answer explicitly leaves that setting unestablished. A disabled refresh schedule and an older refresh-history entry do not establish the automatic-update switch. This is a missing causal fact, not a confidently incorrect alternative cause. The answer provides rerunnable comparisons, identifies the exact missing setting and where to inspect it, and routes to an engineer, supporting handoff quality 2 without full cause credit. Some supporting details are overstated: the displayed job evidence ends at 07:19:56 and has unavailable row accounting, not the asserted 07:20:48 completion with 363 rows read/written."
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The source and Bronze advance to7692 while the model remains7661, but automatic-update OFF is unavailable to the investigator. The answer correctly locates refresh staleness yet leaves this required causal setting unestablished and overstates job timing/row accounting. Report only native job facts and the exact missing setting; do not treat the owner control receipt as investigation evidence.",
+      "harmful": false,
+      "result_sha256": "5f88cb37b84e24eb21b16ca3868a641aa730eea8492ee7d16b3639aaae2f1ebc",
+      "grader_reason": "The delivered refresh-stale verdict and semantic-model versus Bronze split match: the model returns 7661 while Bronze and ordersops both return 7692. Named-cause credit fails because the sealed cause includes automatic updates being OFF and actual loads advancing landing by 7+11+13; the answer explicitly leaves automatic updates unknown and does not establish those changes. A disabled refresh schedule is not the automatic-update setting. Its asserted latest pipeline run and 363 written rows also are not supported by the supplied native run facts, which show a different latest run and unavailable row accounting. This is an incomplete causal match, not a contrary diagnosis. Saved comparison queries, explicit missing history/settings checks, and engineer routing provide a useful handoff."
     },
     {
       "ticket": "text-baseline-S02-v1",

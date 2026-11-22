@@ -1833,6 +1833,171 @@
       "cache_read_ratio": 0.0
     },
     {
+      "ticket": "form-v2-stale-model-v1",
+      "audit_sequence": 24,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 36446,
+        "cached_input_tokens": 0,
+        "input_tokens": 37738,
+        "output_tokens": 643
+      },
+      "cost_microdollars": 200258,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "audit_sequence": 41,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 36446,
+        "input_tokens": 43455,
+        "output_tokens": 687
+      },
+      "cost_microdollars": 49066,
+      "cache_read_ratio": 0.8387067080888275
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "audit_sequence": 51,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 36446,
+        "input_tokens": 48366,
+        "output_tokens": 614
+      },
+      "cost_microdollars": 67250,
+      "cache_read_ratio": 0.7535458793367241
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "audit_sequence": 68,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 36446,
+        "input_tokens": 51294,
+        "output_tokens": 1593
+      },
+      "cost_microdollars": 98542,
+      "cache_read_ratio": 0.7105314461730416
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "audit_sequence": 73,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 36446,
+        "input_tokens": 53233,
+        "output_tokens": 1372
+      },
+      "cost_microdollars": 101878,
+      "cache_read_ratio": 0.6846504987507749
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "audit_sequence": 78,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 1514,
+        "cached_input_tokens": 0,
+        "input_tokens": 31710,
+        "output_tokens": 1851
+      },
+      "cost_microdollars": 165374,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "audit_sequence": 24,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 32623,
+        "cached_input_tokens": 4269,
+        "input_tokens": 38185,
+        "output_tokens": 484
+      },
+      "cost_microdollars": 178821,
+      "cache_read_ratio": 0.11179782637161188
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "audit_sequence": 41,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 36892,
+        "input_tokens": 43399,
+        "output_tokens": 480
+      },
+      "cost_microdollars": 43007,
+      "cache_read_ratio": 0.850065669715892
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "audit_sequence": 47,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 36892,
+        "input_tokens": 47396,
+        "output_tokens": 1549
+      },
+      "cost_microdollars": 80375,
+      "cache_read_ratio": 0.7783779221875263
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "audit_sequence": 52,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 36892,
+        "input_tokens": 49256,
+        "output_tokens": 1280
+      },
+      "cost_microdollars": 82435,
+      "cache_read_ratio": 0.7489848952411889
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "audit_sequence": 57,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 26908,
+        "output_tokens": 2416
+      },
+      "cost_microdollars": 150199,
+      "cache_read_ratio": 0.056265794559238885
+    },
+    {
       "ticket": "form-v2-waiting-application-load-v2",
       "audit_sequence": 24,
       "provider": "anthropic",
@@ -4216,26 +4381,281 @@
       },
       "cost_microdollars": 201755,
       "cache_read_ratio": 0.03384601627470268
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 6,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INTAKE",
+      "normalized_usage": {
+        "cache_write_tokens": 90040,
+        "cached_input_tokens": 0,
+        "input_tokens": 95291,
+        "output_tokens": 1228
+      },
+      "cost_microdollars": 495764,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 32,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 30452,
+        "cached_input_tokens": 4269,
+        "input_tokens": 35453,
+        "output_tokens": 481
+      },
+      "cost_microdollars": 165662,
+      "cache_read_ratio": 0.12041294107691873
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 47,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34721,
+        "input_tokens": 37694,
+        "output_tokens": 698
+      },
+      "cost_microdollars": 32797,
+      "cache_read_ratio": 0.9211280309863639
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 59,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34721,
+        "input_tokens": 39335,
+        "output_tokens": 585
+      },
+      "cost_microdollars": 37101,
+      "cache_read_ratio": 0.8826998855980679
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 70,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34721,
+        "input_tokens": 46899,
+        "output_tokens": 746
+      },
+      "cost_microdollars": 70577,
+      "cache_read_ratio": 0.7403356148318727
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 85,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34721,
+        "input_tokens": 48665,
+        "output_tokens": 664
+      },
+      "cost_microdollars": 76001,
+      "cache_read_ratio": 0.7134696393712113
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 95,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34721,
+        "input_tokens": 50577,
+        "output_tokens": 1709
+      },
+      "cost_microdollars": 104549,
+      "cache_read_ratio": 0.6864978152124483
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 100,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 1300,
+        "cached_input_tokens": 0,
+        "input_tokens": 30412,
+        "output_tokens": 2708
+      },
+      "cost_microdollars": 177108,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 105,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34721,
+        "input_tokens": 52676,
+        "output_tokens": 1409
+      },
+      "cost_microdollars": 106945,
+      "cache_read_ratio": 0.6591426835750627
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "audit_sequence": 110,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 1514,
+        "cached_input_tokens": 0,
+        "input_tokens": 27296,
+        "output_tokens": 1932
+      },
+      "cost_microdollars": 149338,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "audit_sequence": 6,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INTAKE",
+      "normalized_usage": {
+        "cache_write_tokens": 90040,
+        "cached_input_tokens": 0,
+        "input_tokens": 95047,
+        "output_tokens": 1071
+      },
+      "cost_microdollars": 491648,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "audit_sequence": 32,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 30359,
+        "cached_input_tokens": 4269,
+        "input_tokens": 35360,
+        "output_tokens": 705
+      },
+      "cost_microdollars": 169677,
+      "cache_read_ratio": 0.12072963800904978
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "audit_sequence": 47,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34628,
+        "input_tokens": 38291,
+        "output_tokens": 569
+      },
+      "cost_microdollars": 32958,
+      "cache_read_ratio": 0.9043378339557598
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "audit_sequence": 60,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34628,
+        "input_tokens": 44895,
+        "output_tokens": 933
+      },
+      "cost_microdollars": 66654,
+      "cache_read_ratio": 0.7713108363960351
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "audit_sequence": 76,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34628,
+        "input_tokens": 47488,
+        "output_tokens": 790
+      },
+      "cost_microdollars": 74166,
+      "cache_read_ratio": 0.7291947439353099
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "audit_sequence": 90,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 34628,
+        "input_tokens": 50104,
+        "output_tokens": 1856
+      },
+      "cost_microdollars": 105950,
+      "cache_read_ratio": 0.6911224652722338
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "audit_sequence": 95,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 1514,
+        "cached_input_tokens": 0,
+        "input_tokens": 28901,
+        "output_tokens": 2101
+      },
+      "cost_microdollars": 159138,
+      "cache_read_ratio": 0.0
     }
   ],
   "by_step": {
     "INVESTIGATOR": {
-      "calls": 199,
-      "cost_microdollars": 20854501,
-      "input_tokens": 10823248,
-      "cached_input_tokens": 7309950,
-      "cache_write_tokens": 1863398,
-      "output_tokens": 173793,
-      "cache_read_ratio": 0.6753933754451529
+      "calls": 220,
+      "cost_microdollars": 22799170,
+      "input_tokens": 11763007,
+      "cached_input_tokens": 7926055,
+      "cache_write_tokens": 1993278,
+      "output_tokens": 193640,
+      "cache_read_ratio": 0.6738119768185125
     },
     "EVALUATOR": {
-      "calls": 52,
-      "cost_microdollars": 10002796,
-      "input_tokens": 2062646,
-      "cached_input_tokens": 46934,
-      "cache_write_tokens": 30435,
-      "output_tokens": 95006,
-      "cache_read_ratio": 0.022754268061509344
+      "calls": 57,
+      "cost_microdollars": 10803953,
+      "input_tokens": 2207873,
+      "cached_input_tokens": 48448,
+      "cache_write_tokens": 36277,
+      "output_tokens": 106014,
+      "cache_read_ratio": 0.021943291122270166
     },
     "SCREENSHOT": {
       "calls": 2,
@@ -4247,15 +4667,15 @@
       "cache_read_ratio": 0.0
     },
     "INTAKE": {
-      "calls": 28,
-      "cost_microdollars": 5872271,
-      "input_tokens": 2590187,
+      "calls": 30,
+      "cost_microdollars": 6859683,
+      "input_tokens": 2780525,
       "cached_input_tokens": 1530680,
-      "cache_write_tokens": 843487,
-      "output_tokens": 24231,
-      "cache_read_ratio": 0.5909534716991476
+      "cache_write_tokens": 1023567,
+      "output_tokens": 26530,
+      "cache_read_ratio": 0.5505003551487578
     }
   },
-  "total_cost_microdollars": 36810254,
-  "cache_read_ratio": 0.5738658684150375
+  "total_cost_microdollars": 40543492,
+  "cache_read_ratio": 0.567050304656154
 }

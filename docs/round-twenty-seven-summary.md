@@ -71,3 +71,12 @@ Owner regression diagnosis2026-11-21 supersedes automaticcontinuation: STOPafter
 Owner regression diagnosis COMPLETE2026-11-21:33independentflags,currentdefaultsunchanged;source3934ef5d full5944PASS/53skip/0failures-errors,all8image shardsPASS. No publication/deployment/model/estatequery. See regression-diagnosis-r27.md and its hash-pinnedqualification. Diagnosis observes9/96oldqueryerrors versus9/129new, deliverygate/fallbackblocks, olderexportgradecontradiction, and screenshot03Terra->Opusvisionconfound. Originalscores/expectations unchanged. STOPunderownersteer,noP2/calibration/furtherOpus.
 
 Release-only accounting qualification, 2026-11-22: source 1f040631 passed5,956 tests with53 skips, zero failures/errors, and all8image shards; publication succeeded in workflow44966108986. Candidate image d3d6595ae1da989a40e2f00d2e1e11601c4faa83643cd9cadd4eea10e7342965 contains the trusted SMOKE-context fix. The live proof remains pinned to separately qualified b692051f / 6e570bed and is not retroactively reassigned. No release smoke or merge is claimed yet. See round-twenty-seven-release-patch-qualification.json.
+
+
+## Pass2 final and owner-selected pass3 (2026-11-22)
+
+All48 pass2 outcomes are independently graded: official26/48, strict26/48, reviewed26/48; useful handoffs14; harmful5. The full guard is17/20 correct,0 harmful. The gate fails. Billing9/10, sample1/1, fixture16/37 correct. Original outcomes, expectations and grades are unchanged.
+
+Pass3 is39 distinct tickets: every22 pass2 failure plus the full20 fixed guard, including all5 harmful cases. Exact-question evaluator rejection blocks after the existing retries; unsupported-claim, wording and completeness checks remain advisory. All requested code checks remain enabled. Gate remains0 reviewed harmful and20/20 guard, with no carried scores.
+
+At07:53UTC, Anthropic headroom is$37.972844, of which$14.34 remains protected for calibration (the cash reserve is already excluded). The full pass3 forecast is$42.533902 against$23.632844 available for dev, a projected$18.901058 shortfall. Bounded cases may proceed within existing guards; unfinished cases stay pending at the protected floor. No subset can satisfy the full-pass gate; no calibration before that gate and no partial v5.
