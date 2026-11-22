@@ -1,18 +1,18 @@
 {
   "status": "PARTIAL_SAVED_TIMING",
   "required": 39,
-  "saved": 20,
+  "saved": 21,
   "host_includes_admission_polling_capture_retrieval": true,
   "native_excludes_local_admission_and_publication_retrieval": true,
   "host": {
-    "measured": 20,
-    "median_seconds": 257.1203555,
-    "p90_nearest_rank_seconds": 363.252356
+    "measured": 21,
+    "median_seconds": 260.864729,
+    "p90_nearest_rank_seconds": 408.633529
   },
   "native": {
-    "measured": 16,
-    "median_seconds": 218.5,
-    "p90_nearest_rank_seconds": 306.0
+    "measured": 17,
+    "median_seconds": 222.0,
+    "p90_nearest_rank_seconds": 316.0
   },
   "rows": [
     {
@@ -194,6 +194,15 @@
       "physical_requests": 40,
       "model_calls": 6,
       "actual_model_cost_microdollars": 2151913
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "host_case_seconds": 408.633529,
+      "native_execution_seconds": 388.0,
+      "native_end_time_missing": false,
+      "physical_requests": 31,
+      "model_calls": 13,
+      "actual_model_cost_microdollars": 3006913
     }
   ]
 }

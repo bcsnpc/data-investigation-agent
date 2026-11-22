@@ -1,7 +1,7 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 20,
+    "measured": 21,
     "official": 14,
     "strict": 14,
     "reviewed": 14,
@@ -29,7 +29,7 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 17,
+      "measured": 18,
       "official": 13,
       "strict": 13,
       "reviewed": 13,
@@ -707,9 +707,52 @@
         "verdict_match": false,
         "winning_grader": "PRIMARY"
       }
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The first failure is target resolution: the ticket already names the unfiltered card and asks what the metric includes, not whether its business definition is appropriate. The delivered answer instead requires visual disambiguation and an owner decision, producing UNRESOLVED/not found rather than the expected AS DESIGNED. Independently, its substantive calculation explanation matches the semantic layer and named cause: SUM(Activity[units]), additive receipt and issue units rather than a movement count, over the carried gold rows, with an unfiltered value of 8765. The true gold-versus-silver duplication finding does not justify withholding the requested explanation. Queries and checked values make this a usable partial investigation, but the unnecessary stopping conditions and business-owner routing limit handoff quality. No harmful confident false cause is established.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED for the named unfiltered card, not an unresolved business-rule investigation. The first failure is target handling: the answer treats similarly titled visuals and the absence of a reported value as blocking a metric-definition question. Nevertheless, it independently explains the correct semantic rule: SUM('Activity'[units]) adds carried receipt and issue units rather than counting movement records, has no movement-type restriction, and evaluates to 8765 unfiltered. It also explains the gold transformation and qualifies filter, bookmark and snapshot assumptions, so semantic-layer and named-calculation-cause credit pass independently of the incorrect verdict. The source-to-gold fanout is additional context, not the reason this question must remain unresolved. The cited executable checks, explicit stopping point, identified missing visual/bookmark state and owner routing provide a useful handoff, though those uncertainties do not justify withholding the expected answer. Its unresolved framing is an explicit evidence limitation, not a confident false cause.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": true,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "PRIMARY is supported. The expected verdict is AS DESIGNED, but the answer says UNRESOLVED/not found because it cannot disambiguate the card, although the question asks what the unfiltered metric includes. Independently, it identifies the semantic calculation SUM('Activity'[units]), says receipt and issue units are added rather than movement records counted, explains the gold join, and reports the unfiltered result 8765 (g4); these match the expected layer and named cause. The gold-versus-silver fanout is additional observed context, not a reason to withhold the requested answer. The answer is not harmful: it explicitly states its uncertainty rather than asserting a wrong cause. Its saved DAX and SQL checks provide a useful partial record, but the supposed target ambiguity and business-owner decision are unnecessary stopping conditions for this question, making handoff quality 1 rather than SECONDARY's 2.",
+        "verdict_match": false,
+        "winning_grader": "PRIMARY"
+      }
     }
   ],
   "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
   "expectations_unchanged": true,
-  "reported_at_utc": "2026-11-22T08:46:14.578219+00:00"
+  "reported_at_utc": "2026-11-22T08:52:43.621610+00:00",
+  "admission_status": "BUDGET_PAUSED_NO_ADMISSION"
 }
