@@ -1,0 +1,93 @@
+{
+  "status": "PARTIAL_NOT_A_GATE",
+  "scope": [
+    "text-R17-01-v1",
+    "text-R17-02-v1",
+    "text-R17-05-v1",
+    "text-older-export-movement-1-v2",
+    "text-latency-900501-v1"
+  ],
+  "all_required_pass3": 39,
+  "grades": {
+    "measured": 2,
+    "official": 2,
+    "strict": 2,
+    "reviewed": 2,
+    "useful_handoff": 0,
+    "harmful": 0
+  },
+  "guard": {
+    "measured": 0,
+    "official": 0,
+    "strict": 0,
+    "reviewed": 0,
+    "useful_handoff": 0,
+    "harmful": 0
+  },
+  "rows": [
+    {
+      "ticket": "text-R17-01-v1",
+      "correct": true,
+      "harmful": false,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 1,
+      "advisory_findings": [
+        [
+          "claims"
+        ]
+      ],
+      "native_feedback": [],
+      "independent_reason": "The answer matches the sealed AS DESIGNED verdict and semantic-layer explanation: the named Handled Quantity card on the Unfiltered control page uses SUM('Activity'[units]), not a movement-record count, and its native evaluation returns 8765. It preserves the named visual and unfiltered context, explains the transformation and direct gold-column mapping, and explicitly limits snapshot alignment and intended-business-correctness claims. The silver-to-gold difference is correctly presented as incidental, not the answer to the card question, and its full causal attribution is expressly unverified. Rerunnable native queries, checked findings, exact remaining uncertainties, and business-owner routing provide a useful handoff. No substantive disagreement with the expectation.",
+      "capture_indexed": true
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "correct": true,
+      "harmful": false,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 1,
+      "advisory_findings": [
+        [
+          "claims"
+        ]
+      ],
+      "native_feedback": [],
+      "independent_reason": "The AS DESIGNED verdict matches. The answer preserves the named unfiltered visual and locates its rule at the semantic layer: Handled Quantity sums Activity[units], reproducing 8765 rather than the 406 movement rows. It explains the retained filter and transformation rules, qualifies current reads versus aligned snapshots, and does not judge intended business correctness. The gold-join duplication is explicitly incidental, not a replacement for the semantic explanation. Rerunnable queries, checked results, limitations, and business-owner routing provide a clear handoff.",
+      "capture_indexed": true
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "correct": null,
+      "harmful": null,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 0,
+      "advisory_findings": [],
+      "native_feedback": [],
+      "independent_reason": null,
+      "capture_indexed": false
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "correct": null,
+      "harmful": null,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 0,
+      "advisory_findings": [],
+      "native_feedback": [],
+      "independent_reason": null,
+      "capture_indexed": false
+    },
+    {
+      "ticket": "text-latency-900501-v1",
+      "correct": null,
+      "harmful": null,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 0,
+      "advisory_findings": [],
+      "native_feedback": [],
+      "independent_reason": null,
+      "capture_indexed": false
+    }
+  ],
+  "no_new_model_or_estate_calls": true
+}
