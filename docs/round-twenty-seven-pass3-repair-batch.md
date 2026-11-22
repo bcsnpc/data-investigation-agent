@@ -1,6 +1,6 @@
 # Round 27: proposed final failed-only repair batch
 
-Status: the initial four repairs at `edbcab00847e8dead4188a60ffe04c316baf1468` passed6,006 tests/53skips and all8image shards. That published image has not admitted a pass3 ticket. A subsequent saved-trace check exposed the exact declared-source/toolbox mismatch below; this follow-on change requires fresh full-suite/shard qualification. Pass2 continues on source35f4aa5c/image362005b0; its original outcomes and grades remain unchanged.
+Status: all five repairs at `e751d1206998b27997481b1eb10d0d131957b63f` passed6,012 tests/53skips and all8image shards in workflow44995781841. Published image digest `51f0a1cc1b4de9f1f50ceab99dbe38d2e52cb96129303272baa1c88d24a194ed`; exact artifact hashes are in the qualification JSON. No pass3 ticket has been admitted. The initial four-repair qualification remains separately preserved. Pass2 continues on source35f4aa5c/image362005b0; its original outcomes and grades remain unchanged.
 
 The saved traces motivated five generic repairs, each with an independent installation flag:
 
