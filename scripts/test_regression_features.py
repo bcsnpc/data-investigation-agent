@@ -8,7 +8,7 @@ from investigator.regression_features import DEFAULTS,enabled,configured,snapsho
 
 class FeatureTests(unittest.TestCase):
  def test_each_flag_is_independent_scoped_and_defaults_to_current(self):
-  self.assertEqual(len(DEFAULTS),41)
+  self.assertEqual(len(DEFAULTS),45)
   self.assertFalse(DEFAULTS['r27_evaluator_advisory'])
   for name in DEFAULTS:
    with self.subTest(feature=name),configured({name:not DEFAULTS[name]}):

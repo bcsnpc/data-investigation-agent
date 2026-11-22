@@ -461,6 +461,22 @@ def prefill(text, proposed, catalog, *, provenance=None):
         node=catalog.nodes.get(value['visual'],{})
         names=[node.get('label',''),*node.get('enrichment',{}).get('synonyms',[])]
         exact=any(name and name.casefold() in span['quote'].casefold() for name in names)
+        if enabled('r27_visual_alias_scope') and value.get('report') and value.get('page'):
+            named_pages=catalog.named_pages(text,value['report'])
+            all_visuals=[v for p in catalog.pages(value['report'])for v in catalog.visuals(value['report'],p['id'])]
+            scope=(catalog.visuals(value['report'],named_pages[0]['id']) if len(named_pages)==1 else all_visuals)
+            scope_ids={v['id']for v in scope}
+            def mentioned(name):return isinstance(name,str) and bool(name) and name.casefold() in span['quote'].casefold()
+            native=[v for v in all_visuals if mentioned(catalog.nodes[v['id']].get('label'))]
+            if len(named_pages)==1 and any(v['id']not in scope_ids for v in native):
+                raise ValueError('VISUAL_PROVENANCE_OUTSIDE_NAMED_PAGE')
+            native=[v for v in native if v['id']in scope_ids]
+            aliases=[v for v in scope if any(mentioned(n)for n in catalog.nodes[v['id']].get('enrichment',{}).get('synonyms',[]))]
+            matches=native or aliases
+            if len(matches)==1 and matches[0]['id']!=value['visual']:
+                raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
+            exact=len(matches)==1 and matches[0]['id']==value['visual']
+            if len(matches)>1:ambiguous_visuals=matches
         if not exact and value.get('report') and value.get('page'):
             # A model-supplied page is not a user selection. A loose measure
             # span must be unique across the report unless the ticket itself

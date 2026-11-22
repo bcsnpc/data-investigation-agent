@@ -60,6 +60,33 @@ class ConclusionTests(unittest.TestCase):
         checked['context_gap']['note'] = 'changed copy'
         self.assertEqual(value, before)
 
+    def test_invalid_or_missing_record_only_tag_never_suppresses_valid_answer(self):
+        for tag in [None, 'malformed provider field', 3, [], {'type':'invented','note':'x'}, {'type':'other','note':' '}]:
+            with self.subTest(tag=tag):
+                value=self.value();value['context_gap']=tag;before=deepcopy(value)
+                checked=validate(value,{})
+                self.assertEqual(value,before)
+                self.assertEqual(checked['direct_answer'],value['direct_answer'])
+                self.assertEqual(checked['verdict_class'],'AS DESIGNED')
+                self.assertIn('UNRECORDED_CONTEXT_GAP',checked['context_gap']['note'])
+                self.assertNotIn('UNRECORDED_CONTEXT_GAP',render(checked))
+        value=self.value();del value['context_gap']
+        self.assertIn('UNRECORDED_CONTEXT_GAP',validate(value,{})['context_gap']['note'])
+
+    def test_record_only_tag_flag_restores_old_strict_contract_independently(self):
+        from investigator.regression_features import configured
+        from jsonschema import ValidationError
+        value=self.value();value['context_gap']='invalid'
+        with configured({'r27_context_gap_nonblocking':False}):
+            with self.assertRaises(ValidationError):validate(value,{})
+
+    def test_bad_metadata_does_not_disable_target_or_verdict_checks(self):
+        value=self.value();value['context_gap']='invalid';value['verdict_class']='DEVIATION'
+        with self.assertRaisesRegex(ValueError,'DEVIATION_REQUIRES'):validate(value,{})
+        value=self.value();value['context_gap']='invalid'
+        with self.assertRaisesRegex(ValueError,'EXPLICIT_TARGET_CHANGED'):
+            validate(value,{'intake':{'visual':'other'},'context':{'explicit_target':{'visual':'chosen'}}})
+
     def test_limit_keeps_observations_and_names_missing_layer_without_success_upgrade(self):
         from investigator.terminal_findings import attach
         query={'id':'q1','layer':'serving','purpose':'recreate','status':'SUCCEEDED',

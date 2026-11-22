@@ -147,7 +147,7 @@ def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
     if conclusion_contract:
         from .conclusion_contract import fields
         submit['properties'].update(fields())
-        submit['required'].extend(fields())
+        submit['required'].extend(k for k in fields() if k!='context_gap' or not enabled('r27_context_gap_nonblocking'))
     if not enabled('r27_identifier_role_descriptions'):
         for tool in tools:
             for key in ('node','layer','checked'):
@@ -193,6 +193,22 @@ only when exactly one candidate matches at the stated precision. Otherwise
 return side-by-side checked findings, never promote one candidate as the target.
 Submit all required conclusion fields, including routing and a single record-only
 context_gap. No fix suggestions, no glossary request and no business context file.
+'''
+        if enabled('r27_context_gap_nonblocking'):
+            guidance+='\nContext-gap tagging is optional record-only metadata. Record a genuine gap when known; incomplete tagging must not suppress a supported answer or invent a missing business fact.'
+        if enabled('r27_primary_verification_scope'):
+            guidance+='''
+Keep the primary comparison separate from incidental path observations. When no
+comparison was supplied and the cited native selected-measure recreation matches
+the reported figure, explain its cited implemented definition as AS DESIGNED;
+do not turn a different upstream total into the answer to that verification.
+This is not approval of business intent. A genuinely different target value or
+an explicitly supplied comparison still needs its own investigation.
+For historical exports, today's candidate value never proves the export source
+or past snapshot. Keep an unidentified source unidentified, and limit history
+availability claims to the exact objects and coverage actually checked. A
+candidate shortlist does not exclude the declared system-of-record object:
+inspect its admitted native binding before ruling out that historical path.
 '''
         self.stable=guidance+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
         from .model_case_presentation import Presentation

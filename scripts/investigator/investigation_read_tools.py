@@ -131,6 +131,9 @@ class ReadTools:
                     hits=[v for v in values if str(v[item['key_field']])==args['key']]
                     row.update(presence='PRESENT' if hits else 'ABSENT',matching_rows=len(hits),
                                duplicate_observed=len(hits)>1,truncated=record.get('truncated',False))
+                    if enabled('r27_record_key_alignment') and values and not hits:
+                        row.update(presence='UNESTABLISHED_KEY_MISMATCH',
+                                   reason='Nonempty lookup rows contain different literal key values. Use the literal key_field value, not a predicate or record description; inspect the cited query result.')
                     if record.get('truncated') and not hits:row['presence']='UNESTABLISHED_IN_TRUNCATED_RESULT'
             findings.append(row)
         return {'key':args['key'],'layers':findings,'cause':'Read the retained transformation or job evidence at the first presence change; presence alone does not prove the cause.'}
@@ -221,7 +224,7 @@ class ReadTools:
                     'candidate':{'enum':identities},'layer':{'enum':list(self.queries.layers)},
                     'kind':{'enum':['sql','dax']},'query':{'type':'string','minLength':1}})}},self.check_targets)
         registry['record_trace']=entry('Run your key lookup queries in source-to-model order. Distinguish presence, duplicates, absence, truncation and failed reads. Then inspect definitions/jobs for the cause.',
-            {'key':{'type':'string'},'queries':{'type':'array','minItems':1,'maxItems':5,'items':record_query}},self.record_trace)
+            {'key':{'type':'string',**({'description':'The same literal key_field value in every query, for example "42"; not a predicate, descriptive record label or compound key. Read related records with different key values separately.'} if enabled('r27_record_key_alignment') else {})},'queries':{'type':'array','minItems':1,'maxItems':5,'items':record_query}},self.record_trace)
         if not enabled('r27_contribution_tool'):registry.pop('contribution_analysis',None)
         if not enabled('r27_row_diff_tool'):registry.pop('row_layer_diff',None)
         if not enabled('r27_identifier_role_descriptions'):

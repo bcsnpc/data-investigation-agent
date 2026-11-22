@@ -161,6 +161,22 @@
       "default": true,
       "description": "Normalize T-SQL national string literals into the existing length/count-bounded Unicode parameter binder. SELECT-only roots, native object allowlists and write rejection remain unchanged."
     },
+    "r27_primary_verification_scope": {
+      "default": true,
+      "description": "Do not substitute an incidental pipeline deviation for a reproduced named-measure verification with no supplied comparison. Retained definitions and native recreation remain required."
+    },
+    "r27_visual_alias_scope": {
+      "default": true,
+      "description": "Treat visual synonyms as search aids, not unique native identities; preserve native-title priority and check ties within the user's named scope."
+    },
+    "r27_context_gap_nonblocking": {
+      "default": true,
+      "description": "Record missing or malformed context-gap metadata separately without blocking a validated finding or consuming delivery repair."
+    },
+    "r27_record_key_alignment": {
+      "default": true,
+      "description": "Do not claim record absence when a nonempty lookup returned different literal keys. Preserve empty-result, truncation and failed-read distinctions."
+    },
     "r27_native_column_target": {
       "default": true,
       "description": "Use admitted native column-name containment to disambiguate a table inside an exactly named container. Unique-match and explicit-target checks remain unchanged; tied schemas remain tied."

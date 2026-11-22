@@ -119,6 +119,9 @@ def finding(args,case):
     issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
     definition_only=(normalized=='as designed'and issue=='HOW_IS_THIS_CALCULATED'
         and case['intake'].get('compared_with',{}).get('kind')=='NOTHING')
+    if enabled('r27_primary_verification_scope') and normalized in ('as designed','definition explained'):
+        from .primary_verification import is_display_verification
+        definition_only=definition_only or normalized=='definition explained' or is_display_verification(case,args)
     if definition_only:
         if not any(item.get('content')and item.get('provenance')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_RETAINED_DEFINITION')
         if not any(item.get('native_result')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_NATIVE_RECREATION')
