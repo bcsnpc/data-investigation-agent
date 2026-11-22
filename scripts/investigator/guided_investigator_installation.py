@@ -53,6 +53,41 @@ class Factory:
             if hasattr(self.native,'routes'):self.native.routes[identity]=deepcopy(route)
         return self.routes[identity]
 
+    def prepare_declared_source_comparison(self,path,context,available,layers):
+        """Activate an existing exact comparator, never invent a lineage edge."""
+        if not enabled('r27_declared_source_comparison'):return None
+        source=context.get('system_of_record')
+        if not isinstance(source,dict) or source.get('declared') is not True:return None
+        source['admitted_in_case']=False
+        if source.get('reachable') is not True:return None
+        identity,asset=source.get('layer'),source.get('asset_id')
+        def unavailable(reason):
+            source.update(reachable=False,admission_reason=reason)
+            if not isinstance(context.get('warnings'),list):context['warnings']=[]
+            context['warnings'].append('Declared source comparison unavailable: '+reason)
+        route=self.routes.get(identity)
+        if not route or asset not in route.get('asset_ids',[]):
+            unavailable('EXACT_REGISTERED_SOURCE_BINDING_MISSING');return None
+        if identity in layers and any(a.get('id')==asset for a in layers[identity].get('objects',[])):
+            source['admitted_in_case']=True;return None
+        candidates=[n for n in self.graph.intake_catalog()['nodes']
+                    if n.get('kind')in ('TABLE','VIEW') and isinstance(n.get('properties'),dict)
+                    and n['properties'].get('asset_id')==asset]
+        if len(candidates)!=1 or candidates[0]['id']not in self.graph.allowed or candidates[0]['id']not in route['path_nodes']:
+            unavailable('EXACT_ADMITTED_SOURCE_NODE_NOT_UNIQUE');return None
+        node=candidates[0]
+        prepared=self.prepare(identity,{n['id']for n in path['nodes']}|{node['id']})
+        if not any(a.get('id')==asset for a in prepared['objects']):
+            unavailable('EXACT_SOURCE_SCHEMA_NOT_PREPARED');return None
+        material={'dialect':prepared['dialect'],'objects':deepcopy(prepared['objects']),'label':prepared['label'],
+                  **({'endpoint_evidence':deepcopy(prepared['endpoint_evidence'])}if prepared.get('endpoint_evidence')else{})}
+        available[identity]=deepcopy(material);layers[identity]=deepcopy(material)
+        source['admitted_in_case']=True
+        context.setdefault('declared_source_comparisons',[]).append({'node':node['id'],'asset_id':asset,
+            'layer':identity,'basis':'EXACT_INSTALLATION_SOURCE_AND_EXISTING_NATIVE_ROUTE',
+            'lineage_established':False,'quantity_read_performed_by_activation':False})
+        return deepcopy(node)
+
     def attach_native_ancestors(self,path):
         extra=self.associated_nodes(path) if self.associated_nodes else []
         if extra and not {n['id'] for n in extra}<=self.graph.allowed:raise ValueError('NATIVE_ANCESTOR_OUTSIDE_ADMITTED_GRAPH')
@@ -189,6 +224,7 @@ class Factory:
                    for i,r in self.routes.items()}
         layers={i:available[i] for i in routes}
         context=deepcopy(self.context_for(path,intake))
+        comparison_node=self.prepare_declared_source_comparison(path,context,available,layers)
         # A context builder cannot replace the selected target/path/intake.
         context.update(intake=intake,path=deepcopy(path),layers=deepcopy(layers))
         if enabled('r27_structured_delivery'):context['conclusion_contract']='question-first-v1'
@@ -227,6 +263,9 @@ class Factory:
                             job_runs=self.job_runs,refresh_history=self.refresh_history,security_definitions=self.security,
                             definition_reader=self.definition_for,
                             candidates=(self.candidate_details(self.graph.intake_catalog()) if self.candidate_details else self.graph.intake_catalog()),expand=expand)
+        if comparison_node is not None:
+            read_tools.nodes[comparison_node['id']]=deepcopy(comparison_node)
+            read_tools.visible.add(comparison_node['id'])
         read_tools.target_inventory=deepcopy(inventory) if inventory else None
         triage_started=monotonic()
         triage=self.triage_for(path,case['id']).run()

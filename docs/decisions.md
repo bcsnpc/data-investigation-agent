@@ -697,3 +697,6 @@ Round27 advisory proof decision, owner steer2026-11-21 / executionUTC2026-11-22:
 
 
 Owner approval under Â§8, 2026-11-21 local / Nov22 UTC: add 6,000 November-only investigation requests for remaining Round27 work. Total14,500 ->20,500; INVESTIGATION11,905 ->17,905. SCAN2,500, RESTORATION95, model limits/reserves and $20 Azure cap unchanged. Cloud policy read back; no usage or reservation rows written. December default remains9,000. Existing P1 image retains its lower source ceiling until next qualification. Receipt: docs/round-twenty-seven-request-increase.json.
+
+Round27,2026-11-22UTC — DECIDED WITHOUT REVIEW: correct the declared-source activation invariant before the final failed-only trial. Saved history cases advertise an exact reachable SQL source layer but omit it from their query enums. The fix exposes only the source asset already in the trusted route registry and uniquely bound to an admitted graph node, as a comparison source; no lineage edge, grant, credential or registry authority changes. Alternative rejected: merely label it unavailable despite the existing healthy, independently probed read binding. The earlier four-repair image remains preserved and unadmitted; the follow-on source must pass a new full suite and8shards. All pass2 runs remain on their original pinned image.
+

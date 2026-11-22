@@ -161,6 +161,10 @@
       "default": true,
       "description": "Normalize T-SQL national string literals into the existing length/count-bounded Unicode parameter binder. SELECT-only roots, native object allowlists and write rejection remain unchanged."
     },
+    "r27_declared_source_comparison": {
+      "default": true,
+      "description": "Expose an already-authorized exact declared source binding as a comparison read route when it is advertised reachable but absent from the case toolbox; add no lineage edge or permission."
+    },
     "r27_primary_verification_scope": {
       "default": true,
       "description": "Do not substitute an incidental pipeline deviation for a reproduced named-measure verification with no supplied comparison. Retained definitions and native recreation remain required."

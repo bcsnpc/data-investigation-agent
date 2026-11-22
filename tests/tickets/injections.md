@@ -570,3 +570,18 @@ Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLI
 Round27 stale cleanup: owner confirmed automatic updates ON; approved native refresh accepted202 and native model quantity7661. Source hash and successful original restoration load remain recorded. Setting provenance OWNER_REPORTED_SAVED_SETTING; no browser readback claimed.
 
 Round27 restored-model refresh native history: request1221447d-8e70-4bf0-beca-528ff36c33c3 Completed,2026-11-22T04:54:54.45Z to04:55:24.417Z. Native model7661 and source360 original business hashes verified separately. No automatic-update UI readback claimed.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\dev02-advisory\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-seven\dev02-advisory\injections\waiting\status.json.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\dev02-advisory\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-seven\dev02-advisory\injections\text-retained-original-history\status.json.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev02-advisory\injections\form-latency\status.json. Temporal remains ON.

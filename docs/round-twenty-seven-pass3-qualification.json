@@ -1,0 +1,88 @@
+{
+  "source": "edbcab00847e8dead4188a60ffe04c316baf1468",
+  "workflow": 44993550448,
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:2d5aa6a7b64bb04c95aa9d1bcfe6edf0e65c1aa638d6635733db12446b77a6a3",
+  "all_eight_shards": "PASS",
+  "full_suite": {
+    "passed": 6006,
+    "skipped": 53,
+    "failed": 0,
+    "errors": 0
+  },
+  "artifacts": [
+    {
+      "artifact": "cloud-worker-full-repository",
+      "sha256": "d839acb8525781640f9110b4b533b700fa4e97f8fec49ce7ba1b5f5a77958b48",
+      "tests": 6059,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 53
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-0",
+      "sha256": "f5cb675d82d624bff373a320fc71437a74aee875dcaf2d5301c7f7da1ea3a3cb",
+      "tests": 179,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-1",
+      "sha256": "831d4951ee0a6e0a3ae4487e49fb1b50f475b4e99c8eed889ebc09bb799cf79a",
+      "tests": 150,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-2",
+      "sha256": "88a2bc8029b81f25dbc6c158b9b811e40921237c8a5f1cf6287c6879222ca5b6",
+      "tests": 166,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-3",
+      "sha256": "b0f7bcc8fe80a97bfe3a589e2c933c685e0e39bdddffd0a180388e1e60538355",
+      "tests": 129,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-4",
+      "sha256": "a18c39bed6e514e28984061fea68ef7d365deb5a171d235f45ff915d96e93258",
+      "tests": 105,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-5",
+      "sha256": "21bbbb6cd63a53e10eb5107f5891bc8c199443dfc92a1561051ff324ed59cb7e",
+      "tests": 175,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-6",
+      "sha256": "d94a855f7fab8e1d6b7b09642f3597970f4c496a1193c196e6352495cadfc8bf",
+      "tests": 167,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "artifact": "cloud-worker-synthetic-shard-7",
+      "sha256": "17175cf6da1f21c9d5851fc5e3beffc1e12472e699cf05496416a8473483ee6a",
+      "tests": 95,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "published": true,
+  "observed_at_utc": "2026-11-22T06:33:36.868388+00:00"
+}
