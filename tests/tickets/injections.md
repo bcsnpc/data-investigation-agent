@@ -568,3 +568,5 @@ Round27 stale accepted-start recovery: DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PE
 Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\dev02-advisory\injections\dev-failed-billing\status.json. No grant/identity change.
 
 Round27 stale cleanup: owner confirmed automatic updates ON; approved native refresh accepted202 and native model quantity7661. Source hash and successful original restoration load remain recorded. Setting provenance OWNER_REPORTED_SAVED_SETTING; no browser readback claimed.
+
+Round27 restored-model refresh native history: request1221447d-8e70-4bf0-beca-528ff36c33c3 Completed,2026-11-22T04:54:54.45Z to04:55:24.417Z. Native model7661 and source360 original business hashes verified separately. No automatic-update UI readback claimed.
