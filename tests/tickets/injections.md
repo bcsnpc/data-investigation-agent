@@ -517,3 +517,12 @@ Round27 text latency 900501-v1: native job-dia-worker-vofcccb Failed after three
 Round27 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
 
 Round27 post-cohort native UI readback, 2026-11-21: Application load fixture20261003 automatic Direct Lake updates ON; configured refresh schedule OFF, unchanged; Apply disabled. No setting was modified. The four stale tickets were not admitted because the protected Opus floor was reached. Local observation receipt: .local/round-twenty-seven/automatic-updates-post-cohort-on-observation.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\proof02\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\proof02\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\proof02\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
