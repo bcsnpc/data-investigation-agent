@@ -191,3 +191,7 @@ Focused checks pass: 18 flag tests, 31 Round27 tests, seven evaluator tests and 
 No scores, expectations or captures changed. **Stop after this report under the owner steer. Do not resume pass 2 or calibration.**
 
 Final qualification: source `3934ef5d84ffc3221679e58f0912f40d0b782638`, workflow `44943235321`: **5944 passed, 53 skipped, zero failures/errors; all eight image shards passed**. Publication and deployment were not requested. [Hash-pinned receipt](regression-diagnosis-r27-qualification.json). No model run or live estate query was made. Diagnosis complete; stopped under the owner instruction.
+
+## Evaluator advisory proof setting
+
+The owner-selected single ablation is `r27_evaluator_advisory=true`. It defaults to false. The evaluator remains enabled and logs its original approval, hard and soft findings, and `would_reject`. Advisory delivery preserves the deterministically validated result rather than requesting evaluator rewrites or downgrading it. Intake explicit-target and unique-match checks, cited-evidence validation, the structured delivery contract and its saved-evidence format repair stay enabled. New independent saved-evidence reviews assess whether each would-be rejection was justified; those decisions are reported separately from official correctness grades.
