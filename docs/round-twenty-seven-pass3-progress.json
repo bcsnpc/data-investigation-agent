@@ -1,7 +1,7 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 8,
+    "measured": 9,
     "official": 6,
     "strict": 6,
     "reviewed": 6,
@@ -10,7 +10,7 @@
   },
   "denominator_required": 39,
   "guard": {
-    "measured": 4,
+    "measured": 5,
     "official": 4,
     "strict": 4,
     "reviewed": 4,
@@ -21,7 +21,7 @@
   "gate": "PENDING",
   "by_estate": {
     "billing": {
-      "measured": 1,
+      "measured": 2,
       "official": 1,
       "strict": 1,
       "reviewed": 1,
@@ -167,6 +167,38 @@
       "review": null
     },
     {
+      "ticket": "form-v2-billing-mrr-v1",
+      "estate": "billing",
+      "fixture": "baseline",
+      "guard": true,
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The intake and target are correct, and successful native queries reproduce 600 with three ACTIVE subscriptions and one CHURNED subscription across the checked layers. Nevertheless, the delivered answer declares UNRESOLVED about a nonexistent discrepancy rather than explaining the requested calculation as AS DESIGNED. It supplies the correct DAX, including ACTIVE filtering and REMOVEFILTERS(Plans), but does not establish the complete expected explanation: active subscription plan prices 250+100+250=600, with non-ACTIVE subscriptions excluded. This is partial cause coverage, not a full cause match. It also does not identify the expected source-application/DEV layer and split; checking several layers is not that conclusion. The handoff preserves rerunnable queries and checked results, but its stopping point is an evaluator rejection rather than an actual missing technical fact, and next_checks is empty. The evaluator's rejection is not itself evidence of a technical blocker. The explicit unresolved limitation is not a confident false cause, so this is not harmful.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer concludes UNRESOLVED about a discrepancy that the ticket never alleged, rather than explaining the as-designed calculation. Its own native checks reproduce 600 and show three ACTIVE subscriptions totaling 600 and one CHURNED subscription totaling 100 across the checked layers. The retained DAX correctly supplies the ACTIVE-only aggregation and removal of Plans filters, so there is useful partial substance, but it does not establish the complete sealed cause (250+100+250), explain the requested exclusions, or identify the expected source-application/DEV attribution. These partial findings do not earn full cause or layer credit. Saved rerunnable queries and checked results merit handoff quality 1; the stopping point is an evaluator rejection rather than an exact missing technical fact, and next_checks is empty with only generic engineering routing. This judgment follows the saved answer and evidence, not the evaluator's authority. The unresolved response does not assert a confident false technical cause and is not harmful.",
+        "verdict_match": false
+      },
+      "review": null
+    },
+    {
       "ticket": "text-R17-01-v1",
       "estate": "fixture",
       "fixture": "baseline",
@@ -297,5 +329,5 @@
   ],
   "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
   "expectations_unchanged": true,
-  "reported_at_utc": "2026-11-22T08:15:39.726564+00:00"
+  "reported_at_utc": "2026-11-22T08:18:25.246866+00:00"
 }

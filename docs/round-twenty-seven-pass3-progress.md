@@ -1,8 +1,8 @@
 # Round27 pass3 progress
 
-**Partial: 6/8 reviewed correct; 0 useful handoffs; 1 harmful.** Official6/8; strict6/8. Required denominator39.
+**Partial: 6/9 reviewed correct; 0 useful handoffs; 1 harmful.** Official6/9; strict6/9. Required denominator39.
 
-Full fixed guard: 4/4 currently measured, out of20 required. No positive guard result carried forward. The freeze/calibration gate is not passed.
+Full fixed guard: 4/5 currently measured, out of20 required. No positive guard result carried forward. The freeze/calibration gate is not passed.
 
 Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic).
 
