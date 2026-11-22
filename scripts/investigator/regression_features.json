@@ -1,6 +1,10 @@
 {
   "version": 1,
   "features": {
+    "r27_evaluator_advisory": {
+      "default": false,
+      "description": "Owner-approved proof ablation: run and retain evaluator findings without blocking, rewriting or downgrading. Deterministic intake, evidence and delivery validation remain enforced."
+    },
     "r27_evaluator_hard_soft": {
       "default": true,
       "description": "Separate unsupported/question/target failures from repairable delivery presentation issues."

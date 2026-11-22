@@ -6,6 +6,46 @@ from test_round23_reasoning import tool
 
 
 class DeliveryEvaluatorTests(unittest.TestCase):
+    def test_advisory_preserves_native_answer_and_logs_hard_rejection(self):
+        from investigator.delivery_evaluator import evaluate_native
+        from investigator.regression_features import configured
+        model=Mock();model.complete.return_value=tool('evaluate_delivery',{k:{'passed':k!='question','reason':'Wrong question.'} for k in CHECKS})
+        with configured({'r27_evaluator_advisory':True}):
+            result=evaluate_native(model,{'text':'Which run?'},{'status':'ANSWERED','business':'Saved native answer.', 'technical':{'verdict':'failed job'},'model_calls':0})
+        self.assertEqual(result['status'],'ANSWERED')
+        review=result['delivery_evaluations'][0]
+        self.assertFalse(review['approved']);self.assertTrue(review['would_reject']);self.assertTrue(review['advisory'])
+        self.assertEqual(review['hard_failures'],['question']);self.assertEqual(model.complete.call_count,1)
+
+    def test_advisory_investigation_logs_without_repair_or_downgrade(self):
+        from investigator.ai_investigation import Investigator
+        from investigator.regression_features import configured
+        from unittest.mock import patch
+        loop=object.__new__(Investigator);loop.state={'model_calls':0};loop.context={'intake':{}}
+        loop.case_view=Mock(return_value={'queries':[],'evidence':{}});loop.save=Mock();loop.clock=Mock(return_value=0)
+        loop.model_seconds=0;loop.evidence=Mock();loop.repair_delivery=Mock(side_effect=AssertionError('No evaluator rewrite in advisory mode'))
+        loop.evaluator_model=Mock();loop.evaluator_model.complete.return_value=tool('evaluate_delivery',{k:{'passed':k!='claims','reason':'Unsupported detail.'}for k in CHECKS})
+        draft={'evidence_ids':[]}
+        with configured({'r27_evaluator_advisory':True}):review=loop.evaluate_draft(draft)
+        self.assertTrue(review['would_reject']);self.assertEqual(review['hard_failures'],['claims'])
+        self.assertNotIn('outcome',loop.state);loop.repair_delivery.assert_not_called();loop.evidence.assert_called_once()
+
+    def test_advisory_does_not_bypass_unique_target_or_evidence_validation(self):
+        from investigator.ai_investigation import Investigator
+        from investigator.regression_features import configured
+        from types import SimpleNamespace
+        loop=object.__new__(Investigator);loop.refresh_tools=lambda:None;loop.schemas={'submit_finding':Mock()}
+        loop.context={'candidate_inventory':{}};loop.queries=SimpleNamespace(records=[])
+        loop.state={'evidence':{}};loop.evaluate_draft=Mock(side_effect=AssertionError('Guard must run first'))
+        with configured({'r27_evaluator_advisory':True}):
+            with self.assertRaisesRegex(ValueError,'UNKNOWN_EVIDENCE_REFERENCE'):
+                loop.dispatch('submit_finding',{'evidence_ids':['invented']})
+            loop.context['candidate_inventory']={'candidates':[{'id':'one'},{'id':'two'}]}
+            loop.state['evidence']={'check':{'tool':'check_target_candidates','result':{'selected':'one'}}}
+            with self.assertRaisesRegex(ValueError,'TARGET_NOT_A_UNIQUE_OBSERVED_MATCH'):
+                loop.dispatch('submit_finding',{'evidence_ids':[],'selected_target':'two'})
+        loop.evaluate_draft.assert_not_called()
+
     def test_soft_presentation_issue_is_not_a_hard_evidence_failure(self):
         checks={k:{'passed':k!='claims','reason':'Citation label format only; native q1 supports the statement.',
                    'severity':'soft','failure_kind':'citation_format'} for k in CHECKS}

@@ -347,7 +347,7 @@ context_gap. No fix suggestions, no glossary request and no business context fil
     def evaluate_draft(self,args):
         from .delivery_evaluator import evaluate,payload
         attempts=self.state.setdefault('delivery_evaluations',[])
-        if sum(not item['approved'] for item in attempts)>=3:
+        if not enabled('r27_evaluator_advisory') and sum(not item['approved'] for item in attempts)>=3:
             raise ValueError('DELIVERY_EVALUATOR_RETRIES_EXHAUSTED')
         packet=payload(self.context['intake'],args,self.case_view())
         self.state['pending']={'kind':'DELIVERY_EVALUATOR','attempt':len(attempts)+1};self.save()
@@ -361,6 +361,8 @@ context_gap. No fix suggestions, no glossary request and no business context fil
         attempts.append(review)
         self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
         self.state['pending']=None;self.save()
+        if enabled('r27_evaluator_advisory'):
+            return review
         if not review['approved']:
             reasons='; '.join(k+': '+v['reason'] for k,v in review['checks'].items() if not v['passed'])
             if enabled('r27_evaluator_hard_soft') and not review['hard_failures'] and 'structured_question' not in args:

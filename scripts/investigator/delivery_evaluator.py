@@ -112,6 +112,8 @@ def evaluate(model, packet):
         if not format_error and key in ('question','target'):severity='hard'
         (hard if severity=='hard' else soft).append(key)
     evaluation={'approved': all(result[k]['passed'] for k in CHECKS), 'checks': deepcopy(result),
+            'advisory':enabled('r27_evaluator_advisory'),
+            'would_reject':not all(result[k]['passed'] for k in CHECKS),
             'hard_failures':hard,'soft_failures':soft,
             'rejection_level':'hard' if hard else 'soft' if soft else None,
             'usage': deepcopy(response.get('usage', {})),
@@ -149,6 +151,10 @@ def evaluate_native(model,ticket,outcome):
     review=evaluate(model,{'ticket':deepcopy(ticket),'draft':draft,'cited_evidence':evidence})
     review.update(attempt=1,retry=0,step='EVALUATOR')
     result['delivery_evaluations']=[review];result['model_calls']=result.get('model_calls',0)+1
+    if enabled('r27_evaluator_advisory'):
+        result['delivery_evaluation']=deepcopy(review)
+        result['conclusion']=conclusion;result['business']=render(conclusion)
+        return attach(result,context={'conclusion_contract':'question-first-v1','operational_status_only':True})
     if enabled('r27_evaluator_hard_soft'):
         from .conclusion_contract import fields,validate
         for retry in range(2):

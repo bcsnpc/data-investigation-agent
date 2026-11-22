@@ -8,13 +8,13 @@ from investigator.regression_features import DEFAULTS,enabled,configured,snapsho
 
 class FeatureTests(unittest.TestCase):
  def test_each_flag_is_independent_scoped_and_defaults_to_current(self):
-  self.assertEqual(len(DEFAULTS),35)
-  self.assertTrue(all(DEFAULTS.values()))
+  self.assertEqual(len(DEFAULTS),36)
+  self.assertFalse(DEFAULTS['r27_evaluator_advisory'])
   for name in DEFAULTS:
-   with self.subTest(feature=name),configured({name:False}):
-    self.assertFalse(enabled(name))
-    self.assertTrue(all(v for k,v in snapshot().items()if k!=name))
-   self.assertTrue(enabled(name))
+   with self.subTest(feature=name),configured({name:not DEFAULTS[name]}):
+    self.assertEqual(enabled(name),not DEFAULTS[name])
+    self.assertEqual({k:v for k,v in snapshot().items()if k!=name},{k:v for k,v in DEFAULTS.items()if k!=name})
+   self.assertEqual(enabled(name),DEFAULTS[name])
  def test_nested_and_exception_scopes_restore_without_leaking(self):
   with configured({'r27_delivery_evaluator':False}):
    try:
@@ -22,7 +22,7 @@ class FeatureTests(unittest.TestCase):
      self.assertTrue(enabled('r27_delivery_evaluator'));raise RuntimeError('test')
    except RuntimeError:pass
    self.assertFalse(enabled('r27_delivery_evaluator'));self.assertTrue(enabled('r26_terminal_report'))
-  self.assertTrue(all(snapshot().values()))
+  self.assertEqual(snapshot(),DEFAULTS)
  def test_unknown_safety_and_nonboolean_options_are_refused(self):
   for value in ({'read_only':False},{'budget':False},{'r27_delivery_evaluator':0},{'r27_delivery_evaluator':'false'},[]):
    with self.assertRaises(ValueError):validate(value)
