@@ -1,0 +1,27 @@
+{
+  "recorded_at_utc": "2026-11-22T17:07:40.300277+00:00",
+  "status": "STALE_COHORT_RESTORATION_COMPLETE",
+  "automatic_updates": {
+    "value": "ON",
+    "provenance": "OWNER_REPORTED_SAVED_SETTING",
+    "owner_confirmation": "ON",
+    "refresh_schedule_changed": false,
+    "receipt_sha256": "9877c0a2f805e01cf8228d05d8b00ad16a75a5d2e3325e80d18e3b53631ae34c"
+  },
+  "native_model_quantity": 7661,
+  "native_refresh": {
+    "requestId": "acb61da4-c7aa-4aa5-b7e3-0be7d613aa1c",
+    "id": 773544473,
+    "refreshType": "DirectLakeFraming",
+    "startTime": "2026-11-22T17:06:44.053Z",
+    "endTime": "2026-11-22T17:06:44.103Z",
+    "status": "Completed",
+    "refreshAttempts": []
+  },
+  "source_hash_restore_already_verified": true,
+  "original_real_load_status": "SUCCEEDED",
+  "restoration_required": false,
+  "automatic_update_restoration_required": false,
+  "new_investigator_or_model_runs": 0,
+  "scores_and_budget_limits_unchanged": true
+}

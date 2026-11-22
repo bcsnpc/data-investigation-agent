@@ -594,3 +594,6 @@ Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETA
 
 
 Round27 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\dev02-advisory\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round27 final P2 stale restoration verified2026-11-22: owner confirmed automatic updatesON, refresh schedule unchanged. Restoration refreshacb61da4-c7aa-4aa5-b7e3-0be7d613aa1c completed2026-11-22T17:06:44.103Z; native model quantity7661. Source row/schema hash and real original360 restoration load were already verified. Automatic-update setting provenance remains OWNER_REPORTED_SAVED_SETTING; refresh status/value are native reads, not an independent API readback of that switch. No P3fault/model run, score or budget change. Receipt: docs/round-twenty-seven-pass2-final-restoration.json.

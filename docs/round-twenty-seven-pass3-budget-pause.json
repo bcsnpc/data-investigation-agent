@@ -161,6 +161,7 @@
   "full_pass_gate_not_met": true,
   "no_freeze_calibration_or_v5_admitted": true,
   "source_hash_restored_real_load_completed": true,
-  "automatic_updates_owner_on_pending": true,
-  "limits_unchanged": true
+  "automatic_updates_owner_on_pending": false,
+  "limits_unchanged": true,
+  "stale_restoration_completed_record": "docs/round-twenty-seven-pass2-final-restoration.json"
 }
