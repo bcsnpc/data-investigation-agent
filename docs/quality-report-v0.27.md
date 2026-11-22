@@ -1,6 +1,6 @@
 # Round 27 quality report
 
-Round 27 is in progress. The baseline proof was 7/15 correct, zero harmful. The owner-selected evaluator-advisory ablation reran only its eight failed tickets once: six recovered, zero harmful. Carrying forward the seven baseline-correct cases gives **13/15 correct, zero reviewed harmful; proof gate PASS**. Official, strict and independently reviewed projections agree. Intake guards and delivery repair remained on. The remaining eight pass-1 tickets are now being completed; no calibration or held-out v5 run has started.
+Round 27 is in progress. Pass1 is complete: **5/50 raw-reviewed correct,20 useful non-harmful handoffs,1 retained historical harmful answer**; official and strict are4/50. All8 completion cases were incorrect and non-harmful. The baseline proof was7/15 correct, zero harmful; the owner-selected evaluator-advisory comparison recovered6/8 failed cases, giving **13/15 correct, zero reviewed harmful; proof gate PASS**. Proof scores are separate from pass1. Pass2 selects48 distinct failures/guard tickets, including the full fixed20-ticket guard, and has started on unchanged billing baseline cases while fixture automatic-update restoration awaits the owner. No calibration or held-out v5 run has started.
 
 Both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic). New grades use Sol, Astra and an independent Terra review of disagreements, including disagreements about the first wrong step. Historical grades retain their original provider and rules.
 
@@ -9,6 +9,8 @@ Both graders same vendor (OpenAI); independent of the investigator vendor (Anthr
 The saved-trace diagnosis found nine query failures among 96 old queries and nine among 129 new queries. The clearest regressions occurred after useful evidence had been collected: delivery structure and evaluator failures prevented an answer. The repair adds one saved-evidence reformat opportunity and separates hard factual failures from soft presentation failures. Soft-only failures allow at most two rewrites, then delivery with a warning. Wrong question, wrong target and unsupported claims remain hard failures. Read-only enforcement and evidence validation remain enabled.
 
 The qualified image is `sha256:639f85b7741844317990ef854a5e4c16994e12a3e69357fab12d2caaf43d8666`, source `fa4f08ca`. Qualification passed 5,953 tests, with 53 skipped, zero failures or errors, and all eight image shards passed. See [qualification](round-twenty-seven-repair-qualification.json) and [diagnosis](regression-diagnosis-r27.md).
+
+That receipt describes an earlier repair image. The pass1 completion image remained6056863e throughout. The new pass2 generic-repair image is362005b0, source35f4aa5c:5,985PASS/53skipped/zero failures or errors, all8shardsPASS. Its five independently switchable repairs and exact artifact hashes are in [the repair batch](round-twenty-seven-generic-repair-batch.md) and [qualification](round-twenty-seven-generic-repair-qualification.json). Full pass1 rows and cohort/image counts are in [the final pass1 report](round-twenty-seven-pass1-final.md).
 
 Screenshot vision remains Opus; an older passing screenshot trace used Terra. That is a separate comparison change, not an attributed delivery improvement. The contradictory historical grade for Older export movement 1 remains unchanged.
 
