@@ -6,6 +6,12 @@ from datetime import datetime,timezone
 from cloud_investigator import reference,PathCollector
 
 
+def model_budget_purpose(step):
+    """A nested smoke keeps the trusted runner's accounting purpose."""
+    from investigator.reasoning_budget import PURPOSE
+    return 'SMOKE' if PURPOSE.get()=='SMOKE' else step
+
+
 def intake_question_outcome(text, mapped, *, resolution, step_costs, cost,physical_requests=0):
     """Keep the original text bound even when no intake has been admitted."""
     from investigator.terminal_findings import attach
@@ -152,7 +158,7 @@ def _run(plan,context):
         if key not in budgets:
             budgets[key]=TicketBudget(state,case_id=case_id,owner=selected['worker_identity'],
                 rate=RateCard(model=selected['model'],**selected['rate_card']),
-                provider=selected.get('provider','anthropic'),purpose=step,
+                provider=selected.get('provider','anthropic'),purpose=model_budget_purpose(step),
                 actual_usage_limit=spec.get('diagnostic_budget',{}).get('actual_usage_limit_microdollars',3000000))
         return budgets[key]
     def model(case_id,step='INVESTIGATOR'):
