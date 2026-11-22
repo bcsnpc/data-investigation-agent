@@ -1,0 +1,1869 @@
+{
+  "scope": "All50 original P1 tickets; separate proof and five plumbing reruns excluded",
+  "grading_disclosure": "33 historical protocol retained; nine recovered historical grades and eight completion grades use Sol/Astra/Terra. Both new graders are OpenAI, independent of Anthropic investigator.",
+  "scores_and_expectations_unchanged": true,
+  "overall": {
+    "measured": 50,
+    "official": 4,
+    "strict": 4,
+    "reviewed": 5,
+    "useful_handoff": 20,
+    "harmful": 1
+  },
+  "by_cohort": {
+    "static": {
+      "measured": 28,
+      "official": 2,
+      "strict": 2,
+      "reviewed": 3,
+      "useful_handoff": 11,
+      "harmful": 1
+    },
+    "screenshots": {
+      "measured": 4,
+      "official": 0,
+      "strict": 0,
+      "reviewed": 0,
+      "useful_handoff": 3,
+      "harmful": 0
+    },
+    "fault": {
+      "measured": 18,
+      "official": 2,
+      "strict": 2,
+      "reviewed": 2,
+      "useful_handoff": 6,
+      "harmful": 0
+    }
+  },
+  "by_image_segment": {
+    "advisory completion": {
+      "measured": 8,
+      "official": 0,
+      "strict": 0,
+      "reviewed": 0,
+      "useful_handoff": 3,
+      "harmful": 0
+    },
+    "original": {
+      "measured": 29,
+      "official": 1,
+      "strict": 1,
+      "reviewed": 2,
+      "useful_handoff": 13,
+      "harmful": 1
+    },
+    "plumbing repair": {
+      "measured": 13,
+      "official": 3,
+      "strict": 3,
+      "reviewed": 3,
+      "useful_handoff": 4,
+      "harmful": 0
+    }
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-before-temporal-retention-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-source-history-v1",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": false,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "text-R17-04-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-R17-09-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-R17-11-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-different-warehouse-v2",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-history-source-900201-v1",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-history-source-900201-v2",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-latency-900501-v1",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "text-latency-900501-v2",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-older-export-movement-1-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": true,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-baseline-S01-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-R17-01-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-failed-billing-load-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": true,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "cohort": "static",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 0
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "cohort": "screenshots",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "cohort": "screenshots",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "cohort": "screenshots",
+      "image_segment": "original",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "cohort": "screenshots",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": true,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-waiting-application-load-v2",
+      "cohort": "fault",
+      "image_segment": "plumbing repair",
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "cohort": "static",
+      "image_segment": "plumbing repair",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "cohort": "static",
+      "image_segment": "plumbing repair",
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "grading_protocol": "historical primary/secondary/review unchanged",
+      "useful_handoff": false,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-access-export-v1",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered UNRESOLVED verdict does not match the expected access difference, and it never identifies the application export view/DEV split or its CURRENT_USER visibility-group mapping. Native checks successfully reproduce 10/one row versus 25/two rows using the reader mapping, but the answer only lists these results and says the calculation and cause are unestablished. The earlier National-literal validation failures were recovered by successful replacement queries, so they do not explain the final unresolved conclusion. The handoff preserves rerunnable SQL, checked findings, a stated missing definition and engineer routing, but its next checks revisit already-recovered query failures rather than specifically obtaining the export-view definition and confirming CURRENT_USER filtering. This is useful partial evidence, not full verdict, layer or cause credit. The explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer remains UNRESOLVED instead of explaining the expected access difference at the application export view (DEV split). Its successful checks reproduce 10/one row versus 25/two rows through reader-to-visibility-group mappings, but it never identifies the view's CURRENT_USER filter as the cause or establishes that definition. Merely listing billingapp findings does not identify the causal layer. The National-syntax rejections were subsequently overcome with successful queries, so they do not justify the final unresolved conclusion. The handoff retains rerunnable queries, checked findings, an explicit missing calculation definition and engineer routing, but its next checks revisit already-recovered validation errors rather than directing inspection of the export-view definition. This is useful partial evidence, not full verdict/layer/cause credit, and the explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      },
+      "review": null,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-access-export-v2",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is an access difference in the application export view caused by its CURRENT_USER visibility-group mapping, reproducible with a plain filter rather than a report-RLS claim. The delivered answer remains UNRESOLVED and names neither that split nor that cause. Its successful helper-table queries reproduce 10/one row and 25/two rows, but it never establishes the export view definition or CURRENT_USER rule. The initial validation rejection was bypassed successfully and was not the decisive blocker. The handoff preserves rerunnable queries, checked findings, an explicit missing definition and engineering routing, but its next check merely revisits the already-bypassed query error instead of specifying inspection of the export view and identity mapping. This is useful partial investigation, not a correct technical answer; its explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer reproduces the two users' 10/one-row and 25/two-row totals using declared reader mappings, but never checks or identifies the export view's CURRENT_USER visibility-group rule. Thus it does not establish the expected access-difference verdict, application export view split, or named cause; merely listing billingapp is not the required layer finding. The initial SQL validation rejection was recovered with successful queries, so the substantive failure is incomplete evidence about the actual export view. Saved queries, checked results, engineer routing and a clear budget stop provide a partial handoff, but the next check only revisits the rejected query rather than specifically obtaining the view definition and confirming CURRENT_USER filtering without impersonation. The explicit unresolved answer makes no confident incorrect causal claim.",
+        "verdict_match": false
+      },
+      "review": null,
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered verdict 'refresh stale' and Bronze-to-semantic-model split match the sealed expectation. Native checks support 7661/360 model rows versus 7692/363 landing rows, with the three additional rows contributing 7+11+13=31. However, the expected named cause includes model automatic updates being off. The answer explicitly leaves that setting unestablished and correctly distinguishes it from the disabled refresh schedule; this is only a partial cause match and earns no cause credit. This evidence limitation is not a confident incorrect cause. The handoff includes rerunnable queries, checked findings, the exact missing setting, its settings location, and engineer routing.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered answer correctly identifies refresh staleness and the Bronze-to-semantic-model split: source and landing total 7692, the model totals 7661, and the three newer landing rows contribute 31. However, the sealed cause also requires automatic updates being off. The answer explicitly leaves that setting unestablished; a disabled refresh schedule is not equivalent. Thus the named cause is only partial and receives no credit. This is an explicit evidence limitation, not a confident incorrect cause. The handoff provides rerunnable queries, checked findings, the exact missing setting, its settings-page location, and engineer routing.",
+        "verdict_match": true
+      },
+      "review": null,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered verdict 'refresh stale' and Bronze-to-semantic-model split match: native queries reproduce 7661 in the model and 7692 in both lakehouse and source. However, the sealed named cause includes a real load advancing landing by 7+11+13=31 with model automatic updates OFF. The answer explicitly leaves automatic updates unknown and does not establish that load progression; a disabled refresh schedule and old refresh-ledger timestamp do not establish the Direct Lake automatic-update setting. Thus the causal explanation is incomplete, not a full match. This is not harmful: the stale-model finding is correct and the missing setting is explicitly qualified rather than falsely asserted. Saved rerunnable queries, the failed partition-metadata read, exact unresolved facts, settings check, and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered 'refresh stale' verdict and bronze-to-semantic-model split match: native checks show model 7661 versus lakehouse and source 7692. The named cause is only partial: it attributes the lag to the older recorded refresh but explicitly leaves automatic updates unknown, whereas the sealed cause requires automatic updates being off and the load advancing landing by 7+11+13=31. An old refresh ledger entry and disabled refresh schedule do not establish that Direct Lake update setting. No cause credit is awarded, but this is an explicit evidence limitation rather than a confident incorrect cause. The handoff includes rerunnable queries, checked totals, the failed partition read, precise unresolved settings/version facts, and engineer routing with a specific model-settings check.",
+        "verdict_match": true
+      },
+      "review": null,
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-latency-900502-v1",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stops before initialization and has no triage, queries, admitted layers, or checked findings. Its 'not established' verdict does not match the expected latency verdict; it identifies neither the SOURCE -> BRONZE split nor the cause that movement 900502 arrived after the last completed load while an enabled future application load remained due. It does not name that load or its due time or distinguish a missing row/BLANK from zero. The explicit usage-cap limitation is honest, not a confident incorrect cause, so harmful is false. Handoff quality is 0: although it records the stopping point and routes to an engineer, the saved query list is empty and its next check concerns initialization receipts rather than concrete checks of the movement and load schedule. Intake correctly captures the missing-record target; triage is the first uncompleted substantive step.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The intake identifies the requested missing movement, but investigation stopped before triage or any evidence checks. The delivered 'not established' verdict does not match expected latency, identifies no SOURCE -> BRONZE split, and does not establish that movement 900502 arrived after the last completed load while an enabled future application-load schedule has not yet run. It also omits the scheduled load name and due time and the missing-row/BLANK versus zero distinction. The usage-cap stop is an execution limitation, not the expected technical explanation. Handoff retains scope, an explicit stopping point and engineer routing, but has no rerunnable queries or checked findings and only a generic control-receipt next check. The answer honestly disclaims findings, so it is not harmful.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The answer says 'not established' and 'No layer was admitted or read'; it does not establish the expected latency verdict, SOURCE -> BRONZE split, or the post-load arrival and pending scheduled load. No checked finding supports partial credit. The usage-cap limitation is explicit, not a confident wrong cause. Intake identifies movement 900502, but triage was never completed. Secondary is better supported on handoff quality: the retained scope, explicit cap stopping point, engineer routing and suggested inspection of initialization/control receipts provide limited continuity, though queries are empty and there are no movement-specific checks. This warrants 1 rather than Primary's 0; it is not a rerunnable technical investigation.",
+        "verdict_match": false,
+        "winning_grader": "SECONDARY"
+      },
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-latency-900502-v2",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": true,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The investigation queried the separate warehouse_*_f28cf2 report chain rather than establishing the requested application-to-round_two_bronze path. Its explicitly scoped empty results do not establish the expected SOURCE -> BRONZE latency split. The delivered UNRESOLVED/not-found answer does not match latency, and it neither identifies the enabled future application load and due time nor establishes that 900502 arrived after the last completed load; it also does not distinguish missing/BLANK from zero. The access limitations are honestly stated, not a confident false cause, so this is not harmful. Handoff is useful: saved rerunnable queries, checked findings clearly separated from the named target, exact inaccessible tables and missing run history, and engineer routing with concrete next checks. That does not earn verdict, layer, or cause credit.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The investigation queried the separate f28cf2 report chain rather than the named application-to-round_two_bronze path. Its explicitly scoped empty results do not answer the ticket. UNRESOLVED/not found does not match the sealed latency verdict, and merely mentioning SOURCE -> BRONZE does not establish that split. It did not identify the row arriving after the last completed load, the enabled future application load and its due time, or distinguish missing/BLANK from zero. The access limitations are honestly stated, not a confident incorrect cause. Limited checked findings, saved rerunnable queries, exact missing source/target/run-history facts and engineer routing constitute a useful unresolved handoff, but do not earn verdict, layer or cause credit.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "PRIMARY is supported; SECONDARY's partial flag is not. The saved g3/g4 queries checked warehouse_bronze_f28cf2, finding no 900502 and 360 rows with IDs 1\u2013360, not the requested round_two_bronze table. The answer explicitly says the named source and bronze were inaccessible and concludes UNRESOLVED/not found; it does not establish the expected SOURCE -> BRONZE latency split, the row's arrival after the last completed load, or the enabled future load and due time, and does not distinguish missing/BLANK from zero. The separate chain's absence and the catalog's direct mapping are not a partial match to the expected latency finding. The limitation is explicit, not a confident wrong cause. Handoff quality 2: the saved queries are rerunnable, the checked scope and stopping point are clear, and the answer identifies source, target and run-history access as next checks with engineer routing. These useful checks do not earn answer credit.",
+        "verdict_match": false,
+        "winning_grader": "PRIMARY"
+      },
+      "handoff_quality": 2
+    },
+    {
+      "ticket": "text-stale-total-v1",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered verdict is UNRESOLVED, not the expected refresh-stale conclusion, and it never names the BRONZE -> SEMANTIC refresh boundary or disabled automatic refresh as the cause. Its correct per-layer totals alone do not establish that explanation. Native evidence supports the sealed expectation: the model has 7661 across 360 rows, while Bronze and application both have 7692 across 363 rows; the three additional movements total 31 and were modified after the last successful model refresh on November 16. Refresh scheduling is disabled, and the load completed November 22. The first concrete failed investigation step was query validation: the historical SQL used an unsupported FOR TIMESTAMP option and was rejected before execution; a later DAX query also failed validation. The handoff preserves rerunnable successful queries, checked findings, engineer routing and an explicit stopping point, but its next checks focus on failed queries rather than clearly identifying the remaining refresh-boundary confirmation. This is an honest evidence-limited answer, not a harmful confident misdiagnosis.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The checked totals localize the discrepancy to BRONZE -> SEMANTIC: application and Bronze both contain 363 rows totaling 7692, whereas the model contains 360 rows totaling 7661. This is the relevant split, not an incidental difference. However, the delivered verdict is unresolved and never names the expected stale model-refresh boundary or held-off automatic updates. The retained refresh date, later load and three later rows support the sealed explanation, but the answer does not draw it. The first failed investigative step was the unsupported historical SQL OPTION (FOR TIMESTAMP AS OF ...) rejected before dispatch; a later DAX record query also failed validation. Saved queries, scoped findings and an explicit stopping point provide a useful but incomplete handoff: next checks merely revisit failed queries rather than specify the missing refresh/update fact and how to verify it. The answer states an evidence limitation, not a confident incorrect cause.",
+        "verdict_match": false
+      },
+      "review": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The saved answer explicitly says UNRESOLVED and 'did not establish the cause,' rather than refresh stale. It reports model 7661/360 rows and Bronze and application 7692/363 rows, but does not identify BRONZE -> SEMANTIC as the split or name the stale refresh and held-off automatic updates. The secondary treats the raw per-layer totals as a layer conclusion; they support one but do not state it, so the primary is supported. The first failed investigation step was historical SQL validation: OPTION (FOR TIMESTAMP AS OF ...) was rejected before dispatch. The handoff retains successful queries, findings, a stopping point and engineer routing, but its next checks revisit errors rather than specify the missing refresh-boundary confirmation. The evidence-limited answer is not harmful.",
+        "verdict_match": false,
+        "winning_grader": "PRIMARY"
+      },
+      "handoff_quality": 1
+    },
+    {
+      "ticket": "text-stale-total-v2",
+      "cohort": "fault",
+      "image_segment": "advisory completion",
+      "official": false,
+      "strict": false,
+      "reviewed": false,
+      "harmful": false,
+      "useful_handoff": false,
+      "grading_protocol": "Sol/Astra/Terra",
+      "primary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer remains UNRESOLVED rather than identifying the expected stale refresh at BRONZE -> SEMANTIC. Native evidence already shows source and Bronze agree at 7692/363 rows, while the semantic model has 7661/360; the three newer Bronze movements total the missing 31 and are absent from the model. The last model refresh predates those changes and its refresh schedule is disabled. These support the sealed model-refresh boundary, not warehouse_id mapping or pipeline loss. Reporting per-layer differences without drawing that conclusion earns no verdict, split-point, or named-cause credit. The honest evidence limitation is not harmful. The handoff preserves rerunnable successful queries, checked totals and a stopping point with engineer routing, but its proposed next checks mainly reference failed queries rather than specify a precise remaining fact and a workable way to obtain it.",
+        "verdict_match": false
+      },
+      "secondary": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer remains UNRESOLVED rather than diagnosing refresh stale, and never identifies the BRONZE -> SEMANTIC refresh boundary or disabled refresh schedule as the cause. Its own evidence supports the sealed expectation: source and Bronze both total 7692 across 363 rows, while the model totals 7661 across 360; the three Bronze rows absent from the model sum to 31. Those rows and the successful load postdate the model's last refresh, and its refresh schedule is disabled. Listing differing layer totals is useful partial evidence, not the requested split-point diagnosis. The decisive failure is not synthesizing these checked findings into the conclusion; the rejected history and DAX queries do not negate the successful checks. Saved queries and a clear stopping point provide a usable but incomplete handoff; next checks mainly revisit query errors rather than identify an exact missing fact and a focused refresh check. The explicit evidence limitation is not a confident false cause, so it is not harmful.",
+        "verdict_match": false
+      },
+      "review": null,
+      "handoff_quality": 1
+    }
+  ],
+  "pass2_records": [
+    {
+      "case_id": "v2-access-export",
+      "estate": "billing",
+      "fixture": "access",
+      "id": "form-v2-access-export-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-access-export",
+          "group": "regression-guard",
+          "slot_id": "form-v2-access-export-v1"
+        }
+      ],
+      "original_id": "v2-access-export-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-access-inputs-v4\\v2-access-export-v1-ticket.json",
+      "source_sha256": "110136a3dfb732cdfaa509c3bde26012e868d1fcaad24f00a0a886450102668f",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-access-export",
+      "estate": "billing",
+      "fixture": "access",
+      "id": "form-v2-access-export-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-access-export",
+          "group": "regression-guard",
+          "slot_id": "form-v2-access-export-v2"
+        }
+      ],
+      "original_id": "v2-access-export-v2",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-access-inputs-v4\\v2-access-export-v2-ticket.json",
+      "source_sha256": "de8b2a2897a95b2795efb247b371646a39bf083b267c84a3aebb5396ae099b03",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-application-baseline",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-application-baseline-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-application-baseline",
+          "group": "regression-guard",
+          "slot_id": "form-v2-application-baseline-v1"
+        }
+      ],
+      "original_id": "v2-application-baseline-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-application-baseline-v1-ticket.json",
+      "source_sha256": "aa4c4ae98cbfd865eeb853a5fb12e174add9ae94b520a78d22921287f54c227d",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-application-baseline",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-application-baseline-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-application-baseline",
+          "group": "regression-guard",
+          "slot_id": "form-v2-application-baseline-v2"
+        }
+      ],
+      "original_id": "v2-application-baseline-v2",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-application-baseline-v2-ticket.json",
+      "source_sha256": "e4ace9ad7d4e888aa9d5fba429092afe616bdc827a93b0b3d17caf7c164a63b6",
+      "selection_reasons": [
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-before-temporal-retention",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-before-temporal-retention-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-before-temporal-retention",
+          "group": "every-pass-failure",
+          "slot_id": "form-v2-before-temporal-retention-v1"
+        }
+      ],
+      "original_id": "v2-before-temporal-retention-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\form-inputs\\v2-before-temporal-retention-v1-ticket.json",
+      "source_sha256": "dcbd63c39693c1f37d93bfa25effbb604673182f0f7a44ed3f2bb18f72d0d731",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "v2-billing-invoices",
+      "estate": "billing",
+      "fixture": "baseline",
+      "id": "form-v2-billing-invoices-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-billing-invoices",
+          "group": "every-pass-failure",
+          "slot_id": "form-v2-billing-invoices-v1"
+        }
+      ],
+      "original_id": "v2-billing-invoices-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\form-inputs\\v2-billing-invoices-v1-ticket.json",
+      "source_sha256": "0aa5d25e87046139562c6010c9e516445e959c18bf683c096bb44ef67b6c30cb",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "v2-billing-invoices",
+      "estate": "billing",
+      "fixture": "baseline",
+      "id": "form-v2-billing-invoices-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-billing-invoices",
+          "group": "regression-guard",
+          "slot_id": "form-v2-billing-invoices-v2"
+        }
+      ],
+      "original_id": "v2-billing-invoices-v2",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-billing-invoices-v2-ticket.json",
+      "source_sha256": "9b486cbe603c773dd08802489065f39bd08a7a63324498e4a26e723b4d15b0d0",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-billing-mrr",
+      "estate": "billing",
+      "fixture": "baseline",
+      "id": "form-v2-billing-mrr-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-billing-mrr",
+          "group": "regression-guard",
+          "slot_id": "form-v2-billing-mrr-v1"
+        }
+      ],
+      "original_id": "v2-billing-mrr-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-billing-mrr-v1-ticket.json",
+      "source_sha256": "47eeba5b13f073c99c55731a315e27d0987601ca1d1cb765a96da8d6dea7f31a",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-failed-application-load",
+      "estate": "fixture",
+      "fixture": "failed-fixture",
+      "id": "form-v2-failed-application-load-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-failed-application-load",
+          "group": "regression-guard",
+          "slot_id": "form-v2-failed-application-load-v1"
+        }
+      ],
+      "original_id": "v2-failed-application-load-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-failed-application-load-v1-ticket.json",
+      "source_sha256": "97520c427108e4cd168855ebe8033867c88f07b13dcfcd2074ce2df3ecd51768",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-failed-billing-transform",
+      "estate": "billing",
+      "fixture": "failed-billing",
+      "id": "form-v2-failed-billing-transform-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-failed-billing-transform",
+          "group": "regression-guard",
+          "slot_id": "form-v2-failed-billing-transform-v1"
+        }
+      ],
+      "original_id": "v2-failed-billing-transform-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-failed-billing-transform-v1-ticket.json",
+      "source_sha256": "301bb4084b7312d71e6ea95d864d66d941eee059566b89984ebbec08f515feaa",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-fixture-quantity",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-fixture-quantity-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-fixture-quantity",
+          "group": "regression-guard",
+          "slot_id": "form-v2-fixture-quantity-v1"
+        }
+      ],
+      "original_id": "v2-fixture-quantity-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-fixture-quantity-v1-ticket.json",
+      "source_sha256": "80144fa321633c9c009d1f6fd2ce8a9fd0a4eb22bd421063c5199bff67394832",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-latency-record",
+      "estate": "fixture",
+      "fixture": "latency",
+      "id": "form-v2-latency-record-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-latency-record",
+          "group": "regression-guard",
+          "slot_id": "form-v2-latency-record-v1"
+        }
+      ],
+      "original_id": "v2-latency-record-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-latency-record-v1-ticket.json",
+      "source_sha256": "9a9e1e7f2b1405cfc144efe1a1abc30a34f0d402d27d86e18a83e0999c007c0d",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-other-collected-definition",
+      "estate": "billing",
+      "fixture": "baseline",
+      "id": "form-v2-other-collected-definition-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-other-collected-definition",
+          "group": "every-pass-failure",
+          "slot_id": "form-v2-other-collected-definition-v1"
+        }
+      ],
+      "original_id": "v2-other-collected-definition-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\form-inputs\\v2-other-collected-definition-v1-ticket.json",
+      "source_sha256": "c17684ca8ee083cb201f05ad54d1a5fb5100b337ed61ef4b6631b8b7d6e17778",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "v2-other-collected-definition",
+      "estate": "billing",
+      "fixture": "baseline",
+      "id": "form-v2-other-collected-definition-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-other-collected-definition",
+          "group": "regression-guard",
+          "slot_id": "form-v2-other-collected-definition-v2"
+        }
+      ],
+      "original_id": "v2-other-collected-definition-v2",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-other-collected-definition-v2-ticket.json",
+      "source_sha256": "29dffecacd9cd97374f7358207521c2234457ca138093ecd0caad2ac982318fd",
+      "selection_reasons": [
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-record-absent-everywhere",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-record-absent-everywhere-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-record-absent-everywhere",
+          "group": "regression-guard",
+          "slot_id": "form-v2-record-absent-everywhere-v1"
+        }
+      ],
+      "original_id": "v2-record-absent-everywhere-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-record-absent-everywhere-v1-ticket.json",
+      "source_sha256": "87dfbdac14cf2c82870dfefd7a1069f5434cadb6eaac17fe780be5d5c096fe54",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-record-repeated-gold",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-record-repeated-gold-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-record-repeated-gold",
+          "group": "regression-guard",
+          "slot_id": "form-v2-record-repeated-gold-v2"
+        }
+      ],
+      "original_id": "v2-record-repeated-gold-v2",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-record-repeated-gold-v2-ticket.json",
+      "source_sha256": "6377e0558fb199d9360320fe642feb88d9d6dfa2a0d43102d2fb2c6f1cace861",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-screenshot-record-01",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-screenshot-record-01-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-screenshot-record-01",
+          "group": "regression-guard",
+          "slot_id": "form-v2-screenshot-record-01-v1"
+        }
+      ],
+      "original_id": "v2-screenshot-record-01-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-screenshot-record-01-v1-ticket.json",
+      "source_sha256": "c2a48d44b44a089bc49f1912b7a5406e1e1af03ce63d18d86ea865b9b7d97703",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-screenshot-record-02",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-screenshot-record-02-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-screenshot-record-02",
+          "group": "regression-guard",
+          "slot_id": "form-v2-screenshot-record-02-v1"
+        }
+      ],
+      "original_id": "v2-screenshot-record-02-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-screenshot-record-02-v1-ticket.json",
+      "source_sha256": "a08596e4e958baab6aa43d960d73215fab59ce72ac720f7476107ced005fe38f",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-screenshot-record-03",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-screenshot-record-03-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-screenshot-record-03",
+          "group": "regression-guard",
+          "slot_id": "form-v2-screenshot-record-03-v1"
+        }
+      ],
+      "original_id": "v2-screenshot-record-03-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-screenshot-record-03-v1-ticket.json",
+      "source_sha256": "346be0736aac8fe5311ddc92b6c7c631900a99ad217aa5c81d2fdaa066e784a1",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-screenshot-record-04",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-screenshot-record-04-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-screenshot-record-04",
+          "group": "regression-guard",
+          "slot_id": "form-v2-screenshot-record-04-v1"
+        }
+      ],
+      "original_id": "v2-screenshot-record-04-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-screenshot-record-04-v1-ticket.json",
+      "source_sha256": "e81582dc277db052508db1e2b4ffbb3f577bdfad29e80a7eb242e10758ac7218",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-source-history",
+      "estate": "fixture",
+      "fixture": "history",
+      "id": "form-v2-source-history-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-source-history",
+          "group": "regression-guard",
+          "slot_id": "form-v2-source-history-v2"
+        }
+      ],
+      "original_id": "v2-source-history-v2",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-source-history-v2-ticket.json",
+      "source_sha256": "5e4a541cc11fec08f5900b49395700d86c237845348957954fce0f4fb2a84d2c",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-stale-model",
+      "estate": "fixture",
+      "fixture": "stale",
+      "id": "form-v2-stale-model-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-stale-model",
+          "group": "every-pass-failure",
+          "slot_id": "form-v2-stale-model-v1"
+        }
+      ],
+      "original_id": "v2-stale-model-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\form-inputs\\v2-stale-model-v1-ticket.json",
+      "source_sha256": "38b85f2cd6b21109e8391ac088669a7c5f6f76f2f7cabf0f74ef4f57b4249424",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "v2-stale-model",
+      "estate": "fixture",
+      "fixture": "stale",
+      "id": "form-v2-stale-model-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-stale-model",
+          "group": "every-pass-failure",
+          "slot_id": "form-v2-stale-model-v2"
+        }
+      ],
+      "original_id": "v2-stale-model-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\form-inputs\\v2-stale-model-v2-ticket.json",
+      "source_sha256": "048ededb57338a8d4a00710973a8e118ad5926837162dc5a406c626c00bf8e19",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "v2-waiting-application-load",
+      "estate": "fixture",
+      "fixture": "waiting",
+      "id": "form-v2-waiting-application-load-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-waiting-application-load",
+          "group": "regression-guard",
+          "slot_id": "form-v2-waiting-application-load-v2"
+        }
+      ],
+      "original_id": "v2-waiting-application-load-v2",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-waiting-application-load-v2-ticket.json",
+      "source_sha256": "34d03182d2f6a6f910ff6cf8a13330301785a93aef1e0ad6eebc922b3dbf9920",
+      "selection_reasons": [
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-warehouse-scope",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-warehouse-scope-v1",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-warehouse-scope",
+          "group": "regression-guard",
+          "slot_id": "form-v2-warehouse-scope-v1"
+        }
+      ],
+      "original_id": "v2-warehouse-scope-v1",
+      "source_file": ".local\\round-twenty-six\\benchmark-anthropic-inputs-v3\\v2-warehouse-scope-v1-ticket.json",
+      "source_sha256": "9f99114bae541aa141075d0009777111cbe764559d7a0691f24052a56c97867d",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL",
+        "FULL_PREDECLARED_GUARD20"
+      ]
+    },
+    {
+      "case_id": "v2-warehouse-scope",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "form-v2-warehouse-scope-v2",
+      "kind": "form",
+      "memberships": [
+        {
+          "case_id": "v2-warehouse-scope",
+          "group": "every-pass-failure",
+          "slot_id": "form-v2-warehouse-scope-v2"
+        }
+      ],
+      "original_id": "v2-warehouse-scope-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\form-inputs\\v2-warehouse-scope-v2-ticket.json",
+      "source_sha256": "e0e645360fb71103ef99d6ca3cf44da79d0273bf915a5e77ebaae63d55d2b51c",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-01",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-01-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-01",
+          "group": "prior-calibration",
+          "slot_id": "text-R17-01-v1"
+        }
+      ],
+      "original_id": "R17-01-v1",
+      "source_file": ".local\\round-twenty-six\\opus-calibration01\\text-inputs\\R17-01-v1-ticket.json",
+      "source_sha256": "74e45ece0079cd326916668b2926017c43e07abfe587f4eeecb6b1e45920e5f7",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-02",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-02-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-02",
+          "group": "prior-calibration",
+          "slot_id": "text-R17-02-v1"
+        }
+      ],
+      "original_id": "R17-02-v1",
+      "source_file": ".local\\round-twenty-six\\opus-calibration01\\text-inputs\\R17-02-v1-ticket.json",
+      "source_sha256": "5d4b6621e8bb1de848313c852c97d90ac70e0f0239b311184eebc2f6bdeb0e4f",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-04",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-04-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-04",
+          "group": "every-pass-failure",
+          "slot_id": "text-R17-04-v1"
+        }
+      ],
+      "original_id": "R17-04-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\R17-04-v1-ticket.json",
+      "source_sha256": "aacb06832baaf12f9f152b58e8fbd13b6c6f1e255b283f54a67bff99fcb96f84",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-05",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-05-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-05",
+          "group": "every-pass-failure",
+          "slot_id": "text-R17-05-v1"
+        }
+      ],
+      "original_id": "R17-05-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\R17-05-v1-ticket.json",
+      "source_sha256": "ebc37e8482251a687e684a0716cbeba84de90ac7a049657e07e476213b2f038c",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-08",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-08-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-08",
+          "group": "every-pass-failure",
+          "slot_id": "text-R17-08-v1"
+        }
+      ],
+      "original_id": "R17-08-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\R17-08-v1-ticket.json",
+      "source_sha256": "d35a8a01ad34cfcf3e19e1e99d94f776b77a03be7cc1dd4b39ea1553f70f81dd",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-09",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-09-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-09",
+          "group": "every-pass-failure",
+          "slot_id": "text-R17-09-v1"
+        },
+        {
+          "case_id": "R17-09",
+          "group": "prior-calibration",
+          "slot_id": "text-R17-09-v1"
+        }
+      ],
+      "original_id": "R17-09-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\R17-09-v1-ticket.json",
+      "source_sha256": "e49a50f955553f9fac3646ca6078a02a5859baffb1d31c3138aa5994418fc45a",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-10",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-10-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-10",
+          "group": "every-pass-failure",
+          "slot_id": "text-R17-10-v1"
+        }
+      ],
+      "original_id": "R17-10-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\R17-10-v1-ticket.json",
+      "source_sha256": "896cf491b28269fda90b1a83a56dd6ffa8852c520b44272718ce9711396ea605",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "R17-11",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-R17-11-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "R17-11",
+          "group": "every-pass-failure",
+          "slot_id": "text-R17-11-v1"
+        }
+      ],
+      "original_id": "R17-11-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\R17-11-v1-ticket.json",
+      "source_sha256": "803e9a42b4974fb04c9cd7d5f45b9d6c26e6992d8ea302a7bf93a236eba4068d",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "baseline-S01",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-baseline-S01-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "baseline-S01",
+          "group": "prior-calibration",
+          "slot_id": "text-baseline-S01-v1"
+        }
+      ],
+      "original_id": "baseline-S01-v1",
+      "source_file": ".local\\round-twenty-six\\opus-calibration01\\text-inputs\\baseline-S01-v1-ticket.json",
+      "source_sha256": "b20deeda6199f604bcb9a5d429513a58d93ee5b3082dd03dc8a2a72bc1af5f12",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "baseline-S02",
+      "estate": "billing",
+      "fixture": "baseline",
+      "id": "text-baseline-S02-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "baseline-S02",
+          "group": "every-pass-failure",
+          "slot_id": "text-baseline-S02-v1"
+        },
+        {
+          "case_id": "baseline-S02",
+          "group": "prior-calibration",
+          "slot_id": "text-baseline-S02-v1"
+        }
+      ],
+      "original_id": "baseline-S02-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\baseline-S02-v1-ticket.json",
+      "source_sha256": "47523d0805e06261e01045da354cd98e040fbaf2830ba445db853d2c9295e555",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "baseline-S03",
+      "estate": "dia-sample-estate",
+      "fixture": "baseline",
+      "id": "text-baseline-S03-v2",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "baseline-S03",
+          "group": "prior-calibration",
+          "slot_id": "text-baseline-S03-v2"
+        }
+      ],
+      "original_id": "baseline-S03-v2",
+      "source_file": ".local\\round-twenty-six\\opus-calibration01\\text-inputs\\baseline-S03-v2-ticket.json",
+      "source_sha256": "7a1c25ad483cb468944466ed756bc1d561bbddf64ca9b58b1a604404ba8561ae",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "different-warehouse",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-different-warehouse-v2",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "different-warehouse",
+          "group": "every-pass-failure",
+          "slot_id": "text-different-warehouse-v2"
+        },
+        {
+          "case_id": "different-warehouse",
+          "group": "prior-calibration",
+          "slot_id": "text-different-warehouse-v2"
+        }
+      ],
+      "original_id": "different-warehouse-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\different-warehouse-v2-ticket.json",
+      "source_sha256": "d1bd92b00837a38dcd66a322f384c41f7d8ce0c3056de0f457220ce050240ae9",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "failed-billing-load",
+      "estate": "billing",
+      "fixture": "baseline",
+      "id": "text-failed-billing-load-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "failed-billing-load",
+          "group": "prior-calibration",
+          "slot_id": "text-failed-billing-load-v1"
+        }
+      ],
+      "original_id": "failed-billing-load-v1",
+      "source_file": ".local\\round-twenty-six\\opus-calibration01\\text-inputs\\failed-billing-load-v1-ticket.json",
+      "source_sha256": "2d05798c351b42ccc4bfe474a6c01933edb3c0ed31ca5d711f095d9821934b87",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "history-source-900201",
+      "estate": "fixture",
+      "fixture": "history",
+      "id": "text-history-source-900201-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "history-source-900201",
+          "group": "every-pass-failure",
+          "slot_id": "text-history-source-900201-v1"
+        }
+      ],
+      "original_id": "history-source-900201-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\history-source-900201-v1-ticket.json",
+      "source_sha256": "5bcf4336079d4b3430c09a8b517701a60cc2acef8ae035808553e0b8fd582c2b",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "history-source-900201",
+      "estate": "fixture",
+      "fixture": "history",
+      "id": "text-history-source-900201-v2",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "history-source-900201",
+          "group": "every-pass-failure",
+          "slot_id": "text-history-source-900201-v2"
+        }
+      ],
+      "original_id": "history-source-900201-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\history-source-900201-v2-ticket.json",
+      "source_sha256": "d4c43539ea31bb496c991eb90e8a3c7b8fbf8809d59fe6cc8e0b2562b7d73b76",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "latency-900501",
+      "estate": "fixture",
+      "fixture": "latency",
+      "id": "text-latency-900501-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "latency-900501",
+          "group": "every-pass-failure",
+          "slot_id": "text-latency-900501-v1"
+        }
+      ],
+      "original_id": "latency-900501-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\latency-900501-v1-ticket.json",
+      "source_sha256": "c2df2fd0ec0cd3b5e95ed3d4f109a5e943ae49c495cd2aa36f2be17b3e59a6e7",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "latency-900501",
+      "estate": "fixture",
+      "fixture": "latency",
+      "id": "text-latency-900501-v2",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "latency-900501",
+          "group": "every-pass-failure",
+          "slot_id": "text-latency-900501-v2"
+        }
+      ],
+      "original_id": "latency-900501-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\latency-900501-v2-ticket.json",
+      "source_sha256": "3bf31c8bb8ebf46a18042fceed5f67d390aa8c73614e2471b43a9095d16f6340",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "latency-900502",
+      "estate": "fixture",
+      "fixture": "latency",
+      "id": "text-latency-900502-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "latency-900502",
+          "group": "every-pass-failure",
+          "slot_id": "text-latency-900502-v1"
+        }
+      ],
+      "original_id": "latency-900502-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\latency-900502-v1-ticket.json",
+      "source_sha256": "5849ac46524b125a6cddc5781a8849aab6f87b4107cd6d876fda1c3dae78b364",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "latency-900502",
+      "estate": "fixture",
+      "fixture": "latency",
+      "id": "text-latency-900502-v2",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "latency-900502",
+          "group": "every-pass-failure",
+          "slot_id": "text-latency-900502-v2"
+        }
+      ],
+      "original_id": "latency-900502-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\latency-900502-v2-ticket.json",
+      "source_sha256": "85ab9d8139cb8316f96dc716c499d926d3645ede3dfc4543394c9a8fc7a96034",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "older-export-movement-1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "id": "text-older-export-movement-1-v2",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "older-export-movement-1",
+          "group": "every-pass-failure",
+          "slot_id": "text-older-export-movement-1-v2"
+        },
+        {
+          "case_id": "older-export-movement-1",
+          "group": "prior-calibration",
+          "slot_id": "text-older-export-movement-1-v2"
+        }
+      ],
+      "original_id": "older-export-movement-1-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\older-export-movement-1-v2-ticket.json",
+      "source_sha256": "f13e02505949ec5c78f2188617b8830ef1edbb48748ee830121190c81d25b21b",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "stale-total",
+      "estate": "fixture",
+      "fixture": "stale",
+      "id": "text-stale-total-v1",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "stale-total",
+          "group": "every-pass-failure",
+          "slot_id": "text-stale-total-v1"
+        }
+      ],
+      "original_id": "stale-total-v1",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\stale-total-v1-ticket.json",
+      "source_sha256": "13d397888f519bf81c871d02b1a3ad0fdbc231da6c50465119f1849359bc964d",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    },
+    {
+      "case_id": "stale-total",
+      "estate": "fixture",
+      "fixture": "stale",
+      "id": "text-stale-total-v2",
+      "kind": "text",
+      "memberships": [
+        {
+          "case_id": "stale-total",
+          "group": "every-pass-failure",
+          "slot_id": "text-stale-total-v2"
+        }
+      ],
+      "original_id": "stale-total-v2",
+      "source_file": ".local\\round-twenty-six\\dev06\\text-inputs\\stale-total-v2-ticket.json",
+      "source_sha256": "19d7fd9afc6c30cafce1e6b8734bf07404a3955199a5249e767c38dcb6dd00ca",
+      "selection_reasons": [
+        "P1_REVIEWED_FAILURE_OR_HARMFUL"
+      ]
+    }
+  ],
+  "fixed_guard_count": 20,
+  "prior_guard_required": 20,
+  "selection_sha256": "ad8d5d7dc3d80f2c3095150de7626e2d27c4af2ab22598255c41cb052dc10e0c",
+  "useful_handoff_definition": "Not fully correct, not harmful, independently graded handoff_quality>=2; disjoint from correct/harmful.",
+  "historical_harm_note": "Retained fixture-quantity-v1 review contradiction is disclosed in pass1-progress; operator did not override it."
+}

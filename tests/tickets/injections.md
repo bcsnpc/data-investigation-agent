@@ -561,3 +561,5 @@ Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native 
 
 
 Round27 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\dev01-completion-advisory\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+Round27 stale accepted-start recovery: DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source restoration_required=False, automatic_update_restoration_required=True. No duplicate submission; original source hash is checked before restoring the original real copy.

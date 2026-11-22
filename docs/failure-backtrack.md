@@ -16987,3 +16987,22 @@ The generic column-containment repair uses only admitted native edges and column
 Both stale form tickets reproduce the 7661 model value against 7692 in source and landing and identify the stale-model split. Both independently graded answers explicitly leave the Direct Lake automatic-update setting unestablished; they do not confuse a disabled refresh schedule with that separate setting. The second answer also fails to establish the real-load progression. Both graders award verdict and layer credit but no cause credit, with no harmful claim and a useful engineer handoff. The saved answers and grades are unchanged.
 
 This is an evidence-coverage limitation, not a reason to insert the owner's fixture-control receipt into investigator evidence. The engine needs a supported native way to inspect that setting or must keep the limitation explicit. The remaining text cases are still in progress; this section makes no claim about their results.
+
+### Final completion backtrack: all eight saved traces
+
+All eight captures are seal-checked and indexed; no estate read or model call was added for this backtrack. Earlier outcomes and independent grades remain unchanged. A recovered early error is distinguished from the obstruction that actually prevents delivery.
+
+| Ticket | First observable wrong step | Recovery and final obstruction |
+|---|---|---|
+| access-export-v1 | Query validation: valid national string literal rejected | Plain strings recover the read. AS DESIGNED/access-difference coupling and checked query IDs then prevent the supported scoped answer. |
+| access-export-v2 | Query validation: same Unicode-literal class | The model recovers the read but encounters the same delivery-contract/reference-role problem. |
+| latency-900502-v1 | Intake: correct proposed Bronze table rejected | Native container matching lacks its retained column witnesses. Intake consumes the physical bound; no latency verdict is delivered. |
+| latency-900502-v2 | Target: unrelated warehouse chain selected | The qualified unresolved answer is honest but does not establish the asked source-to-Bronze latency. |
+| stale-model-v1 | Tool choice: unbounded row diff exceeds the analysis shape/bound | Later aggregates and three keyed rows establish the stale split. Automatic-update setting remains unavailable, so the named cause is incomplete. |
+| stale-model-v2 | Query: INFO.PARTITIONS metadata read returns HTTP400 | The first draft also cites that failed read as support and is rejected. Final answer preserves the correct split and explicitly unknown automatic setting; useful but incomplete. |
+| stale-total-v1 | Tool choice: unbounded row diff | A later unsupported FOR TIMESTAMP SQL query is refused, and failed-query citations prevent delivery. The final unresolved answer loses the otherwise measured stale split. |
+| stale-total-v2 | Tool choice: contribution analysis lacks its key and row diff exceeds the bound | Later historical SQL and DAX reads fail validation. A draft reaches evaluator-packet construction but cites an unknown reference; final delivery remains unresolved. |
+
+The evaluator advisory switch does not disable deterministic target or native-reference checks. The last case's unknown-reference packet error is retained as an integration obstruction, not silently labelled a model evaluator rejection. No unsupported reference is accepted to improve a score.
+
+The next qualified batch addresses the demonstrated Unicode, delivery-reference/class and native-column-target problems generically. It does not claim to add an automatic-update inspection API or a historical SQL capability. Pass 2 must measure whether these repairs help, using every reviewed failure plus the full fixed guard.

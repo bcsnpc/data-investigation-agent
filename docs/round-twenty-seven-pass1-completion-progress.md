@@ -1,5 +1,7 @@
 # Pass-1 completion checkpoint
 
+Final update: all50 are now settled. See `round-twenty-seven-pass1-final.md` and its per-ticket JSON: official4/50, strict4/50, raw-reviewed5/50;20 useful non-harmful handoffs and1 retained historical harmful answer. All8 completion cases were incorrect and non-harmful. The interim numbers below remain as a checkpoint history.
+
 At this checkpoint, 48 of the 50 original pass-1 tickets have settled independent grades: official 4/48, strict 4/48, raw-reviewed 5/48, with one retained historical harmful answer. The eight-ticket completion cohort is separate from the historical 42, the five plumbing reruns and the 15-ticket proof comparison.
 
 Six completion tickets are graded so far: zero fully correct, zero harmful. The access pair ended unresolved after delivery-contract failures. Latency v1 exhausted its physical-request bound in intake; latency v2 followed the wrong target and gave a qualified unresolved answer. Both stale forms found the right stale-model split but left the named automatic-update cause unestablished; both provide useful engineer handoffs. Two stale text tickets remain in flight or pending. These are interim denominators, not a final pass-1 score.
