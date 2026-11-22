@@ -939,3 +939,7 @@ Owner confirmed storage. The latest enabled Key Vault version 26b235dc5ed24089af
 
 
 Resolved 2026-11-21 local / Nov22 UTC: owner approved +6,000 November investigation requests. Cloud/source readback total20,500, INV17,905, SCAN2,500, REST95; counters/history/model/$20Azure limits unchanged. December reverts9,000. Receipt: round-twenty-seven-request-increase.json.
+
+Resolved: the earlier Round27 Anthropic-key notices above are historical. The current pinned existing Key Vault version passed provider discovery and subsequently completed the proof and dev calls; no additional credential action is pending.
+
+Pending 2026-11-22 UTC: turn ON **Keep your Direct Lake data up to date** on **Application load fixture20261003**, Apply, and leave its refresh schedule unchanged. All4 stale tickets are saved; the original360 source rows/business schema are hash-restored, the original restoration load succeeded, and a fresh model read returns7661. OFF was owner-reported; ON/readback is not yet claimed. Fixture P2 tickets wait; unchanged billing/sample work may continue. No credential or permission change is requested.
