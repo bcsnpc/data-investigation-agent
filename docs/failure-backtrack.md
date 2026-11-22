@@ -16975,3 +16975,15 @@ Both access tickets reproduced the same saved rule and the10/1 versus25/2 scoped
 At the first substantive draft, both tickets labelled the observed mapping `access difference` and its implemented-rule class AS DESIGNED. The legacy class/verdict coupling rejected that otherwise plausible pairing. The drafts also supplied same-case query IDs in `checked`, which expects native layer IDs. A later verdict-label correction therefore still failed the enum, and the single saved-evidence repair allowance was already spent. The final fallback lost the established cause. The independently graded outcome remains unchanged.
 
 The generic repair should reformat unambiguous reference roles from the saved case, preserve original native evidence IDs, and avoid treating the broad question class as a one-to-one synonym of the legacy technical detail. It must not guess unknown references, change the explicit target, turn failed query evidence into native support, or judge intended business access policy. These changes await the complete P1 backtrack and one qualification batch.
+
+### P1 completion latency: target admission, not a demonstrated data verdict
+
+The first latency ticket proposed the correct Bronze table at its first substantive intake step. The native catalog adapter nevertheless returned no table for the explicitly named Bronze container: it had several children, and the adapter did not project their retained native column names. The run spent its 40-request bound in intake and ended interrupted, not a delivered latency answer. Its three recorded intake calls cost $0.614201 despite absent top-level model-call totals. The second ticket selected an unrelated warehouse chain and honestly delivered unresolved; both graders locate its first wrong step at the target. Both remain incorrect and harmless.
+
+The generic column-containment repair uses only admitted native edges and column names. An offline comparison on the retained graph and unchanged ticket changes zero candidates to the single correct Bronze table. It does not prove the latency verdict, and ties still require resolution.
+
+### P1 completion stale forms: right split, incomplete named cause
+
+Both stale form tickets reproduce the 7661 model value against 7692 in source and landing and identify the stale-model split. Both independently graded answers explicitly leave the Direct Lake automatic-update setting unestablished; they do not confuse a disabled refresh schedule with that separate setting. The second answer also fails to establish the real-load progression. Both graders award verdict and layer credit but no cause credit, with no harmful claim and a useful engineer handoff. The saved answers and grades are unchanged.
+
+This is an evidence-coverage limitation, not a reason to insert the owner's fixture-control receipt into investigator evidence. The engine needs a supported native way to inspect that setting or must keep the limitation explicit. The remaining text cases are still in progress; this section makes no claim about their results.
