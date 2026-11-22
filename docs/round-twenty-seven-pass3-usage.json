@@ -1,49 +1,49 @@
 {
   "status": "PARTIAL_SEALED_CAPTURE_USAGE",
-  "indexed_cases": 18,
+  "indexed_cases": 19,
   "required": 39,
   "recorded_provider_pricing_not_invoice": true,
   "excludes_grading_and_controls": true,
   "by_step": {
     "INVESTIGATOR": {
-      "calls": 70,
-      "cost_microdollars": 7876041,
-      "input_tokens": 3873131,
-      "cached_input_tokens": 2541619,
+      "calls": 73,
+      "cost_microdollars": 8596767,
+      "input_tokens": 4223361,
+      "cached_input_tokens": 2765175,
       "models": [
         "claude-opus-5-5"
       ],
-      "cache_read_ratio": 0.6562181862684221
+      "cache_read_ratio": 0.6547332799635172
     },
     "EVALUATOR": {
-      "calls": 22,
-      "cost_microdollars": 3904827,
-      "input_tokens": 788818,
+      "calls": 24,
+      "cost_microdollars": 4707651,
+      "input_tokens": 962964,
       "cached_input_tokens": 26704,
       "models": [
         "claude-opus-5-5"
       ],
-      "cache_read_ratio": 0.03385318286347421
+      "cache_read_ratio": 0.027731047058872398
     },
     "INTAKE": {
-      "calls": 6,
-      "cost_microdollars": 842828,
-      "input_tokens": 591327,
+      "calls": 7,
+      "cost_microdollars": 1333200,
+      "input_tokens": 686255,
       "cached_input_tokens": 450200,
       "models": [
         "claude-opus-5-5"
       ],
-      "cache_read_ratio": 0.7613384810773058
+      "cache_read_ratio": 0.6560243641212086
     }
   },
-  "cost_microdollars": 12623696,
-  "classified_evaluations": 17,
-  "provider_evaluator_calls": 22,
+  "cost_microdollars": 14637618,
+  "classified_evaluations": 18,
+  "provider_evaluator_calls": 24,
   "question_blocking_rejections": 3,
-  "raw_would_reject": 16,
+  "raw_would_reject": 17,
   "advisory_check_counts": {
     "support": 3,
-    "claims": 16,
+    "claims": 17,
     "target": 2
   },
   "checks_unchanged": "Exact-question only model blocking; native code/safety remain active."

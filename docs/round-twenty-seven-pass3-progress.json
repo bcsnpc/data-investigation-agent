@@ -1,10 +1,10 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 18,
-    "official": 13,
-    "strict": 13,
-    "reviewed": 13,
+    "measured": 19,
+    "official": 14,
+    "strict": 14,
+    "reviewed": 14,
     "useful_handoff": 0,
     "harmful": 1
   },
@@ -29,10 +29,10 @@
       "harmful": 0
     },
     "fixture": {
-      "measured": 15,
-      "official": 12,
-      "strict": 12,
-      "reviewed": 12,
+      "measured": 16,
+      "official": 13,
+      "strict": 13,
+      "reviewed": 13,
       "useful_handoff": 0,
       "harmful": 1
     }
@@ -633,9 +633,41 @@
         "verdict_match": false
       },
       "review": null
+    },
+    {
+      "ticket": "text-R17-04-v1",
+      "estate": "fixture",
+      "fixture": "baseline",
+      "guard": false,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered not-found verdict matches the sealed expectation. It recreates 8765 with the semantic Handled Quantity SUM, explains the unfiltered calculation, and explicitly distinguishes that technical result from intended business correctness, which requires owner confirmation. Thus the semantic layer and the missing-business-intent cause match in substance. Additional target ambiguity and 401 limitations do not contradict that conclusion; possible join inflation is qualified rather than asserted as the cause. Saved executable queries, identified models and reports, precise access/mapping gaps, and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The not-found verdict matches the sealed expectation. At the semantic layer, the answer reproduces 8765 with Handled Quantity's unfiltered SUM and distinguishes that technical result from intended business correctness, explicitly leaving the intended rule for owner confirmation. This substantively matches the expected business-intent limitation; it invents neither physical units nor intended correctness. Additional target ambiguity, 401 failures and possible join fan-out are stated as limitations or hypotheses, not established technical causes. Saved native queries, checked totals, explicit unresolved mappings and access gaps, and engineer routing provide a useful rerunnable handoff.",
+        "verdict_match": true
+      },
+      "review": null
     }
   ],
   "label": "Both graders same vendor (OpenAI); independent of investigator vendor (Anthropic)",
   "expectations_unchanged": true,
-  "reported_at_utc": "2026-11-22T08:33:49.443303+00:00"
+  "reported_at_utc": "2026-11-22T08:38:36.000065+00:00"
 }
