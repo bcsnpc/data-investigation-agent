@@ -943,3 +943,5 @@ Resolved 2026-11-21 local / Nov22 UTC: owner approved +6,000 November investigat
 Resolved: the earlier Round27 Anthropic-key notices above are historical. The current pinned existing Key Vault version passed provider discovery and subsequently completed the proof and dev calls; no additional credential action is pending.
 
 Pending 2026-11-22 UTC: turn ON **Keep your Direct Lake data up to date** on **Application load fixture20261003**, Apply, and leave its refresh schedule unchanged. All4 stale tickets are saved; the original360 source rows/business schema are hash-restored, the original restoration load succeeded, and a fresh model read returns7661. OFF was owner-reported; ON/readback is not yet claimed. Fixture P2 tickets wait; unchanged billing/sample work may continue. No credential or permission change is requested.
+
+Resolved: owner confirmed Application load fixture 20261003 automatic updates ON; native refresh accepted202 and model7661. Earlier pending-ON request is resolved by owner report, not independent settings readback.

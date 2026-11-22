@@ -1,19 +1,19 @@
 {
   "status": "PARTIAL_NOT_A_FINAL_GATE",
   "overall": {
-    "measured": 8,
-    "official": 7,
-    "strict": 7,
-    "reviewed": 7,
+    "measured": 9,
+    "official": 8,
+    "strict": 8,
+    "reviewed": 8,
     "useful_handoff": 1,
     "harmful": 0
   },
   "denominator_required": 48,
   "guard": {
-    "measured": 3,
-    "official": 3,
-    "strict": 3,
-    "reviewed": 3,
+    "measured": 4,
+    "official": 4,
+    "strict": 4,
+    "reviewed": 4,
     "useful_handoff": 0,
     "harmful": 0
   },
@@ -21,10 +21,10 @@
   "gate": "PENDING",
   "by_estate": {
     "billing": {
-      "measured": 7,
-      "official": 6,
-      "strict": 6,
-      "reviewed": 6,
+      "measured": 8,
+      "official": 7,
+      "strict": 7,
+      "reviewed": 7,
       "useful_handoff": 1,
       "harmful": 0
     },
@@ -194,6 +194,38 @@
         "layer_match": true,
         "partial": false,
         "reason": "The answer correctly gives AS DESIGNED, explains SUM(Payments[amount]) in the current filter context with no card-specific filters, and identifies payments 201, 202 and 203 contributing 200 + 100 + 250 = 550. Native checks confirm the same rows and total through the source application, bronze, serving and model, matching the expected source-path finding. It correctly separates the incidental pipeline failure from the calculation's cause. Saved rerunnable queries, explicit snapshot and refresh-history limitations, and engineer routing provide a useful handoff for those ancillary checks. No substantive disagreement with the sealed expectation.",
+        "verdict_match": true
+      },
+      "review": null
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "estate": "billing",
+      "fixture": "failed-billing",
+      "guard": true,
+      "official": true,
+      "strict": true,
+      "reviewed": true,
+      "harmful": false,
+      "useful_handoff": false,
+      "primary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "Matches the sealed failed-job verdict and billing transformation pipeline layer. Identifies the latest failed native run by name, run ID, start/end times and error 2011: controlled failure before original activities, consistent with the native job evidence. Does not invent a successful completion; the November 1 success is explicitly historical. Separately assesses current freshness using source/Bronze/Silver totals and timestamps, and model/gold comparisons, with snapshot limitations stated. The gold join duplication is explicitly incidental rather than substituted as the failed-run cause. Saved rerunnable queries, explicit unresolved checks and engineer routing provide a useful handoff.",
+        "verdict_match": true
+      },
+      "secondary": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The delivered answer matches the sealed failed-job verdict and locates the failure in the Billing Warehouse transformation pipeline. It identifies the latest native run by name, run ID, start/end times and error 2011: a controlled failure before the original activities ran. It does not invent a successful completion. Current source/Bronze/Silver and gold/model comparisons address report impact, with explicit point-in-time and historical-version limitations; the join duplication is correctly separated from the run failure. Saved rerunnable queries, identified missing history and automatic-update facts, and engineer routing provide a strong handoff.",
         "verdict_match": true
       },
       "review": null

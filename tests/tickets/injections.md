@@ -563,3 +563,8 @@ Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native 
 Round27 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\dev01-completion-advisory\injections\stale\status.json. No source/model figure was authored from an engine query.
 
 Round27 stale accepted-start recovery: DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source restoration_required=False, automatic_update_restoration_required=True. No duplicate submission; original source hash is checked before restoring the original real copy.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\dev02-advisory\injections\dev-failed-billing\status.json. No grant/identity change.
+
+Round27 stale cleanup: owner confirmed automatic updates ON; approved native refresh accepted202 and native model quantity7661. Source hash and successful original restoration load remain recorded. Setting provenance OWNER_REPORTED_SAVED_SETTING; no browser readback claimed.
