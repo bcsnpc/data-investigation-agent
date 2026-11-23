@@ -167,7 +167,8 @@
       "model_seconds": 360.273231035,
       "native_query_seconds": 21.705928050999944,
       "cohort": "SCREENSHOT",
-      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+      "failure_kind": "DIA_COMPARISON_PROOF_FEEDBACK",
+      "trace_basis": "Saved wire tool feedback: audit1523 reports unread layers after successful native row reads; proof shape does not satisfy scalar guard. Model errors and DIA errors remain distinct; no expectation or original grade changed."
     },
     {
       "ticket": "round27-proof15-openrouter-supervl-form-v2-screenshot-record-02-v1",
@@ -187,7 +188,8 @@
       "model_seconds": 435.97843182000037,
       "native_query_seconds": 42.220073502000105,
       "cohort": "SCREENSHOT",
-      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+      "failure_kind": "DIA_COMPARISON_PROOF_FEEDBACK_AND_NATIVE_ANALYSIS_PROJECTION",
+      "trace_basis": "Saved wire tool feedback: earlier model undecided empty string; later false unread feedback2409 and exact native DAX-header/numeric type gap. Model errors and DIA errors remain distinct; no expectation or original grade changed."
     },
     {
       "ticket": "round27-proof15-openrouter-supervl-form-v2-screenshot-record-03-v1",
@@ -207,7 +209,8 @@
       "model_seconds": 223.08708601099994,
       "native_query_seconds": 41.515179803000024,
       "cohort": "SCREENSHOT",
-      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+      "failure_kind": "DIA_COMPARISON_PROOF_FEEDBACK",
+      "trace_basis": "Saved wire tool feedback: earlier unknown citation985; false unread feedback1239. Model errors and DIA errors remain distinct; no expectation or original grade changed."
     },
     {
       "ticket": "round27-proof15-openrouter-supervl-form-v2-screenshot-record-04-v1",
@@ -227,7 +230,8 @@
       "model_seconds": 474.9858080819997,
       "native_query_seconds": 45.379615908999995,
       "cohort": "SCREENSHOT",
-      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+      "failure_kind": "DIA_COMPARISON_PROOF_FEEDBACK_AND_NATIVE_ANALYSIS_PROJECTION",
+      "trace_basis": "Saved wire tool feedback: false unread feedback1227; native key-column mismatch6249. Model errors and DIA errors remain distinct; no expectation or original grade changed."
     },
     {
       "ticket": "round27-proof15-openrouter-supervl-form-v2-warehouse-scope-v1",
@@ -247,7 +251,8 @@
       "model_seconds": 469.362863688,
       "native_query_seconds": 37.664801972000134,
       "cohort": "STATIC",
-      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+      "failure_kind": "DIA_SCOPE_VERDICT_COMPATIBILITY",
+      "trace_basis": "Native earlier paid regression diagnosis proves different-question enum lacks explanatory AS DESIGNED mapping; repaired independently, not inferred from free-model reasoning."
     },
     {
       "ticket": "round27-proof15-openrouter-supervl-form-v2-failed-application-load-v1",
@@ -364,5 +369,10 @@
     "harmful": 1,
     "other_incorrect": 0
   },
-  "counting_note": "Raw partial/handoff flags may coexist with harmful. Disjoint headline gives no useful-handoff credit to a harmful answer; original grader bits and scores are preserved."
+  "counting_note": "Raw partial/handoff flags may coexist with harmful. Disjoint headline gives no useful-handoff credit to a harmful answer; original grader bits and scores are preserved.",
+  "completion_note": "All15 original cases completed on source77267c82/image08474. Four affected screenshot repairs are a separate unadmitted cohort; original results never overwritten.",
+  "graded_correct_caveats": {
+    "source-history": "Correct41->47 after load; extra export-provenance assertion unproven.",
+    "latency": "Correct source-before-load cause; grader notes last-load timestamp detail differs, both precede source insertion."
+  }
 }
