@@ -1,0 +1,24 @@
+{
+  "observed_at_utc": "2026-11-23T18:02:00Z",
+  "status": "START_UNESTABLISHED_RECONCILIATION_IN_PROGRESS",
+  "ticket": "form-v2-stale-model-v1",
+  "run_id": "f238f1ba-1142-4b55-bdc1-958c61911343",
+  "image_prefix": "e452897d1d341e88",
+  "start_error": "ARM job start POST: HTTPSConnectionPool management.azure.com read timeout; WinError10060",
+  "execution_list_error": "BadGateway: The issue encountered for Microsoft.App; cannot fulfill the request",
+  "activity_observation": "One successful job-start operation in the queried window, but the activity record does not identify the run ID. This does not independently establish the ticket's execution.",
+  "capture_observation": "Exact run prefix initially empty; sealed-capture recovery polling remains active",
+  "duplicate_submission": false,
+  "scored": false,
+  "fixture": {
+    "source_and_bronze_quantity": 7692,
+    "model_quantity": 7661,
+    "source_rows": 363,
+    "source_restoration_required": true,
+    "automatic_updates_owner_reported": "OFF",
+    "automatic_updates_confirmation_utc": "2026-11-23T17:26:51.730893+00:00",
+    "schedule_changed": false,
+    "control_requests_recorded": 14
+  },
+  "next": "Establish the exact execution or recover its sealed terminal capture before continuing or restoring the owned source state. Never repeat an uncertain POST."
+}

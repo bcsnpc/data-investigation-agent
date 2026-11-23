@@ -657,3 +657,6 @@ Round27 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_requir
 
 
 Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\step4-openrouter-budget-repairs\injections\text-latency-remainder-reader1-subset-fix\status.json. Temporal remains ON.
+
+
+Round27 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\stale\status.json. No source/model figure was authored from an engine query.
