@@ -1,0 +1,63 @@
+{
+  "scope": "Single affected public DEV ticket; originals and grades unchanged; not a quality gate",
+  "provider": "nvidia",
+  "model": "moonshotai/kimi-k3.1-pro",
+  "rows": [
+    {
+      "variant": "before",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+      "capture_seal": "94630480ea8e9e2f6a0f5e9841a93f89f416505b906c35e0ca2d7acb61154f0b",
+      "status": "UNRESOLVED",
+      "physical_requests": 37,
+      "model_calls": 8,
+      "cost_microdollars": 0,
+      "direct_answer": "The investigation did not establish the cause of the stated discrepancy. The checked findings and remaining limits follow.",
+      "undecided": [
+        "native:4aae8dbb1d373ebef783: The read operation timed out",
+        "DELIVERY_EVALUATOR_REJECTED: question: The ticket asks how the 600 MRR All Plans card is calculated, which subscriptions are included, and which statuses are excluded. The direct answer instead investigates an unstated \u201cdiscrepancy\u201d and declares its cause unresolved, so it does not directly answer the requested calculation and exclusion question despite listing queries."
+      ],
+      "stop": "DELIVERY_EVALUATOR_REJECTED: question: The ticket asks how the 600 MRR All Plans card is calculated, which subscriptions are included, and which statuses are excluded. The direct answer instead investigates an unstated \u201cdiscrepancy\u201d and declares its cause unresolved, so it does not directly answer the requested calculation and exclusion question despite listing queries.",
+      "elapsed_seconds": 1593.628071700019,
+      "single_sol_grade": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered verdict is UNRESOLVED rather than the expected AS DESIGNED, despite successful native checks reproducing 600. It does not identify the expected source-application/DEV attribution. Independently, its calculation and checked rows substantively supply the complete named calculation cause: ACTIVE subscriptions 401/402/403 contribute 250+100+250, and the retained DAX explicitly removes Plans filters. Thus cause credit does not depend on accepting its unresolved conclusion. The first substantive failure is concluding that an unstated discrepancy remains unexplained when the requested calculation is already evidenced. The handoff preserves rerunnable queries and results, but its timeout stopping point and retry recommendation are stale because the later DAX query succeeded; it identifies no genuine missing fact. This is an honest unresolved answer, not a confident incorrect causal claim.",
+        "verdict_match": false
+      }
+    },
+    {
+      "variant": "after",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "capture_seal": "657cc758d3767c8e26d71f0c66b3089eacff7506fa24d89be031e0069fe02e92",
+      "status": "UNRESOLVED",
+      "physical_requests": 37,
+      "model_calls": 8,
+      "cost_microdollars": 0,
+      "direct_answer": "The investigation did not establish a complete answer to the stated question. The checked findings and remaining limits follow.",
+      "undecided": [
+        "native:4aae8dbb1d373ebef783: One table-valued EVALUATE required",
+        "TOOL_OR_TIME_LIMIT"
+      ],
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "elapsed_seconds": 1932.9637020000082,
+      "single_sol_grade": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered verdict is UNRESOLVED rather than the expected AS DESIGNED, and it does not identify the expected source-application/DEV attribution. Independently, its retained DAX and checked records substantively establish the expected calculation: ACTIVE subscriptions 401, 402 and 403 contribute 250 + 100 + 250 = 600, with REMOVEFILTERS(Plans). Thus the named calculation cause matches despite the unresolved conclusion. Native queries successfully reproduced 600, including at the source application; the earlier validator failures were subsequently worked around and do not justify the final uncertainty. The handoff preserves rerunnable queries, checked findings and a clear budget stopping point, but its next checks revisit already-recovered validation failures rather than identify an exact missing fact or a sensible remaining calculation check. The explicit uncertainty is not harmful.",
+        "verdict_match": false
+      }
+    }
+  ],
+  "grade_change": "None: both partial, handoff1, harmfulfalse; no promotion to AS DESIGNED",
+  "fix_observed": "Question-neutral fallback; exact-signature recovery is tested in code. This rerun had a different invalid query and does not establish semantic equivalence between different query scopes.",
+  "remaining_failure_classification": "Model did not submit a complete supported conclusion despite successful calculation/component checks; record, do not tune reasoning or weaken validation from this free-model failure.",
+  "timing_comparison_limit": "The after run overlapped two other cases through the shared two-request model queue; timing is not an isolated causal comparison."
+}
