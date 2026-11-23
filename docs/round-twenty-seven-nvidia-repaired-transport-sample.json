@@ -1,0 +1,33 @@
+{
+  "observed_at": 1795414277.4509537,
+  "scope": "Post-real-gateway-fix synthetic protocol and first four sealed Kimi proof runs only; new running cases excluded",
+  "provider": "nvidia",
+  "model": "moonshotai/kimi-k3.1-pro",
+  "completed_replies": 32,
+  "native_confirmed_timeouts": 1,
+  "attempts": 33,
+  "timeout_ratio": 0.030303030303030304,
+  "owner_stop_threshold": "above approximately one third",
+  "stop_new_admissions": false,
+  "capture_proof": {
+    "source_seal": "5d8fbf42db9327f789a99c2fec0a891110b8c3ff30978a813956a939bf72f473",
+    "events": [
+      {
+        "event": "REASONING_TRANSIENT",
+        "provider": "nvidia",
+        "model": "moonshotai/kimi-k3.1-pro",
+        "reservation": "nvidia-free:70bf6b8e-d92f-4eb6-af40-2716e2055343",
+        "timed_out": true,
+        "error_type": "TimeoutError",
+        "status": null,
+        "attempt": null,
+        "reason": null
+      }
+    ],
+    "original_ledger_status_unchanged": true
+  },
+  "uncertain_reservation_retained_charged": true,
+  "original_pre_transport_attempts_excluded": true,
+  "predispatch_gateway_denials_excluded": true,
+  "free_scope": "DEV ONLY, not a quality gate"
+}
