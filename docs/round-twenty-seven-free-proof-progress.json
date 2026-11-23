@@ -77,18 +77,33 @@
       "investigator_cost_usd": 0.0,
       "capture_seal": "0a9ea92d6945dcbeda7b4f7186657aeebdb610f4e3a153daa6f669f12501d976",
       "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-screenshot-record-01-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The answer matches the sealed AS DESIGNED verdict and locates the origin at the source application, with engineer routing consistent with DEV. It identifies movement_id=2 from the visible values and explains that stored units=17 passes unchanged through the copy mapping, landing table and DirectLake model, rather than being computed by the unused SUM measure. Successful native reads cover all 15 warehouse/product matches and exact movement-2 scalar checks returning 17 at each boundary. The initial validator rejection was recovered with successful queries. Saved rerunnable queries, explicit scope qualifications and a clear completed stopping point support handoff quality 2; there is no substantive disagreement with the expectation.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 29,
+      "model_calls": 5,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "c2064c7c0f9f1fc490e136812a6aebd61ab80d67103bddf204aa3ed82c159fce",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
     }
   ],
-  "fully_correct": 3,
+  "fully_correct": 4,
   "harmful": 0,
-  "graded": 5,
+  "graded": 6,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
-  "image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
   "image_split": {
     "first_four_completed": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
     "remaining_unsubmitted": "c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
     "cause": "Generic terminal fallback repair, full6089PASS53skip/all8image shards; original submissions and outcomes retain their old image pins.",
     "uncertain_submission": "record-absent-everywhere remains unestablished and unscored, not retried."
-  }
+  },
+  "initial_image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
 }
