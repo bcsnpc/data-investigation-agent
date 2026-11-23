@@ -1,0 +1,29 @@
+{
+  "observed_at_utc": "2026-11-23T09:29:20.246912+00:00",
+  "generation_calls": 0,
+  "providers": {
+    "anthropic": {
+      "status": "PASS",
+      "http_status": 200,
+      "model_count": 15
+    },
+    "openai": {
+      "status": "PASS",
+      "http_status": 200,
+      "model_count": 99
+    },
+    "nvidia": {
+      "status": "PASS",
+      "http_status": 200,
+      "model_count": 32
+    },
+    "openrouter": {
+      "status": "PASS",
+      "http_status": 200,
+      "daily_free_limit": 1000,
+      "paid_usage": 0
+    }
+  },
+  "aws": "DISABLED_BY_OWNER_NOT_TESTED",
+  "nvidia_exact_configured_secret_version_verified": true
+}

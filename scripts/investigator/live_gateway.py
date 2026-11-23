@@ -402,7 +402,8 @@ def validate_dax(query,*,allow_define=False):
         # validator binds discovered model members. This independent gateway
         # pass cannot be used to admit DDL or a second EVALUATE.
         from .query_dax import Parser
-        try:Parser(query,[],allow_define=True,bind_catalog=False).parse()
+        try:Parser(query,[],allow_define=True,bind_catalog=False,
+                   allow_order_by=enabled('r27_dax_query_ordering')).parse()
         except Exception:_deny('DAX_QUERY_DEFINITION_GRAMMAR_REJECTED',target=query)
         return query
     if gaps or not tokens or tokens[0][0]!='name' or tokens[0][1].upper()!='EVALUATE':

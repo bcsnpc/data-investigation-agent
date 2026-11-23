@@ -24,7 +24,8 @@ def validate(text, layer, *, rows=250):
         if admitted is not None:return admitted
     if dialect=='DAX':
         from .query_dax import compile_query
-        return compile_query(text,layer['objects'],max_rows=rows,allow_define=True)
+        return compile_query(text,layer['objects'],max_rows=rows,allow_define=True,
+                             allow_order_by=enabled('r27_dax_query_ordering'))
     if dialect=='T-SQL':
         from .query_sql import compile_query
         return compile_query(text,layer['objects'],max_rows=rows,allow_views=True,allow_computed=True,

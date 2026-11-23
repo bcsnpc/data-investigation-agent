@@ -1,0 +1,34 @@
+{
+  "original_capture_seal": "657cc758d3767c8e26d71f0c66b3089eacff7506fa24d89be031e0069fe02e92",
+  "queries": [
+    {
+      "old_query_id": "query:b4dd04e17312e8fde2cb21eaac42266e30811da082500c53f54ca6b24e4e7891:2",
+      "original_text": "EVALUATE SELECTCOLUMNS(FILTER('Subscriptions', 'Subscriptions'[status] = \"ACTIVE\"), \"subscription_id\", 'Subscriptions'[subscription_id], \"account_id\", 'Subscriptions'[account_id], \"plan_id\", 'Subscriptions'[plan_id], \"status\", 'Subscriptions'[status], \"plan_name\", RELATED('Plans'[plan_name]), \"monthly_price\", RELATED('Plans'[monthly_price])) ORDER BY [subscription_id]",
+      "old_error": "One table-valued EVALUATE required",
+      "old_native_dispatched": false,
+      "new_admission": "OFFLINE_COMPILED_AND_GATEWAY_ACCEPTED_NOT_A_NEW_NATIVE_RESULT",
+      "new_query": "EVALUATE TOPN(251,SELECTCOLUMNS(FILTER('Subscriptions','Subscriptions'[status] = \"ACTIVE\"),\"subscription_id\",'Subscriptions'[subscription_id],\"account_id\",'Subscriptions'[account_id],\"plan_id\",'Subscriptions'[plan_id],\"status\",'Subscriptions'[status],\"plan_name\",RELATED('Plans'[plan_name]),\"monthly_price\",RELATED('Plans'[monthly_price]))) ORDER BY [subscription_id] ASC",
+      "bound_asset_ids_unchanged": true,
+      "max_rows": 251
+    },
+    {
+      "old_query_id": "query:a8d29446988c5f1a19c8edb6ff1218aad4feb6ed37bb97e1104057e36e5ed3fb:3",
+      "original_text": "EVALUATE SUMMARIZECOLUMNS('Subscriptions'[status], \"subscription_rows\", COUNTROWS('Subscriptions'), \"MRR All Plans\", [MRR All Plans]) ORDER BY [status]",
+      "old_error": "One table-valued EVALUATE required",
+      "old_native_dispatched": false,
+      "new_admission": "OFFLINE_COMPILED_AND_GATEWAY_ACCEPTED_NOT_A_NEW_NATIVE_RESULT",
+      "new_query": "EVALUATE TOPN(251,SUMMARIZECOLUMNS('Subscriptions'[status],\"subscription_rows\",COUNTROWS('Subscriptions'),\"MRR All Plans\",[MRR All Plans])) ORDER BY [status] ASC",
+      "bound_asset_ids_unchanged": true,
+      "max_rows": 251
+    }
+  ],
+  "new_model_calls": 0,
+  "new_estate_reads": 0,
+  "original_grade_and_result_unchanged": true,
+  "official_syntax_source": "https://learn.microsoft.com/en-us/dax/dax-queries",
+  "focused_tests": {
+    "tests": 91,
+    "failures": 0
+  },
+  "new_image_qualification": "PENDING_FULL_SUITE_AND_ALL8_IMAGE_SHARDS"
+}

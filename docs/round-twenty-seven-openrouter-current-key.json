@@ -1,5 +1,5 @@
 {
-  "observed_at": 1795420300.9071748,
+  "observed_at": 1795426183.4903164,
   "generation_calls": 0,
   "source": "https://openrouter.ai/api/v1/key",
   "http_status": 200,
@@ -17,7 +17,7 @@
       "remaining": 990
     }
   },
-  "observation_utc": "2026-11-23T07:51:40.907175+00:00",
+  "observation_utc": "2026-11-23T09:29:43.490316+00:00",
   "key_allowance_is_not_independent_account_cash_verification": true,
   "paid_generation_usd": 0
 }

@@ -220,6 +220,10 @@
     "r27_terminal_retry_recovery": {
       "default": true,
       "description": "Do not list an old read error as missing after a later successful execution of the exact same bound query; retain the failed observation."
+    },
+    "r27_dax_query_ordering": {
+      "default": true,
+      "description": "Admit bounded read-only DAX ORDER BY over declared projections and bound model members; preserve single-query, catalog and row limits."
     }
   }
 }

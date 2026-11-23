@@ -1,0 +1,33 @@
+{
+  "source_seal": "29911da91b5ad38394f094ab29089ed0273aefee5f1a3ab7af4122f73758c906",
+  "no_new_estate_or_model_calls": true,
+  "malformed_model_queries_reached_validator_byte_identically": true,
+  "rejected_queries": [
+    {
+      "query_id": "query:f7809c552aaad42338798e2575286427623d9c89ab55e281ff138f77a0b22642:7",
+      "text": "EVALUATE SUMMARIZECOLUMNS('Movements'[warehouse_id], FILTER(VALUES('Movements'[warehouse_id]), 'Movements'[warehouse_id] = 1), ",
+      "native_dispatched": false
+    },
+    {
+      "query_id": "query:f7809c552aaad42338798e2575286427623d9c89ab55e281ff138f77a0b22642:9",
+      "text": "EVALUATE SUMMARIZECOLUMNS('Movements'[warehouse_id], FILTER(VALUES('Movements'[warehouse_id]), 'Movements'[warehouse_id] = 1), ",
+      "native_dispatched": false
+    },
+    {
+      "query_id": "query:1fe71ac20f83102bbe39b64e9e82f4aedf42ff31aec3a2b65a6490c18165a344:11",
+      "text": "EVALUATE SUMMARIZE(FILTER('Movements', 'Movements'[warehouse_id] = 1), 'Movements'[warehouse_id], ",
+      "native_dispatched": false
+    }
+  ],
+  "complete_native_success": {
+    "query_id": "query:aab1de2e3111b306a86d220ba9a94c6f42e6cc6158c9fc0e38ded38fae90cb18:10",
+    "text": "EVALUATE SUMMARIZE(FILTER('Movements', 'Movements'[warehouse_id] = 1), 'Movements'[warehouse_id], \"movement_units\", SUM('Movements'[units]))",
+    "rows": [
+      {
+        "Movements[warehouse_id]": 1,
+        "[movement_units]": 2948
+      }
+    ]
+  },
+  "conclusion": "No engine truncation or valid-read refusal established. Incomplete nested model query construction precedes later missed scope conclusion; independent grade unchanged."
+}

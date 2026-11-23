@@ -204,7 +204,7 @@
       "native_query_seconds": 109.70523980899998,
       "cohort": "STATIC",
       "failure_kind": "MODEL_REASONING",
-      "trace_basis": "Saved native trace and single-Sol first-wrong-step review in docs/failure-backtrack.md."
+      "trace_basis": "First observable bad query is an incomplete nested contribution-analysis DAX prefix, byte-identical in model arguments and validator. Complete SUMMARIZE with quoted alias executes successfully; see warehouse-query-backtrack receipt. Subsequent supported scope conclusion still omitted."
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-failed-application-load-v1",
