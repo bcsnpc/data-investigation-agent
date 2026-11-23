@@ -1,0 +1,15 @@
+{
+  "status": "ORIGINAL_OPERATOR_ATTEMPT_PRESERVED_NOT_AN_INVESTIGATION_RESULT",
+  "observed_at": "2026-11-23T06:37:06.768606+00:00",
+  "run_id": "3e4cd1da-2717-4eef-b387-44ad10dfc4f3",
+  "submission": "UNESTABLISHED",
+  "scored": false,
+  "blob": "round-twenty-seven/operator-attempts/f395096e584910ef6e63e0684ee30f73894cb8e5fa4832039907fb25bc685f53/form-v2-record-absent-everywhere-v1.jsonl",
+  "bytes": 10878,
+  "sha256": "f395096e584910ef6e63e0684ee30f73894cb8e5fa4832039907fb25bc685f53",
+  "azure_stored_content_md5_matches": true,
+  "local_original_kept": true,
+  "downloaded": false,
+  "engine_capture_found": false,
+  "new_execution_submitted": false
+}
