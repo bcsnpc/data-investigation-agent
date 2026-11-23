@@ -1,0 +1,17 @@
+{
+  "scope": "Operational free DEV selection, no vendor quality ranking",
+  "selected_provider": "openrouter",
+  "selected_model": "nvidia/nemotron-3.5-super-vl:free",
+  "next_pass": "step4-openrouter-dev04-supervl",
+  "basis": [
+    "Original SuperVL15 allterminal; four trace-proven affected repairs separately4/4correct0harm on currentimage",
+    "Kimi13/15 measured, final transport interruption blocks reliable continuation",
+    "Ling2owned attempts stopped after persistent nativeHTTP429 and noanswer after30minutes;13notrun, no quality score"
+  ],
+  "known_harm": "Original SuperVLbilling unsupportedcausalinference1 retained; not tuned from weak-model reasoning; free pass cannot satisfy quality gate",
+  "rejected_alternative": "Continue unavailable Ling candidate until enclosing job timeout; retain original planned15 and honest partial evidence instead",
+  "historical_opus_comparison": "Code/evaluator/grader confounded; originalSuperVL6/15samecorrectnessclassification. Do not pool4reruns intooriginal15 or claim causal model comparison",
+  "authority": "Owner free-hand candidate/model selection and drop-unusable-candidate rule",
+  "quality_gate_credit": false,
+  "observed_utc": "2026-11-23T13:13:22.516639+00:00"
+}
