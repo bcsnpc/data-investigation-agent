@@ -1,0 +1,26 @@
+{
+  "scope": "SYNTHETIC_PROTOCOL_ONLY_NOT_A_QUALITY_SCORE",
+  "rows": [
+    {
+      "model": "z-ai/glm-5.3-flash",
+      "status": "UNAVAILABLE_OR_PROTOCOL_FAILED",
+      "seconds": 376.96035569999367,
+      "estate_reads": 0,
+      "quality_score": null,
+      "reason": "The read operation timed out",
+      "cost_usd": 0
+    },
+    {
+      "model": "moonshotai/kimi-k3.1-pro",
+      "status": "PASS",
+      "seconds": 76.66643739998108,
+      "estate_reads": 0,
+      "quality_score": null,
+      "reason": null,
+      "cost_usd": 0
+    }
+  ],
+  "monthly_calls_used": 5,
+  "uncertain_calls_charged": 3,
+  "paid_calls": 0
+}
