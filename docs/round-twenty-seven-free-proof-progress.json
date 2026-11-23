@@ -15,7 +15,8 @@
       "physical_requests": 31,
       "model_calls": 7,
       "investigator_cost_usd": 0.0,
-      "capture_seal": "f4533ab2c745043d1fbd3b6d3988ea6eff0f05ef80b953acf5cebc49528a3eac"
+      "capture_seal": "f4533ab2c745043d1fbd3b6d3988ea6eff0f05ef80b953acf5cebc49528a3eac",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-billing-mrr-v1",
@@ -29,7 +30,8 @@
       "physical_requests": 37,
       "model_calls": 8,
       "investigator_cost_usd": 0.0,
-      "capture_seal": "94630480ea8e9e2f6a0f5e9841a93f89f416505b906c35e0ca2d7acb61154f0b"
+      "capture_seal": "94630480ea8e9e2f6a0f5e9841a93f89f416505b906c35e0ca2d7acb61154f0b",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-billing-invoices-v2",
@@ -43,7 +45,8 @@
       "physical_requests": 40,
       "model_calls": 7,
       "investigator_cost_usd": 0.0,
-      "capture_seal": "5d8fbf42db9327f789a99c2fec0a891110b8c3ff30978a813956a939bf72f473"
+      "capture_seal": "5d8fbf42db9327f789a99c2fec0a891110b8c3ff30978a813956a939bf72f473",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-fixture-quantity-v1",
@@ -56,13 +59,29 @@
       "delivery_status": "ANSWERED",
       "physical_requests": 37,
       "model_calls": 8,
-      "investigator_cost_usd": 0,
-      "capture_seal": "58002a992c1a0a4732f17cfc76cff1eca84146d7f4a2ed8648bd3e3df355f3ac"
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "58002a992c1a0a4732f17cfc76cff1eca84146d7f4a2ed8648bd3e3df355f3ac",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-record-repeated-gold-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered answer matches the sealed transformation-logic/DEV verdict, locates the first duplication at Silver to Gold, and identifies the product_id-only join against two product-7 rate versions as the cause. Native checks show one movement row in source, Bronze and Silver, two in Gold and Activity, and a recreated Silver join yielding the same 180/396 valuations; the model SUM correctly returns 72. Saved SQL/DAX, explicit scope limitations and engineer routing provide a reproducible technical handoff. No disagreement with the expectation.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 35,
+      "model_calls": 5,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "0a9ea92d6945dcbeda7b4f7186657aeebdb610f4e3a153daa6f669f12501d976",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
     }
   ],
-  "fully_correct": 2,
+  "fully_correct": 3,
   "harmful": 0,
-  "graded": 4,
+  "graded": 5,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
   "image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
