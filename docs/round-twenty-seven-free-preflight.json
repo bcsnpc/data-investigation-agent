@@ -1,0 +1,51 @@
+{
+  "status": "PREFLIGHT_IN_PROGRESS_NO_GENERATION_ADMITTED",
+  "source": "1602ffcd",
+  "authentication": {
+    "anthropic": 200,
+    "openai": 200,
+    "nvidia": 200
+  },
+  "available_candidates": [
+    "z-ai/glm-5.3-flash",
+    "moonshotai/kimi-k3.1-pro"
+  ],
+  "unavailable_candidate": "DeepSeek: no model listed",
+  "assumed_monthly_calls": 1000,
+  "quota_confirmed": false,
+  "ledger": {
+    "identity": "nvidia-free-calls:2026-11",
+    "unit": "CALLS",
+    "ceiling": "1000",
+    "protected": "0",
+    "opening": "0",
+    "charged": "0",
+    "violated": false,
+    "reservations": []
+  },
+  "fixture": {
+    "status": "FRESH_STATIC_BASELINE_VERIFIED",
+    "source": {
+      "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+      "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+      "temporal_period_columns_excluded_explicitly": true
+    },
+    "source_rows": 360,
+    "temporal": "ON",
+    "model_quantity": 7661,
+    "observed_at_utc": "2026-11-23T01:36:47.520649+00:00",
+    "observed_at": 1795397807.5206788,
+    "physical_control_requests": 4,
+    "control_only_not_investigation_evidence": true
+  },
+  "disk_free_gib": {
+    "C": 66.42,
+    "D": 183.79
+  },
+  "qualification_workflows": [
+    45094796343,
+    45095283531
+  ],
+  "paid_opus_remains_paused": true,
+  "calibration_protected_usd": 14.34
+}

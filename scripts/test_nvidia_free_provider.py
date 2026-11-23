@@ -110,5 +110,22 @@ class NvidiaFreeTests(unittest.TestCase):
             with self.assertRaises(ValueError):validate({**config,**changed})
         with self.assertRaisesRegex(ValueError,'NOT_A_QUALITY_GATE'):validate_graders(config,config,config,config)
         with self.assertRaises(ValueError):FreeRateCard(model=MODEL,input_rate=1,output_rate=0,source='https://build.nvidia.com',observed_at='2026-11-22')
+    def test_prepared_gateway_covers_all_read_tools_and_preserves_estate_scopes(self):
+        from investigator.nvidia_dev_profile import configuration, gateway
+        from investigator.adapters.reasoning_nvidia import READ_TOOLS
+        from investigator.live_gateway import Gateway
+        reference={'vault_url':'https://kv-test.vault.azure.net','secret_name':'nvidia-api-key','secret_version':'a'*32,'identity':{}}
+        prior={'version':1,'live_enabled':True,'identities':{'reasoning':{'role':'model','http':[]}}}
+        config=configuration({'gateway_identity':'reasoning'},model=MODEL,discovered_models=[MODEL],secret_reference=reference)
+        prepared=gateway(prior,config);self.assertEqual(prior['identities']['reasoning'],{'role':'model','http':[]})
+        g=Gateway(prepared)
+        for name in READ_TOOLS:
+            body=request_for(model=MODEL,system='Synthetic evidence',messages=[],tools=[{'name':name,'description':'Read only','input_schema':{'type':'object'}}],max_tokens=20)
+            g.http('reasoning','POST',BASE+'/chat/completions',json.dumps(body).encode())
+        bad=deepcopy(body);bad['tools'][0]['function']['name']='execute_write'
+        prepared['identities']['reasoning']['ai_providers']['nvidia']['tools'].append('execute_write')
+        with self.assertRaises(Exception):Gateway(prepared).http('reasoning','POST',BASE+'/chat/completions',json.dumps(bad).encode())
+        with self.assertRaisesRegex(ValueError,'NOT_DISCOVERED'):
+            configuration({'gateway_identity':'reasoning'},model='unlisted',discovered_models=[MODEL],secret_reference=reference)
 
 if __name__=='__main__':unittest.main()
