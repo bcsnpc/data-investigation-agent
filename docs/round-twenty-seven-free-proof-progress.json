@@ -182,11 +182,29 @@
       "engine_wall_seconds": 1448.7058143509998,
       "model_seconds": 1248.583009616,
       "native_query_seconds": 109.70523980899998
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-failed-application-load-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "Matches the sealed failed-job verdict and application-load pipeline DEV split. The answer cites round_two_application_load_audited_20261003, failed run 3edf3941-a3d2-4a28-b5b1-733339920f73, its start/end timestamps, and error 2011 ('Round22 controlled fixture failure before original activities'). It correctly distinguishes that operational failure from the checked absence of a current Movement Units discrepancy (7661 across source, landing and model). Saved rerunnable SQL/DAX, explicit remaining evidence gaps and engineer routing provide a useful handoff; these limitations do not undermine the established failed-run finding.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 39,
+      "model_calls": 8,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "e3e5308b2f60c7b15349f5c4367734e256e101e2a297667375e86063d8823a4f",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1580.621531021,
+      "model_seconds": 1376.9043722789997,
+      "native_query_seconds": 94.26611976000015
     }
   ],
-  "fully_correct": 7,
+  "fully_correct": 8,
   "harmful": 0,
-  "graded": 10,
+  "graded": 11,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
   "image_split": {
@@ -197,14 +215,14 @@
   },
   "initial_image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
   "partial_handoffs": 3,
-  "observed_utc": "2026-11-23T07:50:39.917358+00:00",
+  "observed_utc": "2026-11-23T08:07:40.876853+00:00",
   "environment_unestablished_unscored": 1,
-  "fault_cohort_status": "RUNNING_SERIALLY_FIRST_PIPELINE_DEFINITION_RESTORED",
+  "fault_cohort_status": "FIRST_FAILURE_GRADED_ORIGINAL_SUCCESS_JOB_PENDING",
   "timing_scope": "Engine wall clock, excluding Azure startup/publication; mixed-image and partially overlapping free DEV cases, not an isolated provider latency benchmark",
   "timing": {
-    "median_engine_wall_seconds": 1376.8345501945,
+    "median_engine_wall_seconds": 1448.7058143509998,
     "p90_engine_wall_seconds_nearest_rank": 1757.17067858699,
-    "total_engine_model_calls": 67,
-    "physical_requests_across_confirmed_engine_cases": 321
+    "total_engine_model_calls": 75,
+    "physical_requests_across_confirmed_engine_cases": 360
   }
 }
