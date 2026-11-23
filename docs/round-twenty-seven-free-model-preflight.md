@@ -1,6 +1,6 @@
 # Round27 free-model preflight
 
-Status: in progress; no NVIDIA generation admitted. Existing Opus outcomes and all expectations remain unchanged.
+Status: PASS for zero-generation configuration and prior-delivery compatibility, with the historical replay limits below. Qualified source `b09eddfc`; full suite6,064passed/53skipped and all8image shards passed. NVIDIA generation qualification is next. Existing Opus outcomes and all expectations remain unchanged.
 
 Authenticated no-generation model listings returned200 for Anthropic, OpenAI and NVIDIA. NVIDIA lists33models, including `z-ai/glm-5.3-flash` and `moonshotai/kimi-k3.1-pro`; DeepSeek is unavailable. No account quota was exposed. The shared free-call account is0/1,000, with1.5second global pacing and concurrency2; the allowance is conservative/unconfirmed. Paid caps and calibration funds remain unchanged.
 
@@ -15,3 +15,7 @@ Fresh baseline:360source rows, original business-row/schema hashes, temporal his
 Both15-ticket candidate cohorts are prepared but not uploaded or admitted. They preserve source ticket hashes. They use the current slim evaluator and repair code, so comparison with older Opus proof outcomes is not an isolated model benchmark. Scores will be labelled dev-only and never count toward confirmation, calibration, v5 or a quality gate.
 
 [NVIDIA GLM model card](https://build.nvidia.com/z-ai/glm-5-3-flash/modelcard) and [Kimi model card](https://build.nvidia.com/moonshotai/kimi-k3_1-pro/modelcard) document image input and tool-capable agent use. Availability in the listing does not prove generation access; the bounded tool protocol probe remains pending.
+
+Final saved-response compatibility:85investigations complete,29historical negative/incomplete traces cannot be continued exactly after changed code,9have no investigation case. Of69original ANSWERED outcomes,66still deliver ANSWERED; the other3are recorded harmful pass2 R17-01/R17-02/R17-05 drafts now rejected. This is delivery compatibility, not66correct scores. The current R17-05 intake counterfactual offers3native scope candidates instead of selecting the wrong card.
+
+Old malformed checker replies are replayed identically through the bounded same-draft format retry where the original trace has no further checker response. This tests the incomplete-check warning path; it does not claim those later responses occurred live. The original tapes and grades stay unchanged. All717previously successful native query validations and970saved request codec/gateway checks pass. Prepared profiles pass5,250tool/purpose/gateway vectors, preserve SQL scopes and original ticket hashes, and use POSIX worker paths. Current provider ceilings match the shared ledger. Native model listing credentials authenticate without generation.
