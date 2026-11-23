@@ -1,0 +1,25 @@
+{
+  "scope": "PRIVATE_DEV_GRADING_HARNESS_ONLY",
+  "change": "Exclude explicit INTERRUPTED/UNESTABLISHED/environment outcomes before preparation, while still grading UNRESOLVED/BLOCKED/NEEDS_INPUT engine answers. Count environmental slots separately; never fill them with scores.",
+  "focused_tests": {
+    "tests": 2,
+    "failures": 0
+  },
+  "script_sha256": "67d2726e449763921fa4456e33c0bfaf083e8e6e8c2e89bd08519e85c4dfeafa",
+  "current_disposition": {
+    "phase": "ALL_SAVED_FREE_DEV_GRADED_ENVIRONMENT_UNSCORED",
+    "primary_graded": 13,
+    "at_utc": "2026-11-23T10:01:05.507603+00:00",
+    "expected": 15,
+    "environment_unscored": [
+      {
+        "ticket": "form-v2-latency-record-v1",
+        "status": "INTERRUPTED"
+      }
+    ],
+    "unestablished_unscored": [
+      "form__v2-record-absent-everywhere-v1"
+    ]
+  },
+  "no_regrading_or_new_model_call": true
+}

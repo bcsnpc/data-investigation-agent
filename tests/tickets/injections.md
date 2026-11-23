@@ -606,3 +606,9 @@ Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLI
 
 
 Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\free-models\proof15-kimi\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=True. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\proof15-kimi\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 Kimi latency recovery 20261123-095545: native SQL40613 restore failure preserved; owned row900701/version124003 re-read before the exact existing guarded restore. Original360 business rows/schema hash verified, temporalON; owned schedule3e0fe208-bece-4164-a89f-42930ab377f8 was already removed. Engine capture remains INTERRUPTED/environment-affected/unscored; no resubmission. Recovery 3 INV control requests; no reserve use. Receipt .local\round-twenty-seven\free-models\proof15-kimi\injections\form-latency\status.json.

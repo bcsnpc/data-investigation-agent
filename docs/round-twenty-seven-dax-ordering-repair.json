@@ -30,5 +30,92 @@
     "tests": 91,
     "failures": 0
   },
-  "new_image_qualification": "PENDING_FULL_SUITE_AND_ALL8_IMAGE_SHARDS"
+  "new_image_qualification": {
+    "source": "77267c8249dd1936ef5fbcdc6144c7af2636d850",
+    "workflow": 45150624781,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+    "all_eight_shards": "PASS",
+    "full_suite": {
+      "passed": 6096,
+      "skipped": 53,
+      "failed": 0,
+      "errors": 0
+    },
+    "artifacts": [
+      {
+        "artifact": "cloud-worker-full-repository",
+        "sha256": "466515aade75ce25cf5eb08d193e7865b2fcb5e86fe4031e6f559348bcd63b70",
+        "tests": 6149,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 53
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-0",
+        "sha256": "52f1dc983c23277ad616e87920871b0932cda5fd98ac665e7f2103d80cd33559",
+        "tests": 189,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-1",
+        "sha256": "134824e9c51de436ba580d4aaa6df36ef20c95c445bb43e58f4eff24b884427d",
+        "tests": 157,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-2",
+        "sha256": "f2c77de47b270472c1b584d8ad3e3b9a150b08427ea0ddb2daf1bc9b5409f0ab",
+        "tests": 187,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-3",
+        "sha256": "4e6aab3ed51654226f113c2ce0e56b96849f4d93c1bd6c8a2bd81bc73843eb2c",
+        "tests": 149,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-4",
+        "sha256": "70dcd56f4f1438caabd67e825a5a5e625fa2a505c06f113db1e8d4be63e90f10",
+        "tests": 139,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-5",
+        "sha256": "35ef001c2df55cc8a5407cabbf1db45371761666ac2c535cb293a9db8dab1164",
+        "tests": 177,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-6",
+        "sha256": "5197000694717cd7d2bdf03eefb1f872e09cee3c41df3ac5e6948e991e3f2764",
+        "tests": 171,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-7",
+        "sha256": "12ce798289ee8e43ff0b457b2392dcd4a5c8533c81b63fe3ffe3122b37741a88",
+        "tests": 100,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "published": true,
+    "observed_at_utc": "2026-11-23T10:03:58.359157+00:00"
+  }
 }

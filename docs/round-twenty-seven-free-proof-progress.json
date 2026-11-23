@@ -282,18 +282,22 @@
   },
   "initial_image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
   "partial_handoffs": 5,
-  "observed_utc": "2026-11-23T09:17:05.520971+00:00",
+  "observed_utc": "2026-11-23T10:09:49.469448+00:00",
   "environment_unestablished_unscored": 1,
   "fault_cohort_status": {
     "completed": [
       "failed-fixture",
       "failed-billing",
-      "history"
+      "history",
+      "latency"
     ],
-    "phase": "CONTROL_IN_FLIGHT",
+    "phase": "ALL_PROOF_FAULT_CONTROLS_COMPLETE",
     "fixture": "latency",
     "script": "run-dev-form-latency-cohort.py",
-    "at_utc": "2026-11-23T09:16:03.768447+00:00"
+    "at_utc": "2026-11-23T09:55:56.252216+00:00",
+    "returncode": 1,
+    "latency_ticket_disposition": "ENVIRONMENT_AFFECTED_TRANSPORT_INTERRUPTED_UNSCORED",
+    "recovery_status": ".local\\round-twenty-seven\\free-models\\proof15-kimi\\injections\\form-latency\\status.json"
   },
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
@@ -321,5 +325,25 @@
       "partial_handoffs": 2,
       "harmful": 0
     }
-  }
+  },
+  "unscored_slots": [
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "status": "AZURE_SUBMISSION_UNESTABLISHED_NOT_SCORED_NOT_RETRIED",
+      "run_id": "3e4cd1da-2717-4eef-b387-44ad10dfc4f3",
+      "capture_seal": null,
+      "physical_requests": null
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "status": "ENVIRONMENT_AFFECTED_TRANSPORT_INTERRUPTED_UNSCORED",
+      "run_id": "332662c0-bac2-4cfe-9c03-30bb319be5db",
+      "capture_seal": "7fc6346f55e00ee3845604756f25f6756bd0ebba1bcd09ab2f7d86f49952e58f",
+      "physical_requests": 39,
+      "charged_requests_not_erased": true
+    }
+  ],
+  "unscored_total": 2,
+  "all_fixture_controls_restored": true,
+  "qualification_status": "CURRENT_KIMI_PASS_COMPLETE_13_GRADED_2_ENVIRONMENTAL"
 }
