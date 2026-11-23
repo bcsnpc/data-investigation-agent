@@ -52,6 +52,38 @@ class NativeTableReferenceTests(unittest.TestCase):
                              'enrichment': {'synonyms': ['Care Summary']}}
         self.assertNotIn('table', explicit_names(c, 'Care Summary versus visit_id units in Clinical Bronze'))
 
+    def alias_visual(self):
+        c = catalog()
+        c.nodes.update({
+            'report': {'id': 'report', 'kind': 'REPORT', 'label': 'Warehouse Overview'},
+            'page': {'id': 'page', 'kind': 'PAGE', 'label': 'Overview page'},
+            'visual': {'id': 'visual', 'kind': 'VISUAL', 'label': 'Received Units',
+                       'enrichment': {'synonyms': ['Units In']}}})
+        c.edges.extend([{'source': a, 'target': b, 'kind': 'CONTAINS'}
+                        for a, b in [('report', 'page'), ('page', 'visual')]])
+        return c
+
+    def test_prose_alias_cannot_steal_an_exact_native_container_reference(self):
+        c = self.alias_visual()
+        text = 'visit_id 42 has 17 units in the application but no row in Clinical Bronze'
+        self.assertEqual(c.report_matches(text), [])
+        self.assertEqual(explicit_names(c, text), {'table': 'rows'})
+
+    def test_alias_lookup_without_competing_native_container_still_works(self):
+        self.assertEqual(self.alias_visual().report_matches('Units In shows 17')[0]['id'], 'report')
+
+    def test_explicit_visual_word_preserves_alias_lookup(self):
+        c = self.alias_visual()
+        self.assertEqual(c.report_matches('Units In card versus Clinical Bronze')[0]['id'], 'report')
+
+    def test_native_visual_name_preserves_its_parent_report(self):
+        self.assertEqual(self.alias_visual().report_matches('Received Units versus Clinical Bronze')[0]['id'], 'report')
+
+    def test_visual_alias_context_ablation_reproduces_the_wrong_report(self):
+        c = self.alias_visual()
+        with configured({'r27_native_container_over_visual_alias': False}):
+            self.assertEqual(c.report_matches('visit_id 42 has units in Clinical Bronze')[0]['id'], 'report')
+
     def test_missing_containment_never_creates_a_binding(self):
         c = catalog(); c.edges.clear()
         self.assertNotIn('table', explicit_names(c, 'visit_id units in Clinical Bronze'))

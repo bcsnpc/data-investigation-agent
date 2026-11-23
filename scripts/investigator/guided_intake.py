@@ -244,6 +244,7 @@ class Catalog:
         return [r for r in direct if r['score'] >= .86 and direct[0]['score']-r['score'] < .08]
 
     def report_matches(self, text):
+        import re
         direct = self.ranked(text, 'REPORT')
         if direct and direct[0]['confidence'] in ('NAMED', 'NORMALIZED'):
             return [r for r in direct if direct[0]['score'] - r['score'] < .08]
@@ -251,11 +252,23 @@ class Catalog:
         page_reports = {r['id'] for page in pages if page['score'] >= .86 and pages[0]['score'] - page['score'] < .08
                         for r in self.reports_for(page['id'])}
         matches = []
+        native_container = (enabled('r27_native_container_over_visual_alias')
+            and not re.search(r'\b(?:report|page|card|chart|visual|dashboard)\b',text,re.I)
+            and any(n['kind'] in ('SOURCE','MODEL') and n.get('label')
+                    and re.search(r'(?<!\w)'+re.escape(n['label'])+r'(?!\w)',text,re.I)
+                    for n in self.nodes.values()))
+        def native_visual_name(row):
+            import unicodedata
+            def characters(value):
+                return ''.join(re.findall(r'[^\W_]+',unicodedata.normalize('NFKC',value).casefold()))
+            return (row['confidence'] in ('NAMED','NORMALIZED')
+                    and characters(row.get('matched_name')or'')==characters(self.nodes[row['id']]['label']))
         for kind in ('VISUAL', 'MEASURE'):
             ranked = self.ranked(text, kind)
             if not ranked or ranked[0]['score'] < .86:continue
             for target in ranked:
                 if ranked[0]['score'] - target['score'] >= .08:continue
+                if kind=='VISUAL' and native_container and not native_visual_name(target):continue
                 for report in self.reports_for(target['id']):
                     matches.append({**report, 'score': target['score'], 'confidence': target['confidence'],
                                     'via': target['id'], 'basis': 'CATALOG_CONTAINMENT_OF_NAMED_' + kind})

@@ -1,0 +1,29 @@
+{
+  "source": "Saved native fixture intake catalog and original raw text, not expectations",
+  "generation_calls": 0,
+  "estate_reads": 0,
+  "rows": [
+    {
+      "ticket": "text-latency-900501-v1",
+      "native_reference": {
+        "table": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6"
+      },
+      "total_candidates": 1
+    },
+    {
+      "ticket": "text-latency-900501-v2",
+      "native_reference": {
+        "table": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6"
+      },
+      "total_candidates": 1
+    },
+    {
+      "ticket": "text-latency-900502-v2",
+      "native_reference": {
+        "table": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6"
+      },
+      "total_candidates": 1
+    }
+  ],
+  "original_outcomes_and_grades_unchanged": true
+}

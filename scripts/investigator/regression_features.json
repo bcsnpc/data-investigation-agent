@@ -252,6 +252,10 @@
     "r27_candidate_confidence_priority": {
       "default": true,
       "description": "When direct table or measure references are named or normalized, preserve all such peers and exclude weaker fuzzy/related-word candidates before native route initialization; never choose between strong ties."
+    },
+    "r27_native_container_over_visual_alias": {
+      "default": true,
+      "description": "Do not infer an unrelated report from a visual search alias embedded in prose when a native data container is named; preserve direct report/page/measure references, actual native visual names and explicit visual-question wording."
     }
   }
 }
