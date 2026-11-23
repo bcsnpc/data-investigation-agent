@@ -597,3 +597,6 @@ Round27 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_r
 
 
 Round27 final P2 stale restoration verified2026-11-22: owner confirmed automatic updatesON, refresh schedule unchanged. Restoration refreshacb61da4-c7aa-4aa5-b7e3-0be7d613aa1c completed2026-11-22T17:06:44.103Z; native model quantity7661. Source row/schema hash and real original360 restoration load were already verified. Automatic-update setting provenance remains OWNER_REPORTED_SAVED_SETTING; refresh status/value are native reads, not an independent API readback of that switch. No P3fault/model run, score or budget change. Receipt: docs/round-twenty-seven-pass2-final-restoration.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\free-models\proof15-kimi\injections\dev-failed-fixture\status.json. No grant/identity change.
