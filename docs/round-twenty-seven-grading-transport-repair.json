@@ -9,11 +9,21 @@
   "maximum_characters": 24000,
   "lossless_round_trip": true,
   "focused_tests_passed": 12,
-  "full_suite": "RUNNING",
+  "full_suite": {
+    "passed": 6099,
+    "skipped": 53,
+    "failed": 0,
+    "errors": 0
+  },
   "failed_unsent_batch_preserved": "form-batch06",
   "replacement_unsent_batch": "form-batch07",
   "grader_call_retried": false,
   "investigation_rerun": false,
   "running_image_unchanged": true,
-  "code_scope": "Host-side grading packet transport only; frozen live worker does not import this helper"
+  "code_scope": "Host-side grading packet transport only; frozen live worker does not import this helper",
+  "all_eight_image_shards": "PASS",
+  "qualified_source": "8d9475dce51b9834d1bec61f3c6edc8b77e1236b",
+  "workflow": 45159109970,
+  "published_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:5d60bf0f788d0ae1545cfdb1df952b133d625677951077002b5946897ff68a10",
+  "current_live_pass_keeps_prior_image": true
 }

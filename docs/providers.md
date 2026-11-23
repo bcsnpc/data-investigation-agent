@@ -129,3 +129,6 @@ DAX sorting repair77267c82 fully qualified:6096PASS/53skip/zero failures/errors 
 | `google/gemma-4-31b-it:free` | Upstream capacity/rate limit | Not established | Not scored |
 
 These are separate capability and DEV observations. One exact API provider/model is pinned for the entire pass; no within-pass fallback. Three eligible free tool candidates have passed, so the conditional paid OpenRouter path remains refused. Generation charges observed so far are zero; the independent lifetime USD10 cap and daily key quota still apply. The baseline partial result is a malformed model delivery field; the MRR partial result omits source-layer coverage. Neither justifies weakening validation or changing an expectation.
+
+
+2026-11-23UTC host grading repair qualified: workflow45159109970 at8d9475dc passed6099tests/53skips/zero failures/errors andall8image shards; publishedimage5d60bf0f788d0ae1545cfdb1df952b133d625677951077002b5946897ff68a10. Existing SuperVL pass remains pinned to77267c82/image08474b45. Only new host-side grading packet helper/tests differ in scripts; no investigator runtime change. The independent Sol missing-verdict completion preserves all other original fields and its original completed response. Free scores remainDEVonly.

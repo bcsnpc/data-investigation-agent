@@ -117,5 +117,24 @@
     ],
     "published": true,
     "observed_at_utc": "2026-11-23T10:03:58.359157+00:00"
+  },
+  "separate_native_ordering_observation": {
+    "ticket": "form-v2-screenshot-record-04-v1",
+    "capture_seal": "2cbd7753ec549dc56d5cddb8280e897571844daab884f7ce12ddad594db39dc6",
+    "query_id": "query:4a27d750e39f2da76e07e95b116b264c130c3cf007301b25aa1a393526bb52b6:1",
+    "source_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+    "status": "SUCCEEDED",
+    "query_text": "EVALUATE\nFILTER(\n    'Movements',\n    'Movements'[warehouse_id] = 3 && 'Movements'[product_id] = 2 && 'Movements'[units] = 20\n)\nORDER BY 'Movements'[movement_id]",
+    "executed_text": "EVALUATE TOPN(251,FILTER('Movements','Movements'[warehouse_id] = 3 && 'Movements'[product_id] = 2 && 'Movements'[units] = 20)) ORDER BY 'Movements'[movement_id] ASC",
+    "row_count": 1,
+    "native_rows": [
+      {
+        "Movements[movement_id]": 7,
+        "Movements[product_id]": 2,
+        "Movements[units]": 20,
+        "Movements[warehouse_id]": 3
+      }
+    ],
+    "claim_limit": "Native ordered DAX read succeeded, not a correct final-ticket claim. Final outcome remained unresolved at a separate comparison-proof contract. The two exact historical MRR shapes remain offline-tested, not claimed natively rerun."
   }
 }

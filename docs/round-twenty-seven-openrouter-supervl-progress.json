@@ -7,9 +7,9 @@
       "harmful": 0
     },
     "SCREENSHOT": {
-      "graded": 2,
+      "graded": 3,
       "fully_correct": 0,
-      "partial_handoffs": 2,
+      "partial_handoffs": 3,
       "harmful": 0
     }
   },
@@ -182,22 +182,42 @@
       "native_query_seconds": 42.220073502000105,
       "cohort": "SCREENSHOT",
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-screenshot-record-03-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The native queries uniquely identify movement_id 5 from the visible warehouse_id=2, product_id=3, units=3 and confirm units=3 in ordersops, bronze, and the semantic model, including repeat key-based source/bronze checks. Despite these findings, the answer stops at UNRESOLVED/TOOL_OR_TIME_LIMIT rather than the expected AS DESIGNED conclusion, does not identify source application / DEV as the responsible layer/split, and does not explain that units is carried unchanged from the source. These are partial findings, not full verdict, layer, or cause matches. The handoff retains rerunnable queries, checked results, a stopping point, and engineer routing, but supplies neither a precise missing fact nor concrete next checks. The explicit evidence limitation is not a confident incorrect cause and is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 32,
+      "model_calls": 12,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "3d09be617064d54eccd51fd7c1214e32e5d5d288a7990af349687548fef98341",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 386.3941710849999,
+      "model_seconds": 223.08708601099994,
+      "native_query_seconds": 41.515179803000024,
+      "cohort": "SCREENSHOT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
   "fully_correct": 3,
   "harmful": 0,
-  "graded": 8,
+  "graded": 9,
   "proof_total": 15,
-  "partial_handoffs": 5,
+  "partial_handoffs": 6,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T10:50:29.590044+00:00",
+  "observed_utc": "2026-11-23T10:55:27.145064+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": "NOT_ADMITTED",
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 358.7039671814973,
+    "median_engine_wall_seconds": 363.81850081199997,
     "p90_engine_wall_seconds_nearest_rank": 607.767039999,
-    "total_engine_model_calls": 89,
-    "physical_requests_across_confirmed_engine_cases": 231
+    "total_engine_model_calls": 101,
+    "physical_requests_across_confirmed_engine_cases": 263
   }
 }

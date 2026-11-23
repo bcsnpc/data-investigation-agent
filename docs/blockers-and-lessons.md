@@ -942,3 +942,6 @@ DAX sorting repair77267c82 fully qualified:6096PASS/53skip/zero failures/errors 
 
 
 2026-11-23UTC OpenRouter DEV grading repair: legacy lossless pool fields were overwritten by a second compression stage, causing an assertion before dispatch. Decode the exact known transport first, then refit; failed packet round-trip verified and22392/24000characters. Failed unsent batch06 retained; batch07 independently graded the same saved absence answer, no investigation rerun/duplicate grader send.12focused testsPASS; fullsuite running. Engine image and every expectation unchanged. See round-twenty-seven-grading-transport-repair.json.
+
+
+2026-11-23UTC host grading repair qualified: workflow45159109970 at8d9475dc passed6099tests/53skips/zero failures/errors andall8image shards; publishedimage5d60bf0f788d0ae1545cfdb1df952b133d625677951077002b5946897ff68a10. Existing SuperVL pass remains pinned to77267c82/image08474b45. Only new host-side grading packet helper/tests differ in scripts; no investigator runtime change. The independent Sol missing-verdict completion preserves all other original fields and its original completed response. Free scores remainDEVonly.
