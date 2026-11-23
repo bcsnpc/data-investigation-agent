@@ -108,7 +108,7 @@ class OpenRouterTests(unittest.TestCase):
     def test_paid_blocked_before_free_failures_and_lifetime_cap_never_resets(self):
         rate=RateCard(model='test/paid',input_rate=1,output_rate=1,source='https://openrouter.ai/api/v1/models',observed_at='now')
         b=PaidBudget(self.state,case_id='synthetic',owner='round27-free-test',rate=rate,actual_usage_limit=3000000,clock=lambda:self.now[0],sleep=self.sleep)
-        body={**self.body(),'model':'test/paid'}
+        body={**self.body(),'model':'test/paid','provider':{'max_price':{'prompt':1.0,'completion':1.0}}}
         with self.assertRaisesRegex(SpendHold,'ALL_FREE_TOOL_TESTS_FAILED'):b.reserve(body)
         self.failed_free_receipt()
         k=b.reserve(body);b.settle(k,{'input_tokens':20,'output_tokens':9})
@@ -124,6 +124,20 @@ class OpenRouterTests(unittest.TestCase):
         rate=RateCard(model='test/paid',input_rate=1,output_rate=1,source='https://openrouter.ai/api/v1/models',observed_at='now')
         b=PaidBudget(self.state,case_id='s',owner='round27-free-test',rate=rate,clock=lambda:self.now[0],sleep=self.sleep)
         with self.assertRaisesRegex(SpendHold,'LIFETIME_CREDIT_EXHAUSTED'):b.reserve({**self.body(),'model':'test/paid'})
+
+    def test_paid_requests_must_bound_the_rate_used_for_reservations(self):
+        self.failed_free_receipt()
+        rate=RateCard(model='test/paid',input_rate=1,output_rate=2,source='https://openrouter.ai/api/v1/models',observed_at='now')
+        b=PaidBudget(self.state,case_id='s',owner='round27-free-test',rate=rate,clock=lambda:self.now[0],sleep=self.sleep)
+        with self.assertRaisesRegex(SpendHold,'RATE_BOUND'):b.reserve({**self.body(),'model':'test/paid'})
+        config={**self.config,'model':'test/paid','rate_card':{'input_rate':1,'output_rate':2}}
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            c=Client(model=config['model'],budget=b,identity='reasoning',secret_reference={},record=Mock())
+        body=c.request_for(model=config['model'],system='s',messages=[],tools=TOOLS,max_tokens=20)
+        self.assertEqual(body['provider']['max_price'],{'prompt':1.0,'completion':2.0})
+        permissions=gateway(self.prior,config,paid_qualified=True)['identities']['reasoning']
+        authorize_body(permissions,'POST',BASE+'/chat/completions',body)
+        with self.assertRaises(ValueError):authorize_body(permissions,'POST',BASE+'/chat/completions',{**body,'provider':{**body['provider'],'max_price':{'prompt':100,'completion':100}}})
 
     def test_free_response_cannot_charge_and_silently_execute_a_tool(self):
         native={'id':'r','model':MODEL,'choices':[{'finish_reason':'stop','message':{'content':'OK'}}],

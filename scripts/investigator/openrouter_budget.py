@@ -74,8 +74,9 @@ class FreeBudget(NvidiaBudget):
 
     def status(self):
         value=super().status()
+        day=value.pop('month_account');used=value.pop('monthly_calls_used');value.pop('monthly_call_allowance')
         return {**value,'charge_basis':'OPENROUTER_FREE_ALLOCATION_NOT_INVOICE',
-                'day_account':value.pop('month_account'),'daily_calls_used':value['monthly_calls_used'],
+                'day_account':day,'daily_calls_used':used,
                 'daily_call_allowance':self.allowance}
 
     def active_count(self,db,account):
@@ -124,6 +125,8 @@ class PaidBudget(TicketBudget):
     def reserve(self,body,**kwargs):
         # Same global 20 RPM dispatch queue as the free path; no connection during waits.
         self._account()
+        if body.get('provider',{}).get('max_price')!={'prompt':float(self.rate.input_rate),'completion':float(self.rate.output_rate)}:
+            raise SpendHold('OPENROUTER_PAID_RATE_BOUND_REQUIRED')
         while True:
             now=self.clock();account=account_for(now)
             with self.state.transaction() as db:

@@ -39,7 +39,11 @@ def authorize_body(permissions,method,url,raw):
     body=json.loads(raw) if isinstance(raw,(str,bytes)) else deepcopy(raw)
     extra={'allow_fallbacks':False,'require_parameters':True}
     if body.get('model','').endswith(':free'):extra['max_price']={'prompt':0,'completion':0}
-    elif spec.get('paid_qualified')is not True:raise ValueError('OPENROUTER_PAID_NOT_QUALIFIED')
+    else:
+        if spec.get('paid_qualified')is not True:raise ValueError('OPENROUTER_PAID_NOT_QUALIFIED')
+        caps=spec.get('paid_max_price')
+        if not isinstance(caps,dict) or set(caps)!={'prompt','completion'} or any(type(v)not in (float,int)or v<=0 for v in caps.values()):raise ValueError('OPENROUTER_PAID_RATE_BOUND_REQUIRED')
+        extra['max_price']=caps
     if body.pop('provider',None)!=extra or body.pop('usage',None)!={'include':True}:raise ValueError('OPENROUTER_NO_FAILOVER_REQUIRED')
     if body.get('stream')is not True:raise ValueError('OPENROUTER_STREAM_USAGE_REQUIRED')
     # Exact same read-only function set and payload boundaries; no generic OpenAI escape path.
@@ -50,8 +54,13 @@ class Client(wire.Client):
     provider='openrouter'
     base=BASE
     budget_type=(FreeBudget,PaidBudget)
-    request_for=staticmethod(request_for)
     response_for=staticmethod(response_for)
+
+    def request_for(self,**kwargs):
+        body=request_for(**kwargs)
+        if not self.model.endswith(':free'):
+            body['provider']['max_price']={'prompt':float(self.budget.rate.input_rate),'completion':float(self.budget.rate.output_rate)}
+        return body
 
     def validate_usage(self,value):
         from decimal import Decimal
