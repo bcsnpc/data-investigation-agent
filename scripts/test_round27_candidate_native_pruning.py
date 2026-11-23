@@ -2,12 +2,12 @@
 import unittest
 from investigator.intake_candidates import enumerate_targets, explicit_names, select_unique
 from investigator.regression_features import configured
-from test_round26_catalog_resolution import CatalogResolutionTests
+import test_round26_catalog_resolution as fixtures
 
 
 class NativeCandidateTests(unittest.TestCase):
     def catalog(self):
-        catalog = CatalogResolutionTests().shared_visual_aliases()
+        catalog = fixtures.CatalogResolutionTests().shared_visual_aliases()
         catalog.nodes['global']['enrichment'] = {}
         return catalog
 
