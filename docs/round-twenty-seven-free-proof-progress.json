@@ -246,11 +246,32 @@
       "cohort": "FAULT",
       "failure_kind": "MODEL_REASONING",
       "trace_basis": "Sealed first model request contains failed native run, status and cause; see free-billing-failure-backtrack receipt."
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-source-history-v2",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The delivered answer stops at UNRESOLVED rather than the expected source-changed-history verdict. Independently of the embedded evaluator rejection, the saved native checks show the source at 41 as of 08:45:52, with source_modified_at 08:43:53, and the current source at 47 with source_modified_at 08:47:45, while the business date remains September 18. It never concludes that a source-application historical update caused the change or identifies that as the causal layer; merely listing the source/downstream difference does not answer the question. Queries and checked findings provide a useful partial investigation, but the stopping reason is generic, next_checks is empty, and no exact missing fact is identified, so handoff quality is 1 rather than 2. The explicit evidence limitation is not a confident incorrect causal assertion and is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 40,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "f192d5bba28501c9eefb3c6976f5a983d92d4d64a1e055e00c1b5ee21b0e5dba",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1293.083729933,
+      "model_seconds": 1133.1025131509998,
+      "native_query_seconds": 55.43371775399987,
+      "cohort": "FAULT",
+      "failure_kind": "MODEL_OUTPUT_LIMIT_NO_DELIVERED_CONCLUSION",
+      "trace_basis": "Final investigator call existed with reserved-delivery instruction; stopped at4000output tokens without a finding tool. Native current/history reads were already available; no missing closing-call bug established."
     }
   ],
   "fully_correct": 8,
   "harmful": 0,
-  "graded": 12,
+  "graded": 13,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
   "image_split": {
@@ -260,25 +281,26 @@
     "uncertain_submission": "record-absent-everywhere remains unestablished and unscored, not retried."
   },
   "initial_image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
-  "partial_handoffs": 4,
-  "observed_utc": "2026-11-23T08:44:29.860048+00:00",
+  "partial_handoffs": 5,
+  "observed_utc": "2026-11-23T09:17:05.520971+00:00",
   "environment_unestablished_unscored": 1,
   "fault_cohort_status": {
     "completed": [
       "failed-fixture",
-      "failed-billing"
+      "failed-billing",
+      "history"
     ],
     "phase": "CONTROL_IN_FLIGHT",
-    "fixture": "history",
-    "script": "run-dev-form-history-cohort.py",
-    "at_utc": "2026-11-23T08:42:29.092287+00:00"
+    "fixture": "latency",
+    "script": "run-dev-form-latency-cohort.py",
+    "at_utc": "2026-11-23T09:16:03.768447+00:00"
   },
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 1459.8150348955,
+    "median_engine_wall_seconds": 1448.7058143509998,
     "p90_engine_wall_seconds_nearest_rank": 1758.0676263410003,
-    "total_engine_model_calls": 82,
-    "physical_requests_across_confirmed_engine_cases": 400
+    "total_engine_model_calls": 88,
+    "physical_requests_across_confirmed_engine_cases": 440
   },
   "cohort_totals": {
     "STATIC": {
@@ -294,9 +316,9 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 2,
+      "graded": 3,
       "fully_correct": 1,
-      "partial_handoffs": 1,
+      "partial_handoffs": 2,
       "harmful": 0
     }
   }
