@@ -125,8 +125,10 @@ def finding(args,case):
     if definition_only:
         if not any(item.get('content')and item.get('provenance')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_RETAINED_DEFINITION')
         if not any(item.get('native_result')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_NATIVE_RECREATION')
-        from .triage_hints import job_hint
-        if job_hint(case.get('triage',{})):raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
+        from .triage_hints import job_hint,current_job_hints
+        faults=(current_job_hints(case) if enabled('r26_current_fault_consistency')
+                else job_hint(case.get('triage',{})))
+        if faults:raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
     source_consistency=(normalized=='consistent to source'or normalized=='as designed'and not definition_only)
     if source_consistency:
         declaration=case['context'].get('system_of_record',{})

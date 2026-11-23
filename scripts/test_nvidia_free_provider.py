@@ -39,6 +39,15 @@ class NvidiaFreeTests(unittest.TestCase):
         b=self.budget();k=b.reserve({'model':MODEL,'max_tokens':20});b.settle(k)
         self.assertEqual(self.state.snapshot(account_for(self.now[0]))['reservations'][0]['status'],'UNCERTAIN')
         with self.assertRaises(SpendHold):b.reserve({'model':'another','max_tokens':20})
+    def test_free_policy_drift_and_paid_account_path_refuse_before_reserving(self):
+        from investigator.provider_budget import policy,account_for as paid_account
+        approved=policy('nvidia')
+        with patch('investigator.provider_budget.policy',return_value={**approved,'monthly_call_allowance':1001}):
+            with self.assertRaisesRegex(SpendHold,'CONFIGURATION_POLICY_DIFFERS'):
+                self.budget().reserve({'model':MODEL,'max_tokens':20})
+        self.assertEqual(self.budget().status()['monthly_calls_used'],0)
+        with self.assertRaisesRegex(ValueError,'CALLS_ACCOUNT'):
+            paid_account('nvidia',self.now[0])
     def test_lost_commit_acknowledgement_does_not_charge_or_dispatch_twice(self):
         b=self.budget(); operation=self.state._retry_connection_operation
         def replay_commit(name, callback):

@@ -59,6 +59,19 @@ class PrimaryVerificationTests(unittest.TestCase):
   self.assertIn('definition explained',finding(a,c)['business'])
   a['evidence_ids']=['q']
   with self.assertRaisesRegex(ValueError,'CALCULATION_EXPLANATION_NEEDS_RETAINED_DEFINITION'):finding(a,c)
+ def test_definition_uses_a_newer_completed_run_instead_of_superseded_triage_fault(self):
+  c=self.case();a=self.args();a.update(verdict='definition explained',verdict_class='AS DESIGNED')
+  c['triage']={'facts':[{'check':'JOB_RUNS','source':'native-job-history','state':'OBSERVED',
+      'observed_at':'2026-01-01T00:00:00Z','value':{'subject':'job','status':'RUNNING','run_id':'run1'}}]}
+  with self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):
+   finding(a,c)
+  c['evidence']['fresh-job']={'tool':'get_job_runs','result':{'status':'OBSERVED','source':'native-job-history',
+      'observed_at':'2026-01-01T00:01:00Z','facts':[{'subject':'job','kind':'JOB_RUN','state':'OBSERVED',
+      'value':{'status':'Completed','run_id':'run1'}}]}}
+  self.assertIn('definition explained',finding(a,c)['business'])
+  c['evidence']['fresh-job']['result']['facts'][0]['value']['status']='Failed'
+  with self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):
+   finding(a,c)
  def test_unreproduced_number_keeps_source_consistency_requirement(self):
   c=self.case();c['queries'][0]['result']['rows']=[{'value':9}]
   a=self.args();a.update(verdict='as designed',verdict_class='AS DESIGNED')

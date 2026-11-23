@@ -66,8 +66,14 @@ class FreeBudget:
         self.reservations = {}
 
     def reserve(self, body, *, input_tokens_upper_bound=None):
-        from .provider_budget import check_credit
+        from .provider_budget import check_credit, policy
         check_credit('nvidia', self.clock(), owner=self.owner, purpose=self.purpose)
+        approved=policy('nvidia')
+        if (approved.get('unit')!='CALLS' or approved.get('monthly_call_allowance')!=MONTHLY_CALLS
+                or approved.get('minimum_dispatch_interval_seconds')!=INTERVAL
+                or approved.get('maximum_concurrent_calls')!=CONCURRENCY
+                or approved.get('synthetic_only') is not True or approved.get('quality_scope')!='DEV_ONLY'):
+            raise SpendHold('NVIDIA_FREE_CONFIGURATION_POLICY_DIFFERS')
         if body.get('model') != self.rate.model or type(body.get('max_tokens')) is not int or not 1 <= body['max_tokens'] <= 16000:
             raise SpendHold('NVIDIA_PINNED_MODEL_OUTPUT_BOUND')
         identity = 'nvidia-free:' + str(uuid4())
