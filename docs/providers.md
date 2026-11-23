@@ -135,3 +135,6 @@ These are separate capability and DEV observations. One exact API provider/model
 
 
 2026-11-23UTC combined comparison-feedback/scope-contract repair qualified on d78f760b: workflow45165417661 full6114PASS53skip/zero failures/errors, all8image shardsPASS, published69f37c2c0256391dcabcb04d9526b52e123bf6340890b8ef5489f9348e7d1cb4.123savedinvestigations keep classifications85finished/29historicalnegative-or-incomplete/9withoutcase and all prior after-statuses; zero network/model/estate calls. OriginalSuperVL15pass remains77267/image0847; repaired admissions will use the new pin after restores/fresh baseline. No quality-gate claim.
+
+
+OpenRouter original SuperVL proof completed2026-11-23:15graded,6correct/8useful nonharmful handoffs/1harmful, all on77267/image08474. This supersedes the earlier active-first-four checkpoint without altering it. Pinned exact model nvidia/nemotron-3.5-super-vl:free; independent singleSol DEV only. Allfaultcontrols restored. The harmful billing causal inference is retained as model reasoning; four affected screenshot repairs are separately prepared, pending qualified image28a56. Native stored key limit1000free/day20RPM; paidusage0 and local lifetime10USD ceiling. See round-twenty-seven-openrouter-supervl-proof.md.
