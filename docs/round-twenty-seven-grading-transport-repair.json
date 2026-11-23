@@ -1,0 +1,19 @@
+{
+  "observed_utc": "2026-11-23T10:36:40.847386+00:00",
+  "classification": "DIA_OPERATOR_GRADING_TRANSPORT",
+  "error": "AssertionError in multi_string_grader_pool.encode round-trip before any grader dispatch",
+  "cause": "A legacy lossless packet already contained verbatim_pool and pool_encoding; second-stage encoding overwrote those fields. First mismatches were missing original delivered/verbatim_pool and delivered/pool_encoding.",
+  "fix": "Decode the exact known legacy pool before the second compaction stage. Preserve all decoded values; no outcome, query row, answer, expectation, score or grading rule changes.",
+  "known_failure_input_sha256": "09b46dfe26cc3360ee16417bb5df2db0b523d1e22a5adfff5129efb3ae3b68a5",
+  "fixed_packet_characters": 22392,
+  "maximum_characters": 24000,
+  "lossless_round_trip": true,
+  "focused_tests_passed": 12,
+  "full_suite": "RUNNING",
+  "failed_unsent_batch_preserved": "form-batch06",
+  "replacement_unsent_batch": "form-batch07",
+  "grader_call_retried": false,
+  "investigation_rerun": false,
+  "running_image_unchanged": true,
+  "code_scope": "Host-side grading packet transport only; frozen live worker does not import this helper"
+}

@@ -1,9 +1,9 @@
 {
   "cohort_totals": {
     "STATIC": {
-      "graded": 4,
-      "fully_correct": 2,
-      "partial_handoffs": 2,
+      "graded": 6,
+      "fully_correct": 3,
+      "partial_handoffs": 3,
       "harmful": 0
     }
   },
@@ -92,23 +92,66 @@
       "model_seconds": 216.1503597089977,
       "native_query_seconds": 90.58712758698675,
       "cohort": "STATIC",
-      "failure_kind": "NONE"
+      "failure_kind": "NONE",
+      "trace_basis": "Single independent Sol DEV grade; see recorded query/cause explanation and immutable seal."
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-record-repeated-gold-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered answer matches the expected transformation-logic deviation at Silver to Gold: joining movements to product_rates on product_id alone repeats movement6 for product7's two rate versions without a uniqueness restriction. Native evidence shows movement6 once in source/bronze and twice in gold, with costs 5 and 11; the 46-to-92 row counts corroborate the fan-out. It supplies rerunnable queries and engineer routing. The unqueried silver layer and snapshot caveats do not contradict the demonstrated join mechanism or the answer to the exact duplicate-record question.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 20,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "709be39d4ed1df017c2eebd5ac628156ce2a4a817225d47f21ef96f60fa8b041",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 211.251104231,
+      "model_seconds": 129.36214030100018,
+      "native_query_seconds": 36.258323571000005,
+      "cohort": "STATIC",
+      "failure_kind": "NONE",
+      "trace_basis": "Single independent Sol DEV grade; see recorded query/cause explanation and immutable seal."
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-record-absent-everywhere-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The native lookups support the delivered finding that movement 900099 is absent in the source and both downstream layers, and its explanation correctly says SUM over no matching record produces blank rather than zero. This matches the sealed cause and source-application boundary, but the answer explicitly labels the outcome DEVIATION/record missing instead of the expected AS DESIGNED. Historical existence being unconfirmed does not establish a current defect. The first failure is the conclusion, not the checked evidence. This is not a confidently incorrect causal claim. Saved queries and the precise history-access stopping point provide a useful handoff, but generic engineer routing lacks a concrete next check for resolving that access limitation.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 28,
+      "model_calls": 10,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "f2cee1f4d6a118ba64702311fc332ff78549175eb8856baa808f7b9139701b51",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 279.370912525,
+      "model_seconds": 178.14144266199992,
+      "native_query_seconds": 39.48272399700022,
+      "cohort": "STATIC",
+      "failure_kind": "MODEL_CONCLUSION_LABEL",
+      "trace_basis": "Native record lookups establish absence across source and downstream; model says DEVIATION rather than AS DESIGNED. Single Sol gives cause/layer true, verdict false, partial true, harmful false. Saved answer unchanged; no engine patch from this reasoning failure."
     }
   ],
-  "fully_correct": 2,
+  "fully_correct": 3,
   "harmful": 0,
-  "graded": 4,
+  "graded": 6,
   "proof_total": 15,
-  "partial_handoffs": 2,
+  "partial_handoffs": 3,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T10:27:18.525312+00:00",
+  "observed_utc": "2026-11-23T10:36:18.808714+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": "NOT_ADMITTED",
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 358.7039671814973,
+    "median_engine_wall_seconds": 316.48017303799736,
     "p90_engine_wall_seconds_nearest_rank": 556.818247309,
-    "total_engine_model_calls": 41,
-    "physical_requests_across_confirmed_engine_cases": 122
+    "total_engine_model_calls": 57,
+    "physical_requests_across_confirmed_engine_cases": 170
   }
 }
