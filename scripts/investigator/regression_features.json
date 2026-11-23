@@ -208,6 +208,14 @@
     "r27_measured_definition_reference_binding": {
       "default": true,
       "description": "Bind only the unique retained native definition of the exact selected measure already read by a cited successful query."
+    },
+    "r27_partial_handoff_reporting": {
+      "default": true,
+      "description": "Render already-retained engine context and queries after an interruption instead of reporting that no layer was read."
+    },
+    "r27_nvidia_streaming": {
+      "default": true,
+      "description": "Request documented NVIDIA SSE with usage, retain its native bytes and assemble complete tools only after DONE."
     }
   }
 }

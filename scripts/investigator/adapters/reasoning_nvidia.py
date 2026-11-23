@@ -2,6 +2,7 @@
 import json
 import random
 import time
+import base64
 from copy import deepcopy
 from urllib.request import Request, build_opener
 from urllib.error import HTTPError, URLError
@@ -11,6 +12,10 @@ from ..estate_graph_contract import canonical
 from ..nvidia_free_budget import FreeBudget
 
 BASE = 'https://integrate.api.nvidia.com/v1'
+# Hosted free inference can queue beyond two minutes. This transport timeout
+# stays within the investigator's existing 900-second phase deadline; it does
+# not change a ticket, token, call-allocation or dollar limit.
+HTTP_TIMEOUT_SECONDS = 300
 READ_TOOLS = frozenset(('run_sql','run_dax','get_definition','get_lineage','get_job_runs',
     'get_refresh_history','get_security_definitions','record_trace','list_candidates','get_evidence',
     'ask_user_choice','submit_finding','lookup_intake_catalog','resolve_intake','describe_screenshot',
@@ -23,6 +28,10 @@ class ProviderError(RuntimeError):
     def __init__(self, status, retry_after=None):
         self.http_status, self.retry_after = status, retry_after
         super().__init__('NVIDIA_HTTP_' + str(status))
+
+
+class ProviderUnavailable(RuntimeError):
+    environment_affected = True
 
 
 def request_for(*, model, system, messages, tools, max_tokens):
@@ -46,12 +55,76 @@ def request_for(*, model, system, messages, tools, max_tokens):
                 if set(state) != {'reasoning_content'}: raise ValueError('UNSUPPORTED_PROVIDER_STATE')
             else: raise ValueError('UNSUPPORTED_NVIDIA_CONTENT')
         if parts or calls:
-            row = {'role': message['role'], 'content': parts or None, **state}
+            if message['role']=='assistant':
+                if any(part['type']!='text' for part in parts):raise ValueError('NVIDIA_ASSISTANT_TEXT_REQUIRED')
+                body=''.join(part['text'] for part in parts) or None
+            else:body=parts or None
+            row = {'role': message['role'], 'content': body, **state}
             if calls: row['tool_calls'] = calls
             native.append(row)
+    from ..regression_features import enabled
+    streaming=enabled('r27_nvidia_streaming')
     return {'model': model, 'messages': native, 'tools': [{'type': 'function', 'function':
             {'name': t['name'], 'description': t['description'], 'parameters': deepcopy(t['input_schema'])}} for t in tools],
-            'max_tokens': max_tokens, 'temperature': .2, 'stream': False, 'tool_choice': 'auto'}
+            'max_tokens': max_tokens, 'temperature': .2, 'stream': streaming, 'tool_choice': 'auto',
+            **({'stream_options':{'include_usage':True}} if streaming else {})}
+
+
+def stream_response(response, *, model, record, clock, started, secret_value):
+    """Retain bounded native SSE bytes before assembling any executable tool.
+
+    A missing DONE, finish marker or usage is incomplete, never an executable
+    partial tool call. No inference content is printed or put in the ledger.
+    """
+    total=0;data=[];identity=None;finish=None;usage=None;done=False
+    message={'role':'assistant','content':None};calls={}
+    while True:
+        raw=response.readline(4*1024*1024-total+1)
+        if not raw:break
+        total+=len(raw)
+        if total>4*1024*1024 or secret_value.encode() in raw:raise ValueError('NVIDIA_RESPONSE_BOUND_OR_SECRET_ECHO')
+        from ..planner_recording import _safe
+        _safe(raw)
+        record({'event':'REASONING_STREAM_LINE','provider':'nvidia','model':model,
+                'raw_base64':base64.b64encode(raw).decode('ascii')})
+        if clock()-started>=HTTP_TIMEOUT_SECONDS:raise TimeoutError('NVIDIA_STREAM_TOTAL_TIMEOUT')
+        line=raw.decode('utf-8').rstrip('\r\n')
+        if line.startswith('data:'):
+            data.append(line[5:].removeprefix(' '));continue
+        if line or not data:continue
+        payload='\n'.join(data);data=[]
+        if payload=='[DONE]':done=True;break
+        chunk=json.loads(payload)
+        if chunk.get('model',model)!=model:raise ValueError('NVIDIA_RESPONSE_MODEL_DIFFERS_FROM_PIN')
+        if chunk.get('id'):
+            if identity and identity!=chunk['id']:raise ValueError('NVIDIA_STREAM_RESPONSE_ID_CHANGED')
+            identity=chunk['id']
+        if chunk.get('usage') is not None:usage=deepcopy(chunk['usage'])
+        for choice in chunk.get('choices',[]):
+            if choice.get('index')!=0:raise ValueError('ONE_NVIDIA_CHOICE_REQUIRED')
+            delta=choice.get('delta',{})
+            if delta.get('role') not in (None,'assistant'):raise ValueError('NVIDIA_STREAM_ROLE')
+            for key in ('content','reasoning_content'):
+                if delta.get(key) is not None:
+                    if not isinstance(delta[key],str):raise ValueError('NVIDIA_STREAM_TEXT')
+                    message[key]=(message.get(key)or'')+delta[key]
+            for part in delta.get('tool_calls',[])or[]:
+                index=part.get('index')
+                if type(index)is not int or not 0<=index<128:raise ValueError('NVIDIA_STREAM_TOOL_INDEX')
+                call=calls.setdefault(index,{'id':'','type':'function','function':{'name':'','arguments':''}})
+                if part.get('type','function')!='function':raise ValueError('NVIDIA_UNDECLARED_OR_INVALID_TOOL_CALL')
+                if part.get('id'):
+                    if call['id'] and call['id']!=part['id']:raise ValueError('NVIDIA_STREAM_TOOL_ID_CHANGED')
+                    call['id']=part['id']
+                for key in ('name','arguments'):
+                    value=(part.get('function')or{}).get(key)
+                    if value is not None:
+                        if not isinstance(value,str):raise ValueError('NVIDIA_STREAM_TOOL_TEXT')
+                        call['function'][key]+=value
+            if choice.get('finish_reason') is not None:finish=choice['finish_reason']
+    if not done or not identity or finish is None or usage is None:raise IncompleteRead(b'',None)
+    if calls:message['tool_calls']=[calls[key]for key in sorted(calls)]
+    return {'id':identity,'model':model,'choices':[{'index':0,'message':message,'finish_reason':finish}],'usage':usage}
 
 
 def response_for(body, model, tools):
@@ -89,8 +162,11 @@ def authorize_body(permissions, method, url, raw):
     if method != 'POST' or url != BASE + '/chat/completions': raise ValueError('NVIDIA_ENDPOINT_REFUSED')
     body = json.loads(raw) if isinstance(raw, (str, bytes)) else raw
     required = {'model', 'messages', 'tools', 'max_tokens', 'temperature', 'stream', 'tool_choice'}
-    if not isinstance(body, dict) or set(body) != required: raise ValueError('NVIDIA_BODY_SHAPE')
-    if body['model'] not in spec.get('models', []) or body['stream'] is not False or body['tool_choice'] != 'auto': raise ValueError('NVIDIA_MODEL_OR_TOOL_POLICY')
+    if not isinstance(body, dict) or not required<=set(body)<=required|{'stream_options'}: raise ValueError('NVIDIA_BODY_SHAPE')
+    if body['model'] not in spec.get('models', []) or type(body['stream'])is not bool or body['tool_choice'] != 'auto': raise ValueError('NVIDIA_MODEL_OR_TOOL_POLICY')
+    if body['stream']:
+        if body.get('stream_options')!={'include_usage':True}:raise ValueError('NVIDIA_STREAM_USAGE_REQUIRED')
+    elif 'stream_options'in body:raise ValueError('NVIDIA_NONSTREAM_OPTIONS_REFUSED')
     if type(body['max_tokens']) is not int or not 1 <= body['max_tokens'] <= 16000 or body['temperature'] != .2: raise ValueError('NVIDIA_OUTPUT_BOUND')
     if not isinstance(body['messages'], list) or not body['messages'] or not isinstance(body['tools'], list) or not body['tools']: raise ValueError('NVIDIA_MESSAGES_AND_TOOLS_REQUIRED')
     for tool in body['tools']:
@@ -117,9 +193,20 @@ class Client:
         raw = canonical(body).encode() if body is not None else None
         current().http(self.identity, method, url, raw)
         key = (self.key_reader or secret)(self.reference, gateway_identity=self.identity)
-        request = Request(url, data=raw, method=method, headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json'})
+        streaming=bool(body and body.get('stream'))
+        request = Request(url, data=raw, method=method, headers={'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json', 'Accept': 'text/event-stream' if streaming else 'application/json'})
         try:
-            with open_http(build_opener(NoRedirect()), request, timeout=120, identity=self.identity) as response:
+            started=self.clock()
+            with open_http(build_opener(NoRedirect()), request, timeout=HTTP_TIMEOUT_SECONDS, identity=self.identity) as response:
+                if response.status==202:
+                    self.record({'event':'REASONING_UNAVAILABLE','provider':'nvidia','model':self.model,
+                                 'status':202,'environment_affected':True,'is_quality_result':False,
+                                 'reason':'Async result pending; no automatic duplicate POST.'})
+                    raise ProviderUnavailable('NVIDIA_ASYNC_RESULT_PENDING_ENVIRONMENT_AFFECTED')
+                if streaming and 'application/json' not in response.headers.get('Content-Type',''):
+                    return stream_response(response,model=self.model,
+                                           record=lambda event:self.record({**event,'reservation':getattr(self,'_active_reservation',None)}),
+                                                    clock=self.clock,started=started,secret_value=key)
                 data = response.read(4 * 1024 * 1024 + 1)
             if len(data) > 4 * 1024 * 1024 or key.encode() in data: raise ValueError('NVIDIA_RESPONSE_BOUND_OR_SECRET_ECHO')
             return json.loads(data)
@@ -140,6 +227,7 @@ class Client:
         _safe(canonical(body).encode()); attempt = 0; started = self.clock()
         while True:
             reservation = self.budget.reserve(body)
+            self._active_reservation=reservation
             try:
                 self.record({'event': 'REASONING_REQUEST', 'provider': 'nvidia', 'reservation': reservation, 'body': body})
                 value = (self.send or self._http)('POST', BASE + '/chat/completions', body)
@@ -153,12 +241,23 @@ class Client:
             except (ProviderError, ConnectionError, TimeoutError, URLError, IncompleteRead) as error:
                 from .provider_failures import retryable
                 if not retryable(error): raise
-                if self.clock() - started >= 1800: raise RuntimeError('NVIDIA_RATE_QUEUE_DEADLINE_ENVIRONMENT_AFFECTED') from None
-                if getattr(error, 'http_status', None) != 429 and attempt >= 2: raise
+                timed_out=(isinstance(error,TimeoutError) or isinstance(getattr(error,'reason',None),TimeoutError)
+                           or getattr(error,'http_status',None) in (408,504))
+                if self.clock() - started >= 1800 or (getattr(error, 'http_status', None) != 429 and attempt >= 2):
+                    self.record({'event':'REASONING_UNAVAILABLE','provider':'nvidia','model':self.model,
+                                 'reservation':reservation,'timed_out':timed_out,
+                                 'status':getattr(error,'http_status',None),'error_type':type(error).__name__,
+                                 'attempts':attempt+1,'elapsed_seconds':max(0,self.clock()-started),
+                                 'environment_affected':True,'is_quality_result':False})
+                    raise ProviderUnavailable('NVIDIA_TRANSPORT_UNAVAILABLE_ENVIRONMENT_AFFECTED') from None
                 wait = max(getattr(error, 'retry_after', None) or 0, min(60, 1.5 * 2 ** min(attempt, 6)) + self.jitter())
                 self.record({'event': 'REASONING_TRANSIENT', 'provider': 'nvidia', 'model': self.model,
+                             'reservation':reservation,'timed_out':timed_out,
                              'status': getattr(error, 'http_status', None), 'wait_seconds': wait,
+                             'error_type':type(error).__name__,'elapsed_seconds':max(0,self.clock()-started),
                              'unknown_call_stays_charged': True, 'is_quality_result': False})
                 attempt += 1
-            finally: self.budget.settle(reservation)
+            finally:
+                self.budget.settle(reservation)
+                self._active_reservation=None
             self.sleep(wait)

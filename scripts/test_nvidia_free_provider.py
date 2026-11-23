@@ -1,6 +1,7 @@
 """Zero-network synthetic dev tests; no credential or paid-provider calls."""
 import json
 import time
+import io
 import unittest
 from copy import deepcopy
 from pathlib import Path
@@ -8,7 +9,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 from investigator.shared_state import SharedState
 from investigator.nvidia_free_budget import FreeRateCard, FreeBudget, provision, account_for
-from investigator.adapters.reasoning_nvidia import BASE, Client, ProviderError, request_for, response_for, authorize_body
+from investigator.adapters.reasoning_nvidia import BASE, Client, ProviderError, ProviderUnavailable, request_for, response_for, authorize_body, stream_response, HTTP_TIMEOUT_SECONDS
 from investigator.adapters.provider_runtime import validate, validate_graders
 from investigator.model_spend import SpendHold
 
@@ -21,6 +22,66 @@ def response():
             'usage':{'prompt_tokens':20,'completion_tokens':9,'prompt_tokens_details':{'cached_tokens':4}}}
 
 class NvidiaFreeTests(unittest.TestCase):
+    def test_streaming_wire_and_assistant_text_follow_native_api_shape(self):
+        from investigator.regression_features import configured
+        body=request_for(model=MODEL,system='s',messages=[{'role':'assistant','content':[{'type':'text','text':'Read it.'}]}],tools=TOOLS,max_tokens=50)
+        self.assertEqual(body['messages'][1]['content'],'Read it.')
+        self.assertTrue(body['stream']);self.assertEqual(body['stream_options'],{'include_usage':True})
+        with configured({'r27_nvidia_streaming':False}):
+            old=request_for(model=MODEL,system='s',messages=[],tools=TOOLS,max_tokens=50)
+        self.assertFalse(old['stream']);self.assertNotIn('stream_options',old)
+    def stream_bytes(self,*,done=True,usage=True,finish=True,model=MODEL):
+        chunks=[{'id':'r1','model':model,'choices':[{'index':0,'delta':{'role':'assistant','reasoning_content':'opaque',
+          'tool_calls':[{'index':0,'id':'t1','type':'function','function':{'name':'get_definition','arguments':'{"id":'}}]},'finish_reason':None}]},
+          {'id':'r1','model':model,'choices':[{'index':0,'delta':{'tool_calls':[{'index':0,'function':{'arguments':'7}'}}]},'finish_reason':'tool_calls' if finish else None}]}]
+        if usage:chunks.append({'id':'r1','model':model,'choices':[],'usage':response()['usage']})
+        return b''.join(('data: '+json.dumps(c)+'\n\n').encode()for c in chunks)+(b'data: [DONE]\n\n' if done else b'')
+    def test_stream_retains_exact_native_lines_and_assembles_complete_tool_and_usage(self):
+        import base64
+        raw=self.stream_bytes();events=[]
+        result=stream_response(io.BytesIO(raw),model=MODEL,record=events.append,clock=lambda:1,started=0,secret_value='never-echo-this-key')
+        self.assertEqual(b''.join(base64.b64decode(e['raw_base64'])for e in events),raw)
+        self.assertEqual(response_for(result,MODEL,TOOLS).content[-1]['input'],{'id':7})
+        self.assertEqual(result['usage'],response()['usage'])
+    def test_incomplete_stream_never_executes_a_complete_looking_tool(self):
+        from http.client import IncompleteRead
+        for option in ('done','usage','finish'):
+            with self.subTest(missing=option),self.assertRaises(IncompleteRead):
+                stream_response(io.BytesIO(self.stream_bytes(**{option:False})),model=MODEL,record=Mock(),clock=lambda:1,started=0,secret_value='key-not-in-body')
+        with self.assertRaisesRegex(ValueError,'MODEL_DIFFERS'):
+            stream_response(io.BytesIO(self.stream_bytes(model='other')),model=MODEL,record=Mock(),clock=lambda:1,started=0,secret_value='key-not-in-body')
+    def test_stream_has_an_absolute_time_bound_and_secret_echo_refusal(self):
+        with self.assertRaises(TimeoutError):
+            stream_response(io.BytesIO(self.stream_bytes()),model=MODEL,record=Mock(),clock=lambda:HTTP_TIMEOUT_SECONDS,started=0,secret_value='key-not-in-body')
+        with self.assertRaisesRegex(ValueError,'SECRET_ECHO'):
+            stream_response(io.BytesIO(b'data: private-secret\n\n'),model=MODEL,record=Mock(),clock=lambda:1,started=0,secret_value='private-secret')
+    def test_transport_exhaustion_is_environment_affected_and_all_attempts_stay_charged(self):
+        events=[];send=Mock(side_effect=TimeoutError('synthetic timeout'))
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            c=Client(model=MODEL,budget=self.budget(),identity='test',secret_reference={},record=events.append,send=send,sleep=self.sleep,clock=lambda:self.now[0],jitter=lambda:0)
+        with self.assertRaises(ProviderUnavailable):c.complete(system='s',messages=[],tools=TOOLS,max_tokens=50)
+        self.assertEqual(send.call_count,3);self.assertEqual(c.budget.status()['monthly_calls_used'],3)
+        failed=next(e for e in events if e['event']=='REASONING_UNAVAILABLE')
+        self.assertTrue(failed['environment_affected']);self.assertFalse(failed['is_quality_result'])
+        self.assertEqual(failed['error_type'],'TimeoutError');self.assertEqual(failed['attempts'],3)
+        self.assertTrue(all(r['status']=='UNCERTAIN'for r in self.state.snapshot(account_for(self.now[0]))['reservations']))
+    def test_http_negotiates_streaming_with_longer_timeout_and_no_async_repost(self):
+        from types import SimpleNamespace
+        body=request_for(model=MODEL,system='s',messages=[],tools=TOOLS,max_tokens=50)
+        def transport(raw,status=200,content_type='text/event-stream'):
+            stream=io.BytesIO(raw);stream.status=status;stream.headers={'Content-Type':content_type};return stream
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            c=Client(model=MODEL,budget=self.budget(),identity='test',secret_reference={},record=Mock(),key_reader=lambda *a,**k:'synthetic-private-key')
+        with patch('investigator.live_gateway.current',return_value=SimpleNamespace(http=Mock())),patch('investigator.live_gateway.open_http',return_value=transport(self.stream_bytes()))as send:
+            out=c._http('POST',BASE+'/chat/completions',body)
+        self.assertEqual(out['choices'][0]['message']['tool_calls'][0]['id'],'t1')
+        self.assertEqual(send.call_args.kwargs['timeout'],300)
+        self.assertEqual(send.call_args.args[1].get_header('Accept'),'text/event-stream')
+        with patch('investigator.live_gateway.current',return_value=SimpleNamespace(http=Mock())),patch('investigator.live_gateway.open_http',return_value=transport(b'{}',202,'application/json'))as send:
+            with self.assertRaisesRegex(ProviderUnavailable,'ASYNC_RESULT_PENDING'):c._http('POST',BASE+'/chat/completions',body)
+        self.assertEqual(send.call_count,1)
+        with patch('investigator.live_gateway.current',return_value=SimpleNamespace(http=Mock())),patch('investigator.live_gateway.open_http',return_value=transport(json.dumps(response()).encode(),content_type='application/json')):
+            self.assertEqual(c._http('POST',BASE+'/chat/completions',body),response())
     def setUp(self):
         self.tmp=TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
         self.state=SharedState.offline(Path(self.tmp.name)/'state.db');self.state.migrate()
@@ -93,7 +154,7 @@ class NvidiaFreeTests(unittest.TestCase):
         spec={'endpoint':BASE,'models':[MODEL],'tools':['get_definition'],'synthetic_only':True,'quality_scope':'DEV_ONLY'};p={'ai_providers':{'nvidia':spec}}
         body=request_for(model=MODEL,system='s',messages=[],tools=TOOLS,max_tokens=50)
         authorize_body(p,'POST',BASE+'/chat/completions',body);authorize_body(p,'GET',BASE+'/models',None)
-        for method,url,v in [('DELETE',BASE+'/models',None),('POST',BASE+'/batches',body),('POST',BASE+'/chat/completions',{**body,'model':'other'}),('POST',BASE+'/chat/completions',{**body,'tools':[{'type':'web_search'}]}),('POST',BASE+'/chat/completions',{**body,'stream':True})]:
+        for method,url,v in [('DELETE',BASE+'/models',None),('POST',BASE+'/batches',body),('POST',BASE+'/chat/completions',{**body,'model':'other'}),('POST',BASE+'/chat/completions',{**body,'tools':[{'type':'web_search'}]}),('POST',BASE+'/chat/completions',{**body,'stream':False})]:
             with self.subTest(url=url,method=method),self.assertRaises(ValueError):authorize_body(p,method,url,v)
         with self.assertRaises(ValueError):authorize_body({'ai_providers':{'nvidia':{**spec,'synthetic_only':False}}},'POST',BASE+'/chat/completions',body)
     def test_client_retries_429_same_model_accounts_each_attempt_and_never_auth_retries(self):

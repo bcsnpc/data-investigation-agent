@@ -5,6 +5,28 @@ from cloud_guided_investigator import intake_question_outcome
 
 
 class TerminalTests(unittest.TestCase):
+    def test_interruption_renders_retained_handoff_reads_without_upgrading_status(self):
+        from investigator.regression_features import configured
+        before={'status':'INTERRUPTED','business':'Provider timed out.','stop':'NVIDIA_TRANSPORT_UNAVAILABLE',
+                'handoff':{'queries':[self.query()],'query_history_status':'RETAINED_ENGINE_QUERY_RECORDS',
+                           'context':{'layers':{'one':{'label':'Serving'}}},'lineage_status':'RETAINED_ENGINE_CONTEXT'}}
+        saved=deepcopy(before);result=attach(before,queries=[],context={})
+        self.assertEqual(before,saved);self.assertEqual(result['status'],'INTERRUPTED')
+        self.assertIn('Serving:',result['business']);self.assertNotIn('No layer was admitted or read',result['business'])
+        self.assertEqual(result['investigation_report']['findings_per_layer'][0]['observations'][0]['rows_sample'],[{'quantity':7}])
+        with configured({'r27_partial_handoff_reporting':False}):
+            self.assertIn('No layer was admitted or read',attach(before)['business'])
+    def test_unestablished_or_unlabelled_handoff_is_not_native_support(self):
+        for label in (None,'NOT_ESTABLISHED_BEFORE_ENGINE_INITIALIZATION'):
+            result=attach({'status':'INTERRUPTED','handoff':{'queries':[self.query()],'query_history_status':label}})
+            self.assertEqual(result['investigation_report']['findings_per_layer'],[])
+    def test_explicit_case_inputs_win_over_partial_handoff_fallback(self):
+        before={'status':'INTERRUPTED','handoff':{'queries':[self.query()],'query_history_status':'RETAINED_ENGINE_QUERY_RECORDS',
+                'context':{'layers':{'one':{'label':'Old'}}},'lineage_status':'RETAINED_ENGINE_CONTEXT'}}
+        query={**self.query(),'id':'query:current','layer':'two'}
+        result=attach(before,queries=[query],context={'layers':{'two':{'label':'Current'}}})
+        findings=result['investigation_report']['findings_per_layer'];self.assertEqual([f['name']for f in findings],['Current'])
+        self.assertEqual(findings[0]['observations'][0]['evidence_id'],'query:current')
     def query(self):
         return {'id':'query:one','layer':'one','purpose':'recreate','status':'SUCCEEDED','row_count':1,
                 'text':'SELECT SUM(units) AS quantity FROM dbo.Rows','result':{'rows':[{'quantity':7}]}}

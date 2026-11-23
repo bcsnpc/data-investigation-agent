@@ -914,3 +914,6 @@ Malformed evaluator output was still taking the business-answer rewrite path. It
 
 
 Round27 NVIDIA protocol qualification, 2026-11-23 UTC: GLM (`z-ai/glm-5.3-flash`) model listing succeeded, but all three bounded generation transport attempts timed out without a response. The two-turn synthetic tool test could not be established after 376.96 seconds. Three free calls remain charged as uncertain, $0; no estate read, ticket outcome or quality grade exists. A listed model is not proof of usable generation. Kimi is checked separately next; no key or permission change is authorized.
+
+
+Round27 Kimi pilot, 2026-11-23 UTC: the function protocol passed, but the full-context pilot sealed INTERRUPTED on read timeout. Two requests returned usable responses; four timed out. Known usage was 50,449 input and 1,878 output tokens; uncertain attempts remain charged as calls, $0. The interrupted outcome retained native queries/context in handoff but the cloud terminal renderer ignored them and incorrectly said no layer was read. The batch fixes that fallback generically without claiming a cause, changing status or making another read. Original capture seal: b7373a1c85d10dfe750c7bb7e16a31e26c59bf48318cd772bf23a8f71b0a5ee3.

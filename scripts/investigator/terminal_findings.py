@@ -136,7 +136,18 @@ def text(value):
 
 def attach(outcome,*,queries=(),context=None,candidates=()):
     if not enabled('r26_terminal_report'):return deepcopy(outcome)
-    value=deepcopy(outcome);summary=report(outcome=value,queries=queries,context=context,candidates=candidates)
+    value=deepcopy(outcome)
+    if enabled('r27_partial_handoff_reporting'):
+        # Cases retains these already-read facts when a provider fails. The
+        # normal cloud wrapper has no completed case in that branch; do not
+        # mistake that absent wrapper for an absence of native investigation.
+        retained=value.get('handoff',{})
+        if isinstance(retained,dict):
+            if not queries and retained.get('query_history_status')=='RETAINED_ENGINE_QUERY_RECORDS' and isinstance(retained.get('queries'),list):
+                queries=deepcopy(retained['queries'])
+            if not context and retained.get('lineage_status')=='RETAINED_ENGINE_CONTEXT' and isinstance(retained.get('context'),dict):
+                context=deepcopy(retained['context'])
+    summary=report(outcome=value,queries=queries,context=context,candidates=candidates)
     if (context or {}).get('conclusion_contract')=='question-first-v1':
         if not value.get('conclusion'):
             # A timeout, hard stop or exhausted model budget cannot erase the
