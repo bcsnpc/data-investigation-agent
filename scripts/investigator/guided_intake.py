@@ -462,6 +462,10 @@ def prefill(text, proposed, catalog, *, provenance=None):
         names=[node.get('label',''),*node.get('enrichment',{}).get('synonyms',[])]
         exact=any(name and name.casefold() in span['quote'].casefold() for name in names)
         if enabled('r27_visual_alias_scope') and value.get('report') and value.get('page'):
+            from .intake_candidates import explicit_names
+            named_target=explicit_names(catalog,text).get('visual')
+            if named_target and named_target!=value['visual']:
+                raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
             named_pages=catalog.named_pages(text,value['report'])
             all_visuals=[v for p in catalog.pages(value['report'])for v in catalog.visuals(value['report'],p['id'])]
             scope=(catalog.visuals(value['report'],named_pages[0]['id']) if len(named_pages)==1 else all_visuals)
@@ -473,6 +477,18 @@ def prefill(text, proposed, catalog, *, provenance=None):
             native=[v for v in native if v['id']in scope_ids]
             aliases=[v for v in scope if any(mentioned(n)for n in catalog.nodes[v['id']].get('enrichment',{}).get('synonyms',[]))]
             matches=native or aliases
+            if len(matches)==1 and matches[0]['id']!=value['visual']:
+                raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
+            # A unique enrichment alias does not make a measure-level phrase
+            # an explicit visual selection. Other visuals of the same cited
+            # measure may have different retained filters and no such alias.
+            if not native:
+                cited_measures={m['id'] for v in scope for m in v.get('measures',[])
+                                if mentioned(catalog.nodes.get(m['id'],{}).get('label'))}
+                measure_scopes=[v for v in scope
+                                if any(m['id'] in cited_measures for m in v.get('measures',[]))]
+                if len(measure_scopes)>1:
+                    matches=list({v['id']:v for v in [*aliases,*measure_scopes]}.values())
             if len(matches)==1 and matches[0]['id']!=value['visual']:
                 raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
             exact=len(matches)==1 and matches[0]['id']==value['visual']

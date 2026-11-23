@@ -4,6 +4,16 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_unique_alias_does_not_hide_other_visuals_of_the_cited_measure(self):
+        catalog=self.shared_visual_aliases()
+        catalog.nodes['measure']['label']='Net Revenue'
+        catalog.nodes['card']['enrichment']={'synonyms':['Net Revenue card']}
+        catalog.nodes['global']['enrichment']={}
+        result=prefill('Billing Overview Net Revenue card',
+            {'report':'report','page':'page','visual':'card','issue_type':'NUMBER_LOOKS_WRONG'},
+            catalog,provenance={'visual':[3,5]})
+        self.assertEqual(result['code'],'NATIVE_SCOPE_CANDIDATES')
+        self.assertEqual({r['id'] for r in result['question']['fields'][0]['choices']},{'card','global'})
     def test_candidate_router_never_treats_an_alias_as_an_explicit_selection(self):
         from investigator.intake_candidates import explicit_names, enumerate_targets
         catalog=self.shared_visual_aliases();catalog.nodes['global']['label']='Total revenue card'
