@@ -155,12 +155,12 @@
   "proof_total": 32,
   "partial_handoffs": 4,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T13:48:08.712450+00:00",
+  "observed_utc": "2026-11-23T13:54:10.807021+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
     "phase": "WAITING_FOR_STATIC_TERMINAL",
     "completed": [],
-    "at_utc": "2026-11-23T13:47:45.372899+00:00"
+    "at_utc": "2026-11-23T13:53:45.456000+00:00"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
@@ -181,5 +181,6 @@
     }
   },
   "excluded_environment_grades": [],
-  "budget_stops_scored": 1
+  "budget_stops_scored": 1,
+  "environment_unscored_results": []
 }
