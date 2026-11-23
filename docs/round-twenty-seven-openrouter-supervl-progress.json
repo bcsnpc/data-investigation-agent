@@ -1,0 +1,73 @@
+{
+  "cohort_totals": {
+    "STATIC": {
+      "graded": 2,
+      "fully_correct": 1,
+      "partial_handoffs": 1,
+      "harmful": 0
+    }
+  },
+  "label": "FREE SYNTHETIC DEV ONLY; single independent Sol grader; not a quality gate",
+  "provider": "openrouter",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "rows": [
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-billing-invoices-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered answer correctly attributes the extra 250 to invoice 101 being duplicated by the account_id-only join to account_plan_history, where account 1 has two history rows. This substantively matches the missing effective-date restriction in the sealed cause. It correctly locates the split between silver (4 rows, 700) and gold (5 rows, 950), calls it a transformation deviation, and explains that SUM(Billing[amount]) faithfully returns 950. Native aggregate and row checks support the finding; saved SQL is rerunnable and the stopping point is explicit. No disagreement with the sealed expectation.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 36,
+      "model_calls": 7,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "3a91e08893f570fc475667f2ecd09a8402e19ae5b3e4d0cb7106912cf6291a3e",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 363.81850081199997,
+      "model_seconds": 146.41369069600006,
+      "native_query_seconds": 139.549893199,
+      "cohort": "STATIC",
+      "failure_kind": "NONE",
+      "trace_basis": "Single independent Sol DEV grade verifies account_id-only plan-history join duplicates invoice101; source/Silver700 versus Gold/model950. No harmful flag."
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-application-baseline-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The expected verdict is AS DESIGNED, but the delivered answer stops at UNRESOLVED despite successful checks showing 7661 in the model and SUM(units)=7661 over 360 rows in both landing and the declared application source. Cause credit is independently warranted in substance: it supplies the exact SUM('Movements'[units]) definition and matching totals across all three layers. It does not identify the expected source-application/DEV attribution, so layer credit is not earned. The saved queries, results, explicit stopping point and engineer routing provide a usable but incomplete handoff: next_checks is empty and no exact missing fact is identified. The unresolved conclusion is an honest limitation, not a confident false cause, so it is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 34,
+      "model_calls": 18,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "989954a063352651049375b99d3c1ae7748da670a1228ac6b4d096e06f92eac3",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 556.818247309,
+      "model_seconds": 406.2393959600001,
+      "native_query_seconds": 71.32391683300006,
+      "cohort": "STATIC",
+      "failure_kind": "MODEL_DELIVERY_FORMAT",
+      "trace_basis": "Saved native result and ordered capture: submit_finding at audit904 sets undecided to empty string instead of required array; contract repair at1216, later submit4342 and18874 repeat the invalid field. Matching source/landing/model7661 and360rows were already measured. Later evaluator max_tokens is incomplete, not a substantive rejection (blocking_rejection=false). No validator relaxation or model-reasoning patch."
+    }
+  ],
+  "fully_correct": 1,
+  "harmful": 0,
+  "graded": 2,
+  "proof_total": 15,
+  "partial_handoffs": 1,
+  "original_outcomes_unchanged": true,
+  "observed_utc": "2026-11-23T10:21:50.447526+00:00",
+  "environment_unestablished_unscored": 0,
+  "fault_cohort_status": "NOT_ADMITTED",
+  "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
+  "timing": {
+    "median_engine_wall_seconds": 460.3183740605,
+    "p90_engine_wall_seconds_nearest_rank": 556.818247309,
+    "total_engine_model_calls": 25,
+    "physical_requests_across_confirmed_engine_cases": 70
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "observed_utc": "2026-11-23T10:24:26.222328+00:00",
+  "ticket": "round27-proof15-openrouter-supervl-form-v2-application-baseline-v1",
+  "capture_seal": "989954a063352651049375b99d3c1ae7748da670a1228ac6b4d096e06f92eac3",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+  "first_wrong_step": "write-up / structured submit_finding",
+  "classification": "MODEL_DELIVERY_FORMAT_NOT_DIA_PLUMBING",
+  "native_audit_sequences": {
+    "first_invalid_submit": 904,
+    "delivery_repair": 1216,
+    "repeated_invalid_submits": [
+      4342,
+      18874
+    ]
+  },
+  "wrong_field": {
+    "field": "undecided",
+    "observed_type": "string",
+    "observed_value": "",
+    "required_type": "array"
+  },
+  "facts_already_measured": {
+    "source_sum": 7661,
+    "source_rows": 360,
+    "landing_sum": 7661,
+    "landing_rows": 360,
+    "model_sum": 7661
+  },
+  "evaluator": "Three output-limited incomplete results, all blocking_rejection=false; not a substantive false rejection. Final generic unresolved output graded partial, not harmful.",
+  "correct_next_action": "Submit the supported calculation with undecided as an empty array, and retain the exact target and evidence references.",
+  "code_or_expectation_change": false,
+  "quality_scope": "DEV_ONLY_SINGLE_SOL_NOT_A_GATE"
+}
