@@ -965,3 +965,6 @@ Round27 Opus planning update2026-11-23: known confirmation scope is25tickets(7me
 
 
 2026-11-23 16:47UTC current Step4 stale owner action: original30non-stale results are saved/graded and all access data/catalog additions restored. A fresh OFF confirmation is requested for Application load fixture20261003 ? Settings ? Refresh ? Keep your Direct Lake data up to date OFF ? Apply, schedule unchanged. No stale data mutation has been admitted. Do not reuse an earlier cohort toggle receipt. After the two stale cases the controller must hash-restore source, run the original load, then request ON and verify7661. Meanwhile separate failed-job/native-reference repair work continues with serialized controls; no need to repeat the already-completed OpenRouter key action.
+
+
+2026-11-23 17:26:51UTC owner OFF confirmation received for the original two pending Step4 stale cases, schedule unchanged. It is recorded as OWNER_REPORTED_SAVED_SETTING, not native browser readback. No stale source mutation is admitted until the active latency repair cohort is fully hash-restored and its owned schedule removed, then a fresh baseline is checked. A separate ON confirmation and native restored model7661 check remain required after stale data restoration.

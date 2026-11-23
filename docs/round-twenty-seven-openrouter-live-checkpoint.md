@@ -10,6 +10,8 @@ These are separate synthetic development cohorts. Each uses one independent Sol 
 | Separate native-candidate / failed-job replacements | 2 | 1 | 1 | 0 | 0 |
 | Separate native-reference replacements, in progress | 1 of 4 | 0 | 1 | 0 | 0 |
 
+All20 original free guard slots are measured:14correct,1harmful and5other nonharmful outcomes. The correct failed-job replacement is separate and is not carried into that guard. This free guard cannot satisfy the required Opus guard.
+
 Do not pool these rows into one score. They overlap in ticket inputs and use different images or fresh fault instances. A correct flag means the grader accepted verdict, layer and cause, not that every detail of the prose was perfect.
 
 The failed-job replacement is correct: it names the actual failed run and error, while leaving its numerical effect unmeasured. Its preserved original was harmful because the engine dropped an early failed-job observation during a sequential refresh. A saved-native counterfactual demonstrates that evidence-loss bug independently of the fresh live rerun. The original pipeline definition is hash-restored and its real load completed successfully.

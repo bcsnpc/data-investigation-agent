@@ -1,7 +1,7 @@
 {
   "disjoint_headline": {
     "fully_correct": 0,
-    "useful_nonharmful_handoffs": 1,
+    "useful_nonharmful_handoffs": 2,
     "harmful": 0,
     "other_incorrect": 0
   },
@@ -11,11 +11,23 @@
       "useful_nonharmful_handoffs": 1,
       "harmful": 0,
       "other_incorrect": 0
+    },
+    "FAULT": {
+      "fully_correct": 0,
+      "useful_nonharmful_handoffs": 1,
+      "harmful": 0,
+      "other_incorrect": 0
     }
   },
   "counting_note": "Raw partial/handoff flags may coexist with harmful. Disjoint headline gives no useful-handoff credit to a harmful answer; original grader bits and scores are preserved.",
   "cohort_totals": {
     "STATIC": {
+      "graded": 1,
+      "fully_correct": 0,
+      "partial_handoffs": 1,
+      "harmful": 0
+    },
+    "FAULT": {
       "graded": 1,
       "fully_correct": 0,
       "partial_handoffs": 1,
@@ -46,15 +58,36 @@
       "native_query_seconds": 9.25582483100004,
       "cohort": "STATIC",
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-step4-openrouter-budget-repairs-text-latency-900501-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "triage",
+      "reason": "The answer correctly establishes the SOURCE -> BRONZE split: the application has movement 900501 with 17 units, while the Bronze row query returns no rows and COUNT(*) returns 0. It does not establish the expected latency verdict or name the pending application load and its due time. The saved triage already contains an enabled future-first-slot schedule due 2026-11-25T05:14:47Z, a last successful warehouse load ending 2026-11-23T17:01:10.2533333Z, and the source row modified at 17:15:01.446937 that day; the investigation fails to use that evidence and instead pursues temporal-history queries. The unresolved answer is an honest evidence limitation, not a harmful false cause. Its saved queries, checked findings, stopping point and engineer routing provide a usable but incomplete handoff; next checks focus on rejected queries rather than the available schedule/load evidence. Full verdict and cause credit cannot be awarded for that handoff.",
+      "delivery_status": "UNRESOLVED",
+      "capture_seal": "a5181e152d0ac4647969caa0a8a551f3f616f4593069039adbd0a32c04fd611b",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:3c1797a5bea705a6df5f66590eeaf867718947e8deb933dea61987fee83e7d99",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 31,
+      "model_calls": 16,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 626.333673097,
+      "model_seconds": 397.9816725510003,
+      "native_query_seconds": 33.40934251199997,
+      "cohort": "FAULT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
   "fully_correct": 0,
   "harmful": 0,
-  "graded": 1,
+  "graded": 2,
   "proof_total": 4,
-  "partial_handoffs": 1,
+  "partial_handoffs": 2,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T17:16:55.117633+00:00",
+  "observed_utc": "2026-11-23T17:30:07.073942+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
     "phase": "CONTROL_IN_FLIGHT",
@@ -76,17 +109,19 @@
       "cause": "Admission helper required unrelated baseline runner and fully extracted manifest in subset cohort.",
       "repair": "Actual qualified cohort runner + checksum-pinned reused archive manifest;7offline tests and actual4record endpoint contract PASS."
     },
-    "control_folder": "text-latency-remainder-reader1-subset-fix"
+    "control_folder": "text-latency-remainder-reader1-subset-fix",
+    "controller_session": 41015,
+    "prior_controller_session_terminal": 16508
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 1129.717041528,
+    "median_engine_wall_seconds": 878.0253573125,
     "p90_engine_wall_seconds_nearest_rank": 1129.717041528,
-    "timed_cases": 1,
-    "total_engine_model_calls": 21,
-    "known_engine_model_calls": 21,
+    "timed_cases": 2,
+    "total_engine_model_calls": 37,
+    "known_engine_model_calls": 37,
     "missing_model_call_metrics": 0,
-    "physical_requests_across_confirmed_engine_cases": 40
+    "physical_requests_across_confirmed_engine_cases": 71
   },
   "environment_unscored_results": [],
   "excluded_environment_grades": [],

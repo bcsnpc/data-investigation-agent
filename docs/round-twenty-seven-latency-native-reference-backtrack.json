@@ -1,0 +1,53 @@
+{
+  "at_utc": "2026-11-23T17:36:08.671714+00:00",
+  "ticket": "text-latency-900501-v1",
+  "cohort": "step4-openrouter-budget-repairs",
+  "scope": "Saved native trace only; original grade unchanged",
+  "original_setup_result": "40physical initialization budget stop",
+  "repair_result": "UNRESOLVED;31physical;16modelcalls;useful nonharmful handoff",
+  "native_reads": {
+    "source_units": 17,
+    "bronze_rows": 0,
+    "source_modified_utc": "2026-11-23T17:15:01.446937",
+    "last_completed_load_end_utc": "2026-11-23T17:01:10.2533333",
+    "future_first_slot_utc": "2026-11-25T05:14:47Z"
+  },
+  "trace": [
+    {
+      "sequence": 5291,
+      "event": "A model query misspelled movement_id as movovement_id; native column resolver refused it."
+    },
+    {
+      "sequence": 6556,
+      "event": "First submit_finding draft actually states the source/bronze split, load-end/source-modified ordering, exact future due time and a latency cause. This proves those facts reached the model; not a dropped triage presentation."
+    },
+    {
+      "sequence": 6559,
+      "event": "Finding rejected: UNKNOWN_EVIDENCE_REFERENCE; correct-looking prose does not validate its citations."
+    },
+    {
+      "sequence": 7297,
+      "event": "Second finding still cites unknown evidence."
+    },
+    {
+      "sequence": 7669,
+      "event": "Target-candidate check required before conclusion."
+    },
+    {
+      "sequence": 7993,
+      "event": "After these checks, latency remains barred by the existing native source-history prerequisite: source_modified time is not a native before/after history observation."
+    },
+    {
+      "sequence": 8578,
+      "event": "Temporal query references nonexistent sys_start_time; native resolver refuses."
+    },
+    {
+      "sequence": 8655,
+      "event": "Direct history-table object is outside validated object scope; current source table FOR SYSTEM_TIME remains the intended native route, but no successful comparable as-of read is established."
+    }
+  ],
+  "grader_failing_step": "triage",
+  "native_trace_qualification": "The model proposed the timing explanation early but did not satisfy citation, target and source-history prerequisites. This is not proof that code hid triage facts or that temporal syntax itself is blocked. No guard is weakened and no new free-model reasoning fix is applied.",
+  "harmful": false,
+  "original_scores_and_expectations_unchanged": true
+}
