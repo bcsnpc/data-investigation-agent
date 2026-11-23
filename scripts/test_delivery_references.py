@@ -58,6 +58,35 @@ class ReferenceTests(unittest.TestCase):
             evidence['j']['result']['status']=status
             r,_=reformat({**value,'evidence_ids':ids},queries=[],evidence=evidence,layers={},nodes=nodes)
             self.assertEqual(r['checked'],['job'])
+    def test_definition_binding_uses_the_exact_already_queried_measure_only(self):
+        nodes=[{'id':'measure','kind':'MEASURE','properties':{'asset_id':'native-measure'}}]
+        self.query['asset_ids']=['native-measure']
+        evidence={'definition':{'kind':'RETAINED_DEFINITION_REFERENCE','asset_id':'native-measure'}}
+        value={'checked':['source'],'evidence_ids':['query-one'],'numbers':[25],'selected_target':'explicit'}
+        result,changes=reformat(value,queries=[self.query],evidence=evidence,layers={'source':{}},nodes=nodes,definition_measure='measure')
+        self.assertEqual(result['evidence_ids'],['query-one','definition'])
+        self.assertEqual(result['numbers'],value['numbers']);self.assertEqual(result['selected_target'],'explicit')
+        self.assertEqual(changes[0]['reason'],'RETAINED_DEFINITION_OF_ALREADY_CITED_MEASURE')
+        for queries,ids,refs,selected in [([self.query],[],evidence,'measure'),
+                ([{**self.query,'status':'ERROR'}],['query-one'],evidence,'measure'),
+                ([self.query],['query-one'],{**evidence,'duplicate':evidence['definition']},'measure'),
+                ([self.query],['query-one'],evidence,'different-measure')]:
+            with self.subTest(queries=queries,ids=ids,refs=refs,selected=selected):
+                r,_=reformat({**value,'evidence_ids':ids},queries=queries,evidence=refs,layers={'source':{}},nodes=nodes,definition_measure=selected)
+                self.assertEqual(r['evidence_ids'],ids)
+    def test_calculation_measure_is_a_declared_selection_or_unique_visual_edge(self):
+        from investigator.delivery_references import calculation_measure
+        context={'intake':{'issue_type':'SOMETHING_ELSE','visual':'v','compared_with':{'kind':'NOTHING'}},
+                 'path':{'nodes':[{'id':'m','kind':'MEASURE'},{'id':'m2','kind':'MEASURE'}],
+                         'edges':[{'source':'v','target':'m','kind':'COMPUTED_FROM'}]}}
+        draft={'verdict':'definition explained','classified_issue_type':'HOW_IS_THIS_CALCULATED'}
+        self.assertEqual(calculation_measure(context,draft),'m')
+        context['path']['edges'].append({'source':'v','target':'m2','kind':'COMPUTED_FROM'})
+        self.assertIsNone(calculation_measure(context,draft))
+        context['intake']['details']={'measure':'m2'}
+        self.assertEqual(calculation_measure(context,draft),'m2')
+        context['intake']['comparison_context']={'kind':'EXPECTED_NUMBER'}
+        self.assertIsNone(calculation_measure(context,draft))
 
     def test_native_tool_wrapper_can_name_its_exact_query_layer(self):
         evidence = {'sql': {'tool': 'run_sql', 'result': {'record': self.query}}}

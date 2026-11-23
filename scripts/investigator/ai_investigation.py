@@ -49,10 +49,7 @@ Ask only as a last resort after candidate checks and a recreation attempt, only
 for an unreadable user fact or business policy, using named multiple choices.
 Submit a plain answer with verdict, cause, numbers and what was checked. No fixes.
 Never claim source consistency or freshness while a fresh triage fault is unexplained.
-For a definition-only request without a comparison, explain the evidenced
-implemented calculation and report any unresolved operational observation
-separately. That limited explanation does not establish freshness or business
-correctness. A failed
+A failed
 job, stale refresh, source ahead of delivery, running job or retained history
 change needs explicit evidence and disposition. Check the comparison side, not
 only the user's value. Definition questions: retained definition first, then its
@@ -182,6 +179,10 @@ class Investigator:
         self.refresh_tools()
         from .regression_features import baseline_prompt
         guidance=INSTRUCTIONS if enabled("r26_investigation_prompt") else baseline_prompt("investigator")
+        if enabled('r27_calculation_fault_scope') and enabled('r26_current_fault_consistency'):
+            guidance+='\nFor a definition-only request without a comparison, explain the evidenced implemented calculation and report unresolved operational observations separately. That limited explanation does not establish freshness, source consistency or business correctness.'
+        else:
+            guidance+='\nNever conclude as designed while a fresh triage fault is unexplained.'
         if self.context.get('conclusion_contract')=='question-first-v1' and enabled('r27_question_first_prompt'):
             guidance+='''
 The conclusion must answer the exact selected question, not an incidental
@@ -258,10 +259,12 @@ that detailed timeline undecided rather than inventing a source-history cause.
         self.refresh_tools()
         if name not in self.schemas:raise ValueError('UNKNOWN_TOOL')
         if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair') and enabled('r27_delivery_reference_reformat'):
-            from .delivery_references import reformat
+            from .delivery_references import reformat,calculation_measure
             path=self.context.get('path',{})
+            definition_measure=calculation_measure(self.context,args) if enabled('r27_measured_definition_reference_binding') else None
             args,changes=reformat(args,queries=self.queries.records,evidence=self.state['evidence'],
-                                  layers=getattr(self.queries,'layers',{}),nodes=path.get('nodes',[]) if isinstance(path,dict) else [])
+                                  layers=getattr(self.queries,'layers',{}),nodes=path.get('nodes',[]) if isinstance(path,dict) else [],
+                                  definition_measure=definition_measure)
             if changes:self.evidence({'kind':'DELIVERY_REFERENCE_REFORMAT','changes':changes})
         if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair'):
             try:
@@ -385,7 +388,7 @@ that detailed timeline undecided rather than inventing a source-history cause.
         attempts=self.state.setdefault('delivery_evaluations',[])
         slim=enabled('r27_slim_evaluator')
         def rejected(item):
-            if enabled('r27_evaluator_format_repair') and item.get('format_error'):return False
+            if enabled('r27_evaluator_format_repair') and enabled('r27_evaluator_same_draft_format_retry') and item.get('format_error'):return False
             return bool(item.get('blocking_failures')) if slim else not item['approved']
         if (slim or not enabled('r27_evaluator_advisory')) and sum(rejected(item) for item in attempts)>=3:
             raise ValueError('DELIVERY_EVALUATOR_RETRIES_EXHAUSTED')
@@ -403,11 +406,11 @@ that detailed timeline undecided rather than inventing a source-history cause.
             self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
             self.state['pending']=None;self.save()
             if not review.get('format_error'):break
-            if not enabled('r27_evaluator_format_repair'):break
+            if not (enabled('r27_evaluator_format_repair') and enabled('r27_evaluator_same_draft_format_retry')):break
             # Malformed checker output says nothing about the draft's truth.
             # Retry the checker, not the business answer or any estate read.
             packet['evaluator_format_feedback']=deepcopy(review['format_error'])
-        if review.get('format_error') and enabled('r27_evaluator_format_repair'):
+        if review.get('format_error') and enabled('r27_evaluator_format_repair') and enabled('r27_evaluator_same_draft_format_retry'):
             return {**review,'format_warning':'Evaluator could not complete its structured check after two format retries.',
                     'delivered_with_warning':True}
         if slim:

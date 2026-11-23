@@ -1,8 +1,25 @@
-"""Reformat exact saved reference roles; never select a target or add support."""
+"""Bind exact saved reference roles; never select a target or invent evidence."""
 from copy import deepcopy
 
 
-def reformat(value, *, queries, evidence, layers, nodes=()):
+def calculation_measure(context,draft):
+    """One declared measure for this calculation request, never a name match."""
+    from .primary_verification import no_comparison
+    intake=context.get('intake',{})
+    issue=intake.get('classified_issue_type')or draft.get('classified_issue_type')or intake.get('issue_type')
+    if issue!='HOW_IS_THIS_CALCULATED' or not no_comparison(intake) or draft.get('verdict') not in ('as designed','definition explained'):
+        return None
+    path=context.get('path',{})
+    if not isinstance(path,dict):return None
+    measures={n['id'] for n in path.get('nodes',[]) if n.get('kind')=='MEASURE'}
+    selected=intake.get('measure')or (intake.get('details')or{}).get('measure')
+    if selected:return selected if selected in measures else None
+    linked={e['target']for e in path.get('edges',[]) if e.get('source')==intake.get('visual')
+            and e.get('kind')=='COMPUTED_FROM' and e.get('target') in measures}
+    return next(iter(linked)) if len(linked)==1 else None
+
+
+def reformat(value, *, queries, evidence, layers, nodes=(), definition_measure=None):
     result = deepcopy(value)
     by_id = {query['id']: query for query in queries}
     known = set(by_id) | set(evidence)
@@ -80,4 +97,18 @@ def reformat(value, *, queries, evidence, layers, nodes=()):
             if target not in checked:
                 checked.append(target)
         result['checked'] = checked
+        if definition_measure:
+            asset=node_assets.get(definition_measure)
+            native_measure=any(node.get('id')==definition_measure and node.get('kind')=='MEASURE' for node in nodes)
+            measured=native_measure and asset and any(by_id[key].get('status')=='SUCCEEDED' and
+                asset in by_id[key].get('asset_ids',[]) for key in cited_queries)
+            references=[key for key,item in evidence.items()
+                        if item.get('kind')=='RETAINED_DEFINITION_REFERENCE' and item.get('asset_id')==asset]
+            if measured and len(references)==1 and references[0] not in result.get('evidence_ids',[]):
+                # The same exact measure has already been queried and its
+                # definition retained. Bind that existing reference, without
+                # guessing by name or claiming semantic equivalence of prose.
+                result.setdefault('evidence_ids',[]).append(references[0])
+                changes.append({'field':'evidence_ids','before':None,'after':references[0],
+                                'reason':'RETAINED_DEFINITION_OF_ALREADY_CITED_MEASURE'})
     return result, changes

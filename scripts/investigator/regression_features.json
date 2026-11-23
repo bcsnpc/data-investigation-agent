@@ -196,6 +196,18 @@
     "r27_native_column_target": {
       "default": true,
       "description": "Use admitted native column-name containment to disambiguate a table inside an exactly named container. Unique-match and explicit-target checks remain unchanged; tied schemas remain tied."
+    },
+    "r27_calculation_fault_scope": {
+      "default": true,
+      "description": "Keep a supported calculation-only answer with a separate native operational warning; never infer freshness or source consistency."
+    },
+    "r27_evaluator_same_draft_format_retry": {
+      "default": true,
+      "description": "Retry malformed checker output against the unchanged draft twice rather than rewriting the business answer."
+    },
+    "r27_measured_definition_reference_binding": {
+      "default": true,
+      "description": "Bind only the unique retained native definition of the exact selected measure already read by a cited successful query."
     }
   }
 }

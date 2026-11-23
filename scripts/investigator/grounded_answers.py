@@ -91,7 +91,7 @@ def finding(args,case):
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
     from .primary_verification import no_comparison
     issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
-    calculation_only=(enabled('r26_current_fault_consistency') and issue=='HOW_IS_THIS_CALCULATED'
+    calculation_only=(enabled('r27_calculation_fault_scope') and enabled('r26_current_fault_consistency') and issue=='HOW_IS_THIS_CALCULATED'
         and no_comparison(case['intake'])
         and normalized in ('as designed','definition explained'))
     separate_operational=[]
