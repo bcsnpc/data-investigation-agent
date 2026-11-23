@@ -1,7 +1,7 @@
 {
   "disjoint_headline": {
-    "fully_correct": 10,
-    "useful_nonharmful_handoffs": 9,
+    "fully_correct": 11,
+    "useful_nonharmful_handoffs": 11,
     "harmful": 1,
     "other_incorrect": 1
   },
@@ -20,9 +20,9 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 3,
-      "fully_correct": 2,
-      "partial_handoffs": 0,
+      "graded": 6,
+      "fully_correct": 3,
+      "partial_handoffs": 1,
       "harmful": 1
     }
   },
@@ -367,6 +367,27 @@
       "failure_kind": "NONE"
     },
     {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-latency-record-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The answer matches the sealed latency verdict, source-to-Bronze split, and cause: movement900701 exists in source with 17 units, is absent downstream, and was modified after the last completed load; the enabled future schedule is not an executed load. Native evidence supports this ordering. The answer misquotes the last load end as 15:03:56Z rather than the recorded 15:03:21.3651582Z, but that does not change the substantive diagnosis. Saved queries and engineer routing provide some handoff value, though no concrete post-load verification plan is supplied.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "bef49d52ba6e037588eca0f55b0168d5c6bc05f729b6288ec4a4a2878c4d799b",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 28,
+      "model_calls": 7,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 398.212914983,
+      "model_seconds": 275.1100984510002,
+      "native_query_seconds": 35.566149955000014,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
+    },
+    {
       "ticket": "round27-step4-openrouter-dev04-supervl-text-R17-11-v1",
       "fully_correct": false,
       "harmful": false,
@@ -474,37 +495,82 @@
       "native_query_seconds": 37.604818439000155,
       "cohort": "STATIC",
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-text-history-source-900201-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": false,
+      "first_wrong_step_grader": "query validation",
+      "reason": "The delivered answer is explicitly unresolved, not the expected source-changed-history verdict, and identifies neither the SOURCE split nor the retained temporal versions: movement 900201 was absent/BLANK before 2026-10-23 22:49:20 UTC and had quantity 7 at 22:49:28 UTC. Current-row absence across layers does not answer the historical export comparison. The first concrete failed investigation step is query validation: follow-up SQL supplied @p0 and was rejected before native dispatch because literal values were required. The handoff preserves rerunnable current-state queries, checked empty results, and an explicit stopping point, but its next checks merely revisit those validation errors rather than identify and route the missing temporal/as-of evidence. It is an honest evidence limitation, not a harmful asserted cause.",
+      "delivery_status": "UNRESOLVED",
+      "capture_seal": "bb1692c38b6a5ec998ad6f9d68831010d55718f293f3e803e6f1a2c5b83341f0",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 27,
+      "model_calls": 14,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 539.2875377920001,
+      "model_seconds": 309.75521542899986,
+      "native_query_seconds": 91.42171163499984,
+      "cohort": "FAULT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-text-history-source-900201-v2",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The delivered answer explicitly remains UNRESOLVED and does not identify SOURCE as the split or source changed history as the verdict. Its native temporal-history query does find retained movement 900201 versions, including the September receipt with units 7, but it never establishes the sealed before/after result: absent/BLANK before 2026-10-23 22:49:20 UTC and quantity 7 at 22:49:28 UTC. Thus the verdict, layer and named cause each fail independently. The saved SQL, checked current-layer absences, temporal-table metadata and history results provide a partially useful engineer handoff, but the generic time-limit stopping point and empty next_checks do not specify the missing temporal comparison or a concrete next check. This is an honest evidence limitation, not a confident incorrect cause, so it is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "capture_seal": "5978cf2440c778c3348d3378ac3555f116efd449229ef78e683efcd1f7f51958",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 32,
+      "model_calls": 12,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 491.7736161759999,
+      "model_seconds": 277.50397497300014,
+      "native_query_seconds": 67.78910283799996,
+      "cohort": "FAULT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
-  "fully_correct": 10,
+  "fully_correct": 11,
   "harmful": 1,
-  "graded": 21,
+  "graded": 24,
   "proof_total": 32,
-  "partial_handoffs": 9,
+  "partial_handoffs": 10,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T15:05:26.318939+00:00",
+  "observed_utc": "2026-11-23T15:43:29.150359+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
-    "phase": "RECONCILE_CONTROL_AND_RESTORE",
+    "phase": "CONTROL_IN_FLIGHT",
     "completed": [
       "failed-fixture",
       "failed-billing",
-      "history-form"
+      "history-form",
+      "history-text",
+      "latency-form"
     ],
-    "at_utc": "2026-11-23T15:04:12.599009+00:00",
-    "control": "history-text",
-    "script": "run-dev-text-history-cohort.py",
-    "returncode": 1
+    "at_utc": "2026-11-23T15:38:17.519292+00:00",
+    "control": "latency-text",
+    "script": "run-dev-text-latency-cohort.py",
+    "returncode": 1,
+    "reconciliation": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\history-text-setup-env-reconciliation.json"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 297.29708734400265,
+    "median_engine_wall_seconds": 321.72493650600023,
     "p90_engine_wall_seconds_nearest_rank": 563.343950201,
-    "timed_cases": 21,
+    "timed_cases": 24,
     "total_engine_model_calls": null,
-    "known_engine_model_calls": 193,
+    "known_engine_model_calls": 226,
     "missing_model_call_metrics": 1,
-    "physical_requests_across_confirmed_engine_cases": 569
+    "physical_requests_across_confirmed_engine_cases": 656
   },
   "disjoint_cohort_headlines": {
     "STATIC": {
@@ -520,8 +586,8 @@
       "other_incorrect": 0
     },
     "FAULT": {
-      "fully_correct": 2,
-      "useful_nonharmful_handoffs": 0,
+      "fully_correct": 3,
+      "useful_nonharmful_handoffs": 2,
       "harmful": 1,
       "other_incorrect": 0
     }

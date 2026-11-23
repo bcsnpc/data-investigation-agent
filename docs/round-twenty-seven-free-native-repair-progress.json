@@ -1,0 +1,73 @@
+{
+  "disjoint_headline": {
+    "fully_correct": 0,
+    "useful_nonharmful_handoffs": 1,
+    "harmful": 0,
+    "other_incorrect": 0
+  },
+  "disjoint_cohort_headlines": {
+    "STATIC": {
+      "fully_correct": 0,
+      "useful_nonharmful_handoffs": 1,
+      "harmful": 0,
+      "other_incorrect": 0
+    }
+  },
+  "counting_note": "Raw partial/handoff flags may coexist with harmful. Disjoint headline gives no useful-handoff credit to a harmful answer; original grader bits and scores are preserved.",
+  "cohort_totals": {
+    "STATIC": {
+      "graded": 1,
+      "fully_correct": 0,
+      "partial_handoffs": 1,
+      "harmful": 0
+    }
+  },
+  "label": "FREE SYNTHETIC DEV ONLY; single independent Sol grader; not a quality gate",
+  "provider": "openrouter",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "rows": [
+    {
+      "ticket": "round27-step4-openrouter-native-repairs-text-R17-05-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "Expected AS DESIGNED at the semantic layer: the named card sums carried additive units rather than counting movement records, yielding 8765 unfiltered, with saved/default and snapshot qualifications. The answer reproduces SUM('Activity'[units]) and 8765 but leaves the verdict unresolved, does not identify the semantic rule as the explanation, and omits the required qualifications. Unchecked upstream layers and rejected SELECT NULL queries do not establish a blocker to answering this card question. The handoff retains rerunnable queries, checked results and a stopping point, but its generic upstream checks do not identify the missing visual/filter/snapshot facts needed for this question. This is an honest evidence limitation, not a harmful incorrect cause.",
+      "delivery_status": "UNRESOLVED",
+      "capture_seal": "d331481dfd679127978bf1185d88620a058c57f09e82de562c13dd96ed5e0234",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c8a101527b84409446ce2c5a062b02d77edd142014e95d7f60da4ae8e24d6642",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 20,
+      "model_calls": 14,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 552.004924761,
+      "model_seconds": 362.2607981940001,
+      "native_query_seconds": 55.76790498099979,
+      "cohort": "STATIC",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    }
+  ],
+  "fully_correct": 0,
+  "harmful": 0,
+  "graded": 1,
+  "proof_total": 2,
+  "partial_handoffs": 1,
+  "original_outcomes_unchanged": true,
+  "observed_utc": "2026-11-23T15:28:47.511084+00:00",
+  "environment_unestablished_unscored": 0,
+  "fault_cohort_status": "NOT_ADMITTED",
+  "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
+  "timing": {
+    "median_engine_wall_seconds": 552.004924761,
+    "p90_engine_wall_seconds_nearest_rank": 552.004924761,
+    "timed_cases": 1,
+    "total_engine_model_calls": 14,
+    "known_engine_model_calls": 14,
+    "missing_model_call_metrics": 0,
+    "physical_requests_across_confirmed_engine_cases": 20
+  },
+  "environment_unscored_results": [],
+  "excluded_environment_grades": [],
+  "budget_stops_scored": 0
+}
