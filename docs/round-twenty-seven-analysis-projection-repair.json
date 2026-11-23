@@ -10,8 +10,28 @@
   "focused_passed": 86,
   "focused_subtests": 89,
   "saved_native_proof": "round-twenty-seven-analysis-projection-saved-proof.json",
-  "full_suite_all_eight_image_shards": "PENDING_NEW_SOURCE_QUALIFICATION",
+  "full_suite_all_eight_image_shards": {
+    "source": "28a56e887667abba913ee4a6dd2561c8f1cef988",
+    "workflow": 45171237260,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+    "full_suite": {
+      "passed": 6133,
+      "skipped": 53,
+      "failed": 0,
+      "errors": 0
+    },
+    "all_eight_shards": "PASS"
+  },
   "generation_calls_for_offline_proof": 0,
   "estate_reads_for_offline_proof": 0,
-  "scores_expectations_and_original_capture_bytes_changed": false
+  "scores_expectations_and_original_capture_bytes_changed": false,
+  "saved_investigation_replay": {
+    "cases": 123,
+    "finished": 85,
+    "historical_negative_or_incomplete": 29,
+    "no_case": 9,
+    "status_changes": 0,
+    "generation_calls": 0,
+    "estate_reads": 0
+  }
 }

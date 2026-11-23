@@ -15,5 +15,16 @@
   "local_paid_guard": "Independent lifetime USD10; no reset and no paid calls while eligible free tool tests have passed",
   "synthetic_dev_only": true,
   "no_secret_in_record": true,
-  "quota_observation_only_does_not_release_uncertain_ledger_charges": true
+  "quota_observation_only_does_not_release_uncertain_ledger_charges": true,
+  "latest_no_generation_readback": {
+    "observed_utc": "2026-11-23T12:17:02.506424+00:00",
+    "http_status": 200,
+    "free_daily_requests": {
+      "used": 167,
+      "limit": 1000,
+      "remaining": 833
+    },
+    "generation_spend_usd": 0,
+    "key_limit_remaining_usd": 10
+  }
 }
