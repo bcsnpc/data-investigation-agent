@@ -8,7 +8,7 @@ These are separate synthetic development cohorts. Each uses one independent Sol 
 | Four affected screenshot replacements | 4 | 4 | 0 | 0 | 0 |
 | Original Step4, two stale cases pending | 30 of 32 | 14 | 13 | 1 | 2 |
 | Separate native-candidate / failed-job replacements | 2 | 1 | 1 | 0 | 0 |
-| Separate native-reference replacements, in progress | 1 of 4 | 0 | 1 | 0 | 0 |
+| Separate native-reference replacements, in progress | 3 of 4 | 1 | 2 | 0 | 0 |
 
 All20 original free guard slots are measured:14correct,1harmful and5other nonharmful outcomes. The correct failed-job replacement is separate and is not carried into that guard. This free guard cannot satisfy the required Opus guard.
 
@@ -20,7 +20,9 @@ R17-05 remains unresolved despite checking the right8765 total; it has not expla
 
 In the30 saved cases, all84 classified evaluator reviews were incomplete at the output limit. There are97 EVALUATOR-purpose model calls in total, including13 other calls such as delivery repair; the84 statistic does not cover those calls. Investigator cache reads account for80.30% of its observed input tokens, intake83.44% and evaluator-purpose calls44.71%; all observed free-step costs are0USD. These are token-accounting observations, not a dollar-savings claim.
 
-The latest source baseline is360 rows with original business/schema hashes, temporal history on and model7661, observed17:02UTC. The three latency replacements are serialized with fresh source-ahead and enabled-schedule checks. Their data and schedule remain in place only while their cases run, then are restored and hash-checked. Two original stale-refresh tickets await a fresh owner OFF confirmation; no stale mutation has started.
+The latest source baseline is360 rows with original business/schema hashes, temporal history on and model7661, observed17:02UTC. The three latency replacements are serialized with fresh source-ahead and enabled-schedule checks. Their data and schedule remain in place only while their cases run, then are restored and hash-checked. Owner OFF was received17:26:51UTC. The original two stale cases are queued behind the latency restoration and a fresh baseline; no overlapping source controls are permitted.
+
+The second latency replacement is independently graded correct: it identifies the source-to-Bronze split and the actual next load time. Its enum is `record missing`, although its prose explains latency. It ran no temporal AS OF query, so this result does not demonstrate the latency-specific source-history validation route. The first replacement's draft already contained the timing facts; invalid evidence references and unsuccessful history queries then prevented delivery of that explanation. The saved-native backtrack records this distinction from the grader's broader triage diagnosis. No citation, history or schema check was weakened.
 
 ## Provider and release state
 

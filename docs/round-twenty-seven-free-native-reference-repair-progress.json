@@ -1,6 +1,6 @@
 {
   "disjoint_headline": {
-    "fully_correct": 0,
+    "fully_correct": 1,
     "useful_nonharmful_handoffs": 2,
     "harmful": 0,
     "other_incorrect": 0
@@ -13,7 +13,7 @@
       "other_incorrect": 0
     },
     "FAULT": {
-      "fully_correct": 0,
+      "fully_correct": 1,
       "useful_nonharmful_handoffs": 1,
       "harmful": 0,
       "other_incorrect": 0
@@ -28,8 +28,8 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 1,
-      "fully_correct": 0,
+      "graded": 2,
+      "fully_correct": 1,
       "partial_handoffs": 1,
       "harmful": 0
     }
@@ -79,15 +79,36 @@
       "native_query_seconds": 33.40934251199997,
       "cohort": "FAULT",
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-step4-openrouter-budget-repairs-text-latency-900501-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The answer substantively identifies latency despite its generic RECORD_MISSING/DEVIATION labels: movement 900501 has 17 units in the application source and no Bronze row, with source modification after the last completed load. It locates the SOURCE -> BRONZE split, rejects selective filtering based on the 1:1 copy mapping, and identifies round_two_application_load_audited_20261003 and the next scheduled time, 2026-11-25 05:14:47 UTC. Zero returned rows is distinguished from a zero-unit record. Native source and Bronze queries support the findings; saved SQL, the future-ingestion stopping point, and engineer routing provide a useful handoff. No substantive disagreement with the sealed expectation.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "69f272db811fd8d57a6c53a239d3baa3cd6991632d624de11a80d01c932f5169",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:3c1797a5bea705a6df5f66590eeaf867718947e8deb933dea61987fee83e7d99",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 25,
+      "model_calls": 9,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 465.022187584,
+      "model_seconds": 242.95361083500012,
+      "native_query_seconds": 23.75924776399995,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
     }
   ],
-  "fully_correct": 0,
+  "fully_correct": 1,
   "harmful": 0,
-  "graded": 2,
+  "graded": 3,
   "proof_total": 4,
   "partial_handoffs": 2,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T17:30:07.073942+00:00",
+  "observed_utc": "2026-11-23T17:41:33.667091+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
     "phase": "CONTROL_IN_FLIGHT",
@@ -115,13 +136,13 @@
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 878.0253573125,
+    "median_engine_wall_seconds": 626.333673097,
     "p90_engine_wall_seconds_nearest_rank": 1129.717041528,
-    "timed_cases": 2,
-    "total_engine_model_calls": 37,
-    "known_engine_model_calls": 37,
+    "timed_cases": 3,
+    "total_engine_model_calls": 46,
+    "known_engine_model_calls": 46,
     "missing_model_call_metrics": 0,
-    "physical_requests_across_confirmed_engine_cases": 71
+    "physical_requests_across_confirmed_engine_cases": 96
   },
   "environment_unscored_results": [],
   "excluded_environment_grades": [],
