@@ -10,7 +10,12 @@
       "handoff_quality": 2,
       "partial": false,
       "first_wrong_step_grader": "none",
-      "reason": "The delivered answer correctly explains AS DESIGNED: Movement Units is SUM('Movements'[units]), not a count of the 360 rows. Native checks reproduce 7661 in the model and establish 360 rows and SUM(units)=7661 in both landing and the declared ordersops application source. It also explains the direct units-to-units copy and unfiltered measure context, matching the expected source-application/DEV boundary and named cause. Saved DAX/SQL and a clear completed scope make the technical record rerunnable; no unresolved business fact is needed. No disagreement with the sealed expectation."
+      "reason": "The delivered answer correctly explains AS DESIGNED: Movement Units is SUM('Movements'[units]), not a count of the 360 rows. Native checks reproduce 7661 in the model and establish 360 rows and SUM(units)=7661 in both landing and the declared ordersops application source. It also explains the direct units-to-units copy and unfiltered measure context, matching the expected source-application/DEV boundary and named cause. Saved DAX/SQL and a clear completed scope make the technical record rerunnable; no unresolved business fact is needed. No disagreement with the sealed expectation.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 31,
+      "model_calls": 7,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "f4533ab2c745043d1fbd3b6d3988ea6eff0f05ef80b953acf5cebc49528a3eac"
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-billing-mrr-v1",
@@ -19,7 +24,12 @@
       "handoff_quality": 1,
       "partial": true,
       "first_wrong_step_grader": "wrong conclusion",
-      "reason": "The delivered verdict is UNRESOLVED rather than the expected AS DESIGNED, despite successful native checks reproducing 600. It does not identify the expected source-application/DEV attribution. Independently, its calculation and checked rows substantively supply the complete named calculation cause: ACTIVE subscriptions 401/402/403 contribute 250+100+250, and the retained DAX explicitly removes Plans filters. Thus cause credit does not depend on accepting its unresolved conclusion. The first substantive failure is concluding that an unstated discrepancy remains unexplained when the requested calculation is already evidenced. The handoff preserves rerunnable queries and results, but its timeout stopping point and retry recommendation are stale because the later DAX query succeeded; it identifies no genuine missing fact. This is an honest unresolved answer, not a confident incorrect causal claim."
+      "reason": "The delivered verdict is UNRESOLVED rather than the expected AS DESIGNED, despite successful native checks reproducing 600. It does not identify the expected source-application/DEV attribution. Independently, its calculation and checked rows substantively supply the complete named calculation cause: ACTIVE subscriptions 401/402/403 contribute 250+100+250, and the retained DAX explicitly removes Plans filters. Thus cause credit does not depend on accepting its unresolved conclusion. The first substantive failure is concluding that an unstated discrepancy remains unexplained when the requested calculation is already evidenced. The handoff preserves rerunnable queries and results, but its timeout stopping point and retry recommendation are stale because the later DAX query succeeded; it identifies no genuine missing fact. This is an honest unresolved answer, not a confident incorrect causal claim.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 37,
+      "model_calls": 8,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "94630480ea8e9e2f6a0f5e9841a93f89f416505b906c35e0ca2d7acb61154f0b"
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-billing-invoices-v2",
@@ -28,7 +38,12 @@
       "handoff_quality": 1,
       "partial": true,
       "first_wrong_step_grader": "query validation",
-      "reason": "The saved checks substantively locate the split: source, bronze and silver total 700, while gold and the model total 950; invoice 101 increases from 250 in silver to 500 in gold. This earns Silver-to-Gold layer credit independently of the unresolved verdict. The answer does not establish the expected transformation-logic verdict or name the account_id-only history join missing an effective-date restriction as the cause. Its first failed investigative step is the recreation query against bronze.account_plan_history on billing_serving, rejected before native dispatch for an unavailable object/dependency. The handoff preserves executable successful queries, checked findings and a clear budget stop, but its next check merely refers back to the rejected query rather than specifying the missing join-definition verification and a workable cross-endpoint approach. The explicit uncertainty is not harmful."
+      "reason": "The saved checks substantively locate the split: source, bronze and silver total 700, while gold and the model total 950; invoice 101 increases from 250 in silver to 500 in gold. This earns Silver-to-Gold layer credit independently of the unresolved verdict. The answer does not establish the expected transformation-logic verdict or name the account_id-only history join missing an effective-date restriction as the cause. Its first failed investigative step is the recreation query against bronze.account_plan_history on billing_serving, rejected before native dispatch for an unavailable object/dependency. The handoff preserves executable successful queries, checked findings and a clear budget stop, but its next check merely refers back to the rejected query rather than specifying the missing join-definition verification and a workable cross-endpoint approach. The explicit uncertainty is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 40,
+      "model_calls": 7,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "5d8fbf42db9327f789a99c2fec0a891110b8c3ff30978a813956a939bf72f473"
     }
   ],
   "fully_correct": 1,
