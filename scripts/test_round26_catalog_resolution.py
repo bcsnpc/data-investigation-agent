@@ -4,6 +4,14 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_replay_snapshot_keeps_the_catalog_without_sharing_mutable_state(self):
+        catalog=self.shared_visual_aliases();snapshot=catalog.snapshot()
+        replay=Catalog(snapshot)
+        self.assertEqual(replay.snapshot(),snapshot)
+        catalog.nodes['card']['enrichment']['synonyms'].append('Later alias')
+        catalog.edges.clear()
+        self.assertNotEqual(catalog.snapshot(),snapshot)
+        self.assertEqual(replay.snapshot(),snapshot)
     def test_unique_alias_does_not_hide_other_visuals_of_the_cited_measure(self):
         catalog=self.shared_visual_aliases()
         catalog.nodes['measure']['label']='Net Revenue'

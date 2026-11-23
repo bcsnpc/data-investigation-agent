@@ -131,6 +131,11 @@ def _run(plan,context):
         extra=retained_native_relation_assets(retained,observed_at=retained.get('created'))
         known={a['id'] for a in assets};assets=[*assets,*[a for a in extra if a['id'] not in known]]
     catalog=Catalog.from_graph(graph)
+    from investigator.planner_recording import _safe
+    catalog_snapshot=catalog.snapshot()
+    _safe(json.dumps(catalog_snapshot,sort_keys=True,separators=(',',':')).encode())
+    record({'event':'GUIDED_INTAKE_CATALOG','catalog':catalog_snapshot,
+            'scope':'ALREADY_ADMITTED_METADATA_ONLY_NO_ADDITIONAL_ESTATE_READ'})
     # Only names/containment cross the catalog boundary. Raw definitions are
     # obtained for the actual selected path, not the historical catalog.
     collector=None;collector_config=None

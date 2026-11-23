@@ -64,6 +64,10 @@ class Catalog:
         self.nodes = {n['id']: deepcopy(n) for n in graph.get('nodes', graph.get('candidates', []))}
         self.edges = deepcopy(graph.get('edges', []))
 
+    def snapshot(self):
+        """Detached admitted metadata for replay, not another estate read."""
+        return {'nodes':deepcopy(list(self.nodes.values())),'edges':deepcopy(self.edges)}
+
     @classmethod
     def from_graph(cls, graph):
         # Full intake catalog and ticket path have different sizes. Do not use
