@@ -92,11 +92,41 @@
       "investigator_cost_usd": 0.0,
       "capture_seal": "c2064c7c0f9f1fc490e136812a6aebd61ab80d67103bddf204aa3ed82c159fce",
       "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-screenshot-record-02-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered AS DESIGNED verdict matches the sealed expectation. It resolves the screenshot's full visible tuple uniquely to movement_id=4 using native source, landing, and model checks, rather than assuming warehouse/product alone identifies a row. It correctly locates the value in the source application: units=21 is stored in ordersops and carried unchanged through the one-to-one copy mapping and Direct Lake binding. It also explains that the visual projects the unsummarized units column, not the separate SUM measure. Saved rerunnable queries and explicit observational-snapshot limitations provide a clear, complete technical handoff; there is no substantive disagreement with the expectation.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 32,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "a67f5e2fdbd651ed8bdae7724029879426356db63e7a5e17cad5ef11e3523b54",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-screenshot-record-03-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The answer correctly identifies AS DESIGNED and the source-application origin: units is stored as 3 in ordersops and passed unchanged through the copy mapping and DirectLake column, not calculated by the visual or its separate SUM measure. Native model query g6 checks the visible warehouse/product combination (8 rows, untruncated); its results resolve the units=3 record to movement_id=5. Queries g7\u2013g9 confirm that key and matching units at model, landing and source boundaries. This matches the sealed unique-record cause and source-application/DEV attribution in substance. Saved rerunnable queries and explicit snapshot limitations provide a clear technical stopping point; there is no unresolved fact needed for the question.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 23,
+      "model_calls": 7,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "fcd16aff47cd6d8445d59178b6161553a0c939a6c51fde70b86ca8790f2262b7",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
     }
   ],
-  "fully_correct": 4,
+  "fully_correct": 6,
   "harmful": 0,
-  "graded": 6,
+  "graded": 8,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
   "image_split": {
