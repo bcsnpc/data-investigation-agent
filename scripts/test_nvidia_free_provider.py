@@ -128,12 +128,20 @@ class NvidiaFreeTests(unittest.TestCase):
         config=configuration({'gateway_identity':'reasoning'},model=MODEL,discovered_models=[MODEL],secret_reference=reference)
         prepared=gateway(prior,config);self.assertEqual(prior['identities']['reasoning'],{'role':'model','http':[]})
         g=Gateway(prepared)
+        # Exercise pure authorization only. No transport is installed here;
+        # the suite-wide live kill switch has its own refusal assertion below.
+        self.enterContext(patch.object(g,'check_live',return_value=None))
         for name in READ_TOOLS:
             body=request_for(model=MODEL,system='Synthetic evidence',messages=[],tools=[{'name':name,'description':'Read only','input_schema':{'type':'object'}}],max_tokens=20)
             g.http('reasoning','POST',BASE+'/chat/completions',json.dumps(body).encode())
         bad=deepcopy(body);bad['tools'][0]['function']['name']='execute_write'
         prepared['identities']['reasoning']['ai_providers']['nvidia']['tools'].append('execute_write')
-        with self.assertRaises(Exception):Gateway(prepared).http('reasoning','POST',BASE+'/chat/completions',json.dumps(bad).encode())
+        rejected=Gateway(prepared)
+        with patch.object(rejected,'check_live',return_value=None),self.assertRaises(Exception):
+            rejected.http('reasoning','POST',BASE+'/chat/completions',json.dumps(bad).encode())
+        import os
+        with patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'1'}),self.assertRaisesRegex(Exception,'LIVE_ACCESS_DISABLED'):
+            Gateway(prepared).http('reasoning','POST',BASE+'/chat/completions',json.dumps(body).encode())
         with self.assertRaisesRegex(ValueError,'NOT_DISCOVERED'):
             configuration({'gateway_identity':'reasoning'},model='unlisted',discovered_models=[MODEL],secret_reference=reference)
 
