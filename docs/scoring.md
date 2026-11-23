@@ -224,3 +224,7 @@ NVIDIA cohorts use one independent OpenAI Sol grader while the approved OpenAI c
 
 
 Round27 OpenRouter rule (owner2026-11-22): both zero-price :free and conditional paid OpenRouter profiles are synthetic DEV_ONLY. They cannot count toward Opus confirmation, calibration, v5 or any quality gate. Record the pinned API provider/model per pass; do not pool environment-interrupted NVIDIA pilots into quality denominators. Paid admission requires all eligible discovered free models to fail recorded tool qualification, and keeps a separate lifetime10USD cap despite the key's weekly remote reset. Existing scores, expectations and captures stay unchanged.
+
+
+### Round27 free synthetic DEV scoring, 2026-11-23
+NVIDIA/OpenRouter qualification and dev-loop results use one independent OpenAI Sol grader while its approved balance remains. Full correctness requires verdict, layer and cause all matching with no harmful flag; partial handoff is reported separately. Tool/vision protocol success is capability evidence, not a ticket score. Free scores cannot satisfy Opus confirmation, calibration, v5 or any quality gate. Provider/model is pinned per pass. Preserve mixed qualified image segments, old plumbing outcomes and separate repairs. An unestablished Azure start with no execution handle is unscored and not resubmitted; do not turn it into a pass, failure or zero-cost claim. Paid gates retain two independent graders plus independent review and their whole-budget gates.
