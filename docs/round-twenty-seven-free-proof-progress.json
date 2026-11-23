@@ -122,11 +122,41 @@
       "investigator_cost_usd": 0.0,
       "capture_seal": "fcd16aff47cd6d8445d59178b6161553a0c939a6c51fde70b86ca8790f2262b7",
       "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-screenshot-record-04-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The AS DESIGNED answer matches the sealed expectation. The native model query using warehouse_id=3, product_id=2 and units=20 returns exactly one row, movement_id=7. Key-specific native reads establish units=20 at source, landing and semantic layers. The answer traces the value to the source application through the same-named copy mapping and Direct Lake column binding, and explains that the visual displays the raw units column rather than the separate SUM measure. This matches the expected source-application layer and unchanged-value cause. Saved queries and results provide a rerunnable trace with a clear stopping point; no unresolved fact is needed for the stated question.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 24,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "1c2d7fc949c88b70140e5a0d69326d63be61d1db26f795da41cf66cdefb5bf66",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-warehouse-scope-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The delivered verdict is UNRESOLVED rather than the expected 'different question'; it does not adopt selection scope as the split or different warehouse restrictions (1 versus 2) as the cause. Independently of the quoted evaluator feedback, successful native queries show warehouse 1 totals 2948 and warehouse 2 totals 2084 in the model, bronze and source. These same-warehouse matches explain the 864-unit cross-warehouse difference without an ingestion or arithmetic fault. The extra DAX validation failures do not block that conclusion. Quoted rejection text is not the answer's own finding. The handoff preserves rerunnable queries and checked results, but its stopping point and proposed grammar checks address no material missing fact, so it earns only limited handoff credit. The explicit evidence limitation is not a confident incorrect cause and is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 33,
+      "model_calls": 8,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "29911da91b5ad38394f094ab29089ed0273aefee5f1a3ab7af4122f73758c906",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
     }
   ],
-  "fully_correct": 6,
+  "fully_correct": 7,
   "harmful": 0,
-  "graded": 8,
+  "graded": 10,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
   "image_split": {
@@ -135,5 +165,9 @@
     "cause": "Generic terminal fallback repair, full6089PASS53skip/all8image shards; original submissions and outcomes retain their old image pins.",
     "uncertain_submission": "record-absent-everywhere remains unestablished and unscored, not retried."
   },
-  "initial_image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+  "initial_image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+  "partial_handoffs": 3,
+  "observed_utc": "2026-11-23T07:50:39.917358+00:00",
+  "environment_unestablished_unscored": 1,
+  "fault_cohort_status": "RUNNING_SERIALLY_FIRST_PIPELINE_DEFINITION_RESTORED"
 }
