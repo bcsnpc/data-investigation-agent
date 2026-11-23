@@ -648,3 +648,6 @@ Round27 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_requ
 
 
 Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; SQL reader read-only verified=True, cloud reader read-only verified=True. Expected probe values are not a verification claim. No impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\access\status.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\free-models\step4-openrouter-native-repairs\injections\dev-failed-fixture\status.json. No grant/identity change.

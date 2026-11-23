@@ -1,0 +1,52 @@
+{
+  "at_utc": "2026-11-23T17:02:28.214876+00:00",
+  "separate_affected_reruns_only": true,
+  "original_outcomes_and_scores_unchanged": true,
+  "quality_gate_eligible": false,
+  "rows": [
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "original": {
+        "fully_correct": false,
+        "harmful": true,
+        "handoff_quality": 1,
+        "capture_seal": "506758691a6fc4fd3583b6f0f89d11aca3be6cab2de6d28c9e98bb6d5a09bfa0",
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9"
+      },
+      "repair": {
+        "fully_correct": true,
+        "harmful": false,
+        "handoff_quality": 2,
+        "capture_seal": "be82c5d2b6686d4cc897030951090ab607da24fcc222bd03e074035a39ed45d9",
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c8a101527b84409446ce2c5a062b02d77edd142014e95d7f60da4ae8e24d6642",
+        "reason": "Matches the sealed failed-job verdict and application-load-pipeline split. Cites round_two_application_load_audited_20261003, latest failed run 9ea8c4df-b327-4f8b-a075-8d4d8cc54916, its start/end timestamps, and the native controlled-failure error before original activities. Native job history supports these findings. The source, landing, and model comparisons all return 7661; the answer correctly treats the failed run's numerical impact as unmeasured rather than claiming an unsupported numerical cause. Saved queries, checked boundaries, the explicit remaining impact question, and engineer routing provide a useful handoff. No disagreement with the sealed expectation."
+      }
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "original": {
+        "fully_correct": false,
+        "harmful": false,
+        "handoff_quality": 1,
+        "capture_seal": "9b8ed28db9d9da5f838504654361ad875718f9301d11a16f707c57fbd17bf139",
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9"
+      },
+      "repair": {
+        "fully_correct": false,
+        "harmful": false,
+        "handoff_quality": 1,
+        "capture_seal": "d331481dfd679127978bf1185d88620a058c57f09e82de562c13dd96ed5e0234",
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c8a101527b84409446ce2c5a062b02d77edd142014e95d7f60da4ae8e24d6642",
+        "reason": "Expected AS DESIGNED at the semantic layer: the named card sums carried additive units rather than counting movement records, yielding 8765 unfiltered, with saved/default and snapshot qualifications. The answer reproduces SUM('Activity'[units]) and 8765 but leaves the verdict unresolved, does not identify the semantic rule as the explanation, and omits the required qualifications. Unchecked upstream layers and rejected SELECT NULL queries do not establish a blocker to answering this card question. The handoff retains rerunnable queries, checked results and a stopping point, but its generic upstream checks do not identify the missing visual/filter/snapshot facts needed for this question. This is an honest evidence limitation, not a harmful incorrect cause."
+      }
+    }
+  ],
+  "failed_fixture_restore": {
+    "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS",
+    "restoration_required": false,
+    "original_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+    "physical_requests": 18,
+    "original_job_disposition": "ORIGINAL_JOB_COMPLETED"
+  },
+  "causal_limit": "New stochastic generations and new native job IDs; exact saved-native counterfactual independently proves the TTL evidence-loss defect, but bundled repairs are not an isolated model-quality experiment."
+}

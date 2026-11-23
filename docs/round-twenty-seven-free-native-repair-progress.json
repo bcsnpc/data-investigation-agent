@@ -1,6 +1,6 @@
 {
   "disjoint_headline": {
-    "fully_correct": 0,
+    "fully_correct": 1,
     "useful_nonharmful_handoffs": 1,
     "harmful": 0,
     "other_incorrect": 0
@@ -9,6 +9,12 @@
     "STATIC": {
       "fully_correct": 0,
       "useful_nonharmful_handoffs": 1,
+      "harmful": 0,
+      "other_incorrect": 0
+    },
+    "FAULT": {
+      "fully_correct": 1,
+      "useful_nonharmful_handoffs": 0,
       "harmful": 0,
       "other_incorrect": 0
     }
@@ -20,12 +26,39 @@
       "fully_correct": 0,
       "partial_handoffs": 1,
       "harmful": 0
+    },
+    "FAULT": {
+      "graded": 1,
+      "fully_correct": 1,
+      "partial_handoffs": 0,
+      "harmful": 0
     }
   },
   "label": "FREE SYNTHETIC DEV ONLY; single independent Sol grader; not a quality gate",
   "provider": "openrouter",
   "model": "nvidia/nemotron-3.5-super-vl:free",
   "rows": [
+    {
+      "ticket": "round27-step4-openrouter-native-repairs-form-v2-failed-application-load-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "Matches the sealed failed-job verdict and application-load-pipeline split. Cites round_two_application_load_audited_20261003, latest failed run 9ea8c4df-b327-4f8b-a075-8d4d8cc54916, its start/end timestamps, and the native controlled-failure error before original activities. Native job history supports these findings. The source, landing, and model comparisons all return 7661; the answer correctly treats the failed run's numerical impact as unmeasured rather than claiming an unsupported numerical cause. Saved queries, checked boundaries, the explicit remaining impact question, and engineer routing provide a useful handoff. No disagreement with the sealed expectation.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "be82c5d2b6686d4cc897030951090ab607da24fcc222bd03e074035a39ed45d9",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c8a101527b84409446ce2c5a062b02d77edd142014e95d7f60da4ae8e24d6642",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 28,
+      "model_calls": 8,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 374.557017634,
+      "model_seconds": 256.21016736400014,
+      "native_query_seconds": 32.768702502999986,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
+    },
     {
       "ticket": "round27-step4-openrouter-native-repairs-text-R17-05-v1",
       "fully_correct": false,
@@ -48,24 +81,24 @@
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
-  "fully_correct": 0,
+  "fully_correct": 1,
   "harmful": 0,
-  "graded": 1,
+  "graded": 2,
   "proof_total": 2,
   "partial_handoffs": 1,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T15:28:47.511084+00:00",
+  "observed_utc": "2026-11-23T17:01:53.593480+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": "NOT_ADMITTED",
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 552.004924761,
+    "median_engine_wall_seconds": 463.2809711975,
     "p90_engine_wall_seconds_nearest_rank": 552.004924761,
-    "timed_cases": 1,
-    "total_engine_model_calls": 14,
-    "known_engine_model_calls": 14,
+    "timed_cases": 2,
+    "total_engine_model_calls": 22,
+    "known_engine_model_calls": 22,
     "missing_model_call_metrics": 0,
-    "physical_requests_across_confirmed_engine_cases": 20
+    "physical_requests_across_confirmed_engine_cases": 48
   },
   "environment_unscored_results": [],
   "excluded_environment_grades": [],
