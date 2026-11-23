@@ -1,0 +1,14 @@
+{
+  "qualified_runtime_source": "28ef2402",
+  "test_cleanup_source": "39cc5d4b",
+  "runtime_tree_object": "20d1e7017c8f26f86ed0245942529a1586cf0c3a",
+  "runtime_tree_identical": true,
+  "runtime_changed_files": [],
+  "test_only_change": [
+    "scripts/test_round27_candidate_native_pruning.py"
+  ],
+  "live_pass_pins_unchanged": true,
+  "source_c8a_image_qualification": "6182PASS53skip/all8;32duplicatefixturetestsdisclosed",
+  "final_clean_test_image_qualification": "6150PASS53skip/all8",
+  "new_generations_for_equivalence_check": 0
+}
