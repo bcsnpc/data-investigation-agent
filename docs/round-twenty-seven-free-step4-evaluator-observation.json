@@ -12,5 +12,8 @@
   "incomplete_is_not_approval": true,
   "quality_gate_eligible": false,
   "engine_unchanged": true,
-  "limitation": "All30 saved original non-stale outcomes indexed and hash-verified. Two stale cases not admitted; original grades/outputs unchanged."
+  "limitation": "All30 saved original non-stale outcomes indexed and hash-verified. Two stale cases not admitted; original grades/outputs unchanged.",
+  "statistic_scope": "84 DELIVERY_EVALUATION_CLASSIFIED review results; not all EVALUATOR-purpose model calls",
+  "evaluator_purpose_normalized_calls": 97,
+  "other_evaluator_purpose_calls": 13
 }
