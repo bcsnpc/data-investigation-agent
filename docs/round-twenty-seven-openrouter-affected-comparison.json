@@ -1,0 +1,115 @@
+{
+  "scope": "SEPARATE_AFFECTED_FREE_DEV_RERUNS; never calibration or quality gate",
+  "original_results_unchanged": true,
+  "original_correct": 0,
+  "rerun_correct": 4,
+  "rerun_harmful": 0,
+  "rows": [
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "original": {
+        "fully_correct": false,
+        "harmful": false,
+        "delivery_status": "UNRESOLVED",
+        "model_calls": 18,
+        "physical_requests": 33,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+        "capture_seal": "477e243d3031cc5b70c28ab243f88e1655e2c4c235c3a8bcae7b4a9fbcd41d5e"
+      },
+      "separate_rerun": {
+        "fully_correct": true,
+        "harmful": false,
+        "delivery_status": "ANSWERED",
+        "model_calls": 8,
+        "physical_requests": 30,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+        "capture_seal": "7c3618860be370e6002bfae4365a9002ea6d24e347d28cd6022bb714b691bd6d"
+      },
+      "saved_native_tool_counts": {
+        "run_sql": 4,
+        "run_dax": 2,
+        "submit_finding": 3
+      }
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "original": {
+        "fully_correct": false,
+        "harmful": false,
+        "delivery_status": "UNRESOLVED",
+        "model_calls": 14,
+        "physical_requests": 28,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+        "capture_seal": "5f921b1821d33a4c690ce3b2a9d50017c087d41291fb24841ee30de3b83a10ab"
+      },
+      "separate_rerun": {
+        "fully_correct": true,
+        "harmful": false,
+        "delivery_status": "ANSWERED",
+        "model_calls": 9,
+        "physical_requests": 30,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+        "capture_seal": "1eb37a3736650e3126c7583959de2215984882463a98e137eef41606925e4c24"
+      },
+      "saved_native_tool_counts": {
+        "run_sql": 4,
+        "run_dax": 2,
+        "submit_finding": 3
+      }
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "original": {
+        "fully_correct": false,
+        "harmful": false,
+        "delivery_status": "UNRESOLVED",
+        "model_calls": 13,
+        "physical_requests": 27,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+        "capture_seal": "2cbd7753ec549dc56d5cddb8280e897571844daab884f7ce12ddad594db39dc6"
+      },
+      "separate_rerun": {
+        "fully_correct": true,
+        "harmful": false,
+        "delivery_status": "ANSWERED",
+        "model_calls": 9,
+        "physical_requests": 27,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+        "capture_seal": "523248576a0bef1a79109af6546c1ee1ee2c6e3be681af4b691ef50878879c3f"
+      },
+      "saved_native_tool_counts": {
+        "run_sql": 4,
+        "run_dax": 2,
+        "submit_finding": 3
+      }
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "original": {
+        "fully_correct": false,
+        "harmful": false,
+        "delivery_status": "UNRESOLVED",
+        "model_calls": 12,
+        "physical_requests": 32,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+        "capture_seal": "3d09be617064d54eccd51fd7c1214e32e5d5d288a7990af349687548fef98341"
+      },
+      "separate_rerun": {
+        "fully_correct": true,
+        "harmful": false,
+        "delivery_status": "ANSWERED",
+        "model_calls": 9,
+        "physical_requests": 27,
+        "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+        "capture_seal": "fa757c68c58d882d8c098cb3c28fd9b34202ae8d74ef5741e273e69f19dec388"
+      },
+      "saved_native_tool_counts": {
+        "run_sql": 4,
+        "run_dax": 3,
+        "submit_finding": 3
+      }
+    }
+  ],
+  "interpretation": "4/4 original partial ->4/4 separate correct. Current fixes plus fresh stochastic generations; not an isolated causal estimate and not pooled into original15. Reruns use successful scalar equality citations, not relaxed comparison proof. Analysis projection has separate saved-native tests; do not claim a live analysis tool was used when it was not.",
+  "grader": "single independent OpenAI Sol, DEV only"
+}

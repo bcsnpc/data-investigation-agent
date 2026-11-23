@@ -1,6 +1,6 @@
 {
   "disjoint_headline": {
-    "fully_correct": 2,
+    "fully_correct": 4,
     "useful_nonharmful_handoffs": 0,
     "harmful": 0,
     "other_incorrect": 0
@@ -8,8 +8,8 @@
   "counting_note": "Raw partial/handoff flags may coexist with harmful. Disjoint headline gives no useful-handoff credit to a harmful answer; original grader bits and scores are preserved.",
   "cohort_totals": {
     "SCREENSHOT": {
-      "graded": 2,
-      "fully_correct": 2,
+      "graded": 4,
+      "fully_correct": 4,
       "partial_handoffs": 0,
       "harmful": 0
     }
@@ -57,22 +57,62 @@
       "native_query_seconds": 95.05629760099993,
       "cohort": "SCREENSHOT",
       "failure_kind": "NONE"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-feedback-form-v2-screenshot-record-04-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered AS DESIGNED answer matches the sealed expectation. Native filtered queries identify the sole matching row as movement_id=7 in source ordersops, landing, and the semantic model; each layer also returns SUM(units)=20. The answer correctly traces the value to the source application and explains the unchanged direct column mappings, DirectLake binding, and visual projection omitting movement_id. Saved SQL/DAX and parameters are rerunnable, and the answer clearly states its observational scope. No disagreement with the expected verdict, layer/split, or cause.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 27,
+      "model_calls": 9,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "523248576a0bef1a79109af6546c1ee1ee2c6e3be681af4b691ef50878879c3f",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "engine_wall_seconds": 274.31674306,
+      "model_seconds": 154.1216856659999,
+      "native_query_seconds": 41.45764991200008,
+      "cohort": "SCREENSHOT",
+      "failure_kind": "NONE"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-feedback-form-v2-screenshot-record-03-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered answer matches the sealed AS DESIGNED finding: the visible warehouse/product/units values identify movement_id=5, whose stored units=3 originates in ordersops and is carried unchanged through the landing table and semantic model to the visual. Native source and landing queries identify movement 5 with the visible values, and follow-up queries return 3 for movement 5 at all three layers. The answer locates the origin at the source application and explains the direct units-to-units mapping and model/visual projection rather than attributing the figure to aggregation or a downstream defect. Saved queries and the documented recovery from the initial DAX validation failure provide a rerunnable technical record. No substantive disagreement with the expectation.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 27,
+      "model_calls": 9,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "fa757c68c58d882d8c098cb3c28fd9b34202ae8d74ef5741e273e69f19dec388",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "engine_wall_seconds": 275.928935303,
+      "model_seconds": 156.15174605199996,
+      "native_query_seconds": 33.878710416999866,
+      "cohort": "SCREENSHOT",
+      "failure_kind": "NONE"
     }
   ],
-  "fully_correct": 2,
+  "fully_correct": 4,
   "harmful": 0,
-  "graded": 2,
+  "graded": 4,
   "proof_total": 4,
   "partial_handoffs": 0,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T12:26:31.020709+00:00",
+  "observed_utc": "2026-11-23T12:32:38.870341+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": "NOT_ADMITTED",
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 336.426974287,
+    "median_engine_wall_seconds": 303.80388954,
     "p90_engine_wall_seconds_nearest_rank": 341.17510479699996,
-    "total_engine_model_calls": 17,
-    "physical_requests_across_confirmed_engine_cases": 60
+    "total_engine_model_calls": 35,
+    "physical_requests_across_confirmed_engine_cases": 114
   }
 }
