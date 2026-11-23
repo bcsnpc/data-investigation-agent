@@ -55,6 +55,14 @@ class OpenRouterTests(unittest.TestCase):
         self.assertEqual(self.state.totals(account)['charged'],'1000')
         self.assertEqual(self.state.totals(account_for(self.now[0]))['charged'],'1')
 
+    def test_midnight_resets_quota_but_not_global_pacing(self):
+        self.now[0]=(int(self.now[0])//86400+1)*86400-1
+        b=self.budget();k=b.reserve(self.body());b.settle(k,{'input_tokens':1,'output_tokens':1})
+        last=self.now[0];self.now[0]+=1
+        provision(self.state,self.now[0],self.key)
+        b.reserve(self.body())
+        self.assertGreaterEqual(self.now[0]-last,3)
+
     def test_pinned_model_and_zero_rates_required(self):
         b=self.budget()
         with self.assertRaises(SpendHold):b.reserve({**self.body(),'model':'paid/model'})

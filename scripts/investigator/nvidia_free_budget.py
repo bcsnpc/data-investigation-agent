@@ -58,6 +58,9 @@ class FreeBudget:
     concurrency = CONCURRENCY
     account_for = staticmethod(account_for)
 
+    def queue_identity(self,account):
+        return account
+
     def __init__(self, state, *, case_id, owner, rate, clock=time.time, sleep=time.sleep,
                  actual_usage_limit=None, purpose=None, provider='nvidia'):
         if provider != self.provider or not isinstance(rate, FreeRateCard) or not case_id or not owner.startswith('round27-free-'):
@@ -114,7 +117,8 @@ class FreeBudget:
             if totals['violated'] or amount(totals['charged']) >= self.allowance:
                 raise SpendHold('NVIDIA_FREE_MONTHLY_CALL_ALLOWANCE_EXHAUSTED')
             active = self.active_count(db,account)
-            prior = self.state.sql(db, 'SELECT revision,body FROM state_documents WHERE namespace=? AND identity=?', (self.provider+'-free-queue', account)).fetchone()
+            queue_id=self.queue_identity(account)
+            prior = self.state.sql(db, 'SELECT revision,body FROM state_documents WHERE namespace=? AND identity=?', (self.provider+'-free-queue', queue_id)).fetchone()
             next_at = json.loads(prior[1])['next_dispatch_at'] if prior else 0
             if active < self.concurrency and now >= next_at:
                 detail = {'case_id': self.case_id, 'model': self.rate.model, 'provider': self.provider,
@@ -125,9 +129,9 @@ class FreeBudget:
                 queue = {'next_dispatch_at': now + self.interval}
                 if prior:
                     self.state.sql(db, 'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?',
-                                   (prior[0] + 1, encoded(queue), sha(queue), self.provider+'-free-queue', account))
+                                   (prior[0] + 1, encoded(queue), sha(queue), self.provider+'-free-queue', queue_id))
                 else:
-                    self.state.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)', (self.provider+'-free-queue', account, 0, encoded(queue), sha(queue)))
+                    self.state.sql(db, 'INSERT INTO state_documents VALUES(?,?,?,?,?)', (self.provider+'-free-queue', queue_id, 0, encoded(queue), sha(queue)))
                 return None
             return max(self.interval if active >= self.concurrency else .01, next_at - now)
 

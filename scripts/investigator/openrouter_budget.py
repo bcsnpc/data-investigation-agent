@@ -8,6 +8,7 @@ from .shared_state import amount, encoded, sha
 from .model_spend import SpendHold
 
 PAID_ACCOUNT = 'provider-openrouter-microdollars:lifetime'
+QUEUE_ID = 'all-openrouter-dispatches'
 
 
 def account_for(now):
@@ -48,6 +49,9 @@ class FreeBudget(NvidiaBudget):
     concurrency=2
     account_for=staticmethod(account_for)
 
+    def queue_identity(self,account):
+        return QUEUE_ID
+
     def __init__(self,*args,provider='openrouter',**kwargs):
         super().__init__(*args,provider=provider,**kwargs)
         if not self.rate.model.endswith(':free'):raise SpendHold('OPENROUTER_FREE_MODEL_SUFFIX_REQUIRED')
@@ -75,7 +79,7 @@ class FreeBudget(NvidiaBudget):
                 'daily_call_allowance':self.allowance}
 
     def active_count(self,db,account):
-        return self.state.sql(db,"SELECT COUNT(*) FROM state_reservations WHERE account IN (?,?) AND status='RESERVED'",(account,PAID_ACCOUNT)).fetchone()[0]
+        return self.state.sql(db,"SELECT COUNT(*) FROM state_reservations WHERE (account LIKE ? OR account=?) AND status='RESERVED'",('openrouter-free-calls:%',PAID_ACCOUNT)).fetchone()[0]
 
 
 def require_failed_free_tests(state):
@@ -123,15 +127,15 @@ class PaidBudget(TicketBudget):
         while True:
             now=self.clock();account=account_for(now)
             with self.state.transaction() as db:
-                prior=self.state.sql(db,'SELECT revision,body FROM state_documents WHERE namespace=? AND identity=?',('openrouter-free-queue',account)).fetchone()
+                prior=self.state.sql(db,'SELECT revision,body FROM state_documents WHERE namespace=? AND identity=?',('openrouter-free-queue',QUEUE_ID)).fetchone()
                 next_at=json.loads(prior[1])['next_dispatch_at'] if prior else 0
                 wait=next_at-now
-                active=self.state.sql(db,"SELECT COUNT(*) FROM state_reservations WHERE account IN (?,?) AND status='RESERVED'",(account,PAID_ACCOUNT)).fetchone()[0]
+                active=self.state.sql(db,"SELECT COUNT(*) FROM state_reservations WHERE (account LIKE ? OR account=?) AND status='RESERVED'",('openrouter-free-calls:%',PAID_ACCOUNT)).fetchone()[0]
                 if active>=2:wait=max(3,wait)
                 if wait<=0:
                     queue={'next_dispatch_at':now+3}
-                    if prior:self.state.sql(db,'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?',(prior[0]+1,encoded(queue),sha(queue),'openrouter-free-queue',account))
-                    else:self.state.sql(db,'INSERT INTO state_documents VALUES(?,?,?,?,?)',('openrouter-free-queue',account,0,encoded(queue),sha(queue)))
+                    if prior:self.state.sql(db,'UPDATE state_documents SET revision=?,body=?,body_hash=? WHERE namespace=? AND identity=?',(prior[0]+1,encoded(queue),sha(queue),'openrouter-free-queue',QUEUE_ID))
+                    else:self.state.sql(db,'INSERT INTO state_documents VALUES(?,?,?,?,?)',('openrouter-free-queue',QUEUE_ID,0,encoded(queue),sha(queue)))
             if wait<=0:break
             self.sleep(wait)
         return super().reserve(body,**kwargs)

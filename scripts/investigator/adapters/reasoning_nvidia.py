@@ -188,7 +188,7 @@ class Client:
                  key_reader=None, sleep=time.sleep, clock=time.monotonic, jitter=random.random):
         from .managed_identity import validate_secret_reference
         validate_secret_reference(secret_reference)
-        if not isinstance(budget, self.budget_type) or budget.rate.model != model: raise ValueError('NVIDIA_FREE_PINNED_BUDGET_REQUIRED')
+        if not isinstance(budget, self.budget_type) or budget.provider!=self.provider or budget.rate.model != model: raise ValueError('NVIDIA_FREE_PINNED_BUDGET_REQUIRED')
         self.model, self.budget, self.identity = model, budget, identity
         self.reference, self.record = deepcopy(secret_reference), record
         self.send, self.key_reader, self.sleep, self.clock, self.jitter = send, key_reader, sleep, clock, jitter
