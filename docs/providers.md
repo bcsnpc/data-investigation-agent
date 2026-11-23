@@ -147,3 +147,6 @@ OpenRouter continuation2026-11-23: Ling whole-ticket experiment is CLOSED for pe
 
 
 Combined native candidate/refresh evidence repair28ef2402 qualified2026-11-23: workflow45197207290,full6182PASS53skip/zero failures/errors,all8image shardsPASS,publishedc8a101527b84409446ce2c5a062b02d77edd142014e95d7f60da4ae8e24d6642. Full count is executed test cases, including imported fixture-class tests, not6182new tests. Saved123investigationcompatibilityclassificationsunchanged85finished/29historicalnegative/9withoutcase. Active32remainsoriginale452; twoaffectedrerunsarepreparedseparately,notyetadmitted. Noqualitygateclaim.
+
+
+Round27 OpenRouter current observation2026-11-23: no-generation GET /key200,1000free/day,588used/412remaining at17:45UTC,0USD usage and10USD credit remaining. This is an observation, not a reset or permission to release uncertain ledger charges. Remote weekly reset never resets the separate lifetime10USD cap. Pinned SuperVL-free repair cohorts are separately graded and cost0USD; paid fallback stays refused because eligible free tool tests passed. Same20RPM/concurrency2/syntheticDEV rules. The uncertain Azure start is a control-plane failure, not a provider-quality score.
