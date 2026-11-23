@@ -1,5 +1,5 @@
 {
-  "observed_at": 1795411075.896698,
+  "observed_at": 1795414982.465382,
   "discovery_sha256": "7e2a6e83d6043d24e7a5bdc038de06366c9876a779761cd12922fe8ebd4ebde0",
   "discovered_free_tool_models": [
     "inclusionai/ling-3.2-flash:free",
@@ -46,8 +46,19 @@
     },
     {
       "model": "nvidia/nemotron-3.5-super-vl:free",
-      "status": "PENDING",
-      "capture_sha256": null
+      "status": "PASS",
+      "capture_sha256": "d6430a296a3b59d2216b351e25ffdeba6c16f85734f0a6dc6a4448849379c25f",
+      "result_sha256": "09bb47070df16b5e7fb066a16afd674aeea41c1b1818afc45d591a37afc64c96",
+      "result_file": ".local\\round-twenty-seven\\free-models\\protocol-openrouter-supervl\\tool-protocol.json",
+      "seconds": 8.70051140000578,
+      "synthetic_vision": {
+        "status": "PASS",
+        "seconds": 9.123106199986069,
+        "result_sha256": "ecc16a4ee64513158b512e11087089cccc77ca52572ca78bc17e4d20ef4b13fd",
+        "native_sha256": "67dd13be31b12fac32bd9901b4033a65666cb88647468e637a98c9799c82bac8",
+        "image_sha256": "812b2f6359f9b5acc189f917a81e34b6a67848337d820e0012e597182d119219",
+        "not_a_screenshot_quality_score": true
+      }
     },
     {
       "model": "dots-studio/dots-3-note-preview:free",
@@ -82,10 +93,16 @@
     },
     {
       "model": "google/gemma-4-31b-it:free",
-      "status": "PENDING",
-      "capture_sha256": null
+      "status": "UNAVAILABLE",
+      "capture_sha256": "c8927c3eab93c9202583aecf51edbc1d12f4e8b9c42ffe6e07da2def169d1096",
+      "result_sha256": "5a6dc33840b7b0a03757d90ed34500e299c53b7583c74403656ad23146fc00ba",
+      "result_file": ".local\\round-twenty-seven\\free-models\\proof15-openrouter-gemma4\\tool-protocol.json",
+      "seconds": 1862.4772607999912,
+      "reason": "Repeated upstream 429, no quality score; original native capture retained."
     }
   ],
   "paid_allowed": false,
-  "reason": "Two free models passed; paid must remain blocked."
+  "reason": "Three free models passed native tool tests; paid admission remains refused.",
+  "previous_document_sha256": "4b7c187c3df9a6a69dc422279ccf3908a6934c55ed7abc8a19043b89bf361781",
+  "paid_guard_checked": "REFUSED"
 }
