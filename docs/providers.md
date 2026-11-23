@@ -132,3 +132,6 @@ These are separate capability and DEV observations. One exact API provider/model
 
 
 2026-11-23UTC host grading repair qualified: workflow45159109970 at8d9475dc passed6099tests/53skips/zero failures/errors andall8image shards; publishedimage5d60bf0f788d0ae1545cfdb1df952b133d625677951077002b5946897ff68a10. Existing SuperVL pass remains pinned to77267c82/image08474b45. Only new host-side grading packet helper/tests differ in scripts; no investigator runtime change. The independent Sol missing-verdict completion preserves all other original fields and its original completed response. Free scores remainDEVonly.
+
+
+2026-11-23UTC combined comparison-feedback/scope-contract repair qualified on d78f760b: workflow45165417661 full6114PASS53skip/zero failures/errors, all8image shardsPASS, published69f37c2c0256391dcabcb04d9526b52e123bf6340890b8ef5489f9348e7d1cb4.123savedinvestigations keep classifications85finished/29historicalnegative-or-incomplete/9withoutcase and all prior after-statuses; zero network/model/estate calls. OriginalSuperVL15pass remains77267/image0847; repaired admissions will use the new pin after restores/fresh baseline. No quality-gate claim.

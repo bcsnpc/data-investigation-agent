@@ -13,10 +13,10 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 1,
-      "fully_correct": 1,
-      "partial_handoffs": 0,
-      "harmful": 0
+      "graded": 3,
+      "fully_correct": 2,
+      "partial_handoffs": 1,
+      "harmful": 1
     }
   },
   "label": "FREE SYNTHETIC DEV ONLY; single independent Sol grader; not a quality gate",
@@ -268,28 +268,80 @@
       "native_query_seconds": 21.67094950799998,
       "cohort": "FAULT",
       "failure_kind": "NONE"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-failed-billing-transform-v1",
+      "fully_correct": false,
+      "harmful": true,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The answer correctly reports the latest failed transformation run, its ID, start/end times and native controlled-failure error, satisfying the sealed run-specific cause requirement. However, it replaces the expected failed-job verdict and pipeline failure location with a gold-build duplication diagnosis. The checked totals and row counts show a current silver/gold difference, but do not establish that the LEFT JOIN caused it or that the failed run prevented a correcting refresh. In particular, the latest native error says failure occurred before original activities. Those confident causal additions are harmful, not evidence limitations. Saved queries and engineer routing offer a useful but incomplete handoff; the proposed gold-state timing investigation does not resolve the failed-run impact.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 34,
+      "model_calls": 8,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "a71d1938a1304aedf7d29bdae444d4a01b01627586cb6d7d0343bb4a0ff33b7c",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 366.846268442,
+      "model_seconds": 209.47989062099998,
+      "native_query_seconds": 135.6251141379999,
+      "cohort": "FAULT",
+      "failure_kind": "MODEL_UNSUPPORTED_CAUSAL_CONCLUSION",
+      "trace_basis": "All native queries succeeded, no contract repair. Saved final answer adds unsupported correcting-refresh timing to the true controlled failure before original activities. SingleSolharmful flag retained; ordered first rejection still being indexed."
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-source-history-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered verdict matches 'source changed history' (DEV/DEVIATION), locates the change in the source application, and identifies the 41-to-47 units revision with a November modification timestamp and advancing row version despite the September business date. It does not attribute the change to pipeline arithmetic. These match the sealed verdict, layer and named cause. Its additional assertion that the two exports read different layers is not established by the supplied evidence; the native queries establish current source/landing differences, not export provenance. That overstatement does not change the matching named cause. Saved SQL is rerunnable, but next checks and the stopping point are generic and inconsistent with the claim that nothing remains undecided.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 27,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "250e863ce207b6dc0c5803d228672c24a6c94ffcd100ec9964835c40f3a1b4f8",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 246.7610751330012,
+      "model_seconds": 143.71268978300213,
+      "native_query_seconds": 17.691703078999126,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
     }
   ],
-  "fully_correct": 4,
-  "harmful": 0,
-  "graded": 12,
+  "fully_correct": 5,
+  "harmful": 1,
+  "graded": 14,
   "proof_total": 15,
-  "partial_handoffs": 8,
+  "partial_handoffs": 9,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T11:13:10.384889+00:00",
+  "observed_utc": "2026-11-23T11:38:58.420088+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
-    "completed": [],
+    "completed": [
+      "failed-fixture",
+      "failed-billing",
+      "history"
+    ],
     "phase": "CONTROL_IN_FLIGHT",
-    "fixture": "failed-fixture",
-    "script": "run-dev-failure-cohort.py",
-    "at_utc": "2026-11-23T11:05:01.531526+00:00"
+    "fixture": "latency",
+    "script": "run-dev-form-latency-cohort.py",
+    "at_utc": "2026-11-23T11:37:29.004608+00:00"
   },
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 375.1063359484999,
+    "median_engine_wall_seconds": 365.332384627,
     "p90_engine_wall_seconds_nearest_rank": 607.767039999,
-    "total_engine_model_calls": 137,
-    "physical_requests_across_confirmed_engine_cases": 342
-  }
+    "total_engine_model_calls": 151,
+    "physical_requests_across_confirmed_engine_cases": 403
+  },
+  "disjoint_headline": {
+    "fully_correct": 5,
+    "useful_nonharmful_handoffs": 8,
+    "harmful": 1,
+    "other_incorrect": 0
+  },
+  "counting_note": "Raw partial/handoff flags may coexist with harmful. Disjoint headline gives no useful-handoff credit to a harmful answer; original grader bits and scores are preserved."
 }

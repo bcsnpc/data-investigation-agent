@@ -94,3 +94,6 @@ DAX sorting repair77267c82 fully qualified:6096PASS/53skip/zero failures/errors 
 
 
 OpenRouter proof checkpoint,2026-11-23UTC: first2saved/graded:1fullycorrect(invoice duplication700->950),1partial baseline,0harmful. Baseline first wrong step is malformed submit_finding.undecided (empty string where array required; nativeaudit904, repeated4342/18874); source/landing/model7661 and360rows were already measured. Later evaluator incompletes are explicitly non-blocking, not a substantive rejection. Record model-format limitation; no schema relaxation/expectation change. New pinned free pass continues; not a quality gate. See round-twenty-seven-openrouter-supervl-progress.json and round-twenty-seven-openrouter-baseline-backtrack.json.
+
+
+2026-11-23UTC OpenRouterSuperVL failed-billing DEVharmful1 retained: truefailedrun04244ccc-9b98-4a71-8eea-4e7c6f5eba13/errorbeforeoriginalactivities, but answer adds unproven gold-join and correcting-refresh timing claims. Nativequeries0errors, no contractrepair; internal evaluator3incomplete/max_tokens results were nonblocking, not positive judgments. No engine/expectation change from weak reasoning; savedtracebacktrackpendingexactorder.13graded disjointheadline4correct/8nonharmfulhandoffs/1harmful. Rawpartial/handoff flags can overlap harmful and are retained without useful-handoff credit. FreeDEVonly,noqualitygate.

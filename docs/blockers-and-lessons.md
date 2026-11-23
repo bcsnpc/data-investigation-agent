@@ -948,3 +948,6 @@ DAX sorting repair77267c82 fully qualified:6096PASS/53skip/zero failures/errors 
 
 
 2026-11-23UTC free DEV trace-proven fix: SOURCE_CONSISTENCY_UNESTABLISHED falsely called measured multi-cell results unread. New independent default-on r27_source_consistency_feedback distinguishes absent successful reads, uncited successful reads, and missing scalar proof; identifies already saved query IDs where appropriate. All accept/refuse conditions are unchanged, including required source object, same scalar equality, failed-read refusal and scoped keyed-presence limits.9newregressions;70focusedtests/79subtestsPASS. Existing pinned SuperVL results stay on originalimage; newimage/fullsuite/shards qualify before any repaired-ticket admission. No expectation/key/role/budget change.
+
+
+2026-11-23UTC combined comparison-feedback/scope-contract repair qualified on d78f760b: workflow45165417661 full6114PASS53skip/zero failures/errors, all8image shardsPASS, published69f37c2c0256391dcabcb04d9526b52e123bf6340890b8ef5489f9348e7d1cb4.123savedinvestigations keep classifications85finished/29historicalnegative-or-incomplete/9withoutcase and all prior after-statuses; zero network/model/estate calls. OriginalSuperVL15pass remains77267/image0847; repaired admissions will use the new pin after restores/fresh baseline. No quality-gate claim.

@@ -12,5 +12,25 @@
   "failed_read_and_explicit_target_refusals_preserved": true,
   "original_outcomes_and_expectations_unchanged": true,
   "current_live_pass_image_unchanged": true,
-  "full_suite_and_image_shards": "PENDING_NEW_SOURCE_QUALIFICATION"
+  "full_suite_and_image_shards": {
+    "source": "d78f760be71c840ba99308ab093c90a39b48bc27",
+    "workflow": 45165417661,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:69f37c2c0256391dcabcb04d9526b52e123bf6340890b8ef5489f9348e7d1cb4",
+    "full_suite": {
+      "passed": 6114,
+      "skipped": 53,
+      "failed": 0,
+      "errors": 0
+    },
+    "all_eight_shards": "PASS"
+  },
+  "saved_investigation_replay": {
+    "cases": 123,
+    "finished": 85,
+    "historical_negative_or_incomplete": 29,
+    "no_case": 9,
+    "status_changes": 0,
+    "generation_calls": 0,
+    "estate_reads": 0
+  }
 }

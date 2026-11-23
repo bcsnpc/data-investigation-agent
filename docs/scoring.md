@@ -231,3 +231,6 @@ NVIDIA/OpenRouter qualification and dev-loop results use one independent OpenAI 
 
 
 2026-11-23UTC OpenRouter DEV grading repair: legacy lossless pool fields were overwritten by a second compression stage, causing an assertion before dispatch. Decode the exact known transport first, then refit; failed packet round-trip verified and22392/24000characters. Failed unsent batch06 retained; batch07 independently graded the same saved absence answer, no investigation rerun/duplicate grader send.12focused testsPASS; fullsuite running. Engine image and every expectation unchanged. See round-twenty-seven-grading-transport-repair.json.
+
+
+2026-11-23UTC OpenRouterSuperVL failed-billing DEVharmful1 retained: truefailedrun04244ccc-9b98-4a71-8eea-4e7c6f5eba13/errorbeforeoriginalactivities, but answer adds unproven gold-join and correcting-refresh timing claims. Nativequeries0errors, no contractrepair; internal evaluator3incomplete/max_tokens results were nonblocking, not positive judgments. No engine/expectation change from weak reasoning; savedtracebacktrackpendingexactorder.13graded disjointheadline4correct/8nonharmfulhandoffs/1harmful. Rawpartial/handoff flags can overlap harmful and are retained without useful-handoff credit. FreeDEVonly,noqualitygate.
