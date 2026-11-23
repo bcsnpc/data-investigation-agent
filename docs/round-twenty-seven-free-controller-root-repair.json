@@ -1,0 +1,26 @@
+{
+  "at_utc": "2026-11-23T15:06:34.864596+00:00",
+  "prior_controller_state": {
+    "phase": "RECONCILE_CONTROL_AND_RESTORE",
+    "completed": [
+      "failed-fixture",
+      "failed-billing",
+      "history-form"
+    ],
+    "at_utc": "2026-11-23T15:04:12.599009+00:00",
+    "control": "history-text",
+    "script": "run-dev-text-history-cohort.py",
+    "returncode": 1
+  },
+  "cause": "Private text-history wrapper reads DIA_R26_DEV_ROOT before importing compatibility adapter; controller supplied only DIA_R27_DEV_ROOT",
+  "engine_calls_before_error": 0,
+  "new_estate_reads_before_error": 0,
+  "source_mutations_before_error": 0,
+  "restoration_from_prior_form": "ORIGINAL360_HASH_MATCHED_REAL_RESTORE_LOAD_SUCCEEDED_TEMPORAL_ON",
+  "fix": "Set both root aliases at the controller boundary before every child, independent of import order",
+  "offline_child_inheritance_test": "PASS",
+  "all14tickets_assigned_once": "PASS",
+  "controller_sha256": "6440d33e410a2142dcd82b9f3310704eec5287fce21d85ee3b36568ee2430062",
+  "engine_image_unchanged": true,
+  "original_error_log_preserved": true
+}

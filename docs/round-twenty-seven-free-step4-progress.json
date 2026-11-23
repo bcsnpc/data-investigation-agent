@@ -1,6 +1,6 @@
 {
   "disjoint_headline": {
-    "fully_correct": 9,
+    "fully_correct": 10,
     "useful_nonharmful_handoffs": 9,
     "harmful": 1,
     "other_incorrect": 1
@@ -20,8 +20,8 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 2,
-      "fully_correct": 1,
+      "graded": 3,
+      "fully_correct": 2,
       "partial_handoffs": 0,
       "harmful": 1
     }
@@ -346,6 +346,27 @@
       "failure_kind": "NONE"
     },
     {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-source-history-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "Matches the sealed verdict, source-application/DEV split, and named cause: movement 900201 changed from 41 to 47 at the November source-modification timestamp, distinct from its September business date. Native checks show the older landing version and newer source version; the measure is a straight SUM, not a transformation causing the change. The additional lag explanation does not displace the correct source-history cause. Export-layer attribution is overstated: the answer itself acknowledges that the earlier export's layer is unknown. Saved queries and engineer routing provide a usable handoff, but the next check to establish export provenance is not clearly specified.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "e439949f135afab0bd9993c188d4b5b4cfddb8166a9c7df9bf2555575fb3c9e3",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 26,
+      "model_calls": 5,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 281.195234064,
+      "model_seconds": 182.81500256299995,
+      "native_query_seconds": 21.20818267499999,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
+    },
+    {
       "ticket": "round27-step4-openrouter-dev04-supervl-text-R17-11-v1",
       "fully_correct": false,
       "harmful": false,
@@ -455,33 +476,35 @@
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
-  "fully_correct": 9,
+  "fully_correct": 10,
   "harmful": 1,
-  "graded": 20,
+  "graded": 21,
   "proof_total": 32,
   "partial_handoffs": 9,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T14:50:51.801239+00:00",
+  "observed_utc": "2026-11-23T15:05:26.318939+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
-    "phase": "CONTROL_IN_FLIGHT",
+    "phase": "RECONCILE_CONTROL_AND_RESTORE",
     "completed": [
       "failed-fixture",
-      "failed-billing"
+      "failed-billing",
+      "history-form"
     ],
-    "at_utc": "2026-11-23T14:49:43.586660+00:00",
-    "control": "history-form",
-    "script": "run-dev-form-history-cohort.py"
+    "at_utc": "2026-11-23T15:04:12.599009+00:00",
+    "control": "history-text",
+    "script": "run-dev-text-history-cohort.py",
+    "returncode": 1
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 308.71424383650134,
+    "median_engine_wall_seconds": 297.29708734400265,
     "p90_engine_wall_seconds_nearest_rank": 563.343950201,
-    "timed_cases": 20,
+    "timed_cases": 21,
     "total_engine_model_calls": null,
-    "known_engine_model_calls": 188,
+    "known_engine_model_calls": 193,
     "missing_model_call_metrics": 1,
-    "physical_requests_across_confirmed_engine_cases": 543
+    "physical_requests_across_confirmed_engine_cases": 569
   },
   "disjoint_cohort_headlines": {
     "STATIC": {
@@ -497,7 +520,7 @@
       "other_incorrect": 0
     },
     "FAULT": {
-      "fully_correct": 1,
+      "fully_correct": 2,
       "useful_nonharmful_handoffs": 0,
       "harmful": 1,
       "other_incorrect": 0
