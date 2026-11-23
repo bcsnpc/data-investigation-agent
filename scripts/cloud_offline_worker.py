@@ -71,7 +71,8 @@ TEST_MODULES = (
 for pattern in ('test_round26*.py','test_round27*.py'):
     TEST_MODULES += tuple(p.name for p in sorted((ROOT/'scripts').glob(pattern))
                           if p.name not in TEST_MODULES)
-TEST_MODULES += tuple(name for name in ('test_nvidia_free_provider.py','test_openrouter_provider.py','test_regression_features.py')
+TEST_MODULES += tuple(name for name in ('test_nvidia_free_provider.py','test_openrouter_provider.py','test_regression_features.py',
+                                     'test_free_dev_grading.py','test_grading_packet_transport.py')
                       if name not in TEST_MODULES)
 
 
