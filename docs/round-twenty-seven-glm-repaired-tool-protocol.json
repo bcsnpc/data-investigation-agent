@@ -1,0 +1,24 @@
+{
+  "cost": {
+    "ceiling_microdollars": 3000000,
+    "charge_basis": "NVIDIA_FREE_ALLOCATION_NOT_INVOICE",
+    "charged_microdollars": 0,
+    "month_account": "nvidia-free-calls:2026-11",
+    "monthly_call_allowance": 1000,
+    "monthly_calls_used": 105,
+    "quality_scope": "DEV_ONLY",
+    "warning": false
+  },
+  "estate_reads": 0,
+  "model": "z-ai/glm-5.3-flash",
+  "provider": "nvidia",
+  "quality_scope": "DEV_ONLY",
+  "quality_score": null,
+  "seconds": 531.2320690999913,
+  "status": "PASS",
+  "synthetic_only": true,
+  "two_turn_tool_call_and_result": true,
+  "image_qualification": "PENDING_NATIVE_SYNTHETIC_VISION_PROBE",
+  "original_timeout_preserved": "tool-protocol.json",
+  "not_a_ticket_quality_score": true
+}
