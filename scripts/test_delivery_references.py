@@ -33,6 +33,32 @@ class ReferenceTests(unittest.TestCase):
         self.assertEqual(result['evidence_ids'], ['unknown'])
         self.assertEqual(changes, [])
 
+    def test_graph_address_maps_only_to_one_cited_successful_native_query_layer(self):
+        self.query['asset_ids']=['native-measure']
+        nodes=[{'id':'graph-measure','properties':{'asset_id':'native-measure'}}]
+        value={'checked':['graph-measure'],'evidence_ids':['query-one'],'selected_target':'unchanged'}
+        result,_=reformat(value,queries=[self.query],evidence={},layers={'source':{}},nodes=nodes)
+        self.assertEqual(result['checked'],['source']);self.assertEqual(result['evidence_ids'],value['evidence_ids'])
+        self.assertEqual(result['selected_target'],'unchanged')
+        for queries,ids in [([self.query],[]),([{**self.query,'status':'ERROR'}],['query-one']),
+                            ([self.query,{**self.query,'id':'q2','layer':'other'}],['query-one','q2'])]:
+            with self.subTest(queries=queries,ids=ids):
+                r,_=reformat({**value,'evidence_ids':ids},queries=queries,evidence={},layers={'source':{},'other':{}},nodes=nodes)
+                self.assertEqual(r['checked'],['graph-measure'])
+
+    def test_cited_observed_job_is_already_evidence_and_not_a_measured_layer(self):
+        nodes=[{'id':'job','properties':{'asset_id':'native-job'}}]
+        evidence={'j':{'tool':'get_job_runs','arguments':{'node':'job'},'result':
+                      {'status':'OBSERVED','source':'native','observed_at':'2026-11-22T00:00:00Z'}}}
+        value={'checked':['job'],'evidence_ids':['j']}
+        result,changes=reformat(value,queries=[],evidence=evidence,layers={},nodes=nodes)
+        self.assertEqual(result['checked'],[]);self.assertEqual(result['evidence_ids'],['j'])
+        self.assertEqual(changes[0]['reason'],'ALREADY_CITED_NATIVE_OBJECT_NOT_QUERY_LAYER')
+        for ids,status in [([], 'OBSERVED'),(['j'],'UNAVAILABLE')]:
+            evidence['j']['result']['status']=status
+            r,_=reformat({**value,'evidence_ids':ids},queries=[],evidence=evidence,layers={},nodes=nodes)
+            self.assertEqual(r['checked'],['job'])
+
     def test_native_tool_wrapper_can_name_its_exact_query_layer(self):
         evidence = {'sql': {'tool': 'run_sql', 'result': {'record': self.query}}}
         result, _ = self.run_reformat({'checked': ['sql']}, evidence)

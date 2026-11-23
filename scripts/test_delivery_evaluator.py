@@ -6,6 +6,30 @@ from test_round23_reasoning import tool
 
 
 class DeliveryEvaluatorTests(unittest.TestCase):
+    def test_incomplete_checker_retries_same_draft_without_rewriting_the_answer(self):
+        from investigator.ai_investigation import Investigator
+        from investigator.regression_features import configured
+        import json
+        loop=object.__new__(Investigator);loop.state={'model_calls':0};loop.context={'intake':{}}
+        loop.case_view=Mock(return_value={'queries':[],'evidence':{}});loop.save=Mock();loop.clock=Mock(return_value=0)
+        loop.model_seconds=0;loop.evidence=Mock();loop.repair_delivery=Mock(side_effect=AssertionError('Do not rewrite a supported answer for malformed checker JSON'))
+        good=tool('evaluate_delivery',{k:{'passed':True,'reason':'Native support retained.'}for k in CHECKS})
+        bad={'content':[],'stop_reason':'max_tokens'}
+        loop.evaluator_model=Mock();loop.evaluator_model.complete.side_effect=[bad,bad,good]
+        draft={'direct_answer':'A supported answer.','evidence_ids':[]};original=deepcopy(draft)
+        with configured({'r27_slim_evaluator':True,'r27_evaluator_format_repair':True}):
+            result=loop.evaluate_draft(draft)
+        self.assertTrue(result['approved']);self.assertEqual(loop.state['model_calls'],3)
+        self.assertEqual([x['format_retry']for x in loop.state['delivery_evaluations']],[0,1,2])
+        for call in loop.evaluator_model.complete.call_args_list:
+            self.assertEqual([t['name']for t in call.kwargs['tools']],['evaluate_delivery'])
+            self.assertEqual(json.loads(call.kwargs['messages'][0]['content'])['draft'],original)
+        self.assertEqual(draft,original);loop.repair_delivery.assert_not_called()
+        loop.evaluator_model.complete.side_effect=None;loop.evaluator_model.complete.return_value=bad
+        with configured({'r27_slim_evaluator':True,'r27_evaluator_format_repair':True}):
+            warning=loop.evaluate_draft(draft)
+        self.assertFalse(warning['approved']);self.assertTrue(warning['delivered_with_warning'])
+        self.assertEqual(warning['blocking_failures'],[]);loop.repair_delivery.assert_not_called()
     def test_advisory_preserves_native_answer_and_logs_hard_rejection(self):
         from investigator.delivery_evaluator import evaluate_native
         from investigator.regression_features import configured

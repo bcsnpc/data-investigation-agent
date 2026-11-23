@@ -48,7 +48,11 @@ latency. Current rows or period columns alone cannot rule out source changes.
 Ask only as a last resort after candidate checks and a recreation attempt, only
 for an unreadable user fact or business policy, using named multiple choices.
 Submit a plain answer with verdict, cause, numbers and what was checked. No fixes.
-Never conclude as designed while a fresh triage fault is unexplained. A failed
+Never claim source consistency or freshness while a fresh triage fault is unexplained.
+For a definition-only request without a comparison, explain the evidenced
+implemented calculation and report any unresolved operational observation
+separately. That limited explanation does not establish freshness or business
+correctness. A failed
 job, stale refresh, source ahead of delivery, running job or retained history
 change needs explicit evidence and disposition. Check the comparison side, not
 only the user's value. Definition questions: retained definition first, then its
@@ -255,8 +259,9 @@ that detailed timeline undecided rather than inventing a source-history cause.
         if name not in self.schemas:raise ValueError('UNKNOWN_TOOL')
         if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair') and enabled('r27_delivery_reference_reformat'):
             from .delivery_references import reformat
+            path=self.context.get('path',{})
             args,changes=reformat(args,queries=self.queries.records,evidence=self.state['evidence'],
-                                  layers=getattr(self.queries,'layers',{}))
+                                  layers=getattr(self.queries,'layers',{}),nodes=path.get('nodes',[]) if isinstance(path,dict) else [])
             if changes:self.evidence({'kind':'DELIVERY_REFERENCE_REFORMAT','changes':changes})
         if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair'):
             try:
@@ -379,21 +384,32 @@ that detailed timeline undecided rather than inventing a source-history cause.
         from .delivery_evaluator import evaluate,payload
         attempts=self.state.setdefault('delivery_evaluations',[])
         slim=enabled('r27_slim_evaluator')
-        def rejected(item):return bool(item.get('blocking_failures')) if slim else not item['approved']
+        def rejected(item):
+            if enabled('r27_evaluator_format_repair') and item.get('format_error'):return False
+            return bool(item.get('blocking_failures')) if slim else not item['approved']
         if (slim or not enabled('r27_evaluator_advisory')) and sum(rejected(item) for item in attempts)>=3:
             raise ValueError('DELIVERY_EVALUATOR_RETRIES_EXHAUSTED')
         packet=payload(self.context['intake'],args,self.case_view())
-        self.state['pending']={'kind':'DELIVERY_EVALUATOR','attempt':len(attempts)+1};self.save()
-        evaluator_started=self.clock()
-        try:
-            review=evaluate(self.evaluator_model,packet)
-        finally:
-            self.model_seconds+=max(0,self.clock()-evaluator_started)
-        self.state['model_calls']+=1
-        review.update(attempt=len(attempts)+1,retry=sum(rejected(item) for item in attempts),step='EVALUATOR')
-        attempts.append(review)
-        self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
-        self.state['pending']=None;self.save()
+        for format_attempt in range(3):
+            self.state['pending']={'kind':'DELIVERY_EVALUATOR','attempt':len(attempts)+1};self.save()
+            evaluator_started=self.clock()
+            try:
+                review=evaluate(self.evaluator_model,packet)
+            finally:
+                self.model_seconds+=max(0,self.clock()-evaluator_started)
+            self.state['model_calls']+=1
+            review.update(attempt=len(attempts)+1,retry=sum(rejected(item) for item in attempts),step='EVALUATOR',format_retry=format_attempt)
+            attempts.append(review)
+            self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
+            self.state['pending']=None;self.save()
+            if not review.get('format_error'):break
+            if not enabled('r27_evaluator_format_repair'):break
+            # Malformed checker output says nothing about the draft's truth.
+            # Retry the checker, not the business answer or any estate read.
+            packet['evaluator_format_feedback']=deepcopy(review['format_error'])
+        if review.get('format_error') and enabled('r27_evaluator_format_repair'):
+            return {**review,'format_warning':'Evaluator could not complete its structured check after two format retries.',
+                    'delivered_with_warning':True}
         if slim:
             if not review['blocking_failures']:
                 return {**review,'delivered_with_warning':not review['approved']}

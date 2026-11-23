@@ -66,9 +66,15 @@ def response_for(body, model, tools):
     for call in message.get('tool_calls', []):
         if call.get('type') != 'function' or not call.get('id') or call['id'] in ids or call['function']['name'] not in allowed:
             raise ValueError('NVIDIA_UNDECLARED_OR_INVALID_TOOL_CALL')
-        value = json.loads(call['function']['arguments'])
-        if not isinstance(value, dict): raise ValueError('NVIDIA_TOOL_OBJECT_REQUIRED')
-        ids.add(call['id']); content.append({'type': 'tool_use', 'id': call['id'], 'name': call['function']['name'], 'input': value})
+        ids.add(call['id'])
+        try:value = json.loads(call['function']['arguments'])
+        except (ValueError,TypeError,KeyError):
+            if choice['finish_reason']=='length':continue
+            raise ValueError('NVIDIA_TOOL_JSON_REQUIRED') from None
+        if not isinstance(value, dict):
+            if choice['finish_reason']=='length':continue
+            raise ValueError('NVIDIA_TOOL_OBJECT_REQUIRED')
+        content.append({'type': 'tool_use', 'id': call['id'], 'name': call['function']['name'], 'input': value})
     usage = body['usage']; cached = (usage.get('prompt_tokens_details') or {}).get('cached_tokens', 0)
     return Reply('nvidia', model, body['id'], content,
                  'max_tokens' if choice['finish_reason'] == 'length' else 'tool_use' if message.get('tool_calls') else 'end_turn',

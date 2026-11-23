@@ -112,6 +112,24 @@ class NvidiaFreeTests(unittest.TestCase):
             c=Client(model=MODEL,budget=self.budget(),identity='test',secret_reference={},record=Mock(),send=Mock(return_value=raw))
         with self.assertRaisesRegex(ValueError,'INVALID_TOOL'):c.complete(system='s',messages=[],tools=TOOLS,max_tokens=50)
         self.assertEqual(self.state.snapshot(account_for(self.now[0]))['reservations'][0]['status'],'SETTLED')
+    def test_token_truncated_tool_json_is_incomplete_not_a_crash_or_executable_call(self):
+        raw=response();raw['choices'][0]['finish_reason']='length'
+        call=raw['choices'][0]['message']['tool_calls'][0]
+        call['function'].update(name='evaluate_delivery',arguments='{"question":')
+        from investigator.delivery_evaluator import evaluate
+        from investigator.regression_features import configured
+        events=[]
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            model=Client(model=MODEL,budget=self.budget(),identity='test',secret_reference={},record=events.append,send=Mock(return_value=raw))
+        with configured({'r27_slim_evaluator':True,'r27_evaluator_advisory':False}):
+            result=evaluate(model,{'ticket':{},'draft':{},'cited_evidence':[]})
+        self.assertEqual(result['format_error']['stop_reason'],'max_tokens')
+        self.assertEqual(result['blocking_failures'],[])
+        self.assertEqual(next(e['body']for e in events if e['event']=='REASONING_RESPONSE'),raw)
+        self.assertEqual(self.state.snapshot(account_for(self.now[0]))['reservations'][0]['status'],'SETTLED')
+        raw['choices'][0]['finish_reason']='tool_calls'
+        with self.assertRaisesRegex(ValueError,'TOOL_JSON_REQUIRED'):
+            response_for(raw,MODEL,[{'name':'evaluate_delivery'}])
     def test_development_configuration_is_mandatory_and_cannot_enter_quality_gate(self):
         config={'provider':'nvidia','endpoint':BASE,'model':MODEL,'rate_card':{},'secret_reference':{},'gateway_identity':'g','worker_identity':'round27-free-test','synthetic_only':True,'quality_scope':'DEV_ONLY'}
         self.assertEqual(validate(config),'nvidia')

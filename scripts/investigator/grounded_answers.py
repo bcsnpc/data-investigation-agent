@@ -89,6 +89,12 @@ def finding(args,case):
     support=cited(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
+    from .primary_verification import no_comparison
+    issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
+    calculation_only=(enabled('r26_current_fault_consistency') and issue=='HOW_IS_THIS_CALCULATED'
+        and no_comparison(case['intake'])
+        and normalized in ('as designed','definition explained'))
+    separate_operational=[]
     automatic_update_unknown = False
     if normalized == 'refresh stale':
         import re
@@ -109,16 +115,18 @@ def finding(args,case):
         history = disposition(case, args['evidence_ids'])
         if not history['ruled_out']:
             raise ValueError('CHECK_SOURCE_HISTORY_BEFORE_LATENCY: ' + history['reason'])
-    if enabled('r26_current_fault_consistency') and normalized in ('as designed','consistent to source','consistent to boundary'):
+    if enabled('r26_current_fault_consistency') and normalized in ('as designed','definition explained','consistent to source','consistent to boundary'):
         from .triage_hints import current_job_hints
         current_faults=current_job_hints(case)
-        if current_faults:
+        if current_faults and calculation_only:
+            separate_operational=current_faults
+        elif current_faults:
             details=', '.join(str(f['status'])+' '+str(f.get('run_id')or f.get('subject'))for f in current_faults)
             raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_CONSISTENCY: '+details+
                 '; report the native run status and details first. Value agreement does not establish that the run had no effect; qualify unmeasured numerical impact separately.')
     issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
     definition_only=(normalized=='as designed'and issue=='HOW_IS_THIS_CALCULATED'
-        and case['intake'].get('compared_with',{}).get('kind')=='NOTHING')
+        and no_comparison(case['intake']))
     if enabled('r27_primary_verification_scope') and normalized in ('as designed','definition explained'):
         from .primary_verification import is_display_verification
         definition_only=definition_only or normalized=='definition explained' or is_display_verification(case,args)
@@ -128,7 +136,7 @@ def finding(args,case):
         from .triage_hints import job_hint,current_job_hints
         faults=(current_job_hints(case) if enabled('r26_current_fault_consistency')
                 else job_hint(case.get('triage',{})))
-        if faults:raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
+        if faults and not calculation_only:raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
     source_consistency=(normalized=='consistent to source'or normalized=='as designed'and not definition_only)
     if source_consistency:
         declaration=case['context'].get('system_of_record',{})
@@ -222,6 +230,10 @@ def finding(args,case):
         operational=rendered
         business+='\n'+'\n'.join(rendered)
     qualifications=[]
+    for fault in separate_operational:
+        subject=names.get(fault.get('subject'),'An observed path job or refresh')
+        qualifications.append('Separate operational observation: '+subject+' run '+str(fault.get('run_id')or'(run identifier unavailable)')+
+            ' is '+str(fault['status'])+'. The calculation explanation does not establish freshness or rule out an effect from this run.')
     if automatic_update_unknown:
         qualifications.append('The Direct Lake automatic-update switch is not exposed by these refresh-history/schedule reads. Its ON/OFF state is unestablished; see semantic model settings → Refresh → Keep your Direct Lake data up to date. A refresh schedule is a separate setting.')
     for assumption in case['intake'].get('resolution_assumptions', []):

@@ -7,7 +7,9 @@ from .investigation_read_tools import compare_figure
 
 
 def no_comparison(intake):
-    return intake.get('compared_with', {}).get('kind') == 'NOTHING'
+    context=intake.get('comparison_context') or {}
+    return (intake.get('compared_with', {}).get('kind') == 'NOTHING'
+            and context.get('kind','NOTHING')=='NOTHING')
 
 
 def query_references(case, identities):
@@ -118,6 +120,8 @@ def direct_row_measure_column(query,layer,asset,row):
 def is_display_verification(case, args):
     intake = case.get('intake', {})
     issue = intake.get('classified_issue_type') or intake.get('issue_type')
-    return (no_comparison(intake) and
-            (issue == 'HOW_IS_THIS_CALCULATED' or
-             issue == 'NUMBER_LOOKS_WRONG' and recreation(case, args) == 'MATCH'))
+    # A calculation question without a stated number is not evidence that a
+    # displayed value has been verified. Its inclusion/exclusion comparison
+    # still needs the exact-question evaluator; do not invent agreement here.
+    return (no_comparison(intake) and issue in ('HOW_IS_THIS_CALCULATED','NUMBER_LOOKS_WRONG')
+            and recreation(case,args)=='MATCH')

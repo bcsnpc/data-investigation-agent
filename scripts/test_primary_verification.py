@@ -49,6 +49,19 @@ class PrimaryVerificationTests(unittest.TestCase):
   self.assertEqual(recreation(c,self.args()),'DIFFERS');validate(self.args(),c)
   c=self.case();c['intake']['compared_with']={'kind':'SOURCE_SYSTEM','source':'source'}
   validate(self.args(),c)
+ def test_definition_without_a_stated_value_does_not_invent_a_reproduced_display(self):
+  from investigator.primary_verification import is_display_verification
+  c=self.case();c['intake']['issue_type']='HOW_IS_THIS_CALCULATED';c['intake'].pop('reported_figure')
+  self.assertFalse(is_display_verification(c,self.args()))
+  a=self.args();a.update(verdict='different question',direct_answer='The two retained definitions include different rows.')
+  validate(a,c)
+  c['intake']['reported_figure']={'state':'NUMBER','value':'12','precision':'EXACT'}
+  self.assertTrue(is_display_verification(c,a))
+  with self.assertRaisesRegex(ValueError,'PRIMARY_QUESTION_IS_DISPLAY_VERIFICATION'):validate(a,c)
+ def test_unresolved_comparison_context_is_not_discarded_as_no_comparison(self):
+  from investigator.primary_verification import no_comparison
+  c=self.case();c['intake']['comparison_context']={'kind':'EXPECTED_NUMBER'}
+  self.assertFalse(no_comparison(c['intake']));validate(self.args(),c)
  def test_valid_native_calculation_can_answer_without_claiming_source_agreement(self):
   c=self.case();a=self.args();a.update(verdict='as designed',verdict_class='AS DESIGNED')
   value=finding(a,c)
@@ -71,6 +84,23 @@ class PrimaryVerificationTests(unittest.TestCase):
   self.assertIn('definition explained',finding(a,c)['business'])
   c['evidence']['fresh-job']['result']['facts'][0]['value']['status']='Failed'
   with self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):
+   finding(a,c)
+ def test_calculation_only_keeps_its_answer_and_reports_the_unresolved_job_separately(self):
+  c=self.case();c['intake']['issue_type']='HOW_IS_THIS_CALCULATED'
+  c['context']['path']['nodes'].append({'id':'job','kind':'PIPELINE','label':'Load orders'})
+  c['triage']={'facts':[{'check':'JOB_RUNS','source':'native-job-history','state':'OBSERVED',
+      'observed_at':'2026-01-01T00:00:00Z','value':{'subject':'job','status':'RUNNING','run_id':'run1'}}]}
+  a=self.args();a.update(verdict='as designed',verdict_class='AS DESIGNED')
+  result=finding(a,c)
+  self.assertIn('as designed',result['business'])
+  self.assertIn('Load orders run run1 is RUNNING',result['business'])
+  self.assertIn('does not establish freshness',result['business'])
+  # A status/comparison request cannot use this narrow calculation scope.
+  c['intake']['compared_with']={'kind':'SOURCE_SYSTEM','source':'source'}
+  with self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):
+   finding(a,c)
+  c['intake']['compared_with']={'kind':'NOTHING'};a['evidence_ids']=['q']
+  with self.assertRaisesRegex(ValueError,'RETAINED_DEFINITION'):
    finding(a,c)
  def test_unreproduced_number_keeps_source_consistency_requirement(self):
   c=self.case();c['queries'][0]['result']['rows']=[{'value':9}]
