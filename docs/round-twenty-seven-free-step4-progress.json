@@ -1,6 +1,6 @@
 {
   "disjoint_headline": {
-    "fully_correct": 12,
+    "fully_correct": 14,
     "useful_nonharmful_handoffs": 13,
     "harmful": 1,
     "other_incorrect": 2
@@ -20,8 +20,8 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 10,
-      "fully_correct": 4,
+      "graded": 12,
+      "fully_correct": 6,
       "partial_handoffs": 3,
       "harmful": 1
     }
@@ -409,6 +409,48 @@
       "failure_kind": "NONE"
     },
     {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-access-export-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "Matches the sealed access-difference verdict at the application export view. It identifies the CURRENT_USER visibility-group mapping rather than report RLS, and the native literal-filter recreations (explicitly without impersonation) reproduce case 1 quantities/row counts of 10/1 and 25/2. Saved SQL and clear findings provide a rerunnable technical handoff. No material disagreement with the expectation.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "1e2205c93ce830e4ac55e4760e821f497a1c81dce7bd7d64447481b6a907fec5",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 14,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 222.977420871,
+      "model_seconds": 188.97353946599998,
+      "native_query_seconds": 17.15346956899998,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-access-export-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The answer substantively identifies an access difference at the application export view: CURRENT_USER joins to visibility-group reader mappings, not report RLS. The cited rows and mappings explain quantity 10/one visible row versus 25/two visible rows without impersonation. Although labeled AS DESIGNED, its actual conclusion is the expected per-user access difference; this is not a substantive disagreement with the sealed verdict. Saved SQL and explicit view logic make the findings reproducible.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "902083cf53364ae91ee373b40b52d964e5b5a8ed0f4f3d07324b9fc14b84753d",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 10,
+      "model_calls": 10,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 334.14647098,
+      "model_seconds": 302.7747764320002,
+      "native_query_seconds": 9.901539490999994,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
+    },
+    {
       "ticket": "round27-step4-openrouter-dev04-supervl-text-R17-11-v1",
       "fully_correct": false,
       "harmful": false,
@@ -623,39 +665,42 @@
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
-  "fully_correct": 12,
+  "fully_correct": 14,
   "harmful": 1,
-  "graded": 28,
+  "graded": 30,
   "proof_total": 32,
   "partial_handoffs": 12,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T16:26:38.906907+00:00",
+  "observed_utc": "2026-11-23T16:48:20.525463+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
-    "phase": "CONTROL_IN_FLIGHT",
+    "phase": "NON_STALE_COMPLETE_WAITING_FOR_FRESH_OWNER_OFF",
     "completed": [
       "failed-fixture",
       "failed-billing",
       "history-form",
       "history-text",
       "latency-form",
-      "latency-text"
+      "latency-text",
+      "waiting",
+      "access"
     ],
-    "at_utc": "2026-11-23T16:16:25.620017+00:00",
-    "control": "waiting",
-    "script": "run-dev-waiting-cohort.py",
+    "at_utc": "2026-11-23T16:46:41.547470+00:00",
+    "control": "access",
+    "script": "run-dev-access-cohort.py",
     "returncode": 1,
-    "reconciliation": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\history-text-setup-env-reconciliation.json"
+    "reconciliation": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\history-text-setup-env-reconciliation.json",
+    "pending": "stale"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
     "median_engine_wall_seconds": 328.0258949590002,
-    "p90_engine_wall_seconds_nearest_rank": 592.978579769,
-    "timed_cases": 28,
+    "p90_engine_wall_seconds_nearest_rank": 563.343950201,
+    "timed_cases": 30,
     "total_engine_model_calls": null,
-    "known_engine_model_calls": 264,
+    "known_engine_model_calls": 280,
     "missing_model_call_metrics": 2,
-    "physical_requests_across_confirmed_engine_cases": 786
+    "physical_requests_across_confirmed_engine_cases": 810
   },
   "disjoint_cohort_headlines": {
     "STATIC": {
@@ -671,7 +716,7 @@
       "other_incorrect": 0
     },
     "FAULT": {
-      "fully_correct": 4,
+      "fully_correct": 6,
       "useful_nonharmful_handoffs": 4,
       "harmful": 1,
       "other_incorrect": 1

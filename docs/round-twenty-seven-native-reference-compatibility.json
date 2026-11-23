@@ -1,0 +1,13 @@
+{
+  "source": "c7a06c1f",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:3c1797a5bea705a6df5f66590eeaf867718947e8deb933dea61987fee83e7d99",
+  "observed_at_utc": "2026-11-23T16:46:14.622323+00:00",
+  "cases": 123,
+  "all_status_and_after_fields_unchanged": true,
+  "counts": {
+    "REPLAY_FINISHED": 85,
+    "REPLAY_FAILURE": 29,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "limitation": "29 historical negative/incomplete cases and 9 without investigation case are retained; not 123 successful exact replays. No new estate reads or generation."
+}
