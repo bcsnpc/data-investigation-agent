@@ -5,6 +5,7 @@ binding or chooses a target because of a similar name or value elsewhere.
 """
 from copy import deepcopy
 import re
+from .regression_features import enabled
 
 
 def explicit_names(catalog,text):
@@ -89,6 +90,17 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
             else:
                 ranked = catalog.ranked(text, 'VISUAL', within={v['id'] for _, v in visuals})
                 named = {r['id'] for r in ranked if r['confidence'] in ('NAMED', 'NORMALIZED')}
+                if enabled('r27_candidate_native_names_only'):
+                    # Enrichment is useful for ranking, never authority to omit
+                    # another retained scope. The resolver's fallback reaches
+                    # this path precisely when extraction did not establish a
+                    # target; a unique search alias is not a native selection.
+                    import unicodedata
+                    def native_words(value):
+                        return re.findall(r'[^\W_]+', unicodedata.normalize('NFKC', value).casefold())
+                    named = {r['id'] for r in ranked if r['id'] in named
+                             and native_words(r.get('matched_name') or '')
+                             == native_words(catalog.nodes[r['id']]['label'])}
                 if named:
                     visuals = [(p, v) for p, v in visuals if v['id'] in named]
             rows.extend({**base, 'report': report_id, 'page': p['id'], 'visual': v['id']}

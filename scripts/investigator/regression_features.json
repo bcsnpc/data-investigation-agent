@@ -236,6 +236,10 @@
     "r27_analysis_native_projection": {
       "default": true,
       "description": "Project declared DAX output headers and native scalar types only within bounded analysis; preserve original query records, text identities, ambiguity refusal and truncation limits."
+    },
+    "r27_candidate_native_names_only": {
+      "default": true,
+      "description": "Only native visual names may prune fallback target candidates; enrichment aliases rank search but cannot exclude retained scopes."
     }
   }
 }
