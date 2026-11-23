@@ -1,6 +1,6 @@
 {
   "disjoint_headline": {
-    "fully_correct": 8,
+    "fully_correct": 9,
     "useful_nonharmful_handoffs": 9,
     "harmful": 1,
     "other_incorrect": 1
@@ -20,8 +20,8 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 1,
-      "fully_correct": 0,
+      "graded": 2,
+      "fully_correct": 1,
       "partial_handoffs": 0,
       "harmful": 1
     }
@@ -325,6 +325,27 @@
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     },
     {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-failed-billing-transform-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The answer identifies the Billing Warehouse transformation pipeline as the failed layer and reports the latest failed run with its name, run ID, start/end times and native controlled-failure error. It correctly states that original transformation activities did not execute and invents no successful completion. Thus the failed-job verdict, pipeline split and sealed named cause all match. The separate source/gold discrepancy is supported by the saved queries; the answer explicitly does not attribute the duplicate's creation to this failed run. Saved rerunnable queries, the specific unresolved origin of the duplicate, and engineer routing provide a useful handoff.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "4112bc7e107f7d5c11a1b560cae4971c9d71a2bdfba67dcad20e764fb735f1f5",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 35,
+      "model_calls": 7,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 357.03765775799997,
+      "model_seconds": 199.06595483899994,
+      "native_query_seconds": 140.33093148100002,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
+    },
+    {
       "ticket": "round27-step4-openrouter-dev04-supervl-text-R17-11-v1",
       "fully_correct": false,
       "harmful": false,
@@ -434,30 +455,33 @@
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
-  "fully_correct": 8,
+  "fully_correct": 9,
   "harmful": 1,
-  "graded": 19,
+  "graded": 20,
   "proof_total": 32,
   "partial_handoffs": 9,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T14:38:10.118210+00:00",
+  "observed_utc": "2026-11-23T14:50:51.801239+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
     "phase": "CONTROL_IN_FLIGHT",
-    "completed": [],
-    "at_utc": "2026-11-23T14:28:51.117358+00:00",
-    "control": "failed-fixture",
-    "script": "run-dev-failure-cohort.py"
+    "completed": [
+      "failed-fixture",
+      "failed-billing"
+    ],
+    "at_utc": "2026-11-23T14:49:43.586660+00:00",
+    "control": "history-form",
+    "script": "run-dev-form-history-cohort.py"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 297.29708734400265,
-    "p90_engine_wall_seconds_nearest_rank": 592.978579769,
-    "timed_cases": 19,
+    "median_engine_wall_seconds": 308.71424383650134,
+    "p90_engine_wall_seconds_nearest_rank": 563.343950201,
+    "timed_cases": 20,
     "total_engine_model_calls": null,
-    "known_engine_model_calls": 181,
+    "known_engine_model_calls": 188,
     "missing_model_call_metrics": 1,
-    "physical_requests_across_confirmed_engine_cases": 508
+    "physical_requests_across_confirmed_engine_cases": 543
   },
   "disjoint_cohort_headlines": {
     "STATIC": {
@@ -473,7 +497,7 @@
       "other_incorrect": 0
     },
     "FAULT": {
-      "fully_correct": 0,
+      "fully_correct": 1,
       "useful_nonharmful_handoffs": 0,
       "harmful": 1,
       "other_incorrect": 0
