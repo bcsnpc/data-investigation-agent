@@ -138,3 +138,6 @@ These are separate capability and DEV observations. One exact API provider/model
 
 
 OpenRouter original SuperVL proof completed2026-11-23:15graded,6correct/8useful nonharmful handoffs/1harmful, all on77267/image08474. This supersedes the earlier active-first-four checkpoint without altering it. Pinned exact model nvidia/nemotron-3.5-super-vl:free; independent singleSol DEV only. Allfaultcontrols restored. The harmful billing causal inference is retained as model reasoning; four affected screenshot repairs are separately prepared, pending qualified image28a56. Native stored key limit1000free/day20RPM; paidusage0 and local lifetime10USD ceiling. See round-twenty-seven-openrouter-supervl-proof.md.
+
+
+2026-11-23UTC Ling whole-ticket qualification active on28a56/imagee452. First2static jobs remain active under existing bounds; uploaded interim audit explicitly records OpenRouter HTTP429, timed_out=false, with exponential jittered backoff. Shared free-call counts continue advancing, so no stuck-worker or timeout cause is asserted. No whole-ticket score yet, no fault injection, no paid fallback or changed deadline. Earlier small tool/vision capabilityPASS does not establish full-ticket reliability. Remaining32inputs are source-hash/template checked offline; free-host control wrappers/factory prepared without execution.
