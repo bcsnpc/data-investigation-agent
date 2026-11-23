@@ -200,11 +200,29 @@
       "engine_wall_seconds": 1580.621531021,
       "model_seconds": 1376.9043722789997,
       "native_query_seconds": 94.26611976000015
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-failed-billing-transform-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong evidence",
+      "reason": "The answer pursued aggregate comparisons and a DAX timeout instead of using the already available native job evidence to answer what happened. It returned UNRESOLVED rather than the expected failed-job verdict, did not identify the billing transformation pipeline as the causal layer, and omitted the latest failed run's identity, start/end times and native error. Triage already showed run 47fd3798-a905-4bf2-9c6a-0a8ba009a81b failed on 2026-11-23 from 08:08:24.730Z to 08:08:52.770Z at round22_controlled_failure_before_original_activities. The checked 700/950 totals and successful native SUM recreation are useful partial findings, but do not answer the failed-run question or establish its impact. Saved rerunnable queries, stopping point and engineer routing merit limited handoff credit; the next check merely revisits a timeout despite a successful equivalent recreation and does not address the failed transform. The explicit evidence limitation is not a harmful incorrect cause.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 40,
+      "model_calls": 7,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "85cd29fa47a8e365567c456877442b0f720e32af5a2521adabe682eb4637a4bd",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1887.290227471,
+      "model_seconds": 1654.0911922579999,
+      "native_query_seconds": 141.70388707699988
     }
   ],
   "fully_correct": 8,
   "harmful": 0,
-  "graded": 11,
+  "graded": 12,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
   "image_split": {
@@ -214,15 +232,24 @@
     "uncertain_submission": "record-absent-everywhere remains unestablished and unscored, not retried."
   },
   "initial_image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
-  "partial_handoffs": 3,
-  "observed_utc": "2026-11-23T08:07:40.876853+00:00",
+  "partial_handoffs": 4,
+  "observed_utc": "2026-11-23T08:44:29.860048+00:00",
   "environment_unestablished_unscored": 1,
-  "fault_cohort_status": "FIRST_FAILURE_GRADED_ORIGINAL_SUCCESS_JOB_PENDING",
-  "timing_scope": "Engine wall clock, excluding Azure startup/publication; mixed-image and partially overlapping free DEV cases, not an isolated provider latency benchmark",
+  "fault_cohort_status": {
+    "completed": [
+      "failed-fixture",
+      "failed-billing"
+    ],
+    "phase": "CONTROL_IN_FLIGHT",
+    "fixture": "history",
+    "script": "run-dev-form-history-cohort.py",
+    "at_utc": "2026-11-23T08:42:29.092287+00:00"
+  },
+  "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 1448.7058143509998,
-    "p90_engine_wall_seconds_nearest_rank": 1757.17067858699,
-    "total_engine_model_calls": 75,
-    "physical_requests_across_confirmed_engine_cases": 360
+    "median_engine_wall_seconds": 1459.8150348955,
+    "p90_engine_wall_seconds_nearest_rank": 1758.0676263410003,
+    "total_engine_model_calls": 82,
+    "physical_requests_across_confirmed_engine_cases": 400
   }
 }
