@@ -1,5 +1,5 @@
 {
-  "observed_at": 1795414982.465382,
+  "observed_at": 1795415915.143683,
   "discovery_sha256": "7e2a6e83d6043d24e7a5bdc038de06366c9876a779761cd12922fe8ebd4ebde0",
   "discovered_free_tool_models": [
     "inclusionai/ling-3.2-flash:free",
@@ -22,7 +22,15 @@
       "capture_sha256": "f7ae3c09c8a302e83349abcc2bd37b79352762b078b9f0a025d37ccdd1002bbc",
       "result_sha256": "9800b81eabf63a21721a20b9274eff84763d946b8e64c5237386f84c12485db8",
       "result_file": ".local\\round-twenty-seven\\free-models\\protocol-openrouter-ling\\tool-protocol.json",
-      "seconds": 572.628014100017
+      "seconds": 572.628014100017,
+      "synthetic_vision": {
+        "status": "PASS",
+        "seconds": 267.4322388000146,
+        "result_sha256": "92a28ce8b18dac06679969140cfcfaedc2665cdfd65e8b5547bf72bd19a42f52",
+        "native_sha256": "0833edec27125b4cf3467d192273d2a24b5c552dbb5e31216d57dd82f501a770",
+        "image_sha256": "812b2f6359f9b5acc189f917a81e34b6a67848337d820e0012e597182d119219",
+        "not_a_screenshot_quality_score": true
+      }
     },
     {
       "model": "baidu/ernie-5.5-flash-preview:free",
@@ -103,6 +111,6 @@
   ],
   "paid_allowed": false,
   "reason": "Three free models passed native tool tests; paid admission remains refused.",
-  "previous_document_sha256": "4b7c187c3df9a6a69dc422279ccf3908a6934c55ed7abc8a19043b89bf361781",
+  "previous_document_sha256": "deb092f9722c1cf3d08370dff56ca54234aba7efa6e6c2177a949bf044d3de05",
   "paid_guard_checked": "REFUSED"
 }
