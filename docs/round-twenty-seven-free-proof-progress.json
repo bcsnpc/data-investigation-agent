@@ -16,7 +16,10 @@
       "model_calls": 7,
       "investigator_cost_usd": 0.0,
       "capture_seal": "f4533ab2c745043d1fbd3b6d3988ea6eff0f05ef80b953acf5cebc49528a3eac",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+      "engine_wall_seconds": 1187.0153496780001,
+      "model_seconds": 1008.2010100119999,
+      "native_query_seconds": 124.56435917300007
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-billing-mrr-v1",
@@ -31,7 +34,10 @@
       "model_calls": 8,
       "investigator_cost_usd": 0.0,
       "capture_seal": "94630480ea8e9e2f6a0f5e9841a93f89f416505b906c35e0ca2d7acb61154f0b",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+      "engine_wall_seconds": 1536.8846590989997,
+      "model_seconds": 1366.9678770680075,
+      "native_query_seconds": 95.6817778769946
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-billing-invoices-v2",
@@ -46,7 +52,10 @@
       "model_calls": 7,
       "investigator_cost_usd": 0.0,
       "capture_seal": "5d8fbf42db9327f789a99c2fec0a891110b8c3ff30978a813956a939bf72f473",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+      "engine_wall_seconds": 1758.0676263410003,
+      "model_seconds": 1538.8644946110003,
+      "native_query_seconds": 150.14935078799954
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-fixture-quantity-v1",
@@ -61,7 +70,10 @@
       "model_calls": 8,
       "investigator_cost_usd": 0.0,
       "capture_seal": "58002a992c1a0a4732f17cfc76cff1eca84146d7f4a2ed8648bd3e3df355f3ac",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+      "engine_wall_seconds": 1470.92425544,
+      "model_seconds": 1242.1564986660003,
+      "native_query_seconds": 177.5608002979999
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-record-repeated-gold-v2",
@@ -76,7 +88,10 @@
       "model_calls": 5,
       "investigator_cost_usd": 0.0,
       "capture_seal": "0a9ea92d6945dcbeda7b4f7186657aeebdb610f4e3a153daa6f669f12501d976",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1118.4854186169998,
+      "model_seconds": 899.1617877159998,
+      "native_query_seconds": 164.21146425900002
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-screenshot-record-01-v1",
@@ -91,7 +106,10 @@
       "model_calls": 5,
       "investigator_cost_usd": 0.0,
       "capture_seal": "c2064c7c0f9f1fc490e136812a6aebd61ab80d67103bddf204aa3ed82c159fce",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1304.963286038,
+      "model_seconds": 1109.8132017189998,
+      "native_query_seconds": 86.02887556899992
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-screenshot-record-02-v1",
@@ -106,7 +124,10 @@
       "model_calls": 6,
       "investigator_cost_usd": 0.0,
       "capture_seal": "a67f5e2fdbd651ed8bdae7724029879426356db63e7a5e17cad5ef11e3523b54",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1296.277774839,
+      "model_seconds": 1149.88258699,
+      "native_query_seconds": 63.008415691999744
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-screenshot-record-03-v1",
@@ -121,7 +142,10 @@
       "model_calls": 7,
       "investigator_cost_usd": 0.0,
       "capture_seal": "fcd16aff47cd6d8445d59178b6161553a0c939a6c51fde70b86ca8790f2262b7",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1757.17067858699,
+      "model_seconds": 1636.7129986619693,
+      "native_query_seconds": 24.652799112998764
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-screenshot-record-04-v1",
@@ -136,7 +160,10 @@
       "model_calls": 6,
       "investigator_cost_usd": 0.0,
       "capture_seal": "1c2d7fc949c88b70140e5a0d69326d63be61d1db26f795da41cf66cdefb5bf66",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 936.6501466750001,
+      "model_seconds": 802.2251172279994,
+      "native_query_seconds": 26.38936637400002
     },
     {
       "ticket": "round27-proof15-kimi-form-v2-warehouse-scope-v1",
@@ -151,7 +178,10 @@
       "model_calls": 8,
       "investigator_cost_usd": 0.0,
       "capture_seal": "29911da91b5ad38394f094ab29089ed0273aefee5f1a3ab7af4122f73758c906",
-      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208"
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+      "engine_wall_seconds": 1448.7058143509998,
+      "model_seconds": 1248.583009616,
+      "native_query_seconds": 109.70523980899998
     }
   ],
   "fully_correct": 7,
@@ -169,5 +199,12 @@
   "partial_handoffs": 3,
   "observed_utc": "2026-11-23T07:50:39.917358+00:00",
   "environment_unestablished_unscored": 1,
-  "fault_cohort_status": "RUNNING_SERIALLY_FIRST_PIPELINE_DEFINITION_RESTORED"
+  "fault_cohort_status": "RUNNING_SERIALLY_FIRST_PIPELINE_DEFINITION_RESTORED",
+  "timing_scope": "Engine wall clock, excluding Azure startup/publication; mixed-image and partially overlapping free DEV cases, not an isolated provider latency benchmark",
+  "timing": {
+    "median_engine_wall_seconds": 1376.8345501945,
+    "p90_engine_wall_seconds_nearest_rank": 1757.17067858699,
+    "total_engine_model_calls": 67,
+    "physical_requests_across_confirmed_engine_cases": 321
+  }
 }
