@@ -70,6 +70,8 @@ TEST_MODULES = (
 # Every Round26 provider/intake regression travels with the fixed-image gate.
 TEST_MODULES += tuple(p.name for p in sorted((ROOT/'scripts').glob('test_round26*.py'))
                       if p.name not in TEST_MODULES)
+TEST_MODULES += tuple(name for name in ('test_nvidia_free_provider.py','test_openrouter_provider.py')
+                      if name not in TEST_MODULES)
 
 
 def partition(entries, shard, shards):

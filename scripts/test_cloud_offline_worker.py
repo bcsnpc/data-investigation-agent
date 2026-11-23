@@ -62,6 +62,7 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         required={p.name for p in (Path(__file__).parent).glob('test_round26*.py')}
         self.assertTrue(required)
         self.assertTrue(required<=set(TEST_MODULES))
+        self.assertTrue({'test_nvidia_free_provider.py','test_openrouter_provider.py'}<=set(TEST_MODULES))
 
     def test_full_image_publication_requires_complete_source_regression(self):
         workflow=(Path(__file__).parents[1]/'.github/workflows/cloud-worker.yml').read_text()

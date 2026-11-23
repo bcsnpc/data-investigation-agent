@@ -221,3 +221,6 @@ Pass2 additional format recoveries: text-batch08 SECONDARY missing verdict_match
 ### Round 27 free-model development (owner, 2026-11-22)
 
 NVIDIA cohorts use one independent OpenAI Sol grader while the approved OpenAI credit remains. Report every ticket's delivery status, correctness, harmfulness, first wrong step and whether that step was a DIA plumbing/logic error or a model reasoning error. These results are development diagnostics only. They cannot clear the Opus confirmation, calibration, regression guard or sealed v5 quality gates. Original Opus outcomes and expectations remain unchanged. A free-model reasoning failure alone does not authorize an engine patch.
+
+
+Round27 OpenRouter rule (owner2026-11-22): both zero-price :free and conditional paid OpenRouter profiles are synthetic DEV_ONLY. They cannot count toward Opus confirmation, calibration, v5 or any quality gate. Record the pinned API provider/model per pass; do not pool environment-interrupted NVIDIA pilots into quality denominators. Paid admission requires all eligible discovered free models to fail recorded tool qualification, and keeps a separate lifetime10USD cap despite the key's weekly remote reset. Existing scores, expectations and captures stay unchanged.

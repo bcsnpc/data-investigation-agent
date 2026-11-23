@@ -22,6 +22,21 @@ def response():
             'usage':{'prompt_tokens':20,'completion_tokens':9,'prompt_tokens_details':{'cached_tokens':4}}}
 
 class NvidiaFreeTests(unittest.TestCase):
+    def test_real_gateway_transport_accepts_documented_model_stream_timeout(self):
+        from types import SimpleNamespace
+        from investigator.nvidia_dev_profile import configuration,gateway
+        from investigator.live_gateway import configured,Gateway
+        raw=io.BytesIO(json.dumps(response()).encode());raw.status=200;raw.headers={'Content-Type':'application/json'}
+        opener=SimpleNamespace(open=Mock(return_value=raw))
+        reference={'vault_url':'https://kv-test.vault.azure.net','secret_name':'nvidia-api-key','secret_version':'a'*32,'identity':{}}
+        config=configuration({'gateway_identity':'reasoning'},model=MODEL,discovered_models=[MODEL],secret_reference=reference)
+        prior={'version':1,'live_enabled':True,'identities':{'reasoning':{'role':'model','http':[]}}}
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            c=Client(model=MODEL,budget=self.budget(),identity='reasoning',secret_reference={},record=Mock(),key_reader=lambda *a,**k:'synthetic-private-key')
+        with configured(gateway(prior,config)),patch.object(Gateway,'check_live',return_value=None),patch('investigator.adapters.reasoning_nvidia.build_opener',return_value=opener):
+            self.assertEqual(c._http('POST',BASE+'/chat/completions',request_for(model=MODEL,system='s',messages=[],tools=TOOLS,max_tokens=20)),response())
+        self.assertEqual(opener.open.call_args.kwargs['timeout'],300)
+
     def test_streaming_wire_and_assistant_text_follow_native_api_shape(self):
         from investigator.regression_features import configured
         body=request_for(model=MODEL,system='s',messages=[{'role':'assistant','content':[{'type':'text','text':'Read it.'}]}],tools=TOOLS,max_tokens=50)

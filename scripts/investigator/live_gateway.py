@@ -451,8 +451,15 @@ def authorize_http(request,*,identity=None):
 
 
 def open_http(opener,request,*,timeout,identity=None):
-    if not isinstance(timeout,(int,float)) or not 0<timeout<=120:_deny('HTTP_TIMEOUT_REQUIRED')
-    authorize_http(request,identity=identity)
+    if type(timeout)not in (int,float) or not 0<timeout<=300:_deny('HTTP_TIMEOUT_REQUIRED')
+    admission=authorize_http(request,identity=identity)
+    if timeout>120:
+        actor=identity or os.environ.get('DIA_GATEWAY_HTTP_IDENTITY','')
+        if (admission.get('purpose')!='configured_ai' or current().identity(actor).get('role')!='model'
+                or request.get_method()!='POST' or request.full_url not in (
+                    'https://integrate.api.nvidia.com/v1/chat/completions',
+                    'https://openrouter.ai/api/v1/chat/completions')):
+            _deny('HTTP_TIMEOUT_REQUIRED')
     # All production openers have NoRedirect. The gateway never follows a
     # redirect to an endpoint that did not receive its own admission.
     return opener.open(request,timeout=timeout)

@@ -147,5 +147,26 @@ class OpenRouterTests(unittest.TestCase):
         with self.assertRaisesRegex(SpendHold,'NONZERO_COST'):c.complete(system='s',messages=[],tools=TOOLS,max_tokens=100)
         self.assertEqual(self.state.snapshot(account_for(self.now[0]))['reservations'][0]['status'],'UNCERTAIN')
 
+    def test_real_transport_gateway_accepts_bounded_model_timeout_only(self):
+        import io
+        from types import SimpleNamespace
+        from urllib.request import Request
+        from investigator.live_gateway import configured,Gateway,open_http,GatewayDenied
+        native={'id':'r','model':MODEL,'choices':[{'finish_reason':'stop','message':{'content':'OK'}}],
+                'usage':{'prompt_tokens':20,'completion_tokens':1,'cost':0}}
+        response=io.BytesIO(json.dumps(native).encode());response.status=200;response.headers={'Content-Type':'application/json'}
+        opener=SimpleNamespace(open=Mock(return_value=response))
+        with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+            c=Client(model=MODEL,budget=self.budget(),identity='reasoning',secret_reference={},record=Mock(),key_reader=lambda *a,**k:'synthetic-private-key')
+        prepared=gateway(self.prior,self.config)
+        with configured(prepared),patch.object(Gateway,'check_live',return_value=None),patch('investigator.adapters.reasoning_nvidia.build_opener',return_value=opener):
+            self.assertEqual(c._http('POST',BASE+'/chat/completions',self.body()),native)
+            self.assertEqual(opener.open.call_args.kwargs['timeout'],300)
+            opener.open.reset_mock()
+            for url in (BASE+'/key',BASE+'/models'):
+                with self.assertRaises(GatewayDenied):open_http(opener,Request(url),timeout=300,identity='reasoning')
+            with self.assertRaises(GatewayDenied):open_http(opener,Request(BASE+'/chat/completions',data=json.dumps(self.body()).encode()),timeout=301,identity='reasoning')
+            opener.open.assert_not_called()
+
 
 if __name__=='__main__':unittest.main()

@@ -37,6 +37,14 @@ class GatewayRedTeamTests(unittest.TestCase):
         self.denied(lambda:open_http(opener,Request(URL),timeout=30))
         opener.open.assert_not_called()
 
+    def test_long_free_model_timeout_does_not_widen_estate_or_legacy_model_limits(self):
+        opener=MagicMock()
+        with configured(POLICY):
+            for request,identity in ((Request('https://api.fabric.microsoft.com/v1/workspaces'),'reader'),
+                    (Request('https://model.example/openai/v1/responses',data=b'{}'),'model')):
+                self.denied(lambda:open_http(opener,request,timeout=300,identity=identity))
+        opener.open.assert_not_called()
+
     def test_exact_identity_endpoint_and_method_never_pattern_match(self):
         gateway=Gateway(POLICY)
         gateway.http('reader','GET','https://api.fabric.microsoft.com/v1/workspaces')
