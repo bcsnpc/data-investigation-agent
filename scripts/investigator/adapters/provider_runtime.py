@@ -43,12 +43,18 @@ def select(configuration, *, tenant, step):
 
 def validate(config):
     required = {'model', 'rate_card', 'secret_reference', 'gateway_identity', 'worker_identity'}
-    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache', 'region'}:
+    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache', 'region', 'synthetic_only', 'quality_scope'}:
         raise ValueError('PROVIDER_CONFIGURATION_SHAPE')
     provider = config.get('provider', 'anthropic')
-    if provider not in ('anthropic', 'openai', 'azure_openai', 'bedrock'):
+    if provider not in ('anthropic', 'openai', 'azure_openai', 'bedrock', 'nvidia'):
         raise ValueError('PROVIDER_NOT_INSTALLED')
-    if provider == 'bedrock':
+    if provider == 'nvidia':
+        from .reasoning_nvidia import BASE
+        if config.get('endpoint') != BASE or config.get('synthetic_only') is not True or config.get('quality_scope') != 'DEV_ONLY':
+            raise ValueError('NVIDIA_SYNTHETIC_DEV_CONFIGURATION_REQUIRED')
+    elif {'synthetic_only', 'quality_scope'} & config.keys():
+        raise ValueError('FREE_PROVIDER_CONFIGURATION_ONLY')
+    elif provider == 'bedrock':
         from .reasoning_bedrock import endpoint, model_guard
         model_guard(config['model'])
         base = endpoint(config.get('region', 'us-east-1'))
@@ -74,6 +80,8 @@ def client(config, *, budget, record, diagnostic_prompt_cache=None, **ports):
             diagnostic_prompt_cache = config['explicit_cache']
         if diagnostic_prompt_cache is not None:
             arguments['diagnostic_prompt_cache'] = diagnostic_prompt_cache
+    elif provider == 'nvidia':
+        from .reasoning_nvidia import Client
     elif provider == 'bedrock':
         from .reasoning_bedrock import Client
         arguments['region'] = config.get('region', 'us-east-1')
@@ -109,12 +117,16 @@ class UnifiedClient:
                       'step': purpose if isinstance(purpose, str) else 'INVESTIGATOR',
                       'normalized_usage': deepcopy(usage.__dict__), 'cost_microdollars': cost,
                       'cache_read_ratio': usage.cache_read_ratio}
+        if self.provider == 'nvidia':
+            normalized.update(label='nvidia-free', quality_scope='DEV_ONLY', synthetic_only=True)
         self.record({'event': 'AI_NORMALIZED_USAGE', **normalized})
         return {**native, **normalized}
 
 
 def validate_graders(investigator, primary, secondary, reviewer):
     providers = [validate(c) for c in (investigator, primary, secondary, reviewer)]
+    if 'nvidia' in providers:
+        raise ValueError('NVIDIA_DEV_ONLY_NOT_A_QUALITY_GATE')
     if providers[0] == providers[1]:
         raise ValueError('PRIMARY_GRADER_MUST_USE_DIFFERENT_PROVIDER')
     for config in (secondary, reviewer):

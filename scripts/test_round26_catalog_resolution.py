@@ -4,6 +4,19 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_candidate_router_never_treats_an_alias_as_an_explicit_selection(self):
+        from investigator.intake_candidates import explicit_names, enumerate_targets
+        catalog=self.shared_visual_aliases();catalog.nodes['global']['label']='Total revenue card'
+        # A conflicting alias has the same words as another visual's real title.
+        text='Billing Overview Total revenue card'
+        selected=explicit_names(catalog,text)
+        self.assertEqual(selected['visual'],'global')
+        self.assertEqual(selected['page'],'globalpage')
+        inventory=enumerate_targets(catalog,text=text,proposal={'issue_type':'NUMBER_LOOKS_WRONG'},explicit=selected)
+        self.assertEqual([r['id'] for r in inventory['candidates']],['global'])
+        catalog.nodes['global']['label']='Global revenue'
+        self.assertNotIn('visual',explicit_names(catalog,text))
+
     def shared_visual_aliases(self):
         catalog=self.catalog();catalog.nodes['card']['label']='Regional revenue'
         catalog.nodes['card']['enrichment']={'synonyms':['Total revenue card']}

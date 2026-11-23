@@ -702,3 +702,7 @@ Round27,2026-11-22UTC — DECIDED WITHOUT REVIEW: correct the declared-source acti
 
 
 Owner steer2026-11-22: pass3 uses slim evaluator, question-only blocking after at most two retries; unsupported-claim, wording and completeness model checks remain advisory, with all named code checks enabled. Pass3 requires every pass2 failure/harmful ticket plus the full fixed20-ticket guard, rerun on the repair profile. No carried positive guard results satisfy this gate. Freeze requires0 reviewedharm and20/20 guard. Calibration14.34 and cash reserves remain protected; no budget ceiling changes. See round-twenty-seven-slim-evaluator.md.
+
+## Round27 free-model development, owner2026-11-22
+Follow r27-free-models-and-finish.md, superseding paused Opus continuation. Protect calibration14.34USD and existing3USD cash reserve; paid caps unchanged. Authenticated GET/models returned200/33models, including z-ai/glm-5.3-flash and moonshotai/kimi-k3.1-pro; no DeepSeek offered. No quota headers exposed:40RPM/1,000monthly conservative/unconfirmed. Shared CALLS ledger/queue enforces free usage, separate from paid dollars. No generation admitted yet.
+DECIDED WITHOUT REVIEW: preflight distinguishes an intentional safety rejection of a historical harmful draft from new plumbing regression. Rejected alternative: restoring unsafe delivery merely to match an old success status. Old scores/expectations unchanged.

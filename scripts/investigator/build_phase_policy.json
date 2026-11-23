@@ -139,6 +139,27 @@
         "enabled": false,
         "allowed_vendor": "amazon-nova-only",
         "allow_claude": false
+      },
+      "nvidia": {
+        "enabled": true,
+        "unit": "CALLS",
+        "monthly_call_allowance": 1000,
+        "minimum_dispatch_interval_seconds": 1.5,
+        "maximum_concurrent_calls": 2,
+        "synthetic_only": true,
+        "quality_scope": "DEV_ONLY",
+        "label": "nvidia-free",
+        "allowed_purposes": [
+          "INTAKE",
+          "INVESTIGATOR",
+          "EVALUATOR",
+          "SCREENSHOT",
+          "SUMMARY",
+          "GRADING",
+          "SMOKE"
+        ],
+        "quota_confirmation": "conservative owner assumption; no quota headers exposed",
+        "approval": "owner r27-free-models-and-finish.md 2026-11-22"
       }
     }
   }

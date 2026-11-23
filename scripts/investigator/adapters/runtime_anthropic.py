@@ -23,7 +23,10 @@ def installed_client():
     metadata=getattr(record,'metadata',{})
     session=SESSION.get() or metadata.get('session_id') or os.environ.get('DIA_RUN_ID')
     if not session:raise ValueError('ANTHROPIC_TICKET_ID_REQUIRED')
-    budget=TicketBudget(state,case_id='structured:'+str(session),owner=config['worker_identity'],rate=RateCard(model=config['model'],**config['rate_card']),actual_usage_limit=3000000,provider=provider)
+    from ..nvidia_free_budget import FreeRateCard, FreeBudget
+    budget_type=FreeBudget if provider=='nvidia' else TicketBudget
+    rate_type=FreeRateCard if provider=='nvidia' else RateCard
+    budget=budget_type(state,case_id='structured:'+str(session),owner=config['worker_identity'],rate=rate_type(model=config['model'],**config['rate_card']),actual_usage_limit=3000000,provider=provider)
     # The caller's ordinary recording context remains in force; no credential
     # or raw response is copied to shared accounting.
     def record(value):

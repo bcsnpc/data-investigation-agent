@@ -17,7 +17,12 @@ def explicit_names(catalog,text):
         if field=='visual' and result.get('report'):
             pages=[p for p in catalog.pages(result['report'])if not result.get('page') or p['id']==result['page']]
             within={v['id']for p in pages for v in catalog.visuals(result['report'],p['id'])}
-        named=[r for r in catalog.ranked(text,kind,within=within)if r['confidence']=='NAMED']
+        # Catalog ranking includes enrichment aliases. Those are search aids,
+        # never evidence that the user explicitly selected a native address.
+        named=[{'id': n['id'], 'name': n['label'], 'matched_name': n['label']}
+               for n in catalog.nodes.values() if n.get('kind') == kind
+               and (within is None or n['id'] in within) and n.get('label')
+               and re.search(r'(?<!\w)' + re.escape(n['label']) + r'(?!\w)', text, re.I)]
         if named:
             longest=max(len(r.get('matched_name')or r['name'])for r in named)
             named=[r for r in named if len(r.get('matched_name')or r['name'])==longest]

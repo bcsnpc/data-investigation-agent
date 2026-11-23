@@ -27,6 +27,8 @@ def policy(provider):
 
 def account_for(provider, now):
     month = month_window(now)[0]
+    if provider == 'nvidia':
+        raise ValueError('NVIDIA_FREE_REQUIRES_CALLS_ACCOUNT_NOT_DOLLARS')
     if provider == 'anthropic':
         return 'model-microdollars:' + month
     if provider == 'bedrock':
