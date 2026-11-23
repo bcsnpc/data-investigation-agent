@@ -1,0 +1,16 @@
+{
+  "at_utc": "2026-11-23T16:57:08.004253+00:00",
+  "source": "Hash-verified saved capture indexes; no new generation or estate reads",
+  "indexed_cases": 28,
+  "evaluator_attempts": 78,
+  "incomplete_max_tokens": 78,
+  "configured_output_tokens": 3200,
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "provider": "openrouter",
+  "classification": "MODEL_FORMAT_COMPLETION_LIMITATION",
+  "incomplete_is_not_rejection": true,
+  "incomplete_is_not_approval": true,
+  "quality_gate_eligible": false,
+  "engine_unchanged": true,
+  "limitation": "Interim indexed subset, not the final32-case denominator; original evaluator and grader records unchanged."
+}
