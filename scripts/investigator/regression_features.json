@@ -232,6 +232,10 @@
     "r27_scope_explanation_compatibility": {
       "default": true,
       "description": "Allow the existing different-question technical verdict to describe evidenced selection differences under AS DESIGNED; preserve native evidence and explicit-target checks."
+    },
+    "r27_analysis_native_projection": {
+      "default": true,
+      "description": "Project declared DAX output headers and native scalar types only within bounded analysis; preserve original query records, text identities, ambiguity refusal and truncation limits."
     }
   }
 }

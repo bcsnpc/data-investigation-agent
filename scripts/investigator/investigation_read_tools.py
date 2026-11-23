@@ -155,9 +155,21 @@ class ReadTools:
             query=args[side]
             observed=self.queries.run(query['layer'],query['query'],kind=query['kind'],purpose='compare')
             records.append(observed.get('record',observed))
+        projected=enabled('r27_analysis_native_projection')
+        bindings={}
+        if projected:
+            from .adapters.analysis_projection import project
+            fields=(args['dimensions']+[args['value_field']] if kind=='contribution' else args['keys']+args['compare_fields'])
+            for index,side in enumerate(('left','right')):
+                records[index],bindings[side]=project(records[index],self.queries.layers[args[side]['layer']],fields)
         if kind=='contribution':
-            return contribution(*records,dimensions=args['dimensions'],value_field=args['value_field'])
-        return row_diff(*records,keys=args['keys'],compare_fields=args['compare_fields'])
+            result=contribution(*records,dimensions=args['dimensions'],value_field=args['value_field'],typed_values=projected)
+        else:result=row_diff(*records,keys=args['keys'],compare_fields=args['compare_fields'],typed_values=projected)
+        if projected:
+            result['native_column_bindings']=bindings
+            result['native_scalar_types']={side:records[i].get('analysis_scalar_types',{})for i,side in enumerate(('left','right'))}
+            result['representation_qualification']='Analysis-only output-label alignment and exact native numeric/boolean comparison. Text, unknown strings and date/time representations remain literal; native JSON numbers and booleans retain their types. Original native query records and values are unchanged; no cross-scope equivalence or cause is inferred.'
+        return result
 
     def check_targets(self,args):
         from .intake_candidates import select_unique

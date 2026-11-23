@@ -13,8 +13,8 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 3,
-      "fully_correct": 2,
+      "graded": 4,
+      "fully_correct": 3,
       "partial_handoffs": 1,
       "harmful": 1
     }
@@ -309,36 +309,57 @@
       "native_query_seconds": 17.691703078999126,
       "cohort": "FAULT",
       "failure_kind": "NONE"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-latency-record-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered 'waiting on job' DEVIATION answers the expected latency finding: movement900701 exists upstream with 17 units but is absent in Bronze and the model, locating the split at source-to-Bronze. It names the expected cause\u2014source modification after the last completed load\u2014and correctly relates the enabled future schedule without treating it as an executed run. Native evidence supports that ordering. The answer incorrectly quotes the last load end as 11:37:09 rather than the saved job history's 11:36:32, but both precede the source modification at 11:37:48, so this factual discrepancy does not change the matched verdict, split, or cause. Saved source, Bronze, and model queries and engineer routing provide a useful rerunnable handoff.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 31,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "a0896feb17d56fe5693aed38cbc1966d20b72ccc33a9751daa843f6848dca819",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 263.12685290700006,
+      "model_seconds": 147.179580085,
+      "native_query_seconds": 34.911647726000126,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
     }
   ],
-  "fully_correct": 5,
+  "fully_correct": 6,
   "harmful": 1,
-  "graded": 14,
+  "graded": 15,
   "proof_total": 15,
   "partial_handoffs": 9,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T11:38:58.420088+00:00",
+  "observed_utc": "2026-11-23T11:55:07.748453+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
     "completed": [
       "failed-fixture",
       "failed-billing",
-      "history"
+      "history",
+      "latency"
     ],
-    "phase": "CONTROL_IN_FLIGHT",
+    "phase": "ALL_PROOF_FAULT_CONTROLS_COMPLETE",
     "fixture": "latency",
     "script": "run-dev-form-latency-cohort.py",
-    "at_utc": "2026-11-23T11:37:29.004608+00:00"
+    "at_utc": "2026-11-23T11:44:52.324802+00:00"
   },
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 365.332384627,
+    "median_engine_wall_seconds": 363.81850081199997,
     "p90_engine_wall_seconds_nearest_rank": 607.767039999,
-    "total_engine_model_calls": 151,
-    "physical_requests_across_confirmed_engine_cases": 403
+    "total_engine_model_calls": 157,
+    "physical_requests_across_confirmed_engine_cases": 434
   },
   "disjoint_headline": {
-    "fully_correct": 5,
+    "fully_correct": 6,
     "useful_nonharmful_handoffs": 8,
     "harmful": 1,
     "other_incorrect": 0

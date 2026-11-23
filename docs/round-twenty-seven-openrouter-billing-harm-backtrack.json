@@ -11,8 +11,8 @@
     "correct": false
   },
   "disjoint_reporting": "Harmful; no useful-handoff credit, raw grader flags retained.",
-  "first_harmful_step": "Submitted causal conclusion: transformation logic instead of the run-specific failed-job/impact answer",
-  "classification": "MODEL_UNSUPPORTED_CAUSAL_INFERENCE; exact ordered first rejection still being indexed",
+  "first_harmful_step": "Causal draft6980/7102; numeric250 grounding refusal was correct, then removing the literal did not repair unsupported causal history.",
+  "classification": "MODEL_UNSUPPORTED_CAUSAL_INFERENCE",
   "native_facts": {
     "failed_run": "04244ccc-9b98-4a71-8eea-4e7c6f5eba13",
     "native_error": "Round22 controlled fixture failure before original activities",
@@ -26,7 +26,18 @@
   "delivery_repairs": 0,
   "evaluator": "Three output-limited incomplete responses, blocking_rejection=false; do not relabel them as substantive passing/rejecting checks. Owner unsupported-claim advisory policy is retained.",
   "code_or_expectation_changed_for_this_failure": false,
-  "family_state": "No new billing admission while saved-trace diagnosis is reconciled; current different-family history run continues.",
+  "family_state": "Saved-trace diagnosis reconciled: weak-model causal reasoning, not a demonstrated DIA plumbing defect. No additional SuperVL billing rerun is selected; original harmful flag stays. Other-model qualification is a separate DEV measurement, never a quality-gate clearance.",
   "supervl_selection_warning": "One harmful DEV outcome recorded; never count this pass toward a quality gate or infer a paid fallback.",
-  "quality_scope": "DEV_ONLY_NOT_A_QUALITY_GATE"
+  "quality_scope": "DEV_ONLY_NOT_A_QUALITY_GATE",
+  "ordered_trace": {
+    "initial_value_queries": 1260,
+    "row_count_queries": 2922,
+    "first_incomplete_investigator_reply": 5470,
+    "first_causal_draft": 6980,
+    "first_rejection": {
+      "sequence": 6983,
+      "reason": "NUMBER_NOT_IN_CITED_RESULTS_OR_REPORTED_INPUT:250"
+    },
+    "resubmitted_causal_draft": 7102
+  }
 }

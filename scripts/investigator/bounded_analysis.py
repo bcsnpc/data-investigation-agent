@@ -27,23 +27,49 @@ def _rows(record):
     return rows
 
 
-def _key(row, fields):
+
+def comparison_cell(value,kind=None):
+    """Exact typed scalar identity; unknown/text representations are never guessed."""
+    from .estate_graph_contract import canonical
+    if value is None:return ['literal',canonical(None)]
+    if kind=='literal':return ['literal',canonical(value)]
+    if kind=='boolean':
+        if type(value)is bool:return ['boolean',value]
+        if type(value)is int and value in (0,1):return ['boolean',bool(value)]
+        if isinstance(value,str)and value.casefold()in('true','false','1','0'):return ['boolean',value.casefold()in('true','1')]
+        raise ValueError('ANALYSIS_TYPED_CELL_INVALID')
+    if type(value)is bool:
+        if kind in('number','integer'):raise ValueError('ANALYSIS_TYPED_CELL_INVALID')
+        return ['boolean',value]
+    if kind in('number','integer')or isinstance(value,(int,float,Decimal)):
+        try:number=Decimal(str(value))
+        except(InvalidOperation,ValueError,TypeError)as error:raise ValueError('ANALYSIS_TYPED_CELL_INVALID')from error
+        if not number.is_finite():raise ValueError('ANALYSIS_FINITE_CELL_REQUIRED')
+        sign,digits,exponent=number.as_tuple();digits=list(digits)
+        if not any(digits):return ['number',0,[0],0]
+        while digits[-1]==0:digits.pop();exponent+=1
+        if kind=='integer'and exponent<0:raise ValueError('ANALYSIS_TYPED_CELL_INVALID')
+        return ['number',sign,digits,exponent]
+    return ['literal',canonical(value)]
+
+
+def _key(row, fields, types=None):
     if not 1 <= len(fields) <= 3 or len(set(fields)) != len(fields):
         raise ValueError('ANALYSIS_KEY_FIELDS')
     if any(field not in row for field in fields):
         raise ValueError('ANALYSIS_KEY_COLUMN_MISSING')
     from .estate_graph_contract import canonical
-    return canonical([row[field] for field in fields])
+    return canonical([comparison_cell(row[field],types.get(field)) if types is not None else row[field] for field in fields])
 
 
 @exact_decimal
-def contribution(left, right, *, dimensions, value_field, sample_limit=10):
+def contribution(left, right, *, dimensions, value_field, sample_limit=10, typed_values=False):
     if type(sample_limit) is not int or not 1 <= sample_limit <= 20:
         raise ValueError('ANALYSIS_SAMPLE_BOUND')
     def group(record):
         result = {}
         for row in _rows(record):
-            key = _key(row, dimensions)
+            key = _key(row, dimensions, record.get('analysis_scalar_types',{}) if typed_values else None)
             if value_field not in row or isinstance(row[value_field], bool) or row[value_field] is None:
                 raise ValueError('CONTRIBUTION_NUMERIC_CELL_REQUIRED')
             try:
@@ -78,7 +104,7 @@ def contribution(left, right, *, dimensions, value_field, sample_limit=10):
                  'Truncated result: shares describe returned groups only, not the complete population.')}
 
 
-def row_diff(left, right, *, keys, compare_fields, sample_limit=10):
+def row_diff(left, right, *, keys, compare_fields, sample_limit=10, typed_values=False):
     if type(sample_limit) is not int or not 1 <= sample_limit <= 20:
         raise ValueError('ANALYSIS_SAMPLE_BOUND')
     if not compare_fields or len(compare_fields) > 20 or len(set(compare_fields)) != len(compare_fields):
@@ -86,7 +112,7 @@ def row_diff(left, right, *, keys, compare_fields, sample_limit=10):
     def keyed(record):
         result = {}
         for row in _rows(record):
-            key = _key(row, keys)
+            key = _key(row, keys, record.get('analysis_scalar_types',{}) if typed_values else None)
             if key in result:
                 raise ValueError('DIFF_BUSINESS_KEY_NOT_UNIQUE')
             if any(field not in row for field in compare_fields):
@@ -97,7 +123,11 @@ def row_diff(left, right, *, keys, compare_fields, sample_limit=10):
     missing = sorted(before.keys()-after.keys()); extra = sorted(after.keys()-before.keys())
     changed = []
     for key in sorted(before.keys() & after.keys()):
-        fields = [field for field in compare_fields if before[key][field] != after[key][field]]
+        def differs(field):
+            a,b=before[key][field],after[key][field]
+            if not typed_values:return a!=b
+            return comparison_cell(a,left.get('analysis_scalar_types',{}).get(field))!=comparison_cell(b,right.get('analysis_scalar_types',{}).get(field))
+        fields = [field for field in compare_fields if differs(field)]
         if fields:
             changed.append({'key': {field: deepcopy(before[key][field]) for field in keys},
                             'fields': {field: {'before': deepcopy(before[key][field]), 'after': deepcopy(after[key][field])} for field in fields}})

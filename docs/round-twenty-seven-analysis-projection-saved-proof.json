@@ -1,0 +1,79 @@
+{
+  "label": "OFFLINE saved native analysis only; no score change or live rerun",
+  "generation_calls": 0,
+  "estate_reads": 0,
+  "rows": [
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "capture_seal": "477e243d3031cc5b70c28ab243f88e1655e2c4c235c3a8bcae7b4a9fbcd41d5e",
+      "query_ids": [
+        "query:bcb49632256bb77e97cd76235f1029bab98d017975ccb59d7a0641dafdcf351d:5",
+        "query:e610c5d3009955d55e3b9805495761e5d6b8efc956253c0dfde811c5078bffb8:6"
+      ],
+      "native_column_bindings": {
+        "left": {
+          "movement_id": "movement_id",
+          "warehouse_id": "warehouse_id",
+          "product_id": "product_id",
+          "units": "units"
+        },
+        "right": {
+          "movement_id": "[movement_id]",
+          "warehouse_id": "[warehouse_id]",
+          "product_id": "[product_id]",
+          "units": "[units]"
+        }
+      },
+      "native_scalar_types": {
+        "left": {
+          "movement_id": "integer",
+          "warehouse_id": "integer",
+          "product_id": "integer",
+          "units": "integer"
+        },
+        "right": {}
+      },
+      "missing": 0,
+      "extra": 0,
+      "changed": 0,
+      "original_query_records_byte_projection_unchanged": true,
+      "original_query_records_sha256": "a72b9c1ba6c774619c3aac83aa89b8c930d903314f27b92148bba640308c4f5a"
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "capture_seal": "2cbd7753ec549dc56d5cddb8280e897571844daab884f7ce12ddad594db39dc6",
+      "query_ids": [
+        "query:b59ac5f1b87d86fbb2d7f1be249c701857bdb995a6401ee647ba1c1c350af98b:5",
+        "query:50a4d1430fd90be5c7a08dab5b24593c89f5dfb3854fad329e8e2f2248baa652:6"
+      ],
+      "native_column_bindings": {
+        "left": {
+          "movement_id": "movement_id",
+          "warehouse_id": "warehouse_id",
+          "product_id": "product_id",
+          "units": "units"
+        },
+        "right": {
+          "movement_id": "Movements[movement_id]",
+          "warehouse_id": "Movements[warehouse_id]",
+          "product_id": "Movements[product_id]",
+          "units": "Movements[units]"
+        }
+      },
+      "native_scalar_types": {
+        "left": {
+          "movement_id": "integer",
+          "warehouse_id": "integer",
+          "product_id": "integer",
+          "units": "integer"
+        },
+        "right": {}
+      },
+      "missing": 0,
+      "extra": 0,
+      "changed": 0,
+      "original_query_records_byte_projection_unchanged": true,
+      "original_query_records_sha256": "fb3a58748d0d085e0980b991405b0f812fa61465ecf2bc59b959032b18a455a8"
+    }
+  ]
+}
