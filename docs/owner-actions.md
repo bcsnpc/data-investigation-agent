@@ -971,3 +971,6 @@ Round27 Opus planning update2026-11-23: known confirmation scope is25tickets(7me
 
 
 2026-11-23 18:20UTC current fixture action: turn ON Keep your Direct Lake data up to date for Application load fixture20261003, Apply, schedule unchanged. The source360/business-schema hashes are restored and the original real restoration load SUCCEEDED. One stale start is Azure-unestablished/environment-withdrawn before cleanup; any late capture is unscored, second ticket not run. Do not resubmit the uncertain POST. ON confirmation was requested; prepared finish-owner-on-step4.py/check-owner-on-refresh-step4.py require the actual reply and perform native refresh/value verification. Existing Anthropic confirmation shortfall26.351553USD and protected14.34calibration/3cashreserve remain; no limit change or partialv5.
+
+
+Resolved2026-11-23 19:02UTC: the current Step4 automatic-updatesON owner action is complete. Native refreshCompleted/model7661; originalsourcehashes and realrestorationloadSUCCEEDED. No fixture owner action remains. Azure execution API stillBadGateway and exactwithdrawnrun has no sealedcapture; do not resubmit or grade it. Anthropic confirmation forecast shortfall26.351553USD remains, with14.34calibration and3cashreserveprotected; no new generation or cap change.

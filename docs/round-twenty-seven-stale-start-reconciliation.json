@@ -1,6 +1,6 @@
 {
-  "observed_at_utc": "2026-11-23T18:21:47.452195+00:00",
-  "status": "WITHDRAWN_DATA_HASH_AND_REAL_LOAD_RESTORED_OWNER_AUTOON_PENDING",
+  "observed_at_utc": "2026-11-23T19:02:51.905225+00:00",
+  "status": "WITHDRAWN_FIXTURE_RESTORATION_COMPLETE_AZURE_START_STILL_UNESTABLISHED",
   "ticket": "form-v2-stale-model-v1",
   "run_id": "f238f1ba-1142-4b55-bdc1-958c61911343",
   "image_prefix": "e452897d1d341e88",
@@ -14,7 +14,7 @@
     "model_quantity": 7661,
     "source_rows": 363,
     "source_restoration_required": false,
-    "automatic_updates_owner_reported": "OFF",
+    "automatic_updates_owner_reported": "ON",
     "automatic_updates_confirmation_utc": "2026-11-23T17:26:51.730893+00:00",
     "schedule_changed": false,
     "control_requests_recorded": 28,
@@ -41,5 +41,9 @@
   "original_real_restoration_load": "SUCCEEDED",
   "cleanup_requests_total": 28,
   "restore_recovery": "First connection failed nativeSQL40613. Re-read all owned IDs/values/versions, then executed the same guarded restore under a new recovery journal entry. Original360 business/schema hashes verified.",
-  "native_setting_provenance": "OWNER_REPORTED_OFF; ON confirmation still pending"
+  "native_setting_provenance": "OWNER_REPORTED_OFF; ON confirmation still pending",
+  "automatic_updates": "ON_OWNER_CONFIRMED",
+  "native_model_quantity": 7661,
+  "native_refresh_status": "Completed",
+  "final_restoration_record": "round-twenty-seven-free-step4-final-restoration.json"
 }

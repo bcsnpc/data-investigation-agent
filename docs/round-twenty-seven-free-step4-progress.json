@@ -671,10 +671,10 @@
   "proof_total": 32,
   "partial_handoffs": 12,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T18:20:24.788434+00:00",
+  "observed_utc": "2026-11-23T19:03:16.567375+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
-    "phase": "ALL_ADMITTED_CONTROLS_DATA_RESTORED_OWNER_AUTOON_PENDING",
+    "phase": "ALL_ADMITTED_CONTROLS_RESTORED_STALE_WITHDRAWN_UNSCORED",
     "completed": [
       "failed-fixture",
       "failed-billing",
@@ -696,7 +696,10 @@
       "form-v2-stale-model-v2": "NOT_RUN"
     },
     "restoration_receipt": "injections/stale/status.json",
-    "any_late_capture": "PRESERVE_UNSCORED_FIXTURE_WITHDRAWN"
+    "any_late_capture": "PRESERVE_UNSCORED_FIXTURE_WITHDRAWN",
+    "restoration_required": false,
+    "automatic_update_restoration_required": false,
+    "final_restoration_record": "docs/round-twenty-seven-free-step4-final-restoration.json"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {

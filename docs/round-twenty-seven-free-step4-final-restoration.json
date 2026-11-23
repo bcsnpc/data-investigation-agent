@@ -1,0 +1,34 @@
+{
+  "recorded_at_utc": "2026-11-23T19:02:16.903342+00:00",
+  "status": "STALE_FIXTURE_RESTORATION_COMPLETE",
+  "automatic_updates": {
+    "value": "ON",
+    "provenance": "OWNER_REPORTED_SAVED_SETTING",
+    "owner_confirmation": "ON",
+    "refresh_schedule_changed": false,
+    "receipt_sha256": "6b0153aedc91ad22bea31828489d68802ef3ec79e53985c2b05bb683b14436a0"
+  },
+  "native_model_quantity": 7661,
+  "native_refresh": {
+    "requestId": "85942e74-bd08-407b-8c4b-02692a51512e",
+    "id": 773981062,
+    "refreshType": "DirectLakeFraming",
+    "startTime": "2026-11-23T19:01:22.153Z",
+    "endTime": "2026-11-23T19:01:22.263Z",
+    "status": "Completed",
+    "refreshAttempts": []
+  },
+  "source_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "original_real_load_status": "SUCCEEDED",
+  "restoration_required": false,
+  "automatic_update_restoration_required": false,
+  "withdrawn_attempt": "UNESTABLISHED_ENVIRONMENT_UNSCORED",
+  "second_stale_ticket": "NOT_RUN",
+  "late_capture_policy": "PRESERVE_UNSCORED_FIXTURE_WITHDRAWN",
+  "new_investigation_or_model_runs": 0,
+  "scores_expectations_and_budget_limits_unchanged": true
+}

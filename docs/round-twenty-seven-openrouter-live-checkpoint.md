@@ -2,6 +2,8 @@
 
 These are separate synthetic development cohorts. Each uses one independent Sol grader. They do not count toward the Opus confirmation, calibration or sealed v5 gates. Original outcomes and expectations are unchanged.
 
+Latest restoration,19:02UTC: automatic updates are ON (owner-confirmed, schedule unchanged); native refresh Completed and native model total7661. Original source360-row/business-schema hashes and original real restoration load are verified. Both restoration flags are false. The one Azure-unestablished attempt remains unscored and the second stale ticket not run. See round-twenty-seven-free-step4-final-restoration.json. The earlier pending-state paragraphs below are dated checkpoints.
+
 | Cohort | Graded | Correct | Useful nonharmful handoff | Harmful | Other unsuccessful |
 |---|---:|---:|---:|---:|---:|
 | Original SuperVL qualification | 15 | 6 | 8 | 1 | 0 |
