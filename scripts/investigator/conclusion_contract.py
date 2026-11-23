@@ -21,7 +21,7 @@ def fields():
         gap = {'description': 'Optional record-only metadata: an object with type ('+', '.join(CONTEXT_TYPES)+') and a one-line note about a fact that would shorten the case. Do not invent a gap. This metadata never decides whether a supported finding can be delivered.'}
     return {
         'direct_answer': {**text, 'description': 'One or two sentences answering the exact user question, including why; distinguish incidental observations.'},
-        'verdict_class': {'enum': list(VERDICTS), **({'description': 'Question-level disposition, separate from the technical verdict detail. AS DESIGNED describes the observed implemented rule, not approval of business policy; a supported access rule or current record absence can explain the question.'} if enabled('r27_conclusion_detail_compatibility') else {})},
+        'verdict_class': {'enum': list(VERDICTS), **({'description': ('Question-level disposition, separate from the technical verdict detail. AS DESIGNED describes the observed implemented rule, not approval of business policy; a supported access rule or current record absence can explain the question.' + (' Use the different question technical detail with AS DESIGNED when evidenced selection scopes explain different figures; retain the scope evidence and each measured value.' if enabled('r27_scope_explanation_compatibility') else ''))} if enabled('r27_conclusion_detail_compatibility') else {})},
         'calculation_explanation': {**text, 'description': 'Explain the implemented calculation and filters from cited definitions; for a status-only ask say no quantity calculation was requested.'},
         'undecided': {'type': 'array', 'items': text, 'description': 'Exact unavailable fact or unresolved distinction, with a reason; empty only when nothing remains undecided within the asked scope.'},
         'routing': {'enum': ['ENGINEER', 'BUSINESS_OWNER']},
@@ -42,6 +42,8 @@ def validate(value, case):
     if enabled('r27_conclusion_detail_compatibility'):
         implemented_details.update({'access difference', 'record missing', 'duplicate record',
                                     'blank or error', 'observed value', 'consistent to boundary', 'not found'})
+        if enabled('r27_scope_explanation_compatibility'):
+            implemented_details.add('different question')
     if value['verdict_class'] == 'AS DESIGNED' and value.get('verdict') not in implemented_details:
         raise ValueError('AS_DESIGNED_REQUIRES_IMPLEMENTED_RULE_VERDICT')
     if value['verdict_class'] == 'DEVIATION' and value.get('verdict') in ('as designed', 'definition explained', 'not found'):

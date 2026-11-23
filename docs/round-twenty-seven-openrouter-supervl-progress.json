@@ -1,15 +1,21 @@
 {
   "cohort_totals": {
     "STATIC": {
-      "graded": 6,
+      "graded": 7,
       "fully_correct": 3,
-      "partial_handoffs": 3,
+      "partial_handoffs": 4,
       "harmful": 0
     },
     "SCREENSHOT": {
       "graded": 4,
       "fully_correct": 0,
       "partial_handoffs": 4,
+      "harmful": 0
+    },
+    "FAULT": {
+      "graded": 1,
+      "fully_correct": 1,
+      "partial_handoffs": 0,
       "harmful": 0
     }
   },
@@ -222,22 +228,68 @@
       "native_query_seconds": 45.379615908999995,
       "cohort": "SCREENSHOT",
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-warehouse-scope-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The delivered answer remains unresolved, whereas the sealed answer is 'different question' at selection scope (DEV): the report filters warehouse 1 and the export filters warehouse 2. Its own successful model, bronze and source queries show warehouse 1 = 2948 and warehouse 2 = 2084, fully accounting for the 864 difference without an ingestion or arithmetic fault. It never draws that conclusion or names the differing warehouse restrictions as the cause. Later rejected reads of other tables do not block this answer. Saved queries, checked totals, a stopping point and engineer routing provide a limited handoff, but the proposed next checks merely revisit failed reads rather than identify a necessary missing fact. The explicit evidence limitation is not a confident incorrect cause, so it is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 26,
+      "model_calls": 17,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "9931d2e0a32755f500927902e60232aa3c4da53e1ab978f73ad1d243bb41a2d9",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 563.326475012,
+      "model_seconds": 469.362863688,
+      "native_query_seconds": 37.664801972000134,
+      "cohort": "STATIC",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-failed-application-load-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "Matches the sealed failed-job verdict and application-load pipeline layer. Cites the latest failed native run with pipeline name, run ID, start/end timestamps, and non-retriable error 2011 naming the controlled failure target. The 7661 comparisons are correctly kept separate from operational failure, with numerical impact explicitly unresolved rather than asserted. Saved DAX/SQL, checked layers, precise stopping point, and engineer routing provide a useful handoff; that remaining impact question does not negate the expected failed-job answer.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 26,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "23440b4e02de31a85c8b906d23138d22242af3d11eb52c669061e9b560db7f0b",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 252.96982018199998,
+      "model_seconds": 148.93994602199993,
+      "native_query_seconds": 21.67094950799998,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
     }
   ],
-  "fully_correct": 3,
+  "fully_correct": 4,
   "harmful": 0,
-  "graded": 10,
+  "graded": 12,
   "proof_total": 15,
-  "partial_handoffs": 7,
+  "partial_handoffs": 8,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T11:01:05.905747+00:00",
+  "observed_utc": "2026-11-23T11:13:10.384889+00:00",
   "environment_unestablished_unscored": 0,
-  "fault_cohort_status": "NOT_ADMITTED",
+  "fault_cohort_status": {
+    "completed": [],
+    "phase": "CONTROL_IN_FLIGHT",
+    "fixture": "failed-fixture",
+    "script": "run-dev-failure-cohort.py",
+    "at_utc": "2026-11-23T11:05:01.531526+00:00"
+  },
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
     "median_engine_wall_seconds": 375.1063359484999,
     "p90_engine_wall_seconds_nearest_rank": 607.767039999,
-    "total_engine_model_calls": 114,
-    "physical_requests_across_confirmed_engine_cases": 290
+    "total_engine_model_calls": 137,
+    "physical_requests_across_confirmed_engine_cases": 342
   }
 }

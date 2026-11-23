@@ -1,0 +1,16 @@
+{
+  "observed_utc": "2026-11-23T11:27:38.604489+00:00",
+  "basis": "Earlier paid native regression diagnosis: warehouse-scope-v1 different-question detail with AS DESIGNED was rejected by the added conclusion contract. Existing enum still offered different question, but explanatory compatibility omitted it.",
+  "saved_diagnosis_sha256": "1b6b2b3ad74cb0e5015e76e4d769e1c262b5c3f10b50dbcde2a3ecc5da51c9d7",
+  "fix": "Allow and document the existing different-question technical detail under AS DESIGNED when the explanatory compatibility and independent scope flag are on. No source-consistency equality relaxation for the as-designed detail.",
+  "feature_flag": "r27_scope_explanation_compatibility",
+  "default": true,
+  "legacy_compatibility_master_still_required": true,
+  "new_tests": 6,
+  "focused_passed": 88,
+  "focused_subtests": 88,
+  "failed_read_and_explicit_target_refusals_preserved": true,
+  "original_outcomes_and_expectations_unchanged": true,
+  "current_live_pass_image_unchanged": true,
+  "full_suite_and_image_shards": "PENDING_NEW_SOURCE_QUALIFICATION"
+}

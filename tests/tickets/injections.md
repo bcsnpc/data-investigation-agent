@@ -612,3 +612,9 @@ Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=True. Native r
 
 
 Round27 Kimi latency recovery 20261123-095545: native SQL40613 restore failure preserved; owned row900701/version124003 re-read before the exact existing guarded restore. Original360 business rows/schema hash verified, temporalON; owned schedule3e0fe208-bece-4164-a89f-42930ab377f8 was already removed. Engine capture remains INTERRUPTED/environment-affected/unscored; no resubmission. Recovery 3 INV control requests; no reserve use. Receipt .local\round-twenty-seven\free-models\proof15-kimi\injections\form-latency\status.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\free-models\proof15-openrouter-supervl\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\free-models\proof15-openrouter-supervl\injections\dev-failed-billing\status.json. No grant/identity change.

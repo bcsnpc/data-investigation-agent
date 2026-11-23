@@ -228,6 +228,10 @@
     "r27_source_consistency_feedback": {
       "default": true,
       "description": "Describe uncited or non-scalar native reads as missing comparison proof, rather than falsely calling successfully measured layers unread; all finding acceptance rules stay the same."
+    },
+    "r27_scope_explanation_compatibility": {
+      "default": true,
+      "description": "Allow the existing different-question technical verdict to describe evidenced selection differences under AS DESIGNED; preserve native evidence and explicit-target checks."
     }
   }
 }
