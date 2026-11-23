@@ -1,0 +1,23 @@
+{
+  "observed_at_utc": "2026-11-23T16:45:59.900445+00:00",
+  "endpoint": "https://openrouter.ai/api/v1/key",
+  "http_status": 200,
+  "generation_calls": 0,
+  "free_model_daily_requests": {
+    "used": 525,
+    "limit": 1000,
+    "remaining": 475
+  },
+  "key_limit_usd": 10,
+  "key_remaining_usd": 10,
+  "key_usage_usd": 0,
+  "remote_limit_reset": "weekly",
+  "dia_lifetime_limit_usd": 10,
+  "dia_lifetime_limit_resets": false,
+  "queue_requests_per_minute": 20,
+  "max_concurrent_requests": 2,
+  "synthetic_only": true,
+  "paid_fallback": "REFUSED_WHILE_ELIGIBLE_FREE_TOOL_TEST_PASSES",
+  "ledger_free_calls_last_read": 681,
+  "ledger_remote_difference": "Conservative uncertain exposure remains charged; provider usage does not release it."
+}
