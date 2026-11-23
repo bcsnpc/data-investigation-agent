@@ -1,0 +1,40 @@
+{
+  "label": "FREE SYNTHETIC DEV ONLY; single independent Sol grader; not a quality gate",
+  "provider": "nvidia",
+  "model": "moonshotai/kimi-k3.1-pro",
+  "rows": [
+    {
+      "ticket": "round27-proof15-kimi-form-v2-application-baseline-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered answer correctly explains AS DESIGNED: Movement Units is SUM('Movements'[units]), not a count of the 360 rows. Native checks reproduce 7661 in the model and establish 360 rows and SUM(units)=7661 in both landing and the declared ordersops application source. It also explains the direct units-to-units copy and unfiltered measure context, matching the expected source-application/DEV boundary and named cause. Saved DAX/SQL and a clear completed scope make the technical record rerunnable; no unresolved business fact is needed. No disagreement with the sealed expectation."
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-billing-mrr-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The delivered verdict is UNRESOLVED rather than the expected AS DESIGNED, despite successful native checks reproducing 600. It does not identify the expected source-application/DEV attribution. Independently, its calculation and checked rows substantively supply the complete named calculation cause: ACTIVE subscriptions 401/402/403 contribute 250+100+250, and the retained DAX explicitly removes Plans filters. Thus cause credit does not depend on accepting its unresolved conclusion. The first substantive failure is concluding that an unstated discrepancy remains unexplained when the requested calculation is already evidenced. The handoff preserves rerunnable queries and results, but its timeout stopping point and retry recommendation are stale because the later DAX query succeeded; it identifies no genuine missing fact. This is an honest unresolved answer, not a confident incorrect causal claim."
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-billing-invoices-v2",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "query validation",
+      "reason": "The saved checks substantively locate the split: source, bronze and silver total 700, while gold and the model total 950; invoice 101 increases from 250 in silver to 500 in gold. This earns Silver-to-Gold layer credit independently of the unresolved verdict. The answer does not establish the expected transformation-logic verdict or name the account_id-only history join missing an effective-date restriction as the cause. Its first failed investigative step is the recreation query against bronze.account_plan_history on billing_serving, rejected before native dispatch for an unavailable object/dependency. The handoff preserves executable successful queries, checked findings and a clear budget stop, but its next check merely refers back to the rejected query rather than specifying the missing join-definition verification and a workable cross-endpoint approach. The explicit uncertainty is not harmful."
+    }
+  ],
+  "fully_correct": 1,
+  "harmful": 0,
+  "graded": 3,
+  "proof_total": 15,
+  "original_outcomes_unchanged": true,
+  "image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+}
