@@ -38,7 +38,8 @@ def explicit_names(catalog,text):
     if result.get('visual') and result.get('report') and not result.get('page'):
         parents=[p for p in catalog.pages(result['report'])if any(v['id']==result['visual']for v in catalog.visuals(result['report'],p['id']))]
         if len(parents)==1:result['page']=parents[0]['id']
-    if not result and enabled('r27_unique_native_table_reference'):
+    if (not result and enabled('r27_unique_native_table_reference')
+            and not re.search(r'\b(?:report|page|card|chart|visual|dashboard)\b',text,re.I)):
         # The ticket can name a native source/container rather than a report.
         # A unique declared child, established by containment and (where
         # needed) literal native columns, outranks global related-word measures.
@@ -58,7 +59,7 @@ def explicit_names(catalog,text):
                                      for n in catalog.children(parent['id'],kind)}):
                 tables.append(row)
         if len({r['id'] for r in tables})==1:
-            competing=[r for r in catalog.measure_matches(text)
+            competing=[r for r in [*catalog.measure_matches(text),*catalog.report_matches(text)]
                        if r['confidence'] in ('NAMED','NORMALIZED')]
             if not competing:result['table']=tables[0]['id']
     return result
@@ -129,8 +130,17 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
             rows.extend({**base, 'report': report_id, 'page': p['id'], 'visual': v['id']}
                         for p, v in visuals)
         if not reports:
-            for field, matches in (('table', catalog.table_matches(text)),
-                                   ('measure', catalog.measure_matches(text))):
+            alternatives={'table':catalog.table_matches(text),
+                          'measure':catalog.measure_matches(text)}
+            if enabled('r27_candidate_confidence_priority'):
+                named=('NAMED','NORMALIZED')
+                if any(row.get('confidence') in named for values in alternatives.values() for row in values):
+                    # Do not turn every measure sharing a business word into
+                    # another target when an actual named referent is known.
+                    # Keep all equally strong table/measure alternatives.
+                    alternatives={field:[row for row in values if row.get('confidence') in named]
+                                  for field,values in alternatives.items()}
+            for field,matches in alternatives.items():
                 rows.extend({**base, field: row['id']} for row in matches)
     unique = {}
     for request in rows:

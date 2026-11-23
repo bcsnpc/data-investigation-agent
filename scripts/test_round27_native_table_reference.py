@@ -42,6 +42,16 @@ class NativeTableReferenceTests(unittest.TestCase):
     def test_a_competing_named_measure_is_preserved(self):
         self.assertNotIn('table', explicit_names(catalog(), 'Revenue versus visit_id units in Clinical Bronze'))
 
+    def test_unknown_primary_visual_is_not_replaced_by_its_comparison_container(self):
+        self.assertNotIn('table', explicit_names(catalog(),
+                        'My chart differs from visit_id units in Clinical Bronze'))
+
+    def test_a_known_report_alias_is_not_overridden(self):
+        c = catalog()
+        c.nodes['report'] = {'id': 'report', 'kind': 'REPORT', 'label': 'Care Overview',
+                             'enrichment': {'synonyms': ['Care Summary']}}
+        self.assertNotIn('table', explicit_names(c, 'Care Summary versus visit_id units in Clinical Bronze'))
+
     def test_missing_containment_never_creates_a_binding(self):
         c = catalog(); c.edges.clear()
         self.assertNotIn('table', explicit_names(c, 'visit_id units in Clinical Bronze'))
@@ -61,6 +71,35 @@ class NativeTableReferenceTests(unittest.TestCase):
     def test_ablation_retains_old_unresolved_reference(self):
         with configured({'r27_unique_native_table_reference': False}):
             self.assertEqual(explicit_names(catalog(), 'visit_id units in Clinical Bronze'), {})
+
+    def alternatives(self, text, **kwargs):
+        c = catalog()
+        c.nodes['rows']['label'] = 'Movements'
+        c.nodes['metric']['enrichment']['business_meaning'] = 'stock movements units'
+        c.nodes['second'] = {'id': 'second', 'kind': 'TABLE', 'label': 'Movements'}
+        return enumerate_targets(c, text=text, proposal={'issue_type': 'SOMETHING_ELSE'},
+                                 explicit={}, **kwargs)
+
+    def test_named_table_peers_exclude_unrelated_global_measures(self):
+        result = self.alternatives('Stock Movements units differ')
+        self.assertEqual({x['id'] for x in result['candidates']}, {'rows', 'second'})
+        self.assertTrue(result['exhaustive'])
+        self.assertIsNone(select_unique(result, [], None)['selected'])
+
+    def test_named_measure_and_table_both_survive(self):
+        result = self.alternatives('Revenue and Stock Movements units differ')
+        self.assertEqual({x['id'] for x in result['candidates']}, {'rows', 'second', 'metric'})
+
+    def test_strong_ties_remain_truncated_at_the_existing_limit(self):
+        result = self.alternatives('Stock Movements units differ', limit=1)
+        self.assertEqual(result['total_candidates'], 2)
+        self.assertFalse(result['exhaustive'])
+        self.assertIsNone(select_unique(result, [], None)['selected'])
+
+    def test_confidence_ablation_keeps_the_weak_measure(self):
+        with configured({'r27_candidate_confidence_priority': False}):
+            result = self.alternatives('Stock Movements units differ')
+        self.assertIn('metric', {x['id'] for x in result['candidates']})
 
 
 if __name__ == '__main__':

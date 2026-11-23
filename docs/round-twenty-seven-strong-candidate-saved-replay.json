@@ -1,0 +1,39 @@
+{
+  "scope": "Offline deterministic candidate enumeration, shared saved fixture catalog and unchanged raw dev text; not a new ticket score",
+  "new_estate_reads": 0,
+  "generation_calls": 0,
+  "before_after": {
+    "False": {
+      "total_candidates": 43,
+      "exhaustive": false,
+      "candidate_ids": [
+        "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04",
+        "92e1d93e1bb1e11c61ceab6c65bfa62f84b89ff2b9199cd2ad5ecc6325e439b6",
+        "25a0231efd7ef34fd82c59eb1e3348e63cb1ce0094648f5e9ad1bf09ce8ab230",
+        "1a1ed7df0c0d9d97e568827eba388d49be485794d1b9db4f7de5f5e75ecf1335"
+      ],
+      "names": [
+        "Movements",
+        "Movements",
+        "Warehouses",
+        "Products",
+        "Dispatch Volume"
+      ]
+    },
+    "True": {
+      "total_candidates": 2,
+      "exhaustive": true,
+      "candidate_ids": [
+        "47e39c36abbe4f68aacfcbc1f468c7090869b3d983942f8aeeade9e2b19d16ff",
+        "cff77b377ae273654a0a566b3b1fd4c9a4d31f79fc7c650b05f687c8a54a1b04"
+      ],
+      "names": [
+        "Movements",
+        "Movements"
+      ]
+    }
+  },
+  "no_tied_target_selected": true,
+  "all_original_outcomes_unchanged": true
+}

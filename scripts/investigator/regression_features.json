@@ -248,6 +248,10 @@
     "r27_unique_native_table_reference": {
       "default": true,
       "description": "Resolve a uniquely contained native table from a verbatim named container and native column evidence, before adding unrelated weak measure candidates; preserve explicit visual/report choices and competing named measures."
+    },
+    "r27_candidate_confidence_priority": {
+      "default": true,
+      "description": "When direct table or measure references are named or normalized, preserve all such peers and exclude weaker fuzzy/related-word candidates before native route initialization; never choose between strong ties."
     }
   }
 }
