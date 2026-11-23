@@ -1,0 +1,168 @@
+{
+  "status": "PLANNING_PREVIEW_NOT_ADMITTED_NOT_A_QUALITY_GATE",
+  "scope": "7 measured P3 failures including R17-05 union full fixed20 guard; unmeasured P3 cases are not invented failures",
+  "tickets": 25,
+  "method": "Higher saved same-ticket P2/P3 actual cost, or USD1.10 if both absent/zero, multiplied by existing 1.3 planning factor. Repaired engine cost is not yet measured.",
+  "engine_forecast_microdollars": 30187953,
+  "anthropic_headroom_microdollars": 18176400,
+  "calibration_protected_microdollars": 14340000,
+  "cash_reserve_already_excluded": true,
+  "available_confirmation_microdollars": 3836400,
+  "engine_forecast_shortfall_microdollars": 26351553,
+  "grading": "Separate OpenAI cash/expiry check required before any gate. This preview does not approve whole-gate funding.",
+  "free_loop_must_finish_first": true,
+  "no_opus_calibration_or_v5_admitted": true,
+  "rows": [
+    {
+      "ticket": "form-v2-access-export-v1",
+      "p3_saved_actual_microdollars": null,
+      "p2_saved_actual_microdollars": 297510,
+      "forecast_base_microdollars": 297510
+    },
+    {
+      "ticket": "form-v2-access-export-v2",
+      "p3_saved_actual_microdollars": null,
+      "p2_saved_actual_microdollars": 231957,
+      "forecast_base_microdollars": 231957
+    },
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "p3_saved_actual_microdollars": 359497,
+      "p2_saved_actual_microdollars": 307038,
+      "forecast_base_microdollars": 359497
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "p3_saved_actual_microdollars": 380176,
+      "p2_saved_actual_microdollars": 402676,
+      "forecast_base_microdollars": 402676
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "p3_saved_actual_microdollars": 829743,
+      "p2_saved_actual_microdollars": 814402,
+      "forecast_base_microdollars": 829743
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "p3_saved_actual_microdollars": 1546691,
+      "p2_saved_actual_microdollars": 787953,
+      "forecast_base_microdollars": 1546691
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "p3_saved_actual_microdollars": null,
+      "p2_saved_actual_microdollars": 483796,
+      "forecast_base_microdollars": 483796
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "p3_saved_actual_microdollars": null,
+      "p2_saved_actual_microdollars": 902343,
+      "forecast_base_microdollars": 902343
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "p3_saved_actual_microdollars": 570644,
+      "p2_saved_actual_microdollars": 557666,
+      "forecast_base_microdollars": 570644
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "p3_saved_actual_microdollars": null,
+      "p2_saved_actual_microdollars": 415524,
+      "forecast_base_microdollars": 415524
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "p3_saved_actual_microdollars": 1339834,
+      "p2_saved_actual_microdollars": 786663,
+      "forecast_base_microdollars": 1339834
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "p3_saved_actual_microdollars": 800330,
+      "p2_saved_actual_microdollars": 699073,
+      "forecast_base_microdollars": 800330
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "p3_saved_actual_microdollars": 603763,
+      "p2_saved_actual_microdollars": 1330183,
+      "forecast_base_microdollars": 1330183
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "p3_saved_actual_microdollars": 418564,
+      "p2_saved_actual_microdollars": 577108,
+      "forecast_base_microdollars": 577108
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "p3_saved_actual_microdollars": 389170,
+      "p2_saved_actual_microdollars": 362913,
+      "forecast_base_microdollars": 389170
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "p3_saved_actual_microdollars": 351438,
+      "p2_saved_actual_microdollars": 2135486,
+      "forecast_base_microdollars": 2135486
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "p3_saved_actual_microdollars": 467282,
+      "p2_saved_actual_microdollars": 446449,
+      "forecast_base_microdollars": 467282
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "p3_saved_actual_microdollars": null,
+      "p2_saved_actual_microdollars": 672443,
+      "forecast_base_microdollars": 672443
+    },
+    {
+      "ticket": "form-v2-waiting-application-load-v2",
+      "p3_saved_actual_microdollars": null,
+      "p2_saved_actual_microdollars": 380979,
+      "forecast_base_microdollars": 380979
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "p3_saved_actual_microdollars": 746928,
+      "p2_saved_actual_microdollars": 837225,
+      "forecast_base_microdollars": 837225
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "p3_saved_actual_microdollars": 0,
+      "p2_saved_actual_microdollars": 0,
+      "forecast_base_microdollars": 1100000
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "p3_saved_actual_microdollars": 1112611,
+      "p2_saved_actual_microdollars": 821865,
+      "forecast_base_microdollars": 1112611
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "p3_saved_actual_microdollars": 2151913,
+      "p2_saved_actual_microdollars": 1840815,
+      "forecast_base_microdollars": 2151913
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "p3_saved_actual_microdollars": 3006913,
+      "p2_saved_actual_microdollars": 2110807,
+      "forecast_base_microdollars": 3006913
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "p3_saved_actual_microdollars": 879644,
+      "p2_saved_actual_microdollars": 652920,
+      "forecast_base_microdollars": 879644
+    }
+  ],
+  "observed_at": 1795416699.395879
+}
