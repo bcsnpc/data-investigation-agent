@@ -125,7 +125,7 @@ DAX sorting repair77267c82 fully qualified:6096PASS/53skip/zero failures/errors 
 | `nvidia/nemotron-3.5-super-vl:free` | PASS, 8.7005 s | PASS, 9.123 s | Active; first four: 2 correct, 2 partial handoffs, 0 harmful |
 | `inclusionai/ling-3.2-flash:free` | PASS, 572.628 s including queued 429s | PASS, 267.432 s | Prepared, not admitted |
 | `nvidia/nemotron-3.5-lightning:free` | PASS, 14.392 s | Text-only model metadata | Full screenshot cohort not admitted |
-| Nemotron Ultra 550B free candidate | No completed reply after three bounded waits | Not established | Transport-unavailable, not an accuracy failure |
-| Gemma free candidate | Upstream capacity/rate limit | Not established | Not scored |
+| `nvidia/nemotron-3-ultra-550b-a55b:free` | No completed reply after three bounded waits | Not established | Transport-unavailable, not an accuracy failure |
+| `google/gemma-4-31b-it:free` | Upstream capacity/rate limit | Not established | Not scored |
 
 These are separate capability and DEV observations. One exact API provider/model is pinned for the entire pass; no within-pass fallback. Three eligible free tool candidates have passed, so the conditional paid OpenRouter path remains refused. Generation charges observed so far are zero; the independent lifetime USD10 cap and daily key quota still apply. The baseline partial result is a malformed model delivery field; the MRR partial result omits source-layer coverage. Neither justifies weakening validation or changing an expectation.
