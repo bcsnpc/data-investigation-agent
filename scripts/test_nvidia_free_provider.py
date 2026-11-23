@@ -130,15 +130,15 @@ class NvidiaFreeTests(unittest.TestCase):
         g=Gateway(prepared)
         # Exercise pure authorization only. No transport is installed here;
         # the suite-wide live kill switch has its own refusal assertion below.
-        self.enterContext(patch.object(g,'check_live',return_value=None))
-        for name in READ_TOOLS:
-            body=request_for(model=MODEL,system='Synthetic evidence',messages=[],tools=[{'name':name,'description':'Read only','input_schema':{'type':'object'}}],max_tokens=20)
-            g.http('reasoning','POST',BASE+'/chat/completions',json.dumps(body).encode())
-        bad=deepcopy(body);bad['tools'][0]['function']['name']='execute_write'
-        prepared['identities']['reasoning']['ai_providers']['nvidia']['tools'].append('execute_write')
-        rejected=Gateway(prepared)
-        with patch.object(rejected,'check_live',return_value=None),self.assertRaises(Exception):
-            rejected.http('reasoning','POST',BASE+'/chat/completions',json.dumps(bad).encode())
+        with patch.object(Gateway,'check_live',return_value=None):
+            for name in READ_TOOLS:
+                body=request_for(model=MODEL,system='Synthetic evidence',messages=[],tools=[{'name':name,'description':'Read only','input_schema':{'type':'object'}}],max_tokens=20)
+                g.http('reasoning','POST',BASE+'/chat/completions',json.dumps(body).encode())
+            bad=deepcopy(body);bad['tools'][0]['function']['name']='execute_write'
+            prepared['identities']['reasoning']['ai_providers']['nvidia']['tools'].append('execute_write')
+            rejected=Gateway(prepared)
+            with self.assertRaisesRegex(Exception,'CONFIGURED_AI_REQUEST_REFUSED'):
+                rejected.http('reasoning','POST',BASE+'/chat/completions',json.dumps(bad).encode())
         import os
         with patch.dict(os.environ,{'DIA_LIVE_ACCESS_DISABLED':'1'}),self.assertRaisesRegex(Exception,'LIVE_ACCESS_DISABLED'):
             Gateway(prepared).http('reasoning','POST',BASE+'/chat/completions',json.dumps(body).encode())
