@@ -38,6 +38,34 @@ class TerminalTests(unittest.TestCase):
         for heading in ['Verdict: not established','Findings per layer:','Serving:','Source: not checked','Calculation:','Could not decide:','Routing: engineer']:
             self.assertIn(heading,result['business'])
         self.assertEqual(result['investigation_report']['findings_per_layer'][0]['observations'][0]['rows_sample'],[{'quantity':7}])
+    def test_unfinished_calculation_does_not_invent_a_discrepancy(self):
+        result=attach({'status':'UNRESOLVED','stop':'TOOL_OR_TIME_LIMIT'},
+            queries=[self.query()],context={'conclusion_contract':'question-first-v1'})
+        self.assertEqual(result['status'],'UNRESOLVED')
+        self.assertIn('stated question',result['conclusion']['direct_answer'])
+        self.assertNotIn('discrepancy',result['conclusion']['direct_answer'])
+
+    def test_exact_successful_retry_is_not_missing_but_error_stays_in_history(self):
+        failed={**self.query(),'id':'query:failed','signature':'bound-query-one',
+                'status':'ERROR','error':'endpoint timed out'}
+        success={**self.query(),'id':'query:success','signature':'bound-query-one'}
+        context={'conclusion_contract':'question-first-v1'}
+        outcome={'status':'UNRESOLVED','stop':'TOOL_OR_TIME_LIMIT'}
+        result=attach(outcome,queries=[failed,success],context=context)
+        self.assertNotIn('one: endpoint timed out',result['conclusion']['undecided'])
+        observations=result['investigation_report']['findings_per_layer'][0]['observations']
+        self.assertEqual([o['status']for o in observations],['READ_FAILED','OBSERVED'])
+        self.assertEqual(result['status'],'UNRESOLVED')
+        from investigator.regression_features import configured
+        with configured({'r27_terminal_retry_recovery':False}):
+            self.assertIn('one: endpoint timed out',attach(outcome,queries=[failed,success],
+                context=context)['conclusion']['undecided'])
+        for queries in ([success,failed],[failed,{**success,'signature':'different-query'}],
+                        [{k:v for k,v in failed.items()if k!='signature'},success]):
+            with self.subTest(queries=queries):
+                self.assertIn('one: endpoint timed out',attach(outcome,queries=queries,
+                    context=context)['conclusion']['undecided'])
+
     def test_safety_stop_is_not_relabelled_as_an_answer(self):
         result=attach({'status':'BLOCKED','business':'Budget stopped.','stop':'MONTHLY_MODEL_EXHAUSTED'})
         self.assertEqual(result['status'],'BLOCKED');self.assertIn('No layer was admitted or read',result['business'])

@@ -216,6 +216,10 @@
     "r27_nvidia_streaming": {
       "default": true,
       "description": "Request documented NVIDIA SSE with usage, retain its native bytes and assemble complete tools only after DONE."
+    },
+    "r27_terminal_retry_recovery": {
+      "default": true,
+      "description": "Do not list an old read error as missing after a later successful execution of the exact same bound query; retain the failed observation."
     }
   }
 }

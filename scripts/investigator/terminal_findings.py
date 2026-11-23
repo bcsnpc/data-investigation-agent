@@ -155,13 +155,19 @@ def attach(outcome,*,queries=(),context=None,candidates=()):
             # or upgrade status/score; the honest missing evidence is explicit.
             missing=[f['name']+' has not been measured.' for f in summary['findings_per_layer']
                      if f['status']=='NOT_CHECKED']
+            # Keep historical errors in findings, but a later success of the
+            # exact same bound query is no longer missing evidence. Never infer
+            # recovery from a matching value, layer or merely similar SQL.
+            last_by_signature={q['signature']:q for q in queries if q.get('signature')}
             missing.extend(q['layer']+': '+q.get('error','Native read failed.')
-                           for q in queries if q['status']=='ERROR')
+                           for q in queries if q['status']=='ERROR'
+                           and not (enabled('r27_terminal_retry_recovery') and q.get('signature') and
+                                    last_by_signature[q['signature']]['status']=='SUCCEEDED'))
             missing.extend(summary['limitations'])
             missing=list(dict.fromkeys(missing))
             if not missing:missing=['The causal explanation for the stated question has not been established from these checks.']
             value['conclusion']={
-                'direct_answer':('The investigation did not establish the cause of the stated discrepancy. The checked findings and remaining limits follow.' if enabled('r27_neutral_unresolved_wording') else 'The saved checks do not establish the cause of the stated discrepancy because '+missing[0]),
+                'direct_answer':('The investigation did not establish a complete answer to the stated question. The checked findings and remaining limits follow.' if enabled('r27_neutral_unresolved_wording') else 'The saved checks do not establish the cause of the stated discrepancy because '+missing[0]),
                 'verdict_class':'UNRESOLVED',
                 'calculation_explanation':'; '.join(c['name']+' = '+c['expression'] for c in summary['calculation'])or'The calculation definition was not established.',
                 'undecided':missing,'routing':summary['routing']['to'],
