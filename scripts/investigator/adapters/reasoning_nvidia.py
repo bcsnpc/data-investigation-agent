@@ -25,9 +25,9 @@ READ_TOOLS = frozenset(('run_sql','run_dax','get_definition','get_lineage','get_
 
 
 class ProviderError(RuntimeError):
-    def __init__(self, status, retry_after=None):
+    def __init__(self, status, retry_after=None, provider='nvidia'):
         self.http_status, self.retry_after = status, retry_after
-        super().__init__('NVIDIA_HTTP_' + str(status))
+        super().__init__(provider.upper()+'_HTTP_' + str(status))
 
 
 class ProviderUnavailable(RuntimeError):
@@ -70,7 +70,7 @@ def request_for(*, model, system, messages, tools, max_tokens):
             **({'stream_options':{'include_usage':True}} if streaming else {})}
 
 
-def stream_response(response, *, model, record, clock, started, secret_value):
+def stream_response(response, *, model, record, clock, started, secret_value, provider='nvidia'):
     """Retain bounded native SSE bytes before assembling any executable tool.
 
     A missing DONE, finish marker or usage is incomplete, never an executable
@@ -85,7 +85,7 @@ def stream_response(response, *, model, record, clock, started, secret_value):
         if total>4*1024*1024 or secret_value.encode() in raw:raise ValueError('NVIDIA_RESPONSE_BOUND_OR_SECRET_ECHO')
         from ..planner_recording import _safe
         _safe(raw)
-        record({'event':'REASONING_STREAM_LINE','provider':'nvidia','model':model,
+        record({'event':'REASONING_STREAM_LINE','provider':provider,'model':model,
                 'raw_base64':base64.b64encode(raw).decode('ascii')})
         if clock()-started>=HTTP_TIMEOUT_SECONDS:raise TimeoutError('NVIDIA_STREAM_TOTAL_TIMEOUT')
         line=raw.decode('utf-8').rstrip('\r\n')
@@ -175,11 +175,20 @@ def authorize_body(permissions, method, url, raw):
 
 
 class Client:
+    provider = 'nvidia'
+    base = BASE
+    budget_type = FreeBudget
+    request_for = staticmethod(request_for)
+    response_for = staticmethod(response_for)
+
+    def validate_usage(self,value):
+        pass
+
     def __init__(self, *, model, budget, identity, secret_reference, record, send=None,
                  key_reader=None, sleep=time.sleep, clock=time.monotonic, jitter=random.random):
         from .managed_identity import validate_secret_reference
         validate_secret_reference(secret_reference)
-        if not isinstance(budget, FreeBudget) or budget.rate.model != model: raise ValueError('NVIDIA_FREE_PINNED_BUDGET_REQUIRED')
+        if not isinstance(budget, self.budget_type) or budget.rate.model != model: raise ValueError('NVIDIA_FREE_PINNED_BUDGET_REQUIRED')
         self.model, self.budget, self.identity = model, budget, identity
         self.reference, self.record = deepcopy(secret_reference), record
         self.send, self.key_reader, self.sleep, self.clock, self.jitter = send, key_reader, sleep, clock, jitter
@@ -199,44 +208,45 @@ class Client:
             started=self.clock()
             with open_http(build_opener(NoRedirect()), request, timeout=HTTP_TIMEOUT_SECONDS, identity=self.identity) as response:
                 if response.status==202:
-                    self.record({'event':'REASONING_UNAVAILABLE','provider':'nvidia','model':self.model,
+                    self.record({'event':'REASONING_UNAVAILABLE','provider':self.provider,'model':self.model,
                                  'status':202,'environment_affected':True,'is_quality_result':False,
                                  'reason':'Async result pending; no automatic duplicate POST.'})
                     raise ProviderUnavailable('NVIDIA_ASYNC_RESULT_PENDING_ENVIRONMENT_AFFECTED')
                 if streaming and 'application/json' not in response.headers.get('Content-Type',''):
                     return stream_response(response,model=self.model,
                                            record=lambda event:self.record({**event,'reservation':getattr(self,'_active_reservation',None)}),
-                                                    clock=self.clock,started=started,secret_value=key)
+                                                    clock=self.clock,started=started,secret_value=key,provider=self.provider)
                 data = response.read(4 * 1024 * 1024 + 1)
             if len(data) > 4 * 1024 * 1024 or key.encode() in data: raise ValueError('NVIDIA_RESPONSE_BOUND_OR_SECRET_ECHO')
             return json.loads(data)
         except HTTPError as error:
             try: retry = min(300, max(0, float(error.headers.get('Retry-After', 0))))
             except (AttributeError, TypeError, ValueError): retry = None
-            raise ProviderError(error.code, retry) from None
+            raise ProviderError(error.code, retry, self.provider) from None
         finally: key = request = None
 
     def discover(self):
-        value = (self.send or self._http)('GET', BASE + '/models')
-        self.record({'event': 'REASONING_MODEL_DISCOVERY', 'provider': 'nvidia', 'listing': value})
+        value = (self.send or self._http)('GET', self.base + '/models')
+        self.record({'event': 'REASONING_MODEL_DISCOVERY', 'provider': self.provider, 'listing': value})
         return value
 
     def complete(self, *, system, messages, tools, max_tokens=4000, private_summary=False):
         from ..planner_recording import _safe
-        body = request_for(model=self.model, system=system, messages=messages, tools=tools, max_tokens=max_tokens)
+        body = self.request_for(model=self.model, system=system, messages=messages, tools=tools, max_tokens=max_tokens)
         _safe(canonical(body).encode()); attempt = 0; started = self.clock()
         while True:
             reservation = self.budget.reserve(body)
             self._active_reservation=reservation
             try:
-                self.record({'event': 'REASONING_REQUEST', 'provider': 'nvidia', 'reservation': reservation, 'body': body})
-                value = (self.send or self._http)('POST', BASE + '/chat/completions', body)
+                self.record({'event': 'REASONING_REQUEST', 'provider': self.provider, 'reservation': reservation, 'body': body})
+                value = (self.send or self._http)('POST', self.base + '/chat/completions', body)
                 _safe(canonical(value).encode())
-                self.record({'event': 'REASONING_RESPONSE', 'provider': 'nvidia', 'reservation': reservation, 'body': value})
+                self.record({'event': 'REASONING_RESPONSE', 'provider': self.provider, 'reservation': reservation, 'body': value})
                 # Account native usage even when a malformed tool result is rejected below.
                 native = value['usage']; usage = {'input_tokens': count(native['prompt_tokens']), 'output_tokens': count(native['completion_tokens'])}
+                self.validate_usage(value)
                 self.budget.settle(reservation, usage)
-                reply = response_for(value, self.model, tools)
+                reply = self.response_for(value, self.model, tools)
                 return reply.compatible()
             except (ProviderError, ConnectionError, TimeoutError, URLError, IncompleteRead) as error:
                 from .provider_failures import retryable
@@ -244,14 +254,14 @@ class Client:
                 timed_out=(isinstance(error,TimeoutError) or isinstance(getattr(error,'reason',None),TimeoutError)
                            or getattr(error,'http_status',None) in (408,504))
                 if self.clock() - started >= 1800 or (getattr(error, 'http_status', None) != 429 and attempt >= 2):
-                    self.record({'event':'REASONING_UNAVAILABLE','provider':'nvidia','model':self.model,
+                    self.record({'event':'REASONING_UNAVAILABLE','provider':self.provider,'model':self.model,
                                  'reservation':reservation,'timed_out':timed_out,
                                  'status':getattr(error,'http_status',None),'error_type':type(error).__name__,
                                  'attempts':attempt+1,'elapsed_seconds':max(0,self.clock()-started),
                                  'environment_affected':True,'is_quality_result':False})
                     raise ProviderUnavailable('NVIDIA_TRANSPORT_UNAVAILABLE_ENVIRONMENT_AFFECTED') from None
                 wait = max(getattr(error, 'retry_after', None) or 0, min(60, 1.5 * 2 ** min(attempt, 6)) + self.jitter())
-                self.record({'event': 'REASONING_TRANSIENT', 'provider': 'nvidia', 'model': self.model,
+                self.record({'event': 'REASONING_TRANSIENT', 'provider': self.provider, 'model': self.model,
                              'reservation':reservation,'timed_out':timed_out,
                              'status': getattr(error, 'http_status', None), 'wait_seconds': wait,
                              'error_type':type(error).__name__,'elapsed_seconds':max(0,self.clock()-started),

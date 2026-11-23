@@ -93,7 +93,7 @@ def _run(plan,context):
     from investigator.adapters.investigative_native import NativeQueries
     from investigator.adapters.provider_runtime import client as provider_client
     from investigator.reasoning_budget import RateCard,TicketBudget
-    from investigator.nvidia_free_budget import FreeRateCard, FreeBudget
+    from investigator.provider_dev_budget import budget_types
     from scan_estate_graph import Meter
     from investigator.usage_governance import UsageHold
     from investigator.round23_calendar import require_live_window
@@ -156,15 +156,14 @@ def _run(plan,context):
         return select(spec['ai_routing'],tenant=graph_spec['estate'],step=step)
     record({'event':'REGRESSION_FEATURE_CONFIGURATION','flags':snapshot()})
     investigator_configuration = ai_configuration('INVESTIGATOR')
-    rate_type=FreeRateCard if investigator_configuration.get('provider')=='nvidia' else RateCard
+    _,rate_type=budget_types(investigator_configuration)
     rate=rate_type(model=investigator_configuration['model'],**investigator_configuration['rate_card'])
     budgets={}
     def budget(case_id,step='INVESTIGATOR'):
         selected=ai_configuration(step)
         key=(case_id,step,selected.get('provider','anthropic'),selected['model'])
         if key not in budgets:
-            budget_type=FreeBudget if selected.get('provider')=='nvidia' else TicketBudget
-            rate_type=FreeRateCard if selected.get('provider')=='nvidia' else RateCard
+            budget_type,rate_type=budget_types(selected)
             budgets[key]=budget_type(state,case_id=case_id,owner=selected['worker_identity'],
                 rate=rate_type(model=selected['model'],**selected['rate_card']),
                 provider=selected.get('provider','anthropic'),purpose=model_budget_purpose(step),

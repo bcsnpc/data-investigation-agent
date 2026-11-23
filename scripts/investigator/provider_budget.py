@@ -29,6 +29,9 @@ def account_for(provider, now):
     month = month_window(now)[0]
     if provider == 'nvidia':
         raise ValueError('NVIDIA_FREE_REQUIRES_CALLS_ACCOUNT_NOT_DOLLARS')
+    if provider == 'openrouter':
+        from .openrouter_budget import PAID_ACCOUNT
+        return PAID_ACCOUNT
     if provider == 'anthropic':
         return 'model-microdollars:' + month
     if provider == 'bedrock':

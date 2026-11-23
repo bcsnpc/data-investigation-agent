@@ -2,6 +2,9 @@
 
 
 def authorize_body(permissions, method, url, raw):
+    if url.startswith('https://openrouter.ai/'):
+        from .reasoning_openrouter import authorize_body as openrouter
+        return openrouter(permissions, method, url, raw)
     if url.startswith('https://integrate.api.nvidia.com/'):
         from .reasoning_nvidia import authorize_body as nvidia
         return nvidia(permissions, method, url, raw)

@@ -957,3 +957,6 @@ The earlier P2 stale source row/schema hash and original real load are restored.
 
 
 Round27 final P2 stale restoration verified2026-11-22: owner confirmed automatic updatesON, refresh schedule unchanged. Restoration refreshacb61da4-c7aa-4aa5-b7e3-0be7d613aa1c completed2026-11-22T17:06:44.103Z; native model quantity7661. Source row/schema hash and real original360 restoration load were already verified. Automatic-update setting provenance remains OWNER_REPORTED_SAVED_SETTING; refresh status/value are native reads, not an independent API readback of that switch. No P3fault/model run, score or budget change. Receipt: docs/round-twenty-seven-pass2-final-restoration.json.
+
+
+2026-11-22 owner action completed (execution2026-11-23UTC): “OpenRouter key with a one-time $10 top-up”. Existing Vault key authenticated by no-generation GET /key (200),1000free/day and10USDremaining. Remote key limit resets weekly; DIA enforces10USD lifetime independently, so no request to change the key or enable auto top-up. No secret printed or copied to files. No paid generation admitted.
