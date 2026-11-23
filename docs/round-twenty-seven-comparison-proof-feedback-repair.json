@@ -1,0 +1,17 @@
+{
+  "observed_utc": "2026-11-23T11:09:10.138677+00:00",
+  "trace_basis": "docs/round-twenty-seven-openrouter-screenshot01-backtrack.json; first rejection audit1523 before unrelated table proposals12378",
+  "fix": "Only comparison-proof error feedback: distinguish no successful read, successful read not cited, and cited non-scalar/multi-cell results. Return existing native query evidence IDs when already read but uncited.",
+  "feature_flag": "r27_source_consistency_feedback",
+  "default": true,
+  "acceptance_logic_changed": false,
+  "same_scalar_still_passes": true,
+  "different_scalars_and_failed_reads_still_refused": true,
+  "record_presence_does_not_prove_other_fields": true,
+  "focused_tests_passed": 70,
+  "focused_subtests_passed": 79,
+  "new_regressions": 9,
+  "full_suite_and_image_shards": "PENDING_NEW_SOURCE_QUALIFICATION",
+  "old_live_pass_image_kept": true,
+  "scores_expectations_and_original_captures_changed": false
+}

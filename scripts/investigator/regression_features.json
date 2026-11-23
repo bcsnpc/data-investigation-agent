@@ -224,6 +224,10 @@
     "r27_dax_query_ordering": {
       "default": true,
       "description": "Admit bounded read-only DAX ORDER BY over declared projections and bound model members; preserve single-query, catalog and row limits."
+    },
+    "r27_source_consistency_feedback": {
+      "default": true,
+      "description": "Describe uncited or non-scalar native reads as missing comparison proof, rather than falsely calling successfully measured layers unread; all finding acceptance rules stay the same."
     }
   }
 }

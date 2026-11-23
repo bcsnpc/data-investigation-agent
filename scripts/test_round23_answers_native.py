@@ -35,9 +35,9 @@ class AnswerTests(unittest.TestCase):
         args=self.proposal();args.update(verdict='as designed',evidence_ids=['trace','definition'])
         self.assertIn('key presence and matching row count',finding(args,value)['business'])
         value['evidence']['trace']['result']['layers'][1]['presence']='UNAVAILABLE'
-        with self.assertRaisesRegex(ValueError,'unread layers'):finding(args,value)
+        with self.assertRaisesRegex(ValueError,'SOURCE_CONSISTENCY_UNESTABLISHED'):finding(args,value)
         value['evidence']['trace']['result']['layers'][1].update(presence='PRESENT',matching_rows=2)
-        with self.assertRaisesRegex(ValueError,'unread layers'):finding(args,value)
+        with self.assertRaisesRegex(ValueError,'SOURCE_CONSISTENCY_UNESTABLISHED'):finding(args,value)
 
     def test_guided_failed_job_renders_cited_path_run_details_in_both_outputs(self):
         value=case();value['context']['path']['nodes'].append({'id':'pipeline','kind':'PIPELINE','label':'Actual copy'})

@@ -945,3 +945,6 @@ DAX sorting repair77267c82 fully qualified:6096PASS/53skip/zero failures/errors 
 
 
 2026-11-23UTC host grading repair qualified: workflow45159109970 at8d9475dc passed6099tests/53skips/zero failures/errors andall8image shards; publishedimage5d60bf0f788d0ae1545cfdb1df952b133d625677951077002b5946897ff68a10. Existing SuperVL pass remains pinned to77267c82/image08474b45. Only new host-side grading packet helper/tests differ in scripts; no investigator runtime change. The independent Sol missing-verdict completion preserves all other original fields and its original completed response. Free scores remainDEVonly.
+
+
+2026-11-23UTC free DEV trace-proven fix: SOURCE_CONSISTENCY_UNESTABLISHED falsely called measured multi-cell results unread. New independent default-on r27_source_consistency_feedback distinguishes absent successful reads, uncited successful reads, and missing scalar proof; identifies already saved query IDs where appropriate. All accept/refuse conditions are unchanged, including required source object, same scalar equality, failed-read refusal and scoped keyed-presence limits.9newregressions;70focusedtests/79subtestsPASS. Existing pinned SuperVL results stay on originalimage; newimage/fullsuite/shards qualify before any repaired-ticket admission. No expectation/key/role/budget change.

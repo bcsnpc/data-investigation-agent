@@ -85,6 +85,28 @@ def cited(args,case):
     return found
 
 
+
+def consistency_proof_gap(required, compared, support, case):
+    """Describe missing proof without calling a successful read unread."""
+    missing = required - compared.keys()
+    successful = [q for q in case.get('queries', []) if q.get('status') == 'SUCCEEDED']
+    read = {q['layer'] for q in successful}
+    cited_read = {item['subject'] for item in support if 'native_result' in item}
+    parts = []
+    unread = missing - read
+    uncited = (missing & read) - cited_read
+    non_scalar = missing & cited_read
+    if unread:
+        parts.append('unread layers (no successful native result): ' + ', '.join(sorted(unread)))
+    if uncited:
+        identities = [q['id'] for q in successful if q['layer'] in uncited]
+        parts.append('read but not cited layers: ' + ', '.join(sorted(uncited)) + '; cite successful query evidence ' + ', '.join(identities))
+    if non_scalar:
+        parts.append('read layers without a comparable one-cell value: ' + ', '.join(sorted(non_scalar)))
+    parts.append('Source value agreement needs the same selected value and scope in a one-cell native result at each layer. Multi-row or multi-column reads do not satisfy that scalar proof; narrow the existing selected record/value rather than choosing another table. A record-presence trace proves presence/counts only, not equality of other fields.')
+    return 'SOURCE_CONSISTENCY_UNESTABLISHED: ' + '; '.join(parts)
+
+
 def finding(args,case):
     support=cited(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
@@ -145,6 +167,11 @@ def finding(args,case):
             raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: no reachable declared system of record; report only the reached boundary or observed value')
         source_asset=declaration.get('asset_id')
         if source_asset and not any(item.get('subject')==source and source_asset in item.get('asset_ids',[]) for item in support):
+            if enabled('r27_source_consistency_feedback'):
+                existing = [q['id'] for q in case.get('queries', []) if q.get('status') == 'SUCCEEDED'
+                            and q.get('layer') == source and source_asset in q.get('asset_ids', [])]
+                if existing:
+                    raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was read but its native query evidence was not cited; cite ' + ', '.join(existing))
             raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried')
         compared={}
         for item in support:
@@ -164,6 +191,8 @@ def finding(args,case):
                     record_consistency=True;break
         if not record_consistency:
             if not required<=compared.keys():
+                if enabled('r27_source_consistency_feedback'):
+                    raise ValueError(consistency_proof_gap(required, compared, support, case))
                 raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: unread layers '+', '.join(sorted(required-compared.keys())))
             values=set().union(*(compared[layer] for layer in required))
             if len(values)!=1:raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: compared native values differ')
@@ -235,7 +264,7 @@ def finding(args,case):
         qualifications.append('Separate operational observation: '+subject+' run '+str(fault.get('run_id')or'(run identifier unavailable)')+
             ' is '+str(fault['status'])+'. The calculation explanation does not establish freshness or rule out an effect from this run.')
     if automatic_update_unknown:
-        qualifications.append('The Direct Lake automatic-update switch is not exposed by these refresh-history/schedule reads. Its ON/OFF state is unestablished; see semantic model settings → Refresh → Keep your Direct Lake data up to date. A refresh schedule is a separate setting.')
+        qualifications.append('The Direct Lake automatic-update switch is not exposed by these refresh-history/schedule reads. Its ON/OFF state is unestablished; see semantic model settings Ã¢â€ â€™ Refresh Ã¢â€ â€™ Keep your Direct Lake data up to date. A refresh schedule is a separate setting.')
     for assumption in case['intake'].get('resolution_assumptions', []):
         qualifications.append('Assumption: I checked ' + assumption['name'] + ', resolved from the named catalog item' +
                               ('.' if assumption.get('object') else ' and its retained report links.'))
@@ -246,7 +275,7 @@ def finding(args,case):
         if record_consistency:
             qualifications.append('For this record, the source comparison covers key presence and matching row count; it does not establish equality of every field.')
     if reported and reported['state']=='NUMBER' and reported['precision']!='EXACT':
-        qualifications.append('Comparison at the ticket’s stated digit precision '+str(reported['precision'])+
+        qualifications.append('Comparison at the ticketÃ¢â‚¬â„¢s stated digit precision '+str(reported['precision'])+
                               ' is weaker than an exact match; no tolerance was inferred.')
     qualifications.extend(case['context'].get('warnings',[]))
     for record in support:
