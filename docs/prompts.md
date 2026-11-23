@@ -4360,3 +4360,10 @@ Round27 repair-not-block continuation, 2026-11-21: malformed delivery gets one r
 ## Round27 evaluator advisory ablation
 
 The owner-selected advisory setting leaves the evaluator instructions and four checks unchanged. It records raw hard/soft findings and `would_reject` but does not return evaluator rejections as a new blocking instruction or downgrade. The structured delivery prompt and saved-evidence format-repair prompt stay enabled, as do explicit-target and unique-match checks. The independent evaluator-rejection reviewer sees only the saved ticket, unchanged expectation, draft/native evidence, evaluator findings and grader reasons; it receives no engine code or operator opinion.
+
+
+### Round 27 free-provider compatibility
+
+The NVIDIA development profile pins one exact model across intake, screenshot reading, investigation, delivery checking and summaries. It uses the same current slim evaluator: answering the exact question is blocking; support, wording and completeness findings remain advisory. Malformed checker output retries the checker on the same draft, without another estate read or business-answer rewrite. The original foreign-provider private thinking blocks are excluded from offline codec projections; original tapes remain unchanged. Native NVIDIA opaque continuation state is returned only to the same pinned provider.
+
+No free-model grade clears a paid quality gate. The two-turn synthetic tool test must pass before a model receives a proof ticket. Native model listing alone is insufficient.

@@ -216,3 +216,8 @@ Round27 pass2 grading-format recovery (2026-11-22UTC): text-batch04 PRIMARY retu
 
 Pass2 additional format recoveries: text-batch08 SECONDARY missing verdict_match was completed by the same Astra model with all other original fields asserted identical. text-batch10 PRIMARY R17-11 was completed similarly. A batch-helper mistake also made an extra format call for baseline-S01 using the prior case context; that response is explicitly EXCLUDED_INVALID_CROSS_CASE_FORMAT_CONTEXT_NOT_A_GRADE, preserved and charged, and never installed as an official grade. Baseline-S01 was subsequently graded normally by the original primary from its own evidence. The format helper now requires exactly one source task, and installation checks the original dispatch source hash. No operator boolean, grade or expectation was supplied or changed.
 
+
+
+### Round 27 free-model development (owner, 2026-11-22)
+
+NVIDIA cohorts use one independent OpenAI Sol grader while the approved OpenAI credit remains. Report every ticket's delivery status, correctness, harmfulness, first wrong step and whether that step was a DIA plumbing/logic error or a model reasoning error. These results are development diagnostics only. They cannot clear the Opus confirmation, calibration, regression guard or sealed v5 quality gates. Original Opus outcomes and expectations remain unchanged. A free-model reasoning failure alone does not authorize an engine patch.

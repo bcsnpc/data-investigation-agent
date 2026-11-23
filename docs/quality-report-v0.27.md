@@ -58,3 +58,10 @@ At07:53UTC, Anthropic headroom is$37.972844, of which$14.34 remains protected fo
 
 ## Separate NVIDIA development preflight (not a quality gate)
 Owner2026-11-22 plan is in progress. Authenticated no-generation model listings passed for Anthropic/OpenAI/NVIDIA. NVIDIA offers GLM5.3Flash and KimiK3.1Pro; DeepSeek is unavailable. No generation has been admitted. Shared free-call ledger is provisioned at0/1,000; rates/allowance are conservative assumptions, not exposed account quotas. Full current-code saved-response replay and image qualification remain in progress; no preflight-PASS or model-qualification score is claimed. Fresh baseline:360source rows with original business row/schema hashes, temporalON,model7661,owner-confirmed auto-updatesON. Paid Opus remains paused with calibration funds protected. See round-twenty-seven-free-preflight.json.
+
+
+### Free-model qualification: preflight complete, results pending
+
+Source `b09eddfc` passed 6,064 repository tests (53 skipped) and all eight image shards. Zero-generation checks covered 717 saved native queries, 970 model requests, and 5,250 tool/purpose/gateway combinations. All 66 prior answers outside the three recorded harmful pass-2 cases still deliver; the three harmful drafts are rejected. The replay limitations are explicit in `round-twenty-seven-free-model-preflight.md`; this is compatibility evidence, not a fresh quality score.
+
+Prepared candidate models are `z-ai/glm-5.3-flash` and `moonshotai/kimi-k3.1-pro`, with 15 original proof tickets each. No DeepSeek model was present in the authenticated listing. Each model first receives a bounded synthetic tool protocol test, then a separate dev-only cohort if it passes. No free score counts toward confirmation, calibration or v5.
