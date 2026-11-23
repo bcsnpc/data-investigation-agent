@@ -38,6 +38,29 @@ def explicit_names(catalog,text):
     if result.get('visual') and result.get('report') and not result.get('page'):
         parents=[p for p in catalog.pages(result['report'])if any(v['id']==result['visual']for v in catalog.visuals(result['report'],p['id']))]
         if len(parents)==1:result['page']=parents[0]['id']
+    if not result and enabled('r27_unique_native_table_reference'):
+        # The ticket can name a native source/container rather than a report.
+        # A unique declared child, established by containment and (where
+        # needed) literal native columns, outranks global related-word measures.
+        # Search aliases alone cannot establish that the container was named.
+        containers={n['id'] for n in catalog.nodes.values()
+                    if n.get('kind') in ('MODEL','SOURCE') and n.get('label')
+                    and re.search(r'(?<!\w)'+re.escape(n['label'])+r'(?!\w)',text,re.I)}
+        tables=[]
+        for row in (catalog.table_matches(text) if containers else []):
+            parent=catalog.nodes.get(row.get('via'),{})
+            label=parent.get('label')
+            if (row.get('via') in containers
+                    and row.get('basis') in ('NATIVE_CONTAINMENT_OF_NAMED_CONTAINER',
+                                     'NATIVE_CONTAINMENT_AND_NAMED_COLUMNS')
+                    and label and re.search(r'(?<!\w)'+re.escape(label)+r'(?!\w)',text,re.I)
+                    and row['id'] in {n['id'] for kind in ('TABLE','VIEW')
+                                     for n in catalog.children(parent['id'],kind)}):
+                tables.append(row)
+        if len({r['id'] for r in tables})==1:
+            competing=[r for r in catalog.measure_matches(text)
+                       if r['confidence'] in ('NAMED','NORMALIZED')]
+            if not competing:result['table']=tables[0]['id']
     return result
 
 

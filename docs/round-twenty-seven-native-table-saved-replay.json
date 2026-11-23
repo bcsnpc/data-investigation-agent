@@ -1,0 +1,33 @@
+{
+  "source": "Saved native intake catalog, unchanged ticket; no model responses/goldens used for the fix",
+  "new_estate_reads": 0,
+  "generation_calls": 0,
+  "before_after": {
+    "False": {
+      "explicit": {},
+      "total_candidates": 40,
+      "exhaustive": false,
+      "selected": null,
+      "names": [
+        "dbo.stock_movements_round_two_20261003",
+        "Quantity Balance",
+        "Received Units",
+        "Dispatch Volume",
+        "Handled Quantity"
+      ]
+    },
+    "True": {
+      "explicit": {
+        "table": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6"
+      },
+      "total_candidates": 1,
+      "exhaustive": true,
+      "selected": "6630d959e13cb9cf8dea911895e20b36663b68717d40b5ed511376caa31912c6",
+      "names": [
+        "dbo.stock_movements_round_two_20261003"
+      ]
+    }
+  },
+  "numeric_figure_manufactured": false,
+  "original_outcome_and_grade_unchanged": true
+}
