@@ -5,6 +5,12 @@
       "fully_correct": 3,
       "partial_handoffs": 3,
       "harmful": 0
+    },
+    "SCREENSHOT": {
+      "graded": 2,
+      "fully_correct": 0,
+      "partial_handoffs": 2,
+      "harmful": 0
     }
   },
   "label": "FREE SYNTHETIC DEV ONLY; single independent Sol grader; not a quality gate",
@@ -136,22 +142,62 @@
       "cohort": "STATIC",
       "failure_kind": "MODEL_CONCLUSION_LABEL",
       "trace_basis": "Native record lookups establish absence across source and downstream; model says DEVIATION rather than AS DESIGNED. Single Sol gives cause/layer true, verdict false, partial true, harmful false. Saved answer unchanged; no engine patch from this reasoning failure."
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-screenshot-record-01-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "query validation",
+      "reason": "Expected AS DESIGNED at source application / DEV: the visible values identify movement 2, whose units=17 is carried unchanged through the application path. The delivered answer instead remains unresolved and establishes neither that layer/split nor the unchanged-source-value explanation. Its initial native reads successfully returned 15 matching warehouse/product rows, including movement 2 with units 17 in source and bronze. Subsequent comparison queries used altered table names and were rejected before native dispatch; those rejections do not establish that the successfully queried source object is unavailable. This is the first concrete failing step. The saved initial queries and checked findings provide some handoff value, but the proposed next checks merely revisit rejected queries rather than isolate the displayed units=17 record and verify its lineage. No confident incorrect cause is asserted, so the honest unresolved answer is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 28,
+      "model_calls": 14,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "5f921b1821d33a4c690ce3b2a9d50017c087d41291fb24841ee30de3b83a10ab",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 509.53190431600007,
+      "model_seconds": 360.273231035,
+      "native_query_seconds": 21.705928050999944,
+      "cohort": "SCREENSHOT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-screenshot-record-02-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "target",
+      "reason": "The expected answer is AS DESIGNED at the source application/DEV: the visible warehouse_id=1, product_id=2, units=21 uniquely identifies movement 4, with units carried unchanged from ordersops through the application path. The delivered answer instead remains unresolved and names neither that lineage nor the expected layer/split. The first failure is target resolution: queries scope only warehouse/product and return 19 rows, without resolving the screenshot's full visible tuple to movement 4. Source and bronze samples do show movement 4 with 21 units, but this partial evidence is not developed into the required trace or explanation. Saved executable queries and checked findings provide a limited handoff; the generic time/tool stopping reason, empty next checks, and lack of an exact remaining evidence requirement prevent quality 2. The answer honestly states its limitation rather than confidently asserting an incorrect cause.",
+      "delivery_status": "UNRESOLVED",
+      "physical_requests": 33,
+      "model_calls": 18,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "477e243d3031cc5b70c28ab243f88e1655e2c4c235c3a8bcae7b4a9fbcd41d5e",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 607.767039999,
+      "model_seconds": 435.97843182000037,
+      "native_query_seconds": 42.220073502000105,
+      "cohort": "SCREENSHOT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
   "fully_correct": 3,
   "harmful": 0,
-  "graded": 6,
+  "graded": 8,
   "proof_total": 15,
-  "partial_handoffs": 3,
+  "partial_handoffs": 5,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T10:36:18.808714+00:00",
+  "observed_utc": "2026-11-23T10:50:29.590044+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": "NOT_ADMITTED",
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 316.48017303799736,
-    "p90_engine_wall_seconds_nearest_rank": 556.818247309,
-    "total_engine_model_calls": 57,
-    "physical_requests_across_confirmed_engine_cases": 170
+    "median_engine_wall_seconds": 358.7039671814973,
+    "p90_engine_wall_seconds_nearest_rank": 607.767039999,
+    "total_engine_model_calls": 89,
+    "physical_requests_across_confirmed_engine_cases": 231
   }
 }
