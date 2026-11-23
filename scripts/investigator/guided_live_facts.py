@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import datetime,timezone
 from .path_triage import Triage
 from .usage_governance import UsageHold
+from .regression_features import enabled
 
 
 class ScanFactsUnavailable(ValueError):
@@ -27,6 +28,8 @@ class PathFacts:
         self.now=now or (lambda:datetime.now(timezone.utc).isoformat())
         self.snapshot=None;self.refreshed=False
         self.refresh_failure=None
+        self.refresh_started_at=None
+        self.refresh_completed_at=None
 
     def read(self):
         if self.snapshot is None:
@@ -39,7 +42,20 @@ class PathFacts:
               and f['state'] in ('OBSERVED','OBSERVED_NEGATIVE')]
         if check=='JOB_RUNS':
             now=datetime.fromisoformat(self.now().replace('Z','+00:00'))
-            rows=[f for f in rows if 0<=(now-datetime.fromisoformat(f['collected_at'].replace('Z','+00:00'))).total_seconds()<=30]
+            def contemporaneous(fact):
+                collected=datetime.fromisoformat(fact['collected_at'].replace('Z','+00:00'))
+                age=(now-collected).total_seconds()
+                if 0<=age<=30:return True
+                # Sequential path checks may outlast the cache TTL. Do not
+                # discard the first subject's just-read failure while keeping
+                # only the later subject's success. Preserve actual timestamps;
+                # this is an observation during this refresh, not a new read.
+                return (enabled('r27_triage_refresh_observations')
+                        and self.refresh_started_at is not None
+                        and self.refresh_completed_at is not None
+                        and self.refresh_started_at<=collected<=self.refresh_completed_at
+                        and 0<=age<=900)
+            rows=[f for f in rows if contemporaneous(f)]
         if check=='MODEL_REFRESH':
             model_ids={n['id'] for n in self.path['nodes'] if n['kind']=='MODEL'}
             rows=[f for f in rows if f['subject'] in model_ids or f['kind'] in ('REFRESH_RUN','REFRESH_STATE')]
@@ -53,12 +69,14 @@ class PathFacts:
         if self.collector is None:raise ValueError('PATH_COLLECTOR_NOT_INSTALLED')
         if not self.refreshed:
             self.refreshed=True
+            self.refresh_started_at=datetime.fromisoformat(self.now().replace('Z','+00:00'))
             try:result=self.collector(self.estate,self.subjects,now=self.now(),force=True)
             except UsageHold as error:
                 if not scan_refusal(error):raise
                 self.refresh_failure=str(error)
                 self.save({'event':'PATH_FACT_REFRESH_UNAVAILABLE','reason':self.refresh_failure,'purpose':'SCAN'})
                 raise ScanFactsUnavailable(self.refresh_failure) from error
+            self.refresh_completed_at=datetime.fromisoformat(self.now().replace('Z','+00:00'))
             self.save({'event':'PATH_FACT_REFRESH','result':result})
             self.snapshot=None
         result=self.lookup(check,path)

@@ -19,6 +19,15 @@
       "native_trace_first_wrong_step": "MODEL_DELIVERY_SCHEMA",
       "classification": "MODEL_DELIVERY_FORMAT",
       "basis": "Saved first finding contains the join/1104 mechanism, but undecided is ''. Native DELIVERY_REPAIR explicitly reports array schema violation; one model repair returns [] and subsequent model submissions repeat ''. All8 native queries succeeded. No silent shape coercion or expectation change."
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-failed-application-load-v1",
+      "capture_seal": "506758691a6fc4fd3583b6f0f89d11aca3be6cab2de6d28c9e98bb6d5a09bfa0",
+      "grader_failing_step": "triage",
+      "native_trace_first_wrong_step": "TRIAGE_EVIDENCE_FILTER",
+      "classification": "DIA_PATH_COLLECTION_TTL_LOSS",
+      "harmful_grade_preserved": true,
+      "basis": "Saved immutable ledger JOB_RUN for the actual application-load pipeline reports FAILED run60171852, observed14:31:37.113018Z, with native2011 error. PATH_FACT_REFRESH confirms this subject checked. Triage omits it while retaining a later-read successful history-probe pipeline: the 30-second cache filter expires during sequential path reads. Delivered AS DESIGNED/no-staleness is harmful. Repair retains only observations actually collected within this same refresh, bounded900seconds and preserving their original timestamps; old cached facts still require refresh. No new estate read or AI backtrack call."
     }
   ],
   "separate_design_observation": "Candidate inventory includes a static header in the definition case; no-reported-value matching also leaves a sole measure-linked visual unselected. Do not tune this from weak-model failures: their earlier malformed/different-question drafts already explain failure. A future change requires independent first-wrong-step evidence and native referent proof, preserving explicit-target/unique-match rules."

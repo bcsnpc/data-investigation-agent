@@ -240,6 +240,10 @@
     "r27_candidate_native_names_only": {
       "default": true,
       "description": "Only native visual names may prune fallback target candidates; enrichment aliases rank search but cannot exclude retained scopes."
+    },
+    "r27_triage_refresh_observations": {
+      "default": true,
+      "description": "Retain actual timestamped job observations collected during this bounded path refresh even when sequential checks exceed the 30-second cache TTL; older cache and future observations remain excluded."
     }
   }
 }
