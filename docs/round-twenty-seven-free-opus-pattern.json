@@ -5,9 +5,9 @@
     "required": 15,
     "composition": "Earlier baseline plus owner-approved failed-only evaluator-advisory reruns; original scores unchanged."
   },
-  "kimi_scored": 8,
-  "kimi_correct": 6,
-  "classification_agreement_on_scored": 6,
+  "kimi_scored": 10,
+  "kimi_correct": 7,
+  "classification_agreement_on_scored": 7,
   "limitations": "Historical Opus used older code/evaluator settings and two graders plus review. Kimi uses current mixed-image proof and one Sol dev grader. This is not an isolated causal model comparison; missing rows are not scored failures.",
   "rows": [
     {
@@ -79,7 +79,7 @@
       "historical_opus_harmful": false,
       "kimi_single_sol_correct": null,
       "kimi_harmful": null,
-      "kimi_status": "SUBMISSION_UNESTABLISHED_NOT_SCORED",
+      "kimi_status": "ENVIRONMENT_UNESTABLISHED_NOT_SCORED_NOT_RETRIED",
       "same_correctness_classification": null
     },
     {
@@ -122,10 +122,10 @@
       "ticket": "form-v2-screenshot-record-04-v1",
       "historical_opus_reviewed_correct": true,
       "historical_opus_harmful": false,
-      "kimi_single_sol_correct": null,
-      "kimi_harmful": null,
-      "kimi_status": "PENDING_NOT_SCORED",
-      "same_correctness_classification": null
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
     },
     {
       "ticket": "form-v2-source-history-v2",
@@ -140,10 +140,10 @@
       "ticket": "form-v2-warehouse-scope-v1",
       "historical_opus_reviewed_correct": true,
       "historical_opus_harmful": false,
-      "kimi_single_sol_correct": null,
-      "kimi_harmful": null,
-      "kimi_status": "PENDING_NOT_SCORED",
-      "same_correctness_classification": null
+      "kimi_single_sol_correct": false,
+      "kimi_harmful": false,
+      "kimi_status": "UNRESOLVED",
+      "same_correctness_classification": false
     }
   ]
 }
