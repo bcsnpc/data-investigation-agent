@@ -654,3 +654,6 @@ Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. 
 
 
 Round27 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\step4-openrouter-budget-repairs\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+
+Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\step4-openrouter-budget-repairs\injections\text-latency-remainder-reader1-subset-fix\status.json. Temporal remains ON.

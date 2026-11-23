@@ -1,7 +1,7 @@
 {
   "disjoint_headline": {
     "fully_correct": 1,
-    "useful_nonharmful_handoffs": 2,
+    "useful_nonharmful_handoffs": 3,
     "harmful": 0,
     "other_incorrect": 0
   },
@@ -14,7 +14,7 @@
     },
     "FAULT": {
       "fully_correct": 1,
-      "useful_nonharmful_handoffs": 1,
+      "useful_nonharmful_handoffs": 2,
       "harmful": 0,
       "other_incorrect": 0
     }
@@ -28,9 +28,9 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 2,
+      "graded": 3,
       "fully_correct": 1,
-      "partial_handoffs": 1,
+      "partial_handoffs": 2,
       "harmful": 0
     }
   },
@@ -100,24 +100,45 @@
       "native_query_seconds": 23.75924776399995,
       "cohort": "FAULT",
       "failure_kind": "NONE"
+    },
+    {
+      "ticket": "round27-step4-openrouter-budget-repairs-text-latency-900502-v2",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The checked row and count comparisons establish the SOURCE -> BRONZE split: movement 900502 exists with 19 units in the application but is absent from Bronze (363 versus 360 rows). However, the delivered verdict is unresolved rather than latency, and it never identifies the enabled future application load or its due time, 2026-11-25T05:14:47Z. Native evidence places the source change after the last completed load and provides the future schedule, but the answer does not connect these facts or distinguish a missing row/BLANK from zero. Its honest limitation is not harmful. Saved rerunnable queries and engineer routing offer a limited handoff, but the generic budget stop and empty next_checks do not specify the exact missing fact or sensible follow-up checks.",
+      "delivery_status": "UNRESOLVED",
+      "capture_seal": "330431eb0f2df531d0769f7e10c512e59fe7069f19a30c4af28fd74ad703a566",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:3c1797a5bea705a6df5f66590eeaf867718947e8deb933dea61987fee83e7d99",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 40,
+      "model_calls": 12,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 525.0896590530001,
+      "model_seconds": 284.89406601200017,
+      "native_query_seconds": 80.61481716499975,
+      "cohort": "FAULT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
   "fully_correct": 1,
   "harmful": 0,
-  "graded": 3,
+  "graded": 4,
   "proof_total": 4,
-  "partial_handoffs": 2,
+  "partial_handoffs": 3,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T17:41:33.667091+00:00",
+  "observed_utc": "2026-11-23T17:52:00.218209+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
-    "phase": "CONTROL_IN_FLIGHT",
+    "phase": "ALL_PROOF_FAULT_CONTROLS_COMPLETE",
     "selected": [
       "text-latency-900501-v1",
       "text-latency-900501-v2",
       "text-latency-900502-v2"
     ],
-    "at_utc": "2026-11-23T17:14:39.099571+00:00",
+    "at_utc": "2026-11-23T17:51:24.175403+00:00",
     "returncode": 1,
     "previous_setup_failure": {
       "status": "CONTROL_SETUP_FAILURE_BEFORE_TICKET_SUBMISSION",
@@ -132,17 +153,19 @@
     },
     "control_folder": "text-latency-remainder-reader1-subset-fix",
     "controller_session": 41015,
-    "prior_controller_session_terminal": 16508
+    "prior_controller_session_terminal": 16508,
+    "controller_returncode": 0,
+    "restore_receipt": "injections/text-latency-remainder-reader1-subset-fix/status.json"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 626.333673097,
+    "median_engine_wall_seconds": 575.711666075,
     "p90_engine_wall_seconds_nearest_rank": 1129.717041528,
-    "timed_cases": 3,
-    "total_engine_model_calls": 46,
-    "known_engine_model_calls": 46,
+    "timed_cases": 4,
+    "total_engine_model_calls": 58,
+    "known_engine_model_calls": 58,
     "missing_model_call_metrics": 0,
-    "physical_requests_across_confirmed_engine_cases": 96
+    "physical_requests_across_confirmed_engine_cases": 136
   },
   "environment_unscored_results": [],
   "excluded_environment_grades": [],

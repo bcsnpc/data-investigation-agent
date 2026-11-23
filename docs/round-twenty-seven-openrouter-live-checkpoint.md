@@ -8,7 +8,7 @@ These are separate synthetic development cohorts. Each uses one independent Sol 
 | Four affected screenshot replacements | 4 | 4 | 0 | 0 | 0 |
 | Original Step4, two stale cases pending | 30 of 32 | 14 | 13 | 1 | 2 |
 | Separate native-candidate / failed-job replacements | 2 | 1 | 1 | 0 | 0 |
-| Separate native-reference replacements, in progress | 3 of 4 | 1 | 2 | 0 | 0 |
+| Separate native-reference replacements | 4 | 1 | 3 | 0 | 0 |
 
 All20 original free guard slots are measured:14correct,1harmful and5other nonharmful outcomes. The correct failed-job replacement is separate and is not carried into that guard. This free guard cannot satisfy the required Opus guard.
 
@@ -23,6 +23,8 @@ In the30 saved cases, all84 classified evaluator reviews were incomplete at the 
 The latest source baseline is360 rows with original business/schema hashes, temporal history on and model7661, observed17:02UTC. The three latency replacements are serialized with fresh source-ahead and enabled-schedule checks. Their data and schedule remain in place only while their cases run, then are restored and hash-checked. Owner OFF was received17:26:51UTC. The original two stale cases are queued behind the latency restoration and a fresh baseline; no overlapping source controls are permitted.
 
 The second latency replacement is independently graded correct: it identifies the source-to-Bronze split and the actual next load time. Its enum is `record missing`, although its prose explains latency. It ran no temporal AS OF query, so this result does not demonstrate the latency-specific source-history validation route. The first replacement's draft already contained the timing facts; invalid evidence references and unsuccessful history queries then prevented delivery of that explanation. The saved-native backtrack records this distinction from the grader's broader triage diagnosis. No citation, history or schema check was weakened.
+
+At17:52UTC the four-case repair cohort is complete:1correct,3useful nonharmful handoffs,0harmful. The last latency ticket measured19source units and no Bronze row but ended unresolved at40physical requests; it did not connect the schedule to the cause. All three temporary latency rows are removed, original business/schema hashes match, and the owned schedule is removed. After a fresh baseline, the queued original two stale cases began on their unchanged image using the actual17:26:51UTC owner OFF receipt. Automatic updates must be restored ON after their source/hash/load restoration; that is not yet claimed.
 
 ## Provider and release state
 
