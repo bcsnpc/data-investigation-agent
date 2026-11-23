@@ -44,12 +44,32 @@
       "model_calls": 7,
       "investigator_cost_usd": 0.0,
       "capture_seal": "5d8fbf42db9327f789a99c2fec0a891110b8c3ff30978a813956a939bf72f473"
+    },
+    {
+      "ticket": "round27-proof15-kimi-form-v2-fixture-quantity-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered answer matches the sealed expectation: a transformation-logic deviation at the Silver-to-Gold boundary, caused by joining movements to product rates on product_id alone and repeating units for multiple rate matches. It reproduces 7,661 through Silver and 8,765 in Gold and the model, and identifies product 7's two rate rows as the source of the 1,104 increase. Saved SQL/DAX, checked boundaries, and engineering routing provide a rerunnable handoff. No substantive disagreement with the expected verdict, split, or cause.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 37,
+      "model_calls": 8,
+      "investigator_cost_usd": 0,
+      "capture_seal": "58002a992c1a0a4732f17cfc76cff1eca84146d7f4a2ed8648bd3e3df355f3ac"
     }
   ],
-  "fully_correct": 1,
+  "fully_correct": 2,
   "harmful": 0,
-  "graded": 3,
+  "graded": 4,
   "proof_total": 15,
   "original_outcomes_unchanged": true,
-  "image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d"
+  "image": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+  "image_split": {
+    "first_four_completed": "b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+    "remaining_unsubmitted": "c68a089be776b7540d74ad7ff79948678b16fa8bedf36d7102576bd664203208",
+    "cause": "Generic terminal fallback repair, full6089PASS53skip/all8image shards; original submissions and outcomes retain their old image pins.",
+    "uncertain_submission": "record-absent-everywhere remains unestablished and unscored, not retried."
+  }
 }
