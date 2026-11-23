@@ -1,9 +1,9 @@
 {
   "cohort_totals": {
     "STATIC": {
-      "graded": 2,
-      "fully_correct": 1,
-      "partial_handoffs": 1,
+      "graded": 4,
+      "fully_correct": 2,
+      "partial_handoffs": 2,
       "harmful": 0
     }
   },
@@ -52,22 +52,63 @@
       "cohort": "STATIC",
       "failure_kind": "MODEL_DELIVERY_FORMAT",
       "trace_basis": "Saved native result and ordered capture: submit_finding at audit904 sets undecided to empty string instead of required array; contract repair at1216, later submit4342 and18874 repeat the invalid field. Matching source/landing/model7661 and360rows were already measured. Later evaluator max_tokens is incomplete, not a substantive rejection (blocking_rejection=false). No validator relaxation or model-reasoning patch."
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-billing-mrr-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The AS DESIGNED verdict matches. The named cause also matches in substance: three ACTIVE subscriptions contribute their related plan monthly prices totaling 600, and REMOVEFILTERS(Plans) removes plan filtering; the native SQL and DAX checks support this explanation. However, the sealed layer/split is source application / DEV, which the answer does not identify or establish: it checks billing_serving and Subscription Billing and explicitly leaves billingapp unmeasured. Correct calculation evidence does not replace that independent layer requirement. This is an incomplete attribution, not a confidently incorrect cause. The handoff preserves rerunnable queries and clearly states the checked scope, but its next-step routing is generic and does not specify the missing source-application/DEV check.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 23,
+      "model_calls": 6,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "aaa352521fe240a28fe3f66bf811de7674949abc9f9e618797c36ce3d23ac7b9",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 262.87236572,
+      "model_seconds": 167.57612118700013,
+      "native_query_seconds": 26.544642073999967,
+      "cohort": "STATIC",
+      "failure_kind": "MODEL_INCOMPLETE_LAYER_COVERAGE",
+      "trace_basis": "AS DESIGNED and ACTIVE-subscription600 calculation are supported by model and serving SQL, but billingapp remains unmeasured. Sol gives verdict/cause true, layer false, partial true, harmful false. No native source read or source attribution invented; no engine patch from this reasoning omission."
+    },
+    {
+      "ticket": "round27-proof15-openrouter-supervl-form-v2-fixture-quantity-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The delivered answer matches the sealed expectation: transformation logic causes the deviation at Silver to Gold. It identifies the product_id-only LEFT JOIN to product rates as repeating movement matches and increasing carried units from 7661 to 8765. Native checks corroborate 360 rows and 7661 units through silver, versus 406 rows, 360 distinct movements and 8765 units in gold; the DAX sum returns 8765. Saved rerunnable queries, a clear resolved stopping point and engineering routing support handoff quality 2. No substantive disagreement.",
+      "delivery_status": "ANSWERED",
+      "physical_requests": 29,
+      "model_calls": 10,
+      "investigator_cost_usd": 0.0,
+      "capture_seal": "85930e1b09907cf917dd1dca5d44ba279da86004c8dc61d4898bf5908439fe81",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+      "engine_wall_seconds": 353.5894335509947,
+      "model_seconds": 216.1503597089977,
+      "native_query_seconds": 90.58712758698675,
+      "cohort": "STATIC",
+      "failure_kind": "NONE"
     }
   ],
-  "fully_correct": 1,
+  "fully_correct": 2,
   "harmful": 0,
-  "graded": 2,
+  "graded": 4,
   "proof_total": 15,
-  "partial_handoffs": 1,
+  "partial_handoffs": 2,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T10:21:50.447526+00:00",
+  "observed_utc": "2026-11-23T10:27:18.525312+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": "NOT_ADMITTED",
   "timing_scope": "Engine wall clock excluding Azure startup/publication; recorded image segments and overlaps prevent an isolated provider timing claim",
   "timing": {
-    "median_engine_wall_seconds": 460.3183740605,
+    "median_engine_wall_seconds": 358.7039671814973,
     "p90_engine_wall_seconds_nearest_rank": 556.818247309,
-    "total_engine_model_calls": 25,
-    "physical_requests_across_confirmed_engine_cases": 70
+    "total_engine_model_calls": 41,
+    "physical_requests_across_confirmed_engine_cases": 122
   }
 }
