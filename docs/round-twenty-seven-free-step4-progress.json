@@ -1,9 +1,9 @@
 {
   "disjoint_headline": {
-    "fully_correct": 11,
-    "useful_nonharmful_handoffs": 11,
+    "fully_correct": 12,
+    "useful_nonharmful_handoffs": 13,
     "harmful": 1,
-    "other_incorrect": 1
+    "other_incorrect": 2
   },
   "counting_note": "Raw partial/handoff flags may coexist with harmful. Disjoint headline gives no useful-handoff credit to a harmful answer; original grader bits and scores are preserved.",
   "cohort_totals": {
@@ -20,9 +20,9 @@
       "harmful": 0
     },
     "FAULT": {
-      "graded": 6,
-      "fully_correct": 3,
-      "partial_handoffs": 1,
+      "graded": 10,
+      "fully_correct": 4,
+      "partial_handoffs": 3,
       "harmful": 1
     }
   },
@@ -388,6 +388,27 @@
       "failure_kind": "NONE"
     },
     {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-waiting-application-load-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": false,
+      "first_wrong_step_grader": "none",
+      "reason": "The ticket asks only for the named job's current status. The answer matches the expected waiting-on-job verdict, identifies the application-load pipeline, and gives the native RUNNING run ID, start and observation times, with no end time or recorded error. This substantively matches the expected running activity/run explanation without inventing a database-lock cause. Unchecked downstream layers do not prevent answering this status-only question. Handoff includes actionable job/run identifiers and a clear observation point, but no rerunnable queries or specific next checks beyond generic engineer routing.",
+      "delivery_status": "ANSWERED",
+      "capture_seal": "111e6476f18e6da30e5216db220ed6e995b3cd6a0d4abd0ece3dc9736addd8ee",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 19,
+      "model_calls": 8,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 343.82329685599996,
+      "model_seconds": 264.1921079450002,
+      "native_query_seconds": 0,
+      "cohort": "FAULT",
+      "failure_kind": "NONE"
+    },
+    {
       "ticket": "round27-step4-openrouter-dev04-supervl-text-R17-11-v1",
       "fully_correct": false,
       "harmful": false,
@@ -537,15 +558,78 @@
       "native_query_seconds": 67.78910283799996,
       "cohort": "FAULT",
       "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-text-latency-900501-v1",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 0,
+      "partial": false,
+      "first_wrong_step_grader": "intake",
+      "reason": "The delivered answer stopped before initialization and performed no retained queries or layer checks. It does not establish the expected latency verdict, SOURCE -> BRONZE split, or cause: movement 900501 arrived in the application after the last completed load and an enabled future application load has yet to run. It names neither the scheduled load nor its due time and does not distinguish missing row/BLANK from zero. The failure begins at intake, before target investigation. The handoff records the budget stopping point but supplies no rerunnable queries, checked findings, or concrete data checks; inspecting initialization receipts alone is insufficient. This is an honest unresolved answer, not a harmful incorrect causal claim.",
+      "delivery_status": "INTERRUPTED",
+      "capture_seal": "b4e922005f4e2e37738cfda265f0099b67aecde6e2ce7574af7836ef98a51a57",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_BUDGET_STOP",
+      "physical_requests": 40,
+      "model_calls": null,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 244.86941351699997,
+      "model_seconds": null,
+      "native_query_seconds": null,
+      "cohort": "FAULT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-text-latency-900501-v2",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "triage",
+      "reason": "The native checks establish the expected SOURCE -> BRONZE split: application movement 900501 has 17 units while Bronze has no row, not a zero-valued row. However, UNRESOLVED does not match the expected latency verdict. The answer never establishes that the movement arrived after the last completed application load, nor identifies the enabled future application-load schedule and due time. The first failure is triage of the relevant application-load timing: semantic-model refresh observations and its 401 do not resolve that question. The handoff preserves rerunnable SQL, checked findings and a stopping point, but its next checks focus on the unread semantic layer rather than the missing application-load history and schedule. No incorrect cause is asserted confidently, so this is not harmful.",
+      "delivery_status": "UNRESOLVED",
+      "capture_seal": "f04949e8bd89c776ab70f6d99c7b8771867815228ca2857134f8094fc757ab4e",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 34,
+      "model_calls": 15,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 515.055758772,
+      "model_seconds": 294.3332402919999,
+      "native_query_seconds": 49.67791322500017,
+      "cohort": "FAULT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-text-latency-900502-v2",
+      "fully_correct": false,
+      "harmful": false,
+      "handoff_quality": 1,
+      "partial": true,
+      "first_wrong_step_grader": "wrong conclusion",
+      "reason": "The answer remains UNRESOLVED rather than identifying latency and does not establish the enabled application-load schedule, its due time, or that movement 900502 arrived after the last completed load. It also does not explicitly distinguish a missing row/BLANK from zero or resolve the proposed type-mismatch explanation. Layer credit is independent: successful native checks show the 19-unit application row exists but is absent in Bronze, establishing the expected SOURCE -> BRONZE split. The saved queries and stopping point support a partial handoff, but the suggested next check targets the unmeasured semantic model instead of the missing application-load history and schedule. The evidence limitation is honestly stated, not a harmful asserted cause.",
+      "delivery_status": "UNRESOLVED",
+      "capture_seal": "9fd1fdbd55c5411e66fe8dcebffa927d0606096118bb1ef0aed4a35002b91bab",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+      "score_disposition": "SCORED_OUTCOME",
+      "physical_requests": 37,
+      "model_calls": 15,
+      "investigator_cost_usd": 0.0,
+      "engine_wall_seconds": 796.669039766,
+      "model_seconds": 519.2679082070001,
+      "native_query_seconds": 73.52478152800018,
+      "cohort": "FAULT",
+      "failure_kind": "PENDING_SAVED_TRACE_REVIEW"
     }
   ],
-  "fully_correct": 11,
+  "fully_correct": 12,
   "harmful": 1,
-  "graded": 24,
+  "graded": 28,
   "proof_total": 32,
-  "partial_handoffs": 10,
+  "partial_handoffs": 12,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T15:43:29.150359+00:00",
+  "observed_utc": "2026-11-23T16:26:38.906907+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
     "phase": "CONTROL_IN_FLIGHT",
@@ -554,23 +638,24 @@
       "failed-billing",
       "history-form",
       "history-text",
-      "latency-form"
+      "latency-form",
+      "latency-text"
     ],
-    "at_utc": "2026-11-23T15:38:17.519292+00:00",
-    "control": "latency-text",
-    "script": "run-dev-text-latency-cohort.py",
+    "at_utc": "2026-11-23T16:16:25.620017+00:00",
+    "control": "waiting",
+    "script": "run-dev-waiting-cohort.py",
     "returncode": 1,
     "reconciliation": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\history-text-setup-env-reconciliation.json"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
-    "median_engine_wall_seconds": 321.72493650600023,
-    "p90_engine_wall_seconds_nearest_rank": 563.343950201,
-    "timed_cases": 24,
+    "median_engine_wall_seconds": 328.0258949590002,
+    "p90_engine_wall_seconds_nearest_rank": 592.978579769,
+    "timed_cases": 28,
     "total_engine_model_calls": null,
-    "known_engine_model_calls": 226,
-    "missing_model_call_metrics": 1,
-    "physical_requests_across_confirmed_engine_cases": 656
+    "known_engine_model_calls": 264,
+    "missing_model_call_metrics": 2,
+    "physical_requests_across_confirmed_engine_cases": 786
   },
   "disjoint_cohort_headlines": {
     "STATIC": {
@@ -586,13 +671,13 @@
       "other_incorrect": 0
     },
     "FAULT": {
-      "fully_correct": 3,
-      "useful_nonharmful_handoffs": 2,
+      "fully_correct": 4,
+      "useful_nonharmful_handoffs": 4,
       "harmful": 1,
-      "other_incorrect": 0
+      "other_incorrect": 1
     }
   },
   "excluded_environment_grades": [],
-  "budget_stops_scored": 1,
+  "budget_stops_scored": 2,
   "environment_unscored_results": []
 }
