@@ -660,3 +660,7 @@ Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native 
 
 
 Round27 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+Round27 original stale cohort withdrawn BEFORE cleanup because the Azure start is unestablished; any late capture is unscored. WITHDRAWN_ENVIRONMENT_SOURCE_RESTORE_IN_PROGRESS; source_restoration_required=True. Guarded owned-row restore, original business/schema hashes and original real restoration load are recorded in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\stale\status.json. Automatic updates ON remains owner action; no duplicate start or scored outcome manufactured.
+
+Round27 original stale cohort withdrawn BEFORE cleanup because the Azure start is unestablished; any late capture is unscored. ENVIRONMENT_WITHDRAWN_DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False. Guarded owned-row restore, original business/schema hashes and original real restoration load are recorded in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\stale\status.json. Automatic updates ON remains owner action; no duplicate start or scored outcome manufactured.

@@ -968,3 +968,6 @@ Round27 Opus planning update2026-11-23: known confirmation scope is25tickets(7me
 
 
 2026-11-23 17:26:51UTC owner OFF confirmation received for the original two pending Step4 stale cases, schedule unchanged. It is recorded as OWNER_REPORTED_SAVED_SETTING, not native browser readback. No stale source mutation is admitted until the active latency repair cohort is fully hash-restored and its owned schedule removed, then a fresh baseline is checked. A separate ON confirmation and native restored model7661 check remain required after stale data restoration.
+
+
+2026-11-23 18:20UTC current fixture action: turn ON Keep your Direct Lake data up to date for Application load fixture20261003, Apply, schedule unchanged. The source360/business-schema hashes are restored and the original real restoration load SUCCEEDED. One stale start is Azure-unestablished/environment-withdrawn before cleanup; any late capture is unscored, second ticket not run. Do not resubmit the uncertain POST. ON confirmation was requested; prepared finish-owner-on-step4.py/check-owner-on-refresh-step4.py require the actual reply and perform native refresh/value verification. Existing Anthropic confirmation shortfall26.351553USD and protected14.34calibration/3cashreserve remain; no limit change or partialv5.

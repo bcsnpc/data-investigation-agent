@@ -671,10 +671,10 @@
   "proof_total": 32,
   "partial_handoffs": 12,
   "original_outcomes_unchanged": true,
-  "observed_utc": "2026-11-23T16:48:20.525463+00:00",
+  "observed_utc": "2026-11-23T18:20:24.788434+00:00",
   "environment_unestablished_unscored": 0,
   "fault_cohort_status": {
-    "phase": "NON_STALE_COMPLETE_WAITING_FOR_FRESH_OWNER_OFF",
+    "phase": "ALL_ADMITTED_CONTROLS_DATA_RESTORED_OWNER_AUTOON_PENDING",
     "completed": [
       "failed-fixture",
       "failed-billing",
@@ -685,12 +685,18 @@
       "waiting",
       "access"
     ],
-    "at_utc": "2026-11-23T16:46:41.547470+00:00",
-    "control": "access",
-    "script": "run-dev-access-cohort.py",
+    "at_utc": "2026-11-23T18:20:24.130206+00:00",
+    "control": "stale",
+    "script": "run-dev-stale-cohort.py",
     "returncode": 1,
     "reconciliation": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\history-text-setup-env-reconciliation.json",
-    "pending": "stale"
+    "pending": "stale",
+    "stale_disposition": {
+      "form-v2-stale-model-v1": "UNESTABLISHED_ENVIRONMENT_WITHDRAWN_UNSCORED",
+      "form-v2-stale-model-v2": "NOT_RUN"
+    },
+    "restoration_receipt": "injections/stale/status.json",
+    "any_late_capture": "PRESERVE_UNSCORED_FIXTURE_WITHDRAWN"
   },
   "timing_scope": "Recorded engine wall clock only; missing metrics remain null, never zero. Partial initialization and budget stops remain scored; explicit provider environments are separately unscored. No isolated provider timing claim.",
   "timing": {
@@ -724,5 +730,18 @@
   },
   "excluded_environment_grades": [],
   "budget_stops_scored": 2,
-  "environment_unscored_results": []
+  "environment_unscored_results": [],
+  "fault_unestablished_unscored": [
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "run_id": "f238f1ba-1142-4b55-bdc1-958c61911343",
+      "reason": "Azure start unestablished; fixture withdrawn before cleanup; any late capture unscored"
+    }
+  ],
+  "not_run": [
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "reason": "Do not admit another fault ticket while the first start remains uncertain"
+    }
+  ]
 }

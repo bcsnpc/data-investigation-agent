@@ -6,7 +6,7 @@ These are separate synthetic development cohorts. Each uses one independent Sol 
 |---|---:|---:|---:|---:|---:|
 | Original SuperVL qualification | 15 | 6 | 8 | 1 | 0 |
 | Four affected screenshot replacements | 4 | 4 | 0 | 0 | 0 |
-| Original Step4, two stale cases pending | 30 of 32 | 14 | 13 | 1 | 2 |
+| Original Step4, one uncertain/unscored and one not run | 30 of 32 | 14 | 13 | 1 | 2 |
 | Separate native-candidate / failed-job replacements | 2 | 1 | 1 | 0 | 0 |
 | Separate native-reference replacements | 4 | 1 | 3 | 0 | 0 |
 
@@ -27,6 +27,8 @@ The second latency replacement is independently graded correct: it identifies th
 At17:52UTC the four-case repair cohort is complete:1correct,3useful nonharmful handoffs,0harmful. The last latency ticket measured19source units and no Bronze row but ended unresolved at40physical requests; it did not connect the schedule to the cause. All three temporary latency rows are removed, original business/schema hashes match, and the owned schedule is removed. After a fresh baseline, the queued original two stale cases began on their unchanged image using the actual17:26:51UTC owner OFF receipt. Automatic updates must be restored ON after their source/hash/load restoration; that is not yet claimed.
 
 ## Provider and release state
+
+At18:20UTC, the original stale control is withdrawn from scoring after an uncertain Azure start. The POST timed out and execution reads returned Microsoft.App BadGateway; no exact run capture was present. Before cleanup, automatic capture-to-grading recovery was stopped and the first attempt marked environment-unscored; any late capture stays unscored. The second ticket was not submitted. Cleanup's first connection failed SQL40613; a fresh owned-row/version check preceded the identical guarded retry. Original360 business/schema hashes match and the original real restoration load succeeded. Owner ON confirmation and native refresh/value verification are pending. This is not a completed32-case pass, a freeze or a quality-gate result.
 
 OpenRouter no-generation GET /key returned200:1000 free requests/day,525used/475remaining at that observation,0USD usage and10USD key credit remaining. The shared ledger is more conservative because uncertain earlier calls remain charged; it last reported712/1000. The queue is20requests/minute with concurrency2. The remote key limit resets weekly, but DIA's separate10USD lifetime limit never resets. Paid OpenRouter is refused while an eligible free model has passed the tool test. All current investigator/evaluator calls use openrouter / nvidia/nemotron-3.5-super-vl:free.
 
