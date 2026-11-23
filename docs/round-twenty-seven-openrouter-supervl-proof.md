@@ -1,8 +1,8 @@
-# OpenRouter SuperVL original proof ? synthetic DEV only
+# OpenRouter SuperVL original proof: synthetic DEV only
 
 All15 original runs use the same pinned model/provider and source77267c82/image08474. Single independent Sol grading; free results satisfy no quality gate. The repair cohort is separate.
 
-| Ticket | Correct | Useful nonharmful handoff | Harmful | First-wrong-step / trace classification |
+| Ticket | Correct | Useful nonharmful handoff | Harmful | Observed DIA defect / separate grader failure label |
 |---|---:|---:|---:|---|
 | billing-invoices-v2 | 1 | 0 | 0 | NONE; none |
 | application-baseline-v1 | 0 | 1 | 0 | MODEL_DELIVERY_FORMAT; wrong conclusion |
