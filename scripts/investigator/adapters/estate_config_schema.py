@@ -13,7 +13,7 @@ LIMITS = _object({name: CAP for name in ('requests_per_ticket', 'requests_per_da
     'microdollars_per_ticket', 'microdollars_per_day', 'microdollars_per_month')})
 SCHEMA = _object({
     'version': {'const': 'estate-config/1'}, 'id': IDENTIFIER, 'name': TEXT,
-    'enabled': FLAG, 'status': {'enum': ['DRAFT', 'CONFIGURED']},
+    'enabled': FLAG, 'status': {'enum': ['DRAFT', 'CONFIGURED', 'SMOKE_ONLY', 'READY_SEALED_TEST']},
     'references': _object({key: TEXT for key in ('tenant', 'subscription', 'resource_group')}),
     'connectors': {'type': 'array', 'minItems': 1, 'items': _object({
         'id': IDENTIFIER, 'kind': {'enum': ['fabric', 'powerbi', 'azure-sql', 'fabric-sql', 'databricks', 'snowflake']},

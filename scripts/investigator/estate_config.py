@@ -23,6 +23,8 @@ def validate(value):
     result = deepcopy(value)
     def fail(path, message):
         raise ValueError('estate.' + path + ': ' + message)
+    if result['status'] in ('SMOKE_ONLY', 'READY_SEALED_TEST') and result['enabled']:
+        fail('enabled', 'sealed estate permits connectivity only; ticket runs are disabled')
     if result['enabled'] and result['deepest_reachable'] is None:
         fail('deepest_reachable', 'enabled estate requires declared reachability')
     if result['enabled'] and result['status'] != 'CONFIGURED':
@@ -98,7 +100,7 @@ def fingerprint(value):
 
 def dry_run(value):
     value = validate(value)
-    return {'status': 'VALID' if value['enabled'] else 'DRAFT_DISABLED', 'estate_id': value['id'],
+    return {'status': value['status'] if value['status'] in ('SMOKE_ONLY', 'READY_SEALED_TEST') else 'VALID' if value['enabled'] else 'DRAFT_DISABLED', 'estate_id': value['id'],
             'config_sha256': fingerprint(value), 'layers': list(value['layers']),
             'connectors': [row['id'] for row in value['connectors']], 'network_calls': 0,
             'secret_resolution': 'NOT_ATTEMPTED', 'execution_enabled': False}

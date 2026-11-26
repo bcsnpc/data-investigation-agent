@@ -849,3 +849,16 @@ All 833 engine/runtime files and 69 prompt-bearing files match the original free
 The engine freeze rule remains unchanged. Author/operator exposure must be disclosed
 and independent grading used: owner-authored does not mean operator-blind. No DIA
 or model runs, access grants, injections, engine changes, merge or tag were performed.
+
+
+## HealthNet smoke plumbing, owner-approved 2026-11-26
+
+The estate config schema previously accepted only DRAFT/CONFIGURED. Add SMOKE_ONLY
+and READY_SEALED_TEST as disabled-for-ticket states, validated offline; both refuse
+enabled=true and engine_manifest execution. This is config plumbing only, authorized
+by healthnet-access-and-smoke.md. No prompts, intake, investigation or answer rules
+change. New tests prove both states remain offline and cannot admit tickets.
+Full suite, all eight image shards and the 123 saved classifications are required.
+Owner additionally approved only row counts per mapped SQL table and one main
+measure total per model, compared with saved owner-baseline receipts, no tickets
+or model calls. Sealed HealthNet inputs/expectations will not be opened.

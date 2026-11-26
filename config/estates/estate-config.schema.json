@@ -20,7 +20,9 @@
     "status": {
       "enum": [
         "DRAFT",
-        "CONFIGURED"
+        "CONFIGURED",
+        "SMOKE_ONLY",
+        "READY_SEALED_TEST"
       ]
     },
     "references": {

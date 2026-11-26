@@ -35,6 +35,18 @@ class EstateConfigurationTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'ESTATE_DISABLED'): config.engine_manifest(value)
         self.assertFalse(value['enabled'])
 
+    def test_smoke_and_sealed_states_never_admit_ticket_execution(self):
+        for status in ('SMOKE_ONLY', 'READY_SEALED_TEST'):
+            value = draft(); value['status'] = status
+            with patch('socket.socket.connect', side_effect=AssertionError('NETWORK_FORBIDDEN')):
+                self.assertEqual(config.dry_run(value)['status'], status)
+                self.assertFalse(config.dry_run(value)['execution_enabled'])
+                with self.assertRaisesRegex(ValueError, 'ESTATE_DISABLED'):
+                    config.engine_manifest(value)
+                value['enabled'] = True
+                with self.assertRaisesRegex(ValueError, 'connectivity only'):
+                    config.validate(value)
+
     def test_schema_is_closed_and_reports_missing_fields_and_layer_gaps(self):
         changes = [lambda v: v.update(extra=True), lambda v: v['layers'].pop('gold'),
             lambda v: v['layers']['gold'].update(objects=[], discovery=[]),
