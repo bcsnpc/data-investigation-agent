@@ -12,7 +12,9 @@ def nonmatching_literal(asset, figure):
     if not figure or figure.get('state')!='NUMBER' or figure.get('precision')!='EXACT':
         return None
     meta=asset.get('metadata',{})
-    if asset.get('kind')!='ReportVisual' or meta.get('visual',{}).get('visualType')!='textbox':
+    if (asset.get('kind')!='ReportVisual' or not isinstance(meta,dict)
+            or not isinstance(meta.get('visual'),dict)
+            or meta['visual'].get('visualType')!='textbox'):
         return None
     literals=[]
     def static(value):
@@ -38,9 +40,10 @@ def nonmatching_literal(asset, figure):
             text.append(''.join(run['value'] for run in runs))
         content=' '.join([*text,*literals])
         # Spelled quantities or unknown magnitude conventions remain ambiguous.
-        if re.search(r'\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion)\b',content,re.I):return None
+        if re.search(r'\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion)\b',content,re.I):return None
         number=Decimal(figure['value'])
-        for match in re.finditer(r'[-+]?\d[\d,]*(?:\.\d+)?\s*[kmb]?',content,re.I):
+        if not number.is_finite():return None
+        for match in re.finditer(r'[-+]?\d[\d,]*(?:\.\d+)?(?:e[-+]?\d+)?\s*[kmb]?',content,re.I):
             token=match.group().replace(',','').strip().lower()
             scale={'k':1000,'m':1000000,'b':1000000000}.get(token[-1],1)
             value=Decimal(token[:-1].strip() if scale!=1 else token)*scale

@@ -138,7 +138,7 @@ class LiteralCandidateTests(unittest.TestCase):
         self.assertEqual(self.asset,before)
 
     def test_matching_formatted_scaled_or_split_text_remains_a_candidate(self):
-        for text in ('1,234','1.234K','total 1234'):
+        for text in ('1,234','1.234K','1.234e3','total 1234'):
             with self.subTest(text=text):
                 self.text(text);self.assertEqual(len(self.inventory()['candidates']),2)
         paragraph=self.asset['metadata']['visual']['objects']['general'][0]['properties']['paragraphs'][0]
@@ -167,6 +167,12 @@ class LiteralCandidateTests(unittest.TestCase):
         self.assertEqual(len(self.inventory()['candidates']),2)
         self.proposal['reported_figure']={'state':'NUMBER','value':'1234','precision':0}
         self.assertEqual(len(self.inventory()['candidates']),2)
+
+    def test_missing_or_malformed_native_metadata_remains_a_candidate(self):
+        for metadata in (None,[],{}, {'visual':None}, {'visual':{'visualType':'textbox'}}):
+            with self.subTest(metadata=metadata):
+                self.asset['metadata']=metadata
+                self.assertEqual(len(self.inventory()['candidates']),2)
 
 
 if __name__=='__main__':unittest.main()
