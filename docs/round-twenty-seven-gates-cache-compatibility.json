@@ -1,0 +1,17 @@
+{
+  "cases": 123,
+  "all_status_and_after_fields_unchanged": true,
+  "changed": [],
+  "counts": {
+    "REPLAY_FAILURE": 29,
+    "REPLAY_FINISHED": 85,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "baseline": "native-reference-c7a06c1f",
+  "baseline_sha256": "095ad70fc1879f118f6927023fb619f0673f1039b93e4fab55a42e53a72d6de5",
+  "current_sha256": "52b10fbea76bb257b163349a5a82e6fdf5c3ea924bb17666af55b2b6233d1b75",
+  "source": "6731ead4",
+  "model_calls": 0,
+  "estate_reads": 0,
+  "limitation": "85finished,29historicnegative/incomplete,9no-case; not123successfulexactreplays"
+}

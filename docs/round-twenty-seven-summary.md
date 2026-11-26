@@ -1,5 +1,7 @@
 # Round 27: redesign, proof attempts and close
 
+> Latest owner steer, November 25 / execution November 26: the additional $10 reopens the funded gate sequence before merge. PR #435 is still open and untagged. Conservative $56 cash covers the unchanged $37.568245 confirmation forecast plus $14.34 calibration and $3 reserve. Static Batch pricing was already included. Evaluator evidence-prefix caching is being qualified; no new Opus call has been admitted. The earlier close-only funding result below is historical and will be superseded by the completed gate report. V5 remains sealed until the December 1 balance and prerequisite gates are confirmed.
+
 **The quality gate was not established.** Paid pass 2 finished at 26/48 reviewed correct, 14 useful handoffs and 5 harmful answers. Paid pass 3 stopped after 21 of 39 required outcomes: 14 correct, 1 useful handoff and 1 harmful answer. Its guard was 11/13 measured, with all 20 required. Confirmation, fresh calibration and held-out v5 did not run. V5 remains sealed.
 
 The owner direction dated 2026-11-25 explicitly authorizes closure when the whole-run funding gate cannot be met. This is an engineering release without a passed quality benchmark. No earlier outcome, expectation or grade was changed.
