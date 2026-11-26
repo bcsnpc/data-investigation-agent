@@ -1,0 +1,49 @@
+{
+  "observed_at_utc": "2026-11-26T06:18:16.537255+00:00",
+  "completed": 21,
+  "required": 25,
+  "final": false,
+  "provider": "anthropic",
+  "model": "claude-opus-5-5",
+  "static_pricing": "BATCH_HALF_RATE",
+  "fault_pricing": "NORMAL",
+  "calibration": "DEFERRED_UNTIL_CONFIRMED_DEC1_BALANCE_AND_CONFIRMATION_GATE_PASS",
+  "cash_reserve_microdollars": 3000000,
+  "actual_completed_cost_microdollars": 8666603,
+  "by_step": {
+    "EVALUATOR": {
+      "calls": 22,
+      "actual_microdollars": 2627225,
+      "input_tokens": 772579,
+      "cached_input_tokens": 11683,
+      "cache_write_tokens": 624480,
+      "cache_read_ratio": 0.01512207813052128,
+      "mean_actual_microdollars_per_call": 119419.31818181818
+    },
+    "INVESTIGATOR": {
+      "calls": 79,
+      "actual_microdollars": 5394252,
+      "input_tokens": 4921882,
+      "cached_input_tokens": 3341456,
+      "cache_write_tokens": 1024001,
+      "cache_read_ratio": 0.6788980312815301,
+      "mean_actual_microdollars_per_call": 68281.67088607595
+    },
+    "INTAKE": {
+      "calls": 6,
+      "actual_microdollars": 645126,
+      "input_tokens": 597735,
+      "cached_input_tokens": 360160,
+      "cache_write_tokens": 180080,
+      "cache_read_ratio": 0.6025412599228755,
+      "mean_actual_microdollars_per_call": 107521.0
+    }
+  },
+  "status": "PENDING_FULL_COHORT_NOT_A_FINAL_GATE",
+  "timing": {
+    "measured": 21,
+    "median_worker_wall_seconds": 619.977976756,
+    "p90_worker_wall_seconds": 1352.6072858290008,
+    "excludes_control_staging_and_initial_ARM_submission": true
+  }
+}
