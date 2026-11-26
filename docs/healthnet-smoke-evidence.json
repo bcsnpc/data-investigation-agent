@@ -152,6 +152,21 @@
       "path": "rls-revenue-before-definition.json",
       "bytes": 53954,
       "sha256": "1821a4593de2d356bc88bc08e5eec8508528fb6c93801944c1f6520f3b5c0877"
+    },
+    {
+      "path": "config-validation.json",
+      "bytes": 563,
+      "sha256": "d58a30306bab038c4766a1e08b2ada9b5c8bd653c1ee7ecc5cdb277ad3fb327a"
+    },
+    {
+      "path": "qualification-final.json",
+      "bytes": 215,
+      "sha256": "88d09323127ffb552c31c234f2507a8488d05c03d6c903c8714824c11780e9cb"
+    },
+    {
+      "path": "qualification-f49d761d/full-repository.xml",
+      "bytes": 970337,
+      "sha256": "8d712482bb321a2b0a9b758814da7ed53c89e37dedff423e3d98b27ec6f36657"
     }
   ]
 }

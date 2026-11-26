@@ -171,7 +171,7 @@
       "actual_rows": null,
       "owner_baseline_rows": null,
       "comparison": "NOT_MEASURABLE",
-      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+      "reason": "Direct physical history-object count not dispatched because its effective INSERT report fails the unchanged guard. See the separately measured current-table temporal-version aggregate."
     },
     {
       "connection": "clinical",
@@ -179,7 +179,7 @@
       "actual_rows": null,
       "owner_baseline_rows": null,
       "comparison": "NOT_MEASURABLE",
-      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+      "reason": "Direct physical history-object count not dispatched because its effective INSERT report fails the unchanged guard. See the separately measured current-table temporal-version aggregate."
     },
     {
       "connection": "clinical",
@@ -187,7 +187,7 @@
       "actual_rows": null,
       "owner_baseline_rows": null,
       "comparison": "NOT_MEASURABLE",
-      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+      "reason": "Direct physical history-object count not dispatched because its effective INSERT report fails the unchanged guard. See the separately measured current-table temporal-version aggregate."
     },
     {
       "connection": "billing",
@@ -283,7 +283,7 @@
       "actual_rows": null,
       "owner_baseline_rows": null,
       "comparison": "NOT_MEASURABLE",
-      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+      "reason": "Direct physical history-object count not dispatched because its effective INSERT report fails the unchanged guard. See the separately measured current-table temporal-version aggregate."
     },
     {
       "connection": "billing",
@@ -291,7 +291,7 @@
       "actual_rows": null,
       "owner_baseline_rows": null,
       "comparison": "NOT_MEASURABLE",
-      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+      "reason": "Direct physical history-object count not dispatched because its effective INSERT report fails the unchanged guard. See the separately measured current-table temporal-version aggregate."
     },
     {
       "connection": "billing",
@@ -299,7 +299,7 @@
       "actual_rows": null,
       "owner_baseline_rows": null,
       "comparison": "NOT_MEASURABLE",
-      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+      "reason": "Deferred with the original history-count cohort, not individually write-capable: native metadata says NON_TEMPORAL_TABLE and INSERT=0. No native temporal parent exists, so the later temporal-only approval cannot count it. No direct count dispatched."
     },
     {
       "connection": "raw",
@@ -847,14 +847,18 @@
     "estate_dispatches": 0
   },
   "qualification": {
-    "source": "b80e790e",
-    "workflow": 45889564039,
+    "source": "f49d761d",
+    "workflow": 45897562482,
     "full_suite_passed": 6230,
     "skipped": 53,
     "failures": 0,
     "errors": 0,
     "image_shards_passed": 8,
-    "saved_replay_classifications_unchanged": 123
+    "saved_replay_classifications_unchanged": 123,
+    "runtime_source": "b80e790e; engine and prompts unchanged by f49d761d",
+    "focused_tests_passed": 37,
+    "focused_subtests_passed": 21,
+    "image_publication": "NOT_REQUESTED; qualification only"
   },
   "sealed_test_contents_opened": false,
   "temporal_history_counts": {

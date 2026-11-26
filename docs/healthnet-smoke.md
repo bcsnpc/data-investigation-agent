@@ -99,7 +99,8 @@ No further workspace permission change was attempted.
 Native inventory scan `118e6c7b-ecab-41c1-b6e5-8773e1bc3eb1`, retained in
 `.local/healthnet-smoke/catalog.sqlite`: 4 SQL databases, 95 table objects,
 1,076 table-column assets, 3 reports, 3 models, 6 pipelines, 1 notebook,
-1 dataflow, 2 lakehouses, 2 warehouses and 2 SQL endpoint item records.
+1 dataflow, 2 lakehouses, 2 warehouses and 2 SQL endpoint item records (including
+Fabric's dataflow staging lakehouse/warehouse, not additional mapped data layers).
 An additional native report-page scan records all **4 pages across 3 reports**.
 
 - All four named SQL connections resolve to native databases and object IDs.
@@ -140,9 +141,20 @@ files: two config state validators and the managed worker's guarded literal
 SELECT 1. **830/833 engine files and all 69 prompt-bearing files are unchanged**.
 There is no HealthNet-specific intake, prompt, reasoning or verdict adjustment.
 
-- Source `b80e790e`: **6,230 passed / 53 skipped**, 0 failures/errors.
-- [Hosted qualification](https://github.com/bcsnpc/data-investigation-agent/actions/runs/45889564039):
-  full suite and **all 8 image shards succeeded**, image published.
+The final disabled configuration exposed an obsolete test assertion requiring
+the deployment to stay at its original draft status with exactly two connection
+entries. That assertion now verifies every permitted non-executable state,
+disabled connectors, refusal of engine admission, both application-source roots,
+and the unchanged single-connection practice fixture. This test-only correction
+allows the two additional native raw/warehouse connection entries. Focused
+config/API/SQL-worker verification passed **37 tests and 21 subtests**; no sealed
+ticket expectation or engine behavior changed for it.
+
+- Final qualified source `f49d761d`: **6,230 passed / 53 skipped**, 0 failures/errors.
+  Its runtime engine/prompts are unchanged from the live smoke's `b80e790e`.
+- [Fresh hosted qualification](https://github.com/bcsnpc/data-investigation-agent/actions/runs/45897562482):
+  full suite and **all 8 image shards succeeded**. This qualification did not
+  publish or deploy an image; the earlier `b80e790e` image remains recorded.
 - Saved replay classifications **123/123 unchanged**, including the original
   **28 REPLAY_FAILURE** and **9 NO_INVESTIGATION_CASE**; **86 REPLAY_FINISHED**.
   This is preservation of classifications, not 123 successful investigations.
@@ -154,6 +166,22 @@ HealthNet databases retain their own free offer, mandatory AutoPause at its
 limit, and 60-minute inactivity auto-pause. No paid continuation or SKU change.
 Azure's CPU-billed metric is usage evidence, not an invoice. No current free-
 balance datapoint was returned, so no fresh remaining-balance number is claimed.
+
+| Final usage observation | Value |
+| --- | ---: |
+| Clinical CPU-billed metric, 20:00–21:16:44 UTC | 2,670.506 vCore-seconds |
+| Billing CPU-billed metric, same window | 2,618.365 vCore-seconds |
+| Task's metered reservations | 479 SETTLED, 0 open |
+| Shared November physical ledger | 19,298 / 20,500 |
+| Investigation allocation | 16,817 / 17,905 |
+| SCAN allocation | 2,430 / 2,500 |
+| Restoration allocation | 51 / 95; this task used 0, 44 remain |
+| AI calls / AI spend in this task | 0 / $0 |
+
+The ledger is above its 80% warning thresholds; no limit or usage counter was
+reset. Administrative permission changes and initial failures are retained in
+the access receipts; metered reservations are not a claim that every request
+successfully dispatched a business query.
 
 Original local receipts are pinned by [SHA-256](healthnet-smoke-evidence.json).
 Remaining owner items: investigate the unexplained temporal INSERT report if
