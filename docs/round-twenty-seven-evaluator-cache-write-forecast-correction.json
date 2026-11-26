@@ -1,0 +1,92 @@
+{
+  "status": "FURTHER_ADMISSIONS_PAUSED_PENDING_SETTLED_FIRST_TWO_AND_CORRECTED_WHOLE_REMAINDER_FORECAST",
+  "original_confirmation_forecast": 37568245,
+  "original_forecast_already_included_static_batch": true,
+  "new_confirmation_cache_write_premium_upper": 949622,
+  "revised_confirmation_forecast": 38517867,
+  "revised_calibration_forecast": 14611367,
+  "cash_reserve": 3000000,
+  "original_cash_lower_estimate": 56000000,
+  "revised_from_scratch_total": 56129234,
+  "from_scratch_shortfall": 129234,
+  "finding": "The pre-admission forecast repriced old cache reads as writes but omitted the1USD/M first-write premium for newly cached formerly-uncached evaluator evidence. Two ticket runs were already in flight when this was found. Preserve them; pause before any further ticket, then use their settled actual usage (never hypothetical savings) to reforecast all remaining23 plus complete calibration and reserve. Do not claim the original admission forecast fully accounted for this premium.",
+  "calibration_sample_reconstruction": {
+    "cases": 14,
+    "historical_cost_sum": 15441750,
+    "source": "dev01 result files with timestamps at/before retained calibration-estimate-current.json; matches original14-case sum exactly",
+    "extra_write_premium_upper": 271367,
+    "rows": [
+      {
+        "case": "form-v2-before-temporal-retention-v1",
+        "historical_actual_cost": 180116,
+        "previously_uncached_evaluator_tokens": 0
+      },
+      {
+        "case": "form-v2-billing-invoices-v1",
+        "historical_actual_cost": 1056350,
+        "previously_uncached_evaluator_tokens": 41843
+      },
+      {
+        "case": "form-v2-other-collected-definition-v1",
+        "historical_actual_cost": 1204367,
+        "previously_uncached_evaluator_tokens": 70663
+      },
+      {
+        "case": "text-baseline-S02-v1",
+        "historical_actual_cost": 1272508,
+        "previously_uncached_evaluator_tokens": 40847
+      },
+      {
+        "case": "text-baseline-S03-v2",
+        "historical_actual_cost": 1628710,
+        "previously_uncached_evaluator_tokens": 17229
+      },
+      {
+        "case": "text-different-warehouse-v2",
+        "historical_actual_cost": 580488,
+        "previously_uncached_evaluator_tokens": 0
+      },
+      {
+        "case": "text-older-export-movement-1-v1",
+        "historical_actual_cost": 1275176,
+        "previously_uncached_evaluator_tokens": 0
+      },
+      {
+        "case": "text-older-export-movement-1-v2",
+        "historical_actual_cost": 173410,
+        "previously_uncached_evaluator_tokens": 0
+      },
+      {
+        "case": "text-R17-04-v1",
+        "historical_actual_cost": 1795360,
+        "previously_uncached_evaluator_tokens": 8116
+      },
+      {
+        "case": "text-R17-05-v1",
+        "historical_actual_cost": 1055192,
+        "previously_uncached_evaluator_tokens": 35042
+      },
+      {
+        "case": "text-R17-08-v1",
+        "historical_actual_cost": 1628592,
+        "previously_uncached_evaluator_tokens": 31524
+      },
+      {
+        "case": "text-R17-09-v1",
+        "historical_actual_cost": 801362,
+        "previously_uncached_evaluator_tokens": 0
+      },
+      {
+        "case": "text-R17-10-v1",
+        "historical_actual_cost": 2042437,
+        "previously_uncached_evaluator_tokens": 29230
+      },
+      {
+        "case": "text-R17-11-v1",
+        "historical_actual_cost": 747682,
+        "previously_uncached_evaluator_tokens": 17747
+      }
+    ]
+  },
+  "safety": "No dollar cap or cash reserve was exceeded; actual per-call reservations always bound cache writes. No new admission while paused; no score/expectation changed."
+}
