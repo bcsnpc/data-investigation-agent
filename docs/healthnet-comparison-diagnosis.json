@@ -1,0 +1,351 @@
+{
+  "as_of": "2026-11-26T23:10:55.217538+00:00",
+  "new_estate_reads": 0,
+  "model_calls": 0,
+  "engine_changes": 0,
+  "global_routes": [
+    {
+      "id": "native:c527de234b22a665f21c",
+      "kind": "SOURCE_SQL",
+      "database": "hn_clinical",
+      "objects": 23
+    },
+    {
+      "id": "native:31b178cc9e33b978f571",
+      "kind": "SOURCE_SQL",
+      "database": "hn_billing",
+      "objects": 14
+    },
+    {
+      "id": "native:a4068522482ef6e8b929",
+      "kind": "SOURCE_SQL",
+      "database": "hn_raw",
+      "objects": 33
+    },
+    {
+      "id": "native:970a2ee3db4caefad99d",
+      "kind": "SOURCE_SQL",
+      "database": "hn_dw",
+      "objects": 25
+    },
+    {
+      "id": "native:613520b563d312eb00eb",
+      "kind": "DAX",
+      "database": null,
+      "objects": 119
+    },
+    {
+      "id": "native:0e7770275e6db5eddebf",
+      "kind": "DAX",
+      "database": null,
+      "objects": 158
+    },
+    {
+      "id": "native:7eaec748caebf09adb4d",
+      "kind": "DAX",
+      "database": null,
+      "objects": 130
+    }
+  ],
+  "tickets": [
+    {
+      "ticket": "HN-003",
+      "record_sha256": "c8dd3af4e8e7c0584717f6c2bea4439c1f1c6cc5cd3b21bad5372ac92be1a5ab",
+      "system_of_record": {
+        "declared": false,
+        "reachable": false
+      },
+      "path_gaps": [
+        {
+          "reason": "Engine-resolved expression dependencies have not been collected.",
+          "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+        }
+      ],
+      "queries": [
+        {
+          "id": "query:cefabc298ac1faa6cdb7fdcbc286a975a302f21a7e48d8a5907be47dcf84cce5:1",
+          "text": "EVALUATE ROW(\"unique_patients\",[Unique Patients],\"distinct_patient_id\",DISTINCTCOUNT(mart_encounter[patient_id]),\"distinct_mpi_nonblank\",CALCULATE(DISTINCTCOUNT(mart_encounter[mpi_patient_id]),NOT ISBLANK(mart_encounter[mpi_patient_id])),\"rows\",COUNTROWS(mart_encounter),\"blank_mpi_rows\",COUNTROWS(FILTER(mart_encounter,ISBLANK(mart_encounter[mpi_patient_id]))))",
+          "purpose": "recreate",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 130,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/columns/mpi_patient_id",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/columns/patient_id",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/measures/Unique%20Patients"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:30d69fdbf557fc9f6ba423d41de5f3abf06961d0c08e87b3babf6d79182c8182:2",
+          "text": "EVALUATE ROW(\"unique_patients\",[Unique Patients],\"distinct_patient_id\",DISTINCTCOUNT('mart_encounter'[patient_id]),\"rows\",COUNTROWS('mart_encounter'))",
+          "purpose": "recreate",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 130,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/columns/patient_id",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/measures/Unique%20Patients"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:e2e27c2cf6f16adcc44b30a82971a07aa410fcc7a204c2b5d6fcda85a02752bd:3",
+          "text": "EVALUATE ROW(\"value\",[Unique Patients])",
+          "purpose": "recreate",
+          "captured_status": "SUCCEEDED",
+          "captured_error": null,
+          "captured_native_dispatched": true,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 130,
+          "saved_scope_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/measures/Unique%20Patients"
+            ],
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/measures/Unique%20Patients"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:03e85a38c1b93de1a95fcb4fe20713e3cc2aab25b574eb090e8adfeeddf2004b:4",
+          "text": "EVALUATE ROW(\"value\",DISTINCTCOUNT(mart_encounter[patient_id]))",
+          "purpose": "compare",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 130,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/columns/patient_id"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:035b05034a779f86954063b9e23a91060a6616a1af35e60305413c9ac0a0dd8c:5",
+          "text": "EVALUATE INFO.VIEW.COLUMNS()",
+          "purpose": "lookup",
+          "captured_status": "SUCCEEDED",
+          "captured_error": null,
+          "captured_native_dispatched": true,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 130,
+          "saved_scope_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter"
+            ],
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/core_facility"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:f7784457006e46d41412d8263aacd7f3c96f430e0b62e07c1bb061e2eb19c633:6",
+          "text": "EVALUATE ROW(\"value\",COUNTROWS(VALUES('mart_encounter'[patient_id])))",
+          "purpose": "compare",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 130,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/columns/patient_id"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:03e85a38c1b93de1a95fcb4fe20713e3cc2aab25b574eb090e8adfeeddf2004b:7",
+          "text": "EVALUATE ROW(\"value\",DISTINCTCOUNT(mart_encounter[patient_id]))",
+          "purpose": "compare",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 130,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06/table/mart_encounter/columns/patient_id"
+            ],
+            "no_dispatch": true
+          }
+        }
+      ]
+    },
+    {
+      "ticket": "HN-007",
+      "record_sha256": "2736f6876d24c0d055bf7578af839c46b5850ece187fdadcbbf61acea302d719",
+      "system_of_record": {
+        "declared": false,
+        "reachable": false
+      },
+      "path_gaps": [
+        {
+          "reason": "Engine-resolved expression dependencies have not been collected.",
+          "remedy": "CALCDEPENDENCY needs model write permission and is unavailable to this read-only investigator; retain UNKNOWN or use a separately approved metadata source."
+        }
+      ],
+      "queries": [
+        {
+          "id": "query:d9c341e696671b73b8e0e0c933a7a90526bb4b58abd0a149799c4d84d94a12e8:1",
+          "text": "EVALUATE ROW(\"value\",[Collections])",
+          "purpose": "recreate",
+          "captured_status": "SUCCEEDED",
+          "captured_error": null,
+          "captured_native_dispatched": true,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 158,
+          "saved_scope_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/measures/Collections"
+            ],
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/measures/Collections"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:a86eac2c0ead18f8ef507404f31a6948d49649bff4b5afd3beff81f9b5b7df74:2",
+          "text": "EVALUATE SUMMARIZECOLUMNS(mart_payment[payment_type], mart_payment[is_deleted], \"value\", [Collections], \"rows\", COUNTROWS(mart_payment))",
+          "purpose": "compare",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 158,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/columns/is_deleted",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/columns/payment_type",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/measures/Collections"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:1d6e39b704d0d0f5436f62f056ef633a6b1e5c6666b08621f7d883c4c4d5c3fd:3",
+          "text": "EVALUATE SUMMARIZECOLUMNS('mart_payment'[payment_type], \"value\", SUM('mart_payment'[amount_cents])/100)",
+          "purpose": "compare",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 158,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/columns/amount_cents",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/columns/payment_type"
+            ],
+            "no_dispatch": true
+          }
+        },
+        {
+          "id": "query:25eec6c0a27444f152bf3dbc1442fc1931f6d99989977663fc542cb05fe1c384:4",
+          "text": "EVALUATE ROW(\"positive\", CALCULATE([Collections], FILTER(mart_payment, mart_payment[amount_cents] > 0)), \"negative\", CALCULATE([Collections], FILTER(mart_payment, mart_payment[amount_cents] < 0)))",
+          "purpose": "compare",
+          "captured_status": "ERROR",
+          "captured_error": "Unknown or ambiguous DAX member",
+          "captured_native_dispatched": false,
+          "saved_layer_object_count": 2,
+          "full_native_model_object_count": 158,
+          "saved_scope_compile": {
+            "status": "REFUSED_OFFLINE",
+            "type": "ValueError",
+            "message": "Unknown or ambiguous DAX member",
+            "no_dispatch": true
+          },
+          "full_retained_model_compile": {
+            "status": "ADMITTED_OFFLINE",
+            "asset_ids": [
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/columns/amount_cents",
+              "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679/table/mart_payment/measures/Collections"
+            ],
+            "no_dispatch": true
+          }
+        }
+      ]
+    }
+  ]
+}

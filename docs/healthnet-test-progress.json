@@ -2,192 +2,29 @@
   "as_of": "2026-11-26T23:05:04.297228+00:00",
   "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
   "test_complete": false,
-  "results": [
-    {
-      "ticket": "HN-001",
-      "status": "FAILED_UNDELIVERED",
-      "execution": "job-dia-worker-4nrlx0a",
-      "run_id": "3de6b194-5f14-44c1-9ec3-03c99009a4a1",
-      "native_error": {
-        "attempt": 1,
-        "error_type": "KeyError",
-        "message": "'healthnet-sealed-test'",
-        "retry": false
-      },
-      "model_calls": 0,
-      "physical_requests": 0,
-      "first_wrong_step": "installation",
-      "first_wrong_step_reason": "Missing shared usage-policy record for the HealthNet installation; failure occurred before Meter or native queries were constructed.",
-      "grades": {
-        "primary": {
-          "model": "gpt-6.1-sol",
-          "verdict_match": false,
-          "layer_match": false,
-          "cause_match": false,
-          "harmful": false,
-          "partial": false,
-          "failing_step": "intake",
-          "handoff_quality": 0,
-          "private_grade_sha256": "e899b1a820216e06f072d757053562ff2e5da7add455f71ae7d8f305ef5e3a54"
-        },
-        "secondary": {
-          "model": "gpt-6-astra",
-          "verdict_match": false,
-          "layer_match": false,
-          "cause_match": false,
-          "harmful": false,
-          "partial": false,
-          "failing_step": "intake",
-          "handoff_quality": 0,
-          "private_grade_sha256": "227f116ca50544eacba8353521415aa023bfb28064410e1ceef1848a452f0d01"
-        }
-      },
-      "partial_capture": [
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000001-header.json",
-          "sha256": "86de02fe19f1bfab7e05c46770857f296085e5b1541d359ad3e2a195d40a1ec8"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000002-status.json",
-          "sha256": "7f09588f2f1bb7d947bb38514153d6933f36bdd7400475c2978f4f826d12189a"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000003-step-start.json",
-          "sha256": "fb10c1277036cf01654a0eefd03e089af57bb1a0395949cb8d46149571955709"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000004-step-result.json",
-          "sha256": "06b186014a02df5900f66b2d15477ce41939c24cd3e645a60054759abb1e2a32"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000005-access-audit-not-repeated.json",
-          "sha256": "ddfcca698e7dee39daabf52ebfefeef937d72f9368990dea3c98b36f9df8d276"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000006-step-start.json",
-          "sha256": "949f2dcd67d271856e63fc8cc5fe317d027f448de329cee256197998a4c4933a"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000007-normal-audit-batch.json",
-          "sha256": "294bf6315b4c4154a1501172b36c727e242050b15f9b5090cd998abb45013516"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000008-normal-audit-index.json",
-          "sha256": "69aaa58a7e91e77fca130f58b3932fc3e4b013a6fa45170b0f83b819d5d6c9cd"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000009-attempt-failure.json",
-          "sha256": "e0835a8cd864dbe15b241b1896c30b3985c4fcea1ebb6673a7637afea198b2db"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000010-worker-exit.json",
-          "sha256": "f5a72b6710dc345a66e8b1570f047f4dc48e37fa5acfd93bf1aa08bd2facefaf"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/00000011-status.json",
-          "sha256": "057c9a414a7905f1cce8ab3d5dbb505f2d1586f457d923e81b50610ec4376180"
-        },
-        {
-          "blob": "healthnet-test/runner/3de6b194-5f14-44c1-9ec3-03c99009a4a1/timing-summary.json",
-          "sha256": "ff8bec3220a8f0f2ef72a89afbaff31c99b5751031428fe2bbc917a51efd7fad"
-        }
-      ]
-    },
-    {
-      "ticket": "HN-002",
-      "status": "FAILED_UNDELIVERED",
-      "execution": "job-dia-worker-aci7nkv",
-      "run_id": "26f43bba-da78-4332-8fc6-550dfa938fee",
-      "native_error": {
-        "attempt": 1,
-        "error_type": "KeyError",
-        "message": "'healthnet-sealed-test'",
-        "retry": false
-      },
-      "model_calls": 0,
-      "physical_requests": 0,
-      "first_wrong_step": "installation",
-      "first_wrong_step_reason": "Missing shared usage-policy record for the HealthNet installation; failure occurred before Meter or native queries were constructed.",
-      "grades": {
-        "primary": {
-          "model": "gpt-6.1-sol",
-          "verdict_match": false,
-          "layer_match": false,
-          "cause_match": false,
-          "harmful": false,
-          "partial": false,
-          "failing_step": "intake",
-          "handoff_quality": 0,
-          "private_grade_sha256": "2d89a63fac47501bd8e65c0821059ea6b00039f289b985199ed79abe881593e3"
-        },
-        "secondary": {
-          "model": "gpt-6-astra",
-          "verdict_match": false,
-          "layer_match": false,
-          "cause_match": false,
-          "harmful": false,
-          "partial": false,
-          "failing_step": "intake",
-          "handoff_quality": 0,
-          "private_grade_sha256": "26fc1fd7756557e5ab42a3076d1424da3681f60a07b6e06fe37d284c5926dbc5"
-        }
-      },
-      "partial_capture": [
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000001-header.json",
-          "sha256": "875a76c7f6bdfdeeb664247adf6a3e505dfa2bde68bb99fd9a5be242f9f66d62"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000002-status.json",
-          "sha256": "7f09588f2f1bb7d947bb38514153d6933f36bdd7400475c2978f4f826d12189a"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000003-step-start.json",
-          "sha256": "fb10c1277036cf01654a0eefd03e089af57bb1a0395949cb8d46149571955709"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000004-step-result.json",
-          "sha256": "4caea0dea680ab7750e0a3672b1511bcf56a3b7a87a8daec412cfcbd295adce9"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000005-access-audit-not-repeated.json",
-          "sha256": "ddfcca698e7dee39daabf52ebfefeef937d72f9368990dea3c98b36f9df8d276"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000006-step-start.json",
-          "sha256": "949f2dcd67d271856e63fc8cc5fe317d027f448de329cee256197998a4c4933a"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000007-normal-audit-batch.json",
-          "sha256": "4365599ec06cfb8d3bf2003606476c0d7dfe3a3e0c80bd76db632358799078cd"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000008-normal-audit-index.json",
-          "sha256": "b42b615b27529fe3623a2fae6c186302b645c696e3ff9a6453647a5f6df1eb4d"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000009-attempt-failure.json",
-          "sha256": "e0835a8cd864dbe15b241b1896c30b3985c4fcea1ebb6673a7637afea198b2db"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000010-worker-exit.json",
-          "sha256": "f5a72b6710dc345a66e8b1570f047f4dc48e37fa5acfd93bf1aa08bd2facefaf"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/00000011-status.json",
-          "sha256": "057c9a414a7905f1cce8ab3d5dbb505f2d1586f457d923e81b50610ec4376180"
-        },
-        {
-          "blob": "healthnet-test/runner/26f43bba-da78-4332-8fc6-550dfa938fee/timing-summary.json",
-          "sha256": "bf0d4b84d48d754b6b7bd29bfa952e2d8b5c1530006a23ef4bffeed5f50725b2"
-        }
-      ]
-    }
-  ],
+  "results": [],
   "reviewed_harmful": 0,
   "fully_correct": 0,
   "useful_handoff": 0,
-  "remaining_not_yet_scored": 25,
+  "remaining_not_yet_scored": 27,
   "original_pre_python_attempts_excluded": true,
-  "no_resubmission": true
+  "no_resubmission": true,
+  "environmental_attempts": [
+    {
+      "ticket": "HN-001",
+      "scored": false,
+      "ai_calls": 0,
+      "estate_reads": 0,
+      "error": "KeyError: healthnet-sealed-test",
+      "replacement_approved": true
+    },
+    {
+      "ticket": "HN-002",
+      "scored": false,
+      "ai_calls": 0,
+      "estate_reads": 0,
+      "error": "KeyError: healthnet-sealed-test",
+      "replacement_approved": true
+    }
+  ]
 }
