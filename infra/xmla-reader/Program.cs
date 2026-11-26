@@ -41,7 +41,7 @@ try
     using var claims = JsonDocument.Parse(Convert.FromBase64String(part));
     var expires = DateTimeOffset.FromUnixTimeSeconds(claims.RootElement.GetProperty("exp").GetInt64());
     using var connection = new AdomdConnection(Connection(r.GetProperty("workspace").GetString()!, r.GetProperty("model").GetString()!, timeout));
-    connection.AccessToken = new AccessToken(token, expires, null);
+    connection.AccessToken = new Microsoft.AnalysisServices.AccessToken(token, expires, null);
     connection.Open();
     using var command = connection.CreateCommand();
     command.CommandTimeout = timeout;
