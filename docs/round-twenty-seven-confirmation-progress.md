@@ -28,3 +28,7 @@ This checkpoint will be superseded by the all-25 independently graded confirmati
 At 04:02 UTC on November 26, six of 25 tickets have completed independent grading: official/strict/reviewed correct3, useful handoff1, harmful0. The guard is3 correct of4 measured; all20 remain required. Both application-baseline variants and billing-invoices-v2 are correct. Billing-MRR-v1 is a useful handoff: verdict and calculation cause match, but the source-application layer was unmeasured. The two initial free-text results remain incorrect and non-harmful. This is not a final gate result.
 
 Raw R17-05 trace inspection refines its failure cause: the model had drafted the calculation and side-by-side card values. Two native static page-header textboxes were included as numeric candidates; they could not be measured, so the candidate check remained non-exhaustive and code blocked the non-unresolved draft. The delivered-answer grading remains unchanged. No engine change is being made during the frozen confirmation.
+
+## Twelve-ticket checkpoint
+
+At04:36UTC,12of25are independently graded: official/strict/reviewed8correct,2usefulhandoffs,0harmful. Guard8/10measured,20required. Allfourcompletedrecord/firstscreenshot casesarecorrect. Completecohort remainsinprogress;noharmisnotaguardpass. ActualcompletedAnthropiccost$4.207519. CaldeferredDec1andconfirmationPASS;v5sealed.
