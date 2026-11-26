@@ -1,132 +1,83 @@
-# Round 27 quality report
+# DIA v0.27 quality report
 
-**Opus admissions paused at the protected-budget floor;18 required tickets pending.** **Current status,2026-11-22T08:52:43.621610+00:00:** Pass2 FINAL26/48 reviewed correct,14 useful handoffs,5 harmful; guard17/20. Pass3 PARTIAL14/21 reviewed correct,1 useful handoffs,1 harmful; guard11/13 measured of20 required. Required pass3 denominator39; no carried positive guard scores. The slim exact-question check blocks; other evaluator checks remain advisory. Source18855ef5/image9a72dbd5 passed6038tests/53skips and8shards. Freeze/calibration/v5 gates are not met. Source data hash and original real load are restored; automatic updates are ON by owner confirmation; native restoration refresh Completed and model7661 verified. See [pass3 progress](round-twenty-seven-pass3-progress.md) and [harmful-ticket checks](round-twenty-seven-pass3-harm-progress.md). Earlier checkpoints below are historical.
+**The quality gate was not established.** Paid pass 2 finished at 26/48 reviewed correct, 14 useful handoffs and 5 harmful answers. Paid pass 3 stopped at 21 of 39 required outcomes: 14 correct, 1 useful handoff and 1 harmful answer. Its guard was 11/13 measured, with all 20 required. Confirmation, fresh calibration and held-out v5 did not run. V5 remains sealed.
 
-Pass1 remains **5/50 raw-reviewed correct,20 useful non-harmful handoffs,1 retained historical harmful answer**; official and strict are4/50. The baseline proof was7/15; the owner-selected evaluator-advisory failed-only comparison recovered6/8, giving **13/15 correct,0 reviewed harmful; proof gate PASS**. These are separate cohorts, not pooled scores.
+The owner explicitly directed closure when the whole-run funding gate cannot be met. This is an engineering release without a passed quality benchmark. All earlier outcomes, disagreements and harmful findings remain recorded.
 
-Both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic). New grades use Sol, Astra and an independent Terra review of disagreements, including disagreements about the first wrong step. Historical grades retain their original provider and rules.
+## Recorded paid results
 
-## Regression and repair
+| Cohort | Reviewed fully correct | Useful handoff | Harmful | Guard |
+|---|---:|---:|---:|---|
+|Pass 1, complete 50|5/50|20|1|separate fixed selection|
+|Pass 2, complete 48|26/48|14|5|17/20;FAIL|
+|Pass 3, partial 21 of 39|14/21|1|1|11/13measured,20required;NOTPASSED|
 
-The saved-trace diagnosis found nine query failures among 96 old queries and nine among 129 new queries. The clearest regressions occurred after useful evidence had been collected: delivery structure and evaluator failures prevented an answer. The repair adds one saved-evidence reformat opportunity and separates hard factual failures from soft presentation failures. Soft-only failures allow at most two rewrites, then delivery with a warning. Wrong question, wrong target and unsupported claims remain hard failures. Read-only enforcement and evidence validation remain enabled.
+Pass1 official/strict4/50; reviewed5/50. Pass2 official/strict/reviewed26/48. Partial pass3 official/strict/reviewed14/21. These are different repeated cohorts, never pooled into one accuracy number. See the immutable pass reports for individual outcomes and image splits. R17-05 remains harmful in the paid partial pass; the exact-question evaluator did not reject its wrong-target handoff. Free results do not erase that finding.
 
-The qualified image is `sha256:639f85b7741844317990ef854a5e4c16994e12a3e69357fab12d2caaf43d8666`, source `fa4f08ca`. Qualification passed 5,953 tests, with 53 skipped, zero failures or errors, and all eight image shards passed. See [qualification](round-twenty-seven-repair-qualification.json) and [diagnosis](regression-diagnosis-r27.md).
+## Free-model engineering work — not a quality gate
 
-That receipt describes an earlier repair image. The pass1 completion image remained6056863e throughout. The new pass2 generic-repair image is362005b0, source35f4aa5c:5,985PASS/53skipped/zero failures or errors, all8shardsPASS. Its five independently switchable repairs and exact artifact hashes are in [the repair batch](round-twenty-seven-generic-repair-batch.md) and [qualification](round-twenty-seven-generic-repair-qualification.json). Full pass1 rows and cohort/image counts are in [the final pass1 report](round-twenty-seven-pass1-final.md).
+| Separate cohort | Fully correct | Useful handoff | Harmful | Accounting |
+|---|---:|---:|---:|---|
+|Kimi proof|8|5|0|13 measured; 2 environment-unscored|
+|OriginalSuperVL pass|14|13|1|30 measured of 32; 1 uncertain start, 1 not run; 2 other incorrect|
+|Native-reference repair|1|3|0|4 replacements, separate|
 
-Screenshot vision remains Opus; an older passing screenshot trace used Terra. That is a separate comparison change, not an attributed delivery improvement. The contradictory historical grade for Older export movement 1 remains unchanged.
+The original harmful failed-job result came from dropped early native evidence; its distinct rerun graded correct after the generic fix. The original remains harmful. Other repair and screenshot cohorts remain separately reported in the OpenRouter checkpoint. Two stale cases were skipped at closure because browser control was unavailable; the uncertain original was not resubmitted. These results are not Opus confirmation, calibration or v5.
 
-## Proof cohort
+## Cost cuts and funding gate
 
-The [predeclared proof plan](round-twenty-seven-proof-plan.md) contains 15 cases: 11 static and four serialized fault cases. Three initial attempts stopped on an invalid provider key before reasoning, were sealed and recorded as authentication interruptions, and are unscored. Their original tapes and results remain preserved. Distinct replacement attempts use the owner-stored key verified by a metadata-only HTTP 200 check. No secret value was printed or written to a file.
+Saved Opus cache-read share: investigation68.6627%,intake55.0831%,evaluator2.0583%. Caching already applied to the stable system and admitted investigation toolbox; the helper's actual tool schema now also has a cache breakpoint, under the existing cache switch. Prefix content is not rebuilt from mutable counters or timestamps. No new generated cache trial was charged.
 
-Proof grading and rejection review are complete. Six advisory answers were correct and the independent reviewer judged their evaluator rejections wrong. The absent-record answer remained incorrect with a justified rejection; the source-history answer remained incorrect with mixed rejection reasons. All eight were harmless. Seven recorded hard rejections and one soft rejection are draft-check results, not eight final-delivery blocks. Full per-ticket reasons and preserved earlier projections are in [the advisory proof](round-twenty-seven-advisory-proof.md).
+The static-only Batch API preparation includes reserved requests, recorded owned submission IDs, bounded polling/results, no retry after an unknown POST, and50% batch rate cards including cache rates. Fault cohorts stay normal. The existing cache TTL is five minutes, whereas asynchronous batches can take up to 24 hours and successive tool-dependent waves may miss that TTL. Batch cache hits are best-effort; no live Batch saving has been measured. A pending batch must resume its saved ID instead of resubmission. This is prepared transport/API code; no whole confirmation was admitted or executed through it.
 
-The advisory image is `sha256:6056863e6003b77c27237974a4557acb8b29be0c533b686fff1b31c9ad50aded`, source `f9874ad9`. Qualification: 5,961 passed, 53 skipped, no failures/errors, all eight shards passed. The installation profile explicitly enables advisory; its factory default remains off. The remaining pass-1 cohort uses this same image/profile. No score is inferred from offline tests.
+The25-ticket whole confirmation forecast is$37.568245 with static Batch, conservative cache-miss treatment and1.3margin. Saved cache-hit equivalent is$18.008947, reported as a sensitivity estimate rather than guaranteed future cost. Protect calibration$14.34 plus$3 cash reserve: total required$54.908245 against the conservative owner cash estimate$46, short$8.908245. Organization usage GETreturned401 because the workspace key is not an Admin API key; the exact Console balance was not independently readable. The lower owner estimate was used instead of inventing a cash readback. No partial confirmation. The optimistic estimate would fit if historical cache hits persisted; it is not the admission estimate because that timing has not been demonstrated for Batch.
 
-## Pass 1 and pass 2
+Calibration retains the protected rounded$14.34 estimate, based on14saved nonzero current-round cases at mean$1.102982 and10×1.3=$14.338768. Fresh calibration has no actual usage because it never ran; caching savings on unknown fresh questions are not assumed. Its predeclared IDs remain:
 
-The earlier pass-1 checkpoint contains 42 measured attempts and eight not-run inputs. Original-image outcomes, repair-image outcomes and five plumbing reruns remain separate. The nine primary grades formerly blocked by AWS were completed using the newly approved OpenAI protocol: official, strict and reviewed each 1/9, harmful zero. One diagnostic first-wrong-step disagreement was independently reviewed. These nine cases are not the full pass-1 score. See [nine-case grading](round-twenty-seven-nine-grades.md).
+R17-03-v1, R17-06-v1, R17-07-v1, R17-12-v1, access-export-1-v1, access-export-1-v2, baseline-S01-v2, baseline-S02-v2, baseline-S03-v1, different-warehouse-v1.
 
-Pass2 uses source35f4aa5c/image362005b0 throughout. All44 non-stale cases are saved and independently graded, and their captures pass seal/batch hash checks. Its measured harmful answers concern three card questions, an unverified historical-export target and one latency timeline. No expectation or grade was changed. See [partial per-ticket results](round-twenty-seven-pass2-progress.json) and [saved-trace backtracks](round-twenty-seven-pass2-backtrack-checkpoint.md).
+Confirmation list fixed before admission:
 
-The pending final repair candidate addresses record-key alignment, record-only metadata repair exhaustion, visual aliases, primary-question scope, an omitted exact declared comparison source, a lost future schedule, and the misapplied unchanged-source history check for newly arrived records. Earlier candidate images are preserved but have admitted no pass3 ticket. The latest combined source must pass the full suite and every image shard, and the remaining budget must preserve calibration/reserves, before an optional final failed-only trial. Offline tests do not establish that these cases now pass live.
+| Ticket | Prepared transport | Conservative forecast |
+|---|---|---:|
+| form-v2-access-export-v1 | NORMAL_FAULT_OR_UNKNOWN | $0.655130 |
+| form-v2-access-export-v2 | NORMAL_FAULT_OR_UNKNOWN | $0.603390 |
+| form-v2-application-baseline-v1 | BATCH | $0.367752 |
+| form-v2-application-baseline-v2 | BATCH | $0.381947 |
+| form-v2-billing-invoices-v2 | BATCH | $1.018237 |
+| form-v2-billing-mrr-v1 | BATCH | $2.711484 |
+| form-v2-failed-application-load-v1 | NORMAL_FAULT_OR_UNKNOWN | $1.090444 |
+| form-v2-failed-billing-transform-v1 | NORMAL_FAULT_OR_UNKNOWN | $2.105613 |
+| form-v2-fixture-quantity-v1 | BATCH | $0.695451 |
+| form-v2-latency-record-v1 | NORMAL_FAULT_OR_UNKNOWN | $1.024274 |
+| form-v2-other-collected-definition-v2 | BATCH | $1.904074 |
+| form-v2-record-absent-everywhere-v1 | BATCH | $1.353039 |
+| form-v2-record-repeated-gold-v2 | BATCH | $2.215672 |
+| form-v2-screenshot-record-01-v1 | BATCH | $0.861034 |
+| form-v2-screenshot-record-02-v1 | BATCH | $0.387055 |
+| form-v2-screenshot-record-03-v1 | BATCH | $3.328286 |
+| form-v2-screenshot-record-04-v1 | BATCH | $0.675338 |
+| form-v2-source-history-v2 | NORMAL_FAULT_OR_UNKNOWN | $1.779746 |
+| form-v2-waiting-application-load-v2 | NORMAL_FAULT_OR_UNKNOWN | $0.724761 |
+| form-v2-warehouse-scope-v1 | BATCH | $1.256693 |
+| form-v2-warehouse-scope-v2 | NO_TOKEN_RECORD | $1.430000 |
+| text-R17-05-v1 | BATCH | $1.585809 |
+| text-R17-08-v1 | BATCH | $2.745177 |
+| text-R17-10-v1 | BATCH | $5.245314 |
+| text-older-export-movement-1-v2 | BATCH | $1.422525 |
 
-## Calibration and v5
+## Gates
 
-Neither has run. Calibration follows pass 2 and requires at least 7/10 reviewed correct and zero reviewed harmful. V5 remains sealed; admission requires confirmed available Anthropic credit, less the $3 reserve, to cover the actual calibration mean times 40 times 1.3. A partial v5 is prohibited.
+Confirmation: NOTRUN,wholefundinggatefailed; no new guard score. Calibration: NOTRUN,confirmationnotpassed. v5: SEALED,NOTRUN; no official/strict/reviewed score or Wilson interval exists. No partial v5 and no Dec1grant assumed. Round28first action: verify Dec1balance and fund the whole prerequisite confirmation/calibration, then evaluate the whole v5 gate; a grant alone does not establish the earlier gates.
 
-## Budget and environment
+## Simplification and compatibility
 
-The owner confirmed $120 Anthropic credit. The recorded cap is prior committed spend plus $117, with the $3 reserve excluded and the $14.34 calibration allowance protected during development. At07:16UTC, authoritative headroom is$41.706082 Anthropic and$16.886839 OpenAI, after the cash reserves have already been excluded. Physical usage is14,619/20,500, including INVESTIGATION12,138/17,905, SCAN2,430/2,500 and RESTORATION51/95. Usage history is unchanged. OpenAI is grading/review/release-smoke only and retains its November29 expiry; AWS remains disabled despite its unused nominal account ceiling.
+64feature flags became3measured evaluator switches.61proven fixes are unconditional. Historical default-true specs remain no-ops; off-mode ablations are refused. Historical baseline-only tests are source fixtures, not silently rewritten expectations. Executable source LOC: engine68,705 to 68,750; tracked harness21,767 to 21,765; tests71,591 to 71,483. Physical lines include comments/blanks; two prepared transport modules account for the net engine increase. Local controllers are excluded from these three tracked-code categories; their reference audit is separate. Two unused generators totaling5,274bytes were exact-archived and committed; policy blocked their deletion, so no local deletion is claimed.
 
-The44 seal-verified pass2 captures contain281 AI calls costing$36.810254: investigation199/$20.854501, evaluator52/$10.002796, intake28/$5.872271, screenshot2/$0.080686. Aggregate cached-input ratio57.39%; investigation67.54%, intake59.10%, evaluator2.28%. These are recorded usage prices, not a provider invoice, and exclude grading/reviews and separate control probes. [Current call-level costs](round-twenty-seven-pass2-current-costs.json) retain model, step and audit sequence for each call.
+All123saved(status,after)classifications unchanged against qualifiedc7a06c1f:85finished,29historicalnegative/incomplete,9withoutcase. This is not123successful exact replays. No live estate reads or generation were made by compatibility replay. The templating audit is an inventory only and does not change runtime behavior.
 
-The expired fixed-connection secret was rotated under owner approval without new identities or grants. Native readbacks returned fixture 8,765, billing 600 and application-load fixture 7,661. The original 360-row source and schema hashes were verified, temporal history remains enabled, and no injection was active when the static proof pilot began. Final injection, automatic-update and disk readbacks remain required before release.
+## Restoration and release
 
-### Historical partial proof checkpoint, 2026-11-22 00:43 UTC (superseded by final proof above)
-Nine of the predeclared 15 cases are saved and fully graded/reviewed: official5/9, strict5/9, reviewed5/9, harmful0. These are partial denominators; the 11/15 gate is not decided. Five correct: application baseline, billing MRR, billing invoices, repeated-Gold record, screenshot02. Four unresolved failures: family quantity, absent-everywhere record, screenshots01 and03. Two static and four serialized fault cases remain. All six initially indexed captures passed seal and audit-batch hash checks; later saved captures will be indexed likewise. Proof investigation spend so far $12.269985, grading/review $1.241640. The separate policy-blocked pilot and three authentication interruptions remain preserved and excluded from this proof score. Sourceb692051f/image6e570bed remains pinned; the release-only smoke patch has separate full qualification. Current rows and call-cost/cache breakdown: round-twenty-seven-proof-progress.json.
+Fresh read-only source/schema hashes match the360-row baseline; model7,661 and a completed native refresh are recorded in round-twenty-seven-close-restoration.json. All saved control restoration flags are false. Temporal history remainsON by prior decision. No new injection or Fabric toggle was performed at closure. The automatic-update setting is last owner-reportedON; current browser readback is unavailable and is explicitly an owner action, never claimed as tool verification.
 
-
-## Pass2 final and owner-selected pass3 (2026-11-22)
-
-All48 pass2 outcomes are independently graded: official26/48, strict26/48, reviewed26/48; useful handoffs14; harmful5. The full guard is17/20 correct,0 harmful. The gate fails. Billing9/10, sample1/1, fixture16/37 correct. Original outcomes, expectations and grades are unchanged.
-
-Pass3 is39 distinct tickets: every22 pass2 failure plus the full20 fixed guard, including all5 harmful cases. Exact-question evaluator rejection blocks after the existing retries; unsupported-claim, wording and completeness checks remain advisory. All requested code checks remain enabled. Gate remains0 reviewed harmful and20/20 guard, with no carried scores.
-
-At07:53UTC, Anthropic headroom is$37.972844, of which$14.34 remains protected for calibration (the cash reserve is already excluded). The full pass3 forecast is$42.533902 against$23.632844 available for dev, a projected$18.901058 shortfall. Bounded cases may proceed within existing guards; unfinished cases stay pending at the protected floor. No subset can satisfy the full-pass gate; no calibration before that gate and no partial v5.
-
-## Separate NVIDIA development preflight (not a quality gate)
-Owner2026-11-22 plan is in progress. Authenticated no-generation model listings passed for Anthropic/OpenAI/NVIDIA. NVIDIA offers GLM5.3Flash and KimiK3.1Pro; DeepSeek is unavailable. No generation has been admitted. Shared free-call ledger is provisioned at0/1,000; rates/allowance are conservative assumptions, not exposed account quotas. Full current-code saved-response replay and image qualification remain in progress; no preflight-PASS or model-qualification score is claimed. Fresh baseline:360source rows with original business row/schema hashes, temporalON,model7661,owner-confirmed auto-updatesON. Paid Opus remains paused with calibration funds protected. See round-twenty-seven-free-preflight.json.
-
-
-### Free-model qualification: preflight complete, results pending
-
-Source `b09eddfc` passed 6,064 repository tests (53 skipped) and all eight image shards. Zero-generation checks covered 717 saved native queries, 970 model requests, and 5,250 tool/purpose/gateway combinations. All 66 prior answers outside the three recorded harmful pass-2 cases still deliver; the three harmful drafts are rejected. The replay limitations are explicit in `round-twenty-seven-free-model-preflight.md`; this is compatibility evidence, not a fresh quality score.
-
-Prepared candidate models are `z-ai/glm-5.3-flash` and `moonshotai/kimi-k3.1-pro`, with 15 original proof tickets each. No DeepSeek model was present in the authenticated listing. Each model first receives a bounded synthetic tool protocol test, then a separate dev-only cohort if it passes. No free score counts toward confirmation, calibration or v5.
-
-
-2026-11-23 UTC OpenRouter preflight checkpoint: owner supplied existing Vault key; no-generation GET/key200 reports1000free/day (used0,remaining1000),10USDremaining. Remote key limit resets weekly; DIA uses an independent lifetime10USD account. Current source8e890db6 includes exact pinned OpenRouter Chat Completions,20RPM/concurrency2 shared across UTC midnight, no model/provider/paid fallback, zero-priced :free DEV only, and conditional paid admission blocked until all discovered eligible free tool tests fail. Focused58PASS; fullsuite/eightshards qualification in progress (45109169399). New OpenRouter codec/gateway projection717queries/970requestsPASS over123saved devcases; current investigation delivery classifications identical to qualified68source (85complete,29historicalnegative/incomplete,9withoutcase). Original captures/grades/expectations unchanged. No OpenRouter generation admitted at this checkpoint. The same15publicproofinputs are uploaded with local SHA256/Azure MD5 matching; no scored run yet. NVIDIA old pilot is sealed INTERRUPTED/environment-affected, not scored (30physical,6attempts2responses4timeouts,$0); transport source68 passed6073tests/53skip/all8shards. No active injection; autoON/source360/model7661. New provider outcomes never satisfy confirmation,calibration,v5 or quality gates.
-
-
-Free-provider pilot,2026-11-23UTC: the separately recorded Kimi replacement519e6bfa-f1ee-4c4e-bcda-5827418745c1 completed AzureSucceeded and ANSWERED on qualifiedc377imageb4776ee0. Capturesealf4533ab2c745043d1fbd3b6d3988ea6eff0f05ef80b953acf5cebc49528a3eac. It explains7661=SUM(units),notCOUNT(360rows),with matching native model/landing/source reads. Independent singleSolDEVgrade:1/1fullycorrect,0harmful,handoff2/2;not a qualitygate.31physical requests,7NVIDIAcalls,$0,1187.015seconds. Solgraderonecallledgercost0.020591USD. Post-transport sample2synthetic+7pilot=9completed/0timeouts,all7pilotreservationsSETTLED;old11pretransport and1localgatewayrefusalexcluded. Internal evaluator used3calls that each ended at3200tokens without a structured tool result; classification remained incomplete/advisory,not a substantive rejection. Retain this free-model auxiliary format/output-budget limitation and latency separately from the correct independently graded answer;do not tune expectations or reasoning from it. Remaining static proofs are running2at a time on the same pinned Kimi/sourceimage.
-
-OpenRouter free qualification: inclusionai/ling-3.2-flash:free passed in572.628seconds after queued429s; nvidia/nemotron-3.5-lightning:free passed in14.392seconds. The shared qualification registry contains their PASS rows and all12discovered free-tool candidates; paid admission was explicitly tested and remains refused. No paidOpenRouter generation. Gemma4 remains an upstreamGoogleAIStudio capacity limitation after bounded429retries,not an incorrect quality score. Provider/model pins stay fixed per pass; no within-pass failover.
-
-
-### Free-provider proof checkpoint (2026-11-23 UTC; not a quality gate)
-
-The first three Kimi proof tickets are saved and graded by independent OpenAI Sol: **1 fully correct, 2 partial handoffs, 0 harmful**. Baseline calculation is correct; billing MRR and invoices are unresolved. These do not change any earlier score or Opus gate. The MRR saved trace demonstrates a generic fallback write-up defect (a calculation question called a discrepancy, and a recovered timeout still listed as missing). The repair preserves UNRESOLVED and all historical errors; no automatic correct verdict is inferred. The invoice cross-endpoint query was properly refused; that is a model tool-choice failure, not a reason to broaden access.
-
-OpenRouter authentication and tool qualification are complete: key GET200, **1,000 free requests/day**, monetary usage$0/$10; Ling3.2Flash and Nemotron3.5Lightning free tool checks pass. Paid requests remain refused because free candidates passed. Queue20RPM/concurrency2 and independent lifetime$10 cap remain enabled, despite the remote key showing a weekly reset. Qualified sourcec377b3fd passes6,087 tests with53 skips and all8 image shards. New terminal repair qualification is recorded separately when complete. No within-pass provider or model switch.
-
-
-Round27 free proof checkpoint, 2026-11-23 UTC: ten confirmed static outcomes are independently single-Sol graded: 7 fully correct, 3 partial handoffs, 0 harmful. These are synthetic DEV results, never a quality gate. All four screenshot cases are correct. Billing MRR, invoices and warehouse scope remain partial; later evidence does not justify another engine patch for a weak-model conclusion. Original outcomes and the qualified image split remain recorded in docs/round-twenty-seven-free-proof-progress.json. One absent-record Azure start timed out without an execution handle or capture; it remains unestablished, unscored and not retried. All ten known static executions were confirmed terminal before independent fault controls; the unknown investigator has no mutation rights. This private controller disposition is not a fabricated completion or a score. The first failed-job pipeline definition was restored and hash-verified before its engine ticket; remaining controls serialize and restore before continuing.
-
-
-Free synthetic Kimi proof timing, 2026-11-23 UTC: ten confirmed engine cases used67 model calls and321 physical investigation requests. Median engine wall time1376.835seconds (~23minutes); nearest-rank90th percentile1757.171seconds (~29minutes), excluding Azure startup/publication. Cases overlap and use the recorded qualified image split, so this is not an isolated provider timing experiment. Investigator allocation cost is0USD, single-Sol grading is paid separately. These are free DEV measurements, not a quality gate.
-
-
-Free-provider checkpoint,2026-11-23UTC: Kimi proof closes13graded/15planned:8fullycorrect,5partial handoffs,0harmful in measured results. Two environmental slots are unscored: one unknown Azure start preserved/unretried and the final latency ticket interrupted after three native NVIDIA TimeoutErrors. Its temporary future schedule was removed; the source restore initially failed nativeSQL40613. An owned-row/version read preceded the exact guarded recovery; original360-row/schema hashes matched after3additionalINV control requests, reserve unchanged. All controls are restored, temporalON/automaticON. Failed preparation of this interrupted case dispatched no grader call. The operator grader now excludes explicit environment statuses, retains partial engine answers for grading, and records13measured+2unscored rather than inventing15scores;2focusedtestsPASS. Original captures, charges and grades unchanged.
-The aggregate NVIDIA timeout criterion is not claimed breached(last conservative upper bound9uncertain/119post-repair attempts); three consecutive final-call timeouts nevertheless blocked this ticket, so the owner-approved backup starts as a NEW pinned pass: OpenRouter nvidia/nemotron-3.5-super-vl:free,20RPM/concurrency2/1000key-verifiedfree calls per day, zero paid generation. Its first two Azure workers are streaming native OpenRouter responses. GLM whole-proof deferred, not declared a model-quality failure; its native capability tests remainPASS. No within-pass failover, no key/permission/budget change. Next candidate Ling remains separate/not admitted.
-DAX sorting repair77267c82 fully qualified:6096PASS/53skip/zero failures/errors and all8offline image shardsPASS; image08474b45. All123saved replay classifications unchanged(85finished/29historical negative or incomplete/9without investigation case); not123successful exact replays or quality scores. Fresh native baseline10:04UTC:source360/model7661/temporalON and originalhashes. Opus confirmation/calibration/v5 remain budget-paused/protected and v5 sealed. Official paidP3 scores are unchanged. See free proof, environment disposition, transport interruption and DAX qualification receipts.
-
-
-OpenRouter proof checkpoint,2026-11-23UTC: first2saved/graded:1fullycorrect(invoice duplication700->950),1partial baseline,0harmful. Baseline first wrong step is malformed submit_finding.undecided (empty string where array required; nativeaudit904, repeated4342/18874); source/landing/model7661 and360rows were already measured. Later evaluator incompletes are explicitly non-blocking, not a substantive rejection. Record model-format limitation; no schema relaxation/expectation change. New pinned free pass continues; not a quality gate. See round-twenty-seven-openrouter-supervl-progress.json and round-twenty-seven-openrouter-baseline-backtrack.json.
-
-
-2026-11-23UTC OpenRouterSuperVL failed-billing DEVharmful1 retained: truefailedrun04244ccc-9b98-4a71-8eea-4e7c6f5eba13/errorbeforeoriginalactivities, but answer adds unproven gold-join and correcting-refresh timing claims. Nativequeries0errors, no contractrepair; internal evaluator3incomplete/max_tokens results were nonblocking, not positive judgments. No engine/expectation change from weak reasoning; savedtracebacktrackpendingexactorder.13graded disjointheadline4correct/8nonharmfulhandoffs/1harmful. Rawpartial/handoff flags can overlap harmful and are retained without useful-handoff credit. FreeDEVonly,noqualitygate.
-
-
-### OpenRouter complete synthetic qualification, 2026-11-23
-
-Pinned nvidia/nemotron-3.5-super-vl:free completed all15 original proof cases:6 fully correct,8 useful nonharmful handoffs,1 harmful (single independent Sol DEV grader). Raw partial=true appears on9, including the harmful answer; harmful gets no useful credit. Original capture seals, scores and expectations remain unchanged. All four fault cohorts are restored, latency schedule removed, temporal history retained; native restored baseline11:48UTC is360 source rows and model7661. Engine requests434/model calls157; timing excludes cloud startup/publication. These free results satisfy no quality gate.
-
-The billing harm is unsupported causal inference, not failed querying: the model inferred that a failed pipeline blocked a correcting refresh. Current cross-layer totals do not prove that history. It is retained as a model reasoning failure, with no engine tuning from it. Four screenshot traces also prove misleading comparison-proof feedback and exact native SQL/DAX representation gaps; generic repairs leave scalar proof/refusal and raw captures intact. A separate four-case affected rerun is prepared, pending full qualification of28a56e88. Scope verdict compatibility is independently repaired from the earlier paid regression trace. Two correctly-scored cases retain grader caveats about export provenance and a last-load timestamp; no every-detail-correct claim. See round-twenty-seven-openrouter-supervl-progress.json and round-twenty-seven-openrouter-billing-harm-backtrack.json.
-
-
-2026-11-23UTC affected repair cohort complete: all4 screenshot reruns on28a56/imagee452 delivered ANSWERED and were singleSol graded4/4correct0harmful, versus0/4correct in their preserved original SuperVL runs. No scores are pooled into original15. Native tool indexes show scalar SQL/DAX reads and submit_finding; no live analysis tool usage is claimed for the header/type repair (that has separate exact saved-native tests). Four immutable captures verified. Fresh stochastic generations and bundled generic repairs prevent attributing all improvement to one code change. Comparison: round-twenty-seven-openrouter-affected-comparison.json.
-Ling15 is now admitted separately with same qualified image, pinnedopenrouter/inclusionai/ling-3.2-flash:free, max2statics and singleSolDEVgrader; fault controls only after static terminal. No Anthropic spend, no calibration/v5 or quality-gate claim.
-
-
-### Free DEV operational model selection ? 2026-11-23
-
-Selected OpenRouter `nvidia/nemotron-3.5-super-vl:free` for the next32-ticket pass. This is an availability and clean-execution choice for bug finding, not a vendor-quality ranking. Its original15 remained6correct/8nonharmful useful handoffs/1harmful; four trace-established affected screenshot reruns separately passed4/4 on current28a56/imagee452. Do not pool them into an invented new15score. Kimi had13measured/2environmental slots; Ling's first2full-ticket attempts produced no answer after30+minutes with persistent native429s. Under owner free-hand selection, ended only those2owned read-only jobs, retained363uploaded partial records with matching AzureMD5/SHA-at-read, and left13notrun. Both are unscored, partial and unsealed, not model-quality failures or exact replays. Unknown quota charges remain;0openLingreservations. Alternative rejected: occupy workers until enclosing-job timeout for an unavailable candidate. Earlier Ling tool/visionPASS stays recorded; paid fallback remains refused because free tool candidates passed.
-
-Next32inputs preserve allsourcehashes/expectations, full20guard with0carriedscores, and explicitR17-05. Native preflight5600toolvectorsPASS and fresh no-generation provider auth200; currentcostobservationUSD1.154003/20(billingmaylag).18statics first,max2;14faulttickets in9serializedexisting control groups, checked once each. Stale waits for fresh ownerOFF at the end; no stale/source change now. See round-twenty-seven-free-model-selection.json and round-twenty-seven-openrouter-ling-environment.json.
-
-
-### Step4 free DEV checkpoint ? 2026-11-23
-Original pinned32-ticket pass remains on28a56/imagee452. Static18 separately:8fullycorrect,9useful nonharmful handoffs,1scored40-request budget stop,0harmful. Firstfault is separately harmful (AS DESIGNED despite a failed load); no0-harm whole-pass claim. Saved evidence proves a native refresh-cache filtering defect and R17-05 fallback alias-pruning defect; tested generic repairs are in qualification and have not been substituted into the active pass. No original score, expectation or image record changed. OpenRouter/key no-generation readback1000free/day401used599remaining, usage0USD; no paid fallback. At14:44UTC paidAnthropic202.108251/220.284651USD and14.34calibration protected; confirmation still short26.351553USD after protection. OpenAIgrading190.324984/202.938628USD. Physical17283/20500(INV14802/17905,SCAN2430/2500,REST51/95),44restoration remaining. These are dated observations, not reservations for future work.
-
-
-Combined native candidate/refresh evidence repair28ef2402 qualified2026-11-23: workflow45197207290,full6182PASS53skip/zero failures/errors,all8image shardsPASS,publishedc8a101527b84409446ce2c5a062b02d77edd142014e95d7f60da4ae8e24d6642. Full count is executed test cases, including imported fixture-class tests, not6182new tests. Saved123investigationcompatibilityclassificationsunchanged85finished/29historicalnegative/9withoutcase. Active32remainsoriginale452; twoaffectedrerunsarepreparedseparately,notyetadmitted. Noqualitygateclaim.
-
-
-2026-11-23 16:48 UTC free DEV checkpoint: main original Step4 pin e452 has30/32 independently Sol-graded:14 correct,13 useful nonharmful handoffs,1 harmful,2 other unsuccessful (including physical-budget stops). These verdict/layer/cause flags do not certify every prose detail. Both access tickets are saved and graded, and all temporary data/catalog additions are restored with original roles unchanged. Two stale-refresh tickets await a fresh owner OFF receipt. No original score is replaced by a repair result.
-
-Native-reference repair source c7a06c1f is qualified separately:6168 tests pass,53 skipped,all8 image shards pass; published image3c1797a5. All123 saved-case status/after outcomes match the prior compatibility classification (85 finished,29 historical negative/incomplete,9 without investigation case). Four affected native-reference reruns are prepared but not yet admitted; their source tickets and expected records are unchanged. OpenRouter no-generation check16:45UTC reports525/1000 daily requests used,475 remaining,usage0USD/key10USD intact. The shared ledger conservatively counts681 free calls including uncertain exposure; remote usage does not release any such charges. Paid fallback remains refused because free tool tests passed. Platform native month-to-date non-model cost observation is1.170164USD with billing-lag caveat.
-
-
-Separate native-repair cohort complete,2026-11-23:1correct,1useful nonharmful handoff,0harm. The original failed-fixture harm becomes a correct failed-job answer with actual run/error/times and explicitly unmeasured numerical impact; the original outcome remains harmful. Original pipeline hash restored and real original load Completed. R17-05 stays unresolved despite checking8765, so no semantic-explanation success is claimed. These two new outcomes are separate from the original32 and earn no quality-gate credit. See round-twenty-seven-native-repair-comparison.json for the exact separate images/seals and stochastic-generation caveat.
+Release validation, three full daily smokes, merge and tag are recorded in the final summary and machine receipts. Release smoke generation uses only the permitted$0synthetic free provider, because OpenAI is grading-only under the latest direction. A smoke is infrastructure/regression evidence, not an Opus quality score. No sealed expectation was changed.

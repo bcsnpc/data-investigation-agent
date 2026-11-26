@@ -150,3 +150,14 @@ Combined native candidate/refresh evidence repair28ef2402 qualified2026-11-23: w
 
 
 Round27 OpenRouter current observation2026-11-23: no-generation GET /key200,1000free/day,588used/412remaining at17:45UTC,0USD usage and10USD credit remaining. This is an observation, not a reset or permission to release uncertain ledger charges. Remote weekly reset never resets the separate lifetime10USD cap. Pinned SuperVL-free repair cohorts are separately graded and cost0USD; paid fallback stays refused because eligible free tool tests passed. Same20RPM/concurrency2/syntheticDEV rules. The uncertain Azure start is a control-plane failure, not a provider-quality score.
+
+
+## Round27 gate-and-close update, owner2026-11-25
+
+No prior outcome, expectation or grade was changed. Free SuperVL/Kimi results are diagnostic only and cannot earn the Opus confirmation or calibration gates. The planned25 confirmation IDs are listed in round-twenty-seven-close-forecast.json; the full20 guard remains required. Whole-funded confirmation is not admitted: conservative forecast37.568245USD plus protected calibration14.34USD plus3reserve exceeds the lower owner cash estimate46USD by8.908245USD. Calibration andv5 did not run; v5 remains sealed. No partial run or carried guard positives. Organization billing API cannot expose cash with the current workspace key; no exact-cash claim.
+
+Stable system and investigation tool/schema caching was already active. Helper calls now mark their own last tool, preserving each phase's real schema rather than pinning an earlier helper tool. Saved Opus cache reads: investigation68.6627%, intake55.0831%, evaluator2.0583%; these are past measured ratios, not guaranteed asynchronous Batch hits. Static Batch preparation reserves before submit, tapes batch IDs and usage, forbids arbitrary model/tool/foreign-ID/cancel routes, and retains uncertain charges;50% batch prices stack with cache prices. Faults stay normal. No live Batch result or savings claim.
+
+The61proven repair flags are folded into code. The3evaluator experiment flags remain. Historical default-true specs are accepted as no-ops and retired off ablations refused explicitly. Old baseline-only tests are preserved as source fixtures, while current behavior and safety tests remain executable.123saved status/after classifications are unchanged against qualifiedc7a06c1f;29historical replay failures and9missing cases remain, not fabricated successes. No new prompt reasoning fix, model interpretation or grade is inferred from this cleanup.
+
+First wrong steps remain those recorded in the paid and free backtracks. The dropped failed-job observation was a generic evidence-loss defect and its free rerun graded correct; R17-05 still lacks the semantic-rule explanation. The native-reference and candidate repairs improve access to evidence without proving full Opus question-answering quality. Further quality claims require the gated confirmation and fresh calibration.

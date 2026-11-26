@@ -777,3 +777,16 @@ Round27 setup-cost class completion2026-11-23: the separate different-warehouse 
 
 
 Round27 native-container/visual-alias collision2026-11-23: latency900501v2 contained the prose17 units in the application. Enrichment alias Units In on an unrelated Received Units visual was promoted through containment to Warehouse Performance/Warehouse Operations, despite the explicitly named nativeBronze container. New independentflag r27_native_container_over_visual_alias refuses that indirectvisualalias report inference when a nativeSOURCE/MODEL is named and no report/card/chart/visual wording selects a visual. Directreport aliases, nativevisual names, namedmeasure routes and explicitvisual wording remain. The unique-table resolver then uses actual containment/columns for the named data referent. Five added regressions include the exact generic collision form and negative/ablation cases;85focusedtestsPASS. Savedcatalog replayall3latencytexts nowresolves the correctBronzetable, zeroAI/estatereads, no expectations/oldgradeschanged. Current32andC8repairpinsunchanged; newaffected reruns await combinedfull/all8qualification.
+
+
+## Owner gate-and-close direction, 2026-11-25
+
+Authority: Downloads/r27-opus-gates-and-close.md. Close Round27 even when whole-funded quality gates cannot run. Added25USD Anthropic credit; approximate owner cash46USD is conservatively lower than ledger-implied46.1764USD. Organization usage GET401 (workspace key is not Admin API); no exact Console or fresh cash claim. Cloud and code ceiling245.108251USD preserves202.108251USD charged,43USD spendable,3USD excluded reserve. Existing purposes and all counters/estate allocations unchanged. Auto-reload off; no new model call.
+
+Caching already marked system and investigation tools; helper tools now receive their own last-tool breakpoint without pinning another helper schema, controlled by existing cache switch. Static-only owned Batch path prepared with50% rate card, reservation before POST, no retry of unknown submission, owned-ID polling/results and unchanged model/tool allowlists. Faults stay normal. No live Batch savings claimed.
+
+61proven flags folded into defaults;3measured evaluator modes remain. Old default-true configuration keys are compatibility no-ops; old off ablations are refused explicitly. Historical test sources are archived under scripts/fixtures/round27-retired-ablations. Current read-only and other safety checks remain active. Saved123 status/after classifications unchanged against qualifiedc7a06c1f.
+
+Whole confirmation25cases forecast37.568245USD with static Batch, cache-miss allowance and1.3 margin, calibration14.34USD protected,3reserve: short8.908245USD against approximate46. No partial confirmation. Calibration andv5 not admitted; v5 sealed. The optimistic saved-hit equivalent18.008947USD is reported separately and is not a promise of Batch cache hits.
+
+Browser tool unavailable (required node_repl/sky not exposed). No toggle changed; two stale cases skipped. Prior uncertain start stays unscored, never duplicated. Owner ON and completed refresh/model7661/source hashes remain last verified restoration; fresh UI readback not claimed. Closure continues as expressly directed.

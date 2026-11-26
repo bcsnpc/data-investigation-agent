@@ -1,0 +1,236 @@
+{
+  "observed_at_utc": "2026-11-26T01:14:56.953139+00:00",
+  "source_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "model_quantity": 7661,
+  "latest_native_refresh": [
+    {
+      "requestId": "85942e74-bd08-407b-8c4b-02692a51512e",
+      "id": 773981062,
+      "refreshType": "DirectLakeFraming",
+      "startTime": "2026-11-23T19:01:22.153Z",
+      "endTime": "2026-11-23T19:01:22.263Z",
+      "status": "Completed",
+      "refreshAttempts": []
+    }
+  ],
+  "automatic_updates": "OWNER_REPORTED_ON_2026-11-23; current UI readback unavailable; no toggle changed in close run",
+  "restoration_statuses": [
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\dev-failed-billing\\status.json",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\dev-failed-fixture\\status.json",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\form-current-history\\status.json",
+      "status": "HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\form-current-history-pre-admission-restored-20261121-170640\\status.json",
+      "status": "HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\form-latency\\status.json",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\text-latency-current-reader1\\status.json",
+      "status": "INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\text-latency-remainder-reader1\\status.json",
+      "status": "INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\text-retained-original-history\\status.json",
+      "status": "ORIGINAL_RETAINED_HISTORY_COHORT_COMPLETE_NO_MUTATION",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01\\injections\\waiting\\status.json",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01-completion-advisory\\injections\\access\\status.json",
+      "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01-completion-advisory\\injections\\access-scope-replacement\\status.json",
+      "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01-completion-advisory\\injections\\access-workpath-replacement\\status.json",
+      "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01-completion-advisory\\injections\\stale\\status.json",
+      "status": "RESTORED_SOURCE_HASH_LOAD_AND_MODEL7661_OWNER_AUTOON",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev01-completion-advisory\\injections\\text-latency-remainder-reader1\\status.json",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\access\\status.json",
+      "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\dev-failed-billing\\status.json",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\dev-failed-fixture\\status.json",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\form-current-history\\status.json",
+      "status": "HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\form-latency\\status.json",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\stale\\status.json",
+      "status": "RESTORED_SOURCE_HASH_LOAD_AND_MODEL7661_OWNER_AUTOON",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\text-latency-remainder-reader1\\status.json",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\text-retained-original-history\\status.json",
+      "status": "ORIGINAL_RETAINED_HISTORY_COHORT_COMPLETE_NO_MUTATION",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\dev02-advisory\\injections\\waiting\\status.json",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\access\\status.json",
+      "status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\dev-failed-billing\\status.json",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\dev-failed-fixture\\status.json",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\form-current-history\\status.json",
+      "status": "HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\form-latency\\status.json",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\stale\\status.json",
+      "status": "ENVIRONMENT_WITHDRAWN_RESTORED_SOURCE_HASH_LOAD_AND_MODEL7661_OWNER_AUTOON",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\text-latency-remainder-reader1\\status.json",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\text-retained-original-history\\status.json",
+      "status": "ORIGINAL_RETAINED_HISTORY_COHORT_COMPLETE_NO_MUTATION",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-dev04-supervl\\injections\\waiting\\status.json",
+      "status": "WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-native-repairs\\injections\\dev-failed-fixture\\status.json",
+      "status": "COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-budget-repairs\\injections\\text-latency-remainder-reader1\\status.json",
+      "status": "INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\step4-openrouter-budget-repairs\\injections\\text-latency-remainder-reader1-subset-fix\\status.json",
+      "status": "LATENCY_COHORT_COMPLETED",
+      "restoration_required": false,
+      "catalog_restoration_required": false
+    }
+  ],
+  "physical_requests": 4,
+  "new_injections": 0,
+  "browser_stale_cases": "SKIPPED_BROWSER_TOOL_UNAVAILABLE"
+}

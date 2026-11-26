@@ -1,0 +1,9 @@
+{
+  "status": "IMAGE_FROZEN_CONFIRMATION_NOT_ADMITTED_WHOLE_FUNDING_GATE_FAILED",
+  "source": "e1f98b3079a303df84637ed49db0544210c57fb2",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1b870744ea42534c855b371f7f2e410293a9400bd614355147ec364a98147a71",
+  "qualification": 45735513036,
+  "confirmation_cases": 25,
+  "quality_gate_passed": false,
+  "runtime_changes_after_freeze": 0
+}

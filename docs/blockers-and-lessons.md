@@ -977,3 +977,18 @@ Round27 operator polling2026-11-23: ARM returned textual ERROR Service Unavailab
 
 
 Round27 original stale start, 2026-11-23: after native source/Bronze7692 versus model7661 admission, the first start POST timed out (AZURE_JOB_START_UNESTABLISHED); execution lists returned Microsoft.App BadGateway. The successful17:57activity event precedes the17:58submission attempt and has no execution reference, so it is not treated as proof of this run. No capture or ledger rows for the exact run ID were initially present; absence also does not prove non-acceptance. Preserve the partial CaseLog, do not resubmit, and hold the owned fixture until exact execution/terminal capture reconciliation permits restoration. Neither this uncertain start nor the unsubmitted second ticket is scored. See round-twenty-seven-stale-start-reconciliation.json; diagnosis remains open.
+
+
+## Owner gate-and-close direction, 2026-11-25
+
+Authority: Downloads/r27-opus-gates-and-close.md. Close Round27 even when whole-funded quality gates cannot run. Added25USD Anthropic credit; approximate owner cash46USD is conservatively lower than ledger-implied46.1764USD. Organization usage GET401 (workspace key is not Admin API); no exact Console or fresh cash claim. Cloud and code ceiling245.108251USD preserves202.108251USD charged,43USD spendable,3USD excluded reserve. Existing purposes and all counters/estate allocations unchanged. Auto-reload off; no new model call.
+
+Caching already marked system and investigation tools; helper tools now receive their own last-tool breakpoint without pinning another helper schema, controlled by existing cache switch. Static-only owned Batch path prepared with50% rate card, reservation before POST, no retry of unknown submission, owned-ID polling/results and unchanged model/tool allowlists. Faults stay normal. No live Batch savings claimed.
+
+61proven flags folded into defaults;3measured evaluator modes remain. Old default-true configuration keys are compatibility no-ops; old off ablations are refused explicitly. Historical test sources are archived under scripts/fixtures/round27-retired-ablations. Current read-only and other safety checks remain active. Saved123 status/after classifications unchanged against qualifiedc7a06c1f.
+
+Whole confirmation25cases forecast37.568245USD with static Batch, cache-miss allowance and1.3 margin, calibration14.34USD protected,3reserve: short8.908245USD against approximate46. No partial confirmation. Calibration andv5 not admitted; v5 sealed. The optimistic saved-hit equivalent18.008947USD is reported separately and is not a promise of Batch cache hits.
+
+Browser tool unavailable (required node_repl/sky not exposed). No toggle changed; two stale cases skipped. Prior uncertain start stays unscored, never duplicated. Owner ON and completed refresh/model7661/source hashes remain last verified restoration; fresh UI readback not claimed. Closure continues as expressly directed.
+
+Round27close smoke preflight: reusable runner had run_id round27-release-smokes but its one exact capture grant retained round21-enrichment-submit. bind_execution refused SCHEDULE_EXACT_CAPTURE_BINDING_REQUIRED BEFORE input/platform/Azure reads or POST. Original SUBMIT_ATTEMPT and traceback preserved; unadmitted, no scored run or model charge. Corrected only the local template grant to match its declared root; offline binding/input policy passed. Refreshed native platform cost to1.573325USD (<20) without modifying any prior runner record; launched distinct binding-repair case. No engine or permission change.

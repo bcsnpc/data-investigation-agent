@@ -4,12 +4,14 @@
 
 Estate configuration belongs in the installation manifest. Identity IDs and Key Vault references belong in deployment identity configuration; secret values stay in Key Vault. Resource names belong in infrastructure parameters. Synthetic fixtures belong in test data and never determine a client route.
 
-Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test-only: 2855.
+Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, test-only: 2925.
 
 ## estate config
 
 | Source | Matched identifier or marker |
 |---|---|
+| config/permission-map.yaml:27 | id-dia |
+| config/permission-map.yaml:41 | orderops_investigator |
 | config/permission-map.yaml:61 | billingapp |
 | config/permission-map.yaml:72 | fixture |
 | config/permission-map.yaml:74 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
@@ -64,8 +66,19 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | config/permission-map.yaml:485 | billingapp |
 | config/permission-map.yaml:487 | billingapp, database.windows.net, sql-orderops |
 | config/permission-map.yaml:829 | 531419ef-1610-415a-b8bf-01a4b6aad751 |
+| config/permission-map.yaml:855 | orderops_investigator |
 | config/permission-map.yaml:881 | 2dd2f5c3-f7af-4804-b79e-6019e63efa60 |
 | config/permission-map.yaml:894 | ddd4d3cf-9cfd-440e-ac5b-be127caa46ea |
+| docs/prompts.md:45 | fixture |
+| docs/prompts.md:50 | fixture |
+| docs/prompts.md:815 | semantic model |
+| docs/prompts.md:984 | fixture |
+| docs/prompts.md:989 | fixture |
+| docs/prompts.md:2262 | semantic model |
+| docs/prompts.md:2638 | fixture |
+| docs/prompts.md:2643 | fixture |
+| docs/prompts.md:4008 | semantic model |
+| docs/prompts.md:4385 | fixture |
 | scripts/audit_directlake_bridge.py:7 | lakehouse |
 | scripts/audit_directlake_bridge.py:20 | fixture |
 | scripts/audit_directlake_bridge.py:24 | workspace/ |
@@ -266,11 +279,13 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/fixture/seed.py:99 | lakehouse |
 | scripts/fixture/seed.py:103 | FIXTURE |
 | scripts/fixture/source_access.py:1 | fixture |
+| scripts/fixture/source_access.py:12 | dia-investigator, orderops_investigator |
 | scripts/fixture/source_access.py:24 | billingapp |
 | scripts/fixture/source_access.py:41 | fixture |
 | scripts/fixture/source_access.py:46 | fixture |
 | scripts/fixture/source_access.py:49 | billingapp |
 | scripts/fixture/source_access.py:50 | fixture |
+| scripts/fixture/source_access.py:54 | dia-investigator, orderops_investigator |
 | scripts/fixture/source_access.py:65 | fixture |
 | scripts/fixture/source_access.py:67 | fixture |
 | scripts/fixture/source_access.py:68 | FIXTURE |
@@ -386,7 +401,9 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/investigator/acceptance_context.py:139 | fixture |
 | scripts/investigator/acceptance_context.py:146 | fixture |
 | scripts/investigator/acceptance_context.py:149 | fixture |
+| scripts/investigator/adapters/access_probes.py:182 | id-dia |
 | scripts/investigator/adapters/access_probes.py:191 | database.windows.net |
+| scripts/investigator/adapters/access_probes.py:209 | id-dia |
 | scripts/investigator/adapters/ai_native_catalog.py:32 | Lakehouse, Warehouse |
 | scripts/investigator/adapters/ai_native_catalog.py:42 | SemanticModel |
 | scripts/investigator/adapters/ai_native_catalog.py:56 | Lakehouse, Warehouse |
@@ -489,6 +506,14 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/investigator/adapters/guided_security.py:26 | SemanticModel |
 | scripts/investigator/adapters/guided_security.py:37 | workspaces/ |
 | scripts/investigator/adapters/investigative_native.py:29 | FIXTURE |
+| scripts/investigator/adapters/known-platform-limits.md:3 | LAKEHOUSE |
+| scripts/investigator/adapters/known-platform-limits.md:4 | lakehouse |
+| scripts/investigator/adapters/known-platform-limits.md:11 | Warehouse, lakehouse |
+| scripts/investigator/adapters/known-platform-limits.md:12 | lakehouse |
+| scripts/investigator/adapters/known-platform-limits.md:13 | lakehouse |
+| scripts/investigator/adapters/known-platform-limits.md:14 | Warehouse |
+| scripts/investigator/adapters/known-platform-limits.md:20 | dia-scanner |
+| scripts/investigator/adapters/known-platform-limits.md:22 | Fixture |
 | scripts/investigator/adapters/load_audit.py:20 | Lakehouse |
 | scripts/investigator/adapters/load_audit.py:21 | LAKEHOUSE, Warehouse, lakehouse |
 | scripts/investigator/adapters/load_audit.py:22 | Warehouse |
@@ -633,6 +658,10 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/investigator/estate_manifest.py:117 | fixture |
 | scripts/investigator/estate_manifest.py:119 | fixture |
 | scripts/investigator/estate_manifest.py:159 | fixture |
+| scripts/investigator/facts_migration.py:20 | id-dia |
+| scripts/investigator/facts_migration.py:21 | id-dia |
+| scripts/investigator/facts_worker_verification.py:16 | id-dia |
+| scripts/investigator/facts_worker_verification.py:18 | id-dia |
 | scripts/investigator/grounded_answers.py:263 | semantic model |
 | scripts/investigator/guided_intake.py:4 | fixture |
 | scripts/investigator/guided_runtime_reads.py:43 | Semantic model |
@@ -817,6 +846,8 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/refresh_powerbi.py:12 | workspaces/ |
 | scripts/refresh_powerbi.py:34 | Semantic model |
 | scripts/refresh_powerbi.py:46 | semantic model |
+| scripts/renew_platform_cost_observation.py:68 | rg-dia |
+| scripts/renew_platform_cost_observation.py:74 | rg-dia |
 | scripts/report_definition_evidence.py:37 | semanticmodel |
 | scripts/report_definition_evidence.py:42 | SemanticModel |
 | scripts/report_definition_evidence.py:44 | semanticmodel |
@@ -898,8 +929,8 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | tests/tickets/derive_baseline_cases.py:15 | fixture |
 | tests/tickets/derive_baseline_cases.py:17 | fixture |
 | tests/tickets/independent-baseline-arithmetic.json:3 | fixture |
-| tests/tickets/independent-drafts-access-dev.json:1 | billingapp |
-| tests/tickets/independent-drafts-access-heldout.json:1 | billingapp |
+| tests/tickets/independent-drafts-access-dev.json:1 | billingapp, dia-investigator, orderops_investigator |
+| tests/tickets/independent-drafts-access-heldout.json:1 | billingapp, dia-investigator, orderops_investigator |
 | tests/tickets/independent-drafts-blocked-heldout.json:1 | 20261003, Application load fixture, FIXTURE, fixture, ordersops, semantic model |
 | tests/tickets/independent-drafts-context-dev.json:1 | warehouse |
 | tests/tickets/independent-drafts-context-heldout.json:1 | warehouse |
@@ -919,8 +950,67 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | tests/tickets/independent-drafts-stale-heldout.json:1 | 20261003, Application load fixture, lakehouse, semantic model, warehouse |
 | tests/tickets/independent-drafts-waiting-dev.json:1 | 20261003, fixture |
 | tests/tickets/independent-drafts-waiting-heldout.json:1 | Warehouse |
+| tests/tickets/injections.md:7 | fixture |
+| tests/tickets/injections.md:11 | b4871498-bd35-45be-916c-9a642568012c, fixture |
+| tests/tickets/injections.md:12 | 76c60248-b830-433b-9880-90593da28e7e |
+| tests/tickets/injections.md:13 | fc8438fd-2c18-4196-9191-33e26481e2e0 |
+| tests/tickets/injections.md:15 | 62eb1a7f-19c2-466f-85ec-cda6bc231fb9 |
+| tests/tickets/injections.md:21 | fixture |
+| tests/tickets/injections.md:33 | fixture |
+| tests/tickets/injections.md:38 | fixture |
+| tests/tickets/injections.md:45 | Fixture, fixture |
+| tests/tickets/injections.md:49 | 605f92df-b2e4-4851-8263-51d7ade0ad1e, fixture |
+| tests/tickets/injections.md:51 | fixture |
+| tests/tickets/injections.md:53 | fixture |
+| tests/tickets/injections.md:55 | fixture, ordersops |
+| tests/tickets/injections.md:57 | fixture |
+| tests/tickets/injections.md:59 | fixture |
+| tests/tickets/injections.md:65 | Warehouse, fixture |
+| tests/tickets/injections.md:67 | warehouse |
+| tests/tickets/injections.md:71 | billingapp, fixture |
+| tests/tickets/injections.md:73 | 659ea59a-256f-4673-a661-0d6f3359d9be, Warehouse, fixture |
+| tests/tickets/injections.md:77 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 20261003, Application load fixture, fixture, lakehouse |
+| tests/tickets/injections.md:88 | fixture |
+| tests/tickets/injections.md:94 | 30fc840e-2343-4420-9c47-0d763dd694f3 |
+| tests/tickets/injections.md:99 | 95a3d0f6-ef3a-4d1c-8815-0af704190707 |
+| tests/tickets/injections.md:101 | 623ed85f-40dc-4f32-b6f8-447a8468d318 |
+| tests/tickets/injections.md:110 | fixture |
+| tests/tickets/injections.md:125 | fixture |
+| tests/tickets/injections.md:155 | 03d815b4-3134-4792-9d2a-a0475374b6d4 |
+| tests/tickets/injections.md:173 | fixture |
+| tests/tickets/injections.md:197 | f5181b94-b40a-4a0a-afda-970e040d8f7f |
+| tests/tickets/injections.md:200 | fixture |
+| tests/tickets/injections.md:227 | fixture |
+| tests/tickets/injections.md:254 | fixture |
+| tests/tickets/injections.md:287 | fixture |
+| tests/tickets/injections.md:308 | fixture |
+| tests/tickets/injections.md:344 | fixture |
+| tests/tickets/injections.md:371 | fixture |
+| tests/tickets/injections.md:374 | fixture |
+| tests/tickets/injections.md:377 | fixture |
+| tests/tickets/injections.md:404 | fixture |
+| tests/tickets/injections.md:428 | fixture |
+| tests/tickets/injections.md:431 | fixture |
+| tests/tickets/injections.md:440 | fixture |
+| tests/tickets/injections.md:464 | 625f3197-0754-46b7-b2f5-8a3666cb27b7, eeff6b5a-59db-48c1-b6ef-4875fe29cf3a |
+| tests/tickets/injections.md:488 | e0773fcf-6fb9-456a-bd08-44839e3a539f |
+| tests/tickets/injections.md:491 | fixture |
+| tests/tickets/injections.md:519 | 20261003, Application load fixture |
+| tests/tickets/injections.md:522 | fixture |
+| tests/tickets/injections.md:540 | fixture |
+| tests/tickets/injections.md:572 | 1221447d-8e70-4bf0-beca-528ff36c33c3 |
+| tests/tickets/injections.md:575 | fixture |
+| tests/tickets/injections.md:599 | acb61da4-c7aa-4aa5-b7e3-0be7d613aa1c |
+| tests/tickets/injections.md:602 | fixture |
+| tests/tickets/injections.md:614 | 3e0fe208-bece-4164-a89f-42930ab377f8 |
+| tests/tickets/injections.md:617 | fixture |
+| tests/tickets/injections.md:629 | fixture |
+| tests/tickets/injections.md:653 | fixture |
+| tests/tickets/injections.md:669 | 85942e74-bd08-407b-8c4b-02692a51512e, fixture |
+| tests/tickets/injections.md:674 | f238f1ba-1142-4b55-bdc1-958c61911343 |
+| tests/tickets/injections.md:680 | 85942e74-bd08-407b-8c4b-02692a51512e |
 | tests/tickets/round22-old-refresh-contract.json:1 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
-| tests/tickets/scored-set-v1-heldout.json:1 | 20261003, Application load fixture, Warehouse, billingapp, fixture, lakehouse, ordersops, semantic model, warehouse |
+| tests/tickets/scored-set-v1-heldout.json:1 | 20261003, Application load fixture, Warehouse, billingapp, dia-investigator, fixture, lakehouse, orderops_investigator, ordersops, semantic model, warehouse |
 
 ## identity/secrets
 
@@ -957,13 +1047,17 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | config/permission-map.yaml:805 | kv-dia- |
 | config/permission-map.yaml:817 | kv-dia- |
 | config/permission-map.yaml:868 | skynwhy.com |
+| infra/estates/fixture-code-git.json:19 | orderops_investigator |
 | infra/estates/fixture-code-git.json:27 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/estates/fixture-code-git.json:32 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/estates/fixture-code-git.json:33 | skynwhy.com |
 | infra/estates/fixture-code-git.json:34 | 8a582d2a-ecb4-4320-bf72-75a529a0d382 |
 | infra/estates/fixture-code-git.json:40 | skynwhy.com |
 | infra/estates/fixture-code-git.json:162 | skynwhy.com |
+| infra/estates/fixture-code-git.json:225 | orderops_investigator |
+| infra/estates/fixture-code-git.json:226 | orderops_investigator |
 | infra/estates/fixture-code-git.json:238 | ddd4d3cf-9cfd-440e-ac5b-be127caa46ea |
+| infra/estates/fixture-lineage-proposer.json:19 | orderops_investigator |
 | infra/estates/fixture-lineage-proposer.json:27 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/estates/fixture-lineage-proposer.json:32 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/estates/fixture-lineage-proposer.json:33 | skynwhy.com |
@@ -972,7 +1066,10 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | infra/estates/fixture-lineage-proposer.json:79 | skynwhy.com |
 | infra/estates/fixture-lineage-proposer.json:89 | skynwhy.com |
 | infra/estates/fixture-lineage-proposer.json:283 | skynwhy.com |
+| infra/estates/fixture-lineage-proposer.json:346 | orderops_investigator |
+| infra/estates/fixture-lineage-proposer.json:347 | orderops_investigator |
 | infra/estates/fixture-lineage-proposer.json:359 | ddd4d3cf-9cfd-440e-ac5b-be127caa46ea |
+| infra/estates/fixture.json:20 | orderops_investigator |
 | infra/estates/fixture.json:28 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/estates/fixture.json:33 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/estates/fixture.json:34 | skynwhy.com |
@@ -981,11 +1078,15 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | infra/estates/fixture.json:80 | skynwhy.com |
 | infra/estates/fixture.json:90 | skynwhy.com |
 | infra/estates/fixture.json:284 | skynwhy.com |
+| infra/estates/fixture.json:347 | orderops_investigator |
+| infra/estates/fixture.json:348 | orderops_investigator |
 | infra/estates/fixture.json:360 | ddd4d3cf-9cfd-440e-ac5b-be127caa46ea |
+| infra/metadata/development.json:9 | orderops_investigator |
 | infra/metadata/development.json:16 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/metadata/development.json:20 | skynwhy.com |
 | scripts/fixture/source_history.py:3 | fixture |
 | scripts/investigator/adapters/connection_rotation.py:122 | workspaces/ |
+| scripts/investigator/adapters/known-platform-limits.md:24 | Fixture, Warehouse |
 | scripts/investigator/adapters/record_presence.py:100 | Warehouse |
 | scripts/investigator/adapters/source_delivery.py:71 | Warehouse |
 | scripts/investigator/adapters/warehouse_catalog.py:34 | warehouse |
@@ -994,8 +1095,12 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/investigator/postgres_connection.py:17 | database.windows.net |
 | scripts/review_round25_disagreements.py:26 | kv-dia- |
 | scripts/setup_bedrock_identity.py:50 | kv-dia- |
-| tests/tickets/scored-set-v1-dev-expected.json:1 | 20261003, Application load fixture, Warehouse, fixture, warehouse |
-| tests/tickets/scored-set-v1-heldout-expected.json:1 | 20261003, Application load fixture, Warehouse, fixture, warehouse |
+| tests/tickets/injections.md:69 | billingapp, dia-investigator, fixture, orderops_investigator |
+| tests/tickets/injections.md:79 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, b1a57512-f71a-41a3-b868-4ee2999c42b9, fixture |
+| tests/tickets/injections.md:81 | warehouse |
+| tests/tickets/injections.md:104 | fixture, semantic-model, semanticmodel |
+| tests/tickets/scored-set-v1-dev-expected.json:1 | 20261003, Application load fixture, Warehouse, fixture, orderops_investigator, warehouse |
+| tests/tickets/scored-set-v1-heldout-expected.json:1 | 20261003, Application load fixture, Warehouse, fixture, orderops_investigator, warehouse |
 
 ## infrastructure
 
@@ -1016,8 +1121,8 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | .github/workflows/validation.yml:317 | fixture |
 | .github/workflows/validation.yml:318 | workspace/ |
 | .github/workflows/validation.yml:319 | workspace/ |
-| config/permission-map.yaml:32 | job-dia- |
-| config/permission-map.yaml:37 | job-dia- |
+| config/permission-map.yaml:32 | id-dia, job-dia- |
+| config/permission-map.yaml:37 | id-dia, job-dia- |
 | config/permission-map.yaml:548 | pg-dia- |
 | config/permission-map.yaml:560 | pg-dia- |
 | config/permission-map.yaml:572 | pg-dia- |
@@ -1036,7 +1141,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | config/permission-map.yaml:743 | blob.core.windows.net, diaplatform |
 | config/permission-map.yaml:768 | blob.core.windows.net, diaplatform |
 | config/permission-map.yaml:780 | blob.core.windows.net, diaplatform |
-| config/permission-map.yaml:842 | job-dia- |
+| config/permission-map.yaml:842 | job-dia-, rg-dia |
 | config/permission-map.yaml:920 | pg-dia- |
 | config/permission-map.yaml:932 | pg-dia- |
 | config/permission-map.yaml:944 | pg-dia- |
@@ -1049,6 +1154,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | infra/estates/databricks.json:16 | warehouse |
 | infra/estates/fixture-code-git.json:14 | database.windows.net, sql-orderops |
 | infra/estates/fixture-code-git.json:15 | ordersops |
+| infra/estates/fixture-code-git.json:20 | orderops_investigator |
 | infra/estates/fixture-code-git.json:24 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture-code-git.json:36 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture-code-git.json:42 | warehouse |
@@ -1093,6 +1199,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | infra/estates/fixture-code-git.json:430 | fixture |
 | infra/estates/fixture-lineage-proposer.json:14 | database.windows.net, sql-orderops |
 | infra/estates/fixture-lineage-proposer.json:15 | ordersops |
+| infra/estates/fixture-lineage-proposer.json:20 | orderops_investigator |
 | infra/estates/fixture-lineage-proposer.json:24 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture-lineage-proposer.json:36 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture-lineage-proposer.json:42 | warehouse |
@@ -1114,8 +1221,10 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | infra/estates/fixture-lineage-proposer.json:200 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
 | infra/estates/fixture-lineage-proposer.json:215 | database.windows.net, ordersops, sql-orderops |
 | infra/estates/fixture-lineage-proposer.json:221 | database.windows.net, ordersops, sql-orderops |
+| infra/estates/fixture-lineage-proposer.json:242 | orderops_investigator |
 | infra/estates/fixture-lineage-proposer.json:243 | ordersops |
 | infra/estates/fixture-lineage-proposer.json:252 | ordersops |
+| infra/estates/fixture-lineage-proposer.json:253 | orderops_investigator |
 | infra/estates/fixture-lineage-proposer.json:263 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
 | infra/estates/fixture-lineage-proposer.json:266 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
 | infra/estates/fixture-lineage-proposer.json:272 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
@@ -1143,6 +1252,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | infra/estates/fixture-lineage-proposer.json:548 | fixture |
 | infra/estates/fixture.json:15 | database.windows.net, sql-orderops |
 | infra/estates/fixture.json:16 | ordersops |
+| infra/estates/fixture.json:21 | orderops_investigator |
 | infra/estates/fixture.json:25 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture.json:37 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture.json:43 | warehouse |
@@ -1164,8 +1274,10 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | infra/estates/fixture.json:201 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
 | infra/estates/fixture.json:216 | database.windows.net, ordersops, sql-orderops |
 | infra/estates/fixture.json:222 | database.windows.net, ordersops, sql-orderops |
+| infra/estates/fixture.json:243 | orderops_investigator |
 | infra/estates/fixture.json:244 | ordersops |
 | infra/estates/fixture.json:253 | ordersops |
+| infra/estates/fixture.json:254 | orderops_investigator |
 | infra/estates/fixture.json:264 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
 | infra/estates/fixture.json:267 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
 | infra/estates/fixture.json:273 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
@@ -1261,8 +1373,10 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/investigator/adapters/runner_schedule.py:70 | subscriptions/ |
 | scripts/renew_platform_cost_observation.py:14 | job-dia- |
 | scripts/renew_platform_cost_observation.py:54 | subscriptions/ |
+| tests/tickets/injections.md:61 | fixture, job-dia- |
+| tests/tickets/injections.md:514 | job-dia- |
 | tests/tickets/round22-definition-contracts.json:1 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 10431c90-79c8-4508-8c17-48ec6d08e638, 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 220708c4-6b51-4be7-ba1a-fb91bbd09e0f, Application load fixture, SemanticModel, blob.core.windows.net, c2fe3283-9d89-4bee-b219-09de50cc38c5, diaplatform, fixture |
-| tests/tickets/scored-set-v1-dev.json:1 | 20261003, Application load fixture, Warehouse, billingapp, fixture, lakehouse, ordersops, semantic model, warehouse |
+| tests/tickets/scored-set-v1-dev.json:1 | 20261003, Application load fixture, Warehouse, billingapp, dia-investigator, fixture, lakehouse, orderops_investigator, ordersops, semantic model, warehouse |
 
 ## test-only
 
@@ -1515,11 +1629,13 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/fixtures/round-six-declared-copy-verification.json:134 | a64b0401-bb16-42ec-bb87-64b5ae90a044 |
 | scripts/fixtures/round-six-declared-copy-verification.json:137 | a64b0401-bb16-42ec-bb87-64b5ae90a044 |
 | scripts/fixtures/round-six-declared-copy-verification.json:139 | database.windows.net, sql-orderops |
+| scripts/fixtures/round-six-declared-copy-verification.json:141 | orderops_investigator |
 | scripts/fixtures/round-six-declared-copy-verification.json:142 | ordersops |
 | scripts/fixtures/round-six-declared-copy-verification.json:144 | 71bf8923-a468-4907-a721-0873a0e4373e |
 | scripts/fixtures/round-six-declared-copy-verification.json:145 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | scripts/fixtures/round-six-declared-copy-verification.json:151 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | scripts/fixtures/round-six-declared-copy-verification.json:153 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
+| scripts/fixtures/round-six-declared-copy-verification.json:187 | orderops_investigator |
 | scripts/fixtures/round-six-declared-copy-verification.json:188 | ordersops |
 | scripts/fixtures/round-six-declared-copy-verification.json:191 | 71bf8923-a468-4907-a721-0873a0e4373e |
 | scripts/fixtures/round-six-declared-copy-verification.json:236 | database.windows.net, ordersops, sql-orderops |
@@ -1531,6 +1647,45 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/fixtures/round-six-declared-copy-verification.json:276 | 20261003 |
 | scripts/fixtures/round-six-declared-copy-verification.json:279 | 20261003 |
 | scripts/fixtures/round-six-declared-copy-verification.json:280 | ordersops |
+| scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:9 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:24 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:33 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:44 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:47 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:51 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:24 | warehouse |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:15 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:22 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:31 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:35 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:42 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:45 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:48 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:64 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:67 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:70 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:73 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:76 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:80 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:89 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:93 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:5 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:10 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:9 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:16 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:19 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:26 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:29 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:35 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:38 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:43 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:46 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:49 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_native_table_reference.py.txt:58 | Warehouse |
+| scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:6 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:8 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:25 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:32 | fixture |
 | scripts/fixtures/round_fourteen/false-duplicate-report-questions.json:4 | workspace/ |
 | scripts/fixtures/round_six_i_empty_same_referent.json:2 | 4b2965df-b9cc-49e7-9645-9e2938151f7b |
 | scripts/fixtures/round_six_i_empty_same_referent.json:5 | fixture, warehouse |
@@ -1678,7 +1833,9 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_acceptance_context.py:44 | fixture |
 | scripts/test_acceptance_context.py:47 | fixture |
 | scripts/test_acceptance_context.py:49 | fixture |
-| scripts/test_access_budget_policy.py:28 | postgres.database.azure.com |
+| scripts/test_access_budget_policy.py:23 | id-dia |
+| scripts/test_access_budget_policy.py:24 | id-dia |
+| scripts/test_access_budget_policy.py:28 | id-dia, postgres.database.azure.com |
 | scripts/test_access_check.py:17 | fixture |
 | scripts/test_access_check.py:40 | fixture |
 | scripts/test_access_check.py:70 | fixture |
@@ -2275,7 +2432,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_estate_manifest.py:267 | fixture |
 | scripts/test_estate_manifest.py:305 | fixture |
 | scripts/test_estate_neutrality.py:15 | billingapp, ordersops, sql-orderops |
-| scripts/test_estate_neutrality.py:16 | skynwhy.com, warehouse |
+| scripts/test_estate_neutrality.py:16 | orderops_investigator, skynwhy.com, warehouse |
 | scripts/test_estate_neutrality.py:25 | Fixture |
 | scripts/test_estate_neutrality.py:79 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | scripts/test_estate_neutrality.py:85 | fixture |
@@ -2295,6 +2452,9 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_evidence_synthesis.py:399 | 0dd49072-a9ed-4acb-8f82-7755cd446d6a |
 | scripts/test_evidence_synthesis.py:408 | fixture |
 | scripts/test_evidence_synthesis.py:409 | fixture |
+| scripts/test_facts_ledger.py:34 | id-dia |
+| scripts/test_facts_ledger.py:35 | id-dia |
+| scripts/test_facts_ledger.py:207 | id-dia |
 | scripts/test_federated_reader.py:31 | fb60f99c-7a34-4190-8149-302f77469936 |
 | scripts/test_federated_sql_principal.py:12 | 11111111-1111-4111-8111-111111111111 |
 | scripts/test_federated_sql_principal.py:13 | 22222222-2222-4222-8222-222222222222 |
@@ -2393,6 +2553,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_fixture_source_access.py:9 | billingapp |
 | scripts/test_fixture_source_access.py:15 | ordersops |
 | scripts/test_fixture_source_access.py:24 | fixture |
+| scripts/test_fixture_source_access.py:36 | dia-investigator, orderops_investigator |
 | scripts/test_fixture_source_access.py:39 | fixture |
 | scripts/test_fixture_source_access.py:41 | fixture |
 | scripts/test_fixture_source_access.py:43 | fixture |
@@ -2976,6 +3137,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_local_hospital_generator.py:87 | fixture |
 | scripts/test_local_hospital_generator.py:89 | HealthNet |
 | scripts/test_local_hospital_generator.py:95 | warehouse |
+| scripts/test_local_hospital_generator.py:97 | hn_dw |
 | scripts/test_local_hospital_generator.py:100 | warehouse |
 | scripts/test_local_hospital_generator.py:117 | workspaces/ |
 | scripts/test_local_hospital_generator.py:128 | workspaces/ |
@@ -2985,6 +3147,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_local_hospital_generator.py:139 | warehouse |
 | scripts/test_local_hospital_generator.py:142 | warehouse |
 | scripts/test_local_hospital_generator.py:144 | warehouse |
+| scripts/test_local_hospital_generator.py:145 | hn_dw |
 | scripts/test_local_hospital_generator.py:156 | warehouse |
 | scripts/test_local_hospital_generator.py:157 | lakehouse, warehouse |
 | scripts/test_local_hospital_generator.py:158 | warehouse |
@@ -3002,8 +3165,10 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_local_hospital_generator.py:198 | hn_billing |
 | scripts/test_local_hospital_generator.py:246 | warehouse |
 | scripts/test_local_hospital_generator.py:247 | warehouse |
+| scripts/test_local_hospital_generator.py:255 | hn_dw |
 | scripts/test_local_hospital_generator.py:258 | hn_billing |
 | scripts/test_local_hospital_generator.py:264 | lakehouse, warehouse |
+| scripts/test_local_hospital_generator.py:275 | hn_dw |
 | scripts/test_local_hospital_generator.py:276 | HealthNet |
 | scripts/test_local_hospital_generator.py:277 | HealthNet |
 | scripts/test_local_hospital_generator.py:278 | HealthNet |
@@ -3155,6 +3320,7 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_platform_health.py:15 | postgres.database.azure.com |
 | scripts/test_platform_health.py:16 | blob.core.windows.net |
 | scripts/test_platform_literal_sweep.py:1 | fixture |
+| scripts/test_platform_literal_sweep.py:11 | orderops_investigator |
 | scripts/test_platform_literal_sweep.py:13 | fixture, warehouse |
 | scripts/test_platform_literal_sweep.py:14 | fixture |
 | scripts/test_platform_literal_sweep.py:36 | fixture |
@@ -3622,8 +3788,8 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_round27_native_table_reference.py:58 | Warehouse |
 | scripts/test_round27_scope_verdict.py:6 | fixture |
 | scripts/test_round27_scope_verdict.py:8 | fixture |
-| scripts/test_round27_scope_verdict.py:24 | fixture |
-| scripts/test_round27_scope_verdict.py:31 | fixture |
+| scripts/test_round27_scope_verdict.py:21 | fixture |
+| scripts/test_round27_scope_verdict.py:28 | fixture |
 | scripts/test_round_four_acceptance.py:8 | 00000000-0000-4000-8000-000000000001 |
 | scripts/test_round_four_acceptance.py:14 | 00000000-0000-4000-8000-000000000001, fixture |
 | scripts/test_round_four_acceptance.py:19 | fixture |
@@ -3709,9 +3875,16 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_scanner_guardrails.py:17 | 11111111-1111-1111-1111-111111111111 |
 | scripts/test_scanner_guardrails.py:18 | 22222222-2222-2222-2222-222222222222 |
 | scripts/test_scanner_guardrails.py:19 | 33333333-3333-3333-3333-333333333333 |
+| scripts/test_scanner_guardrails.py:31 | dia-scanner |
+| scripts/test_scanner_guardrails.py:40 | dia-scanner |
+| scripts/test_scanner_guardrails.py:43 | dia-scanner |
+| scripts/test_scanner_guardrails.py:44 | dia-scanner |
+| scripts/test_scanner_guardrails.py:50 | dia-scanner |
 | scripts/test_scanner_guardrails.py:58 | workspaces/ |
 | scripts/test_scanner_guardrails.py:59 | workspaces/ |
 | scripts/test_scanner_guardrails.py:60 | semanticModel, workspaces/ |
+| scripts/test_scanner_guardrails.py:62 | dia-scanner |
+| scripts/test_scanner_guardrails.py:63 | dia-scanner |
 | scripts/test_scanner_guardrails.py:66 | workspaces/ |
 | scripts/test_scanner_guardrails.py:67 | workspaces/ |
 | scripts/test_scanner_guardrails.py:68 | workspaces/ |
@@ -3719,12 +3892,23 @@ Occurrences: estate config: 911, identity/secrets: 70, infrastructure: 262, test
 | scripts/test_scanner_guardrails.py:70 | workspaces/ |
 | scripts/test_scanner_guardrails.py:71 | workspaces/ |
 | scripts/test_scanner_guardrails.py:72 | workspaces/ |
+| scripts/test_scanner_guardrails.py:75 | dia-scanner |
 | scripts/test_scanner_guardrails.py:76 | workspaces/ |
-| scripts/test_scanner_guardrails.py:78 | workspaces/ |
+| scripts/test_scanner_guardrails.py:78 | dia-scanner, workspaces/ |
+| scripts/test_scanner_guardrails.py:86 | dia-scanner |
+| scripts/test_scanner_guardrails.py:90 | dia-scanner |
+| scripts/test_scanner_guardrails.py:91 | dia-scanner |
+| scripts/test_scanner_guardrails.py:92 | dia-scanner |
+| scripts/test_scanner_guardrails.py:93 | dia-scanner |
+| scripts/test_scanner_guardrails.py:94 | dia-scanner |
 | scripts/test_scanner_guardrails.py:97 | workspaces/ |
+| scripts/test_scanner_guardrails.py:99 | dia-scanner |
+| scripts/test_scanner_guardrails.py:101 | dia-scanner |
 | scripts/test_scanner_guardrails.py:110 | database.windows.net |
 | scripts/test_scanner_guardrails.py:116 | workspaces/ |
+| scripts/test_scanner_guardrails.py:118 | dia-scanner |
 | scripts/test_scanner_guardrails.py:119 | workspaces/ |
+| scripts/test_scanner_guardrails.py:120 | dia-scanner |
 | scripts/test_scanner_http.py:34 | workspaces/ |
 | scripts/test_scanner_http.py:37 | workspaces/ |
 | scripts/test_scanner_http.py:41 | workspaces/ |

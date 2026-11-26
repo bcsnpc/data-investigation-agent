@@ -28,10 +28,10 @@
     },
     "tests": {
       "files": 671,
-      "physical_lines": 71493
+      "physical_lines": 71483
     }
   },
-  "archived_ablations": 23,
+  "archived_ablations": 24,
   "retired_flags": 61,
   "preserved_evaluator_switches": [
     "r27_evaluator_advisory",

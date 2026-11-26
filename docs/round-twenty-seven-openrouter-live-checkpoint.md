@@ -1,3 +1,5 @@
+Owner2026-11-25gate-and-close supersedes the earlier stopping decision. Free work is complete;two stale cases skipped for absent browser control. Fresh source/schema hashes match andmodel7661;UIONreadback unavailable,lastownerON retained. Wholepaidconfirmationforecast37.568245 plus14.34calibration plus3reserve exceeds conservative46cash by8.908245;no partial confirmation,calibration/v5unrun,v5sealed. Closure validation continues under explicit owner direction. See quality-report-v0.27.md and round-twenty-seven-summary.md. Older entries below are historical.
+
 # OpenRouter development checkpoint ? 2026-11-23
 
 These are separate synthetic development cohorts. Each uses one independent Sol grader. They do not count toward the Opus confirmation, calibration or sealed v5 gates. Original outcomes and expectations are unchanged.

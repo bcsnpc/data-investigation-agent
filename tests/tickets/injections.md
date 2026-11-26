@@ -667,3 +667,16 @@ Round27 original stale cohort withdrawn BEFORE cleanup because the Azure start i
 
 
 Round27 original Step4 fixture restoration COMPLETE,2026-11-23: owner automatic updatesON confirmed; schedule unchanged. Native refresh85942e74-bd08-407b-8c4b-02692a51512e Completed19:01:22UTC, model7661. Original360source business/schema hashes and originalrealrestorationloadSUCCEEDED retained; both restoration flagsfalse. Azure-unestablished case stays environment-withdrawn/unscored; secondstalecaseNOTRUN. Receipt docs/round-twenty-seven-free-step4-final-restoration.json.
+
+
+## Round27 owner gate-and-close, 2026-11-25
+
+No new fault injection or toggle was made. Browser control required node_repl/sky, which is not exposed in this session; both stale-refresh cases were skipped. The original uncertain startf238f1ba-1142-4b55-bdc1-958c61911343 remains unscored and was never resubmitted.
+
+| Toggle observation | State | Provenance |
+|---|---|---|
+|2026-11-23T17:26:51Z|OFF|retained owner saved-setting receipt, previous cohort|
+|2026-11-23 restoration|ON|owner confirmation; no fabricated browser readback|
+|2026-11-26close read-only check|unchanged|no UI tool; fresh source/schema hashes MATCH, model7661; latest refresh85942e74-bd08-407b-8c4b-02692a51512e Completed|
+
+Fresh close-native-restoration readback used4physical requests and zero models.360source business rows/hash0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b and schemabf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd match; all inspected saved control restoration flags are false. Temporal history staysON by prior decision. The completed refresh is the retained Nov23native refresh, not a newly triggered one. See docs/round-twenty-seven-close-restoration.json. Current UI ON readback remains explicitly unavailable; owner can verify later without blocking other close work.

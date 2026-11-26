@@ -1,5 +1,5 @@
 {
-  "source_head": "8f3fb0de7198d8a13dd9a98361d5eedb85adc8aa",
+  "source_head": "e1f98b3079a303df84637ed49db0544210c57fb2",
   "method": "conservative literal/line index; not a proof that all dynamic configuration is portable",
   "rows": [
     {
@@ -219,6 +219,15 @@
       "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
     },
     {
+      "group": "estate config",
+      "file": "config/permission-map.yaml",
+      "line": 27,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
+    },
+    {
       "group": "identity/secrets",
       "file": "config/permission-map.yaml",
       "line": 31,
@@ -232,6 +241,7 @@
       "file": "config/permission-map.yaml",
       "line": 32,
       "terms": [
+        "id-dia",
         "job-dia-"
       ],
       "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
@@ -250,7 +260,17 @@
       "file": "config/permission-map.yaml",
       "line": 37,
       "terms": [
+        "id-dia",
         "job-dia-"
+      ],
+      "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
+    },
+    {
+      "group": "estate config",
+      "file": "config/permission-map.yaml",
+      "line": 41,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
     },
@@ -1097,7 +1117,17 @@
       "file": "config/permission-map.yaml",
       "line": 842,
       "terms": [
-        "job-dia-"
+        "job-dia-",
+        "rg-dia"
+      ],
+      "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
+    },
+    {
+      "group": "estate config",
+      "file": "config/permission-map.yaml",
+      "line": 855,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
     },
@@ -1201,6 +1231,96 @@
       "source_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
     },
     {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 45,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 50,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 815,
+      "terms": [
+        "semantic model"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 984,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 989,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 2262,
+      "terms": [
+        "semantic model"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 2638,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 2643,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 4008,
+      "terms": [
+        "semantic model"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
+      "group": "estate config",
+      "file": "docs/prompts.md",
+      "line": 4385,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+    },
+    {
       "group": "infrastructure",
       "file": "infra/estates/databricks.json",
       "line": 4,
@@ -1234,6 +1354,24 @@
       "line": 15,
       "terms": [
         "ordersops"
+      ],
+      "source_sha256": "930b3d3fb8e39bdcf0b690f2b14d3449f5ad0d7415819c77c398b66633333c01"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture-code-git.json",
+      "line": 19,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "930b3d3fb8e39bdcf0b690f2b14d3449f5ad0d7415819c77c398b66633333c01"
+    },
+    {
+      "group": "infrastructure",
+      "file": "infra/estates/fixture-code-git.json",
+      "line": 20,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "930b3d3fb8e39bdcf0b690f2b14d3449f5ad0d7415819c77c398b66633333c01"
     },
@@ -1505,6 +1643,24 @@
     {
       "group": "identity/secrets",
       "file": "infra/estates/fixture-code-git.json",
+      "line": 225,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "930b3d3fb8e39bdcf0b690f2b14d3449f5ad0d7415819c77c398b66633333c01"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture-code-git.json",
+      "line": 226,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "930b3d3fb8e39bdcf0b690f2b14d3449f5ad0d7415819c77c398b66633333c01"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture-code-git.json",
       "line": 238,
       "terms": [
         "ddd4d3cf-9cfd-440e-ac5b-be127caa46ea"
@@ -1726,6 +1882,24 @@
       "line": 15,
       "terms": [
         "ordersops"
+      ],
+      "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture-lineage-proposer.json",
+      "line": 19,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
+    },
+    {
+      "group": "infrastructure",
+      "file": "infra/estates/fixture-lineage-proposer.json",
+      "line": 20,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
     },
@@ -2002,6 +2176,15 @@
     {
       "group": "infrastructure",
       "file": "infra/estates/fixture-lineage-proposer.json",
+      "line": 242,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
+    },
+    {
+      "group": "infrastructure",
+      "file": "infra/estates/fixture-lineage-proposer.json",
       "line": 243,
       "terms": [
         "ordersops"
@@ -2014,6 +2197,15 @@
       "line": 252,
       "terms": [
         "ordersops"
+      ],
+      "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
+    },
+    {
+      "group": "infrastructure",
+      "file": "infra/estates/fixture-lineage-proposer.json",
+      "line": 253,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
     },
@@ -2063,6 +2255,24 @@
       "line": 283,
       "terms": [
         "skynwhy.com"
+      ],
+      "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture-lineage-proposer.json",
+      "line": 346,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture-lineage-proposer.json",
+      "line": 347,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "86f24da52835f97c5c61b7581d73203f055d30147d41d2fc67066375a04a0fe3"
     },
@@ -2290,6 +2500,24 @@
       "line": 16,
       "terms": [
         "ordersops"
+      ],
+      "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture.json",
+      "line": 20,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
+    },
+    {
+      "group": "infrastructure",
+      "file": "infra/estates/fixture.json",
+      "line": 21,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
     },
@@ -2566,6 +2794,15 @@
     {
       "group": "infrastructure",
       "file": "infra/estates/fixture.json",
+      "line": 243,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
+    },
+    {
+      "group": "infrastructure",
+      "file": "infra/estates/fixture.json",
       "line": 244,
       "terms": [
         "ordersops"
@@ -2578,6 +2815,15 @@
       "line": 253,
       "terms": [
         "ordersops"
+      ],
+      "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
+    },
+    {
+      "group": "infrastructure",
+      "file": "infra/estates/fixture.json",
+      "line": 254,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
     },
@@ -2627,6 +2873,24 @@
       "line": 284,
       "terms": [
         "skynwhy.com"
+      ],
+      "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture.json",
+      "line": 347,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "infra/estates/fixture.json",
+      "line": 348,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "0572996d344844691bcbbb2cfba405aff24485b85a4bb3c9a517692018305f3a"
     },
@@ -3313,6 +3577,15 @@
       "source_sha256": "b076162b4dfb04fe7aab620e9cd4ccf5626179db8ca2a11084818bbbb4d0d9dd"
     },
     {
+      "group": "identity/secrets",
+      "file": "infra/metadata/development.json",
+      "line": 9,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "b076162b4dfb04fe7aab620e9cd4ccf5626179db8ca2a11084818bbbb4d0d9dd"
+    },
+    {
       "group": "infrastructure",
       "file": "infra/metadata/development.json",
       "line": 13,
@@ -3511,7 +3784,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "065acfd14600ca417f328a8459e4810b89dd17625a832cf553414832e02376c4"
+      "source_sha256": "0306f1bfd5b92969c3372feffd7c75b1c5f41caddc37cbeb56fae97006288ed3"
     },
     {
       "group": "estate config",
@@ -5193,6 +5466,16 @@
     {
       "group": "estate config",
       "file": "scripts/fixture/source_access.py",
+      "line": 12,
+      "terms": [
+        "dia-investigator",
+        "orderops_investigator"
+      ],
+      "source_sha256": "963d9794da0cdac859479b46e41acf983ca2d17f830ad6e7e8e4c98ec72fdc1f"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/fixture/source_access.py",
       "line": 24,
       "terms": [
         "billingapp"
@@ -5232,6 +5515,16 @@
       "line": 50,
       "terms": [
         "fixture"
+      ],
+      "source_sha256": "963d9794da0cdac859479b46e41acf983ca2d17f830ad6e7e8e4c98ec72fdc1f"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/fixture/source_access.py",
+      "line": 54,
+      "terms": [
+        "dia-investigator",
+        "orderops_investigator"
       ],
       "source_sha256": "963d9794da0cdac859479b46e41acf983ca2d17f830ad6e7e8e4c98ec72fdc1f"
     },
@@ -8199,6 +8492,15 @@
     {
       "group": "test-only",
       "file": "scripts/fixtures/round-six-declared-copy-verification.json",
+      "line": 141,
+      "terms": [
+        "orderops_investigator"
+      ],
+      "source_sha256": "e1ac25ad81c120dd636924dc0a5870130eb561777d0428de5c2689446c661495"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round-six-declared-copy-verification.json",
       "line": 142,
       "terms": [
         "ordersops"
@@ -8241,6 +8543,15 @@
       "terms": [
         "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
         "149f8d99-1c66-4a0a-9624-759be002bb60"
+      ],
+      "source_sha256": "e1ac25ad81c120dd636924dc0a5870130eb561777d0428de5c2689446c661495"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round-six-declared-copy-verification.json",
+      "line": 187,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "e1ac25ad81c120dd636924dc0a5870130eb561777d0428de5c2689446c661495"
     },
@@ -8349,6 +8660,357 @@
         "ordersops"
       ],
       "source_sha256": "e1ac25ad81c120dd636924dc0a5870130eb561777d0428de5c2689446c661495"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt",
+      "line": 9,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "30886d9a8652adb6dd3e043a6c793d3f6e4f30e20f81ea7af24bbcdf0c7b2254"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt",
+      "line": 24,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "30886d9a8652adb6dd3e043a6c793d3f6e4f30e20f81ea7af24bbcdf0c7b2254"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt",
+      "line": 33,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "30886d9a8652adb6dd3e043a6c793d3f6e4f30e20f81ea7af24bbcdf0c7b2254"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt",
+      "line": 44,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "30886d9a8652adb6dd3e043a6c793d3f6e4f30e20f81ea7af24bbcdf0c7b2254"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt",
+      "line": 47,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "30886d9a8652adb6dd3e043a6c793d3f6e4f30e20f81ea7af24bbcdf0c7b2254"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt",
+      "line": 51,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "30886d9a8652adb6dd3e043a6c793d3f6e4f30e20f81ea7af24bbcdf0c7b2254"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt",
+      "line": 24,
+      "terms": [
+        "warehouse"
+      ],
+      "source_sha256": "73a413eb988b7b83c3abf94a601f700cdfb7abeca005b69aa27251c76bf5b6b6"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 15,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 22,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 31,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 35,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 42,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 45,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 48,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 64,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 67,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 70,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 73,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 76,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 80,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 89,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt",
+      "line": 93,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "94db4fe8128fae65e7c6546110f1f383cad71e0a4cd3d74370620cd67ca6c77e"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt",
+      "line": 5,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "3b5d735f4b7abe55d54a3851f098d2f928276dc7f7eb98bf5f4117556364daf8"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt",
+      "line": 10,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "3b5d735f4b7abe55d54a3851f098d2f928276dc7f7eb98bf5f4117556364daf8"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 9,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 16,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 19,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 26,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 29,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 35,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 38,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 43,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 46,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt",
+      "line": 49,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "0dfc664b9d8400e56bd6a8de307c71f950e8f244392636d6f6e839042a5b74c0"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_native_table_reference.py.txt",
+      "line": 58,
+      "terms": [
+        "Warehouse"
+      ],
+      "source_sha256": "771eb8dc2b6e0c266fd150f98276bc5848c8bbe0c3c5fc0a7db3302073180f47"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt",
+      "line": 6,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "7006f8eeb9a1402b4ba49bd3f6279bfea3479f0adb1f2307df92944707c93c7a"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt",
+      "line": 8,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "7006f8eeb9a1402b4ba49bd3f6279bfea3479f0adb1f2307df92944707c93c7a"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt",
+      "line": 25,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "7006f8eeb9a1402b4ba49bd3f6279bfea3479f0adb1f2307df92944707c93c7a"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt",
+      "line": 32,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "7006f8eeb9a1402b4ba49bd3f6279bfea3479f0adb1f2307df92944707c93c7a"
     },
     {
       "group": "test-only",
@@ -10039,9 +10701,27 @@
     {
       "group": "estate config",
       "file": "scripts/investigator/adapters/access_probes.py",
+      "line": 182,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "f93c93aed13a3cce3d9685fb50ca027a06e92019d8a917ea0cb62e700dc39197"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/access_probes.py",
       "line": 191,
       "terms": [
         "database.windows.net"
+      ],
+      "source_sha256": "f93c93aed13a3cce3d9685fb50ca027a06e92019d8a917ea0cb62e700dc39197"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/access_probes.py",
+      "line": 209,
+      "terms": [
+        "id-dia"
       ],
       "source_sha256": "f93c93aed13a3cce3d9685fb50ca027a06e92019d8a917ea0cb62e700dc39197"
     },
@@ -11023,6 +11703,89 @@
         "FIXTURE"
       ],
       "source_sha256": "e06bb2f0343b978857d838a82d7be68b3ca61503d61961474590d636ef93accd"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 3,
+      "terms": [
+        "LAKEHOUSE"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 4,
+      "terms": [
+        "lakehouse"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 11,
+      "terms": [
+        "Warehouse",
+        "lakehouse"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 12,
+      "terms": [
+        "lakehouse"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 13,
+      "terms": [
+        "lakehouse"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 14,
+      "terms": [
+        "Warehouse"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 20,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 22,
+      "terms": [
+        "Fixture"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "scripts/investigator/adapters/known-platform-limits.md",
+      "line": 24,
+      "terms": [
+        "Fixture",
+        "Warehouse"
+      ],
+      "source_sha256": "d52ee1d174b4bebc0d99677639ef05e794f0329fe0aa6c4d809ac72a0158ac63"
     },
     {
       "group": "estate config",
@@ -12443,6 +13206,42 @@
         "fixture"
       ],
       "source_sha256": "2ad512554be699cda330cd501e016ee99c48aa60e72ce17b96653cde8d68a5e1"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/facts_migration.py",
+      "line": 20,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "beebb85b1e7c639353ec54c61c3b70f0ac745db653028842dc6bba24b9615833"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/facts_migration.py",
+      "line": 21,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "beebb85b1e7c639353ec54c61c3b70f0ac745db653028842dc6bba24b9615833"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/facts_worker_verification.py",
+      "line": 16,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "a501ac08c5509060f3f1aae72420734b03ce60c5637eb198f4063001e9074729"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/investigator/facts_worker_verification.py",
+      "line": 18,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "a501ac08c5509060f3f1aae72420734b03ce60c5637eb198f4063001e9074729"
     },
     {
       "group": "estate config",
@@ -14148,6 +14947,24 @@
     },
     {
       "group": "estate config",
+      "file": "scripts/renew_platform_cost_observation.py",
+      "line": 68,
+      "terms": [
+        "rg-dia"
+      ],
+      "source_sha256": "dc911ef422707956f07a2ab84116044c905e43fe09c2b29e37e41e382a35498c"
+    },
+    {
+      "group": "estate config",
+      "file": "scripts/renew_platform_cost_observation.py",
+      "line": 74,
+      "terms": [
+        "rg-dia"
+      ],
+      "source_sha256": "dc911ef422707956f07a2ab84116044c905e43fe09c2b29e37e41e382a35498c"
+    },
+    {
+      "group": "estate config",
       "file": "scripts/report_definition_evidence.py",
       "line": 37,
       "terms": [
@@ -14581,8 +15398,27 @@
     {
       "group": "test-only",
       "file": "scripts/test_access_budget_policy.py",
+      "line": 23,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "bf8dce4eb9ebb7b9870e58a660ac8aa76e4be44cbe3cbe0bdcb62d14497ae1b4"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_access_budget_policy.py",
+      "line": 24,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "bf8dce4eb9ebb7b9870e58a660ac8aa76e4be44cbe3cbe0bdcb62d14497ae1b4"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_access_budget_policy.py",
       "line": 28,
       "terms": [
+        "id-dia",
         "postgres.database.azure.com"
       ],
       "source_sha256": "bf8dce4eb9ebb7b9870e58a660ac8aa76e4be44cbe3cbe0bdcb62d14497ae1b4"
@@ -19990,6 +20826,7 @@
       "file": "scripts/test_estate_neutrality.py",
       "line": 16,
       "terms": [
+        "orderops_investigator",
         "skynwhy.com",
         "warehouse"
       ],
@@ -20165,6 +21002,33 @@
         "fixture"
       ],
       "source_sha256": "be8849ddf4aa23eef146e31dc0062083d724032b09624ed08ba716256d1bf5b7"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_facts_ledger.py",
+      "line": 34,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "27a290312df95ea38e3d6cedb2f575233afe99fdc3137850ebdf1800b99a310f"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_facts_ledger.py",
+      "line": 35,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "27a290312df95ea38e3d6cedb2f575233afe99fdc3137850ebdf1800b99a310f"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_facts_ledger.py",
+      "line": 207,
+      "terms": [
+        "id-dia"
+      ],
+      "source_sha256": "27a290312df95ea38e3d6cedb2f575233afe99fdc3137850ebdf1800b99a310f"
     },
     {
       "group": "test-only",
@@ -21064,6 +21928,16 @@
       "line": 24,
       "terms": [
         "fixture"
+      ],
+      "source_sha256": "acb60283d98597a90189a28a97a4324765d2ae45d6f0b79b026ee45c5ea52037"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_fixture_source_access.py",
+      "line": 36,
+      "terms": [
+        "dia-investigator",
+        "orderops_investigator"
       ],
       "source_sha256": "acb60283d98597a90189a28a97a4324765d2ae45d6f0b79b026ee45c5ea52037"
     },
@@ -26353,6 +27227,15 @@
     {
       "group": "test-only",
       "file": "scripts/test_local_hospital_generator.py",
+      "line": 97,
+      "terms": [
+        "hn_dw"
+      ],
+      "source_sha256": "da17da31325bf16727602ad29cd9fd4aa6b4d3e73fb1a09c07a3b673942ab8e1"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_local_hospital_generator.py",
       "line": 100,
       "terms": [
         "warehouse"
@@ -26429,6 +27312,15 @@
       "line": 144,
       "terms": [
         "warehouse"
+      ],
+      "source_sha256": "da17da31325bf16727602ad29cd9fd4aa6b4d3e73fb1a09c07a3b673942ab8e1"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_local_hospital_generator.py",
+      "line": 145,
+      "terms": [
+        "hn_dw"
       ],
       "source_sha256": "da17da31325bf16727602ad29cd9fd4aa6b4d3e73fb1a09c07a3b673942ab8e1"
     },
@@ -26589,6 +27481,15 @@
     {
       "group": "test-only",
       "file": "scripts/test_local_hospital_generator.py",
+      "line": 255,
+      "terms": [
+        "hn_dw"
+      ],
+      "source_sha256": "da17da31325bf16727602ad29cd9fd4aa6b4d3e73fb1a09c07a3b673942ab8e1"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_local_hospital_generator.py",
       "line": 258,
       "terms": [
         "hn_billing"
@@ -26602,6 +27503,15 @@
       "terms": [
         "lakehouse",
         "warehouse"
+      ],
+      "source_sha256": "da17da31325bf16727602ad29cd9fd4aa6b4d3e73fb1a09c07a3b673942ab8e1"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_local_hospital_generator.py",
+      "line": 275,
+      "terms": [
+        "hn_dw"
       ],
       "source_sha256": "da17da31325bf16727602ad29cd9fd4aa6b4d3e73fb1a09c07a3b673942ab8e1"
     },
@@ -27976,6 +28886,15 @@
       "line": 1,
       "terms": [
         "fixture"
+      ],
+      "source_sha256": "09871033ecb60541c2fc8c817794a9f22279b062996fd90d36f89ea9fa8d6908"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_platform_literal_sweep.py",
+      "line": 11,
+      "terms": [
+        "orderops_investigator"
       ],
       "source_sha256": "09871033ecb60541c2fc8c817794a9f22279b062996fd90d36f89ea9fa8d6908"
     },
@@ -32079,7 +32998,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "bd5959e40e0657bcebfd7fbb8de1ca7c75fbed4968605b8c4f879d8901b6ac7f"
+      "source_sha256": "4ce2bfcbdb595d556066d9cdea1ff424cc60dda9c90fd2032d2c98ea317319ac"
     },
     {
       "group": "test-only",
@@ -32088,7 +33007,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "bd5959e40e0657bcebfd7fbb8de1ca7c75fbed4968605b8c4f879d8901b6ac7f"
+      "source_sha256": "4ce2bfcbdb595d556066d9cdea1ff424cc60dda9c90fd2032d2c98ea317319ac"
     },
     {
       "group": "test-only",
@@ -32196,7 +33115,7 @@
       "terms": [
         "Warehouse"
       ],
-      "source_sha256": "061dfbc56957dd697fefcc9b223b0f2f2ac593a505d646dccee1a59268cc8d68"
+      "source_sha256": "139cc0a109c0ba10585b25b59efcf80e0c370c819299b501f6f2b8fce4733542"
     },
     {
       "group": "test-only",
@@ -32205,7 +33124,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "e69fb9b882f6d32bc03ba7a9dacf4cb48650f2013917a27f1bea454746bc054a"
+      "source_sha256": "bc9379f54b662ae0105b68d71957dd7d77fc13710627d35609043292aa5365e4"
     },
     {
       "group": "test-only",
@@ -32214,25 +33133,25 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "e69fb9b882f6d32bc03ba7a9dacf4cb48650f2013917a27f1bea454746bc054a"
+      "source_sha256": "bc9379f54b662ae0105b68d71957dd7d77fc13710627d35609043292aa5365e4"
     },
     {
       "group": "test-only",
       "file": "scripts/test_round27_scope_verdict.py",
-      "line": 24,
+      "line": 21,
       "terms": [
         "fixture"
       ],
-      "source_sha256": "e69fb9b882f6d32bc03ba7a9dacf4cb48650f2013917a27f1bea454746bc054a"
+      "source_sha256": "bc9379f54b662ae0105b68d71957dd7d77fc13710627d35609043292aa5365e4"
     },
     {
       "group": "test-only",
       "file": "scripts/test_round27_scope_verdict.py",
-      "line": 31,
+      "line": 28,
       "terms": [
         "fixture"
       ],
-      "source_sha256": "e69fb9b882f6d32bc03ba7a9dacf4cb48650f2013917a27f1bea454746bc054a"
+      "source_sha256": "bc9379f54b662ae0105b68d71957dd7d77fc13710627d35609043292aa5365e4"
     },
     {
       "group": "test-only",
@@ -33006,6 +33925,51 @@
     {
       "group": "test-only",
       "file": "scripts/test_scanner_guardrails.py",
+      "line": 31,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 40,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 43,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 44,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 50,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
       "line": 58,
       "terms": [
         "workspaces/"
@@ -33028,6 +33992,24 @@
       "terms": [
         "semanticModel",
         "workspaces/"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 62,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 63,
+      "terms": [
+        "dia-scanner"
       ],
       "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
     },
@@ -33097,6 +34079,15 @@
     {
       "group": "test-only",
       "file": "scripts/test_scanner_guardrails.py",
+      "line": 75,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
       "line": 76,
       "terms": [
         "workspaces/"
@@ -33108,7 +34099,62 @@
       "file": "scripts/test_scanner_guardrails.py",
       "line": 78,
       "terms": [
+        "dia-scanner",
         "workspaces/"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 86,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 90,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 91,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 92,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 93,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 94,
+      "terms": [
+        "dia-scanner"
       ],
       "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
     },
@@ -33118,6 +34164,24 @@
       "line": 97,
       "terms": [
         "workspaces/"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 99,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 101,
+      "terms": [
+        "dia-scanner"
       ],
       "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
     },
@@ -33142,9 +34206,27 @@
     {
       "group": "test-only",
       "file": "scripts/test_scanner_guardrails.py",
+      "line": 118,
+      "terms": [
+        "dia-scanner"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
       "line": 119,
       "terms": [
         "workspaces/"
+      ],
+      "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
+    },
+    {
+      "group": "test-only",
+      "file": "scripts/test_scanner_guardrails.py",
+      "line": 120,
+      "terms": [
+        "dia-scanner"
       ],
       "source_sha256": "54b8e6fed5b31c9e376bba7184a861abac72c170dd5b4361ef749e5c516b8c12"
     },
@@ -37245,7 +38327,9 @@
       "file": "tests/tickets/independent-drafts-access-dev.json",
       "line": 1,
       "terms": [
-        "billingapp"
+        "billingapp",
+        "dia-investigator",
+        "orderops_investigator"
       ],
       "source_sha256": "6c0062748248456166131189efdbebc7f8862ce8d5707130a06862dc61d4b72e"
     },
@@ -37254,7 +38338,9 @@
       "file": "tests/tickets/independent-drafts-access-heldout.json",
       "line": 1,
       "terms": [
-        "billingapp"
+        "billingapp",
+        "dia-investigator",
+        "orderops_investigator"
       ],
       "source_sha256": "a22e3fd029298abca46e295c2b6a7a0a4fd3cc22a5264aacb046ca332ad6d348"
     },
@@ -37447,6 +38533,614 @@
       "source_sha256": "ac56743a7da78ac1b6e5396a8c62c62dafd5840ecd8a9e936238138ca8c28efe"
     },
     {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 7,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 11,
+      "terms": [
+        "b4871498-bd35-45be-916c-9a642568012c",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 12,
+      "terms": [
+        "76c60248-b830-433b-9880-90593da28e7e"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 13,
+      "terms": [
+        "fc8438fd-2c18-4196-9191-33e26481e2e0"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 15,
+      "terms": [
+        "62eb1a7f-19c2-466f-85ec-cda6bc231fb9"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 21,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 33,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 38,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 45,
+      "terms": [
+        "Fixture",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 49,
+      "terms": [
+        "605f92df-b2e4-4851-8263-51d7ade0ad1e",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 51,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 53,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 55,
+      "terms": [
+        "fixture",
+        "ordersops"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 57,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 59,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "infrastructure",
+      "file": "tests/tickets/injections.md",
+      "line": 61,
+      "terms": [
+        "fixture",
+        "job-dia-"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 65,
+      "terms": [
+        "Warehouse",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 67,
+      "terms": [
+        "warehouse"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "tests/tickets/injections.md",
+      "line": 69,
+      "terms": [
+        "billingapp",
+        "dia-investigator",
+        "fixture",
+        "orderops_investigator"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 71,
+      "terms": [
+        "billingapp",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 73,
+      "terms": [
+        "659ea59a-256f-4673-a661-0d6f3359d9be",
+        "Warehouse",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 77,
+      "terms": [
+        "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "20261003",
+        "Application load fixture",
+        "fixture",
+        "lakehouse"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "tests/tickets/injections.md",
+      "line": 79,
+      "terms": [
+        "0c89889c-6fe6-49ab-91e9-4b00a51070e6",
+        "b1a57512-f71a-41a3-b868-4ee2999c42b9",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "tests/tickets/injections.md",
+      "line": 81,
+      "terms": [
+        "warehouse"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 88,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 94,
+      "terms": [
+        "30fc840e-2343-4420-9c47-0d763dd694f3"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 99,
+      "terms": [
+        "95a3d0f6-ef3a-4d1c-8815-0af704190707"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 101,
+      "terms": [
+        "623ed85f-40dc-4f32-b6f8-447a8468d318"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "identity/secrets",
+      "file": "tests/tickets/injections.md",
+      "line": 104,
+      "terms": [
+        "fixture",
+        "semantic-model",
+        "semanticmodel"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 110,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 125,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 155,
+      "terms": [
+        "03d815b4-3134-4792-9d2a-a0475374b6d4"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 173,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 197,
+      "terms": [
+        "f5181b94-b40a-4a0a-afda-970e040d8f7f"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 200,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 227,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 254,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 287,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 308,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 344,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 371,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 374,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 377,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 404,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 428,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 431,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 440,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 464,
+      "terms": [
+        "625f3197-0754-46b7-b2f5-8a3666cb27b7",
+        "eeff6b5a-59db-48c1-b6ef-4875fe29cf3a"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 488,
+      "terms": [
+        "e0773fcf-6fb9-456a-bd08-44839e3a539f"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 491,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "infrastructure",
+      "file": "tests/tickets/injections.md",
+      "line": 514,
+      "terms": [
+        "job-dia-"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 519,
+      "terms": [
+        "20261003",
+        "Application load fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 522,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 540,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 572,
+      "terms": [
+        "1221447d-8e70-4bf0-beca-528ff36c33c3"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 575,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 599,
+      "terms": [
+        "acb61da4-c7aa-4aa5-b7e3-0be7d613aa1c"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 602,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 614,
+      "terms": [
+        "3e0fe208-bece-4164-a89f-42930ab377f8"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 617,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 629,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 653,
+      "terms": [
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 669,
+      "terms": [
+        "85942e74-bd08-407b-8c4b-02692a51512e",
+        "fixture"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 674,
+      "terms": [
+        "f238f1ba-1142-4b55-bdc1-958c61911343"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
+      "group": "estate config",
+      "file": "tests/tickets/injections.md",
+      "line": 680,
+      "terms": [
+        "85942e74-bd08-407b-8c4b-02692a51512e"
+      ],
+      "source_sha256": "73f119a9a1c61eb9198060e0b9ea6c01392b3cbc5e311f39717ffcff90d331f1"
+    },
+    {
       "group": "infrastructure",
       "file": "tests/tickets/round22-definition-contracts.json",
       "line": 1,
@@ -37483,6 +39177,7 @@
         "Application load fixture",
         "Warehouse",
         "fixture",
+        "orderops_investigator",
         "warehouse"
       ],
       "source_sha256": "dc06aaa71a12bf29ff3033f2db572c73d4a56acc479788ed873cc5217364b60f"
@@ -37496,8 +39191,10 @@
         "Application load fixture",
         "Warehouse",
         "billingapp",
+        "dia-investigator",
         "fixture",
         "lakehouse",
+        "orderops_investigator",
         "ordersops",
         "semantic model",
         "warehouse"
@@ -37513,6 +39210,7 @@
         "Application load fixture",
         "Warehouse",
         "fixture",
+        "orderops_investigator",
         "warehouse"
       ],
       "source_sha256": "b2503ffbc2eaff7e4df211225d303b3b27cf4ea0c87df8c61f368dfeab52ef38"
@@ -37526,8 +39224,10 @@
         "Application load fixture",
         "Warehouse",
         "billingapp",
+        "dia-investigator",
         "fixture",
         "lakehouse",
+        "orderops_investigator",
         "ordersops",
         "semantic model",
         "warehouse"

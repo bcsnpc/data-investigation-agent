@@ -377,5 +377,17 @@
   "shortfall_microdollars": 8908245,
   "batch_discount_source": "https://platform.claude.com/docs/en/about-claude/pricing",
   "cache_hits_best_effort": true,
-  "saved_cache_hit_equivalent_forecast_microdollars": 18008947
+  "saved_cache_hit_equivalent_forecast_microdollars": 18008947,
+  "calibration_forecast": {
+    "protected_microdollars": 14340000,
+    "estimate_microdollars": 14338768,
+    "sample_nonzero_cases": 14,
+    "sample_actual_cost_microdollars": 15441750,
+    "mean_actual_microdollars": 1102982.142857143,
+    "method": "10freshcases times saved14-case observed mean times1.3; preserve prior protected rounded allowance; no cache savings assumed for unmeasured fresh questions",
+    "source": "retained dev01/calibration-estimate-current.json; fresh calibration actual usage does not exist"
+  },
+  "confirmation_static_batch_cases": 17,
+  "confirmation_fault_normal_cases": 8,
+  "cash_readback": "EXACT_UNAVAILABLE: workspace key cannot use organization usage API; owner approximate46 lower than ledger-implied46.1764 after25 topup; no admission authorized by optimism"
 }
