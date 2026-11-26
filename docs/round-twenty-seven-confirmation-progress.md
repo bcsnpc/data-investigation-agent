@@ -22,3 +22,9 @@ The older-export run read current movement 1 as 16, successfully used `FOR SYSTE
 The completed tickets consumed $1.138607. Native usage reports `service_tier=batch`. Cached-input ratios are 72.47% for investigation, 59.38% for intake and 2.84% for evaluator calls. Those are observations from these completed tickets only. Evaluator evidence-prefix caching is enabled, but the low observed hit rate is retained, rather than represented as a demonstrated saving. The admission forecast assumes cold-cache write premiums, not those possible future hits.
 
 This checkpoint will be superseded by the all-25 independently graded confirmation report. Calibration is not admitted; December credit alone is insufficient unless the confirmation gate also passes.
+
+## Later live checkpoint
+
+At 04:02 UTC on November 26, six of 25 tickets have completed independent grading: official/strict/reviewed correct3, useful handoff1, harmful0. The guard is3 correct of4 measured; all20 remain required. Both application-baseline variants and billing-invoices-v2 are correct. Billing-MRR-v1 is a useful handoff: verdict and calculation cause match, but the source-application layer was unmeasured. The two initial free-text results remain incorrect and non-harmful. This is not a final gate result.
+
+Raw R17-05 trace inspection refines its failure cause: the model had drafted the calculation and side-by-side card values. Two native static page-header textboxes were included as numeric candidates; they could not be measured, so the candidate check remained non-exhaustive and code blocked the non-unresolved draft. The delivered-answer grading remains unchanged. No engine change is being made during the frozen confirmation.

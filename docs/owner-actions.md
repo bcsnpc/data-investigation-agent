@@ -1014,3 +1014,6 @@ The37.568245USD forecast ALREADY includes50% Batch for17 static cases with saved
 ## Owner confirmation priority, 2026-11-25 / November26UTC
 
 After the evaluator write-premium correction, the full conservative confirmation+calibration+reserve forecast is56.223674USD against the lower56USD balance. Owner explicitly prioritizes the FULL confirmation now, keeps3USD cash reserve, and moves calibration to after confirmedDec1balance. Complete confirmation alone38.612307+3 fits. Released only the14.611367calibration hold in the existing raw account protected field; cash3, normalizedcap255.108251, rawcap258.108251 and all charges stay unchanged. No request limit increase. Both first tickets continue unchanged; all25 remain required; no partial gate. V5sealed and calibration not admitted now. See round-twenty-seven-owner-confirmation-priority.json.
+
+
+Owner priority clarification,2026-11-25/executionNov26: calibration is deferred until confirmedDec1 Anthropic balance AND a passed full confirmation gate. Existing OpenAI grading credit expiresNov29. Before deferred calibration, confirm valid independent-grading funding/provider authority as well; do not send against expired credit or silently substitute another paid provider. V5 remains sealed and requires its own whole-run budget gate. No action is needed from the away owner for the current full25 confirmation.
