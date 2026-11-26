@@ -195,3 +195,11 @@ owner; Azure CLI made control-plane/monitor reads only. Tokens stayed in memory.
 No clinical/billing row contents were fetched. Sealed bodies were not opened.
 Public build/history references: [summary](hospital-estate-summary.md),
 [design history](hospital-estate-design.md), [owner actions](owner-actions.md).
+
+## Later owner-approved test authoring, 2026-11-26
+
+The inventory above is a timestamped historical observation. A subsequent owner
+request authorized live read-only test authoring after an engine freeze. The new
+25-ticket set is recorded in [healthnet-testset.md](healthnet-testset.md); encrypted
+answers await owner/reviewer approval. No DIA run, engine tuning or DIA grant was
+performed. The disabled named-connection draft now exists and validates offline.

@@ -1,0 +1,49 @@
+{
+  "observed_at_utc": "2026-11-26T19:33:00.424921+00:00",
+  "baseline_commit": "9fb0190b11a5e2a83579de4ed5bdb58c5ac73300",
+  "engine_files_unchanged": 833,
+  "prompt_bearing_files_unchanged": 69,
+  "counts": {
+    "total": 25,
+    "static": 15,
+    "fault_defined_only": 7,
+    "business_or_unanswerable": 3,
+    "forms": 13,
+    "free_text": 12
+  },
+  "read_receipts": {
+    "successful_sql_reads": 34,
+    "unsuccessful_sql_attempts": 5,
+    "successful_dax_queries": 7
+  },
+  "encrypted_roundtrip_verified": true,
+  "key_secret": "healthnet-answers-key",
+  "plaintext_key_written_to_disk": false,
+  "config_validation": {
+    "status": "DRAFT_DISABLED",
+    "estate_id": "healthnet",
+    "config_sha256": "e3eac74949ae4a142429e232c1f6aa29fa1cc5e32fc692a22f86bb1742b66772",
+    "layers": [
+      "source",
+      "bronze",
+      "silver",
+      "gold",
+      "model",
+      "report"
+    ],
+    "connectors": [
+      "clinical",
+      "billing",
+      "analytics"
+    ],
+    "network_calls": 0,
+    "secret_resolution": "NOT_ATTEMPTED",
+    "execution_enabled": false
+  },
+  "review_status": "OWNER_REVIEW_PENDING",
+  "operator_exposure": "Authoring session saw expectations; not operator-blind.",
+  "dia_runs": 0,
+  "model_calls": 0,
+  "injections_applied": 0,
+  "permissions_changed": false
+}

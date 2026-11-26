@@ -23,3 +23,11 @@ The author/operator sees the answers: this set is **owner-authored, not operator
 Future scoring must disclose that exposure and use independent grading. Fault
 expectations are conditional on fresh injection admission; an uninjected case cannot
 be scored against a fault outcome.
+
+## Post-authoring verification
+
+All 833 engine/runtime files and all 69 prompt-bearing files still match the
+pre-authoring hashes. No engine, model prompt or runtime rule was changed.
+The requested CLAUDE.md authoring constraint is the sole new operating instruction.
+See healthnet-testset-verification.json. Owner/reviewer approval of the test set is
+pending; these hashes protect the authored bytes and do not assert reviewer approval.
