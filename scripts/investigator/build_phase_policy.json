@@ -120,13 +120,13 @@
         "ceiling_microdollars": 202938628,
         "warning_microdollars": 197126628,
         "allowed_purposes": [
-          "GRADING",
-          "SMOKE"
+          "GRADING"
         ],
         "credit_expiry_utc": "2026-11-29T00:00:00Z",
         "owner_reported_cash_microdollars": 31060000,
         "protected_cash_microdollars": 2000000,
-        "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff"
+        "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff",
+        "purpose_approval": "Owner2026-11-25 gate-and-close: OpenAI grading only; free synthetic provider for release smoke; no price, credit, expiry or usage change"
       },
       "azure_openai": {
         "ceiling_microdollars": 0,

@@ -6,6 +6,15 @@ from investigator.model_spend import SpendHold
 
 
 class ProviderPolicyTests(unittest.TestCase):
+    def test_latest_owner_scope_allows_openai_grading_but_refuses_smoke(self):
+        from investigator.provider_budget import check_credit
+        from datetime import datetime,timezone
+        now=datetime(2026,11,25,tzinfo=timezone.utc).timestamp()
+        check_credit('openai',now,owner='round27-reviewer',purpose='GRADING')
+        for purpose in ('SMOKE','INVESTIGATOR','INTAKE','SUMMARY'):
+            with self.subTest(purpose=purpose),self.assertRaisesRegex(SpendHold,'PROVIDER_PURPOSE_NOT_APPROVED'):
+                check_credit('openai',now,owner='round27-worker',purpose=purpose)
+
     def test_november_model_override_matches_confirmed_anthropic_account_cap(self):
         from investigator.build_phase import model_ceiling
         from datetime import datetime,timezone
