@@ -1,0 +1,23 @@
+{
+  "basis": "Higher saved P3 cost per model,1.3margin; assumes both graders and Terra review on every ticket (more reviews than observed). Not a provider price quote.",
+  "models": {
+    "gpt-6.1-sol": {
+      "saved_calls": 21,
+      "max_actual_microdollars": 23979
+    },
+    "gpt-6-astra": {
+      "saved_calls": 21,
+      "max_actual_microdollars": 119543
+    },
+    "gpt-6.1-terra": {
+      "saved_calls": 4,
+      "max_actual_microdollars": 12685
+    }
+  },
+  "confirmation_25_forecast_microdollars": 5076728,
+  "confirmation_and_calibration_35_forecast_microdollars": 7107419,
+  "remaining_openai_excluding_already_protected_cash2_microdollars": 12105049,
+  "expiry_utc": "2026-11-29T00:00:00Z",
+  "budget_fits": true,
+  "cash_exact_readback": "Owner31.06Nov17 minus recorded subsequent charges; no new topup or expiry assumption"
+}
