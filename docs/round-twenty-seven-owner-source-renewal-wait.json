@@ -1,0 +1,16 @@
+{
+  "at_utc": "2026-11-26T17:04:49.767244+00:00",
+  "owner_decision": "Wait until Dec 1; continue offline",
+  "database": "ordersops",
+  "paid_continuation": "NOT_APPROVED_DO_NOT_ENABLE",
+  "sql_billing_setting_change": "NONE",
+  "earliest_source_resume_utc": "2026-12-01T00:00:00+00:00",
+  "earliest_source_resume_chicago": "2026-11-30T18:00:00-06:00",
+  "confirmation": "PENDING21_OF25_ORIGINAL_FROZEN_IMAGE_UNCHANGED",
+  "no_new_live_ticket_or_model_call_before_source_restoration": true,
+  "cash_reserve_microdollars": 3000000,
+  "calibration": "DEFERRED_CONFIRMED_DEC1_BALANCE_AND_CONFIRMATION_PASS",
+  "v5": "SEALED",
+  "original_outcomes_expectations_and_counters_unchanged": true,
+  "future_grading": "OpenAI approved credit expires Nov29; require valid approved credit before any resumed grading"
+}

@@ -1,5 +1,8 @@
 # Round 27: redesign, proof attempts and close
 
+> Owner decision, November26: **wait for the SQL free allowance to renew on December1 00:00UTC (November30,6p.m.Chicago); continue offline only**. Paid SQL continuation is not approved. The earlier decision-pending request is resolved. Confirmation remains pending21/25, not a final gate; source restoration/load verification is first after renewal. Calibration/v5 and merge/tag remain pending. See `round-twenty-seven-source-renewal-resume.md`.
+
+
 > Latest recovery, 2026-11-26: confirmation is **pending21/25**, not complete or running. Reviewed outcomes so far:14fully correct,2usefulhandoffs,0harmful; guard14/16measured (20required). Azure SQL ordersops paused at its November free allowance (42119), blocking verification of the downstream restoration and the remaining four fault cases. Source rows/schema hashes were restored before pause; downstream restore is not yet verified. No paid database setting was changed. Owner decision is pending. Original confirmation image remains unchanged; three repairs are being qualified offline only. Calibration remains deferred to confirmedDec1balance and a passing full confirmation, and v5 stays sealed. All older checkpoint/closure paragraphs below are historical; PR435 remains draft, no merge/tag.
 
 
