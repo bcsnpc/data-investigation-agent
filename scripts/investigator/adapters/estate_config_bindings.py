@@ -28,4 +28,3 @@ def validate_bindings(value):
         ref = credential['reference']
         if ref['secret_name'] != value['model']['secret_ref'] or ref['vault_url'] != 'https://' + value['secrets']['vault'] + '.vault.azure.net':
             raise ValueError('estate.secrets: installed model secret reference differs')
-

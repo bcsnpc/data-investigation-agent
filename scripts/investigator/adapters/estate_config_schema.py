@@ -34,4 +34,3 @@ SCHEMA = _object({
     # The outer connector and layer lists reference it; they never override it.
     'installation': {'type': ['object', 'null']},
 })
-
