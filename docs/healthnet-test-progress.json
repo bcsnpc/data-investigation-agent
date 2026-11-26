@@ -1,156 +1,155 @@
 {
-  "as_of": "2026-11-26T23:14:36.631748+00:00",
-  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
+  "as_of": "2026-11-26T23:57:59.348349+00:00",
   "test_complete": false,
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
+  "catalog_version": "native-r3",
   "results": [
     {
-      "ticket": "HN-003",
-      "status": "ANSWERED",
-      "business_verdict": null,
-      "capture_seal": "27ef7afdb889c17c3adf020a007f6b764315dfdb5b741c7b2095769dc731a439",
-      "model_calls": 11,
-      "physical_requests": 2,
-      "cost": {
-        "ceiling_microdollars": 3000000,
-        "charge_basis": "ACTUAL_PROVIDER_USAGE",
-        "charged_microdollars": 1359384,
-        "final_inflight_call_may_cross_ticket_threshold": true,
-        "limit_is_actual_use_stop": true,
-        "month_account": "model-microdollars:2026-11",
-        "monthly_commitments_remain_conservative": true,
-        "warning": false
-      },
-      "execution": {
-        "endTime": "2026-11-26T23:05:54+00:00",
-        "execution_name": "job-dia-worker-p3lvvuj",
-        "startTime": "2026-11-26T23:03:06+00:00",
-        "status": "Succeeded"
-      },
-      "grades": {
-        "primary": {
-          "model": "gpt-6.1-sol",
-          "verdict_match": false,
-          "layer_match": false,
-          "cause_match": true,
-          "harmful": false,
-          "partial": true,
-          "failing_step": "query validation",
-          "handoff_quality": 2
-        },
-        "secondary": {
-          "model": "gpt-6-astra",
-          "verdict_match": false,
-          "layer_match": false,
-          "cause_match": true,
-          "harmful": false,
-          "partial": true,
-          "failing_step": "query validation",
-          "handoff_quality": 2
-        }
-      }
-    },
-    {
-      "ticket": "HN-007",
-      "status": "ANSWERED",
-      "business_verdict": null,
-      "capture_seal": "f58acbdc88424db25ba2afeea432d623137063a88aea6bfacfdde28a0eb30555",
-      "model_calls": 11,
-      "physical_requests": 1,
-      "cost": {
-        "ceiling_microdollars": 3000000,
-        "charge_basis": "ACTUAL_PROVIDER_USAGE",
-        "charged_microdollars": 666453,
-        "final_inflight_call_may_cross_ticket_threshold": true,
-        "limit_is_actual_use_stop": true,
-        "month_account": "model-microdollars:2026-11",
-        "monthly_commitments_remain_conservative": true,
-        "warning": false
-      },
-      "execution": {
-        "endTime": "2026-11-26T23:05:39+00:00",
-        "execution_name": "job-dia-worker-t57llj1",
-        "startTime": "2026-11-26T23:03:13+00:00",
-        "status": "Succeeded"
-      },
-      "grades": {
-        "primary": {
-          "model": "gpt-6.1-sol",
-          "verdict_match": false,
-          "layer_match": true,
-          "cause_match": false,
-          "harmful": false,
-          "partial": true,
-          "failing_step": "query validation",
-          "handoff_quality": 2
-        },
-        "secondary": {
-          "model": "gpt-6-astra",
-          "verdict_match": false,
-          "layer_match": true,
-          "cause_match": false,
-          "harmful": false,
-          "partial": true,
-          "failing_step": "query validation",
-          "handoff_quality": 2
-        }
-      }
-    },
-    {
-      "ticket": "HN-008",
-      "status": "UNRESOLVED",
-      "business_verdict": null,
-      "capture_seal": "206e4c74a53256d6c629f9ca60963dfa90afe4cb45b51f3687e2118d61d92f87",
-      "model_calls": 13,
-      "physical_requests": 2,
-      "cost": {
-        "ceiling_microdollars": 3000000,
-        "charge_basis": "ACTUAL_PROVIDER_USAGE",
-        "charged_microdollars": 2028076,
-        "final_inflight_call_may_cross_ticket_threshold": true,
-        "limit_is_actual_use_stop": true,
-        "month_account": "model-microdollars:2026-11",
-        "monthly_commitments_remain_conservative": true,
-        "warning": true
-      },
-      "execution": {
-        "basis": "Azure execution show readback",
-        "endTime": null,
-        "execution_name": "job-dia-worker-bbzdf9m",
-        "startTime": "2026-11-26T23:06:48+00:00",
-        "status": "Failed"
-      },
-      "grades": {}
-    }
-  ],
-  "reviewed_harmful": 0,
-  "fully_correct": 0,
-  "useful_handoff": null,
-  "remaining_not_yet_scored": 24,
-  "original_pre_python_attempts_excluded": true,
-  "no_resubmission": true,
-  "environmental_attempts": [
-    {
       "ticket": "HN-001",
-      "scored": false,
-      "ai_calls": 0,
-      "estate_reads": 0,
-      "error": "KeyError: healthnet-sealed-test",
-      "replacement_approved": true
+      "cohort": "static",
+      "status": "ANSWERED",
+      "capture_seal": "10f394f9980bddbfad0a6d1d6c034a30b411cffebe9f3863e71ca0938dc4a89b",
+      "physical_requests": 30,
+      "cost_microdollars": 1527289,
+      "model_calls": 6,
+      "engine_wall_seconds": 289.33823625499997,
+      "stop": null,
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "ec50b0d943a7238d277458e2bcb0c773abe4ef0b2a91c753639c8cef8ff020bc"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "4ac458d5940010fb0f3f15a32dec5a9d72c23d6ebfaa1ad0699f8b8ec0c28b9a"
+        }
+      },
+      "reviewed_fully_correct": true,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "none"
     },
     {
       "ticket": "HN-002",
-      "scored": false,
-      "ai_calls": 0,
-      "estate_reads": 0,
-      "error": "KeyError: healthnet-sealed-test",
-      "replacement_approved": true
+      "cohort": "static",
+      "status": "BLOCKED",
+      "capture_seal": "bba80b21810459bd5c55385c5a62fff8a3c7fe99db4181f4c3f7bd7d78683548",
+      "physical_requests": 37,
+      "cost_microdollars": 3091234,
+      "model_calls": 17,
+      "engine_wall_seconds": 449.581612725,
+      "stop": "SpendHold: TICKET_MODEL_EXHAUSTED",
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": false,
+          "cause_match": false,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "sha256": "7958d26547668ad1a6c56e293b2de487e9c59d9d0d9413d198af41330f53d3f9"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": false,
+          "cause_match": false,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "sha256": "7eaad305ede4f139a5caf3b5065972618b75932e9fe8055e8e1ed00d29936718"
+        }
+      },
+      "reviewed_fully_correct": false,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "wrong conclusion"
+    },
+    {
+      "ticket": "HN-003",
+      "cohort": "static",
+      "status": "ANSWERED",
+      "capture_seal": "6fe0eb9c62ca6acd993f424ee04ac9a010b7ec0ef8dd4c7fea3b54479648ad15",
+      "physical_requests": 23,
+      "cost_microdollars": 674285,
+      "model_calls": 3,
+      "engine_wall_seconds": 119.54169546100002,
+      "stop": null,
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "60f0e06924fb42f2dcb8ee2f780b59b8db569d9d6a54baffea3c8062502b1d8d"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "447d641bfac0303b69e6bae66724afd2e9919119145544a9077464434f51bba1"
+        }
+      },
+      "reviewed_fully_correct": true,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "none"
+    },
+    {
+      "ticket": "HN-007",
+      "cohort": "static",
+      "status": "ANSWERED",
+      "capture_seal": "f6a33309d694350fc2c9918cbbaa7d54b67e5fa0036ad5e1d7ca9141e1a12ccc",
+      "physical_requests": 34,
+      "cost_microdollars": 1405502,
+      "model_calls": 7,
+      "engine_wall_seconds": 208.57800444500754,
+      "stop": null,
+      "grades": {},
+      "reviewed_fully_correct": null,
+      "reviewed_harmful": null,
+      "useful_handoff": null,
+      "first_wrong_step": null
     }
   ],
-  "admissions": "PAUSED_BY_OWNER",
-  "unestablished_submission": "HN-009",
-  "pending_owner_approved_environmental_replacements": [
-    "HN-001",
-    "HN-002"
-  ],
-  "grading_complete": false
+  "completed_outcomes": 4,
+  "independently_graded": 3,
+  "fully_correct": 2,
+  "useful_handoff": 0,
+  "harmful": 0,
+  "hn009": "UNESTABLISHED_DO_NOT_RESUBMIT",
+  "originals": "docs/healthnet-environmental-originals.json",
+  "frozen_engine_unchanged": true
 }
