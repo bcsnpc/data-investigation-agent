@@ -1,12 +1,131 @@
 {
-  "as_of": "2026-11-26T23:05:04.297228+00:00",
+  "as_of": "2026-11-26T23:14:36.631748+00:00",
   "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
   "test_complete": false,
-  "results": [],
+  "results": [
+    {
+      "ticket": "HN-003",
+      "status": "ANSWERED",
+      "business_verdict": null,
+      "capture_seal": "27ef7afdb889c17c3adf020a007f6b764315dfdb5b741c7b2095769dc731a439",
+      "model_calls": 11,
+      "physical_requests": 2,
+      "cost": {
+        "ceiling_microdollars": 3000000,
+        "charge_basis": "ACTUAL_PROVIDER_USAGE",
+        "charged_microdollars": 1359384,
+        "final_inflight_call_may_cross_ticket_threshold": true,
+        "limit_is_actual_use_stop": true,
+        "month_account": "model-microdollars:2026-11",
+        "monthly_commitments_remain_conservative": true,
+        "warning": false
+      },
+      "execution": {
+        "endTime": "2026-11-26T23:05:54+00:00",
+        "execution_name": "job-dia-worker-p3lvvuj",
+        "startTime": "2026-11-26T23:03:06+00:00",
+        "status": "Succeeded"
+      },
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "verdict_match": false,
+          "layer_match": false,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "query validation",
+          "handoff_quality": 2
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "verdict_match": false,
+          "layer_match": false,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "query validation",
+          "handoff_quality": 2
+        }
+      }
+    },
+    {
+      "ticket": "HN-007",
+      "status": "ANSWERED",
+      "business_verdict": null,
+      "capture_seal": "f58acbdc88424db25ba2afeea432d623137063a88aea6bfacfdde28a0eb30555",
+      "model_calls": 11,
+      "physical_requests": 1,
+      "cost": {
+        "ceiling_microdollars": 3000000,
+        "charge_basis": "ACTUAL_PROVIDER_USAGE",
+        "charged_microdollars": 666453,
+        "final_inflight_call_may_cross_ticket_threshold": true,
+        "limit_is_actual_use_stop": true,
+        "month_account": "model-microdollars:2026-11",
+        "monthly_commitments_remain_conservative": true,
+        "warning": false
+      },
+      "execution": {
+        "endTime": "2026-11-26T23:05:39+00:00",
+        "execution_name": "job-dia-worker-t57llj1",
+        "startTime": "2026-11-26T23:03:13+00:00",
+        "status": "Succeeded"
+      },
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": false,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "query validation",
+          "handoff_quality": 2
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": false,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "query validation",
+          "handoff_quality": 2
+        }
+      }
+    },
+    {
+      "ticket": "HN-008",
+      "status": "UNRESOLVED",
+      "business_verdict": null,
+      "capture_seal": "206e4c74a53256d6c629f9ca60963dfa90afe4cb45b51f3687e2118d61d92f87",
+      "model_calls": 13,
+      "physical_requests": 2,
+      "cost": {
+        "ceiling_microdollars": 3000000,
+        "charge_basis": "ACTUAL_PROVIDER_USAGE",
+        "charged_microdollars": 2028076,
+        "final_inflight_call_may_cross_ticket_threshold": true,
+        "limit_is_actual_use_stop": true,
+        "month_account": "model-microdollars:2026-11",
+        "monthly_commitments_remain_conservative": true,
+        "warning": true
+      },
+      "execution": {
+        "basis": "Azure execution show readback",
+        "endTime": null,
+        "execution_name": "job-dia-worker-bbzdf9m",
+        "startTime": "2026-11-26T23:06:48+00:00",
+        "status": "Failed"
+      },
+      "grades": {}
+    }
+  ],
   "reviewed_harmful": 0,
   "fully_correct": 0,
-  "useful_handoff": 0,
-  "remaining_not_yet_scored": 27,
+  "useful_handoff": null,
+  "remaining_not_yet_scored": 24,
   "original_pre_python_attempts_excluded": true,
   "no_resubmission": true,
   "environmental_attempts": [
@@ -26,5 +145,12 @@
       "error": "KeyError: healthnet-sealed-test",
       "replacement_approved": true
     }
-  ]
+  ],
+  "admissions": "PAUSED_BY_OWNER",
+  "unestablished_submission": "HN-009",
+  "pending_owner_approved_environmental_replacements": [
+    "HN-001",
+    "HN-002"
+  ],
+  "grading_complete": false
 }
