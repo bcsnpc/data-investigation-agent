@@ -1,0 +1,1156 @@
+{
+  "recorded_date": "2026-11-26",
+  "status": "PARTIAL_NOT_FULLY_READ_READY",
+  "ticket_runs": 0,
+  "model_calls": 0,
+  "injections": 0,
+  "table_counts": [
+    {
+      "connection": "clinical",
+      "table": "[app].[adt_event]",
+      "actual_rows": 298733,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[bed]",
+      "actual_rows": 880,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[bed_assignment]",
+      "actual_rows": 47016,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[department]",
+      "actual_rows": 33,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[diagnosis]",
+      "actual_rows": 250000,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[ed_visit_detail]",
+      "actual_rows": 104825,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[encounter]",
+      "actual_rows": 250000,
+      "owner_baseline_rows": 250000,
+      "comparison": "MATCH",
+      "baseline_receipt": "clinical-summary.json"
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[facility]",
+      "actual_rows": 3,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[medication_admin]",
+      "actual_rows": 179715,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[order_header]",
+      "actual_rows": 1500000,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[order_line]",
+      "actual_rows": 1500000,
+      "owner_baseline_rows": 1500000,
+      "comparison": "MATCH",
+      "baseline_receipt": "clinical-orders.json"
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[patient]",
+      "actual_rows": 60000,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[patient_alias]",
+      "actual_rows": 1200,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[patient_merge]",
+      "actual_rows": 600,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[payer_plan]",
+      "actual_rows": 12,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[procedure]",
+      "actual_rows": 16344,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[provider]",
+      "actual_rows": 360,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[provider_assignment]",
+      "actual_rows": 396,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[result]",
+      "actual_rows": 2774006,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[unit]",
+      "actual_rows": 33,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[encounter_history]",
+      "actual_rows": null,
+      "owner_baseline_rows": null,
+      "comparison": "NOT_MEASURABLE",
+      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[order_line_history]",
+      "actual_rows": null,
+      "owner_baseline_rows": null,
+      "comparison": "NOT_MEASURABLE",
+      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+    },
+    {
+      "connection": "clinical",
+      "table": "[app].[patient_history]",
+      "actual_rows": null,
+      "owner_baseline_rows": null,
+      "comparison": "NOT_MEASURABLE",
+      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[account]",
+      "actual_rows": 249603,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[adjustment]",
+      "actual_rows": 268700,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[ar_snapshot_daily]",
+      "actual_rows": 12912,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[charge]",
+      "actual_rows": 505322,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[claim]",
+      "actual_rows": 289614,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[claim_line]",
+      "actual_rows": 579228,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[payer]",
+      "actual_rows": 4,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[payer_plan]",
+      "actual_rows": 12,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[payment]",
+      "actual_rows": 256716,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[remittance]",
+      "actual_rows": 268478,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[remittance_line]",
+      "actual_rows": 536956,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[charge_history]",
+      "actual_rows": null,
+      "owner_baseline_rows": null,
+      "comparison": "NOT_MEASURABLE",
+      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[claim_history]",
+      "actual_rows": null,
+      "owner_baseline_rows": null,
+      "comparison": "NOT_MEASURABLE",
+      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+    },
+    {
+      "connection": "billing",
+      "table": "[app].[payer_plan_history]",
+      "actual_rows": null,
+      "owner_baseline_rows": null,
+      "comparison": "NOT_MEASURABLE",
+      "reason": "History-table effective INSERT reported; strict read-only object guard retained."
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_account]",
+      "actual_rows": 249603,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_adjustment]",
+      "actual_rows": 268700,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_ar_snapshot_daily]",
+      "actual_rows": 12912,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_charge]",
+      "actual_rows": 505322,
+      "owner_baseline_rows": 505322,
+      "comparison": "MATCH",
+      "baseline_receipt": "raw-summary.json"
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_claim]",
+      "actual_rows": 289614,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_claim_line]",
+      "actual_rows": 579228,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_payer]",
+      "actual_rows": 4,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_payer_plan]",
+      "actual_rows": 12,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_payer_plan_history]",
+      "actual_rows": 14,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_payment]",
+      "actual_rows": 256716,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_remittance]",
+      "actual_rows": 268478,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_billing_remittance_line]",
+      "actual_rows": 536956,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_adt_event]",
+      "actual_rows": 298733,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_bed]",
+      "actual_rows": 880,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_bed_assignment]",
+      "actual_rows": 47016,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_department]",
+      "actual_rows": 33,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_diagnosis]",
+      "actual_rows": 250000,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_ed_visit_detail]",
+      "actual_rows": 104825,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_encounter]",
+      "actual_rows": 250000,
+      "owner_baseline_rows": 250000,
+      "comparison": "MATCH",
+      "baseline_receipt": "raw-summary.json"
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_facility]",
+      "actual_rows": 3,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_medication_admin]",
+      "actual_rows": 179715,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_order_header]",
+      "actual_rows": 1500000,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_order_line]",
+      "actual_rows": 1500000,
+      "owner_baseline_rows": 1500000,
+      "comparison": "MATCH",
+      "baseline_receipt": "raw-summary.json"
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_patient]",
+      "actual_rows": 60000,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_patient_alias]",
+      "actual_rows": 1200,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_patient_merge]",
+      "actual_rows": 600,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_payer_plan]",
+      "actual_rows": 12,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_procedure]",
+      "actual_rows": 16344,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_provider]",
+      "actual_rows": 360,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_provider_assignment]",
+      "actual_rows": 396,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_result]",
+      "actual_rows": 2774006,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[raw_clinical_unit]",
+      "actual_rows": 33,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "raw",
+      "table": "[dbo].[stg_patient]",
+      "actual_rows": 60000,
+      "owner_baseline_rows": 60000,
+      "comparison": "MATCH",
+      "baseline_receipt": "raw-summary.json"
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[core_date]",
+      "actual_rows": 394,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[core_department]",
+      "actual_rows": 33,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[core_facility]",
+      "actual_rows": 3,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[core_payer]",
+      "actual_rows": 4,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[core_payer_plan_history]",
+      "actual_rows": 14,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[core_provider]",
+      "actual_rows": 360,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[core_provider_department_history]",
+      "actual_rows": 396,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[load_audit]",
+      "actual_rows": 880,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[load_watermark]",
+      "actual_rows": 874,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_adjustment]",
+      "actual_rows": 268700,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_ar_aging]",
+      "actual_rows": 12912,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_census_daily]",
+      "actual_rows": 1182,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_charge]",
+      "actual_rows": 505322,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_claim]",
+      "actual_rows": 289614,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_ed_visit]",
+      "actual_rows": 104729,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_encounter]",
+      "actual_rows": 249575,
+      "owner_baseline_rows": 249575,
+      "comparison": "MATCH",
+      "baseline_receipt": "dw-summary.json"
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_order]",
+      "actual_rows": 1498788,
+      "owner_baseline_rows": 1498788,
+      "comparison": "MATCH",
+      "baseline_receipt": "dw-summary.json"
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_payment]",
+      "actual_rows": 256716,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_procedure]",
+      "actual_rows": 16333,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_provider_productivity_daily]",
+      "actual_rows": 95018,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[mart_remittance]",
+      "actual_rows": 536956,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[ref_department_mapping]",
+      "actual_rows": 396,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[ref_payer_group_history]",
+      "actual_rows": 14,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[security_mapping]",
+      "actual_rows": 4,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    },
+    {
+      "connection": "warehouse",
+      "table": "[dbo].[stg_patient]",
+      "actual_rows": 60000,
+      "owner_baseline_rows": null,
+      "comparison": "BASELINE_NOT_RECORDED",
+      "baseline_receipt": null
+    }
+  ],
+  "table_count_summary": {
+    "BASELINE_NOT_RECORDED": 81,
+    "MATCH": 8,
+    "NOT_MEASURABLE": 6
+  },
+  "model_totals": [
+    {
+      "model": "operations",
+      "measure": "Visits",
+      "owner_baseline_total": 249575,
+      "actual_total": 249575,
+      "comparison": "MATCH",
+      "surface": "Gateway-authorized native XMLA, existing investigator SP, no impersonation or role override",
+      "rest_http_status": 401,
+      "rest_comparison": "NOT_MEASURABLE",
+      "earlier_attempts": [
+        {
+          "model": "HealthNet Operations",
+          "measure": "Visits",
+          "query": "EVALUATE ROW(\"ok\", 1, \"total\", [Visits])",
+          "authoring_baseline": 249575,
+          "actual_total": null,
+          "comparison": "NOT_MEASURABLE",
+          "reader_principal_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+          "response": {
+            "status": "BLOCKED",
+            "error": "Exception calling \"Open\" with \"0\" argument(s): \"Either the database '<oii>HealthNet Operations</oii>' does not exist, or you do not have permissions to access it.\r\n\r\nTechnical Details:\r\nRootActivityId: 937ae8e7-f4a3-49ac-8fa2-fa7eea074f5a\r\nDate (UTC): 11/26/2026 9:10:07 PM\" | Either the database '<oii>HealthNet Operations</oii>' does not exist, or you do not have permissions to access it.\r\n\r\nTechnical Details:\r\nRootActivityId: 937ae8e7-f4a3-49ac-8fa2-fa7eea074f5a\r\nDate (UTC): 11/26/2026 9:10:07 PM",
+            "stage": "connect",
+            "error_type": "System.Management.Automation.MethodInvocationException"
+          }
+        }
+      ]
+    },
+    {
+      "model": "revenue",
+      "measure": "Gross Charges",
+      "owner_baseline_total": 1935995659.28,
+      "actual_total": 1935995659.28,
+      "comparison": "MATCH",
+      "surface": "Gateway-authorized native XMLA, existing investigator SP, no impersonation or role override",
+      "rest_http_status": 401,
+      "rest_comparison": "NOT_MEASURABLE",
+      "earlier_attempts": []
+    },
+    {
+      "model": "productivity",
+      "measure": "Visits",
+      "owner_baseline_total": 249575,
+      "actual_total": 249575,
+      "comparison": "MATCH",
+      "surface": "Gateway-authorized native XMLA, existing investigator SP, no impersonation or role override",
+      "rest_http_status": 401,
+      "rest_comparison": "NOT_MEASURABLE",
+      "earlier_attempts": []
+    }
+  ],
+  "catalog": {
+    "scan_id": "118e6c7b-ecab-41c1-b6e5-8773e1bc3eb1",
+    "status": "PARTIAL",
+    "assets": {
+      "DataPipeline": 6,
+      "Dataflow": 1,
+      "Lakehouse": 2,
+      "Notebook": 1,
+      "Report": 3,
+      "SQLEndpoint": 2,
+      "SemanticModel": 3,
+      "SqlColumn": 1076,
+      "SqlDatabase": 4,
+      "SqlObject": 95,
+      "Warehouse": 2,
+      "Workspace": 1
+    },
+    "unavailable_capabilities": 16
+  },
+  "write_refusal": {
+    "status": "PASS",
+    "reason": "SINGLE_SELECT_REQUIRED",
+    "estate_dispatches": 0
+  },
+  "qualification": {
+    "source": "b80e790e",
+    "workflow": 45889564039,
+    "full_suite_passed": 6230,
+    "skipped": 53,
+    "failures": 0,
+    "errors": 0,
+    "image_shards_passed": 8,
+    "saved_replay_classifications_unchanged": 123
+  },
+  "sealed_test_contents_opened": false,
+  "temporal_history_counts": {
+    "at_utc": "2026-11-26T21:06:25.109051+00:00",
+    "permission_changes": [],
+    "guard_changes": [],
+    "direct_history_table_reads": 0,
+    "counts": [
+      {
+        "connection": "clinical",
+        "database": "hn_clinical",
+        "current_table": "[app].[encounter]",
+        "history_table": "app.encounter_history",
+        "query": "SELECT COUNT_BIG(*) AS all_versions,COUNT_BIG(CASE WHEN [valid_to] < '9999-12-31T23:59:59.9999999' THEN 1 END) AS historical_versions FROM [app].[encounter] FOR SYSTEM_TIME ALL",
+        "direct_history_read": false,
+        "count_scope": "Native non-current versions returned through current-table FOR SYSTEM_TIME ALL; excludes any zero-duration versions omitted by SQL temporal semantics.",
+        "status": "PASS",
+        "result": {
+          "rows": [
+            {
+              "all_versions": "250000",
+              "historical_versions": "0"
+            }
+          ],
+          "column_types": {
+            "all_versions": "String",
+            "historical_versions": "String"
+          },
+          "read_only_verified": true,
+          "execution_identity": {
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+            "server": "sql-orderops-9696025.database.windows.net",
+            "database": "hn_clinical",
+            "provenance": "TRANSPORT_PERMISSION_CHECK"
+          }
+        }
+      },
+      {
+        "connection": "clinical",
+        "database": "hn_clinical",
+        "current_table": "[app].[order_line]",
+        "history_table": "app.order_line_history",
+        "query": "SELECT COUNT_BIG(*) AS all_versions,COUNT_BIG(CASE WHEN [valid_to] < '9999-12-31T23:59:59.9999999' THEN 1 END) AS historical_versions FROM [app].[order_line] FOR SYSTEM_TIME ALL",
+        "direct_history_read": false,
+        "count_scope": "Native non-current versions returned through current-table FOR SYSTEM_TIME ALL; excludes any zero-duration versions omitted by SQL temporal semantics.",
+        "status": "PASS",
+        "result": {
+          "rows": [
+            {
+              "all_versions": "1500000",
+              "historical_versions": "0"
+            }
+          ],
+          "column_types": {
+            "all_versions": "String",
+            "historical_versions": "String"
+          },
+          "read_only_verified": true,
+          "execution_identity": {
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+            "server": "sql-orderops-9696025.database.windows.net",
+            "database": "hn_clinical",
+            "provenance": "TRANSPORT_PERMISSION_CHECK"
+          }
+        }
+      },
+      {
+        "connection": "clinical",
+        "database": "hn_clinical",
+        "current_table": "[app].[patient]",
+        "history_table": "app.patient_history",
+        "query": "SELECT COUNT_BIG(*) AS all_versions,COUNT_BIG(CASE WHEN [valid_to] < '9999-12-31T23:59:59.9999999' THEN 1 END) AS historical_versions FROM [app].[patient] FOR SYSTEM_TIME ALL",
+        "direct_history_read": false,
+        "count_scope": "Native non-current versions returned through current-table FOR SYSTEM_TIME ALL; excludes any zero-duration versions omitted by SQL temporal semantics.",
+        "status": "PASS",
+        "result": {
+          "rows": [
+            {
+              "all_versions": "60000",
+              "historical_versions": "0"
+            }
+          ],
+          "column_types": {
+            "all_versions": "String",
+            "historical_versions": "String"
+          },
+          "read_only_verified": true,
+          "execution_identity": {
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+            "server": "sql-orderops-9696025.database.windows.net",
+            "database": "hn_clinical",
+            "provenance": "TRANSPORT_PERMISSION_CHECK"
+          }
+        }
+      },
+      {
+        "connection": "billing",
+        "database": "hn_billing",
+        "current_table": "[app].[charge]",
+        "history_table": "app.charge_history",
+        "query": "SELECT COUNT_BIG(*) AS all_versions,COUNT_BIG(CASE WHEN [valid_to] < '9999-12-31T23:59:59.9999999' THEN 1 END) AS historical_versions FROM [app].[charge] FOR SYSTEM_TIME ALL",
+        "direct_history_read": false,
+        "count_scope": "Native non-current versions returned through current-table FOR SYSTEM_TIME ALL; excludes any zero-duration versions omitted by SQL temporal semantics.",
+        "status": "PASS",
+        "earlier_attempts": [
+          {
+            "connection": "billing",
+            "database": "hn_billing",
+            "current_table": "[app].[charge]",
+            "history_table": "app.charge_history",
+            "query": "SELECT COUNT_BIG(*) AS all_versions,COUNT_BIG(CASE WHEN [valid_to] < '9999-12-31T23:59:59.9999999' THEN 1 END) AS historical_versions FROM [app].[charge] FOR SYSTEM_TIME ALL",
+            "direct_history_read": false,
+            "count_scope": "Native non-current versions returned through current-table FOR SYSTEM_TIME ALL; excludes any zero-duration versions omitted by SQL temporal semantics.",
+            "status": "BLOCKED",
+            "error_type": "RuntimeError",
+            "reason": "SQL_BRIDGE_FAILED:40613:SqlException"
+          }
+        ],
+        "result": {
+          "rows": [
+            {
+              "all_versions": "505322",
+              "historical_versions": "0"
+            }
+          ],
+          "column_types": {
+            "all_versions": "String",
+            "historical_versions": "String"
+          },
+          "read_only_verified": true,
+          "execution_identity": {
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+            "server": "sql-orderops-9696025.database.windows.net",
+            "database": "hn_billing",
+            "provenance": "TRANSPORT_PERMISSION_CHECK"
+          }
+        },
+        "retried_at_utc": "2026-11-26T21:11:39.387246+00:00"
+      },
+      {
+        "connection": "billing",
+        "database": "hn_billing",
+        "current_table": "[app].[claim]",
+        "history_table": "app.claim_history",
+        "query": "SELECT COUNT_BIG(*) AS all_versions,COUNT_BIG(CASE WHEN [valid_to] < '9999-12-31T23:59:59.9999999' THEN 1 END) AS historical_versions FROM [app].[claim] FOR SYSTEM_TIME ALL",
+        "direct_history_read": false,
+        "count_scope": "Native non-current versions returned through current-table FOR SYSTEM_TIME ALL; excludes any zero-duration versions omitted by SQL temporal semantics.",
+        "status": "PASS",
+        "result": {
+          "rows": [
+            {
+              "all_versions": "289614",
+              "historical_versions": "0"
+            }
+          ],
+          "column_types": {
+            "all_versions": "String",
+            "historical_versions": "String"
+          },
+          "read_only_verified": true,
+          "execution_identity": {
+            "principal": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+            "server": "sql-orderops-9696025.database.windows.net",
+            "database": "hn_billing",
+            "provenance": "TRANSPORT_PERMISSION_CHECK"
+          }
+        }
+      },
+      {
+        "connection": "billing",
+        "database": "hn_billing",
+        "history_table": "app.payer_plan_history",
+        "status": "NOT_RUN_NO_NATIVE_TEMPORAL_PARENT",
+        "reason": "Native sys.tables says NON_TEMPORAL_TABLE; no current table has it as history_table_id. Owner requested temporal current-table reads only. No guessed binding, direct read, or invented temporal query."
+      }
+    ],
+    "permission_recheck": {
+      "clinical": {
+        "columns": [
+          "schema_name",
+          "table_name",
+          "temporal_type_desc",
+          "can_insert"
+        ],
+        "rows": [
+          [
+            "app",
+            "patient_history",
+            "HISTORY_TABLE",
+            1
+          ],
+          [
+            "app",
+            "encounter_history",
+            "HISTORY_TABLE",
+            1
+          ],
+          [
+            "app",
+            "order_line_history",
+            "HISTORY_TABLE",
+            1
+          ]
+        ]
+      },
+      "billing": {
+        "columns": [
+          "schema_name",
+          "table_name",
+          "temporal_type_desc",
+          "can_insert"
+        ],
+        "rows": [
+          [
+            "app",
+            "charge_history",
+            "HISTORY_TABLE",
+            1
+          ],
+          [
+            "app",
+            "claim_history",
+            "HISTORY_TABLE",
+            1
+          ]
+        ]
+      }
+    }
+  },
+  "direct_count_scope_note": "89 direct unfiltered counts measured, 8 identically scoped native baseline matches, 81 no comparable baseline. Six deferred direct history counts remain unrun; five now have separate native temporal-version aggregates and one lacks any temporal parent. Do not conflate temporal-version counts with physical history-table counts.",
+  "rls_group_test": {
+    "group_id": "18442d42-4646-44cf-9041-5aeaef202cff",
+    "sole_member_id": "439ceb25-d200-4f02-95cf-4b1318faca62",
+    "models_with_unfiltered_read_role": 3,
+    "sole_role_member": "dia-healthnet-investigator",
+    "model_definitions_unchanged_except_new_role": true,
+    "existing_roles_unchanged": true,
+    "workspace_role": "Viewer unchanged",
+    "no_observed_reduction_in_three_totals": true
+  },
+  "shared_ledger": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-11",
+    "used": {
+      "RESTORATION": 51,
+      "SCAN": 2430,
+      "INVESTIGATION": 16817
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 17905,
+      "RESTORATION": 95
+    },
+    "total": 19298,
+    "total_limit": 20500,
+    "historical_restoration_requests": 0,
+    "restoration_remaining": 44,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT",
+      "INVESTIGATION_MONTHLY_80_PERCENT",
+      "PHYSICAL_MONTHLY_80_PERCENT"
+    ],
+    "task_reservation_status_counts": {
+      "SETTLED": 479
+    },
+    "task_owner": "healthnet-smoke-20261126"
+  },
+  "sql_compute": {
+    "observed_at_utc": "2026-11-26T21:16:44.637938+00:00",
+    "databases": {
+      "hn_clinical": {
+        "settings": {
+          "status": "Online",
+          "useFreeLimit": true,
+          "freeLimitExhaustionBehavior": "AutoPause",
+          "autoPauseDelay": 60
+        },
+        "cpu_billed_vcore_seconds": 2670.506,
+        "metric_points": 66,
+        "metric_timespan": "2026-11-26T20:00:00Z/2026-11-26T21:16:44Z",
+        "free_balance": "NO_CURRENT_DATAPOINT",
+        "invoice_cost": "NOT_INFERRED_FROM_CPU_METRIC"
+      },
+      "hn_billing": {
+        "settings": {
+          "status": "Online",
+          "useFreeLimit": true,
+          "freeLimitExhaustionBehavior": "AutoPause",
+          "autoPauseDelay": 60
+        },
+        "cpu_billed_vcore_seconds": 2618.365,
+        "metric_points": 65,
+        "metric_timespan": "2026-11-26T20:00:00Z/2026-11-26T21:16:44Z",
+        "free_balance": "NO_CURRENT_DATAPOINT",
+        "invoice_cost": "NOT_INFERRED_FROM_CPU_METRIC"
+      }
+    }
+  }
+}

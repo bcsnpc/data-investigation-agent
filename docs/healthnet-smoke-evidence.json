@@ -1,0 +1,157 @@
+{
+  "recorded_date": "2026-11-26",
+  "root": ".local/healthnet-smoke",
+  "excluded": "Browser profiles, cookies, authentication caches, helper scripts and all sealed test bodies are excluded. Credential values were never written to these receipts.",
+  "files": [
+    {
+      "path": "access.json",
+      "bytes": 14482,
+      "sha256": "3c9d58bab430eaa25490b3cfa797b0438c33094da91d20713973c4521572658b"
+    },
+    {
+      "path": "final-model-grant-readback.json",
+      "bytes": 1975,
+      "sha256": "4b52800637e415071f2300ce384f92db15e76a6a380296c897ade04ce5d7febe"
+    },
+    {
+      "path": "read-only-tightening.json",
+      "bytes": 1590,
+      "sha256": "76222ce787c6503d1ae6059f6f0edd64fa7e9b221beb0539a8c19f30e44ec979"
+    },
+    {
+      "path": "history-effective-permission-readback.json",
+      "bytes": 551,
+      "sha256": "98a6c61831dffb2f4bc8c888576e69f1eec980a2fdbb9d141be6998441eb4fe3"
+    },
+    {
+      "path": "permission-source-audit.json",
+      "bytes": 205692,
+      "sha256": "511e8138d03b3e9a58efc5a5800acb15540ba3fd3b9f5cb04e9f12a89294d4aa"
+    },
+    {
+      "path": "permission-source-followup.json",
+      "bytes": 13602,
+      "sha256": "10cd042f37165ab78b0a666772378f2d48e5fd71638b0167b1162f92d6d4cdec"
+    },
+    {
+      "path": "permission-source-missing-catalogs.json",
+      "bytes": 4594,
+      "sha256": "7c1ff01a964832ffb17c5811c2def0dd8be9648aba431dee6d3b2e4440ddbed5"
+    },
+    {
+      "path": "source-counts.json",
+      "bytes": 5511,
+      "sha256": "10e2bc64f516fdf6e1ab11fdf86b7c3848b710e4e644653a36614684458be963"
+    },
+    {
+      "path": "smoke.json",
+      "bytes": 298446,
+      "sha256": "e881f32f10b672073a6f6c43d7be0ff702b781476b21bad3d3d838b5652e28e0"
+    },
+    {
+      "path": "model-read-recheck.json",
+      "bytes": 3331,
+      "sha256": "c5c8f2a58a27f100d0e19a8380512d92e2993914f76f79fd864ea816a79b9a01"
+    },
+    {
+      "path": "group-rls-change.json",
+      "bytes": 169493,
+      "sha256": "002961457d0abfffb15eb84a8fed4b3824d8a0c7435ce5c50a666e9bb79eb1de"
+    },
+    {
+      "path": "rls-group-membership-ui.json",
+      "bytes": 5448,
+      "sha256": "637065cf1bcaf8bfda1b7075b6537762695709dbcf3a772e470243a08bdc51be"
+    },
+    {
+      "path": "rls-definition-verification.json",
+      "bytes": 2922,
+      "sha256": "17a0a96f151a5938a515e03c468cbe9e75443b709556b84ae166263d2e1a398f"
+    },
+    {
+      "path": "group-model-read-results.json",
+      "bytes": 3068,
+      "sha256": "69dac02e9941e037fd7e6dd8fff8173e9e1e0c442e81c277d96423b9e25b3d11"
+    },
+    {
+      "path": "group-rest-read-results.json",
+      "bytes": 2132,
+      "sha256": "e4bc73b78efa4a4c815b67c691c380fc6bd5216bca6eea648d47e0c25aa97edd"
+    },
+    {
+      "path": "temporal-history-counts.json",
+      "bytes": 8500,
+      "sha256": "0a207df27b92af6fe63f7fc4ad334198dc326543a63d69e2dfd50e12733ab2a0"
+    },
+    {
+      "path": "final-compute.json",
+      "bytes": 22983,
+      "sha256": "5d62c5c0188b8dc028d06f6f932b80e54f0744b3ad45c944a896ad082effc701"
+    },
+    {
+      "path": "budget-after.json",
+      "bytes": 598,
+      "sha256": "7c8ab341ab0bbbd0291c9a7c96180f009c6a8c55d1acdf24b74a07d641a8464d"
+    },
+    {
+      "path": "replay-verification.json",
+      "bytes": 464,
+      "sha256": "f622c6fe02fa7a6c5f8f3ea122fd92bc83a8025727e20e270438fc738b2449d0"
+    },
+    {
+      "path": "freeze-exception-verification.json",
+      "bytes": 989,
+      "sha256": "4c48e8ee2e536be3bd3711bc9e07fd9f0a3f6bd4c2bfc89f245e53da09647ddb"
+    },
+    {
+      "path": "report-pages-and-models.json",
+      "bytes": 3184,
+      "sha256": "4ae52c487d4647729476c6bf5875cc29f54d383d3fe4712776e6405d26f7d812"
+    },
+    {
+      "path": "catalog.sqlite",
+      "bytes": 1191936,
+      "sha256": "9c065d7c794f37e045614ea73fca3ce89a0e3f72e695a9f06fb85a543a9b20e2"
+    },
+    {
+      "path": "physical-reads.jsonl",
+      "bytes": 91075,
+      "sha256": "e7af1a9545c73a734d722c7b360fbaaefaa1bb4b587f296b0b02491a2ae5a7ee"
+    },
+    {
+      "path": "gateway-denials.jsonl",
+      "bytes": 4950,
+      "sha256": "ca1483e2181db825298012fe47f3f1fcfc37d4eabbdf5afbafe889339a9167a0"
+    },
+    {
+      "path": "rls-operations-after-definition.json",
+      "bytes": 41266,
+      "sha256": "8024a306cabd944e744416d4aeecad02a99305168f6cc3ffc5a2185d55b1e269"
+    },
+    {
+      "path": "rls-operations-before-definition.json",
+      "bytes": 41158,
+      "sha256": "091b53acd7cbd031d3576c8948fe57fad4607d362e7ce1df21e3685ff600f7e4"
+    },
+    {
+      "path": "rls-productivity-after-definition.json",
+      "bytes": 47142,
+      "sha256": "050bd81b1e703a583694aca998f87d2213a8d0738bc22dc537886b5398df9aac"
+    },
+    {
+      "path": "rls-productivity-before-definition.json",
+      "bytes": 47034,
+      "sha256": "27596b49adde3ee26220d265c73e9ef87c806361bb80a2f86de524a2fd2d54e0"
+    },
+    {
+      "path": "rls-revenue-after-definition.json",
+      "bytes": 54066,
+      "sha256": "95820277a325f67855bbaa50ecc6191ff8cb83d16e865f06e50550e2551b16a0"
+    },
+    {
+      "path": "rls-revenue-before-definition.json",
+      "bytes": 53954,
+      "sha256": "1821a4593de2d356bc88bc08e5eec8508528fb6c93801944c1f6520f3b5c0877"
+    }
+  ]
+}

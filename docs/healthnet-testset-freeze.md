@@ -63,3 +63,24 @@ After authenticating the final seal, both the active local plaintext review pack
 and its superseded revision-1 copy were deleted. Local ticket and screenshot inputs
 remain uncommitted; only encrypted answers, hashes and documentation are pushed.
 Earlier pending-approval statements are historical and superseded by this final seal.
+
+
+## Later authorized smoke-plumbing exceptions ? 2026-11-26
+
+The authoring seal above is unchanged. The owner subsequently authorized generic
+config/connector/gateway smoke plumbing only. Of the833 frozen engine/runtime
+files, exactly3 differ: scripts/investigator/adapters/estate_config_schema.py,
+scripts/investigator/estate_config.py (disabled SMOKE_ONLY/READY_SEALED_TEST
+states), and scripts/managed_sql_worker.py (literal SELECT1 connectivity reads,
+with existing gateway and read-only controls). The other830 engine files and
+all69 prompt-bearing files retain their original hashes. No HealthNet-specific
+intake, reasoning, verdict or prompt change. Generic config/worker regressions,
+full suite,8image shards and123unchanged replay classifications are recorded in
+docs/healthnet-smoke.md. The engine-freeze rule still applies.
+
+Owner access decisions changed only approved estate permissions: source reader
+roles, Viewer/Build and the HealthNet-only unfiltered Investigator RLS role/group
+experiment. No test injection or DIA/AI run was made. This is an access smoke,
+not a scored HealthNet run. No sealed ticket/answer body was read in the task;
+no ticket, answer, seal or expectation was changed. Author/operator exposure
+from test authorship remains disclosed; future grading must remain independent.

@@ -111,9 +111,14 @@ class NamedConnectionTests(unittest.TestCase):
         if not path.exists():self.skipTest('Deployment files excluded from public image')
         with patch('socket.socket.connect',side_effect=AssertionError('NETWORK_FORBIDDEN')):
             value=estate_config.load(path)
-            self.assertEqual(estate_config.dry_run(value)['status'],'DRAFT_DISABLED')
+            report=estate_config.dry_run(value)
+            self.assertIn(report['status'],('DRAFT_DISABLED','SMOKE_ONLY','READY_SEALED_TEST'))
+            self.assertFalse(report['execution_enabled'])
+            self.assertFalse(value['enabled'])
+            self.assertTrue(all(not row['enabled'] for row in value['connectors']))
             with self.assertRaisesRegex(ValueError,'ESTATE_DISABLED'):estate_config.engine_manifest(value)
-        self.assertEqual(len(value['connections']),2)
+        self.assertGreaterEqual(len(value['connections']),2)
+        self.assertEqual(set(value['layers']['source']['connections']),{'clinical','billing'})
         self.assertEqual(len(estate_config.load(ROOT/'config/estates/practice-fixture.json')['connections']),1)
 
     def test_metadata_discovery_uses_each_named_reader_and_retains_both_roots(self):

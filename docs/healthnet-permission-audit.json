@@ -1,0 +1,964 @@
+{
+  "recorded_date": "2026-11-26",
+  "changes_after_diagnose_first_steer": [],
+  "business_queries_during_permission_audit": 0,
+  "exact_origin": "UNESTABLISHED_TEMPORAL_HISTORY_PERMISSION_REPORT",
+  "server_entra_admin": {
+    "administratorType": "ActiveDirectory",
+    "login": "leelamounika14@gmail.com",
+    "sid": "c22c5e9b-5005-4a48-af98-51d614e6021a",
+    "tenantId": "aeb4d0a9-e637-4a7e-8efc-63cf0c3827df"
+  },
+  "entra_only_authentication": false,
+  "investigator_home_group_memberships": [],
+  "databases": {
+    "hn_clinical": {
+      "status": "METADATA_AUDIT_COMPLETE_ANOMALY_OPEN",
+      "identity": [
+        {
+          "database_name": "hn_clinical",
+          "user_name": "dia-investigator-round19",
+          "login_name": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "db_owner": 0,
+          "db_datareader": 1,
+          "db_datawriter": 0,
+          "sysadmin": 0
+        }
+      ],
+      "user_token": [
+        {
+          "name": "dia-investigator-round19",
+          "type": "EXTERNAL USER",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0xEF19145310165A41B8BF01A4B6AAD751"
+        },
+        {
+          "name": "public",
+          "type": "ROLE",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0x01050000000000090400000083741B006749C04BA943C02702F2A762"
+        },
+        {
+          "name": "db_datareader",
+          "type": "ROLE",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0x01050000000000090400000000000000000000000000000006400000"
+        }
+      ],
+      "database_permissions": [
+        {
+          "permission_name": "CONNECT",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "SELECT",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW SECURITY DEFINITION",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW PERFORMANCE DEFINITION",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW DEFINITION",
+          "subentity_name": ""
+        }
+      ],
+      "schema_permissions": [
+        {
+          "schema_name": "app",
+          "can_insert": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "dbo",
+          "can_insert": 0,
+          "can_control": 0
+        }
+      ],
+      "table_permissions": [
+        {
+          "schema_name": "app",
+          "table_name": "adt_event",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "bed_assignment",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "ed_visit_detail",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "diagnosis",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "procedure",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "order_header",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "order_line",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "result",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "medication_admin",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "patient_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "can_insert": 1,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "encounter_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "can_insert": 1,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "order_line_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "can_insert": 1,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "facility",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "department",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "unit",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "bed",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "provider",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "provider_assignment",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "payer_plan",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "patient",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "patient_alias",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "patient_merge",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "encounter",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        }
+      ],
+      "role_memberships": [
+        {
+          "role_name": "db_datareader",
+          "member_name": "dia-investigator-round19",
+          "is_fixed_role": true
+        }
+      ],
+      "direct_grants_and_denies": [
+        {
+          "grantee": "dia-investigator-round19",
+          "grantee_type": "EXTERNAL_USER",
+          "state_desc": "GRANT",
+          "permission_name": "CONNECT",
+          "class_desc": "DATABASE",
+          "major_id": 0,
+          "minor_id": 0,
+          "securable": null,
+          "grantor": "dbo"
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "grantee_type": "EXTERNAL_USER",
+          "state_desc": "GRANT",
+          "permission_name": "VIEW DEFINITION",
+          "class_desc": "DATABASE",
+          "major_id": 0,
+          "minor_id": 0,
+          "securable": null,
+          "grantor": "dbo"
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "grantee_type": "EXTERNAL_USER",
+          "state_desc": "DENY",
+          "permission_name": "INSERT",
+          "class_desc": "OBJECT_OR_COLUMN",
+          "major_id": 594101157,
+          "minor_id": 0,
+          "securable": "app.patient_history",
+          "grantor": "dbo"
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "grantee_type": "EXTERNAL_USER",
+          "state_desc": "DENY",
+          "permission_name": "INSERT",
+          "class_desc": "OBJECT_OR_COLUMN",
+          "major_id": 642101328,
+          "minor_id": 0,
+          "securable": "app.encounter_history",
+          "grantor": "dbo"
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "grantee_type": "EXTERNAL_USER",
+          "state_desc": "DENY",
+          "permission_name": "INSERT",
+          "class_desc": "OBJECT_OR_COLUMN",
+          "major_id": 690101499,
+          "minor_id": 0,
+          "securable": "app.order_line_history",
+          "grantor": "dbo"
+        }
+      ],
+      "public_write_grants": [],
+      "application_schema_owners": [
+        {
+          "kind": "SCHEMA",
+          "entity": "dbo",
+          "owner": "dbo",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        },
+        {
+          "kind": "SCHEMA",
+          "entity": "app",
+          "owner": "dbo",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        }
+      ],
+      "database_owner": [
+        {
+          "name": "hn_clinical",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        }
+      ],
+      "active_temporal_tables": [
+        {
+          "schema_name": "app",
+          "table_name": "encounter",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "object_id": 2021582240,
+          "history_table_id": 642101328,
+          "history_table": "app.encounter_history"
+        },
+        {
+          "schema_name": "app",
+          "table_name": "encounter_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "object_id": 642101328,
+          "history_table_id": null,
+          "history_table": null
+        },
+        {
+          "schema_name": "app",
+          "table_name": "order_line",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "object_id": 386100416,
+          "history_table_id": 690101499,
+          "history_table": "app.order_line_history"
+        },
+        {
+          "schema_name": "app",
+          "table_name": "order_line_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "object_id": 690101499,
+          "history_table_id": null,
+          "history_table": null
+        },
+        {
+          "schema_name": "app",
+          "table_name": "patient",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "object_id": 1861581670,
+          "history_table_id": 594101157,
+          "history_table": "app.patient_history"
+        },
+        {
+          "schema_name": "app",
+          "table_name": "patient_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "object_id": 594101157,
+          "history_table_id": null,
+          "history_table": null
+        }
+      ],
+      "history_object_grants_all_principals": [
+        {
+          "grantee": "dia-investigator-round19",
+          "type_desc": "EXTERNAL_USER",
+          "state_desc": "DENY",
+          "permission_name": "INSERT",
+          "class_desc": "OBJECT_OR_COLUMN",
+          "minor_id": 0,
+          "schema_name": "app",
+          "table_name": "patient_history"
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "type_desc": "EXTERNAL_USER",
+          "state_desc": "DENY",
+          "permission_name": "INSERT",
+          "class_desc": "OBJECT_OR_COLUMN",
+          "minor_id": 0,
+          "schema_name": "app",
+          "table_name": "encounter_history"
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "type_desc": "EXTERNAL_USER",
+          "state_desc": "DENY",
+          "permission_name": "INSERT",
+          "class_desc": "OBJECT_OR_COLUMN",
+          "minor_id": 0,
+          "schema_name": "app",
+          "table_name": "order_line_history"
+        }
+      ]
+    },
+    "hn_billing": {
+      "status": "METADATA_AUDIT_COMPLETE_ANOMALY_OPEN",
+      "identity": [
+        {
+          "database_name": "hn_billing",
+          "user_name": "dia-investigator-round19",
+          "login_name": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "db_owner": 0,
+          "db_datareader": 1,
+          "db_datawriter": 0,
+          "sysadmin": 0
+        }
+      ],
+      "user_token": [
+        {
+          "name": "dia-investigator-round19",
+          "type": "EXTERNAL USER",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0xEF19145310165A41B8BF01A4B6AAD751"
+        },
+        {
+          "name": "public",
+          "type": "ROLE",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0x01050000000000090400000083741B006749C04BA943C02702F2A762"
+        },
+        {
+          "name": "db_datareader",
+          "type": "ROLE",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0x01050000000000090400000000000000000000000000000006400000"
+        }
+      ],
+      "database_permissions": [
+        {
+          "permission_name": "CONNECT",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "SELECT",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW SECURITY DEFINITION",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW PERFORMANCE DEFINITION",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW DEFINITION",
+          "subentity_name": ""
+        }
+      ],
+      "schema_permissions": [
+        {
+          "schema_name": "app",
+          "can_insert": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "dbo",
+          "can_insert": 0,
+          "can_control": 0
+        }
+      ],
+      "table_permissions": [
+        {
+          "schema_name": "app",
+          "table_name": "ar_snapshot_daily",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "charge_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "can_insert": 1,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "claim_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "can_insert": 1,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "payer",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "payer_plan",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "payer_plan_history",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "account",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "charge",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "claim",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "claim_line",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "remittance",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "remittance_line",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "payment",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "adjustment",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        }
+      ],
+      "role_memberships": [
+        {
+          "role_name": "db_datareader",
+          "member_name": "dia-investigator-round19",
+          "is_fixed_role": true
+        }
+      ],
+      "direct_grants_and_denies": [
+        {
+          "grantee": "dia-investigator-round19",
+          "grantee_type": "EXTERNAL_USER",
+          "state_desc": "GRANT",
+          "permission_name": "CONNECT",
+          "class_desc": "DATABASE",
+          "major_id": 0,
+          "minor_id": 0,
+          "securable": null,
+          "grantor": "dbo"
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "grantee_type": "EXTERNAL_USER",
+          "state_desc": "GRANT",
+          "permission_name": "VIEW DEFINITION",
+          "class_desc": "DATABASE",
+          "major_id": 0,
+          "minor_id": 0,
+          "securable": null,
+          "grantor": "dbo"
+        }
+      ],
+      "public_write_grants": [],
+      "application_schema_owners": [
+        {
+          "kind": "SCHEMA",
+          "entity": "dbo",
+          "owner": "dbo",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        },
+        {
+          "kind": "SCHEMA",
+          "entity": "app",
+          "owner": "dbo",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        }
+      ],
+      "database_owner": [
+        {
+          "name": "hn_billing",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        }
+      ],
+      "active_temporal_tables": [
+        {
+          "schema_name": "app",
+          "table_name": "charge",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "object_id": 1717581157,
+          "history_table_id": 82099333,
+          "history_table": "app.charge_history"
+        },
+        {
+          "schema_name": "app",
+          "table_name": "charge_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "object_id": 82099333,
+          "history_table_id": null,
+          "history_table": null
+        },
+        {
+          "schema_name": "app",
+          "table_name": "claim",
+          "temporal_type_desc": "SYSTEM_VERSIONED_TEMPORAL_TABLE",
+          "object_id": 1781581385,
+          "history_table_id": 130099504,
+          "history_table": "app.claim_history"
+        },
+        {
+          "schema_name": "app",
+          "table_name": "claim_history",
+          "temporal_type_desc": "HISTORY_TABLE",
+          "object_id": 130099504,
+          "history_table_id": null,
+          "history_table": null
+        }
+      ],
+      "history_object_grants_all_principals": []
+    },
+    "ordersops": {
+      "status": "UNAVAILABLE_SQL_42119",
+      "current_roles": "NOT_VERIFIED",
+      "historical_roles": [
+        "db_datareader"
+      ],
+      "historical_direct_grants": [
+        "CONNECT",
+        "VIEW DEFINITION"
+      ],
+      "history_source": "docs/round-nineteen-control-ledger.md"
+    },
+    "billingapp": {
+      "status": "NO_TABLE_WRITE_PERMISSION_FOUND",
+      "identity": [
+        {
+          "database_name": "billingapp",
+          "user_name": "dia-investigator-round19",
+          "login_name": "531419ef-1610-415a-b8bf-01a4b6aad751@aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+          "db_owner": 0,
+          "db_datareader": 1,
+          "db_datawriter": 0,
+          "sysadmin": 0
+        }
+      ],
+      "user_token": [
+        {
+          "name": "dia-investigator-round19",
+          "type": "EXTERNAL USER",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0xEF19145310165A41B8BF01A4B6AAD751"
+        },
+        {
+          "name": "public",
+          "type": "ROLE",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0x01050000000000090400000083741B006749C04BA943C02702F2A762"
+        },
+        {
+          "name": "db_datareader",
+          "type": "ROLE",
+          "usage": "GRANT OR DENY",
+          "sid_hex": "0x01050000000000090400000000000000000000000000000006400000"
+        }
+      ],
+      "database_permissions": [
+        {
+          "permission_name": "CONNECT",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "SELECT",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW SECURITY DEFINITION",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW PERFORMANCE DEFINITION",
+          "subentity_name": ""
+        },
+        {
+          "permission_name": "VIEW DEFINITION",
+          "subentity_name": ""
+        }
+      ],
+      "schema_permissions": [
+        {
+          "schema_name": "app",
+          "can_insert": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "dbo",
+          "can_insert": 0,
+          "can_control": 0
+        }
+      ],
+      "table_permissions": [
+        {
+          "schema_name": "app",
+          "table_name": "accounts",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "plans",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "account_plan_history",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "invoices",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "payments",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "usage_events",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        },
+        {
+          "schema_name": "app",
+          "table_name": "subscriptions",
+          "temporal_type_desc": "NON_TEMPORAL_TABLE",
+          "can_insert": 0,
+          "can_update": 0,
+          "can_delete": 0,
+          "can_control": 0
+        }
+      ],
+      "role_memberships": [
+        {
+          "role_name": "db_datareader",
+          "member_name": "dia-investigator-round19"
+        }
+      ],
+      "direct_grants_and_denies": [
+        {
+          "grantee": "dia-investigator-round19",
+          "state_desc": "GRANT",
+          "permission_name": "CONNECT",
+          "class_desc": "DATABASE",
+          "major_id": 0,
+          "minor_id": 0,
+          "securable": null
+        },
+        {
+          "grantee": "dia-investigator-round19",
+          "state_desc": "GRANT",
+          "permission_name": "VIEW DEFINITION",
+          "class_desc": "DATABASE",
+          "major_id": 0,
+          "minor_id": 0,
+          "securable": null
+        }
+      ],
+      "public_write_grants": [],
+      "application_schema_owners": [
+        {
+          "kind": "SCHEMA",
+          "entity": "dbo",
+          "owner": "dbo",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        },
+        {
+          "kind": "SCHEMA",
+          "entity": "app",
+          "owner": "dbo",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        }
+      ],
+      "database_owner": [
+        {
+          "name": "billingapp",
+          "owner_sid": "0x01060000000001640000000000000000B0781B66129D5C448D0BF613CCE31EC3"
+        }
+      ],
+      "active_temporal_tables": [],
+      "history_object_grants_all_principals": []
+    }
+  },
+  "master_catalog": {
+    "roles": {
+      "columns": [
+        "role_name",
+        "member_name"
+      ],
+      "rows": []
+    },
+    "principal": {
+      "columns": [
+        "name",
+        "type_desc",
+        "sid_hex"
+      ],
+      "rows": []
+    },
+    "version": {
+      "columns": [
+        "engine_version"
+      ],
+      "rows": [
+        [
+          "Microsoft SQL Azure (RTM) - 12.0.2000.8 \n\tNov  6 2026 19:14:33 \n\tCopyright (C) 2026 Microsoft Corporation\n"
+        ]
+      ]
+    }
+  }
+}
