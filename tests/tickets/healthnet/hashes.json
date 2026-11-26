@@ -1,20 +1,20 @@
 {
   "version": "healthnet-testset-seal/1",
-  "revision": 2,
-  "created_at_utc": "2026-11-26T19:47:39.085923+00:00",
-  "review_status": "OWNER_REVIEW_PENDING",
+  "revision": 3,
+  "created_at_utc": "2026-11-26T19:55:33.258490+00:00",
+  "review_status": "APPROVED_SEALED",
   "engine_commit": "9fb0190b11a5e2a83579de4ed5bdb58c5ac73300",
   "files": [
     {
       "path": "tests/tickets/healthnet/tickets.json",
-      "sha256": "963338bf68093d451b118d516c4b05b748b8ec08e3714e57b59d9a85c9a506bc",
-      "bytes": 12088,
+      "sha256": "29480e4fd567c27a08f89f7a1aeb49407b3899bf81aa14f30164af2e254dcfbf",
+      "bytes": 12066,
       "committed": false
     },
     {
       "path": "tests/tickets/healthnet/expected-answers.enc.json",
-      "sha256": "fd850945e439d15f821905be2456fa72bc330ba7ce3267cbafe5233d572f0407",
-      "bytes": 1017593,
+      "sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52",
+      "bytes": 1017805,
       "committed": true
     }
   ],
@@ -44,9 +44,10 @@
     "vague_free_text": 7
   },
   "supersedes": {
-    "commit": "c1fb2f1a0c811862c02b5877f90986d597d6d279",
-    "tickets_sha256": "85e3fc4e0f94d3127279a5082d32fe818cbdaf151213e6042300bb0190b64c67",
-    "encrypted_answers_sha256": "7254f2f7abe08f84d94593f27b6ce716d62e96d3df56526dd15802f091df1815"
+    "revision": 2,
+    "commit": "3ed79434157ce4fcddf8019aecadd17c1b55ead1",
+    "tickets_sha256": "963338bf68093d451b118d516c4b05b748b8ec08e3714e57b59d9a85c9a506bc",
+    "encrypted_answers_sha256": "fd850945e439d15f821905be2456fa72bc330ba7ce3267cbafe5233d572f0407"
   },
   "key_secret_name": "healthnet-answers-key",
   "existing_key_version_reused": true,
@@ -54,5 +55,8 @@
   "encryption_roundtrip_verified": true,
   "injections_applied": 0,
   "dia_runs": 0,
-  "model_calls": 0
+  "model_calls": 0,
+  "approved_date": "2026-11-26",
+  "approval_source": "Owner confirmation of reviewer approval and final three edits",
+  "expected_answers_unchanged": 27
 }

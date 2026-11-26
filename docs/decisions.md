@@ -830,3 +830,22 @@ Owner chose: "Wait until Dec 1; continue offline." Do not enable paid continuati
 ## R28 offline repair preparation, owner direction 2026-11-26
 
 Owner approved offline-only coverage, source-comparison, delivery, evaluator-cache and smoke-column repairs on PR435. Original confirmation source6731ead4/imagea0e47731 stays frozen and goes first for the four outstanding cases after SQL renewal. No estate/model call, role/secret/ceiling change, merge or tag. See docs/r28-offline-ready.md.
+
+
+## HealthNet owner-authored test set APPROVED_SEALED, 2026-11-26
+
+Owner confirmed reviewer approval with the final HN-005 neutral payment-app wording,
+HN-020 removal of the record-number clue, and dollar-spacing corrections. All 27
+expected answers are unchanged from revision 2, verified by decryption and comparison.
+The owner-authored set was reviewed and sealed before any DIA run. Final hashes:
+
+- tests/tickets/healthnet/tickets.json: `29480e4fd567c27a08f89f7a1aeb49407b3899bf81aa14f30164af2e254dcfbf`.
+- tests/tickets/healthnet/expected-answers.enc.json: `60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52`.
+
+The existing pinned Key Vault key was reused in memory only, with a fresh nonce
+and authenticated final ticket hash. Both the active plaintext review packet and
+its superseded revision-1 copy were deleted after seal verification.
+All 833 engine/runtime files and 69 prompt-bearing files match the original freeze.
+The engine freeze rule remains unchanged. Author/operator exposure must be disclosed
+and independent grading used: owner-authored does not mean operator-blind. No DIA
+or model runs, access grants, injections, engine changes, merge or tag were performed.

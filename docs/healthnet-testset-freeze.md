@@ -29,10 +29,37 @@ be scored against a fault outcome.
 All 833 engine/runtime files and all 69 prompt-bearing files still match the
 pre-authoring hashes. No engine, model prompt or runtime rule was changed.
 The requested CLAUDE.md authoring constraint is the sole new operating instruction.
-See healthnet-testset-verification.json. Owner/reviewer approval of the test set is
-pending; these hashes protect the authored bytes and do not assert reviewer approval.
+See healthnet-testset-verification.json. At this historical checkpoint owner/reviewer approval was pending; the final
+APPROVED_SEALED approval below supersedes that status.
 
 Revision 2 reviewer changes, 2026-11-26: test inputs, encrypted expectations and
 review material only. All833 runtime and69 prompt-bearing files still match the
 original freeze. Static definition defects remain plans only, never live changes.
 See the revised hash manifest and healthnet-testset-verification.json.
+
+## APPROVED_SEALED - 2026-11-26 (revision 3, final)
+
+Owner confirmed reviewer approval on 2026-11-26, subject to the final HN-005 and
+HN-020 wording edits and dollar-spacing corrections. Those edits are applied; the
+HN-005 form comparison uses the same neutral payment-app wording. All 27 expected
+answer records are unchanged from revision 2, verified by decrypt-and-compare.
+AES-256-GCM re-encryption uses the existing pinned Key Vault key version, a fresh
+nonce and authenticated final ticket hash. The key was used only in memory.
+
+Final SHA-256 hashes:
+
+- `tests/tickets/healthnet/tickets.json`: `29480e4fd567c27a08f89f7a1aeb49407b3899bf81aa14f30164af2e254dcfbf`.
+- `tests/tickets/healthnet/expected-answers.enc.json`: `60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52`.
+- `tests/tickets/healthnet/screens/hn-026-revenue-baseline.png`: `3d590a4b1814b372562bb05ca15494f1f8a231f37468b3642f1af97684ccee9e`.
+- `tests/tickets/healthnet/screens/hn-027-productivity-baseline.png`: `d46ccb8a1327a8e7d324477dce69a7826cf56b9dfcee11317936f33758887869`.
+
+All 833 engine/runtime files and 69 prompt-bearing files match the original freeze.
+The existing CLAUDE.md engine freeze rule remains in force. The set is owner-authored,
+reviewed and sealed before any DIA run; the author/operator has seen the answers
+and future scoring must disclose that exposure and use independent grading.
+No DIA runs, model calls, access grants or injections were performed.
+
+After authenticating the final seal, both the active local plaintext review packet
+and its superseded revision-1 copy were deleted. Local ticket and screenshot inputs
+remain uncommitted; only encrypted answers, hashes and documentation are pushed.
+Earlier pending-approval statements are historical and superseded by this final seal.
