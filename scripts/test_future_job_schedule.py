@@ -36,7 +36,7 @@ class FutureScheduleTests(TestCase):
  def test_expired_window_not_future_but_enabled_not_rewritten_disabled(self):
   v=future_job_schedule({'value':[schedule()]},'2026-11-24T00:00:00Z')
   self.assertIsNone(v['next_due']);self.assertTrue(v['enabled'])
- def test_adapter_keeps_native_evidence_and_flag_off_behavior(self):
+ def test_adapter_keeps_native_evidence_and_resolves_future_due_time(self):
   raw={'value':[schedule()]}
   def http(path,audience):return {'status_code':200,'text':deepcopy(raw) if path.endswith('/schedules') else {'value':[]}}
   for on in (True,False):
@@ -45,7 +45,7 @@ class FutureScheduleTests(TestCase):
     adapter.list_changes(['job']);facts=adapter.fetch('job',now=NOW)
     fact=next(f for f in facts if f['kind']=='SCHEDULE')
     self.assertEqual(fact['value']['native_schedules'],raw);self.assertTrue(fact['provenance']['evidence_ids'])
-    self.assertEqual(fact['value']['next_due'],'2026-11-23T18:38:43Z' if on else None)
+    self.assertEqual(fact['value']['next_due'],'2026-11-23T18:38:43Z')
     self.assertFalse(any(f['kind']=='OVERDUE' for f in facts))
 
 if __name__=='__main__':main()
