@@ -258,7 +258,11 @@ class MicrosoftRuntimeFacts:
         elif kind=='JOB' and route.get('job_type'):
             schedules,receipt,failure=self._get('workspaces/'+route['workspace']+'/items/'+route['item']+'/jobs/'+quote(route['job_type'],safe='')+'/schedules')
             if failure:result.append(self._gap(node,'SCHEDULE',failure,now,[receipt]))
-            else:result.append(observation(node,'SCHEDULE',{'native_schedules':schedules,'next_due':None,'reason':'Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap.'},now,[receipt],self.identity))
+            else:
+                schedule_value={'native_schedules':schedules,'next_due':None,'reason':'Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap.'}
+                try:schedule_value.update(future_job_schedule(schedules,now))
+                except ValueError as error:schedule_value['reason']=str(error)
+                result.append(observation(node,'SCHEDULE',schedule_value,now,[receipt],self.identity))
         if kind=='JOB' and route.get('audit'):
             rows,receipt,failure=self._sql(route['audit'],'audit')
             if failure:result.append(self._gap(node,'COVERAGE','DECLARED_AUDIT_UNAVAILABLE:'+failure,now,[receipt]))
@@ -311,6 +315,36 @@ def _count(value):
 WINDOWS_ZONES={'UTC':'UTC','Central Standard Time':'America/Chicago','Eastern Standard Time':'America/New_York',
                'Pacific Standard Time':'America/Los_Angeles','India Standard Time':'Asia/Kolkata','GMT Standard Time':'Europe/London'}
 DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+
+
+def future_job_schedule(body,now):
+    """Only establish a future first slot, not a past recurrence phase or run.
+
+    Fabric declares Cron interval in minutes and its start/end fields in UTC.
+    A started schedule may have been enabled later, so do not invent its phase.
+    Raw native schedule bytes and provenance remain in the enclosing fact.
+    """
+    if not isinstance(body,dict) or not isinstance(body.get('value'),list):raise ValueError('JOB_SCHEDULE_SHAPE_UNAVAILABLE')
+    if any(body.get(k) for k in ('continuationToken','continuationUri','@odata.nextLink')):raise ValueError('JOB_SCHEDULE_LIST_PARTIAL')
+    instant=datetime.fromisoformat(producer_time(now).replace('Z','+00:00'))
+    due=[];enabled_seen=False
+    for native in body['value']:
+        if not isinstance(native,dict) or type(native.get('enabled')) is not bool:raise ValueError('JOB_SCHEDULE_ENABLED_UNAVAILABLE')
+        if not native['enabled']:continue
+        enabled_seen=True
+        cfg=native.get('configuration',{})
+        if not isinstance(cfg,dict) or cfg.get('type')!='Cron' or cfg.get('localTimeZoneId')!='UTC':raise ValueError('JOB_SCHEDULE_RECURRENCE_UNSUPPORTED')
+        interval=cfg.get('interval')
+        if type(interval) is not int or not 1<=interval<=5270400:raise ValueError('JOB_SCHEDULE_INTERVAL_UNAVAILABLE')
+        if not all(isinstance(cfg.get(k),str) for k in ('startDateTime','endDateTime')):raise ValueError('JOB_SCHEDULE_WINDOW_UNAVAILABLE')
+        start=datetime.fromisoformat(producer_time(cfg.get('startDateTime'),utc_declared=True).replace('Z','+00:00'))
+        end=datetime.fromisoformat(producer_time(cfg.get('endDateTime'),utc_declared=True).replace('Z','+00:00'))
+        if end<=start:raise ValueError('JOB_SCHEDULE_WINDOW_INVALID')
+        if end<=instant:continue
+        if start<=instant:raise ValueError('JOB_SCHEDULE_STARTED_PHASE_UNESTABLISHED')
+        due.append(start)
+    return {'next_due':min(due).isoformat().replace('+00:00','Z') if due else None,'enabled':enabled_seen,
+        'due_basis':'DECLARED_FUTURE_FIRST_SLOT_NOT_OBSERVED_RUN','reason':'Future first scheduled start retained; no execution or completion is inferred.'}
 
 
 def refresh_due(schedule,now):

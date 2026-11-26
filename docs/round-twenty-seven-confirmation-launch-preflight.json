@@ -1,0 +1,31 @@
+{
+  "observed_at_utc": "2026-11-26T03:03:11.109784+00:00",
+  "rows": [
+    {
+      "ticket": "text-R17-05-v1",
+      "original_journal_sha256": "fe1e4854cbdd4c7fa8896f9054058134d8e5859b8371ae9a62eac010e82de553",
+      "disposition": "UNADMITTED_TEMPLATE_FAILURE_BEFORE_ANY_ARM_OR_MODEL_CALL",
+      "error": "RUNNER_PLATFORM_COST_OBSERVATION_STALE",
+      "proof": "runner_deployment.launch rejects stale observation before first execute() call; exact retained local traceback matches that line",
+      "new_journal_suffix": "-preflight-repair1"
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "original_journal_sha256": "e273666e0ec2d5b6b1a13f965c1e7f9bb194c3c92769e9780f98d1828ff63726",
+      "disposition": "UNADMITTED_TEMPLATE_FAILURE_BEFORE_ANY_ARM_OR_MODEL_CALL",
+      "error": "RUNNER_PLATFORM_COST_OBSERVATION_STALE",
+      "proof": "runner_deployment.launch rejects stale observation before first execute() call; exact retained local traceback matches that line",
+      "new_journal_suffix": "-preflight-repair1"
+    }
+  ],
+  "models_dispatched": 0,
+  "physical_estate_requests": 0,
+  "image_changed": false,
+  "input_archive_changed": false,
+  "ticket_or_expectation_changed": false,
+  "current_platform_cost_observation": {
+    "charged_microdollars": 1573325,
+    "observed_at": 1795656792.5786872,
+    "source": "D:\\data_investigation_agent\\.local\\round-twenty-seven\\azure-platform-cost-20261126-013306.json"
+  }
+}

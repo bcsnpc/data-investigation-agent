@@ -12,8 +12,14 @@ class CalculationTests(unittest.TestCase):
  def test_source_comparison_still_requires_declared_source_and_reads(self):
   self.case['intake']['compared_with']={'kind':'SOURCE_SYSTEM'}
   with patch('investigator.grounded_answers.cited',return_value=self.support),self.assertRaisesRegex(ValueError,'SOURCE_CONSISTENCY_UNESTABLISHED'):finding(self.args,self.case)
- def test_no_native_recreation_or_current_failed_run_cannot_be_as_designed(self):
+ def test_missing_recreation_refuses_and_calculation_only_keeps_fault_separate(self):
   with patch('investigator.grounded_answers.cited',return_value=self.support[:1]),self.assertRaisesRegex(ValueError,'NATIVE_RECREATION'):finding(self.args,self.case)
   self.case['triage']={'facts':[{'check':'JOB_RUNS','state':'OBSERVED','source':'native','value':{'subject':'job','status':'Failed','run_id':'r'}}]}
-  with patch('investigator.grounded_answers.cited',return_value=self.support),self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):finding(self.args,self.case)
+  with patch('investigator.grounded_answers.cited',return_value=self.support):result=finding(self.args,self.case)
+  self.assertIn('run r is Failed',result['business'])
+  self.assertIn('does not establish freshness',result['business'])
+  from investigator.regression_features import configured
+  self.case['intake']['compared_with']={'kind':'SOURCE_SYSTEM'}
+  with patch('investigator.grounded_answers.cited',return_value=self.support),self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):
+   finding(self.args,self.case)
 if __name__=='__main__':unittest.main()

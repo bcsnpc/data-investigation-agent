@@ -1,0 +1,116 @@
+{
+  "before": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 103720331,
+        "committed_microdollars": 103720331,
+        "ceiling_microdollars": 220284651,
+        "warning_microdollars": 214284651,
+        "owner_confirmed_cash_microdollars": 120000000,
+        "protected_cash_microdollars": 3000000,
+        "allowed_purposes": [
+          "INTAKE",
+          "INVESTIGATOR",
+          "EVALUATOR",
+          "SCREENSHOT"
+        ],
+        "credit_source": "Owner Console confirmation2026-11-21:120USD remaining; historical counters preserved; reserve3 excluded from ceiling",
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 202938628,
+        "warning_microdollars": 197126628,
+        "allowed_purposes": [
+          "GRADING",
+          "SMOKE"
+        ],
+        "credit_expiry_utc": "2026-11-29T00:00:00Z",
+        "owner_reported_cash_microdollars": 31060000,
+        "protected_cash_microdollars": 2000000,
+        "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff",
+        "charged_microdollars": 176090748,
+        "committed_microdollars": 176090748,
+        "provisioned": true,
+        "warning": false
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; owner dropped AWS dependency 2026-11-21; historical charges retained",
+        "enabled": false,
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 1261833,
+        "committed_microdollars": 1261833,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 281072912,
+    "combined_committed_microdollars": 281072912
+  },
+  "after": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 103720331,
+        "committed_microdollars": 103720331,
+        "ceiling_microdollars": 220284651,
+        "warning_microdollars": 214284651,
+        "owner_confirmed_cash_microdollars": 120000000,
+        "protected_cash_microdollars": 3000000,
+        "allowed_purposes": [
+          "INTAKE",
+          "INVESTIGATOR",
+          "EVALUATOR",
+          "SCREENSHOT"
+        ],
+        "credit_source": "Owner Console confirmation2026-11-21:120USD remaining; historical counters preserved; reserve3 excluded from ceiling",
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 202938628,
+        "warning_microdollars": 197126628,
+        "allowed_purposes": [
+          "GRADING",
+          "SMOKE"
+        ],
+        "credit_expiry_utc": "2026-11-29T00:00:00Z",
+        "owner_reported_cash_microdollars": 31060000,
+        "protected_cash_microdollars": 2000000,
+        "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff",
+        "charged_microdollars": 176090748,
+        "committed_microdollars": 176090748,
+        "provisioned": true,
+        "warning": false
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; owner dropped AWS dependency 2026-11-21; historical charges retained",
+        "enabled": false,
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 1261833,
+        "committed_microdollars": 1261833,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 281072912,
+    "combined_committed_microdollars": 281072912
+  },
+  "old_purposes": [
+    "INTAKE",
+    "INVESTIGATOR"
+  ],
+  "new_purposes": [
+    "INTAKE",
+    "INVESTIGATOR",
+    "EVALUATOR",
+    "SCREENSHOT"
+  ],
+  "all_usage_and_caps_preserved": true,
+  "owner_authority": "r27-continue-repair-and-finish.md Parts1/2; retained Opus screenshot comparison"
+}

@@ -3,6 +3,7 @@ from copy import deepcopy
 from decimal import Decimal,localcontext,ROUND_HALF_EVEN
 from collections import deque
 from datetime import datetime
+
 import re
 from .ai_investigation import schema
 
@@ -129,6 +130,9 @@ class ReadTools:
                     hits=[v for v in values if str(v[item['key_field']])==args['key']]
                     row.update(presence='PRESENT' if hits else 'ABSENT',matching_rows=len(hits),
                                duplicate_observed=len(hits)>1,truncated=record.get('truncated',False))
+                    if values and not hits:
+                        row.update(presence='UNESTABLISHED_KEY_MISMATCH',
+                                   reason='Nonempty lookup rows contain different literal key values. Use the literal key_field value, not a predicate or record description; inspect the cited query result.')
                     if record.get('truncated') and not hits:row['presence']='UNESTABLISHED_IN_TRUNCATED_RESULT'
             findings.append(row)
         return {'key':args['key'],'layers':findings,'cause':'Read the retained transformation or job evidence at the first presence change; presence alone does not prove the cause.'}
@@ -141,11 +145,58 @@ class ReadTools:
                     'observed':'No security-definition reader is installed for this path. This is an implementation gap, not an observed permission refusal.'}
         return self.security(args['node'])
 
+    def analyze(self,args,kind):
+        from .bounded_analysis import contribution,row_diff
+        records=[]
+        if kind=='row_diff' and args['left']['layer']==args['right']['layer']:
+            raise ValueError('LAYER_DIFF_REQUIRES_DIFFERENT_LAYERS')
+        for side in ('left','right'):
+            query=args[side]
+            observed=self.queries.run(query['layer'],query['query'],kind=query['kind'],purpose='compare')
+            records.append(observed.get('record',observed))
+        projected=True
+        bindings={}
+        if projected:
+            from .adapters.analysis_projection import project
+            fields=(args['dimensions']+[args['value_field']] if kind=='contribution' else args['keys']+args['compare_fields'])
+            for index,side in enumerate(('left','right')):
+                records[index],bindings[side]=project(records[index],self.queries.layers[args[side]['layer']],fields)
+        if kind=='contribution':
+            result=contribution(*records,dimensions=args['dimensions'],value_field=args['value_field'],typed_values=projected)
+        else:result=row_diff(*records,keys=args['keys'],compare_fields=args['compare_fields'],typed_values=projected)
+        if projected:
+            result['native_column_bindings']=bindings
+            result['native_scalar_types']={side:records[i].get('analysis_scalar_types',{})for i,side in enumerate(('left','right'))}
+            result['representation_qualification']='Analysis-only output-label alignment and exact native numeric/boolean comparison. Text, unknown strings and date/time representations remain literal; native JSON numbers and booleans retain their types. Original native query records and values are unchanged; no cross-scope equivalence or cause is inferred.'
+        return result
+
+    def check_targets(self,args):
+        from .intake_candidates import select_unique
+        observations=[];seen=set()
+        for check in args['checks']:
+            if check['candidate']in seen:raise ValueError('TARGET_CANDIDATE_CHECK_DUPLICATED')
+            seen.add(check['candidate'])
+            record=self.queries.run(check['layer'],check['query'],kind=check['kind'],purpose='recreate')
+            record=record.get('record',record)
+            row={'candidate':check['candidate'],'status':record.get('status','ERROR'),'evidence_id':record.get('id'),
+                 'truncated':bool(record.get('truncated'))}
+            if row['status']=='SUCCEEDED' and row['evidence_id']:
+                rows=record['result']['rows']
+                if len(rows)==1 and isinstance(rows[0],dict)and len(rows[0])==1:
+                    row['value']=next(iter(rows[0].values()))
+                else:row.update(status='UNAVAILABLE',reason='Candidate check must return one scalar cell, not a sample or row count.')
+            else:
+                row['status']='ERROR'
+                row['reason']=record.get('error','Native candidate check has no recorded result.')
+            observations.append(row)
+        figure=self.intake.get('reported_figure')
+        return select_unique(self.target_inventory,observations,figure)
+
     def registry(self):
         ids=sorted(self.visible)
         def entry(description,properties,run,required=None):
             return {'description':description,'schema':schema(properties,required),'run':run}
-        node={'enum':ids}
+        node={'enum':ids,'description':'A graph node ID from this exact enum. Do not pass a native query-layer ID, inventory asset address or evidence ID.'}
         registry={
             'get_definition':entry('Read the retained DAX, SQL, notebook or view definition for an admitted path object.',{'node':node},self.definitions),
             'get_lineage':entry('Read upstream lineage within the admitted estate and activate its known native query routes. Use a list_candidates result to open an upstream object not active yet; no unrelated catalog dump.',{'node':node,'operation':{'enum':['PATH','SEARCH','NEIGHBOURS','PRODUCERS','CONSUMERS','CANDIDATE_BINDINGS']},'words':{'type':'string','maxLength':256}},self.lineage,[]),
@@ -159,8 +210,30 @@ class ReadTools:
              'checks':{'type':'array','maxItems':5,'items':check}},self.candidates,['words'])
         record_query=schema({'layer':{'enum':list(self.queries.layers)},'kind':{'enum':['sql','dax']},
                              'query':{'type':'string'},'key_field':{'type':'string'}})
+        analysis_query=schema({'layer':{'enum':list(self.queries.layers)},'kind':{'enum':['sql','dax']},
+                               'query':{'type':'string','minLength':1}})
+        fields={'type':'array','minItems':1,'maxItems':3,'uniqueItems':True,'items':{'type':'string','minLength':1}}
+        registry['contribution_analysis']=entry(
+            'Compare two bounded GROUP BY results. You write both read-only queries using the retained calculation and scopes. Rank slices by signed/absolute share of the observed difference; this is contribution, not causal proof. Truncation is explicit.',
+            {'left':analysis_query,'right':analysis_query,'dimensions':fields,'value_field':{'type':'string','minLength':1}},
+            lambda a:self.analyze(a,'contribution'))
+        registry['row_layer_diff']=entry(
+            'Compare two different layers by their business keys using your two bounded read-only queries. Return missing/extra/changed counts and samples within those query scopes. Duplicated keys are rejected; truncated samples never prove missing records.',
+            {'left':analysis_query,'right':analysis_query,'keys':fields,
+             'compare_fields':{'type':'array','minItems':1,'maxItems':20,'uniqueItems':True,'items':{'type':'string','minLength':1}}},
+            lambda a:self.analyze(a,'row_diff'))
+        if getattr(self,'target_inventory',None):
+            identities=[candidate['id']for candidate in self.target_inventory['candidates']]
+            registry['get_target_candidates']=entry(
+                'Read the bounded plausible targets with their exact retained report/page/visual filters. None is selected. Preserve explicit choices; investigate each candidate before asking.',
+                {},lambda _:deepcopy(self.target_inventory))
+            registry['check_target_candidates']=entry(
+                'Supply one read-only scalar query per candidate using its own retained filters and calculation. Code compares the actual results at stated precision; no unique target is selected unless all candidates were measured successfully and only one matches.',
+                {'checks':{'type':'array','minItems':1,'maxItems':5,'items':schema({
+                    'candidate':{'enum':identities},'layer':{'enum':list(self.queries.layers)},
+                    'kind':{'enum':['sql','dax']},'query':{'type':'string','minLength':1}})}},self.check_targets)
         registry['record_trace']=entry('Run your key lookup queries in source-to-model order. Distinguish presence, duplicates, absence, truncation and failed reads. Then inspect definitions/jobs for the cause.',
-            {'key':{'type':'string'},'queries':{'type':'array','minItems':1,'maxItems':5,'items':record_query}},self.record_trace)
+            {'key':{'type':'string',**{'description':'The same literal key_field value in every query, for example "42"; not a predicate, descriptive record label or compound key. Read related records with different key values separately.'}},'queries':{'type':'array','minItems':1,'maxItems':5,'items':record_query}},self.record_trace)
         # Empty enum tools are unavailable on this path, not invented scopes.
         return {name:value for name,value in registry.items()
                 if all(prop.get('enum')!=[] for prop in value['schema']['properties'].values())}

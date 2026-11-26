@@ -1,0 +1,1514 @@
+{
+  "scope": "Recorded cohort calls only; authoritative shared provider ledger remains the budget authority",
+  "counter_definition": "Native result model_calls is the investigation/evaluator loop counter. all_recorded_provider_calls also includes recorded intake/screenshot/other steps.",
+  "records": [
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-before-temporal-retention-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "BLOCKED",
+      "investigation_counter_calls": 1,
+      "all_recorded_provider_calls": 1,
+      "charged_microdollars": 180116,
+      "observed_normalized_usage_microdollars": 180116,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 180116,
+          "cache_read_ratio": 0.11059297480753842
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-billing-invoices-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 8,
+      "all_recorded_provider_calls": 8,
+      "charged_microdollars": 1056350,
+      "observed_normalized_usage_microdollars": 1056350,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 226402,
+          "cache_read_ratio": 0.046617603499737974
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 6,
+          "actual_microdollars": 829948,
+          "cache_read_ratio": 0.7207081028619223
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-other-collected-definition-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 1204367,
+      "observed_normalized_usage_microdollars": 1204367,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 364137,
+          "cache_read_ratio": 0.027749145554169154
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 840230,
+          "cache_read_ratio": 0.7189089709533483
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-source-history-v1",
+      "fixture": "history",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "ANSWERED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 10,
+      "charged_microdollars": 1164078,
+      "observed_normalized_usage_microdollars": 1164078,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 420411,
+          "cache_read_ratio": 0.011597526155067303
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 743667,
+          "cache_read_ratio": 0.6503778051125146
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-warehouse-scope-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "NEEDS_INPUT",
+      "investigation_counter_calls": null,
+      "all_recorded_provider_calls": 0,
+      "charged_microdollars": 0,
+      "observed_normalized_usage_microdollars": 0,
+      "steps": [],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-04-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1795360,
+      "observed_normalized_usage_microdollars": 1795360,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 69579,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 474547,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 10,
+          "actual_microdollars": 1251234,
+          "cache_read_ratio": 0.8313224421514657
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-05-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1055192,
+      "observed_normalized_usage_microdollars": 1055192,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 236783,
+          "cache_read_ratio": 0.08052793156831362
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 111418,
+          "cache_read_ratio": 0.9270715446543984
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 706991,
+          "cache_read_ratio": 0.7584581265362326
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-08-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 13,
+      "all_recorded_provider_calls": 14,
+      "charged_microdollars": 1628592,
+      "observed_normalized_usage_microdollars": 1628592,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 222711,
+          "cache_read_ratio": 0.08871737056629954
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 55525,
+          "cache_read_ratio": 0.9466034305242174
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 10,
+          "actual_microdollars": 1350356,
+          "cache_read_ratio": 0.8248861886867416
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-09-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "BLOCKED",
+      "investigation_counter_calls": 3,
+      "all_recorded_provider_calls": 4,
+      "charged_microdollars": 801362,
+      "observed_normalized_usage_microdollars": 801362,
+      "steps": [
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 470499,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 330863,
+          "cache_read_ratio": 0.6287060796219608
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-10-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 2042437,
+      "observed_normalized_usage_microdollars": 2042437,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 149125,
+          "cache_read_ratio": 0.033814828281492744
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 476519,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 9,
+          "actual_microdollars": 1416793,
+          "cache_read_ratio": 0.7741390033247448
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-11-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 8,
+      "all_recorded_provider_calls": 9,
+      "charged_microdollars": 747682,
+      "observed_normalized_usage_microdollars": 747682,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 134678,
+          "cache_read_ratio": 0.10336987823978173
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 46905,
+          "cache_read_ratio": 0.9510305591319754
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 6,
+          "actual_microdollars": 566099,
+          "cache_read_ratio": 0.7077180378964973
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-baseline-S02-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 9,
+      "all_recorded_provider_calls": 10,
+      "charged_microdollars": 1272508,
+      "observed_normalized_usage_microdollars": 1272508,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 227798,
+          "cache_read_ratio": 0.047700090923926984
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 146263,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 898447,
+          "cache_read_ratio": 0.7425802361039824
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-different-warehouse-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "INTERRUPTED",
+      "investigation_counter_calls": null,
+      "all_recorded_provider_calls": 2,
+      "charged_microdollars": 580488,
+      "observed_normalized_usage_microdollars": 580488,
+      "steps": [
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 580488,
+          "cache_read_ratio": 0.43447637912052
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-history-source-900201-v1",
+      "fixture": "history",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "ANSWERED",
+      "investigation_counter_calls": 9,
+      "all_recorded_provider_calls": 10,
+      "charged_microdollars": 1566335,
+      "observed_normalized_usage_microdollars": 1566335,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 412879,
+          "cache_read_ratio": 0.012024093906801843
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 483107,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 670349,
+          "cache_read_ratio": 0.7028915901203782
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-history-source-900201-v2",
+      "fixture": "history",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "ANSWERED",
+      "investigation_counter_calls": 9,
+      "all_recorded_provider_calls": 10,
+      "charged_microdollars": 1466955,
+      "observed_normalized_usage_microdollars": 1466955,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 299367,
+          "cache_read_ratio": 0.018384216136868043
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 473499,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 694089,
+          "cache_read_ratio": 0.6956238976498806
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-latency-900501-v1",
+      "fixture": "latency",
+      "status": "ERROR",
+      "all_recorded_provider_calls": 3,
+      "charged_microdollars": 597561,
+      "observed_normalized_usage_microdollars": 597561,
+      "steps": [
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "cost_microdollars": 483755,
+          "usage": {
+            "cache_write_tokens": 86423,
+            "cached_input_tokens": 0,
+            "input_tokens": 92443,
+            "output_tokens": 1378
+          }
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "cost_microdollars": 49081,
+          "usage": {
+            "cache_write_tokens": 0,
+            "cached_input_tokens": 86423,
+            "input_tokens": 93887,
+            "output_tokens": 97
+          }
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "cost_microdollars": 64725,
+          "usage": {
+            "cache_write_tokens": 0,
+            "cached_input_tokens": 86423,
+            "input_tokens": 95403,
+            "output_tokens": 576
+          }
+        }
+      ],
+      "sealed_native_result": false,
+      "provenance": "Native partial audit, not engine-written answer"
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-latency-900501-v2",
+      "fixture": "latency",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1808973,
+      "observed_normalized_usage_microdollars": 1808973,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 58600,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 538244,
+          "cache_read_ratio": 0.46737366963744914
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 9,
+          "actual_microdollars": 1212129,
+          "cache_read_ratio": 0.6222802097938412
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-older-export-movement-1-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "BLOCKED",
+      "investigation_counter_calls": 8,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 1275176,
+      "observed_normalized_usage_microdollars": 1275176,
+      "steps": [
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 272295,
+          "cache_read_ratio": 0.8503159959200942
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 1002881,
+          "cache_read_ratio": 0.7274571197888974
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-older-export-movement-1-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "INTERRUPTED",
+      "investigation_counter_calls": null,
+      "all_recorded_provider_calls": 2,
+      "charged_microdollars": 173410,
+      "observed_normalized_usage_microdollars": 173410,
+      "steps": [
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 173410,
+          "cache_read_ratio": 0.8721843210075892
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-baseline-S01-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1395899,
+      "observed_normalized_usage_microdollars": 1395899,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 475567,
+          "cache_read_ratio": 0.031280577299412915
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 123018,
+          "cache_read_ratio": 0.9294894546080298
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 797314,
+          "cache_read_ratio": 0.6451388939112322
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-02-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1767024,
+      "observed_normalized_usage_microdollars": 1767024,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 468215,
+          "cache_read_ratio": 0.031739301301011436
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 467687,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 831122,
+          "cache_read_ratio": 0.6924665450182573
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-baseline-S03-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 12,
+      "all_recorded_provider_calls": 13,
+      "charged_microdollars": 1628710,
+      "observed_normalized_usage_microdollars": 1628710,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 158501,
+          "cache_read_ratio": 0.10079810818799882
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 73947,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 9,
+          "actual_microdollars": 1396262,
+          "cache_read_ratio": 0.6295826923741129
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-R17-01-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 951723,
+      "observed_normalized_usage_microdollars": 951723,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 222727,
+          "cache_read_ratio": 0.08765566091625729
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 116542,
+          "cache_read_ratio": 0.9259491399214652
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 612454,
+          "cache_read_ratio": 0.7250039282830965
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "text-failed-billing-load-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 1,
+      "all_recorded_provider_calls": 1,
+      "charged_microdollars": 40085,
+      "observed_normalized_usage_microdollars": 40085,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 40085,
+          "cache_read_ratio": 0.27258193445243806
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-application-baseline-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 9,
+      "all_recorded_provider_calls": 9,
+      "charged_microdollars": 659759,
+      "observed_normalized_usage_microdollars": 659759,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 217079,
+          "cache_read_ratio": 0.07940491591203105
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 6,
+          "actual_microdollars": 442680,
+          "cache_read_ratio": 0.7309739203128965
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-billing-invoices-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 8,
+      "all_recorded_provider_calls": 8,
+      "charged_microdollars": 1024804,
+      "observed_normalized_usage_microdollars": 1024804,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 215026,
+          "cache_read_ratio": 0.04945612762871646
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 6,
+          "actual_microdollars": 809778,
+          "cache_read_ratio": 0.7240094247005694
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-billing-mrr-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 1256695,
+      "observed_normalized_usage_microdollars": 1256695,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 311907,
+          "cache_read_ratio": 0.05232558139534884
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 944788,
+          "cache_read_ratio": 0.7440526159653098
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-failed-application-load-v1",
+      "fixture": "failed-fixture",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 1098884,
+      "observed_normalized_usage_microdollars": 1098884,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 286241,
+          "cache_read_ratio": 0.05856048095299946
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 812643,
+          "cache_read_ratio": 0.6423984410877633
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "fixture": "failed-billing",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 10,
+      "charged_microdollars": 1272581,
+      "observed_normalized_usage_microdollars": 1272581,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 236311,
+          "cache_read_ratio": 0.02487644541133628
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 1036270,
+          "cache_read_ratio": 0.7466226942654937
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-fixture-quantity-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 10,
+      "charged_microdollars": 1238766,
+      "observed_normalized_usage_microdollars": 1238766,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 450311,
+          "cache_read_ratio": 0.03235362331063273
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 788455,
+          "cache_read_ratio": 0.6647138298390068
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-latency-record-v1",
+      "fixture": "latency",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 9,
+      "all_recorded_provider_calls": 9,
+      "charged_microdollars": 865429,
+      "observed_normalized_usage_microdollars": 865429,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 148596,
+          "cache_read_ratio": 0.0
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 716833,
+          "cache_read_ratio": 0.668270887026796
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-other-collected-definition-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "ANSWERED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 1116711,
+      "observed_normalized_usage_microdollars": 1116711,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 280471,
+          "cache_read_ratio": 0.056401962766250716
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 836240,
+          "cache_read_ratio": 0.7227539316723581
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "BLOCKED",
+      "investigation_counter_calls": 2,
+      "all_recorded_provider_calls": 2,
+      "charged_microdollars": 197843,
+      "observed_normalized_usage_microdollars": 197843,
+      "steps": [
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 197843,
+          "cache_read_ratio": 0.54642480318156
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 10,
+      "charged_microdollars": 1375596,
+      "observed_normalized_usage_microdollars": 1375596,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 541591,
+          "cache_read_ratio": 0.02662375404474595
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 7,
+          "actual_microdollars": 834005,
+          "cache_read_ratio": 0.6574669065672792
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 12,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1114232,
+      "observed_normalized_usage_microdollars": 1114232,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 208614,
+          "cache_read_ratio": 0.05370501614300339
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 10,
+          "actual_microdollars": 905618,
+          "cache_read_ratio": 0.7063435813690672
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 14,
+      "all_recorded_provider_calls": 14,
+      "charged_microdollars": 1139551,
+      "observed_normalized_usage_microdollars": 1139551,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 240219,
+          "cache_read_ratio": 0.07318469059258376
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 11,
+          "actual_microdollars": 899332,
+          "cache_read_ratio": 0.7250202200695947
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f19ed6392b2d2d63c94c1fb11606038facc07fa9ed0057e577db887c8bfba923",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 10,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1126121,
+      "observed_normalized_usage_microdollars": 1126121,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 150453,
+          "cache_read_ratio": 0.03344776851397744
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 9,
+          "actual_microdollars": 901902,
+          "cache_read_ratio": 0.6951968149588412
+        },
+        {
+          "step": "SCREENSHOT",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 73766,
+          "cache_read_ratio": 0.0
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 12,
+      "all_recorded_provider_calls": 12,
+      "charged_microdollars": 1397846,
+      "observed_normalized_usage_microdollars": 1397846,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 85035,
+          "cache_read_ratio": 0.06707900274182235
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 11,
+          "actual_microdollars": 1312811,
+          "cache_read_ratio": 0.6194820279967495
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-source-history-v2",
+      "fixture": "history",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 1140823,
+      "observed_normalized_usage_microdollars": 1140823,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 317623,
+          "cache_read_ratio": 0.017190385149598836
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 9,
+          "actual_microdollars": 823200,
+          "cache_read_ratio": 0.66959888760097
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-waiting-application-load-v2",
+      "fixture": "waiting",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "ANSWERED",
+      "investigation_counter_calls": 6,
+      "all_recorded_provider_calls": 6,
+      "charged_microdollars": 672639,
+      "observed_normalized_usage_microdollars": 672639,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 246927,
+          "cache_read_ratio": 0.022334033925652294
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 4,
+          "actual_microdollars": 425712,
+          "cache_read_ratio": 0.6440012429729653
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-warehouse-scope-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 11,
+      "charged_microdollars": 844947,
+      "observed_normalized_usage_microdollars": 844947,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 140914,
+          "cache_read_ratio": 0.08203688540570048
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 9,
+          "actual_microdollars": 704033,
+          "cache_read_ratio": 0.7272404796243658
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01",
+      "ticket": "form-v2-application-baseline-v2",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "ANSWERED",
+      "investigation_counter_calls": 6,
+      "all_recorded_provider_calls": 6,
+      "charged_microdollars": 410947,
+      "observed_normalized_usage_microdollars": 410947,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 75215,
+          "cache_read_ratio": 0.09473210265646105
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 4,
+          "actual_microdollars": 335732,
+          "cache_read_ratio": 0.6916850713305079
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01-plumbing",
+      "ticket": "form-v2-before-temporal-retention-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 9,
+      "all_recorded_provider_calls": 9,
+      "charged_microdollars": 785390,
+      "observed_normalized_usage_microdollars": 785390,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 84219,
+          "cache_read_ratio": 0.08539654192710447
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 8,
+          "actual_microdollars": 701171,
+          "cache_read_ratio": 0.6950514576780308
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01-plumbing",
+      "ticket": "text-R17-08-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 15,
+      "all_recorded_provider_calls": 17,
+      "charged_microdollars": 2231549,
+      "observed_normalized_usage_microdollars": 2231549,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 209229,
+          "cache_read_ratio": 0.09387269482450922
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 542680,
+          "cache_read_ratio": 0.44918165705999447
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 12,
+          "actual_microdollars": 1479640,
+          "cache_read_ratio": 0.8387075925774067
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01-plumbing",
+      "ticket": "text-R17-09-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 13,
+      "all_recorded_provider_calls": 14,
+      "charged_microdollars": 1150720,
+      "observed_normalized_usage_microdollars": 1150720,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 165510,
+          "cache_read_ratio": 0.0751535933704815
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 58829,
+          "cache_read_ratio": 0.9463857466682728
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 11,
+          "actual_microdollars": 926381,
+          "cache_read_ratio": 0.7470021109622286
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01-plumbing",
+      "ticket": "text-older-export-movement-1-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 11,
+      "all_recorded_provider_calls": 13,
+      "charged_microdollars": 2031258,
+      "observed_normalized_usage_microdollars": 2031258,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 1,
+          "actual_microdollars": 99191,
+          "cache_read_ratio": 0.05993618960802188
+        },
+        {
+          "step": "INTAKE",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 2,
+          "actual_microdollars": 574772,
+          "cache_read_ratio": 0.43694543174797384
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 10,
+          "actual_microdollars": 1357295,
+          "cache_read_ratio": 0.717065706842414
+        }
+      ],
+      "sealed_native_result": true
+    },
+    {
+      "cohort": "dev01-plumbing",
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "fixture": "baseline",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+      "status": "UNRESOLVED",
+      "investigation_counter_calls": 14,
+      "all_recorded_provider_calls": 14,
+      "charged_microdollars": 1211334,
+      "observed_normalized_usage_microdollars": 1211334,
+      "steps": [
+        {
+          "step": "EVALUATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 3,
+          "actual_microdollars": 257265,
+          "cache_read_ratio": 0.0634575944022198
+        },
+        {
+          "step": "INVESTIGATOR",
+          "model": "claude-opus-5-5",
+          "provider": "anthropic",
+          "calls": 11,
+          "actual_microdollars": 954069,
+          "cache_read_ratio": 0.6917403714080095
+        }
+      ],
+      "sealed_native_result": true
+    }
+  ]
+}

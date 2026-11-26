@@ -3,6 +3,7 @@
 The installation owns graph-to-native route bindings, schemas, model/key/budget
 factories and read-only collectors. A case only contributes IntakeRequest/1.
 """
+
 from copy import deepcopy
 from .ai_investigation import Investigator
 from .investigative_queries import Queries
@@ -50,6 +51,40 @@ class Factory:
             self.routes[identity]=deepcopy(route)
             if hasattr(self.native,'routes'):self.native.routes[identity]=deepcopy(route)
         return self.routes[identity]
+
+    def prepare_declared_source_comparison(self,path,context,available,layers):
+        """Activate an existing exact comparator, never invent a lineage edge."""
+        source=context.get('system_of_record')
+        if not isinstance(source,dict) or source.get('declared') is not True:return None
+        source['admitted_in_case']=False
+        if source.get('reachable') is not True:return None
+        identity,asset=source.get('layer'),source.get('asset_id')
+        def unavailable(reason):
+            source.update(reachable=False,admission_reason=reason)
+            if not isinstance(context.get('warnings'),list):context['warnings']=[]
+            context['warnings'].append('Declared source comparison unavailable: '+reason)
+        route=self.routes.get(identity)
+        if not route or asset not in route.get('asset_ids',[]):
+            unavailable('EXACT_REGISTERED_SOURCE_BINDING_MISSING');return None
+        if identity in layers and any(a.get('id')==asset for a in layers[identity].get('objects',[])):
+            source['admitted_in_case']=True;return None
+        candidates=[n for n in self.graph.intake_catalog()['nodes']
+                    if n.get('kind')in ('TABLE','VIEW') and isinstance(n.get('properties'),dict)
+                    and n['properties'].get('asset_id')==asset]
+        if len(candidates)!=1 or candidates[0]['id']not in self.graph.allowed or candidates[0]['id']not in route['path_nodes']:
+            unavailable('EXACT_ADMITTED_SOURCE_NODE_NOT_UNIQUE');return None
+        node=candidates[0]
+        prepared=self.prepare(identity,{n['id']for n in path['nodes']}|{node['id']})
+        if not any(a.get('id')==asset for a in prepared['objects']):
+            unavailable('EXACT_SOURCE_SCHEMA_NOT_PREPARED');return None
+        material={'dialect':prepared['dialect'],'objects':deepcopy(prepared['objects']),'label':prepared['label'],
+                  **({'endpoint_evidence':deepcopy(prepared['endpoint_evidence'])}if prepared.get('endpoint_evidence')else{})}
+        available[identity]=deepcopy(material);layers[identity]=deepcopy(material)
+        source['admitted_in_case']=True
+        context.setdefault('declared_source_comparisons',[]).append({'node':node['id'],'asset_id':asset,
+            'layer':identity,'basis':'EXACT_INSTALLATION_SOURCE_AND_EXISTING_NATIVE_ROUTE',
+            'lineage_established':False,'quantity_read_performed_by_activation':False})
+        return deepcopy(node)
 
     def attach_native_ancestors(self,path):
         extra=self.associated_nodes(path) if self.associated_nodes else []
@@ -164,8 +199,15 @@ class Factory:
         if self.begin_case:self.begin_case()
         self.routes=deepcopy(self.registry)
         intake=deepcopy(case['intake'])
-        root=intake.get('visual') or intake.get('page') or intake.get('report') or intake.get('table') or intake['measure']
-        path=self.target_path(intake)
+        inventory=case.get('candidate_inventory')
+        if inventory:
+            paths=[self.target_path(candidate['intake'])for candidate in inventory['candidates']]
+            nodes={node['id']:node for part in paths for node in part['nodes']}
+            edges={edge.get('id')or digest(edge):edge for part in paths for edge in part['edges']}
+            path={'nodes':list(nodes.values()),'edges':list(edges.values()),
+                  'stops':[stop for part in paths for stop in part.get('stops',[])],
+                  'target_selection':'Unselected plausible candidates; preserve each retained scope separately.'}
+        else:path=self.target_path(intake)
         # Catalog containment projections need not carry persisted edge IDs.
         # Give those edges a local identity without rewriting retained graph
         # records or losing them from later case-file/handoff composition.
@@ -180,10 +222,15 @@ class Factory:
                    for i,r in self.routes.items()}
         layers={i:available[i] for i in routes}
         context=deepcopy(self.context_for(path,intake))
+        comparison_node=self.prepare_declared_source_comparison(path,context,available,layers)
         # A context builder cannot replace the selected target/path/intake.
         context.update(intake=intake,path=deepcopy(path),layers=deepcopy(layers))
+        context['conclusion_contract']='question-first-v1'
+        context['explicit_target']={field:deepcopy(intake[field]) for field in
+            ('report','page','visual','measure','table') if intake.get(field)}
+        if inventory:context['candidate_inventory']=deepcopy(inventory)
         from .query_context import sheet
-        context['query_dialect_sheets']={i:sheet(layer)for i,layer in layers.items()}
+        context['query_dialect_sheets']={i:{k:v for k,v in sheet(layer).items() if True}for i,layer in layers.items()}
         context['route_registry_hash']=digest(self.routes)
         from .facts_ledger import FactLedger
         scope={k:intake[k] for k in ('report','page','visual','table','measure','details') if k in intake}
@@ -213,6 +260,10 @@ class Factory:
                             job_runs=self.job_runs,refresh_history=self.refresh_history,security_definitions=self.security,
                             definition_reader=self.definition_for,
                             candidates=(self.candidate_details(self.graph.intake_catalog()) if self.candidate_details else self.graph.intake_catalog()),expand=expand)
+        if comparison_node is not None:
+            read_tools.nodes[comparison_node['id']]=deepcopy(comparison_node)
+            read_tools.visible.add(comparison_node['id'])
+        read_tools.target_inventory=deepcopy(inventory) if inventory else None
         triage_started=monotonic()
         triage=self.triage_for(path,case['id']).run()
         context['phase_timings']={'route_schema_seconds':max(0,triage_started-route_started),'triage_seconds':max(0,monotonic()-triage_started)}
@@ -237,6 +288,7 @@ class Factory:
                                             'schema':schema({}),'run':resolve}
             return tools
         engine=Investigator(queries=queries,model=model,read_tools=registry,
+              evaluator_model=self.model_for_step(case['id'],'EVALUATOR') if self.model_for_step else model,
             checkpoint=self.checkpoint_for(case['id']),case_id=case['id'],context=context,triage=triage,initial_tools_used=len(initial_queries))
         if self.investigator_cascade:
             if not self.model_for_step:raise ValueError('INVESTIGATOR_FALLBACK_CONFIGURATION_REQUIRED')

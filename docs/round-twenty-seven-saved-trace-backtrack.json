@@ -1,0 +1,511 @@
+{
+  "status": "PARTIAL_COHORT_OPERATOR_TRACE_REVIEW_NOT_A_REGRADE",
+  "observed_utc": "2026-11-21T18:47:41.691441+00:00",
+  "source_snapshot_sha256": "9b343dee98c23e5b9c263500795dd81ee2e8f4a3fd035a6d1a31596b83ac61f1",
+  "scope": "29 reviewed-zero main outcomes from the 33-pair snapshot; five separately scored plumbing reruns. Remaining primary grades are unavailable. No held-out input accessed.",
+  "method": "Earliest relevant recorded mistake or obstruction, including subsequently recovered mistakes explicitly marked in the explanation. No claim that every early mistake caused the final score; grader labels retained separately.",
+  "new_estate_reads": 0,
+  "new_model_calls": 0,
+  "counts": {
+    "main": {
+      "query validation": 2,
+      "tool choice": 5,
+      "intake": 2,
+      "write-up": 6,
+      "query": 9,
+      "conclusion": 3,
+      "budget stop": 2
+    },
+    "plumbing-rerun": {
+      "query": 3,
+      "tool choice": 2
+    }
+  },
+  "rows": [
+    {
+      "cohort": "main",
+      "ticket": "form-v2-before-temporal-retention-v1",
+      "first_relevant_wrong_step": "query validation",
+      "audit_sequence": 21,
+      "analysis": "The temporal-catalog read is blocked by the metadata transport defect. Current movement totals cannot establish the requested historical snapshot or its earliest retained boundary.",
+      "capture_seal": "4a5984e1b6a55f589eb1ac0473815d780de94e4557d566c8241dd3138de98335",
+      "ordered_index_sha256": "156c9615d5abfdde76b5f0ed6d5b7730a3b9497f718ef2817be97797f23adc0e",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong evidence",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-other-collected-definition-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 51,
+      "analysis": "The first draft uses a graph ID in the native-layer enum. After correction, delivery remains unresolved despite measured payment agreement; cite the retained SUM rule and avoid adding unmeasured filter claims.",
+      "capture_seal": "ec563f6a7dc70910e9d0c091ad25e07b87fa71fbaf176a21dc6f9fd84da37386",
+      "ordered_index_sha256": "ffb4832f58750b5834d8ace5fdacf68451510c44d1ad956b7e93cf17168f3809",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-billing-invoices-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 69,
+      "analysis": "The first otherwise substantive draft uses a graph ID in the native-layer enum. Its account-history explanation then fails malformed evaluation/definition support. Keep the measured 700-to-950 split and cite the account_id-only join directly.",
+      "capture_seal": "3df11d65d16c9541dd1bbb5de940e5bf966130a77a55ab8cd48b62c860cf986b",
+      "ordered_index_sha256": "38ff572e44d9d9b3c6b3b13489701edd055c534c4098420295faa5c9742cd64a",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-warehouse-scope-v2",
+      "first_relevant_wrong_step": "intake",
+      "audit_sequence": null,
+      "analysis": "UNKNOWN_REPORT stopped the explicit form before investigation. Resolve the submitted report in the catalog; do not replace it or ask for a report already supplied.",
+      "capture_seal": "40a8b86acce58ce1f935dbd24bff9c65acca57bf20b9f7fe2aa88cd86f5bc692",
+      "ordered_index_sha256": "48dba3be67115c12047b4b643637fae31fb052de06e91c42126106ed19d78854",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "target",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-application-baseline-v1",
+      "first_relevant_wrong_step": "write-up",
+      "audit_sequence": 36,
+      "analysis": "The first draft includes retained lineage statements without citable retained-definition evidence; the subsequent evaluator also returns malformed checks. Cite the retained rule and the three agreeing totals, rather than turning evaluator failure into a data cause.",
+      "capture_seal": "8990b69ac8073f4af38647409f335b90be1e07c1395c6b17292882dd4f695799",
+      "ordered_index_sha256": "71771d95e92c4671ac4081bd1aff4d678b57c99f691259375eb0bf2700b86059",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-fixture-quantity-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 22,
+      "analysis": "The first DAX uses an ambiguous member and is refused; a corrected query later recovers 8765. That recovered error must not become the terminal explanation; retained join evidence and the 7661-to-8765 split still need valid citations.",
+      "capture_seal": "d11f4c57e3b7d3159b71d14a682ae6fcbfd3831b6565da7015818a98f14525f7",
+      "ordered_index_sha256": "70aab3302138d8d76c6822160425aac6a85e98f9d08941ad6cbf5e3b816cab2f",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "wrong conclusion"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-billing-mrr-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 44,
+      "analysis": "A diagnostic uses unsupported National-literal syntax and is rejected before dispatch. Correct the read syntax, then use native layer IDs and cite the retained MRR rule; later evaluator malformation is a separate obstruction.",
+      "capture_seal": "e626a6bf8cd2b610c039c6d2d2f7640ddee20eea46897ace7d1452ca00972e32",
+      "ordered_index_sha256": "9485299d46afdc5b1fe2d74e28099a0fa3b735a600ded232d2e028807f7258e1",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "wrong conclusion"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-billing-invoices-v2",
+      "first_relevant_wrong_step": "write-up",
+      "audit_sequence": 65,
+      "analysis": "The draft reaches delivery, but the evaluator cannot establish valid structured checks; later attempts to read again hit the physical cap. Preserve the measured invoice split and cite its rule before spending the remaining steps.",
+      "capture_seal": "1de61c1ce37fea99eac7af68a04123612a34a0f112b35484035e05819cdb743b",
+      "ordered_index_sha256": "d376989a3bcf90c5231171b1aa9c9e8a1a6612284521678daa5ffdf9ee4bad55",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "first_relevant_wrong_step": "query validation",
+      "audit_sequence": 36,
+      "analysis": "A sys.tables metadata read reaches the business-object allowlist and ends SQL_OBJECT_NOT_ALLOWED. Permit only independently validated metadata transport; current record absence does not prove historical absence.",
+      "capture_seal": "bf51fe867059fa1929378aa84e7c384a8c0f8e2213797bbc6e1aa0084ff14b84",
+      "ordered_index_sha256": "4eda27d090cf1ec5820e0253ba82cc8668ec31aa66e25865ba05ddda06c31619",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "first_relevant_wrong_step": "write-up",
+      "audit_sequence": 56,
+      "analysis": "The draft reaches delivery, then malformed evaluator output and unsupported definition claims prevent acceptance. Cite the exact retained transform and scoped repeated-key results instead of reciting uncited lineage.",
+      "capture_seal": "0758bea0ee160fd95bd987dd459f18644757c9fb461f95f1c89e4435f2033c23",
+      "ordered_index_sha256": "01b31ee89836201f197bbbe9fe5e51c9efc36acff03a9c181fcbbdb123f34690",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-warehouse-scope-v1",
+      "first_relevant_wrong_step": "conclusion",
+      "audit_sequence": 36,
+      "analysis": "The first draft is rejected because its AS DESIGNED contract does not state the implemented-rule verdict; later scope/definition checks also reject it. Report the two different warehouse scopes explicitly and support each scoped total.",
+      "capture_seal": "5fc829e73556d57ce1daf1a939b5efe337473c044bafbc268feb7022c39a1a92",
+      "ordered_index_sha256": "1f299b36eb93bf235a7044a0ab5c5d7f0b28ef2f1b02c3b17ae62c394d9a43aa",
+      "independent_grader_first_step_labels": {
+        "primary": "target",
+        "secondary": "wrong conclusion",
+        "review": "wrong conclusion"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 35,
+      "analysis": "The DAX recreation violates the single table-valued EVALUATE contract. Later attempts try to cite a failed query and retrace the same row. Correct the query once and use only successful keyed results to support the finding.",
+      "capture_seal": "727196dad5edb74ee1acecd519ec1368ebb1f5d2b82e6a668173e20e2275fbbd",
+      "ordered_index_sha256": "fe179afcebafac6ff4e2af9307c7b660fffdbaf7d517aa5cdbc228230033bafc",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 21,
+      "analysis": "An ambiguous DAX member is rejected before dispatch, then corrected. Subsequent drafts still lack implemented-rule/source coverage. Recover the query without treating that temporary error as the record cause.",
+      "capture_seal": "14ffac4adda999835b35fc7674cdfb09ae0b57ea5b6712b5df7c5a71c90722d0",
+      "ordered_index_sha256": "1b7179bb37d8f3c6bed66d35f7e10f6ad22e7b14b5e85958278a6b98d7a6771e",
+      "independent_grader_first_step_labels": {
+        "primary": "triage",
+        "secondary": "wrong conclusion",
+        "review": "triage"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-failed-application-load-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 43,
+      "analysis": "The first finding passes a graph object ID where a native query-layer ID is required. Use the exact tool enum; later drafts must also distinguish a failed run from proof that it caused the old visible number.",
+      "capture_seal": "205f9f8f0b1eab04e845077fe5b24f5cd9c8687853c1b2b9f4a3af5a5b5be879",
+      "ordered_index_sha256": "96d7c65ac82a91886949e2953f78e4d67f72b8ee9039149d0a77295e138bea0f",
+      "independent_grader_first_step_labels": {
+        "primary": "triage",
+        "secondary": "triage",
+        "review": "triage"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 48,
+      "analysis": "The warehouse diagnostic references an unavailable or unvalidated object. Later delivery also cites failed reads. Stay on the admitted objects and separate the native failed run from unproved effects on the displayed value.",
+      "capture_seal": "1c486dc791de3ea25360eba450b2e017d1eb5be58c0a1207ef8fb54a3966f6ea",
+      "ordered_index_sha256": "223a96c458d7be6717490b2dcb016fdddd24a963e01e1dddd28d09647666bb18",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "triage",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-04-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 52,
+      "analysis": "The candidate-check wrapper assumes a query correction-limit refusal has an id and raises KeyError. Return that candidate as unavailable, preserve the other checked results and do not confer uniqueness.",
+      "capture_seal": "4555be3734f5db3b1b231424fd724ce1cbb11587d75a33745edf6d3b7fab99ac",
+      "ordered_index_sha256": "ad5a9baabc4f026543557071d64c92388be79dfa9968ace9d834cf1095b7bba0",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "intake",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-05-v1",
+      "first_relevant_wrong_step": "write-up",
+      "audit_sequence": 72,
+      "analysis": "The draft reaches the evaluator, which repeatedly returns no valid structured decision. Retain its measured evidence and distinguish evaluator failure from a technical rejection of the proposed cause.",
+      "capture_seal": "8ef20dfe099de4d8fd0dbb9dee978ac9246f1bc64d843752f4a0b3295c49ab7a",
+      "ordered_index_sha256": "49c424f793eeb3ff3dbef0cb4c5df5c106b5767df472ce7121ff257710b0e41f",
+      "independent_grader_first_step_labels": {
+        "primary": "target",
+        "secondary": "wrong conclusion",
+        "review": "target"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-08-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 65,
+      "analysis": "A historical warehouse read uses unsupported OPTION FOR TIMESTAMP syntax. Do not infer a historical comparison from current totals; use a native supported history route or name its exact unavailable boundary.",
+      "capture_seal": "5306308ae0932197628977777ecfc32bffbc0848345e69b10129f3942a46db99",
+      "ordered_index_sha256": "abb6b12f44e9bad64ab3ddfea59bbfc52789973420fc24045488554de0d0a7cb",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "target",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-09-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 30,
+      "analysis": "The first DAX has an ambiguous member and is rejected; a corrected recreation follows. A later DESCRIBE HISTORY proposal is also sent to a SELECT-only SQL route. Choose the declared dialect/history capability, not a different engine syntax.",
+      "capture_seal": "cc6fc1b8e23e8ab6e230c5abf8ff7de12f68bd4d05d1bf9a3a9b88caa98bdb66",
+      "ordered_index_sha256": "e4435a88e4ef1c351cf899ab5930b3dcc4b14fdc89f0af0a52ef31a313ee2441",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "triage",
+        "review": "triage"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-11-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 30,
+      "analysis": "The initial recreation has an ambiguous DAX member, later corrected. The delivery still needs to tie measured 8765 to its retained calculation instead of citing a partial rule as a full explanation.",
+      "capture_seal": "9adc55db9b446f3bcb085751fe56874f77ba335592a8af1749986a6530babc5b",
+      "ordered_index_sha256": "5c980715f688b51d27e0fe03935f10fbe9e362c42a34a44eb010e21de170fe49",
+      "independent_grader_first_step_labels": {
+        "primary": "target",
+        "secondary": "wrong conclusion",
+        "review": "target"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-10-v1",
+      "first_relevant_wrong_step": "conclusion",
+      "audit_sequence": 83,
+      "analysis": "The first finding selects no unique target yet lacks the required side-by-side findings and exact remaining distinction. Preserve every checked candidate and ask only about the distinction the checks could not resolve.",
+      "capture_seal": "a2eb744b92b473a3207dc3a552a2678899d493d720946370e04cee2de978db0d",
+      "ordered_index_sha256": "fcf571995c7cc37e73d37d601269dfecbb5c803128e89ba2cef361d161862a03",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "target",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-baseline-S02-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 73,
+      "analysis": "The first finding uses a graph ID as a native layer. Later attempts exhaust the final-action reserve while retrieving definitions. Cite the already-retained definition and exact native layer before delivery.",
+      "capture_seal": "7b09bb8cdba67a3f0c808ffbece56d2a4093af97fa88a50e8cca5dfc8406662b",
+      "ordered_index_sha256": "3905c7d96fb4ab450c1fd271345b931e4b8b85613ce78ee28522d76250f79f6e",
+      "independent_grader_first_step_labels": {
+        "primary": "triage",
+        "secondary": "wrong conclusion",
+        "review": "wrong conclusion"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-different-warehouse-v2",
+      "first_relevant_wrong_step": "budget stop",
+      "audit_sequence": 9,
+      "analysis": "Intake completes, but the native physical cap is reached before an investigation finding. This is an unanswered limit stop, not evidence that the compared warehouse values are equivalent or wrong.",
+      "capture_seal": "1e1bdf0a36e49c574261ae4a82124c7de3c60bd45f65cdc80b4f03f70bb9b4b8",
+      "ordered_index_sha256": "9ec495dbfd28c9ce7f5309006ff6aabe510e60028ebe907b0f44fa2537ecc445",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "intake",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-older-export-movement-1-v2",
+      "first_relevant_wrong_step": "budget stop",
+      "audit_sequence": 9,
+      "analysis": "Intake completes, but the native physical cap is reached before a historical investigation. Preserve the unanswered stop; do not claim a historical cause from the requested export date alone.",
+      "capture_seal": "007b523f2ae11e1e534f8ccc1fc5b99f12f76a80c01e6fc444582479141762ab",
+      "ordered_index_sha256": "4aa770298939ba27412d81e17b078760ae92b20d0197d6b15e8f78fcfba88355",
+      "independent_grader_first_step_labels": {
+        "primary": "target",
+        "secondary": "triage",
+        "review": "target"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-02-v1",
+      "first_relevant_wrong_step": "write-up",
+      "audit_sequence": 66,
+      "analysis": "The delivery draft uses retained lineage/transform assertions without resolving them into cited evidence. Numeric contribution alone is not the causal rule; cite the exact retained definition and its measured split.",
+      "capture_seal": "78dbe4993ddc803439f3841163a22d580be5bc098fb5b59364fa5eafe3a29301",
+      "ordered_index_sha256": "28489f191c1aa8c7b7a52183dd7dcbb79d958db509aeadc9f12baa353b28791b",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-failed-billing-load-v1",
+      "first_relevant_wrong_step": "conclusion",
+      "audit_sequence": 4,
+      "analysis": "The native fast-path draft does not answer what caused the failure and whether the job finished or stopped partway through. Fill the answer from the recorded run status/error, and name any missing failure detail without inventing it.",
+      "capture_seal": "303fcb3c7c8d0f57b455fe2d0bfc316c72dd015defc7f6278a8bf9d047ab6447",
+      "ordered_index_sha256": "2393562a78660888a6848ae65f3a7493b7309005c6af6c2f34716129ebc17948",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-baseline-S01-v1",
+      "first_relevant_wrong_step": "intake",
+      "audit_sequence": 3,
+      "analysis": "The loose application-source phrase is rejected as an unresolved exact source name; the model repairs the intake on its next attempt. Preserve it as an unbound comparison for investigation without silently choosing an endpoint.",
+      "capture_seal": "29c8a94c225eb3e331e120a0bf156be476acf56235087526604733ee3ae832e8",
+      "ordered_index_sha256": "4407b0a7f524db8db837b9e086bbefdde083ea0117119f7042518c68fb71f0c7",
+      "independent_grader_first_step_labels": {
+        "primary": "target",
+        "secondary": "wrong conclusion",
+        "review": "target"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-baseline-S03-v2",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 22,
+      "analysis": "The metadata DAX violates the single table-valued EVALUATE contract; later metadata projections and a native HTTP 400 also fail. Use documented retained/model metadata and report exactly which relationship fact was not obtained.",
+      "capture_seal": "7a37abb80accb553dca1bc6332a13f8320027c78f7873af2c5294d05595e1227",
+      "ordered_index_sha256": "e493a1f2389208cdc32be5c7cff3cae2aa1b88b9670c88ebe163c35c9fc826aa",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "main",
+      "ticket": "text-R17-01-v1",
+      "first_relevant_wrong_step": "write-up",
+      "audit_sequence": 76,
+      "analysis": "The first draft reaches delivery without sufficient cited causal support, followed by incomplete evaluation and late definition reads. Link the measured layer split to its retained operation before declaring the cause.",
+      "capture_seal": "b9a71097feb558ab29bc62e4ffb82a83d1bc04304af8c9b1559d56b6d92875fa",
+      "ordered_index_sha256": "0bdcb751517f2941c816406e811ee12a61166fb185b2ab0e418fbfc4fce116e1",
+      "independent_grader_first_step_labels": {
+        "primary": "intake",
+        "secondary": "wrong conclusion",
+        "review": "intake"
+      },
+      "score_unchanged": true
+    },
+    {
+      "cohort": "plumbing-rerun",
+      "ticket": "form-v2-before-temporal-retention-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 57,
+      "analysis": "The temporal read names r22_valid_from where the admitted schema cannot resolve it; the subsequent source transport also fails. Obtain the actual retained temporal column metadata and earliest available bound, or state that evidence is unavailable.",
+      "capture_seal": "7febb0d142daf3b9674538063cbac681575a9f00f6574e566d75c937e02f6128",
+      "ordered_index_sha256": "d4b0fc1346f613da51b09a0eff16e1f07ba69df397c79b98b60973e1924d3b08",
+      "score_unchanged": true
+    },
+    {
+      "cohort": "plumbing-rerun",
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 38,
+      "analysis": "The metadata diagnostic uses unsupported National-literal syntax. Subsequent corrected reads do not cure missing definition citations or malformed evaluation; a missing current key alone does not establish an old export claim.",
+      "capture_seal": "b4f203148a89726c172dcc61325c33ee661372efb44309768543c6fd8683203c",
+      "ordered_index_sha256": "d266686cbb3de7afb276723dd2c4e6cdfc91743ddda12d6057c094bebf86bbce",
+      "score_unchanged": true
+    },
+    {
+      "cohort": "plumbing-rerun",
+      "ticket": "text-older-export-movement-1-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 73,
+      "analysis": "The model sends source queries to a native layer not active on this candidate path, then uses a SQL address where a graph node is required. Activate the admitted upstream node through lineage and use its returned layer enum.",
+      "capture_seal": "9dda0ab4d3f469a0fdb61e1ff8d6f3119093646e0828b33f711c955a089b8974",
+      "ordered_index_sha256": "3499f7eb2855bfa467e8e15a97ed75319259c44773f42621673ff681427c55a4",
+      "score_unchanged": true
+    },
+    {
+      "cohort": "plumbing-rerun",
+      "ticket": "text-R17-08-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 71,
+      "analysis": "A history proposal is not a SELECT/CTE read for its SQL route, followed by unsupported temporal syntax. Keep the requested historical scope and report the unavailable native snapshot instead of substituting current values.",
+      "capture_seal": "2e4df4378d831664e6a48eca85a5da5ce419924220d8c0f22d8a878169afdb6f",
+      "ordered_index_sha256": "99a00f81a6911bc626655e247137320ac0350fea88179e714bfe73728fd18ce5",
+      "score_unchanged": true
+    },
+    {
+      "cohort": "plumbing-rerun",
+      "ticket": "text-R17-09-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 41,
+      "analysis": "A job lookup uses a Fabric address instead of the graph-node enum. Later findings likewise mix graph/native layer IDs and omit source coverage. Use each returned identifier in its declared role without broadening the path.",
+      "capture_seal": "a6d724f505ed2a5950df2447129e360851f9380314e04a87c17adaf2e4535dc9",
+      "ordered_index_sha256": "ff7e1a34f6b8fcecddbda2e9b85553e5a0d54524e83f394a987c0a1bde9dc6bc",
+      "score_unchanged": true
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "observed_at": 1795415915.143683,
+  "discovery_sha256": "7e2a6e83d6043d24e7a5bdc038de06366c9876a779761cd12922fe8ebd4ebde0",
+  "discovered_free_tool_models": [
+    "inclusionai/ling-3.2-flash:free",
+    "baidu/ernie-5.5-flash-preview:free",
+    "liquid/lfm-3-1.7b:free",
+    "particle-ai/particle-1:free",
+    "recursive/flint-v1.0:free",
+    "nvidia/nemotron-3.5-super-vl:free",
+    "dots-studio/dots-3-note-preview:free",
+    "nvidia/nemotron-3.5-lightning:free",
+    "nvidia/nemotron-3-ultra-550b-a55b:free",
+    "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "google/gemma-4-31b-it:free"
+  ],
+  "results": [
+    {
+      "model": "inclusionai/ling-3.2-flash:free",
+      "status": "PASS",
+      "capture_sha256": "f7ae3c09c8a302e83349abcc2bd37b79352762b078b9f0a025d37ccdd1002bbc",
+      "result_sha256": "9800b81eabf63a21721a20b9274eff84763d946b8e64c5237386f84c12485db8",
+      "result_file": ".local\\round-twenty-seven\\free-models\\protocol-openrouter-ling\\tool-protocol.json",
+      "seconds": 572.628014100017,
+      "synthetic_vision": {
+        "status": "PASS",
+        "seconds": 267.4322388000146,
+        "result_sha256": "92a28ce8b18dac06679969140cfcfaedc2665cdfd65e8b5547bf72bd19a42f52",
+        "native_sha256": "0833edec27125b4cf3467d192273d2a24b5c552dbb5e31216d57dd82f501a770",
+        "image_sha256": "812b2f6359f9b5acc189f917a81e34b6a67848337d820e0012e597182d119219",
+        "not_a_screenshot_quality_score": true
+      }
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "status": "PENDING",
+      "capture_sha256": null
+    },
+    {
+      "model": "liquid/lfm-3-1.7b:free",
+      "status": "PENDING",
+      "capture_sha256": null
+    },
+    {
+      "model": "particle-ai/particle-1:free",
+      "status": "PENDING",
+      "capture_sha256": null
+    },
+    {
+      "model": "recursive/flint-v1.0:free",
+      "status": "PENDING",
+      "capture_sha256": null
+    },
+    {
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "status": "PASS",
+      "capture_sha256": "d6430a296a3b59d2216b351e25ffdeba6c16f85734f0a6dc6a4448849379c25f",
+      "result_sha256": "09bb47070df16b5e7fb066a16afd674aeea41c1b1818afc45d591a37afc64c96",
+      "result_file": ".local\\round-twenty-seven\\free-models\\protocol-openrouter-supervl\\tool-protocol.json",
+      "seconds": 8.70051140000578,
+      "synthetic_vision": {
+        "status": "PASS",
+        "seconds": 9.123106199986069,
+        "result_sha256": "ecc16a4ee64513158b512e11087089cccc77ca52572ca78bc17e4d20ef4b13fd",
+        "native_sha256": "67dd13be31b12fac32bd9901b4033a65666cb88647468e637a98c9799c82bac8",
+        "image_sha256": "812b2f6359f9b5acc189f917a81e34b6a67848337d820e0012e597182d119219",
+        "not_a_screenshot_quality_score": true
+      }
+    },
+    {
+      "model": "dots-studio/dots-3-note-preview:free",
+      "status": "PENDING",
+      "capture_sha256": null
+    },
+    {
+      "model": "nvidia/nemotron-3.5-lightning:free",
+      "status": "PASS",
+      "capture_sha256": "f29c1950f4cc6267375234e8e649deeb453cf13e47fbe28245c7b5a039d44e96",
+      "result_sha256": "01f123874b89faf12c8e3b07869bb8fac1a10798cfa0f96cf52f90e8ee757785",
+      "result_file": ".local\\round-twenty-seven\\free-models\\protocol-openrouter-lightning\\tool-protocol.json",
+      "seconds": 14.392412999994121
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "status": "UNAVAILABLE",
+      "capture_sha256": "10b88e39f97802007dff85c7c5bd55e802f8db6fc5a5c76fe3798c0ce30d2906",
+      "result_sha256": "8da27b302f41317ac8cb6fb2952712b06a27feb246530cfe50704268a52d45bc",
+      "result_file": ".local\\round-twenty-seven\\free-models\\proof15-openrouter-ultra\\tool-protocol-gatewayfix.json",
+      "seconds": 914.615941600001
+    },
+    {
+      "model": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+      "status": "PENDING",
+      "capture_sha256": null
+    },
+    {
+      "model": "google/gemma-4-26b-a4b-it:free",
+      "status": "PENDING",
+      "capture_sha256": null
+    },
+    {
+      "model": "google/gemma-4-31b-it:free",
+      "status": "UNAVAILABLE",
+      "capture_sha256": "c8927c3eab93c9202583aecf51edbc1d12f4e8b9c42ffe6e07da2def169d1096",
+      "result_sha256": "5a6dc33840b7b0a03757d90ed34500e299c53b7583c74403656ad23146fc00ba",
+      "result_file": ".local\\round-twenty-seven\\free-models\\proof15-openrouter-gemma4\\tool-protocol.json",
+      "seconds": 1862.4772607999912,
+      "reason": "Repeated upstream 429, no quality score; original native capture retained."
+    }
+  ],
+  "paid_allowed": false,
+  "reason": "Three free models passed native tool tests; paid admission remains refused.",
+  "previous_document_sha256": "deb092f9722c1cf3d08370dff56ca54234aba7efa6e6c2177a949bf044d3de05",
+  "paid_guard_checked": "REFUSED"
+}

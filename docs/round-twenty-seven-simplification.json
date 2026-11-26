@@ -1,0 +1,44 @@
+{
+  "metric": "physical source lines, including comments/blank lines; historical .txt ablation fixtures excluded from executable LOC",
+  "before": {
+    "head": "8f3fb0de7198d8a13dd9a98361d5eedb85adc8aa",
+    "flags": 64,
+    "engine": {
+      "files": 505,
+      "physical_lines": 68705
+    },
+    "harness": {
+      "files": 234,
+      "physical_lines": 21767
+    },
+    "tests": {
+      "files": 670,
+      "physical_lines": 71591
+    }
+  },
+  "after": {
+    "flags": 3,
+    "engine": {
+      "files": 507,
+      "physical_lines": 68804
+    },
+    "harness": {
+      "files": 234,
+      "physical_lines": 21765
+    },
+    "tests": {
+      "files": 671,
+      "physical_lines": 71572
+    },
+    "source": "6731ead4",
+    "note": "Final paid-gate transport/evaluator caching and owner cap included; no prompt reasoning change"
+  },
+  "archived_ablations": 24,
+  "retired_flags": 61,
+  "preserved_evaluator_switches": [
+    "r27_evaluator_advisory",
+    "r27_slim_evaluator",
+    "r27_delivery_evaluator"
+  ],
+  "no_score_or_expectation_changes": true
+}

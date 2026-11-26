@@ -1,0 +1,49 @@
+{
+  "observed_at_utc": "2026-11-23T19:02:51.905225+00:00",
+  "status": "WITHDRAWN_FIXTURE_RESTORATION_COMPLETE_AZURE_START_STILL_UNESTABLISHED",
+  "ticket": "form-v2-stale-model-v1",
+  "run_id": "f238f1ba-1142-4b55-bdc1-958c61911343",
+  "image_prefix": "e452897d1d341e88",
+  "start_error": "ARM job start POST: HTTPSConnectionPool management.azure.com read timeout; WinError10060",
+  "execution_list_error": "BadGateway: The issue encountered for Microsoft.App; cannot fulfill the request",
+  "activity_observation": "Successful start event17:57:28UTC predates local SUBMIT_ATTEMPT17:58:37UTC; current ARM HTTP Date agrees with laptop UTC. No execution name or run ID is present; do not attribute this event to the ticket.",
+  "capture_observation": "Exact run prefix initially empty; sealed-capture recovery polling remains active",
+  "duplicate_submission": false,
+  "scored": false,
+  "fixture": {
+    "model_quantity": 7661,
+    "source_rows": 363,
+    "source_restoration_required": false,
+    "automatic_updates_owner_reported": "ON",
+    "automatic_updates_confirmation_utc": "2026-11-23T17:26:51.730893+00:00",
+    "schedule_changed": false,
+    "control_requests_recorded": 28,
+    "restored_source_rows": 360,
+    "source_and_bronze_quantity_at_scored_admission": 7692
+  },
+  "next": "Establish the exact execution or recover its sealed terminal capture before continuing or restoring the owned source state. Never repeat an uncertain POST.",
+  "ledger_observation": "No matching reservation, usage row or document key for the exact run ID; absence does not prove non-acceptance.",
+  "job_resource_observation": "Readable: provisioningSucceeded, runningReady; not proof of the uncertain execution state.",
+  "execution_list_api_versions_tested": [
+    "2025-01-01",
+    "2024-03-01"
+  ],
+  "filtered_read_observation": "Two attempted timestamp filter forms returned InvalidParameterValue; neither established execution state.",
+  "operator_decision": "Withdraw the uncertain case before any cleanup mutation; preserve any later capture unscored. Restore only the approved owned rows by guarded versions and original hashes. Alternative rejected: leave the practice fixture changed indefinitely while execution APIs are unavailable.",
+  "second_ticket": "NOT_RUN_UNTIL_START_RECONCILIATION",
+  "host_grading_and_capture_to_outcome_recovery": "STOPPED_BEFORE_WITHDRAWN_FIXTURE_RESTORE",
+  "cloud_job_stop": "NOT_ATTEMPTED_WITHOUT_EXACT_EXECUTION_REFERENCE",
+  "restored_hashes": {
+    "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+    "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+    "temporal_period_columns_excluded_explicitly": true
+  },
+  "original_real_restoration_load": "SUCCEEDED",
+  "cleanup_requests_total": 28,
+  "restore_recovery": "First connection failed nativeSQL40613. Re-read all owned IDs/values/versions, then executed the same guarded restore under a new recovery journal entry. Original360 business/schema hashes verified.",
+  "native_setting_provenance": "OWNER_REPORTED_OFF; ON confirmation still pending",
+  "automatic_updates": "ON_OWNER_CONFIRMED",
+  "native_model_quantity": 7661,
+  "native_refresh_status": "Completed",
+  "final_restoration_record": "round-twenty-seven-free-step4-final-restoration.json"
+}

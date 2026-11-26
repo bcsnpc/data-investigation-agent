@@ -1,0 +1,105 @@
+{
+  "observed_at": 1795414350.7678478,
+  "http_status": 200,
+  "generation_calls": 0,
+  "source": "https://openrouter.ai/api/v1/models",
+  "models": [
+    {
+      "model": "inclusionai/ling-3.2-flash:free",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "baidu/ernie-5.5-flash-preview:free",
+      "input_modalities": [
+        "text"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "liquid/lfm-3-1.7b:free",
+      "input_modalities": [
+        "text"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "particle-ai/particle-1:free",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "recursive/flint-v1.0:free",
+      "input_modalities": [
+        "text"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "nvidia/nemotron-3.5-super-vl:free",
+      "input_modalities": [
+        "text",
+        "image",
+        "video"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "dots-studio/dots-3-note-preview:free",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "nvidia/nemotron-3.5-lightning:free",
+      "input_modalities": [
+        "text"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "input_modalities": [
+        "text"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free",
+      "input_modalities": [
+        "text",
+        "audio",
+        "image",
+        "video"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "google/gemma-4-26b-a4b-it:free",
+      "input_modalities": [
+        "image",
+        "text",
+        "video"
+      ],
+      "tools_advertised": true
+    },
+    {
+      "model": "google/gemma-4-31b-it:free",
+      "input_modalities": [
+        "image",
+        "text",
+        "video"
+      ],
+      "tools_advertised": true
+    }
+  ],
+  "qualification_note": "Lightning text tool test passes but inventory advertises text-only; not eligible for the whole 15-ticket proof including screenshots. Ling tool test passes and inventory advertises image input; native screenshot handling still requires its live proof. Paid remains blocked by free PASS results."
+}

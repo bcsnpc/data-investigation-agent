@@ -5,12 +5,33 @@ from .build_phase import month_window, ensure_model_account
 from .shared_state import encoded, sha
 
 
+def check_credit(provider,now,*,owner=None,purpose=None):
+    """Confirmed prepaid expiry and round purpose limits before dispatch."""
+    from datetime import datetime,timezone
+    from .model_spend import SpendHold
+    approved=policy(provider)
+    if approved.get('enabled') is False:
+        raise SpendHold('PROVIDER_DISABLED_BY_OWNER:'+provider)
+    expiry=approved.get('credit_expiry_utc')
+    if expiry and now>=datetime.fromisoformat(expiry.replace('Z','+00:00')).timestamp():
+        raise SpendHold('PROVIDER_CREDIT_EXPIRED:'+provider)
+    if (isinstance(owner,str)and owner.startswith('round27-') and
+            'allowed_purposes'in approved and purpose not in approved['allowed_purposes']):
+        raise SpendHold('PROVIDER_PURPOSE_NOT_APPROVED:'+provider)
+
+
 def policy(provider):
-    return json.loads(Path(__file__).with_name('build_phase_policy.json').read_text())['round26']['providers'][provider]
+    configuration=json.loads(Path(__file__).with_name('build_phase_policy.json').read_text())
+    return configuration[configuration.get('active_provider_policy','round26')]['providers'][provider]
 
 
 def account_for(provider, now):
     month = month_window(now)[0]
+    if provider == 'nvidia':
+        raise ValueError('NVIDIA_FREE_REQUIRES_CALLS_ACCOUNT_NOT_DOLLARS')
+    if provider == 'openrouter':
+        from .openrouter_budget import PAID_ACCOUNT
+        return PAID_ACCOUNT
     if provider == 'anthropic':
         return 'model-microdollars:' + month
     if provider == 'bedrock':

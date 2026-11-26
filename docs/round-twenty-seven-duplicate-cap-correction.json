@@ -1,0 +1,20 @@
+{
+  "owner_approval": "2026-11-21 r27-continue-repair-and-finish.md; exact120USD confirmed",
+  "execution_utc": "2026-11-22",
+  "previous_duplicate_override_microdollars": 120575301,
+  "approved_provider_and_cloud_ceiling_microdollars": 220284651,
+  "corrected_duplicate_override_microdollars": 220284651,
+  "runtime_charged_microdollars_at_refusal": 120169504,
+  "remaining_under_stale_override_microdollars": 405797,
+  "provider_counted_input_tokens": 78631,
+  "reservation_margin_tokens": 4096,
+  "input_rate_microdollars_per_token": 5,
+  "conservative_input_cost_microdollars": 413635,
+  "generation_dispatched": false,
+  "billing_attempt_model_cost_microdollars": 0,
+  "new_allowance_approved_or_added": false,
+  "all_usage_and_reserve_history_preserved": true,
+  "history_control_restored_original_hash": true,
+  "history_control_new_model_admission": false,
+  "additional_local_control_issue": "proof02 lacked its local inputs manifest; history fixture restored rather than scored"
+}

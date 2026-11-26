@@ -59,7 +59,8 @@ def authorize_body(permissions,method,url,raw):
     if not counted and (type(body['max_tokens']) is not int or not 1<=body['max_tokens']<=16000):raise ValueError('REASONING_OUTPUT_BOUND')
     names={'run_sql','run_dax','get_definition','get_lineage','get_job_runs','get_refresh_history',
            'get_security_definitions','record_trace','list_candidates','get_evidence','ask_user_choice','submit_finding',
-           'lookup_intake_catalog','resolve_intake','describe_screenshot','plan_screenshot_lookup','lookup_screenshot'}
+           'lookup_intake_catalog','resolve_intake','describe_screenshot','plan_screenshot_lookup','lookup_screenshot',
+           'get_target_candidates','check_target_candidates','contribution_analysis','row_layer_diff','evaluate_delivery','repair_delivery'}
     if not isinstance(body['tools'],list) or not body['tools']:raise ValueError('CLIENT_TOOLS_REQUIRED')
     for index,tool in enumerate(body['tools']):
         fields={'name','description','input_schema'}
@@ -87,10 +88,12 @@ def choose_model(listing,preference=PREFERENCE):
 
 
 class Client:
-    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None,diagnostic_prompt_cache=None):
+    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None,diagnostic_prompt_cache=None,batch_static=False):
         from .managed_identity import validate_secret_reference
         validate_secret_reference(secret_reference)
         if budget.rate.model!=model:raise ValueError('MODEL_RATE_MISMATCH')
+        if type(batch_static)is not bool:raise ValueError("BATCH_STATIC_BOOLEAN_REQUIRED")
+        self.batch_static=batch_static
         self.model,self.budget,self.identity=model,budget,identity
         self.reference,self.record=deepcopy(secret_reference),record
         self.send=send;self.key_reader=key_reader
@@ -119,7 +122,7 @@ class Client:
                 data=response.read(4*1024*1024+1)
             if len(data)>4*1024*1024:raise ValueError('MODEL_RESPONSE_BOUND')
             if key in data.decode('utf8',errors='replace'):raise ValueError('MODEL_SECRET_ECHO')
-            return json.loads(data)
+            return [json.loads(line)for line in data.splitlines()if line]if url.endswith('/results')else json.loads(data)
         except HTTPError as error:
             raw=error.read(16384).decode('utf8',errors='replace')
             if key in raw:raise ValueError('MODEL_SECRET_ECHO') from None
@@ -133,6 +136,23 @@ class Client:
         self.record({'event':'REASONING_MODEL_DISCOVERY','listing':listing})
         return listing
 
+    def generate(self,body,reservation):
+        if not self.batch_static:return (self.send or self._http)('POST',BASE+'/messages',body)
+        from .reasoning_anthropic_batch import StaticBatch,BatchPending
+        batch=StaticBatch(self,static_ticket=True)
+        try:
+            receipt=batch.submit([body],reserved=[reservation])
+        except Exception as error:
+            # A batch POST may have reached Anthropic; never repeat it.
+            status=getattr(error,'http_status',None)
+            self.record({'event':'STATIC_BATCH_SUBMIT_ERROR','error_type':type(error).__name__,'http_status':status,'no_unknown_post_retry':True})
+            if isinstance(error,ProviderHTTPError)and status in (401,402,403,429):raise
+            raise BatchPending('STATIC_BATCH_SUBMIT_UNCERTAIN_NO_RETRY')from error
+        results=batch.collect(receipt,wait_seconds=600)
+        result=next(iter(results.values()))
+        if result.get('type')!='succeeded':raise BatchPending('STATIC_BATCH_PROVIDER_RESULT:'+str(result.get('type')))
+        return result['message']
+
     def complete(self,*,system,messages,tools,max_tokens=4000,private_summary=False):
         body={'model':self.model,'max_tokens':max_tokens,'system':[
                   {'type':'text','text':system,'cache_control':{'type':'ephemeral'}}],
@@ -142,6 +162,14 @@ class Client:
         # helper requests exactly instead of hiding their next required tool.
         cache_investigation=self.diagnostic_cache is not None and any(t.get('name')=='submit_finding'for t in tools)
         if cache_investigation:body=self.diagnostic_cache.prepare(body)
+        elif self.diagnostic_helper_usage is not None and body['tools']:
+            # Helper schemas can change between phases. Cache this call's
+            # actual toolbox, never pin an earlier helper's schema.
+            body['tools'][-1]['cache_control']={'type':'ephemeral'}
+        evaluator_cache_digest=None
+        if self.diagnostic_helper_usage is not None:
+            from .anthropic_prompt_cache import evaluator_prefix
+            body,evaluator_cache_digest=evaluator_prefix(body)
         from ..planner_recording import _safe
         _safe(canonical(body).encode())
         # The real transport checks the date before making a reservation. The
@@ -174,7 +202,7 @@ class Client:
                 self.record({'event':'REASONING_REQUEST','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(body).encode()).hexdigest()}
                                 if private_summary else {'body':body})})
-                response=(self.send or self._http)('POST',BASE+'/messages',body)
+                response=self.generate(body,identity)
                 _safe(canonical(response).encode())
                 self.record({'event':'REASONING_RESPONSE','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(response).encode()).hexdigest(),'usage':response.get('usage')}
@@ -184,7 +212,7 @@ class Client:
                     observed=self.diagnostic_cache.observe(response.get('usage'));observed.update(phase='INVESTIGATION',cache_assertion_applies=True);self.record(observed)
                 elif self.diagnostic_helper_usage is not None:
                     self.diagnostic_helper_usage.prefix_sha256=__import__('hashlib').sha256(canonical([body['tools'],body['system']]).encode()).hexdigest()
-                    observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='INTAKE_HELPER_UNCHANGED',cache_assertion_applies=False,subsequent_cache_read_check='NOT_APPLICABLE_NO_ADMITTED_PATH_PREFIX');self.record(observed)
+                    observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='EVALUATOR_STABLE_EVIDENCE_CACHE'if evaluator_cache_digest else'HELPER_TOOL_AND_SYSTEM_CACHE',cache_assertion_applies=False,subsequent_cache_read_check='REPORTED_ONLY_PREFIX_MAY_CHANGE');observed.update(evaluator_prefix_sha256=evaluator_cache_digest);self.record(observed)
                 return response
             except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError)as error:
                 if attempt==2 or not retryable(error):raise

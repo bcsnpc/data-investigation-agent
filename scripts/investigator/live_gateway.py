@@ -8,6 +8,7 @@ Rejected attempts log hashes, never SQL, ticket text, URLs with secrets or token
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
+
 import hashlib
 import json
 from .adapters.platform_credentials import FORBIDDEN_HTTP_SEGMENTS
@@ -205,6 +206,10 @@ class Gateway:
             from .adapters.scanner_policy import response_bound_only,followup
             if response_bound_only(url) and followup(identity,method,url) is None:
                 _deny('SCANNER_RESPONSE_BINDING_REQUIRED',identity=identity,operation=method,target=url)
+        if not matches and permissions.get('role')=='model':
+            from .adapters.reasoning_anthropic_batch import permits as reasoning_batch_permits
+            if reasoning_batch_permits(permissions,identity,method,url,body):
+                return {'method':method,'url':url,'purpose':'STATIC_REASONING_BATCH'}
         if not matches and permissions.get('role')=='enrichment':
             from .adapters.enrichment_anthropic import permits
             if permits(self,identity,method,url,body,headers):
@@ -391,12 +396,17 @@ def validate_dax(query,*,allow_define=False):
     inspected=query
     for scalar in SCALARS:inspected=inspected.replace(scalar,'1')
     tokens,gaps=tokenize(inspected)
+    from .investigation_metadata import dax_rowset_expression
+    try:metadata=dax_rowset_expression(query)
+    except ValueError:_deny('DAX_METADATA_READ_GRAMMAR_REJECTED',target=query)
+    if metadata is not None:return query
     if allow_define is True and tokens and tokens[0][1].upper()=='DEFINE':
         # The same recursive grammar owns syntax; only the investigative
         # validator binds discovered model members. This independent gateway
         # pass cannot be used to admit DDL or a second EVALUATE.
         from .query_dax import Parser
-        try:Parser(query,[],allow_define=True,bind_catalog=False).parse()
+        try:Parser(query,[],allow_define=True,bind_catalog=False,
+                   allow_order_by=True).parse()
         except Exception:_deny('DAX_QUERY_DEFINITION_GRAMMAR_REJECTED',target=query)
         return query
     if gaps or not tokens or tokens[0][0]!='name' or tokens[0][1].upper()!='EVALUATE':
@@ -445,8 +455,15 @@ def authorize_http(request,*,identity=None):
 
 
 def open_http(opener,request,*,timeout,identity=None):
-    if not isinstance(timeout,(int,float)) or not 0<timeout<=120:_deny('HTTP_TIMEOUT_REQUIRED')
-    authorize_http(request,identity=identity)
+    if type(timeout)not in (int,float) or not 0<timeout<=300:_deny('HTTP_TIMEOUT_REQUIRED')
+    admission=authorize_http(request,identity=identity)
+    if timeout>120:
+        actor=identity or os.environ.get('DIA_GATEWAY_HTTP_IDENTITY','')
+        if (admission.get('purpose')!='configured_ai' or current().identity(actor).get('role')!='model'
+                or request.get_method()!='POST' or request.full_url not in (
+                    'https://integrate.api.nvidia.com/v1/chat/completions',
+                    'https://openrouter.ai/api/v1/chat/completions')):
+            _deny('HTTP_TIMEOUT_REQUIRED')
     # All production openers have NoRedirect. The gateway never follows a
     # redirect to an endpoint that did not receive its own admission.
     return opener.open(request,timeout=timeout)
@@ -463,11 +480,14 @@ def authorize_sql_payload(payload):
     if catalog_objects is None:
         from .adapters.graph_sql_changes import compiled_control_objects as graph_catalog_objects
         catalog_objects=graph_catalog_objects(payload)
+    if catalog_objects is None:
+        from .investigation_metadata import compiled_control_objects as investigation_catalog_objects
+        catalog_objects=investigation_catalog_objects(payload)
     if catalog_objects is not None:
         gateway=current()
         gateway.sql_control(identity,payload['server'],payload['database'],'CATALOG')
         # Reuse normal connection/object/row/time admission; SELECT 1 has no
-        # additional object authority. Only the exact compiler shape above can
+        # additional object authority. Only a revalidated compiler shape can
         # use catalog views, and all user-object permission guards remain.
         gateway.sql(identity,payload['server'],payload['database'],'SELECT 1',
             objects=catalog_objects,max_rows=payload['max_rows'],timeout=30)

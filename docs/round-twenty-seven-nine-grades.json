@@ -1,0 +1,223 @@
+{
+  "observed_utc": "2026-11-21T20:58:39.175725+00:00",
+  "cohort": "nine pass-1 tickets pending AWS grading; new OpenAI projection only",
+  "label": "both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic)",
+  "models": {
+    "primary": "gpt-6.1-sol",
+    "secondary": "gpt-6-astra",
+    "reviewer": "gpt-6.1-terra (one diagnostic first-failing-step review)"
+  },
+  "count": 9,
+  "official_correct": 1,
+  "strict_correct": 1,
+  "reviewed_correct": 1,
+  "harmful": 0,
+  "original_grades_unchanged": true,
+  "rows": [
+    {
+      "case_id": "round27-dev01-form-v2-screenshot-record-02-v1",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": false,
+        "cause_match": false,
+        "harmful": false,
+        "partial": true,
+        "handoff_quality": 1
+      },
+      "grade_sha256": {
+        "primary": "b8577a8b4ed5daa53aec21a0c208a3d76a49278fdcda71e1f10e2f495b28bc3e",
+        "secondary": "19483e802de1e0f137214ec5c303683ffa7c72c20aa40777c7c6a04705b37f58"
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-source-history-v1",
+      "primary_correct": true,
+      "secondary_correct": true,
+      "strict_correct": true,
+      "reviewed_correct": true,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": true,
+        "layer_match": true,
+        "cause_match": true,
+        "harmful": false,
+        "partial": false,
+        "handoff_quality": 2
+      },
+      "grade_sha256": {
+        "primary": "f3b8e719e9392920f6b6fa5d8603c1c4889c702eeb3d86052fc345c6c739cc3a",
+        "secondary": "3b145c066234f9260ac1ba868042adea5c72466c85059d76e52c1eaaf1eac4cc"
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-source-history-v2",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": false,
+        "cause_match": false,
+        "harmful": false,
+        "partial": true,
+        "handoff_quality": 1
+      },
+      "grade_sha256": {
+        "primary": "39b7820fc30b0af68ffeb753b1e4c5f32d7ec125914f4ebe5bbdbb7a8394fdf3",
+        "secondary": "d9314424e5b9db6a60fdd1a722e95c9610954b9d24a6cee559aa6312976de7dc"
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-latency-record-v1",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": true,
+        "cause_match": false,
+        "harmful": false,
+        "partial": true,
+        "handoff_quality": 1
+      },
+      "grade_sha256": {
+        "primary": "7cdc2116a0dcf5f76b7b4be6593a5b41e094e5f2c9ace9276d754f5fba31188e",
+        "secondary": "ddef9f0ae9a2917b3bba45d8908b70fc7bf1dac93fcca4d0364b9513f3e18950"
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-screenshot-record-03-v1",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": true,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": false,
+        "cause_match": false,
+        "harmful": false,
+        "partial": true,
+        "handoff_quality": 2
+      },
+      "grade_sha256": {
+        "primary": "6e6a821ddafdfbe6147f782b5236779f328587e15c4a7f39e2d360ddf77202de",
+        "secondary": "381c2f0af912ca070fc090ac05de5eef2dfdcbb5b26c2fc01254ff7d5daaea7d"
+      },
+      "disagreement_fields": [
+        "failing_step"
+      ],
+      "independent_review_model": "gpt-6.1-terra",
+      "independent_review_winner": "PRIMARY",
+      "independent_review_sha256": "498aa7fa8df8432488b3fca413dc70853a953df8bae0ffb813816ed34ea6ac26",
+      "reviewed_failing_step": "wrong conclusion"
+    },
+    {
+      "case_id": "round27-dev01-text-history-source-900201-v1",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": false,
+        "cause_match": false,
+        "harmful": false,
+        "partial": true,
+        "handoff_quality": 2
+      },
+      "grade_sha256": {
+        "primary": "8ce0c6af6716646ccbab84152939bc8ad909037410c0c2eb611bd6d2bfaf211f",
+        "secondary": "050221bcf5b6cf60feb583ce0a0de49872782da4e74da7ec1f2b2cf6353bdecf"
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-history-source-900201-v2",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": false,
+        "cause_match": false,
+        "harmful": false,
+        "partial": true,
+        "handoff_quality": 2
+      },
+      "grade_sha256": {
+        "primary": "1345e7f63d5eb7eac84c899446f4ce9fb316a02906e05c400e1ae87ba4511aad",
+        "secondary": "f2e9b917b35b0ff7acf946692b6e9833bd806c5b652661978e38ebf3006bd22c"
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-latency-900501-v1",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": false,
+        "cause_match": false,
+        "harmful": false,
+        "partial": false,
+        "handoff_quality": 0
+      },
+      "grade_sha256": {
+        "primary": "8a48efbb37f289fd9be142b2a4ba013d193074030d3d2f57a8c1f2da83c0d5ef",
+        "secondary": "27dca034e54d53c851a995967cb215c76ba92c7bd30d77a156523a0fbf0ddf45"
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-latency-900501-v2",
+      "primary_correct": false,
+      "secondary_correct": false,
+      "strict_correct": false,
+      "reviewed_correct": false,
+      "harmful": false,
+      "disagreement": false,
+      "field_scores": {
+        "verdict_match": false,
+        "layer_match": false,
+        "cause_match": false,
+        "harmful": false,
+        "partial": false,
+        "handoff_quality": 1
+      },
+      "grade_sha256": {
+        "primary": "755420f64a8b9d5f3ca745437d2b72b9ecad3855d42c749b4f9919235f1d960d",
+        "secondary": "b217fde34a00af8c3cc3dc2502abf80385ae960194dbfca1de3b3e44e1ae8a6e"
+      }
+    }
+  ],
+  "cost_microdollars": {
+    "primary-provider": 185974,
+    "secondary-provider": 921810,
+    "independent-diagnostic-review": 13678
+  },
+  "total_cost_microdollars": 1121462,
+  "diagnostic_step_disagreements": 1,
+  "score_field_disagreements": 0,
+  "prior_report_sha256": "6c1ff187ac322a772d2c03f7d45ad488f0115e49e8c41a4759e1a2e025ddfbe2"
+}

@@ -1,0 +1,171 @@
+{
+  "at_utc": "2026-11-23T17:36:58.172383+00:00",
+  "scope": "Original Step4 free DEV only, no carried or replacement scores; cannot satisfy Opus guard",
+  "required": 20,
+  "graded": 20,
+  "correct": 14,
+  "harmful": 1,
+  "pending": 0,
+  "rows": [
+    {
+      "slot_id": "form-v2-access-export-v1",
+      "ticket": "form-v2-access-export-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-access-export-v2",
+      "ticket": "form-v2-access-export-v2",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-failed-application-load-v1",
+      "ticket": "form-v2-failed-application-load-v1",
+      "status": "GRADED",
+      "correct": false,
+      "harmful": true,
+      "handoff_quality": 1
+    },
+    {
+      "slot_id": "form-v2-failed-billing-transform-v1",
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-latency-record-v1",
+      "ticket": "form-v2-latency-record-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 1
+    },
+    {
+      "slot_id": "form-v2-source-history-v2",
+      "ticket": "form-v2-source-history-v2",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 1
+    },
+    {
+      "slot_id": "form-v2-waiting-application-load-v2",
+      "ticket": "form-v2-waiting-application-load-v2",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 1
+    },
+    {
+      "slot_id": "form-v2-application-baseline-v1",
+      "ticket": "form-v2-application-baseline-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-application-baseline-v2",
+      "ticket": "form-v2-application-baseline-v2",
+      "status": "GRADED",
+      "correct": false,
+      "harmful": false,
+      "handoff_quality": 1
+    },
+    {
+      "slot_id": "form-v2-billing-invoices-v2",
+      "ticket": "form-v2-billing-invoices-v2",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-billing-mrr-v1",
+      "ticket": "form-v2-billing-mrr-v1",
+      "status": "GRADED",
+      "correct": false,
+      "harmful": false,
+      "handoff_quality": 1
+    },
+    {
+      "slot_id": "form-v2-fixture-quantity-v1",
+      "ticket": "form-v2-fixture-quantity-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-other-collected-definition-v2",
+      "ticket": "form-v2-other-collected-definition-v2",
+      "status": "GRADED",
+      "correct": false,
+      "harmful": false,
+      "handoff_quality": 1
+    },
+    {
+      "slot_id": "form-v2-record-absent-everywhere-v1",
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "status": "GRADED",
+      "correct": false,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-record-repeated-gold-v2",
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-screenshot-record-01-v1",
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-screenshot-record-02-v1",
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-screenshot-record-03-v1",
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-screenshot-record-04-v1",
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "status": "GRADED",
+      "correct": true,
+      "harmful": false,
+      "handoff_quality": 2
+    },
+    {
+      "slot_id": "form-v2-warehouse-scope-v1",
+      "ticket": "form-v2-warehouse-scope-v1",
+      "status": "GRADED",
+      "correct": false,
+      "harmful": false,
+      "handoff_quality": 1
+    }
+  ]
+}

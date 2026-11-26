@@ -1,0 +1,26 @@
+{
+  "source_capture_seal": "506758691a6fc4fd3583b6f0f89d11aca3be6cab2de6d28c9e98bb6d5a09bfa0",
+  "new_estate_reads": 0,
+  "generation_calls": 0,
+  "counterfactual_lookup_at_utc": "2026-11-23T14:32:08Z",
+  "all_observed_times_preserved": true,
+  "before_after": {
+    "False": [
+      {
+        "run_id": "711a8ceb-9a4c-402f-b4fa-7e0162376c68",
+        "status": "SUCCEEDED"
+      }
+    ],
+    "True": [
+      {
+        "run_id": "711a8ceb-9a4c-402f-b4fa-7e0162376c68",
+        "status": "SUCCEEDED"
+      },
+      {
+        "run_id": "60171852-c47e-4e9a-a01e-9402343ab5ee",
+        "status": "FAILED"
+      }
+    ]
+  },
+  "scope": "Saved native fact filter regression only; original result and grade unchanged"
+}

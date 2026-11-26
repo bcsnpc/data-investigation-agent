@@ -1,0 +1,95 @@
+{
+  "scope": "eight incorrect outcomes among nine newly completed primary grades; one correct source-history form excluded",
+  "method": "operator analysis of saved dev traces only; not a regrade; recovered initial errors distinguished from terminal cause",
+  "new_estate_reads": 0,
+  "new_model_calls": 0,
+  "counts": {
+    "query": 2,
+    "tool choice": 3,
+    "budget stop": 1,
+    "intake": 1,
+    "target": 1
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 59,
+      "analysis": "An initial application DAX draft uses ambiguous members and is rejected before dispatch; later reads recover movement 4 and units 21 across all three layers. The recovered failure must not replace the unchanged-source explanation; cite successful record reads and the visual definition.",
+      "saved_index_sha256": "f813e1a6ae38f99a541845f4a49f88a848f2a5c5e3a6f83ac17543762c127b54",
+      "trace_limit": null,
+      "primary_grader_label": "wrong conclusion",
+      "scores_unchanged": true
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 74,
+      "analysis": "The lineage request passes a Fabric address where the tool requires a graph-node ID. Temporal checks later recover before-41/after-47 evidence, but delivery still omits the source-history conclusion; use the admitted node enum and cite the actual versions.",
+      "saved_index_sha256": "aa720ed734c536c6785384da700812b64275140a666c1e00873c96091b137b0f",
+      "trace_limit": null,
+      "primary_grader_label": "wrong conclusion",
+      "scores_unchanged": true
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "first_relevant_wrong_step": "budget stop",
+      "audit_sequence": 87,
+      "analysis": "The next historical query is refused because physical reads have closed after the source-to-Bronze split and job/schedule facts were already collected. Use the saved source modification time, completed load and enabled future schedule to explain latency rather than spending the final action on an unnecessary historical probe.",
+      "saved_index_sha256": "7608af7d5754fd047065c8d27fcfd36f338912035fc697c78cded0a7d2a7c05a",
+      "trace_limit": null,
+      "primary_grader_label": "wrong conclusion",
+      "scores_unchanged": true
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "first_relevant_wrong_step": "query",
+      "audit_sequence": 63,
+      "analysis": "The initial application DAX has ambiguous members; subsequent successful queries identify movement 5 with units 3 throughout the path. Keep the recovered query error separate from the answer and cite the successful layer checks plus the retained visual definition.",
+      "saved_index_sha256": "d202142bbb805c308ce0a39629ffdcb7b5146251b4156b647b0e351e92fbdc5b",
+      "trace_limit": null,
+      "primary_grader_label": "wrong conclusion",
+      "scores_unchanged": true
+    },
+    {
+      "ticket": "text-history-source-900201-v1",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": 30,
+      "analysis": "The first investigation traces current record snapshots for a historical export question and never reads the retained temporal window. Query native history at the two ticket times instead of treating current absence as the relevant evidence.",
+      "saved_index_sha256": "83f858d95f7fd32ac7d21fa7b335b4b0999d450e3b0f4522c44237c08938a8e9",
+      "trace_limit": null,
+      "primary_grader_label": "wrong evidence",
+      "scores_unchanged": true
+    },
+    {
+      "ticket": "text-history-source-900201-v2",
+      "first_relevant_wrong_step": "tool choice",
+      "audit_sequence": null,
+      "analysis": "The investigation uses current snapshots for the historical export discrepancy and leaves the retained temporal evidence unread. Read the before/after window for the stated export times; current absence cannot establish the historical transition.",
+      "saved_index_sha256": "835591493110c04d657c014c4ea56d7c388eefc33a4a39385703abd6370d2536",
+      "trace_limit": null,
+      "primary_grader_label": "wrong evidence",
+      "scores_unchanged": true
+    },
+    {
+      "ticket": "text-latency-900501-v1",
+      "first_relevant_wrong_step": "intake",
+      "audit_sequence": null,
+      "analysis": "SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS ends intake before any investigation or handoff. Resolve the ticket-named source/load through the admitted graph or preserve the comparison as unresolved for bounded investigation; do not invent an alternate target.",
+      "saved_index_sha256": null,
+      "trace_limit": "Original partial unsealed intake capture; no complete ordered index exists. Exception and saved graded packet establish intake stop only.",
+      "primary_grader_label": "intake",
+      "scores_unchanged": true
+    },
+    {
+      "ticket": "text-latency-900501-v2",
+      "first_relevant_wrong_step": "target",
+      "audit_sequence": 43,
+      "analysis": "The first record trace follows a warehouse chain instead of the application-load/Bronze path named in the ticket. Bind the explicit application path before reading its record and future load schedule; the later 401 is a separate limitation.",
+      "saved_index_sha256": "c7ea156ce7d03d3b6ec60ad0e0698cbc1e911f2a53333fb869386ddd80112dbd",
+      "trace_limit": null,
+      "primary_grader_label": "target",
+      "scores_unchanged": true
+    }
+  ]
+}

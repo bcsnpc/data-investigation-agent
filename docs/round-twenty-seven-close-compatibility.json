@@ -1,0 +1,14 @@
+{
+  "cases": 123,
+  "all_status_and_after_fields_unchanged": true,
+  "changed": [],
+  "counts": {
+    "REPLAY_FAILURE": 29,
+    "REPLAY_FINISHED": 85,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "baseline": "native-reference-c7a06c1f",
+  "baseline_sha256": "095ad70fc1879f118f6927023fb619f0673f1039b93e4fab55a42e53a72d6de5",
+  "current_sha256": "c47a8e74b02d452262b7f33a46251d585d05d9a7ff317e9653bd46be4846b151",
+  "limitation": "85 finished,29 historical negative/incomplete,9 no case; not123 successful exact replays"
+}

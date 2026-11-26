@@ -1,0 +1,147 @@
+{
+  "at_utc": "2026-11-26T06:28:09.003538+00:00",
+  "status": "PENDING_FULL_CONFIRMATION_INTEGRITY_CHECK_PASS",
+  "all_25_source_files_byte_identical": true,
+  "full_guard_declared": 20,
+  "completed_native_runs": 21,
+  "duplicate_run_ids": 0,
+  "all_saved_journal_chains_valid": true,
+  "pending_unadmitted": [
+    "form__v2-access-export-v1",
+    "form__v2-access-export-v2",
+    "form__v2-latency-record-v1",
+    "form__v2-waiting-application-load-v2"
+  ],
+  "input_archive_sha256_unchanged": "43ff54cbff0737cd0d32ef30253a2df5152dc1d9e21f4150ee4076da430c44cd",
+  "case_journals": [
+    {
+      "ticket": "text__R17-05-v1",
+      "sha256": "6fac8cbdc7b0cae1bdb32de188bc183345c1538b017217d3bb8caba58e73dd43",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "text__older-export-movement-1-v2",
+      "sha256": "6cae257e1a9ee4f42600e6a5eaf9a87dce0dcba9814d2887ec7a25d6172b694e",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-application-baseline-v1",
+      "sha256": "efa5a3613f80c0cb2de8e50adebdb29a200971bf0762bc7107a550702ca1137d",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-application-baseline-v2",
+      "sha256": "314eaffc76067a3da6a3c1cf10352944832072ac0889c6b2c30cc28e38fc3811",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-billing-invoices-v2",
+      "sha256": "422b8498f54b6cedd493f562967f3353f2a2517adbe501de53147fae0ff86799",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-billing-mrr-v1",
+      "sha256": "b4576e4963d308100f8ef31c14f0aea25987028cb7bfdb3576ccbd77c519c8ab",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-failed-application-load-v1",
+      "sha256": "c2dda43bf47d8c9d60302fec1a598795a6c05c09b4cc6017fc60f9c1dc39f7bd",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-failed-billing-transform-v1",
+      "sha256": "e2dea92de8ddca0d2d9ac17ffbf0ff5ca022ab508f567ce9cfa72604d1aec368",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-fixture-quantity-v1",
+      "sha256": "1327ed8ec9cc0e02e97c737123f9f23b016c321ce24abdd76d10e81e6d69c210",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-other-collected-definition-v2",
+      "sha256": "2a4305db8167dcd079808f96602747230f6569d7c3e838fe2ea29463f2cc6efe",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-record-absent-everywhere-v1",
+      "sha256": "6512881a87f58e3b59af098b494b72cf3d2e68a0ad8ac0ea934a401ce5a75f0b",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-record-repeated-gold-v2",
+      "sha256": "57e84fd3d33942e681cc723dcb90cc8dfe772f85f66233b3fc2a46d040ecd478",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-screenshot-record-01-v1",
+      "sha256": "51a3ce9c8bed823e62f90ed9fcb6c077ee8253efbce7a519983fea553edf05a7",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-screenshot-record-02-v1",
+      "sha256": "df7ffcf0befee3cb4dbeaa4f5a88d96ba3f25bb6e258f2d2b456b85927011d06",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-screenshot-record-03-v1",
+      "sha256": "7df3ec511201d38c7272de6d71da253ca1eab460934d1674d4529df8949659f4",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-screenshot-record-04-v1",
+      "sha256": "c4552cf38ad0cd36e299f429389a6fc83111fc46c6bead20ed637febe247858d",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-source-history-v2",
+      "sha256": "25eaa8704f3404164c86a90d9369b8278ed8230ef88b7705d86be69a93d8a466",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-warehouse-scope-v1",
+      "sha256": "56d6ab405a4a31cff50f056e94b4152914227d695610d81b91dae794a6d79a77",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "form__v2-warehouse-scope-v2",
+      "sha256": "1c1f783493138d759735c7596f70a41f84225eaa7d88e097e95540c9a1de8ea2",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "text__R17-08-v1",
+      "sha256": "d9ee5d8fbb264a6487b25fd351e88df5bc7244e2c8d18299e7a7055155e529e1",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    },
+    {
+      "ticket": "text__R17-10-v1",
+      "sha256": "7565c0be525ab99226fb99c9640a22857c62ab85da6121de1ad38bd973245b60",
+      "native_submissions": 1,
+      "saved_outcomes": 1
+    }
+  ],
+  "new_model_calls": 0,
+  "new_estate_requests": 0,
+  "does_not_complete_quality_gate": true
+}

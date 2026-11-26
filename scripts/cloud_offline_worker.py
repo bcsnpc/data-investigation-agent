@@ -67,9 +67,13 @@ TEST_MODULES = (
     'test_runner_replay_materialize.py',
 )
 
-# Every Round26 provider/intake regression travels with the fixed-image gate.
-TEST_MODULES += tuple(p.name for p in sorted((ROOT/'scripts').glob('test_round26*.py'))
-                      if p.name not in TEST_MODULES)
+# Current provider/intake/query regressions travel with the fixed-image gate.
+for pattern in ('test_round26*.py','test_round27*.py'):
+    TEST_MODULES += tuple(p.name for p in sorted((ROOT/'scripts').glob(pattern))
+                          if p.name not in TEST_MODULES)
+TEST_MODULES += tuple(name for name in ('test_nvidia_free_provider.py','test_openrouter_provider.py','test_regression_features.py','test_round27_static_batch.py',
+                                     'test_free_dev_grading.py','test_grading_packet_transport.py')
+                      if name not in TEST_MODULES)
 
 
 def partition(entries, shard, shards):

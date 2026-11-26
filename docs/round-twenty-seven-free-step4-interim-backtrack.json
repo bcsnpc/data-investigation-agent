@@ -1,0 +1,40 @@
+{
+  "at_utc": "2026-11-23T16:54:53.022313+00:00",
+  "scope": "Interim single-Sol DEV flags; grader failing_step is not automatically accepted as native first-wrong-step",
+  "graded": 30,
+  "disjoint_headline": {
+    "fully_correct": 14,
+    "useful_nonharmful_handoffs": 13,
+    "harmful": 1,
+    "other_incorrect": 2
+  },
+  "grader_failing_step_groups": {
+    "wrong conclusion": 9,
+    "triage": 2,
+    "target": 2,
+    "intake": 2,
+    "query validation": 1
+  },
+  "native_proven_engine_failures": {
+    "same_refresh_dropped_early_failed_job": [
+      "form-v2-failed-application-load-v1"
+    ],
+    "incidental_alias_candidate_or_route_expansion": [
+      "text-different-warehouse-v2",
+      "text-latency-900501-v1",
+      "text-latency-900501-v2",
+      "text-latency-900502-v2"
+    ],
+    "native_visual_candidates_pruned_through_aliases": [
+      "text-R17-05-v1"
+    ]
+  },
+  "separate_replacements_do_not_overwrite_originals": true,
+  "reasoning_or_model_format_observations": {
+    "text-baseline-S01-v1": "Saved first finding named the join and1104 arithmetic; repeated string instead of array in undecided field failed the delivery schema. No schema weakening.",
+    "text-history-source-900201-v1": "Model-generated unbound @p0 was rejected before SQL dispatch; not evidence that FOR SYSTEM_TIME itself is blocked.",
+    "text-R17-11-v1": "Asked business definition but pursued technical layer agreement; no free-model reasoning patch.",
+    "form-v2-warehouse-scope-v1": "Measured warehouse1=2948 and warehouse2=2084 yet stopped UNRESOLVED rather than explaining differing restrictions. No confident false cause."
+  },
+  "review_limitations": "Remaining individual native trace review continues; this receipt does not assert zero plumbing failures or freeze eligibility."
+}

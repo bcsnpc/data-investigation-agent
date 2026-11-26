@@ -1,0 +1,85 @@
+{
+  "scope": "SYNTHETIC_PROTOCOL_ONLY_NOT_A_QUALITY_SCORE",
+  "rows": [
+    {
+      "model": "z-ai/glm-5.3-flash",
+      "status": "UNAVAILABLE_OR_PROTOCOL_FAILED",
+      "seconds": 376.96035569999367,
+      "estate_reads": 0,
+      "quality_score": null,
+      "reason": "The read operation timed out",
+      "cost_usd": 0
+    },
+    {
+      "model": "moonshotai/kimi-k3.1-pro",
+      "status": "PASS",
+      "seconds": 76.66643739998108,
+      "estate_reads": 0,
+      "quality_score": null,
+      "reason": null,
+      "cost_usd": 0
+    }
+  ],
+  "monthly_calls_used": 5,
+  "uncertain_calls_charged": 3,
+  "paid_calls": 0,
+  "post_transport_protocols": {
+    "source": "c377b3fd5ddc033a9431d9c89909af6390c2886c",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:b4776ee0005482f501158345fab90e97231492a7371ec0312f13d21771b6846d",
+    "rows": [
+      {
+        "provider": "nvidia",
+        "model": "moonshotai/kimi-k3.1-pro",
+        "status": "UNAVAILABLE_OR_PROTOCOL_FAILED",
+        "seconds": 7.718141200020909,
+        "error_type": "GatewayDenied",
+        "reason": "HTTP_TIMEOUT_REQUIRED",
+        "estate_reads": 0,
+        "quality_score": null,
+        "cost_usd": 0,
+        "protocol_record": "protocol-kimi-streaming/tool-protocol.json"
+      },
+      {
+        "provider": "nvidia",
+        "model": "moonshotai/kimi-k3.1-pro",
+        "status": "PASS",
+        "seconds": 91.84909350000089,
+        "error_type": null,
+        "reason": null,
+        "estate_reads": 0,
+        "quality_score": null,
+        "cost_usd": 0,
+        "protocol_record": "protocol-kimi-streaming/tool-protocol-gatewayfix.json"
+      },
+      {
+        "provider": "openrouter",
+        "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "status": "UNAVAILABLE_OR_PROTOCOL_FAILED",
+        "seconds": 4.53496780002024,
+        "error_type": "GatewayDenied",
+        "reason": "HTTP_TIMEOUT_REQUIRED",
+        "estate_reads": 0,
+        "quality_score": null,
+        "cost_usd": 0,
+        "protocol_record": "proof15-openrouter-ultra/tool-protocol.json"
+      },
+      {
+        "provider": "openrouter",
+        "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "status": "UNAVAILABLE_OR_PROTOCOL_FAILED",
+        "seconds": 914.615941600001,
+        "error_type": "ProviderUnavailable",
+        "reason": "NVIDIA_TRANSPORT_UNAVAILABLE_ENVIRONMENT_AFFECTED",
+        "estate_reads": 0,
+        "quality_score": null,
+        "cost_usd": 0,
+        "protocol_record": "proof15-openrouter-ultra/tool-protocol-gatewayfix.json"
+      }
+    ],
+    "pre_dispatch_gateway_denials_excluded_from_timeout_ratio": true,
+    "old_rows_and_scores_unchanged": true,
+    "paid_generation_calls": 0,
+    "openrouter_daily_limit_reported": 1000,
+    "gemma_429_diagnosis": "Google AI Studio temporarily rate-limited upstream; retry queued, not an incorrect score; no BYOK added."
+  }
+}

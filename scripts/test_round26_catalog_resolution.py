@@ -4,6 +4,69 @@ from test_round23_intake_queries import graph
 
 
 class CatalogResolutionTests(unittest.TestCase):
+    def test_replay_snapshot_keeps_the_catalog_without_sharing_mutable_state(self):
+        catalog=self.shared_visual_aliases();snapshot=catalog.snapshot()
+        replay=Catalog(snapshot)
+        self.assertEqual(replay.snapshot(),snapshot)
+        catalog.nodes['card']['enrichment']['synonyms'].append('Later alias')
+        catalog.edges.clear()
+        self.assertNotEqual(catalog.snapshot(),snapshot)
+        self.assertEqual(replay.snapshot(),snapshot)
+    def test_unique_alias_does_not_hide_other_visuals_of_the_cited_measure(self):
+        catalog=self.shared_visual_aliases()
+        catalog.nodes['measure']['label']='Net Revenue'
+        catalog.nodes['card']['enrichment']={'synonyms':['Net Revenue card']}
+        catalog.nodes['global']['enrichment']={}
+        result=prefill('Billing Overview Net Revenue card',
+            {'report':'report','page':'page','visual':'card','issue_type':'NUMBER_LOOKS_WRONG'},
+            catalog,provenance={'visual':[3,5]})
+        self.assertEqual(result['code'],'NATIVE_SCOPE_CANDIDATES')
+        self.assertEqual({r['id'] for r in result['question']['fields'][0]['choices']},{'card','global'})
+    def test_candidate_router_never_treats_an_alias_as_an_explicit_selection(self):
+        from investigator.intake_candidates import explicit_names, enumerate_targets
+        catalog=self.shared_visual_aliases();catalog.nodes['global']['label']='Total revenue card'
+        # A conflicting alias has the same words as another visual's real title.
+        text='Billing Overview Total revenue card'
+        selected=explicit_names(catalog,text)
+        self.assertEqual(selected['visual'],'global')
+        self.assertEqual(selected['page'],'globalpage')
+        inventory=enumerate_targets(catalog,text=text,proposal={'issue_type':'NUMBER_LOOKS_WRONG'},explicit=selected)
+        self.assertEqual([r['id'] for r in inventory['candidates']],['global'])
+        catalog.nodes['global']['label']='Global revenue'
+        self.assertNotIn('visual',explicit_names(catalog,text))
+
+    def shared_visual_aliases(self):
+        catalog=self.catalog();catalog.nodes['card']['label']='Regional revenue'
+        catalog.nodes['card']['enrichment']={'synonyms':['Total revenue card']}
+        catalog.nodes.update({'globalpage':{'id':'globalpage','kind':'PAGE','label':'Global page'},
+                              'global':{'id':'global','kind':'VISUAL','label':'Global revenue','enrichment':{'synonyms':['Total revenue card']}}})
+        catalog.edges.extend([{'source':'report','target':'globalpage','kind':'CONTAINS'},
+            {'source':'globalpage','target':'global','kind':'CONTAINS'},
+            {'source':'global','target':'measure','kind':'COMPUTED_FROM'}])
+        return catalog
+
+    def test_shared_visual_alias_cannot_make_model_selected_page_unique(self):
+        from investigator.regression_features import configured
+        catalog=self.shared_visual_aliases();text='Billing Overview Total revenue card'
+        proposal={'report':'report','page':'page','visual':'card','issue_type':'NUMBER_LOOKS_WRONG'}
+        result=prefill(text,proposal,catalog,provenance={'visual':[3,5]})
+        self.assertEqual(result['code'],'NATIVE_SCOPE_CANDIDATES')
+        self.assertEqual({c['id']for c in result['question']['fields'][0]['choices']},{'card','global'})
+
+    def test_shared_alias_is_resolved_only_inside_the_user_named_page(self):
+        result=prefill('Billing Overview Global page Total revenue card',
+            {'report':'report','page':'globalpage','visual':'global','issue_type':'NUMBER_LOOKS_WRONG'},
+            self.shared_visual_aliases(),provenance={'visual':[5,7]})
+        self.assertEqual(result['status'],'READY');self.assertEqual(result['visual'],'global')
+
+    def test_native_visual_title_beats_another_visuals_search_alias(self):
+        catalog=self.shared_visual_aliases();catalog.nodes['global']['label']='Total revenue card'
+        text='Billing Overview Total revenue card'
+        good={'report':'report','page':'globalpage','visual':'global','issue_type':'NUMBER_LOOKS_WRONG'}
+        self.assertEqual(prefill(text,good,catalog,provenance={'visual':[3,5]})['visual'],'global')
+        with self.assertRaisesRegex(ValueError,'VISUAL_PROVENANCE_DIFFERS'):
+            prefill(text,{**good,'page':'page','visual':'card'},catalog,provenance={'visual':[3,5]})
+
     def test_named_page_beats_another_pages_search_alias_without_swapping_cells(self):
         catalog=self.catalog();catalog.nodes['card']['label']='Net Revenue - regional'
         catalog.nodes['card']['enrichment']={'synonyms':['Net Revenue card']}

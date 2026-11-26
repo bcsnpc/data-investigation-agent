@@ -1,0 +1,38 @@
+{
+  "source_seal": "7fc6346f55e00ee3845604756f25f6756bd0ebba1bcd09ab2f7d86f49952e58f",
+  "events": [
+    {
+      "event": "REASONING_TRANSIENT",
+      "provider": "nvidia",
+      "model": "moonshotai/kimi-k3.1-pro",
+      "reservation": "nvidia-free:5d5aee8a-0416-4a0d-909e-083885dd3688",
+      "timed_out": true,
+      "error_type": "TimeoutError",
+      "status": null,
+      "attempt": null
+    },
+    {
+      "event": "REASONING_TRANSIENT",
+      "provider": "nvidia",
+      "model": "moonshotai/kimi-k3.1-pro",
+      "reservation": "nvidia-free:18429b42-33c0-4326-8e6c-03f5650d5859",
+      "timed_out": true,
+      "error_type": "TimeoutError",
+      "status": null,
+      "attempt": null
+    },
+    {
+      "event": "REASONING_UNAVAILABLE",
+      "provider": "nvidia",
+      "model": "moonshotai/kimi-k3.1-pro",
+      "reservation": "nvidia-free:7a4957df-5653-4317-984c-92843cd9f6a8",
+      "timed_out": true,
+      "error_type": "TimeoutError",
+      "status": null,
+      "attempt": null
+    }
+  ],
+  "score_disposition": "ENVIRONMENT_AFFECTED_UNSCORED",
+  "original_ledger_status_unchanged": true,
+  "no_private_thinking_extracted": true
+}

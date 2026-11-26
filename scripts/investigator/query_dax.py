@@ -28,10 +28,12 @@ def capabilities():
 
 
 class Parser:
-    def __init__(self,query,assets,*,identity=False,strict_forms=False,allow_define=False,bind_catalog=True):
+    def __init__(self,query,assets,*,identity=False,strict_forms=False,allow_define=False,bind_catalog=True,allow_order_by=False):
         self.identity=identity;self.volatile=False;self.strict_forms=strict_forms
         self.allow_define=allow_define
         self.bind_catalog=bind_catalog
+        self.allow_order_by=allow_order_by
+        self.order_by=[];self.sort_mode=False;self.sort_scope=set();self.sort_aliases=set()
         if not isinstance(query,str) or not 1<=len(query)<=limits.QUERY_TEXT:raise ValueError('DAX text budget exceeded')
         tokens,gaps=tokenize(query)
         if gaps or not tokens or len(tokens)>1600:raise ValueError('Unsupported DAX token or syntax budget')
@@ -118,6 +120,14 @@ class Parser:
                     self.take(',')
             self.take(')')
             if len(arguments)>80:raise ValueError('DAX argument budget exceeded')
+            # Projection labels are declarations, not catalog members. Retain
+            # them before identity rendering erases presentation-only ROW labels.
+            if function=='ROW':sort_labels=arguments[::2]
+            elif function in ('ADDCOLUMNS','SELECTCOLUMNS'):sort_labels=arguments[1::2]
+            elif function in ('SUMMARIZE','SUMMARIZECOLUMNS'):sort_labels=arguments
+            else:sort_labels=[]
+            self.sort_aliases.update(label[1:-1].replace('""','"').casefold()
+                for label in sort_labels if label.startswith('"') and label.endswith('"'))
             if self.identity and self.depth==1 and function=='ROW':
                 # Only outer ROW labels are presentation. Never erase nested labels.
                 if len(arguments)%2==0:arguments=sorted(arguments[1::2])
@@ -152,6 +162,18 @@ class Parser:
         else:member=value
         if kind!='ref':raise ValueError('Unsupported DAX expression')
         name=member[1:-1].replace(']]',']').casefold()
+        if self.sort_mode and qualifier is None:
+            if name in self.sort_aliases:
+                return (repr('projection:'+name) if self.identity else value),'scalar'
+            # Unqualified result columns (e.g. SUMMARIZECOLUMNS group keys)
+            # must already belong to the parsed table expression's scope.
+            columns=[a for a in self.members if a['kind']=='SemanticColumn' and
+                     a['name'].casefold()==name and
+                     (a['id'] in self.sort_scope or a['parent_id'] in self.sort_scope)]
+            if len(columns)>1:raise ValueError('Ambiguous DAX ordering column')
+            if columns:
+                self.references.add(columns[0]['id'])
+                return (repr(columns[0]['id']) if self.identity else value),'scalar'
         query_measure=self.query_measures.get((qualifier.casefold() if qualifier else None,name))
         if query_measure is not None:
             return (query_measure if self.identity else value),'scalar'
@@ -196,20 +218,37 @@ class Parser:
                     self.definitions.append('MEASURE '+rendered+' = '+value)
             if not self.definitions:raise ValueError('Empty DEFINE')
         self.take('EVALUATE');expression,kind=self.expression()
-        if self.peek() or kind not in ('table','variable'):raise ValueError('One table-valued EVALUATE required')
+        if kind not in ('table','variable'):raise ValueError('One table-valued EVALUATE required')
+        if self.peek('ORDER'):
+            if not self.allow_order_by:raise ValueError('ORDER BY requires the AI-investigation grammar')
+            self.take('ORDER');self.take('BY');self.sort_scope=set(self.references);self.sort_mode=True
+            try:
+                while True:
+                    if self.peek('ASC') or self.peek('DESC'):raise ValueError('DAX ordering expression required')
+                    value,typ=self.expression()
+                    if typ=='table':raise ValueError('DAX ordering requires a scalar')
+                    direction=self.take()[1].upper() if self.peek('ASC') or self.peek('DESC') else 'ASC'
+                    self.order_by.append(value+' '+direction)
+                    if len(self.order_by)>16:raise ValueError('DAX ordering budget exceeded')
+                    if not self.peek(','):break
+                    self.take(',')
+            finally:self.sort_mode=False
+        if self.peek():raise ValueError('One table-valued EVALUATE required')
         if self.bind_catalog and not self.references:raise ValueError('At least one discovered model reference required')
         self.output_columns=self.projected_columns.get(expression,set())
         return expression
 
 
-def compile_query(query,assets,*,max_rows=limits.QUERY_ROWS,allow_define=False):
+def compile_query(query,assets,*,max_rows=limits.QUERY_ROWS,allow_define=False,allow_order_by=False):
     if type(max_rows) is not int or not 1<=max_rows<=limits.QUERY_ROWS:raise ValueError('Invalid row budget')
-    parser=Parser(query,assets,allow_define=allow_define);expression=parser.parse()
-    identity=Parser(query,assets,identity=True,allow_define=allow_define);bound=identity.parse()
+    parser=Parser(query,assets,allow_define=allow_define,allow_order_by=allow_order_by);expression=parser.parse()
+    identity=Parser(query,assets,identity=True,allow_define=allow_define,allow_order_by=allow_order_by);bound=identity.parse()
     prefix=('DEFINE '+' '.join(parser.definitions)+'\n') if parser.definitions else ''
     identity_prefix=('DEFINE '+' '.join(identity.definitions)+'\n') if identity.definitions else ''
-    return {'query':prefix+'EVALUATE TOPN('+str(max_rows+1)+','+expression+')',
-            'compiled_read':None if identity.volatile else identity_prefix+bound,
+    order=' ORDER BY '+','.join(parser.order_by) if parser.order_by else ''
+    identity_order=' ORDER BY '+','.join(identity.order_by) if identity.order_by else ''
+    return {'query':prefix+'EVALUATE TOPN('+str(max_rows+1)+','+expression+')'+order,
+            'compiled_read':None if identity.volatile else identity_prefix+bound+identity_order,
             'result_columns':sorted(parser.output_columns),'asset_ids':sorted(parser.references),'max_rows':max_rows+1,
-            'validator_version':'bounded-dax-v2-define' if parser.definitions else VERSION,
+            'validator_version':'bounded-dax-v3-order' if parser.order_by else 'bounded-dax-v2-define' if parser.definitions else VERSION,
             'limitation':'Native DAX evaluates the proposed context; hidden report selections/RLS and cross-system equivalence are not implied.'}

@@ -1,0 +1,34 @@
+{
+  "observed_at_utc": "2026-11-23T17:23:33.461963+00:00",
+  "scope": "30 saved original non-stale Step4 captures only; successful normalized usage records; independent Sol grading excluded",
+  "provider": "openrouter",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "quality_gate_eligible": false,
+  "steps": {
+    "INVESTIGATOR": {
+      "calls": 183,
+      "input_tokens": 8558985,
+      "cached_input_tokens": 6872560,
+      "output_tokens": 286598,
+      "cost_microdollars": 0,
+      "cached_input_ratio": 0.8029643701910916
+    },
+    "EVALUATOR": {
+      "calls": 97,
+      "input_tokens": 1289756,
+      "cached_input_tokens": 576688,
+      "output_tokens": 299492,
+      "cost_microdollars": 0,
+      "cached_input_ratio": 0.44712953457863347
+    },
+    "INTAKE": {
+      "calls": 21,
+      "input_tokens": 1969508,
+      "cached_input_tokens": 1643344,
+      "output_tokens": 83213,
+      "cost_microdollars": 0,
+      "cached_input_ratio": 0.8343931580882129
+    }
+  },
+  "limitation": "Counts do not release uncertain quota reservations or replace the daily shared ledger; includes no unsubmitted stale cases, no affected reruns, and no independent grader costs. Cache ratio is observed token accounting, not a dollar-savings claim for a free model."
+}

@@ -1,0 +1,16 @@
+{
+  "source": "be73c5ff6e0bdca2c078a6b01eea0ffcd83146ce",
+  "workflow": 44871935757,
+  "full_suite": {
+    "passed": 5910,
+    "skipped": 53,
+    "failed": 0
+  },
+  "all_eight_shards": "PASS",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+  "owner_approved_pass1_image_split": true,
+  "only_investigator_changes": [
+    "pure metadata transport revalidation",
+    "evaluator output bound and incomplete diagnostics"
+  ]
+}

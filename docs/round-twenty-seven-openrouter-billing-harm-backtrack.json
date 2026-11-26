@@ -1,0 +1,43 @@
+{
+  "observed_utc": "2026-11-23T11:34:59.089230+00:00",
+  "ticket": "form-v2-failed-billing-transform-v1",
+  "capture_seal": "a71d1938a1304aedf7d29bdae444d4a01b01627586cb6d7d0343bb4a0ff33b7c",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "provider": "openrouter",
+  "single_independent_sol_grade": {
+    "harmful": true,
+    "partial": true,
+    "handoff_quality": 1,
+    "correct": false
+  },
+  "disjoint_reporting": "Harmful; no useful-handoff credit, raw grader flags retained.",
+  "first_harmful_step": "Causal draft6980/7102; numeric250 grounding refusal was correct, then removing the literal did not repair unsupported causal history.",
+  "classification": "MODEL_UNSUPPORTED_CAUSAL_INFERENCE",
+  "native_facts": {
+    "failed_run": "04244ccc-9b98-4a71-8eea-4e7c6f5eba13",
+    "native_error": "Round22 controlled fixture failure before original activities",
+    "reported_and_gold": 950,
+    "current_source_and_silver": 700,
+    "gold_rows": 5,
+    "gold_distinct_invoices": 4
+  },
+  "unsupported_claim": "The failed pipeline has blocked a correcting refresh since the last success on2026-11-01. Current row counts and sums do not establish that causal history or that the failed run would correct the existing join.",
+  "native_query_errors": 0,
+  "delivery_repairs": 0,
+  "evaluator": "Three output-limited incomplete responses, blocking_rejection=false; do not relabel them as substantive passing/rejecting checks. Owner unsupported-claim advisory policy is retained.",
+  "code_or_expectation_changed_for_this_failure": false,
+  "family_state": "Saved-trace diagnosis reconciled: weak-model causal reasoning, not a demonstrated DIA plumbing defect. No additional SuperVL billing rerun is selected; original harmful flag stays. Other-model qualification is a separate DEV measurement, never a quality-gate clearance.",
+  "supervl_selection_warning": "One harmful DEV outcome recorded; never count this pass toward a quality gate or infer a paid fallback.",
+  "quality_scope": "DEV_ONLY_NOT_A_QUALITY_GATE",
+  "ordered_trace": {
+    "initial_value_queries": 1260,
+    "row_count_queries": 2922,
+    "first_incomplete_investigator_reply": 5470,
+    "first_causal_draft": 6980,
+    "first_rejection": {
+      "sequence": 6983,
+      "reason": "NUMBER_NOT_IN_CITED_RESULTS_OR_REPORTED_INPUT:250"
+    },
+    "resubmitted_causal_draft": 7102
+  }
+}

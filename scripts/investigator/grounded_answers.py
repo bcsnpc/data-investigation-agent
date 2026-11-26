@@ -4,6 +4,7 @@ These checks bind references and literal values. They do not pretend to prove
 the semantic equivalence of arbitrary model-written calculations; independent
 grading evaluates verdict, layer and causal interpretation.
 """
+
 from copy import deepcopy
 from decimal import Decimal,InvalidOperation
 from .clarification_grounding import QUESTIONS,label
@@ -29,6 +30,8 @@ def number(value):
 
 def cited(args,case):
     queries={q['id']:q for q in case['queries']}
+    from .primary_verification import query_references
+    referenced_queries=query_references(case,args['evidence_ids'])
     found=[]
     def native_query(record):
         if record['status']=='SUCCEEDED':
@@ -36,6 +39,14 @@ def cited(args,case):
                     'native_result':deepcopy(record['result']),'asset_ids':record.get('asset_ids',[])}
         if args.get('verdict','').casefold() in ('not found','unresolved','blocked'):
             return {'query_id':record['id'],'subject':record['layer'],'error':record.get('error')}
+        succeeded=next((q for q in case['queries'] if q['id'] in referenced_queries
+            and q.get('status')=='SUCCEEDED' and not q.get('truncated') and not q.get('result',{}).get('truncated')
+            and all(q.get(k)==record.get(k) for k in ('layer','text','parameters','asset_ids'))),None)
+        if succeeded:
+            # Preserve the failed attempt as history, never promote its error
+            # to native support or silently replace the original tape record.
+            return {'superseded_native_attempt':record['id'],'subject':record['layer'],
+                    'error':record.get('error'),'successful_retry_query_id':succeeded['id']}
         raise ValueError('FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING')
     for identity in args['evidence_ids']:
         if identity in queries:
@@ -49,14 +60,25 @@ def cited(args,case):
             rows=facts.get('facts',[]) if isinstance(facts,dict) else facts
             current=[f for f in rows if f.get('state') in ('OBSERVED','OBSERVED_NEGATIVE') and f.get('source') and f.get('observed_at')]
             if current:found.append({'facts':current})
+        elif record.get('kind')=='RETAINED_DEFINITION_REFERENCE':
+            from .retained_definition_evidence import resolve
+            found.append(resolve(record,case.get('context',{})))
         elif record.get('tool') in ('run_sql','run_dax'):
             value=record['result'];value=value.get('record',value)
             if value.get('id') not in queries:raise ValueError('QUERY_SUPPORT_NOT_RETAINED')
             found.append(native_query(queries[value['id']]))
-        elif record.get('tool') in ('record_trace','list_candidates'):
+        elif record.get('tool') in ('record_trace','list_candidates','check_target_candidates'):
             value=record['result']
-            for check in value.get('layers',value.get('checks',[])):
-                if check.get('query_id') in queries:found.append(native_query(queries[check['query_id']]))
+            for check in value.get('layers',value.get('checks',value.get('observations',[]))):
+                identity=check.get('query_id',check.get('evidence_id'))
+                if identity in queries:found.append(native_query(queries[identity]))
+        elif record.get('tool') in ('contribution_analysis','row_layer_diff'):
+            value=record['result']
+            ids=value.get('query_ids',[])
+            if len(ids)!=2 or any(identity not in queries for identity in ids):
+                raise ValueError('ANALYSIS_SOURCE_QUERIES_NOT_RETAINED')
+            for identity in ids:found.append(native_query(queries[identity]))
+            found.append({'derived_analysis':deepcopy(value),'source':'DETERMINISTIC_FROM_CITED_NATIVE_RESULTS'})
         elif record.get('tool')=='get_evidence':
             value=record['result']
             if value.get('id') in queries:found.append(native_query(queries[value['id']]))
@@ -72,10 +94,39 @@ def cited(args,case):
     return found
 
 
+
+def consistency_proof_gap(required, compared, support, case):
+    """Describe missing proof without calling a successful read unread."""
+    missing = required - compared.keys()
+    successful = [q for q in case.get('queries', []) if q.get('status') == 'SUCCEEDED']
+    read = {q['layer'] for q in successful}
+    cited_read = {item['subject'] for item in support if 'native_result' in item}
+    parts = []
+    unread = missing - read
+    uncited = (missing & read) - cited_read
+    non_scalar = missing & cited_read
+    if unread:
+        parts.append('unread layers (no successful native result): ' + ', '.join(sorted(unread)))
+    if uncited:
+        identities = [q['id'] for q in successful if q['layer'] in uncited]
+        parts.append('read but not cited layers: ' + ', '.join(sorted(uncited)) + '; cite successful query evidence ' + ', '.join(identities))
+    if non_scalar:
+        parts.append('read layers without a comparable one-cell value: ' + ', '.join(sorted(non_scalar)))
+    parts.append('Source value agreement needs the same selected value and scope in a one-cell native result at each layer. Multi-row or multi-column reads do not satisfy that scalar proof; narrow the existing selected record/value rather than choosing another table. A record-presence trace proves presence/counts only, not equality of other fields.')
+    return 'SOURCE_CONSISTENCY_UNESTABLISHED: ' + '; '.join(parts)
+
+
 def finding(args,case):
     support=cited(args,case)
+    from .delivery_coverage import source_comparison
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
+    from .primary_verification import no_comparison
+    issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
+    calculation_only=(issue=='HOW_IS_THIS_CALCULATED'
+        and no_comparison(case['intake'])
+        and normalized in ('as designed','definition explained'))
+    separate_operational=[]
     automatic_update_unknown = False
     if normalized == 'refresh stale':
         import re
@@ -96,21 +147,27 @@ def finding(args,case):
         history = disposition(case, args['evidence_ids'])
         if not history['ruled_out']:
             raise ValueError('CHECK_SOURCE_HISTORY_BEFORE_LATENCY: ' + history['reason'])
-    if normalized in ('as designed','consistent to source','consistent to boundary'):
+    if normalized in ('as designed','definition explained','consistent to source','consistent to boundary'):
         from .triage_hints import current_job_hints
         current_faults=current_job_hints(case)
-        if current_faults:
+        if current_faults and calculation_only:
+            separate_operational=current_faults
+        elif current_faults:
             details=', '.join(str(f['status'])+' '+str(f.get('run_id')or f.get('subject'))for f in current_faults)
             raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_CONSISTENCY: '+details+
                 '; report the native run status and details first. Value agreement does not establish that the run had no effect; qualify unmeasured numerical impact separately.')
     issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
     definition_only=(normalized=='as designed'and issue=='HOW_IS_THIS_CALCULATED'
-        and case['intake'].get('compared_with',{}).get('kind')=='NOTHING')
+        and no_comparison(case['intake']))
+    if normalized in ('as designed','definition explained'):
+        from .primary_verification import is_display_verification
+        definition_only=definition_only or normalized=='definition explained' or is_display_verification(case,args)
     if definition_only:
         if not any(item.get('content')and item.get('provenance')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_RETAINED_DEFINITION')
         if not any(item.get('native_result')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_NATIVE_RECREATION')
-        from .triage_hints import job_hint
-        if job_hint(case.get('triage',{})):raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
+        from .triage_hints import job_hint,current_job_hints
+        faults=current_job_hints(case)
+        if faults and not calculation_only:raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
     source_consistency=(normalized=='consistent to source'or normalized=='as designed'and not definition_only)
     if source_consistency:
         declaration=case['context'].get('system_of_record',{})
@@ -119,6 +176,10 @@ def finding(args,case):
             raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: no reachable declared system of record; report only the reached boundary or observed value')
         source_asset=declaration.get('asset_id')
         if source_asset and not any(item.get('subject')==source and source_asset in item.get('asset_ids',[]) for item in support):
+            existing = [q['id'] for q in case.get('queries', []) if q.get('status') == 'SUCCEEDED'
+                        and q.get('layer') == source and source_asset in q.get('asset_ids', [])]
+            if existing:
+                raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was read but its native query evidence was not cited; cite ' + ', '.join(existing))
             raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried')
         compared={}
         for item in support:
@@ -138,11 +199,13 @@ def finding(args,case):
                     record_consistency=True;break
         if not record_consistency:
             if not required<=compared.keys():
+                raise ValueError(consistency_proof_gap(required, compared, support, case))
                 raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: unread layers '+', '.join(sorted(required-compared.keys())))
             values=set().union(*(compared[layer] for layer in required))
             if len(values)!=1:raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: compared native values differ')
         if not any(item.get('content') and item.get('provenance') for item in support):
             raise ValueError('AS_DESIGNED_NEEDS_RETAINED_DEFINITION: native equality alone does not explain the definition')
+    source_comparison(args,case)
     # A response already supplied in the form is a reported value, never an
     # observed query value. Preserve its provenance in the technical output.
     actual={number(v) for record in support for v in leaves(record)}
@@ -204,8 +267,12 @@ def finding(args,case):
         operational=rendered
         business+='\n'+'\n'.join(rendered)
     qualifications=[]
+    for fault in separate_operational:
+        subject=names.get(fault.get('subject'),'An observed path job or refresh')
+        qualifications.append('Separate operational observation: '+subject+' run '+str(fault.get('run_id')or'(run identifier unavailable)')+
+            ' is '+str(fault['status'])+'. The calculation explanation does not establish freshness or rule out an effect from this run.')
     if automatic_update_unknown:
-        qualifications.append('The Direct Lake automatic-update switch is not exposed by these refresh-history/schedule reads. Its ON/OFF state is unestablished; see semantic model settings → Refresh → Keep your Direct Lake data up to date. A refresh schedule is a separate setting.')
+        qualifications.append('The Direct Lake automatic-update switch is not exposed by these refresh-history/schedule reads. Its ON/OFF state is unestablished; see semantic model settings Ã¢â€ â€™ Refresh Ã¢â€ â€™ Keep your Direct Lake data up to date. A refresh schedule is a separate setting.')
     for assumption in case['intake'].get('resolution_assumptions', []):
         qualifications.append('Assumption: I checked ' + assumption['name'] + ', resolved from the named catalog item' +
                               ('.' if assumption.get('object') else ' and its retained report links.'))
@@ -216,7 +283,7 @@ def finding(args,case):
         if record_consistency:
             qualifications.append('For this record, the source comparison covers key presence and matching row count; it does not establish equality of every field.')
     if reported and reported['state']=='NUMBER' and reported['precision']!='EXACT':
-        qualifications.append('Comparison at the ticket’s stated digit precision '+str(reported['precision'])+
+        qualifications.append('Comparison at the ticketÃ¢â‚¬â„¢s stated digit precision '+str(reported['precision'])+
                               ' is weaker than an exact match; no tolerance was inferred.')
     qualifications.extend(case['context'].get('warnings',[]))
     for record in support:

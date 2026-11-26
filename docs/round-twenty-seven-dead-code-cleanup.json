@@ -1,0 +1,20 @@
+{
+  "archive": "scripts\\fixtures\\round27-retired-ablations\\obsolete-local-generators.zip",
+  "archive_sha256": "d7c8413970b8315ca4298b33ce9fb1814cd56c61acc01df96c7d270760cddde9",
+  "rows": [
+    {
+      "path": ".local\\round-twenty-seven\\fix-blocker-line-eol.py",
+      "bytes": 310,
+      "references": [],
+      "sha256": "80dac68dd37d737b33d4d7b2acaebe320bdd91dc779d30618482988c56ed726d"
+    },
+    {
+      "path": ".local\\round-twenty-seven\\free-models\\add-openrouter-code.py",
+      "bytes": 4964,
+      "references": [],
+      "sha256": "f3ef6798b415b89541c212f07200c25a3394647644f4c00c55014d1c07efd70d"
+    }
+  ],
+  "source_scope": "scripts,docs,Round27 controllers and RESUME refs; exact basename references, manual inspection of both source generators",
+  "runtime_or_evidence_files": 0
+}

@@ -1,0 +1,58 @@
+{
+  "source": "fa4f08ca",
+  "workflow": 44949927230,
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:639f85b7741844317990ef854a5e4c16994e12a3e69357fab12d2caaf43d8666",
+  "all_eight_shards": "PASS",
+  "full_suite": {
+    "passed": 5953,
+    "skipped": 53,
+    "failed": 0,
+    "errors": 0
+  },
+  "full_xml_sha256": "dab457228d60685ba7c450a314e8ed6a3645dfbc23e840155db535ccd597e861",
+  "shards": [
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-0\\shard-0.xml",
+      "sha256": "fcfda94e5dc745813cbc725e3680e6d5382a23769e70da9f6001977879925b48",
+      "tests": 175
+    },
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-1\\shard-1.xml",
+      "sha256": "21607c27ab1f4bfa99bd3a8c29b28b310bf9d45359d7a6e11f05b41a70d72e73",
+      "tests": 148
+    },
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-2\\shard-2.xml",
+      "sha256": "ec4be982e10d16fe5020a46f8df7e2995e6d1fd850b641f856492e5e56c4ec5e",
+      "tests": 166
+    },
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-3\\shard-3.xml",
+      "sha256": "b56f0f4f1cdbf1dff85915c1071a52fc511948c7140a7507351f09d34db826b1",
+      "tests": 129
+    },
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-4\\shard-4.xml",
+      "sha256": "caaf7862f5597c95a104e9c61988a815b79169e10bec1f469a088e45e06acade",
+      "tests": 105
+    },
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-5\\shard-5.xml",
+      "sha256": "2964d5ad4b4947e2c345431ba9914be756f352909c2682e7f191f8a912fe9a57",
+      "tests": 175
+    },
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-6\\shard-6.xml",
+      "sha256": "a9c2ddcc25ff323e268ab375a6336df3ec6bb488af6ac0ce979dd3a114bd9292",
+      "tests": 167
+    },
+    {
+      "file": ".local\\round-twenty-seven\\repair-qualification\\shards\\cloud-worker-synthetic-shard-7\\shard-7.xml",
+      "sha256": "0c2713f43645c3e1f3b15f16955db5b9e0722dabbd25ff16007a1fb8f2b39164",
+      "tests": 95
+    }
+  ],
+  "observed_at_utc": "2026-11-21T21:16:41.835802+00:00",
+  "published": true,
+  "proof_admitted": false
+}

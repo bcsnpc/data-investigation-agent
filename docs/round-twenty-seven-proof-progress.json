@@ -1,0 +1,545 @@
+{
+  "at_utc": "2026-11-22T00:43:28.746866+00:00",
+  "label": "both graders same vendor (OpenAI); independent of the investigator vendor (Anthropic)",
+  "expected": 15,
+  "saved": 9,
+  "graded_and_reviewed": 9,
+  "official": 5,
+  "strict": 5,
+  "reviewed": 5,
+  "reviewed_wilson95": [
+    0.26665129349549305,
+    0.8112214789023355
+  ],
+  "harmful": 0,
+  "useful_handoff": 0,
+  "gate": "PENDING",
+  "runtime": {
+    "actual_investigation_microdollars": 12269985,
+    "physical_requests": 285,
+    "model_calls": 114,
+    "evaluator_rejections": {
+      "hard": 8
+    },
+    "context_gaps": {
+      "metric definition": 2,
+      "business rule": 2,
+      "other": 5
+    },
+    "delivery_repairs": 6,
+    "by_step": {
+      "anthropic/claude-opus-5-5/EVALUATOR": {
+        "calls": 19,
+        "actual_microdollars": 3348012,
+        "input_tokens": 662901,
+        "cached_input_tokens": 20630,
+        "mean_microdollars_per_call": 176211.15789473685,
+        "cache_read_ratio": 0.031120785758356074
+      },
+      "anthropic/claude-opus-5-5/INVESTIGATOR": {
+        "calls": 95,
+        "actual_microdollars": 8921973,
+        "input_tokens": 5268259,
+        "cached_input_tokens": 3759107,
+        "mean_microdollars_per_call": 93915.5052631579,
+        "cache_read_ratio": 0.7135387610973568
+      }
+    },
+    "grading_actual_microdollars": 1241640,
+    "grading_by_model_step": {
+      "openai/gpt-6.1-sol/GRADING": {
+        "calls": 9,
+        "actual_microdollars": 201231,
+        "input_tokens": 70285,
+        "cached_input_tokens": 0,
+        "mean_microdollars_per_call": 22359.0,
+        "cache_read_ratio": 0.0
+      },
+      "openai/gpt-6-astra/GRADING": {
+        "calls": 9,
+        "actual_microdollars": 1016147,
+        "input_tokens": 70285,
+        "cached_input_tokens": 0,
+        "mean_microdollars_per_call": 112905.22222222222,
+        "cache_read_ratio": 0.0
+      },
+      "openai/gpt-6.1-terra/GRADING": {
+        "calls": 2,
+        "actual_microdollars": 24262,
+        "input_tokens": 14742,
+        "cached_input_tokens": 0,
+        "mean_microdollars_per_call": 12131.0,
+        "cache_read_ratio": 0.0
+      }
+    }
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "ANSWERED",
+      "after": {
+        "official": true,
+        "strict": true,
+        "reviewed": true,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Matches the sealed AS DESIGNED answer: the card uses SUM('Movements'[units]), not a row count, and native reads show 7661 units, 360 rows and 360 distinct IDs in the model, landing table and declared ordersops application source. This establishes the expected source-application baseline with no divergent split. The answer explains the unfiltered measure and units-to-units overwrite mapping. Its explicit database-lineage and snapshot limitations do not contradict the checked totals or substitute an incidental difference for the requested calculation. It supplies rerunnable queries, identifies the failed metadata check and exact remaining linkage uncertainty, and routes only intended business meaning for owner decision.",
+          "verdict_match": true
+        },
+        "secondary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The AS DESIGNED verdict matches the sealed expectation. The answer explains SUM('Movements'[units]), rather than counting 360 records, with no filters and a units-to-units overwrite copy. Native checks show 7661 units, 360 rows and 360 distinct movement IDs in the model, landing table and declared application source, satisfying the expected source-application comparison and named cause. The failed partition-metadata lookup does not invalidate this calculation explanation; the answer explicitly limits lineage and snapshot claims. Rerunnable queries, the exact remaining lineage gap and owner routing provide a useful handoff without substituting for the correct answer.",
+          "verdict_match": true
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch02"
+      }
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "ANSWERED",
+      "after": {
+        "official": true,
+        "strict": true,
+        "reviewed": true,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The delivered answer matches the expected transformation-logic deviation at Silver to Gold: the account_id-only join to account_plan_history omits effective-date restrictions and duplicates invoice 101's 250 across two plans. Native checks support the explanation: source, Bronze and Silver each total 700 across four rows, while Gold and the measure total 950 across five rows; invoice 101 has two Gold rows totaling 500. It correctly distinguishes the separate failed pipeline run from the extra 250. Saved rerunnable queries, explicit evidence limitations and engineer routing provide a useful handoff. No disagreement with the sealed expectation.",
+          "verdict_match": true
+        },
+        "secondary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer matches the sealed transformation-logic/DEVIATION verdict, locates the split at Silver to Gold, and identifies the account_id-only join without effective-date restriction as duplicating invoice 101 by 250. Native checks support 700 across 4 source/Bronze/Silver rows versus 950 across 5 Gold/model rows, with invoice 101 totaling 500 across two plans. It distinguishes the failed pipeline run from the extra amount. Saved SQL/DAX, explicit unchecked source-history and run-provenance facts, and engineer routing provide a useful rerunnable handoff. No disagreement with the expectation.",
+          "verdict_match": true
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch03"
+      }
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "ANSWERED",
+      "after": {
+        "official": true,
+        "strict": true,
+        "reviewed": true,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer correctly classifies the reported 600 as AS DESIGNED and explains the implemented rule: retain ACTIVE subscription rows, sum each related plan's monthly price, and remove Plans filters. The checked three ACTIVE rows total 600; CHURNED is excluded. Although it does not itemize 250+100+250, it establishes the same calculation and named cause. It traces the inputs to the source application through unchanged bronze/gold copies, matching the expected source-application/development explanation rather than attributing the figure to the incidental pipeline failure. Saved native queries, the explicit snapshot/freshness stopping point, and engineer routing provide a useful handoff for the separate unresolved refresh history.",
+          "verdict_match": true
+        },
+        "secondary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer correctly resolves the calculation question as AS DESIGNED: three ACTIVE subscription rows contribute their related plan monthly prices totaling 600, other statuses are excluded, and REMOVEFILTERS(Plans) implements All Plans. Although it does not enumerate 250+100+250 individually, it identifies the same aggregation and filter cause. It traces the inputs to the source application through unchanged bronze/gold copies and verifies the source ACTIVE total, consistent with the expected source-application/definition explanation. The failed pipeline is explicitly incidental, not blamed for the figure. Saved native queries, checked totals, and the precise unresolved load-alignment/rebuild-history question provide a useful engineer handoff without undermining the answered calculation question.",
+          "verdict_match": true
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch03"
+      }
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "fixture": "failed-fixture",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "fixture": "failed-billing",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": true
+      },
+      "saved": true,
+      "outcome_status": "UNRESOLVED",
+      "after": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "The delivered answer stops at UNRESOLVED rather than the expected transformation-logic verdict and never identifies Silver-to-Gold/DEV as the causal split or names the product_id left-join fanout. Its correct observations are only partial: Bronze and Silver total 7661, Gold and the measure total 8765, product 7 has two rate rows, and its 46 movements become 92 Gold rows with units rising from 1104 to 2208. These support the expected explanation, but listing them without reaching that explanation earns no verdict, layer, or cause credit. The initial DAX validation failure was recovered by the successful Handled Quantity query, so it does not justify the final unresolved conclusion. The handoff retains rerunnable queries, checked findings, a stopping point, and engineer routing, but its next check revisits the recovered DAX error rather than specifying the missing join-definition verification. This is an honest evidence limitation, not a confident incorrect cause.",
+          "verdict_match": false
+        },
+        "secondary": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": true,
+          "partial": true,
+          "reason": "The answer stops at UNRESOLVED instead of identifying transformation logic, and never names the movements-to-product-rates left join on product_id as the cause. Its checked layer totals do substantively locate the Silver-to-Gold divergence: Bronze/Silver are 7661 and Gold/model are 8765. The product-7 findings further show 46 movements becoming 92 Gold rows, two rate rows, and units doubling from 1104 to 2208, accounting for the entire discrepancy. The initial invalid DAX query was subsequently corrected successfully; treating that error as an ongoing limitation does not justify the final unresolved conclusion. The handoff preserves rerunnable queries, evidence and a stopping point, but its next check revisits the recovered DAX error rather than specifying inspection of the Gold join and its cardinality. The refusal is honest, not a confident incorrect cause.",
+          "verdict_match": false
+        },
+        "review": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "PRIMARY is supported over SECONDARY. The answer explicitly remains UNRESOLVED and does not identify the Silver-to-Gold/DEV split or the product_id left-join fanout. Although g5 and g10 show 7661 and g8 and g7 show 8765, the answer only lists these findings rather than identifying the requested split; the layer/split match is therefore incomplete. The g9, g11 and g12 findings are relevant partial evidence, not a stated cause. The g6 DAX validation failure was recovered by g7. The handoff retains rerunnable queries and a stopping point, but its next check revisits g6 instead of checking the Gold join. Its explicit uncertainty is not harmful.",
+          "verdict_match": false,
+          "winning_grader": "PRIMARY"
+        },
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch01"
+      }
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "fixture": "latency",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "UNRESOLVED",
+      "after": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "The delivered answer stops at UNRESOLVED/TOOL_OR_TIME_LIMIT rather than the expected AS DESIGNED conclusion. Its own successful queries show movement 900099 absent in source, bronze and model, with zero source temporal versions and infinite history retention, but it does not identify source application/DEV as the origin or state the expected cause that the record is absent everywhere and BLANK is not zero. These checked observations are partial evidence, not verdict, layer or named-cause credit. The saved SQL/DAX and results are rerunnable and the stopping point is explicit, warranting handoff quality 1; there are no specific next checks or exact missing fact, only generic engineer routing. The explicit evidence limitation is not harmful.",
+          "verdict_match": false
+        },
+        "secondary": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "The delivered answer stops at UNRESOLVED rather than the expected AS DESIGNED conclusion. Its successful queries show record 900099 absent from the source application, warehouse and model, with no source temporal-history versions and infinite history retention. These are relevant checked findings, but the answer never identifies source-application absence as the explanatory layer/cause or explains that BLANK is not zero. Merely listing those observations does not supply the missing conclusion. The handoff preserves rerunnable queries, evidence and a clear budget stopping point, but provides no specific next checks or exact missing fact and only generic engineer routing. This is an honest evidence-limited response, not a harmful confident incorrect cause.",
+          "verdict_match": false
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch05"
+      }
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "ANSWERED",
+      "after": {
+        "official": true,
+        "strict": true,
+        "reviewed": true,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The answer substantively identifies a transformation-logic deviation, matching DEV despite using the label 'duplicate record'. It locates the first duplication at Silver-to-Gold and names the product_id-only join to two product-7 rate versions as the cause. Native checks support one movement in Bronze/Silver, two matching Silver rates, and two Gold/model rows. Rerunnable queries, explicit source-access limitations, and business-owner routing for the intended rate-selection rule provide a clear handoff.",
+          "verdict_match": true
+        },
+        "secondary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "Full substantive match. The delivered DEVIATION/duplicate-record finding attributes the extra record to transformation logic, matching the expected DEV verdict despite different labels. It locates the split at Silver to Gold: movement 6/product 7 has one movement row in Bronze and Silver but two in Gold. It correctly names the product_id-only join to two product-rate versions, with no single-version restriction, as the cause. Native results support both Gold rows and their propagation into Activity and SUM(units). Rerunnable queries are supplied, and the separate unresolved choice of applicable rate version is clearly identified and routed to the business owner; lack of a direct source-system read is explicitly qualified.",
+          "verdict_match": true
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch04"
+      }
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "UNRESOLVED",
+      "after": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": false,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "The expected answer is AS DESIGNED: the visible warehouse_id=1, product_id=4, units=17 identifies movement 2, whose units are carried unchanged from the source application. The delivered answer instead remains unresolved and establishes neither that explanation nor the source-application/DEV attribution. Its successful source, bronze and model queries show movement 2 with units 17, providing useful partial evidence, but it never concludes the requested trace or establishes uniqueness using all visible values. The initial DAX validation error was followed by a successful model query, so it is not the decisive remaining blocker. Saved queries, checked rows, explicit stopping point and engineer routing support a limited handoff; the next check merely revisits the earlier DAX error rather than specifying the remaining uniqueness and lineage checks. This is an honest evidence limitation, not a confident incorrect cause.",
+          "verdict_match": false
+        },
+        "secondary": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "Expected AS DESIGNED: the complete visible tuple identifies movement 2, with units 17 carried unchanged from the source application. The delivered answer instead remains UNRESOLVED and establishes neither that explanation nor the source-application attribution. Native samples do show movement 2 with units 17 at source, bronze and model, providing useful partial evidence, but the answer never establishes uniqueness using all visible values or explains the unchanged value. The first explicit failed step is the DAX query rejected before dispatch for an unknown or ambiguous member. A subsequent model query succeeded, yet the handoff still emphasizes that earlier error. Saved SQL/DAX, checked findings, engineer routing and a clear budget stopping point merit handoff credit, but the next checks do not specifically resolve tuple uniqueness and unchanged lineage. This is an honest evidence limitation, not a confidently incorrect cause.",
+          "verdict_match": false
+        },
+        "review": {
+          "cause_match": false,
+          "failing_step": "query validation",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "SECONDARY is supported. The expected answer is AS DESIGNED at the source application/DEV: the full visible tuple uniquely identifies movement 2, whose units 17 are carried unchanged. The answer instead says UNRESOLVED and does not establish that identification or lineage. Its g11, g8 and g7 samples do show movement 2 with units 17 at source, bronze and model, but only three of 15 matching warehouse/product rows are shown. The first failed step was g6, rejected before dispatch for an unknown or ambiguous DAX member. PRIMARY treats the later successful g7 query as superseding that failure; it does not erase the earlier failed step, and the handoff still directs attention to it. Saved queries, checked findings, an explicit budget stop and engineer routing provide a limited handoff, but the next check does not address uniqueness or lineage. The unresolved answer states an evidence limitation, not a confident wrong cause.",
+          "verdict_match": false,
+          "winning_grader": "SECONDARY"
+        },
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch08"
+      }
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "ANSWERED",
+      "after": {
+        "official": true,
+        "strict": true,
+        "reviewed": true,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The delivered AS DESIGNED answer matches the sealed expectation: the visible warehouse/product/units combination uniquely identifies movement_id 4, whose source units value is 21, carried unchanged through bronze and the semantic model. It correctly locates the value's origin in the source application rather than a report aggregation, explains the one-to-one copy and plain, non-summarized visual columns, and distinguishes the single movement from the 19 movements totaling 382 units. Retained native SQL/DAX checks support the record trace and cross-layer agreement. The explicit limitations about endpoint containment, deployed binding, and snapshot alignment do not contradict that explanation. Saved rerunnable queries, an exact remaining lineage check, and engineer routing provide a useful handoff.",
+          "verdict_match": true
+        },
+        "secondary": {
+          "cause_match": true,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "harmful": false,
+          "layer_match": true,
+          "partial": false,
+          "reason": "The delivered AS DESIGNED answer matches the sealed expectation. It identifies movement_id 4 from the visible warehouse_id=1, product_id=2, units=21 combination using native source and bronze queries, explains that 21 is a stored source-application value carried unchanged rather than a warehouse/product total, and describes the one-to-one copy, Direct Lake model and unsummarized visual columns. This correctly locates the value's origin in the source application, with no transformation split. The 19-row, 382-unit comparison supports the record-versus-total distinction. Explicit limitations about endpoint containment, deployment and snapshot alignment do not assert an incorrect cause or negate the checked record explanation. Saved rerunnable queries, precise remaining lineage checks and engineer routing provide a useful handoff. The appended generic statement that the calculation was not established is inconsistent with the detailed explanation, but does not change the substantive match.",
+          "verdict_match": true
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch06"
+      }
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": true,
+      "outcome_status": "UNRESOLVED",
+      "after": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false,
+        "useful_handoff": false,
+        "primary": {
+          "cause_match": false,
+          "failing_step": "target",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "Expected AS DESIGNED: the visible warehouse_id=2, product_id=3, units=3 uniquely identifies movement 5, whose units are carried unchanged from the source application. The delivered answer instead remains unresolved and establishes neither that lineage explanation nor the source-application/DEV attribution. The first substantive failure is target resolution: queries filter the warehouse/product pair but never establish the unique record using the visible units value, despite successful later results showing movement 5 with units 3 in the model, bronze and ordersops. The earlier DAX validation error does not invalidate those subsequent successful checks. Saved rerunnable queries and checked observations provide a useful partial handoff, but the stopping point and next check focus on an ambiguous DAX member rather than precisely resolving the record and explaining its carry-through. This is an honest evidence limitation, not a confident incorrect cause.",
+          "verdict_match": false
+        },
+        "secondary": {
+          "cause_match": false,
+          "failing_step": "target",
+          "handoff_quality": 1,
+          "harmful": false,
+          "layer_match": false,
+          "partial": true,
+          "reason": "The expected answer is AS DESIGNED at the source-application layer (DEV): the visible warehouse_id=2, product_id=3, units=3 uniquely identifies movement 5, whose units are carried unchanged from ordersops. The investigation scoped warehouse and product but never established the unique record using all three visible values. Successful native results show movement 5 with units 3 in ordersops, bronze and the model, but the delivered answer merely lists these findings and declares the calculation unresolved; it does not establish the expected verdict, layer or named cause. The rejected DAX query was followed by a successful model query, so that error does not itself establish a continuing block. Saved queries, checked results, an explicit stopping point and engineer routing provide a partial handoff, but the next check only revisits the rejected query rather than specifying record uniqueness and unchanged-value lineage checks. The explicit evidence limitation is not a confident incorrect cause and is not harmful.",
+          "verdict_match": false
+        },
+        "review": null,
+        "batch": ".local\\round-twenty-seven\\proof02\\grading\\form-batch07"
+      }
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "fixture": "history",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "fixture": "baseline",
+      "before": {
+        "official": false,
+        "strict": false,
+        "reviewed": false,
+        "reviewed_harmful": false
+      },
+      "saved": false,
+      "outcome_status": null,
+      "after": null
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "observed_utc": "2026-11-23T12:06:55.311589+00:00",
+  "basis": "Saved screenshot02/04 row_layer_diff arguments use common keys; native DAX returns [alias] or Table[column] headers while SQL returns plain headers and declared numeric values as strings. Native feedback ANALYSIS_KEY_COLUMN_MISSING was a real cross-adapter representation gap.",
+  "feature_flag": "r27_analysis_native_projection",
+  "default": true,
+  "fix": "Analysis-only declared DAX output-header projection plus exact native numeric/boolean comparison. SQL/header labels otherwise stay literal; qualified DAX names require declared/referenced table binding, or an exact native named alias.",
+  "raw_native_query_records_changed": false,
+  "scalar_inference_limits": "Unknown strings/text/date representations remain literal; no numeric-looking text identifier or assumed timezone conversion. Ambiguous output labels, duplicate typed keys, invalid/nonfinite numeric cells, truncation and same-layer comparison safeguards remain.",
+  "new_tests": 19,
+  "focused_passed": 86,
+  "focused_subtests": 89,
+  "saved_native_proof": "round-twenty-seven-analysis-projection-saved-proof.json",
+  "full_suite_all_eight_image_shards": {
+    "source": "28a56e887667abba913ee4a6dd2561c8f1cef988",
+    "workflow": 45171237260,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9",
+    "full_suite": {
+      "passed": 6133,
+      "skipped": 53,
+      "failed": 0,
+      "errors": 0
+    },
+    "all_eight_shards": "PASS"
+  },
+  "generation_calls_for_offline_proof": 0,
+  "estate_reads_for_offline_proof": 0,
+  "scores_expectations_and_original_capture_bytes_changed": false,
+  "saved_investigation_replay": {
+    "cases": 123,
+    "finished": 85,
+    "historical_negative_or_incomplete": 29,
+    "no_case": 9,
+    "status_changes": 0,
+    "generation_calls": 0,
+    "estate_reads": 0
+  }
+}

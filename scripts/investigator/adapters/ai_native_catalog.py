@@ -143,7 +143,8 @@ class NativeCatalog:
                     metadata['schema_basis']='RETAINED_EXACT_NATIVE_CATALOG'
                     metadata['schema_qualification']='Retained native table schema, not a fresh observation. Native read-only enforcement and query errors remain unchanged.'
         pending=[a for a in route['objects'] if a['id'] in self.opened[identity] and
-                 (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL' and not a['metadata'].get('fresh_native_schema')and not retained_source_table(a))]
+                 (not a['metadata'].get('columns') or route['kind']=='SOURCE_SQL'
+                  and not a['metadata'].get('native_schema_attempted'))]
         if not pending and (route['kind']!='FABRIC_SQL'or 'database'in route):return projected()
         parent=route['container'];container=self.assets[parent]
         if route['kind']=='FABRIC_SQL':
@@ -187,11 +188,31 @@ class NativeCatalog:
             def execute(db,q):
                 if route['kind']=='FABRIC_SQL':return self.sql_read(route['config'],db,q)
                 return self.source_read(route['config'],dict(q,response_mode='records',require_read_only=True))
-            result=read_many(route['config'],requests,execute=execute,attestation_required=False,surface=route['kind'],include_views=True)
+            # A retained source schema can predate newly enabled native history.
+            # Refresh only opened, exact objects, once. Optional metadata
+            # transport failure must not erase an otherwise usable old schema;
+            # malformed proofs, read-only and budget refusals still propagate.
+            from run_source_diagnostic import SourceReadError, SourceReadTimeout
+            try:
+                result=read_many(route['config'],requests,execute=execute,attestation_required=False,surface=route['kind'],include_views=True)
+            except (SourceReadError, SourceReadTimeout, ConnectionError, TimeoutError) as error:
+                recoverable_number = getattr(error, 'error_number', None)
+                if (route['kind'] != 'SOURCE_SQL' or not all(retained_source_table(obj) for obj in batch)
+                        or isinstance(error, SourceReadError) and recoverable_number not in
+                        (-2, 229, 18456, 40613, 40615, 40197, 40501, 42119, 10928, 10929, 10053, 10054, 10060)):
+                    raise
+                for obj in batch:
+                    obj['metadata']['native_schema_attempted']=True
+                    obj['metadata']['schema_qualification']='Retained native schema only; fresh catalog read failed. Unknown columns remain unavailable.'
+                    self.record({'event':'NATIVE_QUERY_SCHEMA_UNAVAILABLE','asset_id':obj['id'],
+                                 'error_kind':type(error).__name__,'sql_error_number':recoverable_number,
+                                 'fallback':'RETAINED_EXACT_NATIVE_CATALOG_NOT_FRESH'})
+                continue
             for obj in batch:
                 columns,proof=result[obj['id']]
                 obj['metadata']['columns']=columns
                 obj['metadata']['fresh_native_schema']=True
+                obj['metadata']['native_schema_attempted']=True
                 self.record({'event':'NATIVE_QUERY_SCHEMA','asset_id':obj['id'],'proof':proof})
         self.ready.add(identity)
         return projected()

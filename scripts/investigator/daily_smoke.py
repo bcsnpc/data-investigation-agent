@@ -119,15 +119,25 @@ def guided_demo_matches(bundle,expected):
     queries=bundle.get('case',{}).get('queries',[])
     surfaces=[]
     for asset,value in expected['reads'].items():
+        column=None
+        if isinstance(value,dict):
+            if set(value)!={'column','value'} or not isinstance(value['column'],str) or not value['column']:
+                raise ValueError('SMOKE_GUIDED_DECLARED_COLUMN_REQUIRED')
+            column,value=value['column'],value['value']
         found=[]
         for query in queries:
             if query.get('status')!='SUCCEEDED' or asset not in query.get('asset_ids',[]):continue
             rows=query.get('result',{}).get('rows',[])
-            if len(rows)!=1 or not isinstance(rows[0],dict) or len(rows[0])!=1:continue
-            scalar=next(iter(rows[0].values()))
+            if len(rows)!=1 or not isinstance(rows[0],dict):continue
+            if column is not None:
+                if column not in rows[0]:continue
+                scalar=rows[0][column]
+            else:
+                if len(rows[0])!=1:continue
+                scalar=next(iter(rows[0].values()))
             if scalar is None:continue
             try:matches=Decimal(str(scalar))==Decimal(str(value))
-            except InvalidOperation:matches=False
+            except (InvalidOperation,ValueError,TypeError):matches=False
             if matches:found.append(query['layer'])
         if not found:return False
         surfaces.append(set(found))

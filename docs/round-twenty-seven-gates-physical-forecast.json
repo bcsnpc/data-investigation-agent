@@ -1,0 +1,176 @@
+{
+  "basis": "Higher measured per-ticket physical reads P2/P3 times1.3; missing/zero-only case uses40beforemargin. Controls retain full existing bounds; calibration conservative40reads/ticket times1.3; release smokes measured35reads times1.3; not a worst-case total of every per-run100 ceiling. All per-run/monthly hard stops remain.",
+  "rows": [
+    {
+      "ticket": "text-R17-05-v1",
+      "saved_higher_reads": 27,
+      "fallback": false,
+      "forecast_reads": 36
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "saved_higher_reads": 28,
+      "fallback": false,
+      "forecast_reads": 37
+    },
+    {
+      "ticket": "form-v2-access-export-v1",
+      "saved_higher_reads": 14,
+      "fallback": false,
+      "forecast_reads": 19
+    },
+    {
+      "ticket": "form-v2-access-export-v2",
+      "saved_higher_reads": 10,
+      "fallback": false,
+      "forecast_reads": 13
+    },
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "saved_higher_reads": 22,
+      "fallback": false,
+      "forecast_reads": 29
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "saved_higher_reads": 22,
+      "fallback": false,
+      "forecast_reads": 29
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "saved_higher_reads": 38,
+      "fallback": false,
+      "forecast_reads": 50
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "saved_higher_reads": 38,
+      "fallback": false,
+      "forecast_reads": 50
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "saved_higher_reads": 30,
+      "fallback": false,
+      "forecast_reads": 39
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "saved_higher_reads": 33,
+      "fallback": false,
+      "forecast_reads": 43
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "saved_higher_reads": 29,
+      "fallback": false,
+      "forecast_reads": 38
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "saved_higher_reads": 30,
+      "fallback": false,
+      "forecast_reads": 39
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "saved_higher_reads": 32,
+      "fallback": false,
+      "forecast_reads": 42
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "saved_higher_reads": 39,
+      "fallback": false,
+      "forecast_reads": 51
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "saved_higher_reads": 31,
+      "fallback": false,
+      "forecast_reads": 41
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "saved_higher_reads": 33,
+      "fallback": false,
+      "forecast_reads": 43
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "saved_higher_reads": 22,
+      "fallback": false,
+      "forecast_reads": 29
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "saved_higher_reads": 32,
+      "fallback": false,
+      "forecast_reads": 42
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "saved_higher_reads": 27,
+      "fallback": false,
+      "forecast_reads": 36
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "saved_higher_reads": 39,
+      "fallback": false,
+      "forecast_reads": 51
+    },
+    {
+      "ticket": "form-v2-waiting-application-load-v2",
+      "saved_higher_reads": 19,
+      "fallback": false,
+      "forecast_reads": 25
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "saved_higher_reads": 29,
+      "fallback": false,
+      "forecast_reads": 38
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "saved_higher_reads": null,
+      "fallback": true,
+      "forecast_reads": 52
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "saved_higher_reads": 40,
+      "fallback": false,
+      "forecast_reads": 52
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "saved_higher_reads": 31,
+      "fallback": false,
+      "forecast_reads": 41
+    }
+  ],
+  "confirmation_ticket_forecast": 965,
+  "confirmation_control_bounds": {
+    "access": 100,
+    "failed_fixture": 80,
+    "failed_billing": 80,
+    "history": 100,
+    "latency": 60,
+    "waiting": 100
+  },
+  "calibration_ticket_forecast": 520,
+  "calibration_access_control_bound": 100,
+  "release_three_smokes_forecast": 138,
+  "fresh_and_final_native_checks": 20,
+  "remaining_observed": 2310,
+  "remaining_work_forecast": 2263,
+  "remaining_investigation": 2196,
+  "remaining_other_allocations_not_spendable_for_investigation": 114,
+  "margin_vs_investigation": -67,
+  "confirmation_and_controls": 1485,
+  "confirmation_fits_existing_investigation": true,
+  "downstream": "Calibration and release remain conditional on fresh actual headroom after confirmation. Full conservative remaining-work forecast exceeds INV by67; do not borrow SCAN/restoration or assume a new cap. Confirmation itself fits; when actual controls settle, reforecast next whole step before admission."
+}

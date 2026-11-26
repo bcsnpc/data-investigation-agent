@@ -1,0 +1,82 @@
+{
+  "status": "SAVED_POLICY_COUNTERFACTUAL_NOT_A_RERUN",
+  "no_new_model_or_estate_calls": true,
+  "scores_unchanged": true,
+  "qualification": "Uses the recorded final Opus check without re-evaluating it, plus pure current conclusion-code validation of that same saved draft. A new P3 evaluator can decide differently. Target rerouting/source activation is not replayed or claimed here. A rejected draft is not proof of a corrected final answer.",
+  "question_rejected": 1,
+  "conclusion_code_rejected": 3,
+  "rows": [
+    {
+      "ticket": "text-R17-01-v1",
+      "result_sha256": "9bb2d77351e04be2736f0e40efd8ec9fdc4d5d820f0d3fa653be1d633f074605",
+      "saved_final_evaluator_attempt": 1,
+      "saved_question_passed": true,
+      "saved_question_reason": "The draft checks the Handled Quantity card value of 8765 that the ticket asked about. It says the measure correctly sums units in gold movement_values, which is 1104 above the 7661 source units, and gives the duplication as the reason. 'Count' in the ticket refers loosely to the displayed quantity, so this is not a sum-versus-count substitution.",
+      "slim_would_block_this_saved_question_judgment": false,
+      "new_conclusion_code_rejection_on_same_saved_draft": "PRIMARY_QUESTION_IS_DISPLAY_VERIFICATION: no comparison or violated intended rule was supplied. Explain the cited implemented calculation and reproduced target value; an incidental upstream difference does not make this question a deviation.",
+      "saved_other_failed_checks": [
+        "claims"
+      ],
+      "prior_reviewed_harmful": true,
+      "actual_pass3_rerun": "NOT_MEASURED_BY_THIS_AUDIT"
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "result_sha256": "a2a36e37f8e2ca50b7d6fe91b10482649eddd41923dd48c0164aca51bb82272d",
+      "saved_final_evaluator_attempt": 1,
+      "saved_question_passed": true,
+      "saved_question_reason": "The direct answer verifies the 8765 on the named card. It matches the DAX result for [Handled Quantity] and explains why the figure differs from the source: product 7 is counted twice in gold, adding 1104 over the silver/bronze total of 7661. It answers the sum question that was asked, with a cause.",
+      "slim_would_block_this_saved_question_judgment": false,
+      "new_conclusion_code_rejection_on_same_saved_draft": "PRIMARY_QUESTION_IS_DISPLAY_VERIFICATION: no comparison or violated intended rule was supplied. Explain the cited implemented calculation and reproduced target value; an incidental upstream difference does not make this question a deviation.",
+      "saved_other_failed_checks": [
+        "claims"
+      ],
+      "prior_reviewed_harmful": true,
+      "actual_pass3_rerun": "NOT_MEASURED_BY_THIS_AUDIT"
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "result_sha256": "1a4a3c11638bae81411889f878646d91f8f98e05979f4fcb871bbc3487093c32",
+      "saved_final_evaluator_attempt": 1,
+      "saved_question_passed": false,
+      "saved_question_reason": "The ticket asks why the Handled Quantity card shows 8765. The draft instead explains the model's unfiltered total and the Silver/Gold gap of 8765 vs 7661. It also admits that the card's saved scope (RECEIPT, 2026-09-15) gives 665. The product 7 duplication is a real but incidental finding. The draft never says why this card displays 8765.",
+      "slim_would_block_this_saved_question_judgment": true,
+      "new_conclusion_code_rejection_on_same_saved_draft": "PRIMARY_QUESTION_IS_DISPLAY_VERIFICATION: no comparison or violated intended rule was supplied. Explain the cited implemented calculation and reproduced target value; an incidental upstream difference does not make this question a deviation.",
+      "saved_other_failed_checks": [
+        "claims",
+        "support",
+        "target"
+      ],
+      "prior_reviewed_harmful": true,
+      "actual_pass3_rerun": "NOT_MEASURED_BY_THIS_AUDIT"
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "result_sha256": "da64f10f89df390e640b1b44378513d36e2024c15d68d61edfbaf14696471643",
+      "saved_final_evaluator_attempt": 1,
+      "saved_question_passed": true,
+      "saved_question_reason": "The handoff takes on each part of the ticket: whether movement 1 was 20 at 2026-10-20 12:00 UTC, and whether it changed or was always 16. It clearly says it can't confirm either figure and explains why: no candidate gave 16, and none of the candidate tables keeps history. This is a valid partial UNRESOLVED handoff that names the missing evidence about the export's source and history.",
+      "slim_would_block_this_saved_question_judgment": false,
+      "new_conclusion_code_rejection_on_same_saved_draft": null,
+      "saved_other_failed_checks": [
+        "claims"
+      ],
+      "prior_reviewed_harmful": true,
+      "actual_pass3_rerun": "NOT_MEASURED_BY_THIS_AUDIT"
+    },
+    {
+      "ticket": "text-latency-900501-v1",
+      "result_sha256": "8264715ac85fe47c834f647435222f6b583e98663c8c61516bdb4df56e619711",
+      "saved_final_evaluator_attempt": 1,
+      "saved_question_passed": true,
+      "saved_question_reason": "The ticket asks why movement_id 900501 is in the application stock movements but has no row in round_two_bronze_20261003. The direct answer explains that the full-overwrite load ran while the source had no such row. That answers the exact presence question, including why.",
+      "slim_would_block_this_saved_question_judgment": false,
+      "new_conclusion_code_rejection_on_same_saved_draft": null,
+      "saved_other_failed_checks": [
+        "claims"
+      ],
+      "prior_reviewed_harmful": true,
+      "actual_pass3_rerun": "NOT_MEASURED_BY_THIS_AUDIT"
+    }
+  ]
+}

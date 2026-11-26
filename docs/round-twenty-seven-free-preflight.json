@@ -1,0 +1,197 @@
+{
+  "status": "PASS",
+  "generation_calls": 0,
+  "estate_reads": 0,
+  "authentication": {
+    "observed_at_utc": "2026-11-23T01:33:10.135986+00:00",
+    "generation_calls": 0,
+    "providers": {
+      "anthropic": {
+        "status": "PASS",
+        "http_status": 200,
+        "key_reference": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/anthropic-api-key/f36d1b1a112f494186b04c8650baee01",
+        "model_count": 15
+      },
+      "openai": {
+        "status": "PASS",
+        "http_status": 200,
+        "key_reference": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/openai-api-key/06586f9aa3b0461d88cbbc42e828e128",
+        "model_count": 99
+      },
+      "nvidia": {
+        "status": "PASS",
+        "http_status": 200,
+        "key_reference": "https://kv-dia-d5dd7d65.vault.azure.net/secrets/nvidia-api-key/f8ffb591ae594eebb7451994eba28836",
+        "model_count": 33
+      }
+    },
+    "aws": "DISABLED_BY_OWNER_NOT_TESTED"
+  },
+  "configuration": [
+    {
+      "model": "z-ai/glm-5.3-flash",
+      "prepared_tickets": 15,
+      "tool_purpose_gateway_vectors": 2625,
+      "native_sql_scopes_unchanged": true,
+      "worker_paths": "POSIX",
+      "source_hashes_unchanged": true
+    },
+    {
+      "model": "moonshotai/kimi-k3.1-pro",
+      "prepared_tickets": 15,
+      "tool_purpose_gateway_vectors": 2625,
+      "native_sql_scopes_unchanged": true,
+      "worker_paths": "POSIX",
+      "source_hashes_unchanged": true
+    }
+  ],
+  "ledger": {
+    "anthropic": {
+      "unit": "MICRODOLLARS",
+      "ceiling": "220284651",
+      "charged": "202108251"
+    },
+    "openai": {
+      "unit": "MICRODOLLARS",
+      "ceiling": "202938628",
+      "charged": "189209349"
+    },
+    "nvidia": {
+      "unit": "CALLS",
+      "ceiling": "1000",
+      "charged": "0"
+    }
+  },
+  "validator_codec": {
+    "cases": 123,
+    "queries": 717,
+    "requests": 970,
+    "errors": 0
+  },
+  "saved_investigations": {
+    "REPLAY_FAILURE": 29,
+    "REPLAY_FINISHED": 85,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "previous_answers": 69,
+  "answers_preserved": 66,
+  "intentional_old_harm_rejections": [
+    "dev02-advisory-text-R17-01-v1.json",
+    "dev02-advisory-text-R17-02-v1.json",
+    "dev02-advisory-text-R17-05-v1.json"
+  ],
+  "replay_limits": [
+    "Historical catalog was not captured; supplement uses retained admitted metadata.",
+    "Old private screenshot model bodies were not captured; saved helper boundary and native reads checked.",
+    "Bounded format retry uses the identical saved malformed checker body when the old trace has no later checker response; not an observed later call.",
+    "29 incomplete/historical-negative traces cannot be exactly continued after changed code; originals and all grades unchanged."
+  ],
+  "wrong_visual_intake_now": "NEEDS_INPUT with three native scope candidates, not wrong READY",
+  "fixture": {
+    "status": "FRESH_STATIC_BASELINE_VERIFIED",
+    "source": {
+      "original_rows_sha256": "0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b",
+      "original_schema_sha256": "bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd",
+      "temporal_period_columns_excluded_explicitly": true
+    },
+    "source_rows": 360,
+    "temporal": "ON",
+    "model_quantity": 7661,
+    "observed_at_utc": "2026-11-23T01:36:47.520649+00:00",
+    "observed_at": 1795397807.5206788,
+    "physical_control_requests": 4,
+    "control_only_not_investigation_evidence": true
+  },
+  "observed_at": 1795402987.693241,
+  "qualification": {
+    "source": "b09eddfc216d5972f851a9912a2b59df50755b5d",
+    "workflow": 45102901946,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:a26250882216e413e3ac8490539b2415d9685b30c1ea4e100d134b9dfddeb8d7",
+    "all_eight_shards": "PASS",
+    "full_suite": {
+      "passed": 6064,
+      "skipped": 53,
+      "failed": 0,
+      "errors": 0
+    },
+    "artifacts": [
+      {
+        "artifact": "cloud-worker-full-repository",
+        "sha256": "4195c101939ea9cb882a595d44d5de0c5202ce8aa0bccab04c4f1966055396d7",
+        "tests": 6117,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 53
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-0",
+        "sha256": "06f78dc9c1a0c6ca90dcff1de2e1428c958be86d5c93e12b92d118ea63c03068",
+        "tests": 182,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-1",
+        "sha256": "a5b02ffbb9913420ba75986d31f3b6736139de7f7ec2994d7f505bb74cd43e27",
+        "tests": 150,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-2",
+        "sha256": "65ce172d061e71691c362e3034a6d9a002e7f22842ef54f08580addd2c4d098e",
+        "tests": 166,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-3",
+        "sha256": "6ec1624ac335f67033ebe9588e600b2035a3b3103e3fe4a9a77300de3b9a66b2",
+        "tests": 129,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-4",
+        "sha256": "ce06ced9fd12817729e8d3061a9fc8fb38ff3b17658681f5c44fe92dac6effe5",
+        "tests": 105,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-5",
+        "sha256": "751a7fab89918cb602d2d215a8951f3231c3a6ec3d37fbdcad10312c05c27e4e",
+        "tests": 175,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-6",
+        "sha256": "cbf92b2307e2c22380434ba539db85895d8a8e5de105a9eef7942dbf673bbb7a",
+        "tests": 167,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "artifact": "cloud-worker-synthetic-shard-7",
+        "sha256": "0d5fa5b5424722c7541e4fbdcdb604bea5a7359237a53dc5805a4f52983fd432",
+        "tests": 95,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "published": true,
+    "observed_at_utc": "2026-11-23T03:04:04.988903+00:00"
+  },
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:a26250882216e413e3ac8490539b2415d9685b30c1ea4e100d134b9dfddeb8d7",
+  "scope": "ZERO_GENERATION_CONFIGURATION_AND_PRIOR_DELIVERY_COMPATIBILITY_WITH_EXPLICIT_REPLAY_LIMITS",
+  "free_scores_are_not_quality_gate": true
+}

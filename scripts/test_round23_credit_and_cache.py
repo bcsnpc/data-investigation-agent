@@ -35,6 +35,64 @@ class CreditTests(unittest.TestCase):
 
 
 class CacheTests(unittest.TestCase):
+ def test_evaluator_keeps_definition_prefix_stable_as_native_queries_grow(self):
+  from investigator.adapters.anthropic_prompt_cache import evaluator_prefix
+  from investigator.estate_graph_contract import canonical
+  body=self.body();body['tools'][0]['name']='evaluate_delivery'
+  definition={'content':'SUM(Items[amount])','provenance':{'asset_id':'native-definition'}}
+  packet={'ticket':{'text':'Explain amount'},'draft':{'answer':'first'},
+          'cited_evidence':{'definition':definition,'q1':{'time':'first','rows':[[950]]}}}
+  body['messages']=[{'role':'user','content':canonical(packet)}]
+  first,ha=evaluator_prefix(body)
+  packet['cited_evidence']['q2']={'time':'later','rows':[[951]]};packet['draft']={'answer':'repaired'}
+  body['messages'][0]['content']=canonical(packet);second,hb=evaluator_prefix(body)
+  self.assertEqual(ha,hb);self.assertEqual(first['messages'][0]['content'][0],second['messages'][0]['content'][0])
+  self.assertEqual(canonical(second).count('SUM(Items[amount])'),1)
+  blocks=second['messages'][0]['content'];stable=json.loads(blocks[0]['text']);changing=json.loads(blocks[1]['text'])
+  self.assertEqual({**stable['retained_definitions'],**changing['cited_evidence']},packet['cited_evidence'])
+  self.assertNotIn('later',second['messages'][0]['content'][0]['text'])
+  self.assertIn('later',second['messages'][0]['content'][1]['text'])
+  packet['ticket']={'text':'A different question on the same measure'}
+  body['messages'][0]['content']=canonical(packet);third,ht=evaluator_prefix(body)
+  self.assertEqual(hb,ht);self.assertNotIn('different question',third['messages'][0]['content'][0]['text'])
+  packet['cited_evidence'].pop('definition');body['messages'][0]['content']=canonical(packet)
+  removed,hc=evaluator_prefix(body)
+  self.assertNotEqual(hb,hc);self.assertNotIn('SUM(Items[amount])',canonical(removed))
+ def test_evaluator_caches_exact_current_evidence_and_keeps_drafts_after_breakpoint(self):
+  from investigator.adapters.anthropic_prompt_cache import evaluator_prefix
+  from investigator.estate_graph_contract import canonical
+  body=self.body();body['tools'][0]['name']='evaluate_delivery'
+  packet={'ticket':{'text':'Why 950?'},'draft':{'answer':'first'},'cited_evidence':{'Q1':{'rows':[[950]]}}}
+  body['messages']=[{'role':'user','content':canonical(packet)}]
+  a,ha=evaluator_prefix(body);packet['draft']={'answer':'repaired'};packet['evaluator_format_feedback']={'missing':'claims'};body['messages'][0]['content']=canonical(packet)
+  b,hb=evaluator_prefix(body)
+  self.assertEqual(ha,hb);self.assertEqual(a['messages'][0]['content'][0],b['messages'][0]['content'][0])
+  blocks=b['messages'][0]['content'];self.assertEqual(blocks[0]['cache_control'],{'type':'ephemeral'});self.assertNotIn('cache_control',blocks[1])
+  self.assertEqual({k:v for k,v in {**json.loads(blocks[0]['text']),**json.loads(blocks[1]['text'])}.items()if k!='retained_definitions'},packet)
+  packet['cited_evidence']={'Q2':{'rows':[[951]]}};body['messages'][0]['content']=canonical(packet);c,hc=evaluator_prefix(body)
+  self.assertEqual(hb,hc);self.assertNotIn('Q1',c['messages'][0]['content'][0]['text']);self.assertIn('Q2',c['messages'][0]['content'][1]['text']);self.assertNotIn('Q1',c['messages'][0]['content'][1]['text'])
+  self.assertIsInstance(body['messages'][0]['content'],str)
+ def test_other_helpers_do_not_receive_evaluator_evidence_cache(self):
+  from investigator.adapters.anthropic_prompt_cache import evaluator_prefix
+  body=self.body();result,digest=evaluator_prefix(body)
+  self.assertEqual(result,body);self.assertIsNone(digest)
+ def test_evaluator_wire_cache_is_flagged_and_usage_is_logged(self):
+  from unittest.mock import Mock,patch
+  from investigator.adapters.reasoning_anthropic import Client
+  from investigator.estate_graph_contract import canonical
+  packet={'ticket':{'text':'Why?'},'draft':{'answer':'old'},'cited_evidence':{'Q1':{'rows':[[950]]}}}
+  tool={'name':'evaluate_delivery','description':'Evaluate','input_schema':{'type':'object'}}
+  for caching in (True,False):
+   budget=Mock();budget.rate.model='claude-opus-5-5';budget.reserve.return_value='r'
+   send=Mock(return_value={'content':[],'usage':{'input_tokens':10,'cache_read_input_tokens':1000,'output_tokens':1}});record=Mock()
+   with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+    client=Client(model='claude-opus-5-5',budget=budget,identity='reader',secret_reference={},record=record,send=send,diagnostic_prompt_cache=caching)
+   client.complete(system='Stable evaluator policy',messages=[{'role':'user','content':canonical(packet)}],tools=[tool])
+   body=send.call_args.args[2];authorize_body({'reasoning_models':['claude-opus-5-5']},'POST','https://api.anthropic.com/v1/messages',body)
+   self.assertEqual(isinstance(body['messages'][0]['content'],list),caching)
+   if caching:
+    event=next(x.args[0]for x in record.call_args_list if x.args[0].get('event')=='REASONING_CACHE_USAGE')
+    self.assertEqual(event['phase'],'EVALUATOR_STABLE_EVIDENCE_CACHE');self.assertEqual(event['cache_read_input_tokens'],1000)
  def test_existing_query_contract_does_not_pin_initial_layer_enum(self):
   from jsonschema import Draft202012Validator
   cache=StablePrefix();first=self.body()
@@ -82,9 +140,9 @@ class CacheTests(unittest.TestCase):
    tools=[{'name':name,'description':'Use this named helper','input_schema':{'type':'object','properties':{}}}]
    client.complete(system='helper instructions',messages=[],tools=tools)
    body=send.call_args.args[2]
-   self.assertEqual(body['tools'],tools);self.assertEqual(body['system'][0]['text'],'helper instructions')
+   self.assertEqual(body['tools'],[{**tools[0],'cache_control':{'type':'ephemeral'}}]);self.assertEqual(body['system'][0]['text'],'helper instructions')
   events=[x.args[0]for x in record.call_args_list if x.args[0].get('event')=='REASONING_CACHE_USAGE']
-  self.assertEqual(len(events),2);self.assertTrue(all(x['phase']=='INTAKE_HELPER_UNCHANGED'for x in events));assert_cache_reads(events)
+  self.assertEqual(len(events),2);self.assertTrue(all(x['phase']=='HELPER_TOOL_AND_SYSTEM_CACHE'for x in events));assert_cache_reads(events)
  def test_investigation_cache_check_still_rejects_later_misses(self):
   with self.assertRaisesRegex(AssertionError,'ZERO_CACHE_READS'):
    assert_cache_reads([{'successful_call':2,'cache_read_input_tokens':0,'cache_assertion_applies':True}])

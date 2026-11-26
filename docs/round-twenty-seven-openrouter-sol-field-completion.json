@@ -1,0 +1,37 @@
+{
+  "ticket": "round27-proof15-openrouter-supervl-form-v2-screenshot-record-01-v1",
+  "status": "MODEL_OWNED_MISSING_VERDICT_MATCH_COMPLETED",
+  "provider": "openai",
+  "model": "gpt-6.1-sol",
+  "field": "verdict_match",
+  "model_returned_value": false,
+  "all_other_original_fields_preserved": true,
+  "operator_judgment_supplied": false,
+  "old_provider_response_retained": true,
+  "investigation_rerun": false,
+  "format_completion": {
+    "all_other_original_fields_preserved": true,
+    "completion_provider_log_sha256": "11d511927217a78051ccaff3b0c76aa21fcad1b0a947955775ef46d3dbe86214",
+    "kind": "MODEL_OWNED_SINGLE_REQUIRED_BOOLEAN",
+    "missing_field": "verdict_match",
+    "operator_grade_supplied": false,
+    "original_provider_log_sha256": "5c8487aff7dd65009a37c2c13b6e319b53fad473a52f6758793663cf6cc34cc2"
+  },
+  "normalized_usage_events": [
+    {
+      "cache_read_ratio": 0.0,
+      "cost_microdollars": 18404,
+      "event": "AI_NORMALIZED_USAGE",
+      "model": "gpt-6.1-sol",
+      "normalized_usage": {
+        "cache_write_tokens": 7275,
+        "cached_input_tokens": 0,
+        "input_tokens": 7278,
+        "output_tokens": 21
+      },
+      "provider": "openai",
+      "step": "GRADING"
+    }
+  ],
+  "quality_scope": "DEV_ONLY_SINGLE_SOL_NOT_A_GATE"
+}

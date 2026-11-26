@@ -1,0 +1,208 @@
+{
+  "status": "PARTIAL_SAVED_TIMING",
+  "required": 39,
+  "saved": 21,
+  "host_includes_admission_polling_capture_retrieval": true,
+  "native_excludes_local_admission_and_publication_retrieval": true,
+  "host": {
+    "measured": 21,
+    "median_seconds": 260.864729,
+    "p90_nearest_rank_seconds": 408.633529
+  },
+  "native": {
+    "measured": 17,
+    "median_seconds": 222.0,
+    "p90_nearest_rank_seconds": 316.0
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "host_case_seconds": 193.749291,
+      "native_execution_seconds": 158.0,
+      "native_end_time_missing": false,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "actual_model_cost_microdollars": 359497
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "host_case_seconds": 186.484211,
+      "native_execution_seconds": 162.0,
+      "native_end_time_missing": false,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "actual_model_cost_microdollars": 380176
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "host_case_seconds": 307.586053,
+      "native_execution_seconds": 288.0,
+      "native_end_time_missing": false,
+      "physical_requests": 38,
+      "model_calls": 4,
+      "actual_model_cost_microdollars": 829743
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "host_case_seconds": 423.490245,
+      "native_execution_seconds": null,
+      "native_end_time_missing": true,
+      "physical_requests": 38,
+      "model_calls": 11,
+      "actual_model_cost_microdollars": 1546691
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "host_case_seconds": 229.024489,
+      "native_execution_seconds": 207.0,
+      "native_end_time_missing": false,
+      "physical_requests": 29,
+      "model_calls": 4,
+      "actual_model_cost_microdollars": 570644
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "host_case_seconds": 348.741501,
+      "native_execution_seconds": null,
+      "native_end_time_missing": true,
+      "physical_requests": 32,
+      "model_calls": 9,
+      "actual_model_cost_microdollars": 1339834
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "host_case_seconds": 288.371363,
+      "native_execution_seconds": 269.0,
+      "native_end_time_missing": false,
+      "physical_requests": 39,
+      "model_calls": 9,
+      "actual_model_cost_microdollars": 800330
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "host_case_seconds": 241.414258,
+      "native_execution_seconds": 215.0,
+      "native_end_time_missing": false,
+      "physical_requests": 28,
+      "model_calls": 4,
+      "actual_model_cost_microdollars": 603763
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "host_case_seconds": 227.554264,
+      "native_execution_seconds": 198.0,
+      "native_end_time_missing": false,
+      "physical_requests": 22,
+      "model_calls": 4,
+      "actual_model_cost_microdollars": 418564
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "host_case_seconds": 185.514264,
+      "native_execution_seconds": 171.0,
+      "native_end_time_missing": false,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "actual_model_cost_microdollars": 389170
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "host_case_seconds": 363.252356,
+      "native_execution_seconds": 156.0,
+      "native_end_time_missing": false,
+      "physical_requests": 22,
+      "model_calls": 3,
+      "actual_model_cost_microdollars": 351438
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "host_case_seconds": 236.151336,
+      "native_execution_seconds": 222.0,
+      "native_end_time_missing": false,
+      "physical_requests": 27,
+      "model_calls": 5,
+      "actual_model_cost_microdollars": 467282
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "host_case_seconds": 260.864729,
+      "native_execution_seconds": 236.0,
+      "native_end_time_missing": false,
+      "physical_requests": 27,
+      "model_calls": 8,
+      "actual_model_cost_microdollars": 746928
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "host_case_seconds": 76.60139,
+      "native_execution_seconds": null,
+      "native_end_time_missing": true,
+      "physical_requests": 0,
+      "model_calls": null,
+      "actual_model_cost_microdollars": 0
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "host_case_seconds": 276.680502,
+      "native_execution_seconds": null,
+      "native_end_time_missing": true,
+      "physical_requests": 28,
+      "model_calls": 8,
+      "actual_model_cost_microdollars": 879644
+    },
+    {
+      "ticket": "text-R17-01-v1",
+      "host_case_seconds": 205.999797,
+      "native_execution_seconds": 179.0,
+      "native_end_time_missing": false,
+      "physical_requests": 19,
+      "model_calls": 4,
+      "actual_model_cost_microdollars": 715967
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "host_case_seconds": 253.375982,
+      "native_execution_seconds": 230.0,
+      "native_end_time_missing": false,
+      "physical_requests": 27,
+      "model_calls": 4,
+      "actual_model_cost_microdollars": 1111414
+    },
+    {
+      "ticket": "text-R17-04-v1",
+      "host_case_seconds": 339.33469,
+      "native_execution_seconds": 316.0,
+      "native_end_time_missing": false,
+      "physical_requests": 40,
+      "model_calls": 5,
+      "actual_model_cost_microdollars": 2013922
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "host_case_seconds": 447.224206,
+      "native_execution_seconds": 233.0,
+      "native_end_time_missing": false,
+      "physical_requests": 20,
+      "model_calls": 6,
+      "actual_model_cost_microdollars": 1112611
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "host_case_seconds": 322.561341,
+      "native_execution_seconds": 306.0,
+      "native_end_time_missing": false,
+      "physical_requests": 40,
+      "model_calls": 6,
+      "actual_model_cost_microdollars": 2151913
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "host_case_seconds": 408.633529,
+      "native_execution_seconds": 388.0,
+      "native_end_time_missing": false,
+      "physical_requests": 31,
+      "model_calls": 13,
+      "actual_model_cost_microdollars": 3006913
+    }
+  ]
+}

@@ -1,0 +1,666 @@
+{
+  "status": "SECONDARY_ONLY_COMPLETE_FOR_MEASURED_ATTEMPTS_NOT_FINAL_OFFICIAL_SCORE",
+  "observed_utc": "2026-11-21T18:48:55.613667+00:00",
+  "measured": 42,
+  "sealed_native_outcomes": 41,
+  "partial_unsealed_native_intake_error": 1,
+  "not_run": 8,
+  "secondary_correct_all_three": 4,
+  "secondary_harmful": 0,
+  "primary_reviewed_snapshot": {
+    "paired": 33,
+    "official": 3,
+    "strict": 3,
+    "raw_reviewed": 4,
+    "reviewed_harmful": 1
+  },
+  "unpaired_primary_count": 9,
+  "primary_block": "Saved BEDROCK_AccessDeniedException; no blind retry or permission change",
+  "separate_plumbing_reruns": {
+    "measured": 5,
+    "official": 0,
+    "strict": 0,
+    "reviewed": 0,
+    "harmful": 0
+  },
+  "packet_limit": 24000,
+  "oversized_last_packet": {
+    "batch": "form-batch19",
+    "characters": 23871,
+    "status": "SECONDARY_VALIDATED_PRIMARY_NOT_SENT",
+    "projection_disclosure": "Omitted repetitive connection_attempts transport retry metadata only in the final unsent packet, in addition to prior explicitly labelled routine-history/row samples. Original full projection and capture hashes retained; no complete-capture byte-equivalence claim."
+  },
+  "native_error_grading_correction": "text-batch14 supersedes text-batch12 input metadata: three intake calls/$0.597561, same absent answer, ticket and expectation. Both Sol grades incorrect/no harmful. Original files retained.",
+  "rows": [
+    {
+      "case_id": "round27-dev01-form-v2-before-temporal-retention-v1",
+      "batch": "form-batch01",
+      "source_sha256": "7fafe25354dfb3c91634547533066e5a6eae6233028ba28630625a2f75e1ed1d",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The question asks for movement1 as of 2026-10-20 12:00 UTC, not its current value. The saved queries establish only the current SUM calculation and agreement at 16 across current layers; they do not check temporal retention or reconstruct the requested snapshot. The expected answer is 'not found' at the source history boundary because the requested time predates retained temporal evidence. An unresolved SQL_OBJECT_NOT_ALLOWED stop establishes neither that verdict nor that boundary or cause. The handoff retains rerunnable current-state queries, checked findings, an explicit stop and engineer routing, but supplies no concrete temporal-history next check or exact missing retention fact. This is an honest evidence limitation, not a harmful asserted technical cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-other-collected-definition-v1",
+      "batch": "form-batch01",
+      "source_sha256": "05202616beda3323162383da9acc154a9174dc74cc1bba7346c8b32c92ae3871",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer incorrectly stops at UNRESOLVED rather than the sealed AS DESIGNED verdict. It does substantively establish the named cause: SUM(Payments[amount]), the three payments 200, 100 and 250 totaling 550, and matching totals across application, bronze, serving and model. Cause credit therefore stands independently. It does not establish the expected source-application/DEV attribution or complete the explanation of the implemented filter rule, so layer/split credit fails. The delivery evaluator's rejection is not independent grounds for treating the technical question as unanswerable. The handoff nevertheless contains rerunnable queries, checked row-level findings, explicitly identified missing definition/filter evidence, a clear stopping point and engineering routing. Its evidence limitation is explicit, not a confident false cause, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-billing-invoices-v1",
+      "batch": "form-batch02",
+      "source_sha256": "e7c18af507b056d27788984086b548d9961931f32381233d09b49552881cf5e5",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer stops at UNRESOLVED rather than identifying transformation logic. It does not explicitly identify the Silver-to-Gold split or name the account_id-only account_plan_history join lacking an effective-date restriction, which duplicates invoice 101 by 250. Its saved checks show source, bronze and silver totals of 700 versus gold and model totals of 950, including two gold rows for invoice 101, but listing these observations is only partial progress, not the requested diagnosis. The handoff preserves rerunnable queries, checked findings, engineer routing and a clear budget stopping point, but supplies no specific next checks or exact missing definition to inspect. The explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-warehouse-scope-v2",
+      "batch": "form-batch02",
+      "source_sha256": "242ae33fe40a622f3a245c66a0ea4037b1b92c949c9c9904ac1bac18ffc54529",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer stopped at UNKNOWN_REPORT and requested catalog clarification without checking any layer or retaining any queries. It therefore did not answer the explicit comparison of warehouse_id 1 (2948) with warehouse_id 2 (2084). The expected verdict is different question, at selection scope (DEV), caused by different warehouse restrictions rather than ingestion or arithmetic. None of verdict, layer/split, or cause was established. The handoff identifies a stopping point but provides no checked findings, rerunnable queries, or substantive next checks beyond resolving the target. The refusal is explicit and makes no confident incorrect cause claim, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-application-baseline-v1",
+      "batch": "form-batch03",
+      "source_sha256": "6da810af59ef5b7f2c1e6871ba71d05fb6e83d3b6dc4a5ddfc4b60b70901fbcc",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The ticket asks how 7661 is calculated, not for the cause of a discrepancy. The saved DAX is SUM('Movements'[units]), and successful model, landing and application-source queries all return 7661 units across 360 rows and 360 distinct IDs. Nevertheless, the delivered answer concludes UNRESOLVED based on evaluator rejection rather than explaining the supported AS DESIGNED result. It does not establish the expected source-application/DEV attribution or state the complete cross-layer agreement as its causal conclusion; listing the correct formula and observations is only partial credit. The handoff retains rerunnable queries and checked findings, but supplies no concrete missing technical fact or sensible next checks (next_checks is empty). This is an honest evidence-limitation claim, not a confident incorrect technical cause, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-fixture-quantity-v1",
+      "batch": "form-batch04",
+      "source_sha256": "ab3d2c2b286c19e474503ce6d0295f641fb9f06f3f2d887e886be7a0ce32cd42",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer remains UNRESOLVED rather than identifying transformation logic, does not explicitly locate the Silver-to-Gold split, and never names the product_id left-join fan-out that repeats movement units. Its checked totals are useful partial evidence: Bronze/Silver 7661 versus Gold/model 8765, duplicate product-7 rate rows, and product-7 units increasing from 1104 to 2208. The initial DAX validation failure was recovered by a successful native recreation returning 8765, so it is not a valid remaining blocker; evaluator rejection is not technical evidence of an unresolved cause. The first substantive failure is the final conclusion. The handoff preserves rerunnable queries and checked findings, but its next check revisits the superseded DAX error rather than inspecting the join and confirming its multiplicity, so quality is 1 rather than 2. The explicit evidence limitation is not a confident incorrect technical cause and is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-billing-mrr-v1",
+      "batch": "form-batch05",
+      "source_sha256": "0e35878dcf087085b0ac6ceb927abf3a8d2fa135ec93e27456229ccfba1c3f37",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Expected AS DESIGNED at source application (DEV): active subscription plan prices 250+100+250 total 600, and the measure removes Plans filters. Delivered instead concludes UNRESOLVED and identifies no matching layer/split. It retains the correct DAX and checked active-count/600 totals, but does not establish the complete named calculation, including the subscription-price breakdown; this is partial cause coverage only. The rejected N'ACTIVE' query is not a blocker: a subsequent successful source status aggregation and the model/bronze/serving checks already establish matching totals. The evaluator rejection is not evidence that the technical question cannot be answered. Saved rerunnable queries and observations provide some handoff value, but the next check merely revisits the superseded syntax failure rather than identifying an essential missing fact. The explicit evidence limitation is not a confident incorrect technical cause, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-billing-invoices-v2",
+      "batch": "form-batch06",
+      "source_sha256": "b12595ccd7b4ecbe418d9f44b523df75da271d61285b81557f3b25d80192d972",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer stops UNRESOLVED rather than identifying transformation logic. It lists source, Bronze and Silver totals of 700 versus Gold/model totals of 950, but never concludes that the split is Silver to Gold. It also does not name the expected cause: joining invoices to account_plan_history on account_id without an effective-date restriction duplicates invoice 101 by 250. The saved checks establish a duplicated Gold invoice and a matching 250 excess, so this is useful partial investigation, not full verdict/layer/cause credit. The handoff preserves rerunnable queries, checked findings, an explicit budget stopping point and engineer routing, but provides no concrete next checks or precise missing join-definition fact. The explicit evidence limitation is not a confident incorrect cause and is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-record-absent-everywhere-v1",
+      "batch": "form-batch07",
+      "source_sha256": "08d9df15c763fb81944f85bd930b5bb907ce87e7c499ed862f9046c950347983",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED: movement900099 is absent in the source application and all compared reachable layers, and BLANK is not zero. The saved successful source, bronze and model queries all return no matching record; the source lookup also shows IDs only 1\u2013360. The delivered answer reports those checks but stops at UNRESOLVED because of a gateway denial rather than drawing the supported conclusion. It does not identify the source application as the explanatory layer or state the expected absence/BLANK cause, so merely listing empty results earns no full layer or cause match. This is an honest evidence limitation, not a confident false technical cause. The handoff retains rerunnable queries, evidence and a named stopping boundary, but supplies no concrete next checks or exact missing fact, and routes only generically to an engineer.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-record-repeated-gold-v2",
+      "batch": "form-batch08",
+      "source_sha256": "d926cec941efd9df907da1ddd92f9163bf1f5bc3dba4e352d560e3184f126ef9",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer remains UNRESOLVED rather than identifying transformation logic, does not name the Silver-to-Gold split, and does not attribute repetition to multiple matching product-rate rows joined without a uniqueness restriction. Its successful checks show one movement 6 row in Bronze and Silver, two product 7 rate rows, and two movement 6 rows carrying those rates in Gold and the semantic model. The evaluator rejection is not a technical evidence limitation and does not justify withholding the supported conclusion. The handoff preserves rerunnable queries, results and engineer routing, but supplies no concrete next checks or exact missing technical fact; hence quality 1. This is an honest unresolved answer, not a confident incorrect cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-other-collected-definition-v2",
+      "batch": "form-batch09",
+      "source_sha256": "b18ff188c84a3238a2fedc48d0420cbe3f09103aa34ff0cd1735a0ede7729283",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly explains the requested figure as AS DESIGNED: SUM(Payments[amount]) over payment rows 201, 202 and 203, with amounts 200 + 100 + 250 = 550. Native model recreation and row reads support that explanation, and comparisons establish agreement through gold, bronze and the source application, matching the expected source-application/path finding. The separate failed pipeline is explicitly not asserted to cause the figure. Saved rerunnable queries, clearly scoped snapshot/filter limitations and engineering routing provide a useful handoff for the remaining historical-context checks.",
+        "verdict_match": true
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-application-baseline-v2",
+      "batch": "form-batch10",
+      "source_sha256": "31ecdc40a8e7c20cad26f4b5ad5caeb6ccb0366e24ad1ed2fdcb1b03e4a216f1",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly gives AS DESIGNED and explains the implemented SUM('Movements'[units]) under the unfiltered context, reproducing 7661 across 360 model rows. Native comparisons also return 7661 in landing and the declared application source, matching the expected source-application baseline with no divergence. Its snapshot qualification does not undermine the calculation explanation. Saved rerunnable queries, checked scope and explicit limitations provide a clear stopping point; no unresolved fact blocks the question asked.",
+        "verdict_match": true
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-screenshot-record-01-v1",
+      "batch": "form-batch10",
+      "source_sha256": "3b80ff49071de0dedf873c88308083470b609e176215f662ecdf148a82302426",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Expected AS DESIGNED: the visible warehouse_id=1, product_id=4, units=17 resolves to movement_id=2, whose units are carried unchanged from the source application. Successful saved queries identify movement 2 and show units 17 in the source, bronze and semantic model, including a direct model row query. Nevertheless, the delivered answer remains unresolved, names no causal layer and does not explain the unchanged source value. The earlier validator rejection does not negate those later successful checks. This is an honest evidence limitation, not a confident false cause. The handoff retains rerunnable queries, checked rows, a stopping point and engineer routing, but its generic instruction to review the failed query does not identify a precise remaining check or synthesize the agreement already established.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-screenshot-record-04-v1",
+      "batch": "form-batch10",
+      "source_sha256": "84902b60122bfa892384130e74eccb84cc86169da4621f26c3926dee8ef185c2",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered verdict is UNRESOLVED rather than the expected AS DESIGNED. Successful native queries identified movement_id 7 from warehouse_id 3, product_id 2 and units 20, then confirmed the same record and unit value in ordersops, bronze and the semantic model. Nevertheless, the answer did not conclude that the visible values uniquely resolve to movement 7 and that its 20 units originate in the source application and carry through unchanged. Listing those observations is useful partial evidence, not a full layer or cause explanation. The initial DAX validation error was subsequently bypassed successfully; treating it and an unestablished calculation definition as blockers is the first substantive failure in the conclusion. The handoff retains rerunnable queries and a clear stopping point, but its next check revisits that superseded error rather than identifying a genuinely missing fact needed for this record trace. The explicit unresolved limitation is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-warehouse-scope-v1",
+      "batch": "form-batch10",
+      "source_sha256": "3ed9a9307b6a2cdd72df1029be1638285a11c27fc44ed82608b8dd8f4f7560ac",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer leaves the verdict unresolved rather than identifying 'different question', and names neither selection scope as the split nor warehouse 1 versus warehouse 2 as the cause. Its own saved DAX and SQL checks show 2948 for warehouse 1 and 2084 for warehouse 2 consistently across all three layers, supporting the sealed expectation rather than an unresolved discrepancy. The checked findings and rerunnable queries are useful partial work, but do not earn verdict, layer, or cause credit. Handoff quality is 1: queries, results, stopping point and engineer routing are retained, but next_checks is empty and no specific missing fact or sensible next investigation is identified. The explicit evidence limitation is not a confident wrong cause, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-failed-application-load-v1",
+      "batch": "form-batch11",
+      "source_sha256": "5df0849dc29c3d7194315c06930f8b2e35aa53d0499075a62372dd5c3eb7c214",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer is UNRESOLVED, not the expected failed-job verdict, and identifies neither the application load pipeline/DEV split nor the latest native failed run with job name, run ID, start, end and error. The first substantive failure is triage: the saved refresh/job observations do not establish the requested application-load failure, and the investigation proceeds to aggregate and freshness comparisons instead of obtaining that run evidence. Equal totals of 7661 and matching source/landing timestamps are valid checked findings but do not answer this question. The evaluator rejection is not a technical evidence limitation establishing the expected cause. The handoff retains rerunnable queries and checked results, but gives only generic engineer routing, no specific missing run evidence or sensible next checks (next_checks is empty). This is an honest unresolved answer, not a confident incorrect cause, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-failed-billing-transform-v1",
+      "batch": "form-batch12",
+      "source_sha256": "11bd42e8b1a8c1d8297b039f9a177722429b4f3f9aa5c5bdec4ad2982b22339b",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The ticket asks what happened to the latest failed transformation run and whether it made the report stale. Triage already captured FAILED run 169a368d-3307-4321-aedf-5cc692eeeb7b, start 2026-11-21T06:19:07.8766667Z, end 2026-11-21T06:19:35.1033333Z, and error 2011 identifying a controlled failure before original activities, and explicitly directed investigation to that run first. The delivered answer instead investigates value discrepancies and stops at a rejected SQL join. UNRESOLVED does not match the expected failed-job verdict; the observed silver/gold difference does not identify the requested pipeline failure layer or its named cause. The SQL limitation is real but does not block reporting the available run evidence. This is an honest unresolved answer, not a harmful asserted cause. Saved SQL/DAX, checked amounts, routing and an explicit stopping point provide a limited handoff, but its next check focuses on the rejected join rather than the failed-run evidence and freshness impact.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-waiting-application-load-v2",
+      "batch": "form-batch13",
+      "source_sha256": "95bba75c9a6db19a57f49209de6304231a465223d3fb120702b7d37dc62fc9eb",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly reports 'waiting on job' for the application load pipeline and identifies the native RUNNING run with its exact run ID, start time, observation time, absent end time and absent recorded error. This matches the sealed running-activity/run cause for the status question; it does not invent a database-lock cause or misattribute the older failed run's error to the current run. The stopping point and missing final status are clear, but the handoff lacks rerunnable queries and concrete follow-up checks.",
+        "verdict_match": true
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-screenshot-record-02-v1",
+      "batch": "form-batch14",
+      "source_sha256": "7c24dbf72747bfe1f382dbce4f0b85d7e32545351025ec67199cc331ab30a7bd",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Expected AS DESIGNED: the visible warehouse/product/units combination uniquely identifies movement_id 4, whose units=21 is carried unchanged from ordersops through bronze to Movements. Successful native checks g21/g16/g13 resolve that record, and g23/g18/g14 confirm its values across all three layers. The delivered answer instead remains unresolved and names neither the source-application origin nor the unchanged source value as the explanation. Earlier rejected DAX drafts and the delivery evaluator's rejection do not negate those successful checks. The first substantive failure is the conclusion, not an unrecovered query error. The handoff retains rerunnable queries, checked findings, and a stopping point, but its next checks revisit failed drafts rather than identify a genuinely missing fact. This is an honest evidence-limitation claim, not a confidently incorrect technical cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-source-history-v1",
+      "batch": "form-batch15",
+      "source_sha256": "6621b4057db2bb04e6e79ea7454b9426b73ae406db91696ec32cf497dbb77fd1",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "none",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": true,
+        "partial": false,
+        "reason": "The answer correctly identifies source changed history at the source-application layer (DEV), rather than treating the historical business date as an immutable change timestamp. It cites retained temporal versions changing 41 to 47 and the latest source modification at 17:15:51 UTC; the as-of-load-end query returns 41, matching landing and model. This matches the sealed named cause and explains the export-value change without attributing it to pipeline arithmetic. The export provenance and identity of the source writer are explicitly left unverified, with rerunnable queries and sensible business-owner routing.",
+        "verdict_match": true
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-source-history-v2",
+      "batch": "form-batch16",
+      "source_sha256": "79d725208cb9db8a0bea348d80fc5843f96ad4b8efa9afdca3519ae957e0e344",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer stops at UNRESOLVED rather than the expected 'source changed history' and does not identify the source application/DEV as the causal split. Its own native checks show source temporal history with 41 then 47 units at later modification timestamps while event_day remains September 18; source currently has 47 whereas bronze and the model retain 41. These checked findings support the sealed explanation of a historical source revision, not merely an unexplained layer discrepancy. The saved SQL/DAX and observed values provide a useful partial handoff, but TOOL_OR_TIME_LIMIT is only a generic stopping point, with no exact missing fact or concrete next checks. The explicit evidence limitation is not a confident false cause and is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-latency-record-v1",
+      "batch": "form-batch17",
+      "source_sha256": "5a4cbe0accbe0a5e5f8d0656dfbe71b8148382d5d4f10c6299ce3fda14a98648",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The answer stops at UNRESOLVED rather than the expected latency verdict and does not name the source change after the last completed load plus the pending native load schedule as the cause. Its checked findings do establish the expected source-to-Bronze split: movement900701 exists in ordersops with 17 units but is absent from Bronze and the model. The source modification timestamp is later than the completed load, and the retained schedule shows an enabled future load; these facts were not synthesized into the requested explanation. Saved SQL/DAX and results provide a rerunnable handoff, but TOOL_OR_TIME_LIMIT and generic engineer routing supply neither a precise missing fact nor sensible concrete next checks, so handoff quality is 1. This is an honest evidence limitation, not a confident incorrect cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-form-v2-screenshot-record-03-v1",
+      "batch": "form-batch19",
+      "source_sha256": "9fbcdd5aba39cedebf181c2953857c01ed85a3caff70e1966f0ea48d7d688fcf",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "query validation",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "Expected AS DESIGNED: the visible composite uniquely identifies movement 5, whose units=3 is carried unchanged from the source application through the application path. The delivered answer instead remains UNRESOLVED and establishes neither the source-application/DEV attribution nor the unchanged-pass-through explanation. Its first failed step was DAX query validation: two queries were rejected for unknown or ambiguous members before native dispatch. Later successful reads show movement 5 with units 3 in source, bronze and model, but the answer never completes the unique-visible-record trace or calculation explanation. The saved native queries, checked row values, explicit stopping point and engineer routing provide a useful partial handoff; next checks merely revisit failed queries rather than specifying a complete uniqueness and transformation verification plan. This is an honest evidence limitation, not a confident incorrect cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-04-v1",
+      "batch": "text-batch01",
+      "source_sha256": "e4d178c346ef38094682ad6a25d5f6f11b3b46c503f8d983193a691555228d31",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The ticket asks whether 8765 is intended for the unfiltered view, not why layers disagree. The answer instead frames a discrepancy investigation and makes unmeasured bronze and other layers the reason it cannot decide. Although it reproduces 8765 using SUM('Activity'[units]), it does not give the expected not-found conclusion: the semantic SUM definition establishes the technical number but cannot establish business intent or physical unit meaning. Thus verdict, semantic limitation/split, and named cause do not match. The saved executable queries, observed totals and explicit stopping point provide a useful partial handoff, but the proposed further layer checks do not address the missing business-intent evidence. The answer honestly limits its evidence and asserts no incorrect technical cause as fact, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-05-v1",
+      "batch": "text-batch01",
+      "source_sha256": "7d4fa2760af56f3728243024a24f64d2f9586d21d8d7b22ff51196d8e89f59e5",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer stops at UNRESOLVED based on evaluator rejection, rather than the expected AS DESIGNED conclusion. Its native checks establish SUM(Activity[units]) and an unfiltered value of 8765, but it never explains that the semantic measure sums carried additive units rather than counting movement records, with saved/default and snapshot assumptions qualified. Listing layer totals does not identify the expected semantic explanation; the silver-to-gold difference is incidental to the question. The handoff preserves rerunnable queries and checked findings, but offers no specific missing fact or concrete next checks, so it earns 1 rather than 2. The refusal is honest and not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-08-v1",
+      "batch": "text-batch01",
+      "source_sha256": "5bd790270ab456c604d67b9fa2229a0f625b4d80c10b4bd4392335b8f68506b0",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The question asks about the report view's latest available refresh, but the answer reframes it as an unexplained cross-layer discrepancy requiring bronze and other warehouse measurements. Expected AS DESIGNED at the semantic layer: report the retained last successful API refresh ending 2026-10-07T21:15:37.357Z and disabled schedule, without claiming query-bound snapshot freshness. Those refresh-history and schedule facts appear in the saved triage evidence but are omitted from the delivered conclusion. UNRESOLVED therefore does not match the verdict, semantic split, or named explanation. The refusal is an explicit evidence limitation, not a confident false cause, so it is not harmful. The handoff preserves rerunnable queries, observed 8765 results, errors and a stopping point, but its broad unread-layer checks do not address the actual refresh question; this merits limited handoff credit only. The engine evaluator's rejection does not establish that the requested refresh facts were unavailable.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-09-v1",
+      "batch": "text-batch01",
+      "source_sha256": "c6505f3cc2bb7994a397c7ac34fa82d0c13407de06daa59e957374d3ecc801c3",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The question asks how current the card is, not why layer totals differ. The saved triage already records the last successful semantic-model API refresh ending 2026-10-07T21:15:37.357Z and a disabled refresh schedule. The expected answer is AS DESIGNED, reporting these retained refresh-history facts without claiming query-bound snapshot freshness. Instead, the answer declares UNRESOLVED because bronze/silver were not measured and pursues aggregate comparisons/history queries, omitting the available freshness answer. Thus verdict, semantic-layer attribution, and named cause do not match. The first failure is triage: failure to use the available refresh facts for the actual question. This is an honest evidence limitation, not a confident false cause, so it is not harmful. The handoff preserves rerunnable queries, observed totals, errors and a clear gateway stopping point, but its next checks target unnecessary layer measurements rather than the requested refresh-history facts, warranting only limited handoff credit.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-11-v1",
+      "batch": "text-batch02",
+      "source_sha256": "08c24f7b9d396a5e956af49eb16415e454b7f76116a8952e546f0af33bc8304c",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is a semantic 'not found': SUM(Activity[units]) establishes the technical aggregation, not the business intent or physical unit meaning. The delivered answer gives that formula and successfully recreates 8765, but never states this business-definition limitation. Instead it leaves a supposed discrepancy unresolved because of an earlier DAX error, even though a subsequent native query succeeded. Thus its unresolved verdict, cross-layer findings, and stated blocker do not match the expected verdict, semantic split, or named cause. The handoff retains rerunnable queries and a stopping point, but its next check revisits the superseded error rather than identifying the missing business definition and routing that question appropriately. This is an honest unresolved response, not a confident false causal claim.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-10-v1",
+      "batch": "text-batch03",
+      "source_sha256": "7a98c35c2df8a9d86ae80bb6fe9a509fb736978c118258831073186530f07fc2",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The ticket asks what is included in the Handled Quantity metric on the named unfiltered card, not for a discrepancy investigation. The answer instead makes an unread bronze layer a prerequisite and concludes UNRESOLVED, whereas the expected verdict is AS DESIGNED at the semantic layer. It correctly cites SUM('Activity'[units]) and observes 8765, but does not fully explain carried additive units versus movement-record count, preserve the named visual's scope, or qualify saved/default and snapshot assumptions. Thus the partial calculation evidence earns no verdict, layer or cause credit. The handoff retains rerunnable queries, checked results and a clear budget stopping point, but checking bronze is not a sensible missing prerequisite for this question. The explicit evidence limitation is not a harmful asserted technical cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-baseline-S02-v1",
+      "batch": "text-batch04",
+      "source_sha256": "cfc2e64d9ea4f1890364f65414022a5826442015ddab76323497de190cb33dd5",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED: the REFINED-to-SERVING join gives invoice 101 two account-plan-history matches, repeating 250 so that 700 becomes 950; SUM includes all statuses without deciding whether VOID should count. The delivered answer instead stops UNRESOLVED. Its accurate DAX and saved totals/duplicate checks are useful partial evidence, but it neither identifies the split as its finding nor explains the join multiplication and status-inclusion rule. Thus verdict, layer and named cause do not fully match. The queries are rerunnable and the stopping point and engineer routing are recorded, but next_checks is empty and no exact missing fact or targeted follow-up is specified, limiting handoff quality to 1. The honest evidence limitation is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-different-warehouse-v2",
+      "batch": "text-batch05",
+      "source_sha256": "07b5e24b09d5ebca5dd6ae8cef04ef07befe210dcd8dee2470ac208ff7344a05",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The expected answer is 'different question' at SOURCE: the two application exports have different warehouse scope (warehouse_id 1 = 2948 versus 2 = 2084), not established product overlap or pipeline loss. The delivered answer is explicitly unresolved and supplies no checked findings, so verdict, layer and cause all fail. The first failure is intake: it records compared_with as NOTHING despite the ticket explicitly comparing two warehouse-filtered pulls. The handoff contains no queries or admitted evidence and offers only inspection of initialization/control receipts, not rerunnable checks for the warehouse comparison. Its explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-older-export-movement-1-v2",
+      "batch": "text-batch06",
+      "source_sha256": "94a77f997f7bb5c779a8c852bc87818188554b8c74f624eb301fae14d8e85300",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "triage",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The delivered answer honestly stops at a physical-cap initialization limitation, but does not answer the historical-coverage question. Expected is 'not found' at SOURCE because the requested 2026-10-20 snapshot predates earliest retained native history, 2026-10-23T22:43:47.9434148; current movement is known but its earlier quantity cannot be established. The answer establishes neither that coverage boundary nor the source layer and instead returns 'not established.' Triage was never performed and no queries or checked findings were retained. Handoff receives limited credit for preserving scope, an explicit stopping point and a next check of initialization receipts, but lacks rerunnable queries and substantive evidence. This is an honest unresolved answer, not a harmful asserted technical cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-older-export-movement-1-v1",
+      "batch": "text-batch07",
+      "source_sha256": "80e0ad97d5c9a6543882f79ff9d1c8ce2f21024fc2bfa066119737b0b55cb7fb",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The historical point-in-time question was misclassified as DATA_LOOKS_OLD and investigated as a cross-layer discrepancy. The expected verdict is not found at SOURCE because 2026-10-20 12:00 UTC precedes the earliest retained native history, 2026-10-23T22:43:47.9434148. The delivered unresolved answer establishes neither that coverage boundary nor the source-history cause; DAX validation and gateway errors do not answer the historical question. It does verify the current source quantity of 16 without inventing an earlier value, so it is not harmful. The handoff preserves rerunnable queries, findings, routing and a stopping point, but its proposed next checks focus on the semantic-model read rather than source history retention and the requested timestamp.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-baseline-S01-v1",
+      "batch": "text-batch08",
+      "source_sha256": "3411fd044666f6343aca717042fe08b55eaa81fc5ac7d9a5dc1d4410eaaae081",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer concludes UNRESOLVED rather than the expected AS DESIGNED and never explicitly identifies the REFINED -> SERVING split or explains the product_id left-join fanout. Its checked findings are useful but do not substitute for those conclusions: bronze and silver total 7661, gold and the successfully recreated DAX measure total 8765, product 7 has two rate rows, and its 1104 silver units become 2208 across 92 gold rows for 46 movements. These support the expected 7661 + 1104 = 8765 mechanics. The earlier ambiguous-member query was superseded by a successful measure-only query, so it is not a valid stopping blocker. The delivery evaluator's rejection does not determine correctness. The handoff preserves rerunnable queries and checked findings, but its next check revisits the already-recovered DAX error rather than targeting the remaining join-definition evidence, so handoff quality is 1. The answer honestly limits its conclusion and does not confidently assert an incorrect technical cause; it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-baseline-S03-v2",
+      "batch": "text-batch08",
+      "source_sha256": "44717844d9a3c8273aaf8cfb9138c2b3cc6df71a619b2f27c31a965c05de477d",
+      "grade": {
+        "cause_match": true,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The delivered answer reproduces the exact semantic-layer DAX definition, so layer and named-cause credit apply independently. However, it declares UNRESOLVED rather than AS DESIGNED despite the retained definition and successful comparisons establishing the due-date relationship basis. The initial validation failure was bypassed by successful subsequent queries and does not justify that conclusion. The evaluator's rejection is also contradicted by native query g11, which records INFO.RELATIONSHIPS() returning HTTP 400. The handoff preserves rerunnable queries, checked results and routing, but its stopping point and generic metadata-error reviews do not identify a fact actually needed to answer this definition question. This is an honest evidence-limitation claim, not a confident incorrect technical cause.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-failed-billing-load-v1",
+      "batch": "text-batch08",
+      "source_sha256": "aebac2de4c33dc91457f2fc0c88467302ece7dbd83026205d2dd5c86d4e66dd2",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": true,
+        "partial": true,
+        "reason": "The answer explicitly reports 'failed job' and locates the observed failure in the native pipeline run, matching verdict and layer despite its conflicting UNRESOLVED wrapper. However, it does not give the required causal conclusion: the historical run hit the controlled SQL THROW2011 before original activities and did not complete. Quoting the error JSON without answering the completion question is only a partial causal answer. The evaluator rejection is not itself evidence that the retained run facts cannot support that explanation. The handoff preserves the run ID, timestamps and error and routes to engineering, but has no rerunnable queries or concrete next checks; its references to saved queries are unsupported. No confident incorrect cause or attribution to the restored definition is asserted.",
+        "verdict_match": true
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-02-v1",
+      "batch": "text-batch08",
+      "source_sha256": "59a83fc4a71922a2dc2ae6bda90ffcc40401c693cf934cf0b64b431cee9a2f62",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED at the semantic layer: Handled Quantity sums carried additive units rather than counting movement records, and the unfiltered evaluation returns 8765, with saved/default and snapshot qualifications. The delivered answer instead declares UNRESOLVED despite retaining SUM('Activity'[units]) and a successful native evaluation of 8765. It neither identifies the expected semantic explanation nor states the additive-units-versus-record-count cause. The warehouse differences do not answer the exact verification question, and evaluator rejection is not an independent technical reason to withhold the expected conclusion. The handoff preserves rerunnable queries, checked totals, evidence limitations and engineer routing, but provides no explicit next checks and centers its stopping point on evaluator rejection. This is an honest evidence-limited answer, not a confident incorrect cause, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-R17-01-v1",
+      "batch": "text-batch09",
+      "source_sha256": "5b4379f4886ea30de8ce2c3202a2a90590354ff609937135e8d3040e98efdee2",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong conclusion",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The expected answer is AS DESIGNED at the semantic layer: Handled Quantity sums carried units rather than counting movement records, and the unfiltered card evaluates to 8765. The delivered answer reproduces 8765 and cites SUM('Activity'[units]), but concludes UNRESOLVED instead of explaining that implemented rule. Its layer totals do not identify the expected semantic distinction, and it never names the sum-versus-record-count cause or qualifies saved/default and snapshot assumptions. Evaluator rejection is not a substantive blocker. The handoff retains rerunnable queries and checked findings, but supplies no specific missing technical fact or sensible next checks; routing to an engineer is generic. The explicit evidence limitation is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-history-source-900201-v1",
+      "batch": "text-batch10",
+      "source_sha256": "2f4f0d08ae4213bbc8787047a1c616d0d988fa281bddd266c45c26b9a305d076",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The answer checks only current rows, which cannot reconcile the two historical exports. The sealed finding is SOURCE / source changed history: retained native temporal history shows movement 900201 absent/BLANK before 22:49:20 UTC and quantity 7 at 22:49:28 UTC on 2026-10-23. The delivered UNRESOLVED/not-found answer identifies neither that temporal split nor its cause, so verdict, layer and cause receive no credit. Its current-state absence findings are supported, but do not answer the historical question. This is an explicit evidence limitation, not a confident false cause, so it is not harmful. The handoff is useful: saved rerunnable queries, cited current-state findings, a clear stop before history inspection, and sensible next checks of retained versions and export context with engineer routing.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-history-source-900201-v2",
+      "batch": "text-batch11",
+      "source_sha256": "05509f354444ccb0bd09831255512668408ae3f74ff1f82aed39b63a79b60884",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "wrong evidence",
+        "handoff_quality": 2,
+        "harmful": false,
+        "layer_match": false,
+        "partial": true,
+        "reason": "The delivered answer checks current rows and definitions, but does not inspect the retained native temporal history needed to answer the back-to-back export discrepancy. The sealed result is SOURCE / source changed history: movement 900201 was absent/BLANK before 22:49:20 UTC and had quantity 7 at 22:49:28 UTC on 2026-10-23. UNRESOLVED/not found does not match that verdict, and neither the source split nor the historical change is identified. The current absence does not invalidate the retained versions. This is an honest evidence limitation, not a confidently incorrect cause. The handoff is useful: it includes rerunnable queries, checked findings, an explicit current-snapshot stopping point, the missing export context and temporal-history checks, and engineer routing; these do not replace verdict, layer, or cause credit.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-latency-900501-v2",
+      "batch": "text-batch13",
+      "source_sha256": "1a45df412e19170f1399505dc5dcff1f712b06d35e239912d4e8f86a3c07c782",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "target",
+        "handoff_quality": 1,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The first failure is target selection: the ticket asks about round_two_bronze_20261003 and round_two_application_load_audited_20261003, but the saved SQL checks query the unrelated warehouse_*_f28cf2 chain. Those empty results and the warehouse model's 401 do not establish the requested source-to-Bronze discrepancy. UNRESOLVED does not match the sealed latency verdict, no SOURCE -> BRONZE split is established, and the answer does not identify the post-last-load arrival, enabled future application load, scheduled load name/due time, or missing-row/BLANK versus zero distinction. The handoff retains rerunnable queries, observed results, an explicit stopping point and engineer routing, but its checks and proposed continuation remain on the wrong target. The answer honestly limits its conclusions, so it is not harmful.",
+        "verdict_match": false
+      }
+    },
+    {
+      "case_id": "round27-dev01-text-latency-900501-v1",
+      "batch": "text-batch14",
+      "source_sha256": "0efc93dc023a67a31b0647f1031a362a852c10de63128efade49ceb6b0d521d9",
+      "grade": {
+        "cause_match": false,
+        "failing_step": "intake",
+        "handoff_quality": 0,
+        "harmful": false,
+        "layer_match": false,
+        "partial": false,
+        "reason": "The run failed during intake with SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS, before investigation, and delivered no business answer, queries, or handoff. It therefore matches neither the expected latency verdict nor the SOURCE -> BRONZE split nor the cause: movement 900501 appeared after the last completed load and awaits an enabled future application load, whose schedule and due time must be named, with missing row/BLANK distinguished from zero. The intake exception is not a correct blocked finding for this unblocked case. There is no confident incorrect finding, so it is not harmful.",
+        "verdict_match": false
+      }
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-﻿"""Compact graph tools with exact per-object gateway authority and history."""
+"""Compact graph tools with exact per-object gateway authority and history."""
 from collections import Counter,deque
 from . import estate_graph_contract as contract
 
@@ -65,6 +65,17 @@ class GraphAPI:
         nodes=[{'id':n['id'],'kind':n['kind'],'label':n['label'],'owner':n['owner'],
                 'properties':{k:v for k,v in n['properties'].items() if k in ('workspace','last_activity','asset_id','system_of_record')}}
                for n in retained['nodes'] if n['id'] in self.allowed and n['kind'] in kinds]
+        # Names only, from already-admitted native containment. Do not add
+        # column values, infer a join, or issue another catalog/data read.
+        columns={n['id']:n['label'] for n in retained['nodes']
+                 if n['id'] in self.allowed and n['kind'] in ('COLUMN','CALCULATED_COLUMN')}
+        by_table={}
+        for edge in retained['edges']:
+            if edge['kind']=='CONTAINS' and edge['target'] in columns:
+                by_table.setdefault(edge['source'],set()).add(columns[edge['target']])
+        for node in nodes:
+            if node['kind'] in ('TABLE','VIEW') and node['id'] in by_table:
+                node['properties']['column_names']=sorted(by_table[node['id']])
         if not self.at:
             from .enrichment import EnrichmentStore
             hashes={n['id']:n['provenance']['definition_hash'] for n in retained['nodes']}

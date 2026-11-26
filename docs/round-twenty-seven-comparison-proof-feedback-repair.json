@@ -1,0 +1,37 @@
+{
+  "observed_utc": "2026-11-23T11:09:10.138677+00:00",
+  "trace_basis": "docs/round-twenty-seven-openrouter-screenshot01-backtrack.json; first rejection audit1523 before unrelated table proposals12378",
+  "fix": "Only comparison-proof error feedback: distinguish no successful read, successful read not cited, and cited non-scalar/multi-cell results. Return existing native query evidence IDs when already read but uncited.",
+  "feature_flag": "r27_source_consistency_feedback",
+  "default": true,
+  "acceptance_logic_changed": false,
+  "same_scalar_still_passes": true,
+  "different_scalars_and_failed_reads_still_refused": true,
+  "record_presence_does_not_prove_other_fields": true,
+  "focused_tests_passed": 70,
+  "focused_subtests_passed": 79,
+  "new_regressions": 9,
+  "full_suite_and_image_shards": {
+    "full_suite": {
+      "passed": 6108,
+      "skipped": 53,
+      "failed": 0,
+      "errors": 0
+    },
+    "all_eight_shards": "PASS",
+    "source": "314e793e7632686c24dae2b28cbc650b8d3adb70",
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:0e981a44bef954236e5ccdccf17f2b70e4e6bda2d0e24f2f11a796d380470626",
+    "workflow": 45162543283
+  },
+  "old_live_pass_image_kept": true,
+  "scores_expectations_and_original_captures_changed": false,
+  "saved_investigation_replay": {
+    "cases": 123,
+    "finished": 85,
+    "historical_negative_or_incomplete": 29,
+    "no_case": 9,
+    "status_changes": 0,
+    "generation_calls": 0,
+    "estate_reads": 0
+  }
+}

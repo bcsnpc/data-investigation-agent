@@ -1,0 +1,41 @@
+{
+  "source_seal": "85cd29fa47a8e365567c456877442b0f720e32af5a2521adabe682eb4637a4bd",
+  "first_reasoning_request_id": "audit:2c174a28-830f-4480-b8a3-ccdc7ba87bc0:25",
+  "first_request_contains_native_failed_run_id": true,
+  "first_request_contains_failed_status": true,
+  "first_request_contains_control_failure_cause": true,
+  "first_three_model_actions": [
+    {
+      "audit_sequence": 326,
+      "tools": [
+        "get_job_runs",
+        "get_job_runs",
+        "get_refresh_history",
+        "get_definition",
+        "get_definition"
+      ]
+    },
+    {
+      "audit_sequence": 453,
+      "tools": [
+        "run_dax",
+        "run_sql",
+        "run_sql",
+        "run_sql",
+        "run_sql"
+      ]
+    },
+    {
+      "audit_sequence": 724,
+      "tools": [
+        "run_dax",
+        "run_sql",
+        "run_sql",
+        "run_sql",
+        "run_sql",
+        "run_sql"
+      ]
+    }
+  ],
+  "no_private_thinking_extracted": true
+}

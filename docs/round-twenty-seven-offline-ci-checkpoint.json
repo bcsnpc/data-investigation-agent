@@ -1,0 +1,158 @@
+{
+  "at_utc": "2026-11-26T17:04:49.767244+00:00",
+  "source": "b1b19d3afe7d0e7a17321f222133d7e85c7a00d3",
+  "pr": 435,
+  "draft": true,
+  "state": "OPEN",
+  "conclusions": {
+    "SKIPPED": 4,
+    "SUCCESS": 20
+  },
+  "checks": [
+    {
+      "name": "current-intake-evaluation",
+      "status": "COMPLETED",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824779/job/139736235053"
+    },
+    {
+      "name": "build",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824756/job/139736232792"
+    },
+    {
+      "name": "known-domain-acceptance",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824732/job/139736232718"
+    },
+    {
+      "name": "deny-by-default",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824733/job/139736233119"
+    },
+    {
+      "name": "deny-by-default",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768818335/job/139736212481"
+    },
+    {
+      "name": "round-ten-earned-1",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824771/job/139736233138"
+    },
+    {
+      "name": "round-thirteen-billing-metadata-replay",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824703/job/139736232342"
+    },
+    {
+      "name": "ledger-access-rotation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824755/job/139736232860"
+    },
+    {
+      "name": "ledger-access-rotation",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768818333/job/139736212362"
+    },
+    {
+      "name": "model-step-regression",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824714/job/139736233004"
+    },
+    {
+      "name": "model-step-regression",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768818241/job/139736212222"
+    },
+    {
+      "name": "round-ten-earned-2",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824771/job/139736232840"
+    },
+    {
+      "name": "round-ten-earned-3",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824771/job/139736233372"
+    },
+    {
+      "name": "round-ten-earned-4",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824771/job/139736233234"
+    },
+    {
+      "name": "offline-shards",
+      "status": "COMPLETED",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824756/job/139736611165"
+    },
+    {
+      "name": "generator-tests",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824714/job/139736233101"
+    },
+    {
+      "name": "generator-tests",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768818241/job/139736212427"
+    },
+    {
+      "name": "full-repository",
+      "status": "COMPLETED",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824756/job/139736611312"
+    },
+    {
+      "name": "powershell-syntax",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824714/job/139736233074"
+    },
+    {
+      "name": "powershell-syntax",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768818241/job/139736212409"
+    },
+    {
+      "name": "focused-dev",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824756/job/139736608843"
+    },
+    {
+      "name": "portal",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824714/job/139736232765"
+    },
+    {
+      "name": "portal",
+      "status": "COMPLETED",
+      "conclusion": "SUCCESS",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768818241/job/139736212454"
+    },
+    {
+      "name": "publish",
+      "status": "COMPLETED",
+      "conclusion": "SKIPPED",
+      "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45768824756/job/139736811128"
+    }
+  ],
+  "does_not_complete_live_confirmation": true
+}

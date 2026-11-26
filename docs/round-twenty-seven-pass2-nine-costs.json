@@ -1,0 +1,607 @@
+{
+  "scope": "First9 settled P2 billing/sample cases; no fixture tickets or calibration",
+  "source": "Seal-verified native normal-audit batches; recorded usage pricing, not a provider invoice",
+  "calls": [
+    {
+      "ticket": "form-v2-billing-invoices-v1",
+      "audit_sequence": 28,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 73385,
+        "cached_input_tokens": 0,
+        "input_tokens": 78776,
+        "output_tokens": 639
+      },
+      "cost_microdollars": 401269,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v1",
+      "audit_sequence": 47,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 73385,
+        "input_tokens": 82557,
+        "output_tokens": 757
+      },
+      "cost_microdollars": 66505,
+      "cache_read_ratio": 0.8889010017321366
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v1",
+      "audit_sequence": 71,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 73385,
+        "input_tokens": 85732,
+        "output_tokens": 2029
+      },
+      "cost_microdollars": 104645,
+      "cache_read_ratio": 0.8559814305043625
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v1",
+      "audit_sequence": 76,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 44800,
+        "output_tokens": 1301
+      },
+      "cost_microdollars": 199467,
+      "cache_read_ratio": 0.033794642857142856
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "audit_sequence": 28,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 68995,
+        "cached_input_tokens": 4269,
+        "input_tokens": 78672,
+        "output_tokens": 725
+      },
+      "cost_microdollars": 381961,
+      "cache_read_ratio": 0.05426327028676022
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "audit_sequence": 51,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 73264,
+        "input_tokens": 82023,
+        "output_tokens": 459
+      },
+      "cost_microdollars": 58869,
+      "cache_read_ratio": 0.8932128793143387
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "audit_sequence": 64,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 73264,
+        "input_tokens": 84215,
+        "output_tokens": 1656
+      },
+      "cost_microdollars": 91577,
+      "cache_read_ratio": 0.8699637831740189
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "audit_sequence": 69,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 63847,
+        "output_tokens": 1618
+      },
+      "cost_microdollars": 281995,
+      "cache_read_ratio": 0.023712938744185317
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "audit_sequence": 28,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 62849,
+        "cached_input_tokens": 4269,
+        "input_tokens": 72499,
+        "output_tokens": 816
+      },
+      "cost_microdollars": 352943,
+      "cache_read_ratio": 0.05888357080787321
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "audit_sequence": 47,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 67118,
+        "input_tokens": 75804,
+        "output_tokens": 572
+      },
+      "cost_microdollars": 59608,
+      "cache_read_ratio": 0.8854150176771675
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "audit_sequence": 62,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 67118,
+        "input_tokens": 78006,
+        "output_tokens": 1469
+      },
+      "cost_microdollars": 86356,
+      "cache_read_ratio": 0.860420993256929
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "audit_sequence": 67,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 1514,
+        "cached_input_tokens": 0,
+        "input_tokens": 64258,
+        "output_tokens": 1525
+      },
+      "cost_microdollars": 289046,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "audit_sequence": 28,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 73968,
+        "cached_input_tokens": 0,
+        "input_tokens": 79339,
+        "output_tokens": 1158
+      },
+      "cost_microdollars": 414484,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "audit_sequence": 51,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 73968,
+        "input_tokens": 83555,
+        "output_tokens": 744
+      },
+      "cost_microdollars": 68022,
+      "cache_read_ratio": 0.8852612051941835
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "audit_sequence": 64,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 73968,
+        "input_tokens": 85908,
+        "output_tokens": 1539
+      },
+      "cost_microdollars": 93334,
+      "cache_read_ratio": 0.8610141081156586
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "audit_sequence": 69,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 72659,
+        "output_tokens": 2081
+      },
+      "cost_microdollars": 326503,
+      "cache_read_ratio": 0.02083706079081738
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v1",
+      "audit_sequence": 24,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 49505,
+        "cached_input_tokens": 4269,
+        "input_tokens": 59160,
+        "output_tokens": 838
+      },
+      "cost_microdollars": 286683,
+      "cache_read_ratio": 0.07216024340770791
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v1",
+      "audit_sequence": 47,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 53774,
+        "input_tokens": 62973,
+        "output_tokens": 327
+      },
+      "cost_microdollars": 54091,
+      "cache_read_ratio": 0.8539215219220936
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v1",
+      "audit_sequence": 53,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 53774,
+        "input_tokens": 63995,
+        "output_tokens": 232
+      },
+      "cost_microdollars": 56279,
+      "cache_read_ratio": 0.8402843972185327
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v1",
+      "audit_sequence": 60,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 53774,
+        "input_tokens": 65057,
+        "output_tokens": 1884
+      },
+      "cost_microdollars": 93567,
+      "cache_read_ratio": 0.8265674716018261
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v1",
+      "audit_sequence": 65,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 73201,
+        "output_tokens": 1740
+      },
+      "cost_microdollars": 321851,
+      "cache_read_ratio": 0.020682777557683638
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "audit_sequence": 24,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 49425,
+        "cached_input_tokens": 4269,
+        "input_tokens": 59080,
+        "output_tokens": 922
+      },
+      "cost_microdollars": 287963,
+      "cache_read_ratio": 0.07225795531482736
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "audit_sequence": 48,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 53694,
+        "input_tokens": 63585,
+        "output_tokens": 263
+      },
+      "cost_microdollars": 55563,
+      "cache_read_ratio": 0.8444444444444444
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "audit_sequence": 54,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 53694,
+        "input_tokens": 64849,
+        "output_tokens": 450
+      },
+      "cost_microdollars": 64359,
+      "cache_read_ratio": 0.8279850113340221
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "audit_sequence": 69,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 53694,
+        "input_tokens": 67484,
+        "output_tokens": 1764
+      },
+      "cost_microdollars": 101179,
+      "cache_read_ratio": 0.795655266433525
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "audit_sequence": 74,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 64393,
+        "output_tokens": 1289
+      },
+      "cost_microdollars": 277599,
+      "cache_read_ratio": 0.023511872408491605
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "audit_sequence": 6,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INTAKE",
+      "normalized_usage": {
+        "cache_write_tokens": 23247,
+        "cached_input_tokens": 0,
+        "input_tokens": 27954,
+        "output_tokens": 968
+      },
+      "cost_microdollars": 154423,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "audit_sequence": 36,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 70023,
+        "cached_input_tokens": 4269,
+        "input_tokens": 79681,
+        "output_tokens": 1147
+      },
+      "cost_microdollars": 395465,
+      "cache_read_ratio": 0.05357613483766519
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "audit_sequence": 57,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 74292,
+        "input_tokens": 84174,
+        "output_tokens": 408
+      },
+      "cost_microdollars": 62547,
+      "cache_read_ratio": 0.8826003278922232
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "audit_sequence": 70,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 74292,
+        "input_tokens": 86283,
+        "output_tokens": 2070
+      },
+      "cost_microdollars": 104223,
+      "cache_read_ratio": 0.8610270852891068
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "audit_sequence": 75,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 44507,
+        "output_tokens": 2113
+      },
+      "cost_microdollars": 214535,
+      "cache_read_ratio": 0.03401712090232997
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "audit_sequence": 6,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INTAKE",
+      "normalized_usage": {
+        "cache_write_tokens": 9880,
+        "cached_input_tokens": 0,
+        "input_tokens": 13278,
+        "output_tokens": 589
+      },
+      "cost_microdollars": 74772,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "audit_sequence": 25,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 59618,
+        "cached_input_tokens": 0,
+        "input_tokens": 60289,
+        "output_tokens": 574
+      },
+      "cost_microdollars": 312254,
+      "cache_read_ratio": 0.0
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "audit_sequence": 33,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 59618,
+        "input_tokens": 71951,
+        "output_tokens": 202
+      },
+      "cost_microdollars": 65296,
+      "cache_read_ratio": 0.8285916804491946
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "audit_sequence": 40,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 59618,
+        "input_tokens": 72874,
+        "output_tokens": 1222
+      },
+      "cost_microdollars": 89388,
+      "cache_read_ratio": 0.8180969893240387
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "audit_sequence": 45,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "INVESTIGATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 59618,
+        "input_tokens": 74354,
+        "output_tokens": 1138
+      },
+      "cost_microdollars": 93628,
+      "cache_read_ratio": 0.8018129488662346
+    },
+    {
+      "ticket": "text-baseline-S03-v2",
+      "audit_sequence": 50,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 55047,
+        "output_tokens": 1033
+      },
+      "cost_microdollars": 235095,
+      "cache_read_ratio": 0.02750376950605846
+    },
+    {
+      "ticket": "text-failed-billing-load-v1",
+      "audit_sequence": 7,
+      "provider": "anthropic",
+      "model": "claude-opus-5-5",
+      "step": "EVALUATOR",
+      "normalized_usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 1514,
+        "input_tokens": 4233,
+        "output_tokens": 1087
+      },
+      "cost_microdollars": 32919,
+      "cache_read_ratio": 0.35766595794944483
+    }
+  ],
+  "by_step": {
+    "INVESTIGATOR": {
+      "calls": 27,
+      "cost_microdollars": 4302058,
+      "input_tokens": 2002875,
+      "cached_input_tokens": 1246657,
+      "cache_write_tokens": 507768,
+      "output_tokens": 26004,
+      "cache_read_ratio": 0.6224337514822442
+    },
+    "EVALUATOR": {
+      "calls": 9,
+      "cost_microdollars": 2179010,
+      "input_tokens": 486945,
+      "cached_input_tokens": 12112,
+      "cache_write_tokens": 1514,
+      "output_tokens": 13787,
+      "cache_read_ratio": 0.024873445666348356
+    },
+    "INTAKE": {
+      "calls": 2,
+      "cost_microdollars": 229195,
+      "input_tokens": 41232,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 33127,
+      "output_tokens": 1557,
+      "cache_read_ratio": 0.0
+    }
+  },
+  "total_cost_microdollars": 6710263,
+  "cache_read_ratio": 0.49733035907598894
+}

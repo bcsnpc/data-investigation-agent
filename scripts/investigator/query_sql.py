@@ -4,6 +4,7 @@ SQLGlot owns syntax/CTE/alias qualification. An explicit AST allowlist is the
 security boundary, not a keyword regex. Native SQL remains the calculation engine.
 """
 from . import proposal_limits as limits
+
 import re
 from sqlglot import parse, exp
 from sqlglot.errors import OptimizeError
@@ -132,6 +133,13 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS, allow_views=Fal
     query_roots=(exp.Select,exp.Union,exp.Intersect,exp.Except) if allow_set_operations else (exp.Select,)
     if len(statements)!=1 or not isinstance(statements[0],query_roots):raise ValueError('One SELECT/CTE query required')
     tree=statements[0]
+    # T-SQL N'...' is a data literal, not an executable function. Normalize
+    # it into the existing bounded NVarChar parameter path before checking
+    # nodes, lengths or parameter counts; never emit its text as SQL code.
+    for literal in list(tree.find_all(exp.National)):
+        if set(literal.args)!={'this'} or not isinstance(literal.this,str):
+            raise ValueError('Unsupported national string literal')
+        literal.replace(exp.Literal.string(literal.this))
     if len(list(tree.walk()))>1200:raise ValueError('SQL syntax budget exceeded')
     unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
     if allow_convert and 'Convert' in unsupported:unsupported.remove('Convert')

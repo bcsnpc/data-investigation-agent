@@ -25,6 +25,8 @@ class CloudOfflineWorkerTests(unittest.TestCase):
             self.assertTrue(admitted(name), name)
         self.assertTrue(admitted('infra/scripts/WorkerResponseBounds.json'))
         self.assertTrue(admitted('scripts/investigator/build_phase_policy.json'))
+        self.assertTrue(admitted('scripts/investigator/regression_features.json'))
+        self.assertTrue(admitted('scripts/investigator/regression_baseline_prompts.json'))
         self.assertFalse(admitted('scripts/investigator/private-budget-ledger.json'))
         self.assertTrue(admitted('acceptance/model_steps/intake-resolution-policy.json'))
         self.assertTrue(admitted('scripts/investigator/windows_ocr.ps1'))
@@ -56,10 +58,13 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertTrue(required<=set(TEST_MODULES))
         with self.assertRaises(ValueError): partition(entries, 8, 8)
 
-    def test_round26_fixed_image_gate_includes_every_current_round_module(self):
-        required={p.name for p in (Path(__file__).parent).glob('test_round26*.py')}
+    def test_fixed_image_gate_includes_every_current_round_module(self):
+        required={p.name for pattern in ('test_round26*.py','test_round27*.py')
+                  for p in (Path(__file__).parent).glob(pattern)}
         self.assertTrue(required)
         self.assertTrue(required<=set(TEST_MODULES))
+        self.assertTrue({'test_nvidia_free_provider.py','test_openrouter_provider.py',
+                         'test_regression_features.py','test_round27_dax_ordering.py'}<=set(TEST_MODULES))
 
     def test_full_image_publication_requires_complete_source_regression(self):
         workflow=(Path(__file__).parents[1]/'.github/workflows/cloud-worker.yml').read_text()

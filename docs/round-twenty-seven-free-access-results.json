@@ -1,0 +1,61 @@
+{
+  "observed_at_utc": "2026-11-23T16:52:20.641347+00:00",
+  "scope": "Single independent Sol synthetic DEV grading; not a quality gate",
+  "original_outcomes_unchanged": true,
+  "access_results": [
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-access-export-v1",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "first_wrong_step_grader": "none",
+      "reason": "Matches the sealed access-difference verdict at the application export view. It identifies the CURRENT_USER visibility-group mapping rather than report RLS, and the native literal-filter recreations (explicitly without impersonation) reproduce case 1 quantities/row counts of 10/1 and 25/2. Saved SQL and clear findings provide a rerunnable technical handoff. No material disagreement with the expectation.",
+      "physical_requests": 14,
+      "model_calls": 6,
+      "capture_seal": "1e2205c93ce830e4ac55e4760e821f497a1c81dce7bd7d64447481b6a907fec5",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9"
+    },
+    {
+      "ticket": "round27-step4-openrouter-dev04-supervl-form-v2-access-export-v2",
+      "fully_correct": true,
+      "harmful": false,
+      "handoff_quality": 2,
+      "first_wrong_step_grader": "none",
+      "reason": "The answer substantively identifies an access difference at the application export view: CURRENT_USER joins to visibility-group reader mappings, not report RLS. The cited rows and mappings explain quantity 10/one visible row versus 25/two visible rows without impersonation. Although labeled AS DESIGNED, its actual conclusion is the expected per-user access difference; this is not a substantive disagreement with the sealed verdict. Saved SQL and explicit view logic make the findings reproducible.",
+      "physical_requests": 10,
+      "model_calls": 10,
+      "capture_seal": "902083cf53364ae91ee373b40b52d964e5b5a8ed0f4f3d07324b9fc14b84753d",
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:e452897d1d341e883f4d178d3513017b80c8505cba93fac0921c27891ef4b5e9"
+    }
+  ],
+  "restore_status": "ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED",
+  "temporary_data_and_catalog_removed": true,
+  "identity_or_permission_changes": false,
+  "causal_scope": "CURRENT_USER predicate in source export view; no report RLS claim; literal-filter recreations are not impersonation.",
+  "main_disjoint": {
+    "fully_correct": 14,
+    "useful_nonharmful_handoffs": 13,
+    "harmful": 1,
+    "other_incorrect": 2
+  },
+  "cohorts": {
+    "STATIC": {
+      "fully_correct": 4,
+      "useful_nonharmful_handoffs": 9,
+      "harmful": 0,
+      "other_incorrect": 1
+    },
+    "SCREENSHOT": {
+      "fully_correct": 4,
+      "useful_nonharmful_handoffs": 0,
+      "harmful": 0,
+      "other_incorrect": 0
+    },
+    "FAULT": {
+      "fully_correct": 6,
+      "useful_nonharmful_handoffs": 4,
+      "harmful": 1,
+      "other_incorrect": 1
+    }
+  }
+}

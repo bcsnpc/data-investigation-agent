@@ -1,0 +1,12 @@
+{
+  "observed_at_utc": "2026-11-23T15:19:33.367464+00:00",
+  "cause": "Read-only execution GET textual Service Unavailable did not match numeric503/transient classifier",
+  "mock_service_unavailable_retry_same_get": "PASS",
+  "authorization_not_retried": "PASS",
+  "writes_refused": "PASS",
+  "new_generation_calls": 0,
+  "new_cloud_execution_submissions": 0,
+  "execution_to_resume": "job-dia-worker-x6l2i0z",
+  "helper_sha256": "7bb3c406928fc3ffca330ca9a492e0cdac26d8cd7e3545a05b9b2932d16433a1",
+  "original_error_log_preserved": true
+}

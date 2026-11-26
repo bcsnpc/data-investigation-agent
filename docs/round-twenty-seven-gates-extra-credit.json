@@ -1,0 +1,112 @@
+{
+  "owner_approval": "Latest owner additional10USD; approx56cash; auto-reloadOFF",
+  "before": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 202108251,
+        "committed_microdollars": 202108251,
+        "ceiling_microdollars": 245108251,
+        "warning_microdollars": 239108251,
+        "owner_confirmed_cash_microdollars": 46000000,
+        "protected_cash_microdollars": 3000000,
+        "allowed_purposes": [
+          "INTAKE",
+          "INVESTIGATOR",
+          "EVALUATOR",
+          "SCREENSHOT"
+        ],
+        "credit_source": "Owner2026-11-25 added25USD; lower conservative cash46USD (approximate, not independently readable); reserve3 excluded; historical counters preserved",
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 202938628,
+        "warning_microdollars": 197126628,
+        "allowed_purposes": [
+          "GRADING"
+        ],
+        "credit_expiry_utc": "2026-11-29T00:00:00Z",
+        "owner_reported_cash_microdollars": 31060000,
+        "protected_cash_microdollars": 2000000,
+        "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff",
+        "purpose_approval": "Owner2026-11-25 gate-and-close: OpenAI grading only; free synthetic provider for release smoke; no price, credit, expiry or usage change",
+        "charged_microdollars": 190833579,
+        "committed_microdollars": 190833579,
+        "provisioned": true,
+        "warning": false
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; owner dropped AWS dependency 2026-11-21; historical charges retained",
+        "enabled": false,
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 1261833,
+        "committed_microdollars": 1261833,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 394203663,
+    "combined_committed_microdollars": 394203663
+  },
+  "after": {
+    "month_utc": "2026-11",
+    "providers": {
+      "anthropic": {
+        "charged_microdollars": 202108251,
+        "committed_microdollars": 202108251,
+        "ceiling_microdollars": 255108251,
+        "warning_microdollars": 249108251,
+        "owner_confirmed_cash_microdollars": 56000000,
+        "protected_cash_microdollars": 3000000,
+        "allowed_purposes": [
+          "INTAKE",
+          "INVESTIGATOR",
+          "EVALUATOR",
+          "SCREENSHOT"
+        ],
+        "credit_source": "Owner extra10USD Nov25/26: approximate balance56USD, conservatively below ledger-implied56.1764; exact cash API unavailable; reserve3 excluded",
+        "warning": false
+      },
+      "openai": {
+        "ceiling_microdollars": 202938628,
+        "warning_microdollars": 197126628,
+        "allowed_purposes": [
+          "GRADING"
+        ],
+        "credit_expiry_utc": "2026-11-29T00:00:00Z",
+        "owner_reported_cash_microdollars": 31060000,
+        "protected_cash_microdollars": 2000000,
+        "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff",
+        "purpose_approval": "Owner2026-11-25 gate-and-close: OpenAI grading only; free synthetic provider for release smoke; no price, credit, expiry or usage change",
+        "charged_microdollars": 190833579,
+        "committed_microdollars": 190833579,
+        "provisioned": true,
+        "warning": false
+      },
+      "bedrock": {
+        "ceiling_microdollars": 20000000,
+        "warning_microdollars": 16000000,
+        "scope": "round27; owner dropped AWS dependency 2026-11-21; historical charges retained",
+        "enabled": false,
+        "allowed_vendor": "amazon-nova-only",
+        "allow_claude": false,
+        "charged_microdollars": 1261833,
+        "committed_microdollars": 1261833,
+        "provisioned": true,
+        "warning": false
+      }
+    },
+    "combined_charged_microdollars": 394203663,
+    "combined_committed_microdollars": 394203663
+  },
+  "cash_microdollars": 56000000,
+  "protected_microdollars": 3000000,
+  "normalized_ceiling_microdollars": 255108251,
+  "exact_cash_readback": "Unavailable: workspace key not Admin API; usage is not credit balance",
+  "ledger_implied_cash_microdollars": 56176400,
+  "counters_preserved": true,
+  "physical_limits_unchanged": true
+}

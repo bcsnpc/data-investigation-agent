@@ -1,0 +1,7 @@
+{
+  "current_v5_directory": "acceptance/tickets/guided-v5",
+  "ever_in_audit_read_scope": false,
+  "reason": "Acceptance directory excluded by original positive source-prefix scope; no v5 input, expectation or seal was opened by this audit.",
+  "historical_ticket_dataset_handling": "Earlier census included released R22 historical ticket-dataset metadata under tests/tickets; no runtime tuning or score/expectation change. Narrowed final inventory to code/config/prompts/unit fixtures, excluding all ticket datasets.",
+  "final_index_entries": 4594
+}

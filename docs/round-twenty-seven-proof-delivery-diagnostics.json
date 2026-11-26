@@ -1,0 +1,89 @@
+{
+  "scope": "Saved valid proof failures before advisory; diagnostic counts only, no grading or expectation changes",
+  "cases": [
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "status": "UNRESOLVED",
+      "model_calls": 7,
+      "queries_succeeded": 3,
+      "queries_failed": 0,
+      "stop": "DELIVERY_EVALUATOR_REJECTED_AFTER_TWO_RETRIES: support: The evidence supports that run 8c8d8397 failed. It does not show that the failure made the data old. The source, the lakehouse and the measure all return 7661 now, which shows no staleness. Nothing cited links the pipeline's activities to the copy job or the lakehouse table, and the draft admits this. So 'failed job' is an incidental finding, not a proven cause.",
+      "hard_evaluations": 3,
+      "soft_evaluations": 0,
+      "delivery_repairs": 0,
+      "reviewer_reason": null
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "status": "UNRESOLVED",
+      "model_calls": 19,
+      "queries_succeeded": 7,
+      "queries_failed": 1,
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "hard_evaluations": 1,
+      "soft_evaluations": 0,
+      "delivery_repairs": 1,
+      "reviewer_reason": "PRIMARY is supported over SECONDARY. The answer explicitly remains UNRESOLVED and does not identify the Silver-to-Gold/DEV split or the product_id left-join fanout. Although g5 and g10 show 7661 and g8 and g7 show 8765, the answer only lists these findings rather than identifying the requested split; the layer/split match is therefore incomplete. The g9, g11 and g12 findings are relevant partial evidence, not a stated cause. The g6 DAX validation failure was recovered by g7. The handoff retains rerunnable queries and a stopping point, but its next check revisits g6 instead of checking the Gold join. Its explicit uncertainty is not harmful."
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "status": "UNRESOLVED",
+      "model_calls": 19,
+      "queries_succeeded": 9,
+      "queries_failed": 0,
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "hard_evaluations": 1,
+      "soft_evaluations": 0,
+      "delivery_repairs": 1,
+      "reviewer_reason": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "status": "UNRESOLVED",
+      "model_calls": 19,
+      "queries_succeeded": 7,
+      "queries_failed": 1,
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "hard_evaluations": 1,
+      "soft_evaluations": 0,
+      "delivery_repairs": 1,
+      "reviewer_reason": "SECONDARY is supported. The expected answer is AS DESIGNED at the source application/DEV: the full visible tuple uniquely identifies movement 2, whose units 17 are carried unchanged. The answer instead says UNRESOLVED and does not establish that identification or lineage. Its g11, g8 and g7 samples do show movement 2 with units 17 at source, bronze and model, but only three of 15 matching warehouse/product rows are shown. The first failed step was g6, rejected before dispatch for an unknown or ambiguous DAX member. PRIMARY treats the later successful g7 query as superseding that failure; it does not erase the earlier failed step, and the handoff still directs attention to it. Saved queries, checked findings, an explicit budget stop and engineer routing provide a limited handoff, but the next check does not address uniqueness or lineage. The unresolved answer states an evidence limitation, not a confident wrong cause."
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "status": "UNRESOLVED",
+      "model_calls": 19,
+      "queries_succeeded": 8,
+      "queries_failed": 1,
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "hard_evaluations": 1,
+      "soft_evaluations": 0,
+      "delivery_repairs": 1,
+      "reviewer_reason": null
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "status": "UNRESOLVED",
+      "model_calls": 19,
+      "queries_succeeded": 6,
+      "queries_failed": 0,
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "hard_evaluations": 1,
+      "soft_evaluations": 0,
+      "delivery_repairs": 1,
+      "reviewer_reason": "SECONDARY is supported. The saved lookup queries g5, g7 and g9 each return one untruncated match, and g6, g8 and g10 show movement 7 with 20 units in the model, bronze and ordersops. Those delivered findings substantively establish the expected key and unchanged value, even though the answer does not synthesize them as a conclusion. It instead says UNRESOLVED and does not identify the source application as its explanatory layer, so verdict and layer do not match. PRIMARY discounts the independently established cause evidence. The handoff retains rerunnable queries and a TOOL_OR_TIME_LIMIT stopping point, but next_checks is empty and routing is generic. The explicit uncertainty is not harmful."
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "status": "UNRESOLVED",
+      "model_calls": 19,
+      "queries_succeeded": 3,
+      "queries_failed": 0,
+      "stop": "TOOL_OR_TIME_LIMIT",
+      "hard_evaluations": 1,
+      "soft_evaluations": 0,
+      "delivery_repairs": 1,
+      "reviewer_reason": null
+    }
+  ]
+}

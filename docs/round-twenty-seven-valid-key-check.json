@@ -1,0 +1,17 @@
+{
+  "at_utc": "2026-11-21T23:55:21.682427+00:00",
+  "secret_version": "f36d1b1a112f494186b04c8650baee01",
+  "http_status": 200,
+  "generation_calls": 0,
+  "secret_printed_or_written": false,
+  "key_shape": {
+    "expected_prefix": true,
+    "length": 106,
+    "surrounding_whitespace": false
+  },
+  "response_metadata": {
+    "Content-Type": "application/json",
+    "request-id": "req_011ChGybDat5MnqasJVrue2c",
+    "Server": "cloudflare"
+  }
+}

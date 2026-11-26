@@ -23,15 +23,20 @@ class Steps:
             if self.investigator_configuration is None:
                 raise ValueError('MEASURED_INVESTIGATOR_CONFIGURATION_REQUIRED')
             measured = self.investigator_configuration
-            if step == 'GRADING' and config.get('provider', 'anthropic') == measured.get('provider', 'anthropic'):
+            free_independent=(config.get('provider')==measured.get('provider') and config.get('provider')in ('nvidia','openrouter')
+                and config.get('quality_scope')==measured.get('quality_scope')=='DEV_ONLY'
+                and config['model'].split('/')[0]!=measured['model'].split('/')[0])
+            if step == 'GRADING' and config.get('provider', 'anthropic') == measured.get('provider', 'anthropic') and not free_independent:
                 raise ValueError('PRIMARY_GRADER_MUST_USE_DIFFERENT_PROVIDER')
             if step != 'GRADING' and (config.get('provider', 'anthropic'), config['model']) == (measured.get('provider', 'anthropic'), measured['model']):
                 raise ValueError('INDEPENDENT_REVIEW_MODEL_REQUIRED')
         key = (case_id, step)
         if key not in self.clients:
             purpose = 'GRADING' if step in ('REVIEWER', 'SECONDARY_GRADING') else step
-            budget = TicketBudget(self.state, case_id=case_id, owner=config['worker_identity'],
-                rate=RateCard(model=config['model'], **config['rate_card']), provider=config.get('provider', 'anthropic'),
+            from .provider_dev_budget import budget_types
+            budget_type,rate_type=budget_types(config)
+            budget = budget_type(self.state, case_id=case_id, owner=config['worker_identity'],
+                rate=rate_type(model=config['model'], **config['rate_card']), provider=config.get('provider', 'anthropic'),
                 actual_usage_limit=3000000, purpose=purpose)
             self.clients[key] = self.client_factory(config, budget=budget, record=self.record)
         return self.clients[key]

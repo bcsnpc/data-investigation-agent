@@ -1,0 +1,29 @@
+{
+  "basis": "shared normalized ledger; includes uncertainty, not a provider invoice; November cash topups do not reset history",
+  "providers": {
+    "anthropic": {
+      "start_charged_microdollars": 51719843,
+      "current_charged_microdollars": 202108251,
+      "round_delta_microdollars": 150388408,
+      "ceiling_microdollars": 245108251
+    },
+    "openai": {
+      "start_charged_microdollars": 173878628,
+      "current_charged_microdollars": 190833579,
+      "round_delta_microdollars": 16954951,
+      "ceiling_microdollars": 202938628
+    },
+    "bedrock": {
+      "start_charged_microdollars": 852297,
+      "current_charged_microdollars": 1261833,
+      "round_delta_microdollars": 409536,
+      "ceiling_microdollars": 20000000
+    },
+    "openrouter": {
+      "paid_charged_microdollars": 0,
+      "free_call_charges_microdollars": 0,
+      "source": "retained no-generation key check and zero-priced call ledger; free-call counters are not dollar invoices"
+    }
+  },
+  "close_paid_generation_calls": 0
+}

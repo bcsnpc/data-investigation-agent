@@ -1,0 +1,21 @@
+{
+  "ticket": "text-latency-900502-v2",
+  "cohort": "step4-openrouter-budget-repairs",
+  "scope": "Saved native trace only; original independent grade unchanged",
+  "result": "UNRESOLVED; 40 physical requests; 12 recorded model calls; useful nonharmful handoff",
+  "first_unproductive_action": {
+    "audit_sequence": 5833,
+    "tool": "row_layer_diff",
+    "problem": "After keyed reads, the model requested both complete tables without a movement_id predicate. The tables exceed the analysis row bound. It repeated the unbounded comparison at sequence6243.",
+    "correct_action": "Reuse the keyed source and Bronze evidence for movement900502, and restrict any further comparison to that record."
+  },
+  "other_observations": [
+    "The first two model responses reached max_tokens without issuing a tool call.",
+    "A finding cited a copy-job definition address not recognized as cited evidence; the evaluator returned EVALUATOR_UNKNOWN_CITED_EVIDENCE.",
+    "A subsequent finding included the unsupported literal3; NUMBER_NOT_IN_CITED_RESULTS_OR_REPORTED_INPUT refused it.",
+    "Delivery repair exhausted its existing bound; the saved final answer remained unresolved instead of naming the future load and due time."
+  ],
+  "classification": "Model tool-choice and delivery-evidence failures observed; no proven reason to remove the row bound, citation check or literal-value check",
+  "harmful": false,
+  "scores_expectations_and_runtime_unchanged": true
+}

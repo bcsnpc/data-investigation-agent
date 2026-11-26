@@ -486,3 +486,214 @@ Round26 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_r
 
 
 Round26 dev06 final stale restoration verified 2026-11-11T00:12:25.648034+00:00: original360business rows SHA256 0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b, business-schema SHA256 bf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd. Original real restoration load Completed. Automatic updates restored On and verified on a freshly loaded native settings page; refresh schedule remains Off unchanged. Own model refresh e0773fcf-6fb9-456a-bd08-44839e3a539f Completed, and native model read is7661. Temporal history leftOn as approved. No remaining owned rows/schedules/access objects or altered pipeline definition. Exact per-control readbacks are retained privately under .local/round-twenty-six/dev06/injections/.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\dev01\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\dev01\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-seven\dev01\injections\waiting\status.json.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\dev01\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\dev01\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-seven\dev01\injections\text-retained-original-history\status.json.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01\injections\text-latency-current-reader1\status.json. Temporal remains ON.
+
+Round27 text latency 900501-v1: native job-dia-worker-vofcccb Failed after three intake model calls, before investigation. The retained partial Blob records establish SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS at guided-investigation intake, worker exit1; run-record seal/final result are absent. Twelve partial native files are retained with local hashes; no fabricated seal or delivered answer. This is an unanswered engine intake error, not an environment exclusion; primary grading pending authorization. No resubmission. Owned schedule removed and before/restored source/schema hashes match. The remaining three text-latency tickets continue on the same qualified image with fresh controls in a separate remainder folder, explicitly skipping the measured error.
+
+
+Round27 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+Round27 post-cohort native UI readback, 2026-11-21: Application load fixture20261003 automatic Direct Lake updates ON; configured refresh schedule OFF, unchanged; Apply disabled. No setting was modified. The four stale tickets were not admitted because the protected Opus floor was reached. Local observation receipt: .local/round-twenty-seven/automatic-updates-post-cohort-on-observation.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\proof02\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\proof02\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\proof02\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\proof02-budget-corrected\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\proof02-budget-corrected\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\proof02-budget-corrected\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\proof03-evaluator-advisory\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\proof03-evaluator-advisory\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; actual SQL10/1 and service-principal25/2 reads, no impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\dev01-completion-advisory\injections\access\status.json.
+
+Round27 access setup correction,2026-11-22UTC: the earlier unconditional controller footer said both reader values were verified, but this attempt stopped before the cloud probe. Only the local SQL reader10/1 and unchanged roles were verified. The three owned objects were removed and the catalog restored; no scored ticket was admitted. The missing billing-route preflight error and source status remain in dev01-completion-advisory/injections/access/. This is an unscored setup error, not an engine outcome. Future controller footers derive verification flags from actual saved probes instead of printing expected values.
+
+
+Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; SQL reader read-only verified=True, cloud reader read-only verified=False. Expected probe values are not a verification claim. No impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\dev01-completion-advisory\injections\access-scope-replacement\status.json.
+
+
+Round27 benchmark access ACCESS_SCORED_COHORT_COMPLETED; restoration_required=False, catalog_restoration_required=True. Three isolated synthetic objects only; SQL reader read-only verified=True, cloud reader read-only verified=True. Expected probe values are not a verification claim. No impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\dev01-completion-advisory\injections\access-workpath-replacement\status.json.
+
+
+Round27 access-workpath-replacement completed2/2 scored tickets. Native source objects removed and original roles verified identical; original catalog owner restored with SHA-256 2428c1d30ac56d7d114a943a2312ea3c430c74cf46fd9c97077cddde68e0cbd8. Catalog first restore rolled back on PostgreSQL idle timeout; bounded owner-only transaction-local recovery succeeded, originals retained. Source/catalog restoration_required=false; existing fixed identities unchanged. Native probe read-only PASS10/1 and25/2. Both scored outcomes retained UNRESOLVED/incorrect/harm0.
+
+
+Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev01-completion-advisory\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+
+Round27 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\dev01-completion-advisory\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+Round27 stale accepted-start recovery: DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source restoration_required=False, automatic_update_restoration_required=True. No duplicate submission; original source hash is checked before restoring the original real copy.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\dev02-advisory\injections\dev-failed-billing\status.json. No grant/identity change.
+
+Round27 stale cleanup: owner confirmed automatic updates ON; approved native refresh accepted202 and native model quantity7661. Source hash and successful original restoration load remain recorded. Setting provenance OWNER_REPORTED_SAVED_SETTING; no browser readback claimed.
+
+Round27 restored-model refresh native history: request1221447d-8e70-4bf0-beca-528ff36c33c3 Completed,2026-11-22T04:54:54.45Z to04:55:24.417Z. Native model7661 and source360 original business hashes verified separately. No automatic-update UI readback claimed.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\dev02-advisory\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-seven\dev02-advisory\injections\waiting\status.json.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\dev02-advisory\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-seven\dev02-advisory\injections\text-retained-original-history\status.json.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev02-advisory\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\dev02-advisory\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+
+Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; SQL reader read-only verified=True, cloud reader read-only verified=True. Expected probe values are not a verification claim. No impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\dev02-advisory\injections\access\status.json.
+
+
+Round27 benchmark stale DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\dev02-advisory\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+
+Round27 final P2 stale restoration verified2026-11-22: owner confirmed automatic updatesON, refresh schedule unchanged. Restoration refreshacb61da4-c7aa-4aa5-b7e3-0be7d613aa1c completed2026-11-22T17:06:44.103Z; native model quantity7661. Source row/schema hash and real original360 restoration load were already verified. Automatic-update setting provenance remains OWNER_REPORTED_SAVED_SETTING; refresh status/value are native reads, not an independent API readback of that switch. No P3fault/model run, score or budget change. Receipt: docs/round-twenty-seven-pass2-final-restoration.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\free-models\proof15-kimi\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\free-models\proof15-kimi\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\free-models\proof15-kimi\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=True. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\proof15-kimi\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 Kimi latency recovery 20261123-095545: native SQL40613 restore failure preserved; owned row900701/version124003 re-read before the exact existing guarded restore. Original360 business rows/schema hash verified, temporalON; owned schedule3e0fe208-bece-4164-a89f-42930ab377f8 was already removed. Engine capture remains INTERRUPTED/environment-affected/unscored; no resubmission. Recovery 3 INV control requests; no reserve use. Receipt .local\round-twenty-seven\free-models\proof15-kimi\injections\form-latency\status.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\free-models\proof15-openrouter-supervl\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\free-models\proof15-openrouter-supervl\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\free-models\proof15-openrouter-supervl\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\proof15-openrouter-supervl\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Round27 G3 history: original R22 Oct23T22:49:20/28 AS-OF observations freshly verified by the existing reader before each scored ticket. Original900201/202/203 quantities7/11/13, no current source injection and no expectation/input changes. Temporal remainsON; .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\text-retained-original-history\status.json.
+
+
+Round27 latency g1 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\form-latency\status.json. Temporal remains ON.
+
+
+Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+
+Round27 waiting g1 WAIT_COHORT_COMPLETE_ORIGINAL_HASH_RESTORED; restoration_required=False. Original semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; native jobs and guarded hash readback in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\waiting\status.json.
+
+
+Round27 benchmark access ACCESS_OBJECTS_HASH_GUARDED_REMOVED_ORIGINAL_ROLES_RETAINED; restoration_required=False, catalog_restoration_required=False. Three isolated synthetic objects only; SQL reader read-only verified=True, cloud reader read-only verified=True. Expected probe values are not a verification claim. No impersonation or permission changes. Full native ownership/hash/roles: .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\access\status.json.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\free-models\step4-openrouter-native-repairs\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 latency g3 INSERT_ATTEMPTED_RECONCILE_IF_INTERRUPTED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\step4-openrouter-budget-repairs\injections\text-latency-remainder-reader1\status.json. Temporal remains ON.
+
+
+Round27 latency g3 LATENCY_COHORT_COMPLETED; restoration_required=False. Native read receipts, owned schedule and full original360-row/business-schema hash restore are in .local\round-twenty-seven\free-models\step4-openrouter-budget-repairs\injections\text-latency-remainder-reader1-subset-fix\status.json. Temporal remains ON.
+
+
+Round27 benchmark stale SOURCE_CHANGED_REAL_COPY_COMPLETE_AWAIT_LANDING_SYNC; source_restoration_required=True, automatic_update_restoration_required=True. Native source/landing/model gap and original360row/schema hash restore in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\stale\status.json. No source/model figure was authored from an engine query.
+
+Round27 original stale cohort withdrawn BEFORE cleanup because the Azure start is unestablished; any late capture is unscored. WITHDRAWN_ENVIRONMENT_SOURCE_RESTORE_IN_PROGRESS; source_restoration_required=True. Guarded owned-row restore, original business/schema hashes and original real restoration load are recorded in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\stale\status.json. Automatic updates ON remains owner action; no duplicate start or scored outcome manufactured.
+
+Round27 original stale cohort withdrawn BEFORE cleanup because the Azure start is unestablished; any late capture is unscored. ENVIRONMENT_WITHDRAWN_DATA_RESTORED_UI_AUTOON_REFRESH_VERIFY_PENDING; source_restoration_required=False. Guarded owned-row restore, original business/schema hashes and original real restoration load are recorded in .local\round-twenty-seven\free-models\step4-openrouter-dev04-supervl\injections\stale\status.json. Automatic updates ON remains owner action; no duplicate start or scored outcome manufactured.
+
+
+Round27 original Step4 fixture restoration COMPLETE,2026-11-23: owner automatic updatesON confirmed; schedule unchanged. Native refresh85942e74-bd08-407b-8c4b-02692a51512e Completed19:01:22UTC, model7661. Original360source business/schema hashes and originalrealrestorationloadSUCCEEDED retained; both restoration flagsfalse. Azure-unestablished case stays environment-withdrawn/unscored; secondstalecaseNOTRUN. Receipt docs/round-twenty-seven-free-step4-final-restoration.json.
+
+
+## Round27 owner gate-and-close, 2026-11-25
+
+No new fault injection or toggle was made. Browser control required node_repl/sky, which is not exposed in this session; both stale-refresh cases were skipped. The original uncertain startf238f1ba-1142-4b55-bdc1-958c61911343 remains unscored and was never resubmitted.
+
+| Toggle observation | State | Provenance |
+|---|---|---|
+|2026-11-23T17:26:51Z|OFF|retained owner saved-setting receipt, previous cohort|
+|2026-11-23 restoration|ON|owner confirmation; no fabricated browser readback|
+|2026-11-26close read-only check|unchanged|no UI tool; fresh source/schema hashes MATCH, model7661; latest refresh85942e74-bd08-407b-8c4b-02692a51512e Completed|
+
+Fresh close-native-restoration readback used4physical requests and zero models.360source business rows/hash0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b and schemabf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd match; all inspected saved control restoration flags are false. Temporal history staysON by prior decision. The completed refresh is the retained Nov23native refresh, not a newly triggered one. See docs/round-twenty-seven-close-restoration.json. Current UI ON readback remains explicitly unavailable; owner can verify later without blocking other close work.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\opus-confirmation\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\opus-confirmation\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\opus-confirmation\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Clarification for Round27 opus-confirmation/injections/form-current-history (Nov26): the prior helper note uses the scenario label 41-load47-change; this unadmitted control actually stopped after the real41 load, before the47 mutation or any scored history submission, on the archive-reference format TypeError. Original360 business/schema hash assertions and real restoration load Completed; temporal keptON. Its records/charges are retained. Fresh restaging uses form-current-history-archive-retry1; never overwrite or score the unadmitted control.
+
+
+Round27 history g1 HISTORY_COHORT_TICKETS_COMPLETED; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\opus-confirmation\injections\form-current-history-archive-retry1\status.json. Temporal history ON; native historical versions retained.
+
+Round27 history scored ticket retained, never repeated. Its original restoration copy failed native3161; source was already hash-restored. Separate original-definition restoration recovery: PRECHECK; receipt .local\round-twenty-seven\opus-confirmation\injections\history-restoration-copy-recovery1\status.json. Old failed load and charges retained.

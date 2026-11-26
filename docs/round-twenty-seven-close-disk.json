@@ -1,0 +1,36 @@
+{
+  "observed_at_utc": "2026-11-26T01:18:05.399811+00:00",
+  "before": [
+    {
+      "drive": "C:/",
+      "minimum_gib": 40,
+      "free_gib": 68.37,
+      "guard_pass": true
+    },
+    {
+      "drive": "D:/",
+      "minimum_gib": 80,
+      "free_gib": 183.283,
+      "guard_pass": true
+    }
+  ],
+  "after": [
+    {
+      "drive": "C:/",
+      "minimum_gib": 40,
+      "free_gib": 68.37,
+      "guard_pass": true
+    },
+    {
+      "drive": "D:/",
+      "minimum_gib": 80,
+      "free_gib": 183.283,
+      "guard_pass": true
+    }
+  ],
+  "deleted_bytes": 0,
+  "reason": "Both guards pass. Tool rejected exact-archived unused generator deletion with blocked by policy; no alternate deletion mechanism attempted. No evidence, capture, ledger, seal, RESUME or current image touched.",
+  "verified_archive": "scripts/fixtures/round27-retired-ablations/obsolete-local-generators.zip",
+  "owner_script": ".local/round-twenty-seven/cleanup-verified-obsolete-generators.ps1",
+  "expected_owner_cleanup_bytes": 5274
+}

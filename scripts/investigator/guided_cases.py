@@ -7,7 +7,7 @@ prevents two workers from executing the same queued case.
 from copy import deepcopy
 from datetime import datetime,timezone
 from .estate_graph_contract import digest
-from .guided_intake import Catalog,admit,admit_or_question
+from .guided_intake import Catalog,admit,admit_or_question,admit_investigation_candidate
 from .shared_state import StateConflict
 
 
@@ -64,6 +64,34 @@ class Cases:
         except StateConflict:
             prior=self.state.get(self.namespace,identity)['body']
             if prior['intake_hash']!=fingerprint:raise
+        return self.poll(identity)
+
+    def submit_candidates(self,*,request_key,intake,inventory,source):
+        """Internal installed-runner entry: keep alternatives, not a picked target.
+
+        This is not exposed as an arbitrary HTTP callback. All candidate
+        addresses are admitted against the same retained catalog before queueing.
+        """
+        from .estate_graph_contract import canonical
+        catalog=Catalog.from_graph(self.graph)
+        candidates=deepcopy(inventory['candidates'])
+        if not 1<=len(candidates)<=5:raise ValueError('TARGET_CANDIDATE_BOUND')
+        if not isinstance(request_key,str)or not request_key:raise ValueError('REQUEST_KEY_REQUIRED')
+        for candidate in candidates:
+            candidate['intake']=admit_investigation_candidate(candidate['intake'],catalog)
+            for field,value in candidate.get('explicit',{}).items():
+                if candidate['intake'].get(field)!=value:raise ValueError('EXPLICIT_TARGET_CHANGED:'+field)
+        identity='guided:'+digest([self.estate,request_key])
+        fingerprint=digest([intake,source,inventory])
+        try:prior=self.state.get(self.namespace,identity)
+        except KeyError:prior=None
+        if prior:
+            if prior['body']['intake_hash']!=fingerprint:raise StateConflict('REQUEST_KEY_DIFFERENT_INTAKE')
+            return self.poll(identity)
+        value={'id':identity,'estate':self.estate,'intake_hash':fingerprint,'intake':deepcopy(intake),
+               'source':deepcopy(source),'candidate_inventory':{**deepcopy(inventory),'candidates':candidates},
+               'status':'QUEUED','outcome':None,'created_at':datetime.now(timezone.utc).isoformat()}
+        self.state.put(self.namespace,identity,value)
         return self.poll(identity)
 
     def poll(self,identity):

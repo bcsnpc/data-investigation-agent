@@ -1,0 +1,40 @@
+{
+  "observed_utc": "2026-11-23T10:36:40.847386+00:00",
+  "classification": "DIA_OPERATOR_GRADING_TRANSPORT",
+  "error": "AssertionError in multi_string_grader_pool.encode round-trip before any grader dispatch",
+  "cause": "A legacy lossless packet already contained verbatim_pool and pool_encoding; second-stage encoding overwrote those fields. First mismatches were missing original delivered/verbatim_pool and delivered/pool_encoding.",
+  "fix": "Decode the exact known legacy pool before the second compaction stage. Preserve all decoded values; no outcome, query row, answer, expectation, score or grading rule changes.",
+  "known_failure_input_sha256": "09b46dfe26cc3360ee16417bb5df2db0b523d1e22a5adfff5129efb3ae3b68a5",
+  "fixed_packet_characters": 22392,
+  "maximum_characters": 24000,
+  "lossless_round_trip": true,
+  "focused_tests_passed": 12,
+  "full_suite": {
+    "passed": 6099,
+    "skipped": 53,
+    "failed": 0,
+    "errors": 0
+  },
+  "failed_unsent_batch_preserved": "form-batch06",
+  "replacement_unsent_batch": "form-batch07",
+  "grader_call_retried": false,
+  "investigation_rerun": false,
+  "running_image_unchanged": true,
+  "code_scope": "Host-side grading packet transport only; frozen live worker does not import this helper",
+  "all_eight_image_shards": "PASS",
+  "qualified_source": "8d9475dce51b9834d1bec61f3c6edc8b77e1236b",
+  "workflow": 45159109970,
+  "published_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:5d60bf0f788d0ae1545cfdb1df952b133d625677951077002b5946897ff68a10",
+  "current_live_pass_keeps_prior_image": true,
+  "local_windows_full_suite": {
+    "passed": 6102,
+    "skipped": 50,
+    "failed": 0,
+    "errors": 0,
+    "junit_sha256": "484ef1118f243503e6011c78ba042cda8d94ff25365bdfb5c5d591321f3c0ae5",
+    "duration_seconds": 1660.879,
+    "subtests_passed": 2333,
+    "junit_passed_including_subtests": 8435,
+    "counting_note": "Windows pytest-subtests emits2333 passing subtest cases into JUnit; primary6102 and subtests2333 are reported separately, not pooled into a larger primary test count."
+  }
+}

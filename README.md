@@ -704,3 +704,6 @@ missed. See `docs/round-twenty-three-summary.md`.
 
 
 Round25 scoring update, 2026-10-28: G1 interim raw-reviewed 11/13 (95% Wilson 57.8-95.7%), strict 11/13, official primary 13/13 (77.2-100%). Raw-confirmed harmful2; history family paused. R24 official18/20 unchanged after raw disagreement review. Full measurement remains in progress; see docs/quality-report-v0.24.md.
+
+
+Round27 checkpoint (2026-11-26): Opus confirmation is pending21/25 because the practice source exhausted its November Azure SQL free allowance. Original source rows are hash-restored; its downstream restoration load is not yet verified. Generic intake/schema repairs are being qualified offline and are not a new measured quality claim. See docs/round-twenty-seven-confirmation-source-allowance-block.json.

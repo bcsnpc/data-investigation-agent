@@ -1,0 +1,19 @@
+{
+  "status": "CONTROL_SETUP_FAILURE_BEFORE_TICKET_SUBMISSION",
+  "receipt": "injections/text-latency-remainder-reader1/status.json",
+  "original_rows_and_schema_restored": true,
+  "owned_schedule_removed": true,
+  "physical_requests_charged": 11,
+  "model_calls": 0,
+  "ticket_submissions": 0,
+  "cause": "Admission helper required unrelated baseline runner and fully extracted manifest in subset cohort.",
+  "repair": "Choose actual qualified compatible cohort runner by exact native source/Bronze scope and consistent reader, then checksum-pinned reused archive manifest. Missing/tied incompatible controls refused.",
+  "offline_tests_passed": 10,
+  "existing_full_and_two_subset_contracts": "PASS3/3, exact source/Bronze addresses and consistent existing reader",
+  "private_script_sha256": {
+    ".local\\round-twenty-seven\\r27_control_reads.py": "7b76ea7932ff61798214250cbe0e1cb6442f0ae0262db52b0bb2b69d7eae439c",
+    ".local\\round-twenty-seven\\test_control_subset_inputs.py": "826a83a6f30c6fcd2a51584012df934c2d4c09a86907f38ac85c85548e1d25a6"
+  },
+  "archive_contract": "Pinned shared archive is hash-verified before manifest read; altered archive or local manifest refused; no duplicate full extraction",
+  "runtime_image_changed": false
+}

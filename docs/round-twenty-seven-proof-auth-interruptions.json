@@ -1,0 +1,68 @@
+{
+  "at_utc": "2026-11-21T21:39:06.980910+00:00",
+  "hard_stop": "CLAUDE build-phase model authorization refusal; no retries until corrected key",
+  "pinned_key_version_is_latest": true,
+  "key_version": "aa83144a536a475d94d0a606942e06bf",
+  "older_key_versions_not_tried": true,
+  "score_denominator_excludes_interruptions": true,
+  "new_admission_pause_file": ".local\\round-twenty-seven\\proof01\\OWNER_ADMISSION_PAUSE.json",
+  "operator_sequence": "First case completed before the initial pair was launched; its saved failure had not yet been inspected. Pair already admitted when401was diagnosed. Both original pair interruptions retained; no automatic retries.",
+  "attempts": [
+    {
+      "ticket": "v2-fixture-quantity-v1",
+      "execution": {
+        "endTime": null,
+        "execution_name": "job-dia-worker-wrsf99x",
+        "startTime": "2026-11-21T21:33:55+00:00",
+        "status": "Failed"
+      },
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:639f85b7741844317990ef854a5e4c16994e12a3e69357fab12d2caaf43d8666",
+      "capture_seal": "9af31fc63d96667c933c4e57766627d6ae4df4999af3a884f9bb9eb62326c876",
+      "status": "INTERRUPTED_PROVIDER_AUTHORIZATION",
+      "scored": false,
+      "reason": "ANTHROPIC_HTTP_401 invalid x-api-key",
+      "recorded_model_charge_microdollars": 0,
+      "source_result_sha256": "ab82cd198619d59569b1cb21268c82c5f55c2a98c9f81dcd02a1047197863e0d",
+      "physical_requests": 5,
+      "old_outcome_retained": true
+    },
+    {
+      "ticket": "v2-application-baseline-v1",
+      "execution": {
+        "endTime": null,
+        "execution_name": "job-dia-worker-vjpj9nb",
+        "startTime": "2026-11-21T21:35:45+00:00",
+        "status": "Failed"
+      },
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:639f85b7741844317990ef854a5e4c16994e12a3e69357fab12d2caaf43d8666",
+      "capture_seal": "0f14d003f705b643c943cd394588c46515093ddd16bc6c54a5a33de808c858a1",
+      "status": "INTERRUPTED_PROVIDER_AUTHORIZATION",
+      "scored": false,
+      "reason": "ANTHROPIC_HTTP_401 invalid x-api-key",
+      "recorded_model_charge_microdollars": 0,
+      "source_result_sha256": "d50001e4b37267ef9f75b1c234a3cf3eb9a323695ee06e1e49692c2e306eb691",
+      "physical_requests": 15,
+      "old_outcome_retained": true
+    },
+    {
+      "ticket": "v2-billing-invoices-v2",
+      "execution": {
+        "endTime": null,
+        "execution_name": "job-dia-worker-dobw7zd",
+        "startTime": "2026-11-21T21:35:39+00:00",
+        "status": "Failed"
+      },
+      "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:639f85b7741844317990ef854a5e4c16994e12a3e69357fab12d2caaf43d8666",
+      "capture_seal": "854b02e2d944eaed23a0e80fa25c3c80cf2159387a44551f7e22cb0d60837c47",
+      "status": "INTERRUPTED_PROVIDER_AUTHORIZATION",
+      "scored": false,
+      "reason": "ANTHROPIC_HTTP_401 invalid x-api-key",
+      "recorded_model_charge_microdollars": 0,
+      "source_result_sha256": "9e08847690a1edc99444a2cad5a1f8ff89196feaf88a39bd7b9dce4f3cf204b7",
+      "physical_requests": 15,
+      "old_outcome_retained": true
+    }
+  ],
+  "fixture_injections_made": false,
+  "fixed_connection_rotation": "COMPLETE and readbacks600/8765/7661; unrelated renewal not repeated"
+}

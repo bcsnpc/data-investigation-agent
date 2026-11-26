@@ -1,0 +1,278 @@
+{
+  "provenance": "Saved R27 confirmation dev traces; no oracle or grades. IDs replaced with synthetic test addresses.",
+  "headers": [
+    {
+      "id": "saved-header-0",
+      "kind": "ReportVisual",
+      "metadata": {
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+        "name": "0c3b2289ac445c1b99b9",
+        "position": {
+          "height": 76,
+          "tabOrder": 1,
+          "width": 1232,
+          "x": 24,
+          "y": 12,
+          "z": 1
+        },
+        "visual": {
+          "objects": {
+            "general": [
+              {
+                "properties": {
+                  "paragraphs": [
+                    {
+                      "textRuns": [
+                        {
+                          "textStyle": {
+                            "color": "#17324D",
+                            "fontSize": "23pt",
+                            "fontWeight": "bold"
+                          },
+                          "value": "Unfiltered control"
+                        }
+                      ]
+                    },
+                    {
+                      "textRuns": [
+                        {
+                          "textStyle": {
+                            "color": "#52667A",
+                            "fontSize": "10pt"
+                          },
+                          "value": "Existing model, no report/page/visual predicates"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "visualContainerObjects": {
+            "background": [
+              {
+                "properties": {
+                  "color": {
+                    "solid": {
+                      "color": {
+                        "expr": {
+                          "Literal": {
+                            "Value": "'#FFFFFF'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "show": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "true"
+                      }
+                    }
+                  },
+                  "transparency": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "0D"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "title": [
+              {
+                "properties": {
+                  "fontColor": {
+                    "solid": {
+                      "color": {
+                        "expr": {
+                          "Literal": {
+                            "Value": "'#17324D'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "fontSize": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "12D"
+                      }
+                    }
+                  },
+                  "show": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "false"
+                      }
+                    }
+                  },
+                  "text": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "''"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "visualType": "textbox"
+        }
+      }
+    },
+    {
+      "id": "saved-header-1",
+      "kind": "ReportVisual",
+      "metadata": {
+        "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+        "name": "6b1bb066d22d5e9a9cc3",
+        "position": {
+          "height": 76,
+          "tabOrder": 1,
+          "width": 1232,
+          "x": 24,
+          "y": 12,
+          "z": 1
+        },
+        "visual": {
+          "objects": {
+            "general": [
+              {
+                "properties": {
+                  "paragraphs": [
+                    {
+                      "textRuns": [
+                        {
+                          "textStyle": {
+                            "color": "#17324D",
+                            "fontSize": "23pt",
+                            "fontWeight": "bold"
+                          },
+                          "value": "Saved predicate selections"
+                        }
+                      ]
+                    },
+                    {
+                      "textRuns": [
+                        {
+                          "textStyle": {
+                            "color": "#52667A",
+                            "fontSize": "10pt"
+                          },
+                          "value": "North and Component 1; receipts only; target card additionally selects 14 September"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "visualContainerObjects": {
+            "background": [
+              {
+                "properties": {
+                  "color": {
+                    "solid": {
+                      "color": {
+                        "expr": {
+                          "Literal": {
+                            "Value": "'#FFFFFF'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "show": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "true"
+                      }
+                    }
+                  },
+                  "transparency": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "0D"
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "title": [
+              {
+                "properties": {
+                  "fontColor": {
+                    "solid": {
+                      "color": {
+                        "expr": {
+                          "Literal": {
+                            "Value": "'#17324D'"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "fontSize": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "12D"
+                      }
+                    }
+                  },
+                  "show": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "false"
+                      }
+                    }
+                  },
+                  "text": {
+                    "expr": {
+                      "Literal": {
+                        "Value": "''"
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "visualType": "textbox"
+        }
+      }
+    }
+  ],
+  "billing_intakes": [
+    {
+      "compared_with": {
+        "kind": "NOTHING"
+      },
+      "description": "I'm looking at the MRR All Plans card on the Subscription Billing page with no filters applied, and it is showing a value of 600. I would like to understand the technical calculation behind this figure \u2014 specifically, which subscription records are included, how recurring revenue is aggregated across all plans, and whether there are any exclusions (e.g., cancelled, paused, or trial subscriptions). This is not a question about business policy, but about the underlying data logic and formula used to arrive at that number.",
+      "issue_type": "HOW_IS_THIS_CALCULATED",
+      "reported_figure": {
+        "precision": "EXACT",
+        "state": "NUMBER",
+        "value": "600"
+      }
+    },
+    {
+      "classified_issue_type": "HOW_IS_THIS_CALCULATED",
+      "compared_with": {
+        "kind": "NOTHING"
+      },
+      "description": "Collected Amount shows 550. What payment rows make up this number and how is it calculated?",
+      "issue_type": "SOMETHING_ELSE",
+      "reported_figure": {
+        "precision": "EXACT",
+        "state": "NUMBER",
+        "value": "550"
+      }
+    }
+  ]
+}

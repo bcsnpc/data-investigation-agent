@@ -1,0 +1,35 @@
+{
+  "observed_at": 1795430229.5134087,
+  "anthropic_committed_usd": 202.108251,
+  "anthropic_remaining_headroom_usd": 18.1764,
+  "calibration_protected_usd": 14.34,
+  "anthropic_cash_reserve_usd": 3,
+  "new_anthropic_generation_in_free_work": 0,
+  "openai_committed_usd": 189.650112,
+  "openai_headroom_usd": 13.288516,
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-11",
+    "used": {
+      "INVESTIGATION": 13775,
+      "SCAN": 2430,
+      "RESTORATION": 51
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 17905,
+      "RESTORATION": 95
+    },
+    "total": 16256,
+    "total_limit": 20500,
+    "historical_restoration_requests": 0,
+    "restoration_remaining": 44,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT"
+    ]
+  },
+  "openrouter_conservative_calls_charged": 149,
+  "openrouter_daily_limit": 1000,
+  "openrouter_lifetime_paid_charged_usd": 0.0,
+  "counts_not_reset": true
+}

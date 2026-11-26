@@ -10,7 +10,7 @@ class BudgetExtensionTests(unittest.TestCase):
   self.assertEqual((october['model_microdollars'],october['total_limit'],october['limits']),
    (206000000,17000,{'SCAN':2500,'INVESTIGATION':14405,'RESTORATION':95}))
   self.assertEqual((november['model_microdollars'],november['total_limit'],november['limits']),
-   (150000000,14500,{'SCAN':2500,'INVESTIGATION':11905,'RESTORATION':95}))
+   (150000000,20500,{'SCAN':2500,'INVESTIGATION':17905,'RESTORATION':95}))
  def test_extended_october_policy_keeps_grading_in_monthly_account(self):
   state=Mock();state.get.return_value={'body':{'total_limit':15500,'default_total_limit':9000}}
   with patch('investigator.build_phase.ensure_model_account',return_value='model-microdollars:2026-10'):

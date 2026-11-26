@@ -1,0 +1,12 @@
+{
+  "scope": "PRIVATE_OPERATOR_CONTROLLER_ONLY; no runtime image or engine change",
+  "change": "Existing NVIDIA timeout watcher accepts a selected cohort root and keeps watching through serialized fault cases, instead of exiting at static completion. Existing one-third review threshold, rate/call/dollar limits unchanged.",
+  "sha256": "7c2d8dd8b4987e7a89203b0632d014cdb34432d249e433f14ebadad7e36be5b9",
+  "focused_tests": {
+    "tests": 2,
+    "failures": 0,
+    "scenario": "Static completion does not stop fault monitoring; true fault completion and reconciliation do."
+  },
+  "current_kimi_process": "Original watcher remains active for current Kimi pass; use updated watcher for subsequent cohort after known completion.",
+  "no_generation_or_estate_reads_in_test": true
+}

@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-11-26T17:34:04.702672+00:00",
+  "baseline": "saved graded-checkpoint-21/members.json",
+  "members_checked": 248,
+  "all_byte_identical": true,
+  "original_confirmation_image_unchanged": true,
+  "replacement_image_not_deployed": true,
+  "estate_reads": 0,
+  "model_calls": 0
+}

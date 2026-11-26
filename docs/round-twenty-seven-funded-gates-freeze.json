@@ -1,0 +1,14 @@
+{
+  "source": "6731ead4aa64c0c34980f97dd38df75b1167ce26",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:a0e477319eb41c4202bfc45cf62496627646dde5c9f597c1ea5ab3f24b414eeb",
+  "workflow": 45745311009,
+  "cases": 25,
+  "guard": 20,
+  "algorithm_profile": "Unchanged P3 slim evaluator; evaluator cache/body split and Batch transport only",
+  "cash_forecast": "gates-reforecast.json",
+  "cash_forecast_correction": "round-twenty-seven-owner-confirmation-priority.json",
+  "complete_confirmation_forecast_microdollars": 38612307,
+  "cash_reserve_microdollars": 3000000,
+  "calibration_status": "DEFERRED_UNTIL_CONFIRMED_DEC1_BALANCE_AND_CONFIRMATION_GATE_PASS",
+  "no_v5_admission": true
+}

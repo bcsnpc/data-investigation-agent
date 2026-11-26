@@ -896,3 +896,139 @@ Next: verify the preserved Round26 environment/image/fixture/infrastructure, the
 ### Round26 end-of-round hygiene — 2026-11-16
 
 Release closure reused the existing C:/temp/dia-r26-build worktree; dirty D: main edits remain untouched. No new duplicate raw capture copy or worktree was created. The disk admission check passes both40GB C:/80GB D: floors; verified archive staging is empty, Docker/WSL absent, and maintenance Python workers exited. Current protected evidence and small qualification records remain; sealed cloud captures remain in Blob. The earlier admin/policy/unknown-material exceptions remain owner actions, not silent deletions.
+
+
+## Round27 credit observation, 2026-11-17
+
+OpenAI remaining credit and expiry could not be independently read: Windows computer-use and browser inventory both returned `Computer Use native pipe is unavailable ... os error 2`. No sign-in or billing setting was changed. The shared ledger reports OpenAI charged173.878628USD/180USD, which is an internal cap, not proof of cash balance or expiry. Keep the existing cap until a real balance/expiry can be observed; do not manufacture an increase. Offline redesign continues. Anthropic opening charged51.719843USD versus49.255301USD at the owner-reported74.32USD cash observation gives a ledger-derived remaining71.855458USD, with3USD protected; this is not a fresh Console balance. No December grant is admitted without owner confirmation.
+
+
+## Round27 Direct Lake automatic-update API research, 2026-11-17
+
+The Microsoft documentation describes Keep your Direct Lake data up to date as a portal model setting, separate from refresh schedules and DirectLakeBehavior (query fallback). No documented REST or TOM read for that switch has been established in this research; do not infer OFF from schedule.enabled=false, partition RefreshedTime or DirectLakeBehavior. The native INFO.PARTITIONS schema exposes partition refresh/modified times, not that switch. Sources: https://learn.microsoft.com/en-us/fabric/fundamentals/direct-lake-how-it-works and https://learn.microsoft.com/en-us/dax/info-partitions-function-dax . Existing stale expectations and sealed v5 are unchanged. Research is not proof that no undocumented endpoint exists; native switch fast-path availability remains unestablished.
+
+
+Round27 credit action resolved2026-11-17: owner supplied OpenAI31.06USD, expiryNovember29. Recorded as owner-reported, not independently viewed. Account ceiling202.938628USD includes29.06USD new allowance and preserves2USD cash. Conservative start-of-Nov29UTC expiry guard is tested. Browser access is still unavailable; no owner sign-in was requested or changed.
+
+
+## Round27 browser control,2026-11-20
+The native helper now lists Edge, but inspecting its New Tab stopped browser control because the current URL could not be verified. No browser input or model setting changed. The32static cases are running: do not toggle automatic updates during them. The four later stale-refresh cases still need a verified OFF control immediately before their injection and ON/readback after restore. If the browser cannot be controlled in a later authorized turn, owner must operate this one toggle. Original source data remains unchanged and model7661 freshly verified. No undocumented API or cached screenshot is represented as native switch evidence.
+
+
+Round27 update 2026-11-20 owner date / Nov21 UTC: owner opened the fixture workspace in Edge. Windows Computer Use can now read the model refresh panel; Keep your Direct Lake data up to date is visibly ON and Apply disabled. No setting changed. The browser-tab host remains unavailable, but this does not block the working native UI path. The prior request to manually toggle is not needed while this native control remains available; stale cohorts will wait until other tickets are terminal, use a fresh OFF observation, and restore ON afterward.
+
+Round27 2026-11-21: Nova Pro primary grading returned BEDROCK_AccessDeniedException on screenshot packet form-batch14; the later history batch also stopped its primary dispatch. Saved secondary outputs and original dispatches remain. Read-only STS confirms the existing IAM user dia-bedrock; read-only IAM simulation itself is AccessDenied. Cause beyond provider authorization refusal is not established. No model resend, IAM/identity/secret change or score substitution. Owner action: check existing dia-bedrock Amazon Nova Pro invocation entitlement and AWS billing/account status, retaining the Amazon-only/Claude-denied policy; report any required change before applying it. Opus investigations and offline work continue independently.
+
+Round27 offline follow-up,2026-11-21: remaining Opus admissions stay paused under the owner budget order. Authoritative Anthropic headroom17.290650USD, protected calibration14.34USD, free2.950650USD below existing4USDsingle-worker buffer;3USDcash reserve remains excluded. No additional credit confirmation assumed. The current lower-bound P2 estimate is51.93USD, plus unfinishedP1 estimated10.93USD, before protected calibration. Continue offline work; resume credit-dependent admissions only when confirmed funding fits the plan. NovaPro primary grading still needs the existing dia-bedrock authorization/account issue resolved by the owner; no roles or identities changed. Sol secondary grades cover all42attempts, but9primary grades/reviews remain missing, so no final score/freeze.
+
+### Round27 model-read blocker, 2026-11-21
+Owner decision needed before another credential rotation. Azure read-only metadata confirms existing investigator app531419ef-1610-415a-b8bf-01a4b6aad751 credential0b4b4562-5df3-44b1-98c4-6fb28e80df6e expired2026-11-21T18:40:00.660887Z. The fixture model returns HTTP400 DatasetExecuteQueriesError/3242524690 for both a constant DAX query and its measure. Expiration is proven, causation of the generic response is not yet proven. Scoped proposed action: same-purpose30-day secret, existing KeyVault only, update existing fixture/billing Fabric connections, no identity or role change, then bounded model readback. Secret must never enter logs/files/chat. Original source360row/schemahash and temporalON verified; no current model value established. No injection or credential change made. See round-twenty-seven-live-read-blocker.md. Qualification continues; proof unadmitted.
+
+
+Section8 owner-approved rotation executed2026-11-21: existing investigator app531419ef-1610-415a-b8bf-01a4b6aad751 received one30daysecret, stored/readback only in existing KeyVault. Existing billing, mainfixture and application-loadfixture fixed connections updated; sameServicePrincipal/SSONone/modelbindings/users unchanged. Owner-controlled reads passed600/8765/7661 respectively. Expired key0b4b4562 removed only after all3reads and scopecomparison passed. Newexpiry2026-12-21T21:28:50.276696Z. No new identity/permission or data/modeldefinition change, no secret logged. See docs/round-twenty-seven-connection-rotation.json; not an investigator caller attestation.
+
+### Round27 Anthropic authorization hard stop, 2026-11-21
+The Microsoft/Fabric fixed-connection rotation is COMPLETE. A separate credential now blocks Opus: Anthropic returns HTTP401 authentication_error / invalid x-api-key. The pinned aa83144a536a475d94d0a606942e06bf version is already the latest enabled version of anthropic-api-key; older versions were not tried. No provider retry is authorized until this is corrected. Obtain a valid Anthropic workspace API key and run the owner-only hidden-prompt helper:
+
+`D:\data_investigation_agent\.local\llm-env\Scripts\python.exe D:\data_investigation_agent\.local\round-twenty-seven\store_anthropic_key.py`
+
+It writes directly to the existing Key Vault secret with no plaintext secret file, command-line secret or environment variable. Never paste the key into chat. Reply stored afterward; the runner must then pin the new existing Key Vault version and update only its credential references/gateway version declarations. Do not rerun the completed Entra fixed-connection rotation. Three interrupted proof captures are sealed and excluded from quality scoring; no data injection was made. See round-twenty-seven-proof-auth-interruptions.json.
+
+## 2026-11-21: replacement Anthropic credential incomplete
+Owner confirmed storage. The latest enabled Key Vault version 26b235dc5ed24089af418531628fc2e4 contains one character and lacks the expected API-key prefix. Metadata-only provider discovery returned HTTP 400 with an empty body; zero generation calls were made. No older version was tried. The three earlier authentication-interrupted proof attempts remain sealed and unscored; admission pause remains in place. The private hidden-prompt helper now refuses incomplete key shapes before writing to Key Vault. Owner must store the complete key through that helper; no key belongs in chat or files.
+
+
+Resolved 2026-11-21 local / Nov22 UTC: owner approved +6,000 November investigation requests. Cloud/source readback total20,500, INV17,905, SCAN2,500, REST95; counters/history/model/$20Azure limits unchanged. December reverts9,000. Receipt: round-twenty-seven-request-increase.json.
+
+Resolved: the earlier Round27 Anthropic-key notices above are historical. The current pinned existing Key Vault version passed provider discovery and subsequently completed the proof and dev calls; no additional credential action is pending.
+
+Pending 2026-11-22 UTC: turn ON **Keep your Direct Lake data up to date** on **Application load fixture20261003**, Apply, and leave its refresh schedule unchanged. All4 stale tickets are saved; the original360 source rows/business schema are hash-restored, the original restoration load succeeded, and a fresh model read returns7661. OFF was owner-reported; ON/readback is not yet claimed. Fixture P2 tickets wait; unchanged billing/sample work may continue. No credential or permission change is requested.
+
+Resolved: owner confirmed Application load fixture 20261003 automatic updates ON; native refresh accepted202 and model7661. Earlier pending-ON request is resolved by owner report, not independent settings readback.
+
+Round27 owner full-pass3 scope,2026-11-22: current saved P2 costs project about46.13USD for the full failures-plus20guard union (up to41tickets), versus27.37USD dev headroom after protecting14.34USD calibration at the07:16 budget receipt, before remainingP2costs. Exact final scope/headroom will be recomputed whenP2 closes. No ceiling or reserve change is taken, no required guard case is silently omitted, and no partial pass claims a gate. Existing per-case budget guards pause unfinished Opus work at the protected floor; grading/offline work continues. If more cash is needed to finish, the prior owner-directed Dec1 exact-balance confirmation remains required. V5 stays sealed and whole-batch-only.
+
+
+### Round27 protected-budget pause,2026-11-22 08:50UTC
+
+Pass3 has21 saved/independently graded outcomes out of39:14 correct,1 useful nonharmful handoff,1 harmful,5 other incorrect nonharmful. Guard11/13 measured of20required. Eighteen required tickets remain NOT_ADMITTED:4static and14fault. No score/expectation changed or guard result carried. Anthropic charged/committed$202.108251 against$220.284651 policy ceiling, leaving$18.176400; the existing next-case floor is$18.34($14.34calibration protected plus$4inflight allowance). No pending provider exposure; no counter reset or cap increase. New Opus admissions pause under the owner's budget order. Calibration and v5 remain unadmitted; the quality gate also fails on harm and guard misses. Await the already-requested confirmed balance/credit before any further Opus admission. OpenAI graders are current; any grading afterNov29 needs renewed credit confirmation, never an Anthropic/AWS substitution.
+
+The earlier P2 stale source row/schema hash and original real load are restored. One owner setting remains: turn ON Keep your Direct Lake data up to date for Application load fixture20261003, Apply, leave the schedule unchanged. The ON request is already pending; no earlier cohort's ON response is reused. After confirmation, run the prepared native model refresh and verify Completed/7661. No P3 fault was admitted, so no new injection is left active. Round27 is not closed/merged/tagged on this partial result.
+
+
+Round27 final P2 stale restoration verified2026-11-22: owner confirmed automatic updatesON, refresh schedule unchanged. Restoration refreshacb61da4-c7aa-4aa5-b7e3-0be7d613aa1c completed2026-11-22T17:06:44.103Z; native model quantity7661. Source row/schema hash and real original360 restoration load were already verified. Automatic-update setting provenance remains OWNER_REPORTED_SAVED_SETTING; refresh status/value are native reads, not an independent API readback of that switch. No P3fault/model run, score or budget change. Receipt: docs/round-twenty-seven-pass2-final-restoration.json.
+
+
+2026-11-22 owner action completed (execution2026-11-23UTC): “OpenRouter key with a one-time $10 top-up”. Existing Vault key authenticated by no-generation GET /key (200),1000free/day and10USDremaining. Remote key limit resets weekly; DIA enforces10USD lifetime independently, so no request to change the key or enable auto top-up. No secret printed or copied to files. No paid generation admitted.
+
+Round27 Opus planning update2026-11-23: known confirmation scope is25tickets(7measured P3failures includingR17-05 union full20guard; unmeasured P3cases not invented failures). Higher saved same-ticket P2/P3 actuals with existing1.3factor forecast30.187953USD engine usage. Authoritative Anthropic headroom18.176400 minus protected14.34calibration leaves3.836400, a forecast engine shortfall26.351553USD. Separate OpenAI gate-grading cash/November29expiry must also be checked; this is not whole-gate funding approval and does not estimate v5 before calibration. Await already-directed owner credit/balance confirmation; no limit change/Opus admission. Free runs and offline work continue. Receipt: round-twenty-seven-opus-confirmation-budget-preview.json.
+
+
+2026-11-23 16:47UTC current Step4 stale owner action: original30non-stale results are saved/graded and all access data/catalog additions restored. A fresh OFF confirmation is requested for Application load fixture20261003 ? Settings ? Refresh ? Keep your Direct Lake data up to date OFF ? Apply, schedule unchanged. No stale data mutation has been admitted. Do not reuse an earlier cohort toggle receipt. After the two stale cases the controller must hash-restore source, run the original load, then request ON and verify7661. Meanwhile separate failed-job/native-reference repair work continues with serialized controls; no need to repeat the already-completed OpenRouter key action.
+
+
+2026-11-23 17:26:51UTC owner OFF confirmation received for the original two pending Step4 stale cases, schedule unchanged. It is recorded as OWNER_REPORTED_SAVED_SETTING, not native browser readback. No stale source mutation is admitted until the active latency repair cohort is fully hash-restored and its owned schedule removed, then a fresh baseline is checked. A separate ON confirmation and native restored model7661 check remain required after stale data restoration.
+
+
+2026-11-23 18:20UTC current fixture action: turn ON Keep your Direct Lake data up to date for Application load fixture20261003, Apply, schedule unchanged. The source360/business-schema hashes are restored and the original real restoration load SUCCEEDED. One stale start is Azure-unestablished/environment-withdrawn before cleanup; any late capture is unscored, second ticket not run. Do not resubmit the uncertain POST. ON confirmation was requested; prepared finish-owner-on-step4.py/check-owner-on-refresh-step4.py require the actual reply and perform native refresh/value verification. Existing Anthropic confirmation shortfall26.351553USD and protected14.34calibration/3cashreserve remain; no limit change or partialv5.
+
+
+Resolved2026-11-23 19:02UTC: the current Step4 automatic-updatesON owner action is complete. Native refreshCompleted/model7661; originalsourcehashes and realrestorationloadSUCCEEDED. No fixture owner action remains. Azure execution API stillBadGateway and exactwithdrawnrun has no sealedcapture; do not resubmit or grade it. Anthropic confirmation forecast shortfall26.351553USD remains, with14.34calibration and3cashreserveprotected; no new generation or cap change.
+
+
+## Owner gate-and-close direction, 2026-11-25
+
+Authority: Downloads/r27-opus-gates-and-close.md. Close Round27 even when whole-funded quality gates cannot run. Added25USD Anthropic credit; approximate owner cash46USD is conservatively lower than ledger-implied46.1764USD. Organization usage GET401 (workspace key is not Admin API); no exact Console or fresh cash claim. Cloud and code ceiling245.108251USD preserves202.108251USD charged,43USD spendable,3USD excluded reserve. Existing purposes and all counters/estate allocations unchanged. Auto-reload off; no new model call.
+
+Caching already marked system and investigation tools; helper tools now receive their own last-tool breakpoint without pinning another helper schema, controlled by existing cache switch. Static-only owned Batch path prepared with50% rate card, reservation before POST, no retry of unknown submission, owned-ID polling/results and unchanged model/tool allowlists. Faults stay normal. No live Batch savings claimed.
+
+61proven flags folded into defaults;3measured evaluator modes remain. Old default-true configuration keys are compatibility no-ops; old off ablations are refused explicitly. Historical test sources are archived under scripts/fixtures/round27-retired-ablations. Current read-only and other safety checks remain active. Saved123 status/after classifications unchanged against qualifiedc7a06c1f.
+
+Whole confirmation25cases forecast37.568245USD with static Batch, cache-miss allowance and1.3 margin, calibration14.34USD protected,3reserve: short8.908245USD against approximate46. No partial confirmation. Calibration andv5 not admitted; v5 sealed. The optimistic saved-hit equivalent18.008947USD is reported separately and is not a promise of Batch cache hits.
+
+Browser tool unavailable (required node_repl/sky not exposed). No toggle changed; two stale cases skipped. Prior uncertain start stays unscored, never duplicated. Owner ON and completed refresh/model7661/source hashes remain last verified restoration; fresh UI readback not claimed. Closure continues as expressly directed.
+
+
+Round27 close: tool execution policy rejected deletion of two exact-archived unused generators (blocked by policy). Nothing was deleted. Owner may run .local/round-twenty-seven/cleanup-verified-obsolete-generators.ps1 after reviewing docs/round-twenty-seven-dead-code-cleanup.json; expected5274bytes. C/D guards already pass, so no evidence or cache deletion is needed to admit release checks. Browser node_repl/sky capability is absent: owner may independently reopen the one approved model refresh setting to verify ON; no setting change was attempted in the close run.
+
+Round27cleanup scope clarification: 96 historical worktree registrations/directories already exist in the shared repository, including protected dirty owner work. This run created none and used only the existing C:/temp/dia-r26-build worktree. They were not deleted or silently called clean; deletion policy and source/evidence review remain owner work. The old main checkout D:/dia-r19-main is preserved; current release can inspect the merged commit detached in the active worktree.
+
+
+## Round 27 close: actions remaining (2026-11-25 owner / November 26 UTC)
+
+1. Confirm the December Anthropic cash balance. The complete confirmation plus protected calibration and reserve is currently short by $8.908245; a grant alone does not earn either gate. V5 stays sealed until confirmation and calibration pass and its whole-run forecast fits.
+2. Recheck independent grading funding: current OpenAI credit expires November 29. Paid OpenRouter remains blocked.
+3. Reopen Application load fixture 20261003 > Refresh and verify automatic updates are ON. This close task made no toggle change. Source hashes and model 7,661 match; current browser readback is unavailable.
+4. December budget readiness is unconfirmed; no account or grant was created during closure. Current access checks pass; the next-month check is a warning.
+5. Review the daily demo check's aggregate-result shape handling in Round 28. SUM plus COUNT in one native row is rejected by the frozen one-column comparator; actual smoke statuses remain FAIL.
+6. Optional owner cleanup: .local/round-twenty-seven/cleanup-verified-obsolete-generators.ps1 frees only 5,274 bytes. Tool policy rejected deletion, and the exact archived originals remain. Historical worktrees require separate source/evidence review; none were deleted.
+
+
+## Owner extra-credit gate steer, 2026-11-25 / execution November 26 UTC
+
+Owner added10USD; approximate cash56USD (lower than ledger-implied56.1764), reserve3, auto-reloadOFF. Workspace usage endpoint still401/notAdminAPI, so no exact API cash claim. Before any gate call, cloud/code normalized ceiling255.108251 preserves202.108251 charged. PR435 remains open/draft; no merge/tag. Close smoke admission controller was stopped before any final-policy live submission. Earlier sealed smoke failures remain.
+
+The37.568245USD forecast ALREADY includes50% Batch for17 static cases with saved per-ticket tokens; one additional static case lacks saved counts and retains a conservative1.43USD imputation without further discount. Evaluator stable ticket/current-cited-evidence now has a cache breakpoint before changing draft/feedback; no removed or uncited evidence is pinned. New cache savings are NOT assumed in the forecast. Calibration remains14.34, reserve3:54.908245 total vs56,1.091755 headroom. Requalify/freeze cache and static transport wiring before calls; independent Sol/Astra plus Terra disagreements. Confirmation requires all20guard and0reviewedharm; calibration then70%/0harm; v5sealed until Dec1confirmed. Original close-not-admitted forecast/receipts remain historical, superseded by gates-reforecast.
+
+
+## Owner confirmation priority, 2026-11-25 / November26UTC
+
+After the evaluator write-premium correction, the full conservative confirmation+calibration+reserve forecast is56.223674USD against the lower56USD balance. Owner explicitly prioritizes the FULL confirmation now, keeps3USD cash reserve, and moves calibration to after confirmedDec1balance. Complete confirmation alone38.612307+3 fits. Released only the14.611367calibration hold in the existing raw account protected field; cash3, normalizedcap255.108251, rawcap258.108251 and all charges stay unchanged. No request limit increase. Both first tickets continue unchanged; all25 remain required; no partial gate. V5sealed and calibration not admitted now. See round-twenty-seven-owner-confirmation-priority.json.
+
+
+Owner priority clarification,2026-11-25/executionNov26: calibration is deferred until confirmedDec1 Anthropic balance AND a passed full confirmation gate. Existing OpenAI grading credit expiresNov29. Before deferred calibration, confirm valid independent-grading funding/provider authority as well; do not send against expired credit or silently substitute another paid provider. V5 remains sealed and requires its own whole-run budget gate. No action is needed from the away owner for the current full25 confirmation.
+
+
+### Blocking existing SQL free allowance, 2026-11-26 UTC
+The full Opus confirmation has 21/25 saved and independently graded, not a final gate. The ordersops source returned SQL42119: November free allowance exhausted; Azure readback confirms Paused, useFreeLimit=true, freeLimitExhaustionBehavior=AutoPause. It renews Dec1 00:00UTC. The original source rows/schema hashes were already restored; the downstream restoration copy failed3161 and remains unverified. No replacement scored ticket or paid-overage change was made. Owner decision pending: leave AutoPause and resume after Dec1, or authorize this database only to continue with additional charges (Azure SQL ordersops > Compute + storage > free-limit exhaustion option). Do not change the cap or use a paid setting without that decision. Restore the original360 copy and verify model7661 before resuming the four remaining confirmation cases. Calibration remains deferred to confirmedDec1balance; OpenAI grading expiresNov29, so resumed grading may separately need renewed approved credit. See round-twenty-seven-confirmation-source-allowance-block.json.
+
+
+### Owner source renewal decision, 2026-11-26
+Owner chose: "Wait until Dec 1; continue offline." Do not enable paid continuation on ordersops, change AutoPause, or admit source-dependent/live confirmation work before renewal. The free allowance renews2026-12-01 00:00UTC (November30 18:00America/Chicago). Source hashes were restored before pause; downstream original360 load/model7661 verification remains pending and is the first live step after renewal. Preserve21saved outcomes and four unadmitted tickets; the original confirmation image is unchanged. Calibration still requires a passed full confirmation and confirmedDec1balance; v5 remains sealed. No model/estate caps, counters, roles or secrets changed. Offline qualification is6185PASS/53skip/all8shardsPASS, and all non-skipped hosted checks onb1b19d3a passed. PR435 remainsdraft/unmerged, no v0.27tag. See round-twenty-seven-owner-source-renewal-wait.json.
+
+The earlier paid-SQL decision request is RESOLVED as WAIT; no paid SQL action is requested now. At Dec1, verify current-month ledger ceilings/accounts without carrying November overrides forward, and confirm Anthropic cash. OpenAI grading credit expiresNov29, before source renewal: the four remaining independent grades require valid approved funding/expiry then. Do not use expired credit or substitute a grader without owner authorization.
+
+
+## December 1 funding and original confirmation first
+
+OpenAI grading credit expires Nov29; valid December grading funding/top-up is needed. Owner must confirm the exact Dec1 Anthropic balance. SQL billing decision is already WAIT: restore downstream and verify original hashes/model7661 after free renewal, then finish/grade the four outstanding original-image confirmation cases BEFORE the repaired-image SuperVL proof, one Opus failure-only attempt, and any funded calibration. Keep3USD reserve; v5 stays sealed.

@@ -1,0 +1,16 @@
+{
+  "at_utc": "2026-11-26T06:18:28.607357+00:00",
+  "status": "VERIFIED_CHECKPOINT_COPY_NOT_COMPLETE_COHORT",
+  "blob": "https://diaplatformd5dd7d65.blob.core.windows.net/captures/round-twenty-seven/checkpoints/confirmation-21-pending-not-final-29b9d0eb277047ba900c5829bdee76eaaf827c49daafdaea3809f2f7b23b1934.zip",
+  "sha256": "29b9d0eb277047ba900c5829bdee76eaaf827c49daafdaea3809f2f7b23b1934",
+  "bytes": 2329567,
+  "members": 248,
+  "results": 21,
+  "required_results": 25,
+  "azure_content_md5_matches": true,
+  "tier": "Cool",
+  "downloaded": false,
+  "deleted": false,
+  "completed_grades_included": true,
+  "originals_unchanged": true
+}

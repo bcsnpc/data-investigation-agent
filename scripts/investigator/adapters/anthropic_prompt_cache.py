@@ -61,3 +61,39 @@ class StablePrefix:
                 'total_input_tokens':sum(counts[key]for key in('input_tokens','cache_creation_input_tokens','cache_read_input_tokens')),
                 'subsequent_cache_read_check':'NOT_APPLICABLE'if self.calls==1 else'PASS'if counts['cache_read_input_tokens']>0 else'FAIL',
                 'ttl':'5m','minimum_cacheable_tokens':512,'diagnostic_only':False}
+
+
+def evaluator_prefix(body):
+    """Cache retained definitions; keep ticket/draft/native reads after it.
+
+    Rebuild from current cited evidence each time: never retain evidence removed
+    by a later draft, and never expose investigation messages to the evaluator.
+    Tool/system breakpoints remain shared across tickets; this per-ticket
+    breakpoint survives different tickets using the same cited definitions,
+    additional query IDs/results and formatting retries.
+    """
+    import json
+    result=deepcopy(body)
+    if [t.get('name')for t in result['tools']]!=['evaluate_delivery']:
+        return result,None
+    messages=result['messages']
+    if len(messages)!=1 or messages[0].get('role')!='user' or not isinstance(messages[0].get('content'),str):
+        return result,None
+    try:packet=json.loads(messages[0]['content'])
+    except (ValueError,TypeError):return result,None
+    if not isinstance(packet,dict)or not {'ticket','draft','cited_evidence'}<=packet.keys():
+        return result,None
+    # Native results contain query IDs/times and grow between drafts. Caching
+    # the entire cited map invalidated a large prefix on almost every call.
+    # Only actual retained definitions belong before this breakpoint. Keep the
+    # complete CURRENT cited map afterwards: removed evidence is never retained.
+    definitions={key:record for key,record in packet['cited_evidence'].items()
+                 if isinstance(record,dict) and record.get('content') and record.get('provenance')}
+    stable={'retained_definitions':definitions}
+    changing={**packet,'cited_evidence':{key:value for key,value in packet['cited_evidence'].items()
+                                       if key not in definitions}}
+    result['messages']=[{'role':'user','content':[
+        {'type':'text','text':canonical(stable),'cache_control':{'type':'ephemeral'}},
+        {'type':'text','text':canonical(changing)}]}]
+    digest=sha256(canonical([result['tools'],result['system'],stable]).encode()).hexdigest()
+    return result,digest

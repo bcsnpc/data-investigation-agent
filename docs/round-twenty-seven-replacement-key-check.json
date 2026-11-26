@@ -1,0 +1,17 @@
+{
+  "at_utc": "2026-11-21T23:53:19.026969+00:00",
+  "secret_version": "26b235dc5ed24089af418531628fc2e4",
+  "http_status": 400,
+  "generation_calls": 0,
+  "secret_printed_or_written": false,
+  "key_shape": {
+    "expected_prefix": false,
+    "length": 1,
+    "surrounding_whitespace": false
+  },
+  "response_metadata": {
+    "Content-Length": "0"
+  },
+  "error_type": "NON_JSON_RESPONSE",
+  "error_message": ""
+}

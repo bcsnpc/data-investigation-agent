@@ -1,0 +1,21 @@
+{
+  "stage": "ADMISSION",
+  "ticket": "form-v2-warehouse-scope-v2",
+  "original_error": "QueryCanceled: canceling statement due to statement timeout",
+  "original_native_submissions": 0,
+  "original_model_calls": 0,
+  "original_record": "SAME_CASELOG_PRESERVED",
+  "read_only_metadata_health": {
+    "other_activity": [],
+    "waiting_locks": [],
+    "root_cause_established": false
+  },
+  "owner_authority": "Existing safe read-only operation retry; no counter or budget-limit change",
+  "retry": "ONCE; first native attempt finished NEEDS_INPUT / UNKNOWN_REPORT",
+  "settings_roles_or_identities_changed": false,
+  "actual_native_execution": "job-dia-worker-i0utm4c",
+  "actual_native_capture_seal": "769b2c5f755acfedf13c6fe7ee1cc1b8f76db0257d1bf30b0d427d676b5ce452",
+  "actual_outcome_scored": "Incorrect, non-harmful; retained, not excluded",
+  "actual_model_calls": 0,
+  "input_diagnosis": "Source form report reference differs from the known report by two transposed characters; page and visual are the same as the valid variant. Ticket bytes and expectations unchanged."
+}

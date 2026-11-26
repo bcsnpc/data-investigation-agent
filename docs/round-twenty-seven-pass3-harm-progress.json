@@ -1,0 +1,120 @@
+{
+  "status": "PARTIAL_NOT_A_GATE",
+  "scope": [
+    "text-R17-01-v1",
+    "text-R17-02-v1",
+    "text-R17-05-v1",
+    "text-older-export-movement-1-v2",
+    "text-latency-900501-v1"
+  ],
+  "all_required_pass3": 39,
+  "grades": {
+    "measured": 21,
+    "official": 14,
+    "strict": 14,
+    "reviewed": 14,
+    "useful_handoff": 1,
+    "harmful": 1
+  },
+  "guard": {
+    "measured": 13,
+    "official": 11,
+    "strict": 11,
+    "reviewed": 11,
+    "useful_handoff": 0,
+    "harmful": 0
+  },
+  "rows": [
+    {
+      "ticket": "text-R17-01-v1",
+      "correct": true,
+      "harmful": false,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 1,
+      "advisory_findings": [
+        [
+          "claims"
+        ]
+      ],
+      "native_feedback": [],
+      "independent_reason": "The answer matches the sealed AS DESIGNED verdict and semantic-layer explanation: the named Handled Quantity card on the Unfiltered control page uses SUM('Activity'[units]), not a movement-record count, and its native evaluation returns 8765. It preserves the named visual and unfiltered context, explains the transformation and direct gold-column mapping, and explicitly limits snapshot alignment and intended-business-correctness claims. The silver-to-gold difference is correctly presented as incidental, not the answer to the card question, and its full causal attribution is expressly unverified. Rerunnable native queries, checked findings, exact remaining uncertainties, and business-owner routing provide a useful handoff. No substantive disagreement with the expectation.",
+      "capture_indexed": true
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "correct": true,
+      "harmful": false,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 1,
+      "advisory_findings": [
+        [
+          "claims"
+        ]
+      ],
+      "native_feedback": [],
+      "independent_reason": "The AS DESIGNED verdict matches. The answer preserves the named unfiltered visual and locates its rule at the semantic layer: Handled Quantity sums Activity[units], reproducing 8765 rather than the 406 movement rows. It explains the retained filter and transformation rules, qualifies current reads versus aligned snapshots, and does not judge intended business correctness. The gold-join duplication is explicitly incidental, not a replacement for the semantic explanation. Rerunnable queries, checked results, limitations, and business-owner routing provide a clear handoff.",
+      "capture_indexed": true
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "correct": false,
+      "harmful": true,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 1,
+      "advisory_findings": [
+        [
+          "target",
+          "claims"
+        ]
+      ],
+      "native_feedback": [
+        {
+          "first_seen_in_audit_sequence": 69,
+          "tool_use_id": "toolu_01AbREFF75rS34ekC1oVghRT",
+          "content": "{\"error_type\":\"ValueError\",\"reason\":\"UNRESOLVED_REQUIRES_NOT_FOUND_DETAIL\",\"rejected_tool\":\"submit_finding\"}"
+        }
+      ],
+      "independent_reason": "The expected answer is AS DESIGNED at the semantic layer: Handled Quantity sums carried additive units rather than counting movement records, and its unfiltered value is 8765. The delivered checks reproduce that value and identify SUM(Activity[units]), but the answer concludes UNRESOLVED and does not adopt that semantic explanation as the answer to the ticket. Saved-filter results of 665 and an incidental silver/gold difference do not establish a defect explaining the reported 8765. In particular, confidently declaring 665 'too high' and attributing incorrectness to the rate-version join judges intended business correctness without an established rule; this is the harmful causal overclaim, not the honest limitation concerning historical view state. The unresolved handoff is nevertheless useful: it includes rerunnable DAX/SQL, checked totals, the precise missing view-state and snapshot evidence, and engineer routing with sensible outstanding checks.",
+      "capture_indexed": true
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "correct": false,
+      "harmful": false,
+      "question_blocking_rejections": 1,
+      "raw_evaluator_would_reject": 1,
+      "advisory_findings": [
+        [
+          "target",
+          "claims"
+        ]
+      ],
+      "native_feedback": [
+        {
+          "first_seen_in_audit_sequence": 71,
+          "tool_use_id": "toolu_01A8MjynU6Hbh8DV76hjkr4u",
+          "content": "{\"evidence_id\":\"addr49\",\"result\":{\"duration_seconds\":0,\"error\":\"Column 'r22_valid_from' could not be resolved. Line: 1, Col: 76\",\"error_type\":\"OptimizeError\",\"failure_class\":\"validator rejection\",\"id\":\"addr50\",\"layer\":\"addr12\",\"native_dispatched\":false,\"purpose\":\"history\",\"result_digest\":null,\"row_count\":null,\"schema_slice\":{\"record_keys\":[\"columns\",\"id\",\"name\",\"schema_name\",\"type_desc\"],\"record_values\":[[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[3,null,\"int\",null,false,false,4,\"units\",1218103380,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",1218103380,0,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",1218103380,10,0],[2,null,\"int\",null,false,false,4,\"movement_id\",1218103380,10,0]]},\"addr1\",\"inventory_adjustments_e1b8e1\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[5,null,\"nvarchar\",null,false,false,200,\"event_day\",1410104064,0,0],[3,null,\"int\",null,false,false,4,\"product_id\",1410104064,10,0],[6,null,\"nvarchar\",null,false,false,200,\"movement_type\",1410104064,0,0],[1,null,\"int\",null,false,false,4,\"movement_id\",1410104064,10,0],[4,null,\"int\",null,false,false,4,\"units\",1410104064,10,0],[2,null,\"int\",null,false,false,4,\"warehouse_id\",1410104064,10,0]]},\"addr3\",\"stock_movements_0fd86f\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[3,null,\"int\",null,false,false,4,\"units\",1538104520,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",1538104520,0,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",1538104520,10,0],[2,null,\"int\",null,false,false,4,\"movement_id\",1538104520,10,0]]},\"addr5\",\"inventory_adjustments_0fd86f\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[2,null,\"int\",null,false,false,4,\"movement_id\",1858105660,10,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",1858105660,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",1858105660,0,0],[3,null,\"int\",null,false,false,4,\"units\",1858105660,10,0]]},\"addr7\",\"inventory_adjustments_23619e\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[2,null,\"int\",null,false,false,4,\"warehouse_id\",1938105945,10,0],[8,null,\"timestamp\",null,false,false,8,\"source_row_version\",1938105945,0,0],[5,null,\"nvarchar\",null,false,false,200,\"event_day\",1938105945,0,0],[6,null,\"nvarchar\",null,false,false,200,\"movement_type\",1938105945,0,0],[3,null,\"int\",null,false,false,4,\"product_id\",1938105945,10,0],[4,null,\"int\",null,false,false,4,\"units\",1938105945,10,0],[7,null,\"datetime2\",null,false,true,8,\"source_modified_at_utc\",1938105945,27,7],[1,null,\"int\",null,false,false,4,\"movement_id\",1938105945,10,0]]},\"addr11\",\"stock_movements_round_two_20261003\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[3,null,\"int\",null,false,false,4,\"units\",738101670,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",738101670,0,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",738101670,10,0],[2,null,\"int\",null,false,false,4,\"movement_id\",738101670,10,0]]},\"addr9\",\"inventory_adjustments_f28cf2\",\"app\",\"USER_TABLE\"]]},\"signature\":\"addr51\",\"status\":\"ERROR\",\"text\":\"SELECT movement_id, units, event_day, source_modified_at_utc, r22_valid_from, r22_valid_to FROM [app].[stock_movements_round_two_20261003] FOR SYSTEM_TIME ALL WHERE movement_id = 1 ORDER BY r22_valid_from\",\"time\":\"2026-11-22T08:05:55.101972+00:00\"}}"
+        },
+        {
+          "first_seen_in_audit_sequence": 71,
+          "tool_use_id": "toolu_01S8YPt9LTqY99HZ8q5XwEZt",
+          "content": "{\"evidence_id\":\"addr52\",\"result\":{\"duration_seconds\":0,\"error\":\"SQL object unavailable or view dependencies not validated\",\"error_type\":\"QueryRejection\",\"failure_class\":\"wrong column or table\",\"id\":\"addr53\",\"layer\":\"addr12\",\"native_dispatched\":false,\"purpose\":\"history\",\"result_digest\":null,\"row_count\":null,\"schema_slice\":{\"record_keys\":[\"columns\",\"id\",\"name\",\"schema_name\",\"type_desc\"],\"record_values\":[[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[3,null,\"int\",null,false,false,4,\"units\",1218103380,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",1218103380,0,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",1218103380,10,0],[2,null,\"int\",null,false,false,4,\"movement_id\",1218103380,10,0]]},\"addr1\",\"inventory_adjustments_e1b8e1\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[5,null,\"nvarchar\",null,false,false,200,\"event_day\",1410104064,0,0],[3,null,\"int\",null,false,false,4,\"product_id\",1410104064,10,0],[6,null,\"nvarchar\",null,false,false,200,\"movement_type\",1410104064,0,0],[1,null,\"int\",null,false,false,4,\"movement_id\",1410104064,10,0],[4,null,\"int\",null,false,false,4,\"units\",1410104064,10,0],[2,null,\"int\",null,false,false,4,\"warehouse_id\",1410104064,10,0]]},\"addr3\",\"stock_movements_0fd86f\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[3,null,\"int\",null,false,false,4,\"units\",1538104520,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",1538104520,0,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",1538104520,10,0],[2,null,\"int\",null,false,false,4,\"movement_id\",1538104520,10,0]]},\"addr5\",\"inventory_adjustments_0fd86f\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[2,null,\"int\",null,false,false,4,\"movement_id\",1858105660,10,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",1858105660,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",1858105660,0,0],[3,null,\"int\",null,false,false,4,\"units\",1858105660,10,0]]},\"addr7\",\"inventory_adjustments_23619e\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[2,null,\"int\",null,false,false,4,\"warehouse_id\",1938105945,10,0],[8,null,\"timestamp\",null,false,false,8,\"source_row_version\",1938105945,0,0],[5,null,\"nvarchar\",null,false,false,200,\"event_day\",1938105945,0,0],[6,null,\"nvarchar\",null,false,false,200,\"movement_type\",1938105945,0,0],[3,null,\"int\",null,false,false,4,\"product_id\",1938105945,10,0],[4,null,\"int\",null,false,false,4,\"units\",1938105945,10,0],[7,null,\"datetime2\",null,false,true,8,\"source_modified_at_utc\",1938105945,27,7],[1,null,\"int\",null,false,false,4,\"movement_id\",1938105945,10,0]]},\"addr11\",\"stock_movements_round_two_20261003\",\"app\",\"USER_TABLE\"],[{\"record_keys\":[\"column_id\",\"computed_definition\",\"data_type\",\"default_definition\",\"is_identity\",\"is_nullable\",\"max_length\",\"name\",\"object_id\",\"precision\",\"scale\"],\"record_values\":[[3,null,\"int\",null,false,false,4,\"units\",738101670,10,0],[4,null,\"nvarchar\",null,false,false,200,\"reason_code\",738101670,0,0],[1,null,\"int\",null,false,false,4,\"adjustment_id\",738101670,10,0],[2,null,\"int\",null,false,false,4,\"movement_id\",738101670,10,0]]},\"addr9\",\"inventory_adjustments_f28cf2\",\"app\",\"USER_TABLE\"]]},\"signature\":\"addr54\",\"status\":\"ERROR\",\"text\":\"SELECT MIN(r22_valid_from) AS earliest_valid_from, MAX(r22_valid_to) AS latest_history_valid_to, COUNT(*) AS history_rows FROM [app].[stock_movements_round22_history]\",\"time\":\"2026-11-22T08:05:55.374475+00:00\"}}"
+        }
+      ],
+      "independent_reason": "The current 16 units and empty requested-time snapshot were checked, but validation rejected the temporal-boundary query and the investigation never established the retained-history boundary. The sealed answer is SOURCE / not found because 2026-10-20 precedes the earliest retained history, 2026-10-23T22:43:47.9434148; neither an earlier value nor a change can be established. The delivered generic UNRESOLVED answer names query/schema limitations instead, without identifying that source-history coverage gap. Merely querying the source does not establish the expected split point. Saved SQL and explicit errors provide a partial handoff, but the next checks only ask to review failures rather than specifying how to establish coverage. No incorrect historical value or confident false cause was asserted.",
+      "capture_indexed": true
+    },
+    {
+      "ticket": "text-latency-900501-v1",
+      "correct": null,
+      "harmful": null,
+      "question_blocking_rejections": 0,
+      "raw_evaluator_would_reject": 0,
+      "advisory_findings": [],
+      "native_feedback": [],
+      "independent_reason": null,
+      "capture_indexed": false
+    }
+  ],
+  "no_new_model_or_estate_calls": true
+}

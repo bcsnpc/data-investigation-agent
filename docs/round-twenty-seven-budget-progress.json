@@ -1,0 +1,89 @@
+{
+  "observed_utc": "2026-11-21T18:50:56.796731+00:00",
+  "authoritative_read_only_snapshot": {
+    "observed_utc": "2026-11-21T18:50:56.796731+00:00",
+    "providers": {
+      "month_utc": "2026-11",
+      "providers": {
+        "anthropic": {
+          "charged_microdollars": 103284651,
+          "committed_microdollars": 103284651,
+          "ceiling_microdollars": 120575301,
+          "warning_microdollars": 114575301,
+          "warning": false
+        },
+        "openai": {
+          "ceiling_microdollars": 202938628,
+          "warning_microdollars": 197126628,
+          "allowed_purposes": [
+            "GRADING",
+            "SMOKE"
+          ],
+          "credit_expiry_utc": "2026-11-29T00:00:00Z",
+          "owner_reported_cash_microdollars": 31060000,
+          "protected_cash_microdollars": 2000000,
+          "credit_source": "Owner chat2026-11-17:31.06 expiresNov29; conservative start-of-date UTC cutoff",
+          "charged_microdollars": 174851364,
+          "committed_microdollars": 174851364,
+          "provisioned": true,
+          "warning": false
+        },
+        "bedrock": {
+          "ceiling_microdollars": 20000000,
+          "warning_microdollars": 16000000,
+          "scope": "round27; existing account retained, historical charges not reset",
+          "allowed_vendor": "amazon-nova-only",
+          "allow_claude": false,
+          "charged_microdollars": 1261833,
+          "committed_microdollars": 1261833,
+          "provisioned": true,
+          "warning": false
+        }
+      },
+      "combined_charged_microdollars": 279397848,
+      "combined_committed_microdollars": 279397848
+    },
+    "physical": {
+      "mode": "BUILD_PHASE",
+      "month_utc": "2026-11",
+      "used": {
+        "INVESTIGATION": 9446,
+        "SCAN": 2404,
+        "RESTORATION": 51
+      },
+      "limits": {
+        "SCAN": 2500,
+        "INVESTIGATION": 11905,
+        "RESTORATION": 95
+      },
+      "total": 11901,
+      "total_limit": 14500,
+      "historical_restoration_requests": 0,
+      "restoration_remaining": 44,
+      "warnings": [
+        "SCAN_MONTHLY_80_PERCENT",
+        "PHYSICAL_MONTHLY_80_PERCENT"
+      ]
+    }
+  },
+  "provisional_estimate": {
+    "observed_utc": "2026-11-21T18:50:56.796731+00:00",
+    "preliminary_not_final_selection": true,
+    "measured_main_attempts_costed": 42,
+    "saved_mean_microdollars": 1051298.9761904762,
+    "reviewed_failures_current": 29,
+    "fixed_guard_unique_tickets": 20,
+    "current_union_lower_bound": 38,
+    "remaining_pass1_not_run": 8,
+    "anthropic_headroom_microdollars": 17290650,
+    "calibration_protected_microdollars": 14340000,
+    "reserve_already_excluded_by_ceiling": 3000000,
+    "available_after_calibration_microdollars": 2950650,
+    "pass2_estimate_1p3_microdollars": 51934169,
+    "remaining_pass1_estimate_1p3_microdollars": 10933509,
+    "fits_now": false,
+    "existing_single_worker_buffer_microdollars": 4000000,
+    "budget_changed": false,
+    "action": "Opus-only pause. Keep P1 remaining on repair image, P2 after P1/final grades, calibration after P2. Owner-confirmed balance needed before credit-dependent admissions; no partial v5."
+  }
+}

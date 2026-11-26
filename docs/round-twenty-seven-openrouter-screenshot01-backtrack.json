@@ -1,0 +1,42 @@
+{
+  "observed_utc": "2026-11-23T10:49:32.006493+00:00",
+  "ticket": "form-v2-screenshot-record-01-v1",
+  "capture_seal": "5f921b1821d33a4c690ce3b2a9d50017c087d41291fb24841ee30de3b83a10ab",
+  "first_wrong_step": "source-consistency validation feedback at audit1523",
+  "classification": "DIA_MISLEADING_VALIDATION_FEEDBACK_WITH_NARROW_PROOF_SHAPE; subsequent model query choices separate",
+  "actual_guard": "grounded_answers.finding requires one-cell scalar results per required layer, or the existing typed record_trace proof for specific record issue kinds. Multi-column native result sets are not accepted by that branch.",
+  "native_reads_before_first_rejection": {
+    "all_three_succeeded": true,
+    "source_and_landing_rows": 15,
+    "model_rows": 15,
+    "target_record_visible": {
+      "movement_id": 2,
+      "units": 17
+    }
+  },
+  "error_feedback": [
+    {
+      "sequence": 1523,
+      "error_type": "ValueError",
+      "reason": "SOURCE_CONSISTENCY_UNESTABLISHED: unread layers native:4caf47d120d4fd198ffe, native:9e3796a26d8d5c1a039e, native:e95b94fd338e7086320f",
+      "rejected_tool": "submit_finding"
+    },
+    {
+      "sequence": 3727,
+      "error_type": "ValueError",
+      "reason": "SOURCE_CONSISTENCY_UNESTABLISHED: unread layers native:4caf47d120d4fd198ffe, native:9e3796a26d8d5c1a039e, native:e95b94fd338e7086320f",
+      "rejected_tool": "submit_finding"
+    }
+  ],
+  "ordering": {
+    "initial_reads": 700,
+    "first_as_designed_draft": 1520,
+    "guard_feedback": 1523,
+    "unrelated_table_proposals": 12378
+  },
+  "correction_to_preliminary_interpretation": "The later table proposals are not the first observed failure. Calling the entire run a model query-construction error would hide the earlier DIA proof-shape/feedback obstruction.",
+  "fix_plan": "After qualification, improve the generic comparison/record proof contract and report the exact missing proof rather than claiming a measured layer was unread. Do not infer equality from arbitrary multirow results or relax provenance, identity, target or read-only checks. Preserve the original outcome and single Sol grade.",
+  "no_engine_change_yet": true,
+  "operator_feedback_projection_sha256": "fb3da31858e8242b2f1c220bb9c1bfd4cdd669a12035a60b68ad433983bc89fc",
+  "quality_scope": "DEV_ONLY_NOT_A_GATE"
+}

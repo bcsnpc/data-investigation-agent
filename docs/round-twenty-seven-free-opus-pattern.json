@@ -1,0 +1,264 @@
+{
+  "label": "FREE DEV PATTERN COMPARISON ONLY; not calibration or quality gate",
+  "historical_opus_projection": {
+    "reviewed_correct": 13,
+    "required": 15,
+    "composition": "Earlier baseline plus owner-approved failed-only evaluator-advisory reruns; original scores unchanged."
+  },
+  "kimi_scored": 13,
+  "kimi_correct": 8,
+  "classification_agreement_on_scored": 9,
+  "limitations": "Historical Opus used older code/evaluator settings and two graders plus review. Kimi uses current mixed-image proof and one Sol dev grader. This is not an isolated causal model comparison; missing rows are not scored failures.",
+  "rows": [
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": false,
+      "kimi_harmful": false,
+      "kimi_status": "UNRESOLVED",
+      "same_correctness_classification": false
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": false,
+      "kimi_harmful": false,
+      "kimi_status": "UNRESOLVED",
+      "same_correctness_classification": false
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": false,
+      "kimi_harmful": false,
+      "kimi_status": "UNRESOLVED",
+      "same_correctness_classification": false
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": null,
+      "kimi_harmful": null,
+      "kimi_status": "ENVIRONMENT_AFFECTED_TRANSPORT_INTERRUPTED_UNSCORED",
+      "same_correctness_classification": null
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "historical_opus_reviewed_correct": false,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": null,
+      "kimi_harmful": null,
+      "kimi_status": "AZURE_SUBMISSION_UNESTABLISHED_NOT_SCORED_NOT_RETRIED",
+      "same_correctness_classification": null
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": true,
+      "kimi_harmful": false,
+      "kimi_status": "ANSWERED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "historical_opus_reviewed_correct": false,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": false,
+      "kimi_harmful": false,
+      "kimi_status": "UNRESOLVED",
+      "same_correctness_classification": true
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "historical_opus_reviewed_correct": true,
+      "historical_opus_harmful": false,
+      "kimi_single_sol_correct": false,
+      "kimi_harmful": false,
+      "kimi_status": "UNRESOLVED",
+      "same_correctness_classification": false
+    }
+  ],
+  "kimi_unscored_environment": 2,
+  "openrouter_supervl_original": {
+    "graded": 15,
+    "fully_correct": 6,
+    "harmful": 1,
+    "classification_agreement": 6,
+    "rows": [
+      {
+        "ticket": "form-v2-application-baseline-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-billing-invoices-v2",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": true,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": true
+      },
+      {
+        "ticket": "form-v2-billing-mrr-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-failed-application-load-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": true,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": true
+      },
+      {
+        "ticket": "form-v2-failed-billing-transform-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": true,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-fixture-quantity-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": true,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": true
+      },
+      {
+        "ticket": "form-v2-latency-record-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": true,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": true
+      },
+      {
+        "ticket": "form-v2-record-absent-everywhere-v1",
+        "historical_opus_reviewed_correct": false,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": true
+      },
+      {
+        "ticket": "form-v2-record-repeated-gold-v2",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": true,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": true
+      },
+      {
+        "ticket": "form-v2-screenshot-record-01-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-screenshot-record-02-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-screenshot-record-03-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-screenshot-record-04-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-source-history-v2",
+        "historical_opus_reviewed_correct": false,
+        "openrouter_supervl_single_sol_correct": true,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      },
+      {
+        "ticket": "form-v2-warehouse-scope-v1",
+        "historical_opus_reviewed_correct": true,
+        "openrouter_supervl_single_sol_correct": false,
+        "openrouter_supervl_harmful": false,
+        "same_correctness_classification": false
+      }
+    ],
+    "limitations": "Original15 current77267image vs historical Opus mixed outcomes/settings. Sol-only DEV grading; no causal provider claim. Three confirmed DIA contract/representation gaps repaired only after original15; affected reruns kept separate. Correct-case detail caveats preserved in original progress."
+  }
+}

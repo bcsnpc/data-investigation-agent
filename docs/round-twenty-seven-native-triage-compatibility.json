@@ -1,0 +1,14 @@
+{
+  "scope": "Saved investigation response/native-read compatibility, not123successful exact replays",
+  "cases": 123,
+  "classifications": {
+    "REPLAY_FAILURE": 29,
+    "REPLAY_FINISHED": 85,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "classification_changes": [],
+  "generation_calls": 0,
+  "estate_reads": 0,
+  "source": "28ef2402",
+  "all_original_records_unchanged": true
+}

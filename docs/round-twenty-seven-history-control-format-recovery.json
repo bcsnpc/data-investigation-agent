@@ -1,0 +1,24 @@
+{
+  "error": "Local control helper TypeError: archive reference dict passed to Path",
+  "stage": "Before Bronze admission probe and before scored history ticket submission",
+  "actual_history_ticket_submissions": 0,
+  "actual_history_model_calls": 0,
+  "previous_control_record_preserved": ".local\\round-twenty-seven\\opus-confirmation\\injections\\form-current-history\\status.json",
+  "source_restore": "HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON",
+  "original_business_and_schema_hashes": "MATCH per native control assertions",
+  "restoration_load": "Completed",
+  "temporal_history": "ON",
+  "focused_tests": 6,
+  "offline_cohort_reader_preflight": "PASS",
+  "archive_integrity_checks_preserved": true,
+  "new_attempt": "injections/form-current-history-archive-retry1",
+  "frozen_engine_source": "6731ead4",
+  "frozen_image": "sha256:a0e477319eb41c4202bfc45cf62496627646dde5c9f597c1ea5ab3f24b414eeb",
+  "no_limits_roles_or_identities_changed": true,
+  "usage_history_preserved": true,
+  "local_helper_sha256": {
+    "r27_control_reads.py": "aee9820f657ec64ab185db658a58ed89480fa325c6b4ab4144c01eb344628c88",
+    "run-dev-form-history-cohort.py": "75770dbee6838a81ea81d1b7e1336608fc865098060fde2607f32d3b75bd0a3f",
+    "test-control-archive-reference.py": "44bcb1bf90c9cc11fe83fe23a3b134fc188c9617e89a5be7c91b9abc7ffe4812"
+  }
+}

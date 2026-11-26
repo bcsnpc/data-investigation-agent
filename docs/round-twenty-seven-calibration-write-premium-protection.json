@@ -1,0 +1,25 @@
+{
+  "before": {
+    "identity": "model-microdollars:2026-11",
+    "unit": "MICRODOLLARS",
+    "ceiling": "258108251",
+    "protected": "17340000",
+    "opening": "0",
+    "charged": "203110251",
+    "violated": false
+  },
+  "after": {
+    "identity": "model-microdollars:2026-11",
+    "unit": "MICRODOLLARS",
+    "ceiling": "258108251",
+    "protected": "17611367",
+    "opening": "0",
+    "charged": "203110251",
+    "violated": false
+  },
+  "calibration_forecast_protected": 14611367,
+  "cash_protected": 3000000,
+  "normalized_cap_unchanged": 255108251,
+  "counters_preserved": true,
+  "reason": "Corrected newly cached evaluator first-write premium, no speculative cache hits"
+}

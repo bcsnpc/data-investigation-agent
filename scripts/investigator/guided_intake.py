@@ -3,6 +3,7 @@
 The catalog is a projection of admitted graph records, not a hand-maintained
 list of fixture names. This module does no network or model calls.
 """
+
 from copy import deepcopy
 from urllib.parse import parse_qs, urlsplit
 from jsonschema import Draft202012Validator, ValidationError
@@ -61,6 +62,10 @@ class Catalog:
             raise ValueError('INTAKE_CATALOG_TRUNCATED')
         self.nodes = {n['id']: deepcopy(n) for n in graph.get('nodes', graph.get('candidates', []))}
         self.edges = deepcopy(graph.get('edges', []))
+
+    def snapshot(self):
+        """Detached admitted metadata for replay, not another estate read."""
+        return {'nodes':deepcopy(list(self.nodes.values())),'edges':deepcopy(self.edges)}
 
     @classmethod
     def from_graph(cls, graph):
@@ -199,6 +204,7 @@ class Catalog:
         containers = [r for kind in ('MODEL', 'SOURCE') for r in self.ranked(text, kind)
                       if r['confidence'] in ('NAMED', 'NORMALIZED')]
         contained = []
+        column_candidates = []
         within = set()
         for parent in containers:
             children = [*self.children(parent['id'], 'TABLE'), *self.children(parent['id'], 'VIEW')]
@@ -207,6 +213,19 @@ class Catalog:
                 child = children[0]
                 contained.append({**child, 'score':parent['score'], 'confidence':parent['confidence'],
                     'basis':'NATIVE_CONTAINMENT_OF_NAMED_CONTAINER', 'via':parent['id']})
+            elif True:
+                import re
+                witnesses=[]
+                for child in children:
+                    columns=self.nodes[child['id']].get('properties',{}).get('column_names',[])
+                    matched=[name for name in columns if isinstance(name,str) and name and
+                             re.search(r'(?<!\w)'+re.escape(name)+r'(?!\w)',text,re.I)]
+                    if matched:witnesses.append((child,matched))
+                maximum=max((len(matches) for _,matches in witnesses),default=0)
+                for child,matches in witnesses:
+                    if len(matches)==maximum:
+                        column_candidates.append({**child,'score':parent['score'],'confidence':parent['confidence'],
+                            'basis':'NATIVE_CONTAINMENT_AND_NAMED_COLUMNS','via':parent['id'],'matched_columns':matches})
         if containers:
             # A generic table word can also name unrelated semantic tables.
             # Resolve it inside the explicitly named native containers first,
@@ -215,12 +234,13 @@ class Catalog:
             scoped = [r for r in direct if r['id'] in within and r['score'] >= .86]
             if scoped:
                 return [r for r in scoped if scoped[0]['score']-r['score'] < .08]
-            return list({r['id']:r for r in contained}.values())
+            return list({r['id']:r for r in [*contained,*column_candidates]}.values())
         if direct and direct[0]['confidence'] in ('NAMED', 'NORMALIZED'):
             return [r for r in direct if direct[0]['score']-r['score'] < .08]
         return [r for r in direct if r['score'] >= .86 and direct[0]['score']-r['score'] < .08]
 
     def report_matches(self, text):
+        import re
         direct = self.ranked(text, 'REPORT')
         if direct and direct[0]['confidence'] in ('NAMED', 'NORMALIZED'):
             return [r for r in direct if direct[0]['score'] - r['score'] < .08]
@@ -228,11 +248,22 @@ class Catalog:
         page_reports = {r['id'] for page in pages if page['score'] >= .86 and pages[0]['score'] - page['score'] < .08
                         for r in self.reports_for(page['id'])}
         matches = []
+        native_container = (not re.search(r'\b(?:report|page|card|chart|visual|dashboard)\b',text,re.I)
+            and any(n['kind'] in ('SOURCE','MODEL') and n.get('label')
+                    and re.search(r'(?<!\w)'+re.escape(n['label'])+r'(?!\w)',text,re.I)
+                    for n in self.nodes.values()))
+        def native_visual_name(row):
+            import unicodedata
+            def characters(value):
+                return ''.join(re.findall(r'[^\W_]+',unicodedata.normalize('NFKC',value).casefold()))
+            return (row['confidence'] in ('NAMED','NORMALIZED')
+                    and characters(row.get('matched_name')or'')==characters(self.nodes[row['id']]['label']))
         for kind in ('VISUAL', 'MEASURE'):
             ranked = self.ranked(text, kind)
             if not ranked or ranked[0]['score'] < .86:continue
             for target in ranked:
                 if ranked[0]['score'] - target['score'] >= .08:continue
+                if kind=='VISUAL' and native_container and not native_visual_name(target):continue
                 for report in self.reports_for(target['id']):
                     matches.append({**report, 'score': target['score'], 'confidence': target['confidence'],
                                     'via': target['id'], 'basis': 'CATALOG_CONTAINMENT_OF_NAMED_' + kind})
@@ -251,12 +282,59 @@ class Catalog:
         return []
 
 
+def canonical_target_reference(target, catalog):
+    """Recover unknown parent references from exact native containment only.
+
+    A valid explicit parent or an unknown leaf is never replaced. In particular,
+    primary and comparison addresses must each prove their own containment.
+    """
+    result = deepcopy(target)
+    changes = []
+    visual = result.get('visual')
+    page = result.get('page')
+    report = result.get('report')
+    if visual and catalog.nodes.get(visual, {}).get('kind') != 'VISUAL':
+        return result, changes
+    if visual:
+        parents = {e['source'] for e in catalog.edges
+                   if e['kind'] == 'CONTAINS' and e['target'] == visual
+                   and catalog.nodes.get(e['source'], {}).get('kind') == 'PAGE'}
+        if len(parents) != 1:
+            return result, changes
+        native_page = next(iter(parents))
+        if page and catalog.nodes.get(page, {}).get('kind') == 'PAGE' and page != native_page:
+            return result, changes
+        if page and catalog.nodes.get(page, {}).get('kind') != 'PAGE':
+            changes.append({'field': 'page', 'supplied': page, 'resolved': native_page})
+            result['page'] = native_page
+        page = native_page
+    if page and catalog.nodes.get(page, {}).get('kind') == 'PAGE':
+        parents = {e['source'] for e in catalog.edges
+                   if e['kind'] == 'CONTAINS' and e['target'] == page
+                   and catalog.nodes.get(e['source'], {}).get('kind') == 'REPORT'}
+        if len(parents) == 1 and report and catalog.nodes.get(report, {}).get('kind') != 'REPORT':
+            native_report = next(iter(parents))
+            changes.append({'field': 'report', 'supplied': report, 'resolved': native_report})
+            result['report'] = native_report
+    return result, changes
+
+
 def admit(request, catalog):
     from .planner_recording import _safe
     from .estate_graph_contract import canonical
     _safe(canonical(request).encode())
     Draft202012Validator(SCHEMA).validate(request)
+    request, primary_changes = canonical_target_reference(request, catalog)
+    comparison_changes = []
+    if request['compared_with'].get('target'):
+        target, comparison_changes = canonical_target_reference(request['compared_with']['target'], catalog)
+        request['compared_with']['target'] = target
     result = deepcopy(request)
+    if primary_changes or comparison_changes:
+        result['parent_reference_resolution'] = {
+            'basis': 'UNIQUE_EXACT_NATIVE_CONTAINMENT',
+            'primary': primary_changes, 'comparison': comparison_changes}
+        result['format_warnings'] = ['Unknown parent references resolved from the explicitly selected native child; visual selections are unchanged.']
     if sum(bool(request.get(k)) for k in ('report', 'table', 'measure')) > 1:
         raise ValueError('CONFLICTING_TARGET_SELECTION')
     result['measure_candidates'] = catalog.target(request)
@@ -275,10 +353,10 @@ def admit(request, catalog):
                       if len(declared) == 1 else {'kind': 'NOTHING'})
         kind = comparison['kind']
         required = set(comparison)
-        result['format_warnings'] = [
+        result.setdefault('format_warnings', []).append(
             'Comparison details are incomplete; using the declared source of truth.'
             if declared and len(declared) == 1 else
-            'Comparison details are incomplete; recreation and freshness proceed without a comparison.']
+            'Comparison details are incomplete; recreation and freshness proceed without a comparison.')
     extras = set(comparison) - required
     # A copied reference to the selected visual is harmless formatting, but a
     # different target is a real competing referent and must not be discarded.
@@ -315,6 +393,38 @@ def admit(request, catalog):
         result['url_filters'] = parse_qs(parsed.query).get('filter', [])
     result['status'] = 'READY'
     return result
+
+
+def admit_investigation_candidate(request, catalog):
+    """Preserve a loose comparison label for the bounded investigator.
+
+    Target admission stays strict. This does not resolve the source, select a
+    substitute or authorize an endpoint; existing path/query guards still do
+    that. The original comparison remains visible beside the admitted target.
+    """
+    try:
+        return admit(request, catalog)
+    except ValueError as error:
+        if str(error) != 'SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS':
+            raise
+        comparison = request.get('compared_with', {})
+        supplied = comparison.get('source')
+        import re
+        if (not isinstance(supplied, str) or supplied in catalog.nodes
+                or re.fullmatch(r'[a-fA-F0-9]{64}|[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}', supplied)
+                or re.match(r'[A-Za-z][A-Za-z0-9+.-]*://', supplied)):
+            raise
+        pending = deepcopy(request)
+        pending['compared_with'] = {'kind': 'NOTHING'}
+        result = admit(pending, catalog)
+        result['comparison_context'] = deepcopy(comparison)
+        result['source_resolution'] = {
+            'status': 'PENDING_INVESTIGATOR', 'supplied': supplied,
+            'basis': 'SOURCE_LABEL_NOT_EXACT_CATALOG_NAME'}
+        result.setdefault('format_warnings', []).append(
+            'The source comparison is unresolved, not absent. Check the declared '
+            'path and native candidates before answering; do not select a source by name alone.')
+        return result
 
 
 def prefill(text, proposed, catalog, *, provenance=None):
@@ -409,6 +519,38 @@ def prefill(text, proposed, catalog, *, provenance=None):
         node=catalog.nodes.get(value['visual'],{})
         names=[node.get('label',''),*node.get('enrichment',{}).get('synonyms',[])]
         exact=any(name and name.casefold() in span['quote'].casefold() for name in names)
+        if value.get('report') and value.get('page'):
+            from .intake_candidates import explicit_names
+            named_target=explicit_names(catalog,text).get('visual')
+            if named_target and named_target!=value['visual']:
+                raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
+            named_pages=catalog.named_pages(text,value['report'])
+            all_visuals=[v for p in catalog.pages(value['report'])for v in catalog.visuals(value['report'],p['id'])]
+            scope=(catalog.visuals(value['report'],named_pages[0]['id']) if len(named_pages)==1 else all_visuals)
+            scope_ids={v['id']for v in scope}
+            def mentioned(name):return isinstance(name,str) and bool(name) and name.casefold() in span['quote'].casefold()
+            native=[v for v in all_visuals if mentioned(catalog.nodes[v['id']].get('label'))]
+            if len(named_pages)==1 and any(v['id']not in scope_ids for v in native):
+                raise ValueError('VISUAL_PROVENANCE_OUTSIDE_NAMED_PAGE')
+            native=[v for v in native if v['id']in scope_ids]
+            aliases=[v for v in scope if any(mentioned(n)for n in catalog.nodes[v['id']].get('enrichment',{}).get('synonyms',[]))]
+            matches=native or aliases
+            if len(matches)==1 and matches[0]['id']!=value['visual']:
+                raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
+            # A unique enrichment alias does not make a measure-level phrase
+            # an explicit visual selection. Other visuals of the same cited
+            # measure may have different retained filters and no such alias.
+            if not native:
+                cited_measures={m['id'] for v in scope for m in v.get('measures',[])
+                                if mentioned(catalog.nodes.get(m['id'],{}).get('label'))}
+                measure_scopes=[v for v in scope
+                                if any(m['id'] in cited_measures for m in v.get('measures',[]))]
+                if len(measure_scopes)>1:
+                    matches=list({v['id']:v for v in [*aliases,*measure_scopes]}.values())
+            if len(matches)==1 and matches[0]['id']!=value['visual']:
+                raise ValueError('VISUAL_PROVENANCE_DIFFERS_FROM_TARGET')
+            exact=len(matches)==1 and matches[0]['id']==value['visual']
+            if len(matches)>1:ambiguous_visuals=matches
         if not exact and value.get('report') and value.get('page'):
             # A model-supplied page is not a user selection. A loose measure
             # span must be unique across the report unless the ticket itself
@@ -476,7 +618,8 @@ def admit_or_question(request, catalog):
     """Public intake boundary: malformed selections ask once, never crash.
 
     Secret protection runs outside the recoverable-validation handler. No
-    malformed target is replaced with a different report or visual.
+    explicit visual or valid conflicting parent is replaced. Unknown parent
+    references can be recovered only from exact unique native child containment.
     """
     from .planner_recording import _safe
     from .estate_graph_contract import canonical

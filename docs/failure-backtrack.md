@@ -16821,3 +16821,323 @@ The final same-image failed-only pass and independent grading are complete; ther
 
 
 Round26 final calibration,2026-11-11: Final Opus calibration adds8backtracked public-dev failures:3intake blocks,2verdict-contract-only failures (layer/cause agree),2conclusion/causal failures with confirmed harm,1technical/blocking stop. The full source is round-twenty-six-opus-calibration-backtrack.md/json. Original tapes, all grader decisions and expectations unchanged; zero new estate/model calls for backtrack construction.
+
+
+## Round 27 pass 1: partial backtrack, 2026-11-21
+
+This section uses saved public-dev traces only. Pass 1 and grading are incomplete. Original outcomes/expectations are unchanged; the separate five plumbing reruns are not replacement scores. Nova primary authorization is currently blocked, while saved-output Sol secondary grading continues. Any reviewed harm flag remains a freeze blocker.
+
+### Fixture quantity: real split, unsupported explanation and stale error in fallback
+
+The selected report/measure is retained. A first DAX recreation was rejected for an ambiguous member; a later native recreation returned 8,765. Native Bronze/Silver totals were 7,661 and Gold/model totals 8,765. Product-7 rates had two rows; product-7 units were 1,104 in Silver and 2,208 in Gold. These are useful checked facts. They do not by themselves cite the operation that caused duplication. The saved evaluator rejected unsupported transformation/definition claims, and incomplete evaluator results are also retained. The final unresolved fallback then led with the earlier DAX failure despite the later successful recreation.
+
+The needed actions were to obtain and cite the retained producing definition, distinguish a proven join mechanism from circumstantial duplication, and deliver the checked split without presenting the earlier read error as the discrepancy cause. The primary grader and independent reviewer marked harmful, while Sol did not. The review also names SECONDARY despite conflicting harm fields; all of this is retained without an operator score override. First wrong step remains subject to the ordered saved-trace review; the substantive conclusion and fallback defects are established.
+
+### Record absent: correct absence checks, metadata transport blocked
+
+The original absent-record trace contains successful record checks through its admitted layers, followed by a pure catalog lookup denied at the gateway as SQL_OBJECT_NOT_ALLOWED. This was one of the five owner-approved plumbing reruns. The original denial and outcome are preserved as plumbing defect. The qualified transport fix revalidates the bounded metadata-only shape and existing endpoint/object allowlist; it does not open business-table bypasses, writes or execution. The rerun still graded incorrect independently. Therefore fixing the transport did not establish the requested complete answer, and the rerun must be backtracked separately rather than credited as a closed gap.
+
+### Changed record: fixture valid, history read late, delivery never established
+
+Form source-history v2 explicitly asks why the same historical record changed from 41 to 47 across exports in the current test window. Its native fixture was valid: a real load established 41, the source changed to 47, and temporal history remained on. Presence checks succeeded. The model then spent reads on global row/min/max summaries before the relevant native temporal read. That read succeeded but included older test windows too. The saved delivery sequence contains unsupported retained-definition claims, an unsupported Direct Lake statement, and identifier-role validation errors (a graph node in checked query layers; an inventory address in get_lineage's graph-node field). The 40-request allowance and 15-tool limit were reached; the final result was UNRESOLVED.
+
+The correct action after presence was to isolate the current-window temporal evidence, cite the exact versions and retained calculation, and use the correct identifier roles in delivery. No larger cap is implied. Both form-history tickets are saved, original source/schema hashes match and the original real restoration load succeeded. The later text-history cohort reads the original retained windows without a new source mutation.
+
+The complete per-ticket first-wrong-step table is not yet earned. A private worklist links the graded failures to their immutable outputs, both graders, independent review and saved query/evaluator diagnostics; its heuristic categories are not substituted for verified first steps.
+
+## Round 27 saved-trace review, 2026-11-21
+
+29 reviewed-zero main outcomes from the 33-pair snapshot; five separately scored plumbing reruns. Remaining primary grades are unavailable. No held-out input accessed.
+
+Earliest relevant recorded mistake or obstruction, including subsequently recovered mistakes explicitly marked in the explanation. No claim that every early mistake caused the final score; grader labels retained separately. This is an operator analysis of dev traces, not an independent regrade; all original outcomes, reasons and harm flags remain. The ordered indexes verify the existing capture seal and each downloaded audit-batch hash. They exclude model thinking. Only saved captures were read; no estate or model call was made for this analysis.
+
+The count groups below describe first relevant trace errors, including recoverable ones. They do not establish that every such error caused the final failure.
+
+| Cohort | First relevant step | Count |
+|---|---|---:|
+| main | budget stop | 2 |
+| main | conclusion | 3 |
+| main | intake | 2 |
+| main | query | 9 |
+| main | query validation | 2 |
+| main | tool choice | 5 |
+| main | write-up | 6 |
+| plumbing-rerun | query | 3 |
+| plumbing-rerun | tool choice | 2 |
+
+| Cohort / ticket | Step / audit sequence | What went wrong; correct action |
+|---|---|---|
+| main / form-v2-before-temporal-retention-v1 | query validation / 21 | The temporal-catalog read is blocked by the metadata transport defect. Current movement totals cannot establish the requested historical snapshot or its earliest retained boundary. |
+| main / form-v2-other-collected-definition-v1 | tool choice / 51 | The first draft uses a graph ID in the native-layer enum. After correction, delivery remains unresolved despite measured payment agreement; cite the retained SUM rule and avoid adding unmeasured filter claims. |
+| main / form-v2-billing-invoices-v1 | tool choice / 69 | The first otherwise substantive draft uses a graph ID in the native-layer enum. Its account-history explanation then fails malformed evaluation/definition support. Keep the measured 700-to-950 split and cite the account_id-only join directly. |
+| main / form-v2-warehouse-scope-v2 | intake / pre-investigation | UNKNOWN_REPORT stopped the explicit form before investigation. Resolve the submitted report in the catalog; do not replace it or ask for a report already supplied. |
+| main / form-v2-application-baseline-v1 | write-up / 36 | The first draft includes retained lineage statements without citable retained-definition evidence; the subsequent evaluator also returns malformed checks. Cite the retained rule and the three agreeing totals, rather than turning evaluator failure into a data cause. |
+| main / form-v2-fixture-quantity-v1 | query / 22 | The first DAX uses an ambiguous member and is refused; a corrected query later recovers 8765. That recovered error must not become the terminal explanation; retained join evidence and the 7661-to-8765 split still need valid citations. |
+| main / form-v2-billing-mrr-v1 | query / 44 | A diagnostic uses unsupported National-literal syntax and is rejected before dispatch. Correct the read syntax, then use native layer IDs and cite the retained MRR rule; later evaluator malformation is a separate obstruction. |
+| main / form-v2-billing-invoices-v2 | write-up / 65 | The draft reaches delivery, but the evaluator cannot establish valid structured checks; later attempts to read again hit the physical cap. Preserve the measured invoice split and cite its rule before spending the remaining steps. |
+| main / form-v2-record-absent-everywhere-v1 | query validation / 36 | A sys.tables metadata read reaches the business-object allowlist and ends SQL_OBJECT_NOT_ALLOWED. Permit only independently validated metadata transport; current record absence does not prove historical absence. |
+| main / form-v2-record-repeated-gold-v2 | write-up / 56 | The draft reaches delivery, then malformed evaluator output and unsupported definition claims prevent acceptance. Cite the exact retained transform and scoped repeated-key results instead of reciting uncited lineage. |
+| main / form-v2-warehouse-scope-v1 | conclusion / 36 | The first draft is rejected because its AS DESIGNED contract does not state the implemented-rule verdict; later scope/definition checks also reject it. Report the two different warehouse scopes explicitly and support each scoped total. |
+| main / form-v2-screenshot-record-01-v1 | query / 35 | The DAX recreation violates the single table-valued EVALUATE contract. Later attempts try to cite a failed query and retrace the same row. Correct the query once and use only successful keyed results to support the finding. |
+| main / form-v2-screenshot-record-04-v1 | query / 21 | An ambiguous DAX member is rejected before dispatch, then corrected. Subsequent drafts still lack implemented-rule/source coverage. Recover the query without treating that temporary error as the record cause. |
+| main / form-v2-failed-application-load-v1 | tool choice / 43 | The first finding passes a graph object ID where a native query-layer ID is required. Use the exact tool enum; later drafts must also distinguish a failed run from proof that it caused the old visible number. |
+| main / form-v2-failed-billing-transform-v1 | query / 48 | The warehouse diagnostic references an unavailable or unvalidated object. Later delivery also cites failed reads. Stay on the admitted objects and separate the native failed run from unproved effects on the displayed value. |
+| main / text-R17-04-v1 | tool choice / 52 | The candidate-check wrapper assumes a query correction-limit refusal has an id and raises KeyError. Return that candidate as unavailable, preserve the other checked results and do not confer uniqueness. |
+| main / text-R17-05-v1 | write-up / 72 | The draft reaches the evaluator, which repeatedly returns no valid structured decision. Retain its measured evidence and distinguish evaluator failure from a technical rejection of the proposed cause. |
+| main / text-R17-08-v1 | query / 65 | A historical warehouse read uses unsupported OPTION FOR TIMESTAMP syntax. Do not infer a historical comparison from current totals; use a native supported history route or name its exact unavailable boundary. |
+| main / text-R17-09-v1 | query / 30 | The first DAX has an ambiguous member and is rejected; a corrected recreation follows. A later DESCRIBE HISTORY proposal is also sent to a SELECT-only SQL route. Choose the declared dialect/history capability, not a different engine syntax. |
+| main / text-R17-11-v1 | query / 30 | The initial recreation has an ambiguous DAX member, later corrected. The delivery still needs to tie measured 8765 to its retained calculation instead of citing a partial rule as a full explanation. |
+| main / text-R17-10-v1 | conclusion / 83 | The first finding selects no unique target yet lacks the required side-by-side findings and exact remaining distinction. Preserve every checked candidate and ask only about the distinction the checks could not resolve. |
+| main / text-baseline-S02-v1 | tool choice / 73 | The first finding uses a graph ID as a native layer. Later attempts exhaust the final-action reserve while retrieving definitions. Cite the already-retained definition and exact native layer before delivery. |
+| main / text-different-warehouse-v2 | budget stop / 9 | Intake completes, but the native physical cap is reached before an investigation finding. This is an unanswered limit stop, not evidence that the compared warehouse values are equivalent or wrong. |
+| main / text-older-export-movement-1-v2 | budget stop / 9 | Intake completes, but the native physical cap is reached before a historical investigation. Preserve the unanswered stop; do not claim a historical cause from the requested export date alone. |
+| main / text-R17-02-v1 | write-up / 66 | The delivery draft uses retained lineage/transform assertions without resolving them into cited evidence. Numeric contribution alone is not the causal rule; cite the exact retained definition and its measured split. |
+| main / text-failed-billing-load-v1 | conclusion / 4 | The native fast-path draft does not answer what caused the failure and whether the job finished or stopped partway through. Fill the answer from the recorded run status/error, and name any missing failure detail without inventing it. |
+| main / text-baseline-S01-v1 | intake / 3 | The loose application-source phrase is rejected as an unresolved exact source name; the model repairs the intake on its next attempt. Preserve it as an unbound comparison for investigation without silently choosing an endpoint. |
+| main / text-baseline-S03-v2 | query / 22 | The metadata DAX violates the single table-valued EVALUATE contract; later metadata projections and a native HTTP 400 also fail. Use documented retained/model metadata and report exactly which relationship fact was not obtained. |
+| main / text-R17-01-v1 | write-up / 76 | The first draft reaches delivery without sufficient cited causal support, followed by incomplete evaluation and late definition reads. Link the measured layer split to its retained operation before declaring the cause. |
+| plumbing-rerun / form-v2-before-temporal-retention-v1 | query / 57 | The temporal read names r22_valid_from where the admitted schema cannot resolve it; the subsequent source transport also fails. Obtain the actual retained temporal column metadata and earliest available bound, or state that evidence is unavailable. |
+| plumbing-rerun / form-v2-record-absent-everywhere-v1 | query / 38 | The metadata diagnostic uses unsupported National-literal syntax. Subsequent corrected reads do not cure missing definition citations or malformed evaluation; a missing current key alone does not establish an old export claim. |
+| plumbing-rerun / text-older-export-movement-1-v1 | tool choice / 73 | The model sends source queries to a native layer not active on this candidate path, then uses a SQL address where a graph node is required. Activate the admitted upstream node through lineage and use its returned layer enum. |
+| plumbing-rerun / text-R17-08-v1 | query / 71 | A history proposal is not a SELECT/CTE read for its SQL route, followed by unsupported temporal syntax. Keep the requested historical scope and report the unavailable native snapshot instead of substituting current values. |
+| plumbing-rerun / text-R17-09-v1 | tool choice / 41 | A job lookup uses a Fabric address instead of the graph-node enum. Later findings likewise mix graph/native layer IDs and omit source coverage. Use each returned identifier in its declared role without broadening the path. |
+
+### Walkthrough: candidate-check correction limit
+
+R17-04 reaches intake resolution and proposes five candidate scalar checks at native audit sequence 52. The next saved error feedback (64) is KeyError(id), not a native data result. The query layer can legitimately return QUERY_CORRECTION_LIMIT without a recorded query ID; the wrapper indexed that missing field. Subsequent reading and asking cannot repair the missing exhaustive candidate result. The generic offline fix reports the refusal as ERROR with no evidence ID, so the candidate remains unavailable and cannot confer uniqueness. Two synthetic tests cover the id-less refusal and an unrecorded success. This fix has no live quality result yet.
+
+### Walkthrough: an intake label that escaped as an exception
+
+Text latency 900501-v1 names an application export and Bronze, a movement identifier, and 17 units. Three saved intake model calls cost $0.597561. SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS then escapes candidate submission before investigation, yielding worker exit 1, a partial capture and no sealed final answer. This is an engine intake error, not an environment exclusion and not zero model calls. The offline generic fix preserves an unresolved loose source label as comparison context for investigation; it does not choose a source or admit an unknown explicit address. The original partial files and the superseded zero-call observation remain retained.
+
+### Walkthrough: complete numeric agreement still failed delivery
+
+Application-baseline-v1 submits scoped DAX, landing SQL and source SQL at sequence 21. Each returns 7661, with 360 rows and 360 distinct IDs. The first draft (36) also describes a retained Direct Lake/copy path without resolving those definitions into citable evidence. The first evaluation is incomplete; a later valid rejection identifies uncited lineage claims; later evaluation is again incomplete. Final output is UNRESOLVED, not the supported calculation explanation. The appropriate next action is to cite the already-retained SUM rule and distinguish numerical agreement from lineage claims that still lack a citation. The qualified offline fix makes those retained definitions addressable without new data reads; it does not manufacture current or numeric evidence.
+
+The earlier fixture-quantity, absent-record transport and source-history-v2 walkthroughs above remain part of this report. The reviewed harmful fixture-quantity flag is retained even though the reviewer text and winner label conflict. No freeze is earned by this offline analysis.
+
+## Paired regression diagnosis,2026-11-21
+
+See [regression-diagnosis-r27.md](regression-diagnosis-r27.md). Across15matched guard pairs, old96queryresults/9errors versus new129/9: the earlier query-first group count did not establish deteriorating syntax. Some errors recovered. Olderexport nominal passing review bits contradict its reason/rawBLOCKED answer; grades preserved, no genuinely correct-to-incorrect regression inferred. No new model/estate query or expectation change.
+
+Round27 repair proof2026-11-21: three launch attempts ended INTERRUPTED on Anthropic401 invalid x-api-key before a reasoning result. These are provider-authorization interruptions, not graded first-wrong-step engine failures; preserve captures and exclude them from quality denominators. The initial pair was admitted before the first saved failure was inspected; no additional Opus admissions after diagnosis. The nine pending pass-1 score fields agree, but one screenshot03 diagnostic failing-step disagreement was independently reviewed by Terra in favor of PRIMARY (wrong conclusion), with scores unchanged1/9 and harmful0. Details in round-twenty-seven-proof-auth-interruptions.json and round-twenty-seven-nine-grades.json.
+
+## Round 27: remaining nine-case grading backtrack
+
+eight incorrect outcomes among nine newly completed primary grades; one correct source-history form excluded. operator analysis of saved dev traces only; not a regrade; recovered initial errors distinguished from terminal cause.
+
+| Ticket | First relevant step | Saved sequence | What went wrong and the correct action |
+|---|---|---:|---|
+| form-v2-screenshot-record-02-v1 | query | 59 | An initial application DAX draft uses ambiguous members and is rejected before dispatch; later reads recover movement 4 and units 21 across all three layers. The recovered failure must not replace the unchanged-source explanation; cite successful record reads and the visual definition. |
+| form-v2-source-history-v2 | tool choice | 74 | The lineage request passes a Fabric address where the tool requires a graph-node ID. Temporal checks later recover before-41/after-47 evidence, but delivery still omits the source-history conclusion; use the admitted node enum and cite the actual versions. |
+| form-v2-latency-record-v1 | budget stop | 87 | The next historical query is refused because physical reads have closed after the source-to-Bronze split and job/schedule facts were already collected. Use the saved source modification time, completed load and enabled future schedule to explain latency rather than spending the final action on an unnecessary historical probe. |
+| form-v2-screenshot-record-03-v1 | query | 63 | The initial application DAX has ambiguous members; subsequent successful queries identify movement 5 with units 3 throughout the path. Keep the recovered query error separate from the answer and cite the successful layer checks plus the retained visual definition. |
+| text-history-source-900201-v1 | tool choice | 30 | The first investigation traces current record snapshots for a historical export question and never reads the retained temporal window. Query native history at the two ticket times instead of treating current absence as the relevant evidence. |
+| text-history-source-900201-v2 | tool choice | not retained | The investigation uses current snapshots for the historical export discrepancy and leaves the retained temporal evidence unread. Read the before/after window for the stated export times; current absence cannot establish the historical transition. |
+| text-latency-900501-v1 | intake | not retained | SOURCE_NAME_UNRESOLVED_OR_AMBIGUOUS ends intake before any investigation or handoff. Resolve the ticket-named source/load through the admitted graph or preserve the comparison as unresolved for bounded investigation; do not invent an alternate target. |
+| text-latency-900501-v2 | target | 43 | The first record trace follows a warehouse chain instead of the application-load/Bronze path named in the ticket. Bind the explicit application path before reading its record and future load schedule; the later 401 is a separate limitation. |
+
+The original unsealed intake-error capture remains partial; its missing sequence is not reconstructed. One screenshot first-step disagreement was independently reviewed by Terra; this operator trace table does not override that review or either grade.
+
+## Round 27 proof delivery checkpoint before advisory
+
+These saved-trace counts describe the seven valid reviewed failures available before the remaining three fault cases. They do not change grades or expectations. A failed early query may have been recovered; it is not automatically treated as the terminal cause. No new model or estate call was used for this table.
+
+| Ticket | Model calls | Successful queries | Failed queries | Evaluator hard / soft | End |
+|---|---:|---:|---:|---|---|
+| form-v2-failed-application-load-v1 | 7 | 3 | 0 | 3 / 0 | Evaluator retries exhausted |
+| form-v2-fixture-quantity-v1 | 19 | 7 | 1 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-record-absent-everywhere-v1 | 19 | 9 | 0 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-screenshot-record-01-v1 | 19 | 7 | 1 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-screenshot-record-03-v1 | 19 | 8 | 1 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-screenshot-record-04-v1 | 19 | 6 | 0 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+| form-v2-warehouse-scope-v1 | 19 | 3 | 0 | 1 / 0 | TOOL_OR_TIME_LIMIT |
+
+All six static failures reached 19 model calls. Each retained one saved-evidence delivery repair, then finished UNRESOLVED. The failed-job case instead exhausted three hard evaluator checks: the native failed run was established, while the evaluator disputed the causal connection to old data and uncited producer relationships. The owner-selected advisory comparison will test the evaluator separately while leaving the structural delivery and deterministic evidence checks enabled. Whether a rejection was justified is assigned to the independent reviewer, not inferred here.
+
+
+## Round 27 advisory proof follow-up (2026-11-21 local / Nov22 UTC)
+
+The failed-only advisory proof recovered six of eight tickets; those original failures remain in their prior tables. Two still fail on the same qualified image. This is saved-trace diagnosis, not a score or expectation change.
+
+| Ticket | First terminal obstruction in advisory run | What the trace shows | Generic repair candidate |
+|---|---|---|---|
+| form-v2-record-absent-everywhere-v1 | Conclusion contract | Nine native reads succeeded, but the structured AS DESIGNED class paired with legacy not-found detail was rejected as `AS_DESIGNED_REQUIRES_IMPLEMENTED_RULE_VERDICT`. The reviewer also rejected a claimed temporal-retention boundary derived from a current-row minimum. | Distinguish supported current row absence from an unresolved historical search in the delivery schema; never turn a current-row minimum into retention evidence. |
+| form-v2-source-history-v2 | Evidence citation / conclusion | Native temporal evidence was present, but a fetch-wrapper citation was rejected as `CITE_ORIGINAL_NATIVE_EVIDENCE_NOT_A_FETCH_WRAPPER`; the final answer did not establish the historical change. Reviewer judgment of evaluator reasons was mixed. | Preserve the original native evidence ID in fetched model-visible results and final citations; keep model-generated wrapper support invalid. |
+
+The proposed fixes are not applied to the image running the remaining eight pass-1 cases. Finish those cases, merge their backtracks, then qualify one generic repair batch before pass 2. No per-ticket exception or golden change is authorized.
+
+
+### P1 completion access pair: recovered query errors, then rejected delivery
+
+Both access tickets reproduced the same saved rule and the10/1 versus25/2 scoped values, yet ended UNRESOLVED and graded incorrect/harm0. The first query obstacle was the validator rejecting valid T-SQL `N'...'` literals (`National`); the model recovered by using plain string literals. This query obstacle was not the reason the answer ultimately failed.
+
+At the first substantive draft, both tickets labelled the observed mapping `access difference` and its implemented-rule class AS DESIGNED. The legacy class/verdict coupling rejected that otherwise plausible pairing. The drafts also supplied same-case query IDs in `checked`, which expects native layer IDs. A later verdict-label correction therefore still failed the enum, and the single saved-evidence repair allowance was already spent. The final fallback lost the established cause. The independently graded outcome remains unchanged.
+
+The generic repair should reformat unambiguous reference roles from the saved case, preserve original native evidence IDs, and avoid treating the broad question class as a one-to-one synonym of the legacy technical detail. It must not guess unknown references, change the explicit target, turn failed query evidence into native support, or judge intended business access policy. These changes await the complete P1 backtrack and one qualification batch.
+
+### P1 completion latency: target admission, not a demonstrated data verdict
+
+The first latency ticket proposed the correct Bronze table at its first substantive intake step. The native catalog adapter nevertheless returned no table for the explicitly named Bronze container: it had several children, and the adapter did not project their retained native column names. The run spent its 40-request bound in intake and ended interrupted, not a delivered latency answer. Its three recorded intake calls cost $0.614201 despite absent top-level model-call totals. The second ticket selected an unrelated warehouse chain and honestly delivered unresolved; both graders locate its first wrong step at the target. Both remain incorrect and harmless.
+
+The generic column-containment repair uses only admitted native edges and column names. An offline comparison on the retained graph and unchanged ticket changes zero candidates to the single correct Bronze table. It does not prove the latency verdict, and ties still require resolution.
+
+### P1 completion stale forms: right split, incomplete named cause
+
+Both stale form tickets reproduce the 7661 model value against 7692 in source and landing and identify the stale-model split. Both independently graded answers explicitly leave the Direct Lake automatic-update setting unestablished; they do not confuse a disabled refresh schedule with that separate setting. The second answer also fails to establish the real-load progression. Both graders award verdict and layer credit but no cause credit, with no harmful claim and a useful engineer handoff. The saved answers and grades are unchanged.
+
+This is an evidence-coverage limitation, not a reason to insert the owner's fixture-control receipt into investigator evidence. The engine needs a supported native way to inspect that setting or must keep the limitation explicit. The remaining text cases are still in progress; this section makes no claim about their results.
+
+### Final completion backtrack: all eight saved traces
+
+All eight captures are seal-checked and indexed; no estate read or model call was added for this backtrack. Earlier outcomes and independent grades remain unchanged. A recovered early error is distinguished from the obstruction that actually prevents delivery.
+
+| Ticket | First observable wrong step | Recovery and final obstruction |
+|---|---|---|
+| access-export-v1 | Query validation: valid national string literal rejected | Plain strings recover the read. AS DESIGNED/access-difference coupling and checked query IDs then prevent the supported scoped answer. |
+| access-export-v2 | Query validation: same Unicode-literal class | The model recovers the read but encounters the same delivery-contract/reference-role problem. |
+| latency-900502-v1 | Intake: correct proposed Bronze table rejected | Native container matching lacks its retained column witnesses. Intake consumes the physical bound; no latency verdict is delivered. |
+| latency-900502-v2 | Target: unrelated warehouse chain selected | The qualified unresolved answer is honest but does not establish the asked source-to-Bronze latency. |
+| stale-model-v1 | Tool choice: unbounded row diff exceeds the analysis shape/bound | Later aggregates and three keyed rows establish the stale split. Automatic-update setting remains unavailable, so the named cause is incomplete. |
+| stale-model-v2 | Query: INFO.PARTITIONS metadata read returns HTTP400 | The first draft also cites that failed read as support and is rejected. Final answer preserves the correct split and explicitly unknown automatic setting; useful but incomplete. |
+| stale-total-v1 | Tool choice: unbounded row diff | A later unsupported FOR TIMESTAMP SQL query is refused, and failed-query citations prevent delivery. The final unresolved answer loses the otherwise measured stale split. |
+| stale-total-v2 | Tool choice: contribution analysis lacks its key and row diff exceeds the bound | Later historical SQL and DAX reads fail validation. A draft reaches evaluator-packet construction but cites an unknown reference; final delivery remains unresolved. |
+
+The evaluator advisory switch does not disable deterministic target or native-reference checks. The last case's unknown-reference packet error is retained as an integration obstruction, not silently labelled a model evaluator rejection. No unsupported reference is accepted to improve a score.
+
+The next qualified batch addresses the demonstrated Unicode, delivery-reference/class and native-column-target problems generically. It does not claim to add an automatic-update inspection API or a historical SQL capability. Pass 2 must measure whether these repairs help, using every reviewed failure plus the full fixed guard.
+
+### Pass2 partial: repeated-record guard regression (saved trace only)
+
+For form-v2-record-repeated-gold-v2, both independent graders retain a zero score and nonharmful label because the delivered answer is UNRESOLVED. The earlier normal tool transcript shows a more specific obstruction: the first submit_finding draft already names the Silver-to-Gold product-rate join and the two rate versions. Its next feedback, audit sequence83, is SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried. Attempts to query that source then fail the admitted native-layer enum. The run eventually delivers an unresolved fallback. This is a delivery/source-admission obstruction before the final weak conclusion; the advisory evaluator does not bypass that deterministic check. This observation changes no grade, expectation or engine code. The source-layer reachability gap remains open; no missing source read is asserted to have happened. Seal-verified ordered normal-audit index: dev02-advisory-form-v2-record-repeated-gold-v2.json.
+
+
+
+## Round 27 pass2 latency-900501-v1 saved-trace backtrack
+
+First wrong step: **triage**. The fresh facts retain an enabled native schedule starting2026-11-23T18:38:43 UTC, but expose `next_due: null` with an unsupported-recurrence note. The answer subsequently treats source-modified timestamps as a deletion/reinsertion timeline and substitutes source-history DEVIATION for scheduled latency. The correct action is to relate current source presence and absence at the last completed copy to the retained next load; the unsupported detailed change timeline must remain undecided.
+
+The saved temporal AS OF reads succeeded. A separate query of the catalog-discovered hidden period columns was refused before dispatch, so this is a schema-validation coverage gap, not a blanket prohibition on temporal syntax. Both graders mark this answer harmful; that grade, the original output, and every query remain unchanged. This review used only the saved capture and grades. Result SHA256: `8264715ac85fe47c834f647435222f6b583e98663c8c61516bdb4df56e619711`.
+
+An additional consequential obstruction appears at the first submitted finding: it already describes latency, but receives `CHECK_SOURCE_HISTORY_BEFORE_LATENCY`. The existing check accepts only unchanged scalar current/history values, which cannot describe a row that arrived after the prior load. A generic narrow repair recognizes cited same-source exact-key native absence at load and presence now, without claiming an earlier deletion/reinsertion timeline. The first wrong triage step above and this later rejection are distinct; neither is erased by the future repair or used to alter the recorded harmful grade.
+
+
+Round27 free-provider transport pilot (2026-11-23UTC; excluded from quality scoring):
+
+| Saved run | First failed boundary | Classification | Correct action / repair |
+|---|---|---|---|
+| GLM original two-turn protocol | Three120-second read timeouts before any usable reply | Provider/environment unavailable; no estate ticket or quality failure | Qualify documented streaming/longer transport separately; preserve all three UNCERTAIN calls. |
+| Kimi application-baseline pilot, seal b7373a1c85d10dfe750c7bb7e16a31e26c59bf48318cd772bf23a8f71b0a5ee3 | Provider reads timed out (4of6attempts;2usable replies), ending INTERRUPTED after889.263s | Environment-affected, not scored correct/incorrect/harmful | Preserve capture and30physical reads; do not retry original execution. Check repaired transport; stop NVIDIA admissions above owner one-third post-fix timeout threshold. |
+| Same interrupted pilot, secondary write-up defect | Wrapper discarded retained handoff context/queries and incorrectly said no layer was read | Generic DIA partial-output plumbing bug, independently regression-tested | Recover only explicitly retained engine context/query records; report observed layers without upgrading status or inventing a cause. Source68b65860 fixes this; original answer remains unchanged. |
+
+OpenRouter owner approval adds a second synthetic DEV provider. Its free/conditional paid results remain diagnostics, never quality-gate scores. No new estate ticket was admitted during provider wiring.
+
+
+2026-11-23UTC: first post-transport synthetic probes for both providers were refused before network dispatch with GatewayDenied HTTP_TIMEOUT_REQUIRED. This is DIA plumbing, not provider quality or a real timeout. The client accepted300s while live_gateway.open_http still enforced120s; a mocked open_http unit test had hidden that integration mismatch. Preserve both original protocol intents/events/results. Each reserved allocation remains conservatively charged UNCERTAIN($0); neither provider was contacted. Fix: only exact configured NVIDIA/OpenRouter Chat Completions POSTs by the existing model actor may wait<=300s after full body/endpoint authorization; estate reads, metadata, other AI endpoints and SQL keep their old limits. Real client-to-gateway integration regressions use a fake opener (no network), and both provider modules now run inside the image shards too. Repeat the synthetic probes with distinct gatewayfix intent files after qualification. Exclude the pre-dispatch refusals from the owner NVIDIA timeout-rate denominator.
+
+
+### Free-provider proof checkpoint (2026-11-23 UTC; not a quality gate)
+
+The first three Kimi proof tickets are saved and graded by independent OpenAI Sol: **1 fully correct, 2 partial handoffs, 0 harmful**. Baseline calculation is correct; billing MRR and invoices are unresolved. These do not change any earlier score or Opus gate. The MRR saved trace demonstrates a generic fallback write-up defect (a calculation question called a discrepancy, and a recovered timeout still listed as missing). The repair preserves UNRESOLVED and all historical errors; no automatic correct verdict is inferred. The invoice cross-endpoint query was properly refused; that is a model tool-choice failure, not a reason to broaden access.
+
+OpenRouter authentication and tool qualification are complete: key GET200, **1,000 free requests/day**, monetary usage$0/$10; Ling3.2Flash and Nemotron3.5Lightning free tool checks pass. Paid requests remain refused because free candidates passed. Queue20RPM/concurrency2 and independent lifetime$10 cap remain enabled, despite the remote key showing a weekly reset. Qualified sourcec377b3fd passes6,087 tests with53 skips and all8 image shards. New terminal repair qualification is recorded separately when complete. No within-pass provider or model switch.
+
+
+### Free synthetic Kimi static backtrack, 2026-11-23 UTC
+
+Ten confirmed outcomes were graded by one independent OpenAI Sol call per ticket: seven fully correct, three partial handoffs, zero harmful. One separate absent-record Azure submission remains unestablished/unscored, not a model-quality outcome. These free results cannot clear a quality gate. Ordered indexes of all ten native captures were hash-verified without extracting private thinking; original tapes remain unchanged.
+
+| Ticket | First wrong step in saved trace | Classification and action |
+| --- | --- | --- |
+| Billing MRR | Terminal conclusion: the model never submitted a complete supported answer after reproducing 600 and its components. The code fallback then referred to an unstated discrepancy and an earlier recovered timeout. | Proven generic DIA fallback wording and exact-signature retry bookkeeping were repaired and qualified. A separate rerun is still partial: neutral fallback, no invented discrepancy, but no supported model conclusion. Record remaining reasoning failure; do not promote to AS DESIGNED in code. |
+| Billing invoices | Query construction: the model queried a Bronze history object on the serving endpoint, where that dependency was unavailable. | Model/tool-choice failure; the scope validator correctly refused before dispatch. Reads locate 700 to 950 at Silver-to-Gold but do not prove the account-history join cause. Do not weaken the validator or force the expected cause. |
+| Warehouse scope | Conclusion: successful reads reproduce warehouse 1 = 2,948 and warehouse 2 = 2,084 at each checked layer, yet the model did not close the different-scope explanation. | Reasoning failure. Alternative successful DAX reads do not make a different rejected query an exact-signature recovery. The question evaluator correctly rejects a draft that does not answer what drives the 864 difference. No engine patch. |
+
+The baseline, quantity fanout, repeated Gold record, and all four screenshots have no graded first-wrong-step failure. The later MRR repair comparison is separate and excluded from the ten-ticket proof totals. The first four proof outcomes retain the earlier qualified image; later outcomes retain the terminal-repair image. This is not an isolated model or image A/B experiment.
+
+
+Free Kimi failed-billing backtrack, 2026-11-23 UTC: single-Sol grade is partial/handoff1, harmfulfalse, first failure class "wrong evidence". The sealed first reasoning request already contains native failed run47fd3798-a905-4bf2-9c6a-0a8ba009a81b, FAILED status and the controlled-failure cause. Its first action also requests native job runs, followed by successive aggregate reads. The final delivery omits the established failed-run answer and stops unresolved at the tool/time bound. This is not proof that every recreation read was wrong; the supported failure is neglecting the already available operational evidence in the conclusion. No missing-prompt-facts plumbing defect was found. Record model reasoning failure; do not force a verdict or weaken the validator. Native availability/ordered-tool receipt: round-twenty-seven-free-billing-failure-backtrack.json; original sealed capture85cd29fa47a8e365567c456877442b0f720e32af5a2521adabe682eb4637a4bd unchanged. The original billing pipeline definition is hash-restored; its normal run retains the independently recorded pre-existing bootstrap2011 failure.
+
+
+Free Kimi source-history backtrack,2026-11-23UTC: single-Solpartial/handoff1/harmfalse. Native reads established the source version41 at08:43:53 and47 at08:47:45, same September18 business date, while the loaded record remained41. Checkpoint inspection and sealed request600 show an actual fifth INVESTIGATOR call with a reserved-delivery instruction; its response ended max_tokens at4000output tokens without submit_finding. Thus a missing final model opportunity was investigated and not established. Keep current limits; record output-limit/no delivered conclusion as the failure, not a new causal-engine patch. The terminal exact-question evaluator correctly rejects a generic unresolved draft that omits these supported facts. The closing request still advertises the broad tool menu while code reserves delivery; this is observable, but no tool was chosen in the truncated reply and its causal role is not established, so no speculative free-model prompt change is made. Receipt: round-twenty-seven-free-history-closing-call.json, original seal unchanged. After terminal execution, the source row/schema hashes matched the original360 rows and the real restore load completed; temporal staysON.
+
+
+Warehouse free-trace refinement,2026-11-23UTC: deeper first-step review finds the first observable syntax failure in a nested contribution-analysis query already ending at a comma in the model tool arguments. All three malformed prefixes match the validator input byte-for-byte, so no engine quote truncation is established. The complete direct SUMMARIZE/FILTER query with the quoted movement_units alias executed successfully and returned warehouse1=2948. Retain the independent grader's "wrong conclusion" classification and unchanged partial score; the earlier observable query-construction failure is additional trace detail. No validator widening or engine patch. Receipt: round-twenty-seven-free-warehouse-query-backtrack.json.
+
+
+Round27 proven DAX sorting repair,2026-11-23UTC: saved MRR repair queries were previously described as invalid. Parser review and Microsoft's documented DAX ORDER BY syntax show that these two queries are valid reads; DIA rejected their sorting clause before native dispatch. Add bounded single-query sorting over parsed projection names and bound model members, with independent default-on flag r27_dax_query_ordering. Preserve the 251-row sentinel, discovered catalog scope, forbidden writes/extra statements, legacy opt-in boundary, and sorted-read cache identity. No producer, time, request, dollar, identity or permission limit changed. Both exact saved queries now compile and pass the native gateway offline with the same asset IDs/row limit; this is not a new native result or a changed grade.91focusedtestsPASSincluding7newcases; fullsuite/all8image qualification pending before new-image live admission. Include all current Round27 regression modules and feature-flag inventory in image shards. Original Kimi proof outcomes and active latency image remain unchanged; separately rerun affected MRR only after qualification/restoration. Source: https://learn.microsoft.com/en-us/dax/dax-queries . Receipt: round-twenty-seven-dax-ordering-repair.json.
+
+
+OpenRouter proof checkpoint,2026-11-23UTC: first2saved/graded:1fullycorrect(invoice duplication700->950),1partial baseline,0harmful. Baseline first wrong step is malformed submit_finding.undecided (empty string where array required; nativeaudit904, repeated4342/18874); source/landing/model7661 and360rows were already measured. Later evaluator incompletes are explicitly non-blocking, not a substantive rejection. Record model-format limitation; no schema relaxation/expectation change. New pinned free pass continues; not a quality gate. See round-twenty-seven-openrouter-supervl-progress.json and round-twenty-seven-openrouter-baseline-backtrack.json.
+
+
+OpenRouter screenshot01 backtrack correction,2026-11-23UTC: native audit700 measured15rows in each of model, landing and source. Draft1520 correctly identified movement2/units17; code feedback1523 instead said SOURCE_CONSISTENCY_UNESTABLISHED: unread layers. Current guard accepts scalar cells or a typed record_trace for specific issue kinds, not these multi-column recreations. The later unrelated-table proposals at12378 are therefore downstream, not the first observed obstruction. Record the DIA proof-shape/feedback issue separately from the unchanged Sol query-validation label. Do not infer arbitrary multirow equality or weaken source/target/provenance checks. Receipt round-twenty-seven-openrouter-screenshot01-backtrack.json. First8DEVgrades3correct5partial0harm; no quality gate.
+
+
+2026-11-23UTC OpenRouterSuperVL failed-billing DEVharmful1 retained: truefailedrun04244ccc-9b98-4a71-8eea-4e7c6f5eba13/errorbeforeoriginalactivities, but answer adds unproven gold-join and correcting-refresh timing claims. Nativequeries0errors, no contractrepair; internal evaluator3incomplete/max_tokens results were nonblocking, not positive judgments. No engine/expectation change from weak reasoning; savedtracebacktrackpendingexactorder.13graded disjointheadline4correct/8nonharmfulhandoffs/1harmful. Rawpartial/handoff flags can overlap harmful and are retained without useful-handoff credit. FreeDEVonly,noqualitygate.
+
+
+### OpenRouter complete synthetic qualification, 2026-11-23
+
+Pinned nvidia/nemotron-3.5-super-vl:free completed all15 original proof cases:6 fully correct,8 useful nonharmful handoffs,1 harmful (single independent Sol DEV grader). Raw partial=true appears on9, including the harmful answer; harmful gets no useful credit. Original capture seals, scores and expectations remain unchanged. All four fault cohorts are restored, latency schedule removed, temporal history retained; native restored baseline11:48UTC is360 source rows and model7661. Engine requests434/model calls157; timing excludes cloud startup/publication. These free results satisfy no quality gate.
+
+The billing harm is unsupported causal inference, not failed querying: the model inferred that a failed pipeline blocked a correcting refresh. Current cross-layer totals do not prove that history. It is retained as a model reasoning failure, with no engine tuning from it. Four screenshot traces also prove misleading comparison-proof feedback and exact native SQL/DAX representation gaps; generic repairs leave scalar proof/refusal and raw captures intact. A separate four-case affected rerun is prepared, pending full qualification of28a56e88. Scope verdict compatibility is independently repaired from the earlier paid regression trace. Two correctly-scored cases retain grader caveats about export provenance and a last-load timestamp; no every-detail-correct claim. See round-twenty-seven-openrouter-supervl-progress.json and round-twenty-seven-openrouter-billing-harm-backtrack.json.
+
+
+2026-11-23UTC affected repair cohort complete: all4 screenshot reruns on28a56/imagee452 delivered ANSWERED and were singleSol graded4/4correct0harmful, versus0/4correct in their preserved original SuperVL runs. No scores are pooled into original15. Native tool indexes show scalar SQL/DAX reads and submit_finding; no live analysis tool usage is claimed for the header/type repair (that has separate exact saved-native tests). Four immutable captures verified. Fresh stochastic generations and bundled generic repairs prevent attributing all improvement to one code change. Comparison: round-twenty-seven-openrouter-affected-comparison.json.
+Ling15 is now admitted separately with same qualified image, pinnedopenrouter/inclusionai/ling-3.2-flash:free, max2statics and singleSolDEVgrader; fault controls only after static terminal. No Anthropic spend, no calibration/v5 or quality-gate claim.
+
+
+### Free DEV operational model selection ? 2026-11-23
+
+Selected OpenRouter `nvidia/nemotron-3.5-super-vl:free` for the next32-ticket pass. This is an availability and clean-execution choice for bug finding, not a vendor-quality ranking. Its original15 remained6correct/8nonharmful useful handoffs/1harmful; four trace-established affected screenshot reruns separately passed4/4 on current28a56/imagee452. Do not pool them into an invented new15score. Kimi had13measured/2environmental slots; Ling's first2full-ticket attempts produced no answer after30+minutes with persistent native429s. Under owner free-hand selection, ended only those2owned read-only jobs, retained363uploaded partial records with matching AzureMD5/SHA-at-read, and left13notrun. Both are unscored, partial and unsealed, not model-quality failures or exact replays. Unknown quota charges remain;0openLingreservations. Alternative rejected: occupy workers until enclosing-job timeout for an unavailable candidate. Earlier Ling tool/visionPASS stays recorded; paid fallback remains refused because free tool candidates passed.
+
+Next32inputs preserve allsourcehashes/expectations, full20guard with0carriedscores, and explicitR17-05. Native preflight5600toolvectorsPASS and fresh no-generation provider auth200; currentcostobservationUSD1.154003/20(billingmaylag).18statics first,max2;14faulttickets in9serializedexisting control groups, checked once each. Stale waits for fresh ownerOFF at the end; no stale/source change now. See round-twenty-seven-free-model-selection.json and round-twenty-seven-openrouter-ling-environment.json.
+
+
+2026-11-23UTC host scoring/report repair qualified at380a71a9:6141PASS53skip/zero failures/errors,all8image shardsPASS,workflow45187858481,publishedc1667fda. Active32investigations allkeeporiginale452image; no investigator logic/acceptance/limit changed. A40-request initialization cap returnsINTERRUPTED and is correctly a scored unsuccessful attempt, not environment. Retain existingSolgrade0. Missing engine model/query counters areunknown(null),not0; recorded40physicalrequests remain. OnlyexplicitnativeProviderUnavailable/environment states are unscored; everyoriginalgrade retained evenifexcludedfromqualitycounts. Saved-caseintegrationkeepsKimi13graded8correct0harm+2environment andproperlycountscurrentbudgetstop.11focusedtests plus fullqualificationpassed. SingleSolqueue resumespreviousreceiptswithoutregrading;4screenshots4/4previousrepairpassareNOTcarriedintofull20guard.
+
+
+### Free Step4 native backtracks, 2026-11-23 (not a paid score)
+R17-05 remains safely UNRESOLVED but fallback selected only an extra-predicate scope: a unique enrichment alias was incorrectly allowed to prune native candidate inventory. Generic native-name-only fallback fix is independently flagged and qualified. The failed-application-load answer is graded harmful: the actual native FAILED run60171852 was in the immutable ledger but dropped by a30-second cache filter while later subjects were collected. Before/after saved-fact replay proves the first wrong step is triage evidence filtering, not a missing grant or provider failure. Same-refresh observations now retain their original timestamps, excluding old cache/future/over900-second facts. Four synthetic regressions and fullsuite/all8shards pass. Original answers and grades unchanged; no new estate/model call for these backtracks.
+The separate baseline-S01 delivery had the correct join/1104 mechanism in its first draft, then repeatedly returned undecided as an empty string instead of an array despite native repair feedback; classify model delivery shape, not missing reasoning. R17-11 supplied a technical SUM definition instead of answering business intent; classify model question interpretation. Source-coverage omissions in partial answers remain evidence-limited handoffs; no silent acceptance/shape coercion or expectation adjustment. See round-twenty-seven-free-step4-first-backtracks.json and round-twenty-seven-triage-saved-fact-replay.json.
+
+
+Round27 free Step4 access cohort,2026-11-23: both case variants independently graded correct and nonharmful. The source export view filters through CURRENT_USER and reader-to-visibility-group mappings; literal-filter reproductions explain10/1 versus25/2 without impersonation. One answer uses AS DESIGNED as its header, while its actual conclusion states the access difference; the independent grader explicitly accepted the substance. These are DEV flags, not proof of every output-label contract. All3 temporary source objects and graph/catalog additions removed; original reader roles retained. Evidence: round-twenty-seven-free-access-results.json.
+
+
+Round27 saved-native repair review, 2026-11-23: the separate four-case native-reference cohort graded1correct/3useful nonharmful handoffs/0harm. For latency900502v2, the first unproductive tool choice was an unfiltered whole-table row_layer_diff despite a keyed record question; native bounds refused it. Later unsupported citations/literal values and exhausted repair left the outcome unresolved. See docs/round-twenty-seven-latency-900502-repair-backtrack.json. Earlier grades/expectations and safety checks are unchanged. The accepted900501v2 timing explanation uses record-missing enum and noASOFquery; it does not prove the latency-specific native-history route.
+
+
+## Round27 gate-and-close update, owner2026-11-25
+
+No prior outcome, expectation or grade was changed. Free SuperVL/Kimi results are diagnostic only and cannot earn the Opus confirmation or calibration gates. The planned25 confirmation IDs are listed in round-twenty-seven-close-forecast.json; the full20 guard remains required. Whole-funded confirmation is not admitted: conservative forecast37.568245USD plus protected calibration14.34USD plus3reserve exceeds the lower owner cash estimate46USD by8.908245USD. Calibration andv5 did not run; v5 remains sealed. No partial run or carried guard positives. Organization billing API cannot expose cash with the current workspace key; no exact-cash claim.
+
+Stable system and investigation tool/schema caching was already active. Helper calls now mark their own last tool, preserving each phase's real schema rather than pinning an earlier helper tool. Saved Opus cache reads: investigation68.6627%, intake55.0831%, evaluator2.0583%; these are past measured ratios, not guaranteed asynchronous Batch hits. Static Batch preparation reserves before submit, tapes batch IDs and usage, forbids arbitrary model/tool/foreign-ID/cancel routes, and retains uncertain charges;50% batch prices stack with cache prices. Faults stay normal. No live Batch result or savings claim.
+
+The61proven repair flags are folded into code. The3evaluator experiment flags remain. Historical default-true specs are accepted as no-ops and retired off ablations refused explicitly. Old baseline-only tests are preserved as source fixtures, while current behavior and safety tests remain executable.123saved status/after classifications are unchanged against qualifiedc7a06c1f;29historical replay failures and9missing cases remain, not fabricated successes. No new prompt reasoning fix, model interpretation or grade is inferred from this cleanup.
+
+First wrong steps remain those recorded in the paid and free backtracks. The dropped failed-job observation was a generic evidence-loss defect and its free rerun graded correct; R17-05 still lacks the semantic-rule explanation. The native-reference and candidate repairs improve access to evidence without proving full Opus question-answering quality. Further quality claims require the gated confirmation and fresh calibration.
+
+
+Round27 funded confirmation checkpoint: see docs/round-twenty-seven-confirmation-progress.md for the first two saved traces and both independent graders. R17-05: wrong conclusion after a successful recreation and retained SUM definition; older-export movement1: period-boundary column validation after successful temporal ASOF. These new attempts remain separate from historical harmful/incorrect outcomes. Full25 backtrack follows the completed confirmation; no score or expectation changed.
+
+
+Funded confirmation raw-trace refinement (Nov26; grades unchanged): R17-05 was not simply a model refusing to conclude. Its saved submit_finding arguments already explained SUM(units), the unfiltered8765, receipt6425 and receipt/date665. get_target_candidates included two static page-header textboxes alongside three measurable cards. check_target_candidates returned CANDIDATES_NOT_EXHAUSTED because the textboxes had no measurable binding; submit_finding then refused a non-UNRESOLVED result with no selected target. Final time-limit rendering lost the useful draft. The first decisive defect is target-candidate construction/selection, before the final write-up. Sol/Astra correctly grade the delivered answer as wrong conclusion; this raw-cause analysis is separate and does not alter their grades. Generic repair candidate for AFTER the complete frozen confirmation: use native visual definitions to exclude proven non-data decorations from numeric candidate inventories; do not infer non-data from names, an enrichment guess or a merely missing binding, and preserve explicit named targets and genuine unread candidate ambiguity. No code change or extra model call has been made for this finding.
+
+
+## Opus confirmation: saved-trace diagnosis before completion (2026-11-26)
+
+At this checkpoint 21 of 25 outcomes have independent grades: 14 fully correct, two useful handoffs and zero reviewed harmful. This table covers the seven outcomes that are not fully correct. It is an operator analysis of saved traces, not a replacement grade or a final gate. Original outcomes, independent reasons and sealed expectations are unchanged. The full confirmation continues before any engine repair.
+
+| Ticket | First wrong step in saved trace | What went wrong and correct action |
+|---|---|---|
+| form-v2-billing-mrr-v1 | tool choice | The declared source application was available, but the investigator stopped after semantic and Gold agreement. Verify the reachable origin inputs before claiming the full requested record coverage; keep the semantic explanation and limitations. |
+| form-v2-other-collected-definition-v2 | tool choice | The model and Gold checks explain 550, but no source payment records were read. Check the declared source records and state explicitly which boundaries remain unverified. |
+| form-v2-warehouse-scope-v2 | intake | The submitted report reference is unknown while its explicit visual and page have a unique native parent. Recover only from those exact containment edges, preserving the explicit visual and independent comparison scope; never edit the ticket or guess an ID. |
+| text-R17-05-v1 | target | Candidate enumeration included native literal page headers as if they were measurable numeric cards. Exclude a proven static nonmatching decoration using its exact native definition; retain unknown, dynamic, matching-value and explicitly selected visuals. |
+| text-older-export-movement-1-v2 | query | The source schema retained before temporal history was enabled omitted the hidden period columns, although native catalog evidence showed them. Refresh the exact opened source object schema; do not infer the retention boundary from an empty AS OF result. |
+| text-R17-08-v1 | triage | A refresh-status question was investigated as quantity reconciliation on a rebuilt candidate that did not reproduce the reported number. Investigate native refresh history for the admitted candidate path and preserve any unresolved target ambiguity. |
+| text-R17-10-v1 | conclusion | Code rejected any non-unresolved finding without a unique selected visual, including a checked conditional definition across all candidates. Preserve target ambiguity while allowing a complete cited calculation explanation only when all candidate checks are exhaustive; never choose an arbitrary visual. |
+
+The graders describe R17-05 and R17-10 as conclusion failures. Earlier in their raw traces, R17-05 is blocked by literal-header candidate enumeration; R17-10 is blocked by the unconditional unresolved-target delivery rule. These are causal backtrack distinctions, not changes to the independent correctness judgments. The older-export query using `FOR SYSTEM_TIME AS OF` did execute; queries naming hidden period columns were rejected against stale retained schema. A blanket temporal-syntax rejection is therefore not the observed cause.

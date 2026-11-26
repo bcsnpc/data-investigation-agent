@@ -1,0 +1,167 @@
+{
+  "at_utc": "2026-11-22T08:52:11.483499+00:00",
+  "status": "PROTECTED_BUDGET_PAUSE_NOT_ROUND_CLOSED",
+  "saved_and_graded": 21,
+  "required": 39,
+  "pending": [
+    {
+      "ticket": "text-latency-900501-v1",
+      "fixture": "latency",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-access-export-v1",
+      "fixture": "access",
+      "guard": true,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-access-export-v2",
+      "fixture": "access",
+      "guard": true,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "fixture": "failed-fixture",
+      "guard": true,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "fixture": "failed-billing",
+      "guard": true,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "fixture": "latency",
+      "guard": true,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "fixture": "history",
+      "guard": true,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-waiting-application-load-v2",
+      "fixture": "waiting",
+      "guard": true,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "fixture": "stale",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "fixture": "stale",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-R17-11-v1",
+      "fixture": "baseline",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-baseline-S01-v1",
+      "fixture": "baseline",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "fixture": "baseline",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-different-warehouse-v2",
+      "fixture": "baseline",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-history-source-900201-v1",
+      "fixture": "history",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-history-source-900201-v2",
+      "fixture": "history",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-latency-900501-v2",
+      "fixture": "latency",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    },
+    {
+      "ticket": "text-latency-900502-v2",
+      "fixture": "latency",
+      "guard": false,
+      "reason": "NOT_ADMITTED_PROTECTED_BUDGET_FLOOR"
+    }
+  ],
+  "scores": {
+    "measured": 21,
+    "official": 14,
+    "strict": 14,
+    "reviewed": 14,
+    "useful_handoff": 1,
+    "harmful": 1
+  },
+  "guard": {
+    "measured": 13,
+    "official": 11,
+    "strict": 11,
+    "reviewed": 11,
+    "useful_handoff": 0,
+    "harmful": 0
+  },
+  "accounting": {
+    "observed_at_utc": "2026-11-22T08:50:57.061854+00:00",
+    "provider_accounts": {
+      "anthropic": {
+        "charged_microdollars": 202108251,
+        "committed_microdollars": 202108251,
+        "pending_exposure_microdollars": 0,
+        "ceiling_microdollars": 220284651
+      },
+      "openai": {
+        "charged_microdollars": 189209349,
+        "committed_microdollars": 189209349,
+        "pending_exposure_microdollars": 0,
+        "ceiling_microdollars": 202938628
+      },
+      "bedrock": {
+        "charged_microdollars": 1261833,
+        "committed_microdollars": 1261833,
+        "pending_exposure_microdollars": 0,
+        "ceiling_microdollars": 20000000
+      }
+    },
+    "history_unchanged": true,
+    "ledger_mutated": false
+  },
+  "calibration_protected_microdollars": 14340000,
+  "next_case_admission_floor_microdollars": 18340000,
+  "anthropic_headroom_microdollars": 18176400,
+  "no_pending_model_exposure": true,
+  "full_pass_gate_not_met": true,
+  "no_freeze_calibration_or_v5_admitted": true,
+  "source_hash_restored_real_load_completed": true,
+  "automatic_updates_owner_on_pending": false,
+  "limits_unchanged": true,
+  "stale_restoration_completed_record": "docs/round-twenty-seven-pass2-final-restoration.json"
+}

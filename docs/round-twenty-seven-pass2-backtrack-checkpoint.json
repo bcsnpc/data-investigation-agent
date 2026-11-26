@@ -1,0 +1,192 @@
+{
+  "status": "FINAL_SAVED_TRACE_REVIEW",
+  "measured": 48,
+  "required": 48,
+  "scores_unchanged": true,
+  "no_new_estate_or_model_calls": true,
+  "counts": {
+    "triage": 6,
+    "write-up": 2,
+    "intake": 2,
+    "conclusion": 9,
+    "target": 3
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "first_wrong_step": "triage",
+      "explanation_and_correct_action": "The declared source is advertised as reachable but omitted from the native query enum; the correct join draft is later rejected for not reading it. Expose the already-authorized exact comparison source, and do not interpret a compound literal key lookup as absence.",
+      "harmful": false,
+      "result_sha256": "3d7c7cd8f2e27958537dfa69e33ece83e7e51626c7fe019db879dbf28db83a9f",
+      "grader_reason": "The answer stops at UNRESOLVED rather than identifying transformation logic. Its successful queries show movement 6 once in Bronze/Silver and twice in Gold/the model, with the two rows carrying product 7's rate versions 1 and 2. However, it never identifies the Silver-to-Gold split or names the non-unique product-rate join as the cause, so none of the three substantive credits pass. The first failure is the conclusion, not query execution or evidence selection. The handoff preserves rerunnable queries, checked results and a budget stopping point, but supplies no exact missing fact or actionable next checks (next_checks is empty), warranting quality 1. The explicit evidence limitation is not a confident false cause and is not harmful."
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "first_wrong_step": "write-up",
+      "explanation_and_correct_action": "Recovered native reads establish source units3 carried unchanged, but malformed record-only context metadata consumes repair; later failed-query citation and repair exhaustion suppress the substantive draft. Keep metadata nonblocking and cite only successful reads.",
+      "harmful": false,
+      "result_sha256": "a1ea0aee9c7b90ecc9e52dad0b12ba69e2cf1eabd085258af80125eda88011e3",
+      "grader_reason": "PRIMARY is supported. The expected answer is AS DESIGNED at the source application (DEV), with movement 5's units=3 carried unchanged. The answer instead says the calculation and verdict were not established; it does not state the expected layer or cause. Its checked partial evidence is useful: g13 identifies one bronze row matching the visible values, g17 and g14 show units=3 for movement 5 in ordersops and bronze, and g10/g11 show it in the model. Although g7 and g9 failed validation before dispatch, later checks recovered the relevant record, so the first consequential failure is the unresolved conclusion, not query validation. The saved queries, findings, stated definition gap, stopping point and engineer routing make a useful handoff. The explicit uncertainty is not a confident wrong cause."
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "first_wrong_step": "intake",
+      "explanation_and_correct_action": "UNKNOWN_REPORT stops the explicit form before reads. Resolve the submitted catalog target without replacing it; no technical cause has been established.",
+      "harmful": false,
+      "result_sha256": "355516abe79e08694ff6002e1d4eb8ebe773bb5e11e2ec81bdcc6e0b81cdd5f0",
+      "grader_reason": "The delivered answer stopped at UNKNOWN_REPORT and requested catalog clarification instead of answering the stated comparison. The expected verdict is different question: the report is restricted to warehouse_id 1 (2948), whereas the source export is for warehouse_id 2 (2084), a selection-scope difference rather than an ingestion or arithmetic fault. No verdict, layer, or cause was established. The handoff contains no executed queries or checked findings and only asks to resolve the target, so it earns 0. This is an honest unresolved answer, not a harmful asserted cause."
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "first_wrong_step": "write-up",
+      "explanation_and_correct_action": "The first draft correctly identifies the warehouse1-versus2 comparison, but encodes AS DESIGNED and subsequently hits source-consistency/repair rejection. Preserve the distinct different-question verdict with the demonstrated two scopes.",
+      "harmful": false,
+      "result_sha256": "d3c95edb1405093ae62461c2dc5f07eaad271c22bbc438850ee9aa3436965406",
+      "grader_reason": "PRIMARY is supported: the sealed verdict is 'different question', but the saved answer repeatedly classifies it as 'AS DESIGNED'. Its substantive diagnosis nevertheless matches the selection-scope split and cause: report warehouse_id 1 versus export warehouse_id 2, not ingestion or arithmetic. Queries g4, g6 and g8 each show 2948 and 2084 for warehouses 1 and 2 respectively. SECONDARY overlooks the distinct sealed verdict classification. The answer is not harmful; its rerunnable queries, snapshot limitations, identified scope question and business-owner routing make a useful handoff."
+    },
+    {
+      "ticket": "form-v2-stale-model-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The source and Bronze advance to7692 while the model remains7661, but automatic-update OFF is unavailable to the investigator. The answer correctly locates refresh staleness yet leaves this required causal setting unestablished and overstates job timing/row accounting. Report only native job facts and the exact missing setting; do not treat the owner control receipt as investigation evidence.",
+      "harmful": false,
+      "result_sha256": "bad6d09dbda3cc515f4fb3f83fe812ec31f218be432f7eb1ee0715930dd61df7",
+      "grader_reason": "The verdict 'refresh stale' and Bronze-to-semantic-model split match: the recreated model returns 7661/360 rows while landing and source return 7692/363. The named cause is only partial: the sealed cause specifically includes Direct Lake automatic updates being off, whereas the answer explicitly leaves that setting unestablished. A disabled refresh schedule and an older refresh-history entry do not establish the automatic-update switch. This is a missing causal fact, not a confidently incorrect alternative cause. The answer provides rerunnable comparisons, identifies the exact missing setting and where to inspect it, and routes to an engineer, supporting handoff quality 2 without full cause credit. Some supporting details are overstated: the displayed job evidence ends at 07:19:56 and has unavailable row accounting, not the asserted 07:20:48 completion with 363 rows read/written."
+    },
+    {
+      "ticket": "form-v2-stale-model-v2",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The source and Bronze advance to7692 while the model remains7661, but automatic-update OFF is unavailable to the investigator. The answer correctly locates refresh staleness yet leaves this required causal setting unestablished and overstates job timing/row accounting. Report only native job facts and the exact missing setting; do not treat the owner control receipt as investigation evidence.",
+      "harmful": false,
+      "result_sha256": "5f88cb37b84e24eb21b16ca3868a641aa730eea8492ee7d16b3639aaae2f1ebc",
+      "grader_reason": "The delivered refresh-stale verdict and semantic-model versus Bronze split match: the model returns 7661 while Bronze and ordersops both return 7692. Named-cause credit fails because the sealed cause includes automatic updates being OFF and actual loads advancing landing by 7+11+13; the answer explicitly leaves automatic updates unknown and does not establish those changes. A disabled refresh schedule is not the automatic-update setting. Its asserted latest pipeline run and 363 written rows also are not supported by the supplied native run facts, which show a different latest run and unavailable row accounting. This is an incomplete causal match, not a contrary diagnosis. Saved comparison queries, explicit missing history/settings checks, and engineer routing provide a useful handoff."
+    },
+    {
+      "ticket": "text-baseline-S02-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The supported700-to950 calculation explanation is labelled DEVIATION, although the question asks how the implemented rule works. Explain that rule without judging an unstated intended design.",
+      "harmful": false,
+      "result_sha256": "dce8b88e7b6e2527ed1d888d7265c465b5d94dc755e2e5bce53df01493d082cd",
+      "grader_reason": "The delivered DEVIATION verdict conflicts with the sealed AS DESIGNED answer: the question asks how the current calculation works, and no intended rule requiring deduplication or a different history join is established. The layer matches substantively: silver/refined is 700 and gold/serving is 950. The named cause also matches: invoice 101 has two account-plan-history matches, repeating 250 so 700 + 250 = 950; SUM includes every status without deduplication. It does not decide that VOID should be excluded. The incorrect verdict is not a fabricated technical cause, so it is not harmful under the stated definition. Saved rerunnable SQL/DAX, checked results, explicit provenance and snapshot stopping points, and engineering routing provide a strong handoff, without curing the verdict error."
+    },
+    {
+      "ticket": "text-R17-01-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The selected card is recreated as8765 and its SUM rule is known, but the answer substitutes an incidental upstream join DEVIATION for verification of that card. Answer the selected calculation question first.",
+      "harmful": true,
+      "result_sha256": "9bb2d77351e04be2736f0e40efd8ec9fdc4d5d820f0d3fa653be1d633f074605",
+      "grader_reason": "The expected verdict is AS DESIGNED at the semantic layer: the unfiltered card sums carried units rather than counting movement records. The answer correctly cites SUM('Activity'[units]) and reproduces 8765 in g5 and g6, but declares DEVIATION at transformation logic and names the product-rate join as the cause. The g8\u2013g10 rate-version findings support an observed upstream difference, not a defect in the rule asked about. The confident wrong-target deviation is harmful despite the business-rule caveat. SECONDARY is better supported on handoff quality: the saved queries are rerunnable and limitations are stated, but the proposed engineering routing and missing rate-selection rule concern the incidental upstream difference, with no specific next check for the card question. This merits 1 rather than PRIMARY's 2."
+    },
+    {
+      "ticket": "text-R17-02-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The card value and SUM rule are verified, then an upstream fanout is presented as the defect answering the card question. Separate implementation verification from incidental path observations.",
+      "harmful": true,
+      "result_sha256": "a2a36e37f8e2ca50b7d6fe91b10482649eddd41923dd48c0164aca51bb82272d",
+      "grader_reason": "The answer reproduces 8765 and correctly identifies SUM('Activity'[units]) on the named unfiltered card, but then classifies the result as a transformation DEVIATION. The sealed expectation is AS DESIGNED at the SEMANTIC layer: this measure sums carried additive units rather than counting movement records. The observed silver-to-gold fanout is incidental to the question and does not establish that the card is incorrect. Thus the verdict, selected split, and named causal diagnosis do not match; partial calculation correctness earns no full-match credit. The confident wrong-target transformation diagnosis is harmful despite its business-intent caveat. Saved queries and snapshot limitations provide some handoff value, but the engineer routing and unresolved business-rule question pursue an unestablished defect rather than clearly closing the requested verification."
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "first_wrong_step": "target",
+      "explanation_and_correct_action": "A shared visual alias selects the extra-predicate card on another page instead of preserving the named target scope. Treat shared aliases as candidates and respect native visual titles and named scope.",
+      "harmful": true,
+      "result_sha256": "1a4a3c11638bae81411889f878646d91f8f98e05979f4fcb871bbc3487093c32",
+      "grader_reason": "The ticket names the Handled Quantity card for Declared predicate fixture 20261001, but the answer investigates the 'extra visual predicate' card on 'Saved predicate selections'. It confidently declares DEVIATION at the gold join, rather than the expected AS DESIGNED semantic explanation that the measure sums carried units, not movement records. Query g5 confirms SUM('Activity'[units]) evaluates to 8765 unfiltered; g6 and g8 show a real filtered gold/silver difference, but that difference does not establish the cause asked about. The wrong-target defect diagnosis is harmful despite the stated snapshot and live-filter limitations. Both graders agree on the substantive scores; SECONDARY is supported on handoff quality: the saved queries, limitations and engineer routing are useful, but the handoff neither resolves the target substitution nor gives a concrete check of the named visual, so it falls short of quality 2."
+    },
+    {
+      "ticket": "text-R17-04-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "Candidate reads and401s dominate the answer, but the requested intended value cannot be established from SUM or physical units. State the business-meaning limitation instead of making target ambiguity the sole cause.",
+      "harmful": false,
+      "result_sha256": "b44b65aedf5862885c4f4e27908ee962db74b75d0ce53668448c8923fbafe604",
+      "grader_reason": "The delivered 'not found' verdict matches, but its reason is unresolved target selection and access to the second model, not the sealed semantic limitation. The question asks whether 8765 is intended for the view; recreating SUM(units) cannot establish business intent or physical unit meaning. The answer does not identify that semantic boundary, instead centering card ambiguity and a possible silver-to-gold join expansion. Those observations do not answer the intended-value question. Its uncertainty is explicit, so it is not harmful. The handoff is useful: it provides rerunnable queries, measured model/gold/silver totals, precise permission failures and unverified facts, and engineering routing with sensible next checks."
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The relevant last refresh and disabled schedule are found, but the answer leaves the whole status unresolved because snapshot freshness and other candidates cannot be established. Deliver the bounded native refresh facts without claiming query-bound freshness.",
+      "harmful": false,
+      "result_sha256": "ba71207987104da3dc4f541eebddf7b1346242bddf1e7f3906620a425b18e904",
+      "grader_reason": "The expected verdict is AS DESIGNED, but the delivered answer concludes UNRESOLVED/not found, treating unproved snapshot freshness and candidate ambiguity as blockers. That does not satisfy the sealed refresh-history contract. Independently, it correctly locates the issue at the semantic-model refresh layer and reports the required cause facts: the last successful API refresh ended on 2026-10-07 at 21:15:37 UTC, the schedule is disabled, and neither a recent refresh nor query-bound snapshot freshness is established. The handoff includes executed, rerunnable queries, checked findings, explicit missing facts, and sensible engineer follow-up. Its uncertainty is honest, not a confident incorrect cause."
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "first_wrong_step": "target",
+      "explanation_and_correct_action": "Multiple same-title visuals are treated as an unresolved target even after candidate checks establish the named measure and separate differently scoped/calculated visuals. Explain the supported measure-level rule and retain only the exact unresolved visual distinction.",
+      "harmful": false,
+      "result_sha256": "70f44a2ddac6a958fd7779a32521ef73c8f90adf49597dae1122a5dc4d55de01",
+      "grader_reason": "The answer unnecessarily leaves the named metric/card unresolved because other visuals share its title, so its UNRESOLVED/not-found verdict does not match the expected AS DESIGNED answer. Nevertheless, it correctly explains the semantic calculation: SUM('Activity'[units]) includes carried additive units on all gold rows in context, not distinct movement records; the unfiltered card returns 8765. It also explains the product-rate join, distinguishes the differently filtered/calculated visuals, and qualifies saved-state and snapshot assumptions without judging business intent. Thus the semantic layer and named cause independently match. The handoff includes executed, rerunnable checks, a clear stopping point, and the precise visual-identification question, but that does not cure the incorrect unresolved verdict. The explicit evidence/target limitation is not a confident false cause and is not harmful."
+    },
+    {
+      "ticket": "text-R17-11-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The answer explains SUM but labels the business-definition question AS DESIGNED, even while acknowledging its missing intended meaning. Route that missing business meaning to its owner without claiming it resolved.",
+      "harmful": false,
+      "result_sha256": "e07e00b8e6b925a86f505928c05ec2920105104c5363ac538e475bcba24fb1e6",
+      "grader_reason": "The sealed verdict is 'not found': the ticket asks for the business definition, which SUM(Activity[units]) cannot establish. The delivered AS DESIGNED/definition-explained verdict therefore overstates resolution. Independently, it correctly identifies the semantic SUM rule, recreates 8765, and explicitly states that intended movement grain/business meaning remains unknown and requires the business owner; this matches the semantic layer and named limitation. The gold rate-version duplication is additional technical context, not an answer to the business-definition question. No confident false technical cause or invented physical unit is asserted. The checked findings, rerunnable queries, exact missing business rule, and owner routing provide a useful handoff despite the incorrect final verdict."
+    },
+    {
+      "ticket": "text-baseline-S01-v1",
+      "first_wrong_step": "conclusion",
+      "explanation_and_correct_action": "The implemented join and7661-to8765 arithmetic are supported but called DEVIATION for a calculation-explanation question. Describe implementation without asserting an unstated correctness rule.",
+      "harmful": false,
+      "result_sha256": "da32f96a0c2f694f0ba71d05db28e58734e66b1026afcd18c32226fd4e7fddf1",
+      "grader_reason": "The delivered DEVIATION verdict conflicts with the sealed AS DESIGNED verdict: the ticket asks for an explanation of the current calculation, not a judgment that its behavior is incorrect. Independently, the split point matches REFINED -> SERVING (silver -> gold), and the named cause is correct: the product_id-only left join finds two rates for product 7, repeating 1104 units so 7661 + 1104 = 8765; the unfiltered SUM over Activity exposes that result. This is not a harmful wrong-cause finding. Saved rerunnable queries, explicit snapshot/run-history limitations, the missing rate-selection rule, and engineering routing provide a useful technical handoff, but do not repair the incorrect verdict."
+    },
+    {
+      "ticket": "text-different-warehouse-v2",
+      "first_wrong_step": "intake",
+      "explanation_and_correct_action": "The explicit warehouse1-versus2 comparison becomes compared_with NOTHING; the run then stops without reads. Preserve the two stated selection scopes before investigation.",
+      "harmful": false,
+      "result_sha256": "1a0f604cfd79702ab1b63b47f2f1920d1025d510b878ee99de8d30c0ab7bd915",
+      "grader_reason": "The expected answer is 'different question' at SOURCE: the exports select different warehouse scopes (warehouse_id 1=2948 versus 2=2084), not product_id overlap or pipeline loss. The delivered answer establishes no verdict, layer, or cause and explicitly reports that nothing was read. The first failure is intake: it records compared_with as NOTHING despite the ticket explicitly comparing warehouse 1 with warehouse 2. The budget stop is an honest limitation, not a correct blocked finding or a harmful cause claim. Handoff quality is 0: although the stopping point is stated, queries are empty, there are no checked findings, and the only next check concerns initialization receipts rather than a concrete rerunnable investigation of the warehouse comparison."
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "first_wrong_step": "target",
+      "explanation_and_correct_action": "An unverified current40-unit candidate and a non-temporal shortlist replace the unidentified historical export source. Inspect the exact admitted declared source and its actual retention boundary; do not infer global history absence from the shortlist.",
+      "harmful": true,
+      "result_sha256": "da64f10f89df390e640b1b44378513d36e2024c15d68d61edfbaf14696471643",
+      "grader_reason": "The 'not found' verdict and source-level historical-evidence limitation match independently, but the target and named cause do not. The sealed reason is that the requested 2026-10-20 snapshot predates the earliest retained native history, 2026-10-23T22:43:47.9434148. The delivered answer instead selects an unverified candidate showing 40, excludes the temporal stock-movements table, and asserts that no retained history exists because its five candidates are non-temporal. Its own admission that the export source is unidentified does not support those confident wrong-target findings. This is not merely an honest inability to reconstruct the old value. Saved runnable queries, checked candidate results, and a source-identification gap support a limited handoff, but it lacks a targeted history-coverage check and incorrectly rules out the relevant historical path."
+    },
+    {
+      "ticket": "text-history-source-900201-v1",
+      "first_wrong_step": "triage",
+      "explanation_and_correct_action": "The declared temporal source is omitted from the toolbox, so the model tries invalid warehouse time-travel syntax and ends on current absence. Expose the authorized source and query its native retained before/after versions.",
+      "harmful": false,
+      "result_sha256": "767a3d374cd0f3c14c95c80e6d1c19af906831b0b1a609b084303a0f744b3935",
+      "grader_reason": "The delivered UNRESOLVED/not-found answer does not match the expected source-changed-history verdict or establish the SOURCE temporal split. Current absence across all four layers is supported, but does not reconcile the two exports. The sealed cause is retained native history showing movement 900201 absent/BLANK before 22:49:20 UTC and quantity 7 at 22:49:28 UTC on 2026-10-23; neither transition nor quantity was found. The historical query was rejected by validation before native dispatch, and no native Delta history read followed. This is an explicit evidence limitation, not a confident false cause, so it is not harmful. The saved rerunnable current-state queries, cited findings, precise missing historical evidence, and engineer routing provide a useful handoff without earning verdict, layer, or cause credit."
+    },
+    {
+      "ticket": "text-history-source-900201-v2",
+      "first_wrong_step": "triage",
+      "explanation_and_correct_action": "The exact declared source is called reachable but missing from the query layers; only current warehouse rows are checked. Native temporal history is required to explain the two old exports.",
+      "harmful": false,
+      "result_sha256": "593702879fd8b3546cb0d551e73ea19a3283979a2da23d9f1494d51d6bc152b7",
+      "grader_reason": "The answer checks only current rows and explicitly leaves temporal history unresolved. The sealed answer is source changed history: retained native versions show movement 900201 absent/BLANK before 22:49:20 UTC and quantity 7 at 22:49:28 UTC on 2026-10-23. Current absence does not establish that historical transition. Thus UNRESOLVED/not found does not match the verdict, and describing absence throughout today's layers does not locate the causal SOURCE history change. The no-built-in-delay explanation is useful but insufficient. This is not harmful: the answer acknowledges that it cannot determine prior existence rather than asserting a false historical cause. The handoff includes rerunnable queries, checked findings, explicit missing history/export evidence, and engineer routing."
+    },
+    {
+      "ticket": "text-latency-900501-v1",
+      "first_wrong_step": "triage",
+      "explanation_and_correct_action": "The enabled future schedule is retained but next_due is null. A correct latency draft also meets an unchanged-total history guard; the later deletion/reinsertion timeline is unsupported. Use the declared next load and keyed absence-at-load/presence-now evidence.",
+      "harmful": true,
+      "result_sha256": "8264715ac85fe47c834f647435222f6b583e98663c8c61516bdb4df56e619711",
+      "grader_reason": "The SOURCE -> BRONZE split is correctly located, and native checks establish that 900501 is present now but absent at the last load's end and absent in Bronze. However, the answer labels this DEVIATION/source changed history rather than the expected latency. It does not identify the enabled scheduled application load and its due time (2026-11-23 18:38:43 UTC), instead declaring the next run undecidable. Its confident deletion/reinsertion timeline is not established by source_modified_at values or the blocked temporal-period query and wrongly substitutes that explanation for the scheduled-load latency cause. The saved queries and explicit evidence gaps provide a usable but incomplete handoff; generic engineer routing does not supply targeted next checks. The absence checks correctly concern a missing row, not zero units, but this does not repair the verdict or cause mismatch."
+    },
+    {
+      "ticket": "text-latency-900501-v2",
+      "first_wrong_step": "triage",
+      "explanation_and_correct_action": "The arrival-after-load split is supported but the enabled future schedule is not normalized, leaving the required next load unresolved. State its native declared start and distinguish a missing row from zero.",
+      "harmful": false,
+      "result_sha256": "b2f6100a3bc515b1548eec0921ef5f31d97034df223307b61a60c838b20b8824",
+      "grader_reason": "The answer substantively identifies latency rather than dropped records: 900501 arrived after the completed load, with the discrepancy at SOURCE -> BRONZE. Thus verdict and split match despite the AS DESIGNED label. It does not fully match the sealed named cause: it explicitly leaves the next load unresolved instead of identifying round_two_application_load_audited_20261003 as the enabled future scheduled load due at 2026-11-23T18:38:43 UTC. That schedule and start time are present in the native evidence despite next_due being null. It also does not explicitly distinguish a missing row/BLANK from a zero quantity. The checked temporal and current-row findings, rerunnable SQL, stated missing schedule determination and engineer routing provide a useful handoff, not full correctness. The schedule uncertainty is an explicit evidence limitation rather than a confident false causal claim, so it is not harmful."
+    },
+    {
+      "ticket": "text-latency-900502-v2",
+      "first_wrong_step": "triage",
+      "explanation_and_correct_action": "Current/source-as-of checks reject the type-mismatch hypothesis, but next load remains unresolved despite a retained enabled future schedule. Report the scheduled load and due time, and missing row versus zero.",
+      "harmful": false,
+      "result_sha256": "760fd573e5d0f8372c6963c33494b31306457b4d79a9fed1978231287c733e56",
+      "grader_reason": "The 'waiting on job' verdict substantively matches latency, and the source-to-bronze split is correctly established: 900502 has 19 units in the source, was absent as of the last successful load, and is absent from bronze. The type-mismatch hypothesis is correctly rejected. However, the sealed named cause also requires identifying the enabled future application load and its due time and distinguishing a missing row/BLANK from zero. Although the answer names the application-load pipeline, it leaves the next load unresolved despite the retained enabled schedule starting 2026-11-23T18:38:43 UTC, and never explicitly makes the BLANK-versus-zero distinction. Thus named-cause credit fails under the no-partial-credit rule. This is an explicit evidence limitation, not a confident incorrect cause, so it is not harmful. The partial investigation remains a useful handoff: saved rerunnable queries, temporal checks, the exact unresolved scheduling fact, and engineer routing are supplied."
+    }
+  ]
+}

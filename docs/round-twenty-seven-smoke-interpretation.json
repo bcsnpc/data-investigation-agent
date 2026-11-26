@@ -1,0 +1,42 @@
+{
+  "decision": "DECIDED WITHOUT REVIEW: complete the three unchanged daily executions, preserving actual FAIL/INCOMPLETE statuses; do not alter the frozen engine, validator or expected native values to force green",
+  "basis": "Latest owner gate-and-close Step7 says run daily smoke three times and close even when paid gates cannot run. Hosted CI must pass. Build-phase current checks remain safe; December readiness is explicitly unconfirmed.",
+  "first_current_check": {
+    "execution": "job-dia-worker-vxkk79e",
+    "azure_status": "Succeeded",
+    "daily_status": "FAIL",
+    "verdict": "transformation logic",
+    "native_source_silver": 7661,
+    "native_gold_report": 8765,
+    "model_calls": 6,
+    "physical_requests": 32,
+    "cost_microdollars": 0,
+    "mechanical_false_negative": "guided_demo_matches accepts only a one-column row; actual measured SUM and COUNT share a two-column row",
+    "other_access_incomplete": "next-month-budget2026-12 NOT_TESTABLE, warning; current access rows PASS"
+  },
+  "rejected_alternatives": [
+    "Change expected numbers or relabel FAIL as PASS",
+    "Modify frozen engine or weaken the native checker during closure",
+    "Create an unconfirmed December account or assume the December grant"
+  ],
+  "quality_score_or_expectation_changed": false,
+  "second_current_check": {
+    "execution": "job-dia-worker-2rs7iia",
+    "azure_status": "Succeeded",
+    "daily_status": "FAIL",
+    "verdict": "transformation logic",
+    "native_source_silver": 7661,
+    "native_gold_report": 8765,
+    "source_bronze_product7_rows": 46,
+    "product7_units": 1104,
+    "gold_product7_rows": 92,
+    "gold_product7_units": 2208,
+    "duplicate_rate_rows": 2,
+    "model_calls": 7,
+    "physical_requests": 28,
+    "cost_microdollars": 0,
+    "same_mechanical_false_negative": "SUM and COUNT returned together in a single row; expected aggregate-only shape not met",
+    "access_incomplete": "Unconfirmed2026-12budgetwarning only; current access rows PASS",
+    "grading": "NOT_A_NEW_QUALITY_SCORE"
+  }
+}

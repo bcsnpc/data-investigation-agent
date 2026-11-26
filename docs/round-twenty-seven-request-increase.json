@@ -1,0 +1,93 @@
+{
+  "at_utc": "2026-11-22T03:20:30.779259+00:00",
+  "approval": "Owner approved 2026-11-21 local / 2026-11-22 UTC: add 6,000 November investigation requests for remaining Round27 phases. No other limit or usage change.",
+  "before": {
+    "revision": 6,
+    "body": {
+      "allocation_approval": "owner-approved 2026-10-27",
+      "allocation_effective_at": "2026-10-27T14:21:01.389061+00:00",
+      "allocation_reason": "Round24 purchased credit and October-only request increase; usage unchanged.",
+      "approval": "Owner approved 2026-11-01: 5,500 additional investigation requests for November; model caps unchanged",
+      "default_limits": {
+        "INVESTIGATION": 6405,
+        "RESTORATION": 95,
+        "SCAN": 2500
+      },
+      "default_total_limit": 9000,
+      "effective_at": "2026-10-28T01:37:47.180265+00:00",
+      "limits": {
+        "INVESTIGATION": 11905,
+        "RESTORATION": 95,
+        "SCAN": 2500
+      },
+      "limits_effective_month": "2026-11",
+      "period": "UTC calendar month; October starts at build adoption",
+      "restoration_reset": {
+        "approval": "owner-approved 2026-10-26",
+        "effective_at": "2026-10-27T01:41:27.798275+00:00",
+        "historical_requests": 70,
+        "month_utc": "2026-10",
+        "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+      },
+      "restoration_use": "restores only",
+      "total_limit": 14500
+    }
+  },
+  "after": {
+    "revision": 7,
+    "body": {
+      "allocation_approval": "owner-approved 2026-10-27",
+      "allocation_effective_at": "2026-10-27T14:21:01.389061+00:00",
+      "allocation_reason": "Round24 purchased credit and October-only request increase; usage unchanged.",
+      "approval": "Owner approved 2026-11-21 local / 2026-11-22 UTC: add 6,000 November investigation requests for remaining Round27 phases. No other limit or usage change.",
+      "default_limits": {
+        "INVESTIGATION": 6405,
+        "RESTORATION": 95,
+        "SCAN": 2500
+      },
+      "default_total_limit": 9000,
+      "effective_at": "2026-10-28T01:37:47.180265+00:00",
+      "limits": {
+        "INVESTIGATION": 17905,
+        "RESTORATION": 95,
+        "SCAN": 2500
+      },
+      "limits_effective_month": "2026-11",
+      "period": "UTC calendar month; October starts at build adoption",
+      "restoration_reset": {
+        "approval": "owner-approved 2026-10-26",
+        "effective_at": "2026-10-27T01:41:27.798275+00:00",
+        "historical_requests": 70,
+        "month_utc": "2026-10",
+        "reason": "Round22 cleanup remains charged history; fresh Round23 restoration allocation95"
+      },
+      "restoration_use": "restores only",
+      "total_limit": 20500
+    }
+  },
+  "physical_readback": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-11",
+    "used": {
+      "SCAN": 2404,
+      "INVESTIGATION": 10462,
+      "RESTORATION": 51
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 17905,
+      "RESTORATION": 95
+    },
+    "total": 12917,
+    "total_limit": 20500,
+    "historical_restoration_requests": 0,
+    "restoration_remaining": 44,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT"
+    ]
+  },
+  "only_state_document_updated": true,
+  "no_reservation_or_usage_write": true,
+  "focused_tests": "18 PASS",
+  "pinned_image_note": "Current P1 remains on its qualified lower source ceiling; next qualified image receives November override. No live engine replaced mid-ticket."
+}

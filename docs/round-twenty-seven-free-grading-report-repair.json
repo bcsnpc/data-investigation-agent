@@ -1,0 +1,41 @@
+{
+  "observed_utc": "2026-11-23T13:50:06.041737+00:00",
+  "scope": "Host free DEV grading/reporting only; no investigation acceptance or outcome mutation",
+  "native_trigger": "text-different-warehouse-v2 has INTERRUPTED / UsageHold: GUIDED_PHYSICAL_CAP_REACHED,40physicalrequests, no model_calls/native_query_seconds; report raised KeyError while watcher incorrectly labelled every INTERRUPTED environmental. Existing Sol grade is retained as a scored budget failure.",
+  "fixes": [
+    "Shared explicit disposition: per-run budget stops and engine interruptions remain scored; known native ProviderUnavailable and explicit environmental statuses unscored",
+    "Watcher, packet preparation and publisher share classification, preserving any original grade records",
+    "Optional metrics remain null; known totals and missing-case counts are explicit, no invented zero",
+    "Current and legacy controller status names supported; disjoint cohort counts retain raw grader bits"
+  ],
+  "new_tests": 8,
+  "focused_tests_passed": 11,
+  "new_tests_in_image_shards": true,
+  "existing_outcomes_grades_expectations_changed": false,
+  "current_investigation_image_unchanged": "e452897d",
+  "new_grading_dispatch": "RESUMED_AFTER_FULL_QUALIFICATION; existing grade intents/results reused, no regrade",
+  "full_qualification": {
+    "source": "380a71a9ab6902257732bb173badd8b6bf45569d",
+    "workflow": 45187858481,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:c1667fda7e61bd7b2a194bd1ce29e02acf2897023f8a3c5fbeea6cbb7b91a9cf",
+    "full_suite": {
+      "passed": 6141,
+      "skipped": 53,
+      "failed": 0,
+      "errors": 0
+    },
+    "all_eight_shards": "PASS"
+  },
+  "saved_case_integration": {
+    "kimi_previous_scores_unchanged": {
+      "graded": 13,
+      "fully_correct": 8,
+      "harmful": 0,
+      "environment_unscored": 2
+    },
+    "current_budget_stop_kept_scored": true,
+    "missing_model_calls_retained_null": true,
+    "new_estate_reads": 0,
+    "generation_calls": 0
+  }
+}

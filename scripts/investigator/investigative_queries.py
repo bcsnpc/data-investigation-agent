@@ -4,6 +4,7 @@ Layer routes and object catalogs come from the admitted estate, never from tool
 arguments. Execution ports must enforce their timeout and the existing gateway.
 The journal passed here is private case storage, not the shared usage ledger.
 """
+
 from copy import deepcopy
 from datetime import datetime, timezone
 from time import monotonic
@@ -22,7 +23,8 @@ def validate(text, layer, *, rows=250):
         if admitted is not None:return admitted
     if dialect=='DAX':
         from .query_dax import compile_query
-        return compile_query(text,layer['objects'],max_rows=rows,allow_define=True)
+        return compile_query(text,layer['objects'],max_rows=rows,allow_define=True,
+                             allow_order_by=True)
     if dialect=='T-SQL':
         from .query_sql import compile_query
         return compile_query(text,layer['objects'],max_rows=rows,allow_views=True,allow_computed=True,

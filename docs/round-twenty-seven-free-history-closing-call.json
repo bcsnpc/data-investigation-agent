@@ -1,0 +1,31 @@
+{
+  "source_seal": "f192d5bba28501c9eefb3c6976f5a983d92d4d64a1e055e00c1b5ee21b0e5dba",
+  "final_investigator_request": {
+    "request_number": 5,
+    "audit_id": "audit:26d548bb-b4e7-49fe-8fe1-9332b4b3f297:600",
+    "max_tokens": 4000,
+    "tool_names": [
+      "run_sql",
+      "run_dax",
+      "get_definition",
+      "get_lineage",
+      "get_job_runs",
+      "get_refresh_history",
+      "get_security_definitions",
+      "list_candidates",
+      "contribution_analysis",
+      "row_layer_diff",
+      "record_trace",
+      "get_evidence",
+      "ask_user_choice",
+      "submit_finding"
+    ],
+    "last_user_contains_reserved_delivery_instruction": true,
+    "last_user_contains_physical_read_closed_instruction": false
+  },
+  "final_response_stop_reason": "max_tokens",
+  "final_call_step": "INVESTIGATOR",
+  "final_call_output_tokens": 4000,
+  "no_private_thinking_extracted": true,
+  "conclusion": "The final investigator call existed; it exhausted its4000-token producer output without a finding tool. Keep limits; this does not establish a missing closing-call logic bug."
+}

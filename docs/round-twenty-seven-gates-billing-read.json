@@ -1,0 +1,6 @@
+{
+  "no_generation": true,
+  "endpoint": "organizations/usage_report/messages",
+  "http_status": 401,
+  "cash_balance": "unavailable; workspace key is not an organization Admin API key"
+}

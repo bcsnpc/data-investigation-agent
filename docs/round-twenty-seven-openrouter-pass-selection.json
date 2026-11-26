@@ -1,0 +1,20 @@
+{
+  "status": "OPENROUTER_SUPERVL_QUALIFICATION_ACTIVE_NOT_A_QUALITY_GATE",
+  "provider": "openrouter",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:08474b459361bd59d2edfa12f982e74195cac2a6844979402a8301fd85c8bcc0",
+  "reason": "Kimi final latency investigation exhausted three native NVIDIA timeout attempts and remained interrupted. Begin a separate pinned OpenRouter free-model pass; no within-pass fallback or paid model.",
+  "nvidia_cutoff_not_claimed_breached": true,
+  "nvidia_postfix_last_upper_bound": {
+    "uncertain_not_assumed_timeouts": 9,
+    "completed_attempts": 119
+  },
+  "rate_limit_per_minute": 20,
+  "concurrency": 2,
+  "daily_key_limit": 1000,
+  "paid_openrouter_generation_usd": 0,
+  "paid_guard": "REFUSED because free tool candidates passed",
+  "glm_whole_proof": "DEFERRED while NVIDIA transport blocks progress; tool/image capability PASS retained, not a failed accuracy score",
+  "next_candidate_after_this_pass": "inclusionai/ling-3.2-flash:free, separate pass after current completion and fresh preflight",
+  "free_scores_count_toward_quality_gates": false
+}

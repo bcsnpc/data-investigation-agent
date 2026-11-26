@@ -1,0 +1,70 @@
+{
+  "source": "f0d14fcd7d432599ebbcdf1c4e16a28db6c3cba0",
+  "workflow": 44937209248,
+  "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/44937209248",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:4904e2bf4b925c3c26ec8264eb38eb83f891a575b4919d6789d56a801d419006",
+  "full_suite": {
+    "passed": 5926,
+    "skipped": 53,
+    "errors": 0,
+    "failures": 0,
+    "junit_sha256": "19818321bff702384746b90d3de9576c77f320e5276da8f720b185e298def66e"
+  },
+  "image_shards": [
+    {
+      "shard": 0,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "294956a817f6d68ecce718eea17168dc49a2ee11b44a13a5fb8910bc8e2ce7ce"
+    },
+    {
+      "shard": 1,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "e99f83855878efdc681b14fd6d36ed68bcd43a87dce7dea36a3c65bea5dca680"
+    },
+    {
+      "shard": 2,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "9d000b9544e4354005a553cc211950e14ffe56c0403c172ca826e73d04b868a9"
+    },
+    {
+      "shard": 3,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "a18447e42ec0c9710783263a007fa8aca6a67330b660be3cb59c70ffb4b68daf"
+    },
+    {
+      "shard": 4,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "5fecd648536583183b435641808b0e55a7fbc0aeb30e370b8f11380c4a9eff3a"
+    },
+    {
+      "shard": 5,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "fe4b72abd5aed4b3d85515b60cc2f056125c2c3bc3a296b32933b4503a7373d8"
+    },
+    {
+      "shard": 6,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "d23c0f9c5a1704745f7c9a0d46e77ece1d767a5ba488d8d280685e114925da1e"
+    },
+    {
+      "shard": 7,
+      "failures": 0,
+      "errors": 0,
+      "junit_sha256": "e5f1002212f5eb73b78d108e544543a92a9d84fcc9ab40f2e3e59f398a4a1881"
+    }
+  ],
+  "publication": "SUCCESS",
+  "live_deployed": false,
+  "live_quality_run": false,
+  "freeze_earned": false,
+  "previous_qualified_candidate_preserved": "docs/round-twenty-seven-offline-fix-qualification.json",
+  "remaining_pass1_image_unchanged": "sha256:1df39718ad4a1296cba45a57ef82f89faf98a2cb8d7042447d75a74d061e4178",
+  "observed_utc": "2026-11-21T18:56:09.472831+00:00"
+}

@@ -64,33 +64,113 @@ def sql(text, layer, rows):
     tree.set('limit',exp.Limit(expression=exp.Literal.number(requested)))
     # SQLGlot serializes parsed literals, including N'...', rather than joining
     # caller strings into executable text. No command/INTO/EXEC AST is admitted.
-    return _bound(tree.sql(dialect='tsql',comments=False),layer,rows,
-                  [t.sql(dialect='tsql',comments=False) for t in metadata]or['CURRENT_DATABASE_METADATA_SCALAR'])
+    columns=[item.alias_or_name for item in tree.expressions]
+    if any(isinstance(item,exp.Star) or isinstance(item,exp.Column) and isinstance(item.this,exp.Star) for item in tree.expressions):
+        columns=[]  # Native cursor supplies metadata schema after guarded read.
+    elif not columns or any(not name for name in columns) or len(set(columns))!=len(columns):
+        raise ValueError('METADATA_EXPLICIT_UNIQUE_RESULT_COLUMNS_REQUIRED')
+    bound=_bound(tree.sql(dialect='tsql',comments=False),layer,rows,
+                 [t.sql(dialect='tsql',comments=False) for t in metadata]or['CURRENT_DATABASE_METADATA_SCALAR'])
+    bound['result_columns']=columns
+    return bound
 
 
-def dax(text, layer, rows):
+def compiled_control_objects(payload):
+    """Revalidate an investigation metadata read at the transport boundary.
+
+    The caller's metadata flag conveys no authority. The gateway must still
+    admit CATALOG, the connection, and every existing user-object route anchor.
+    """
+    try:
+        anchors=payload['read_only_objects'];limit=payload['max_rows']
+        if (not isinstance(anchors,list) or not anchors or
+                any(not isinstance(a,str) or not a for a in anchors) or
+                type(limit)is not int or not 2<=limit<=251 or
+                payload.get('parameters')!=[]):return None
+        bound=sql(payload['query'],{'objects':[{'id':a}for a in anchors]},limit-1)
+        if bound is None or any(payload.get(k)!=bound[k]
+                for k in ('query','parameters','max_rows','result_columns')):return None
+        return anchors
+    except (KeyError,TypeError,ValueError):
+        return None
+
+
+def dax_rowset_expression(text):
+    """Read-only INFO rowsets with projection and literal TOPN composition.
+
+    Projection references bind to documented rowset columns, never model
+    measures. Unknown INFO schemas can be read directly, not projected using
+    unbound [Measure] references. Filters/joins require separate grammar work.
+    """
     from .semantic_graph import tokenize
     tokens,gaps=tokenize(text)
     if gaps or not tokens or tokens[0][1].upper()!='EVALUATE':return None
-    if len(tokens)<5 or tokens[1][1].upper()!='INFO' or tokens[2][1]!='.':return None
-    i=1;names=[]
-    while i<len(tokens) and tokens[i][0]=='name':
-        names.append(tokens[i][1].upper());i+=1
-        if i<len(tokens) and tokens[i][1]=='.':i+=1
-        else:break
-    if not 2<=len(names)<=3 or i>=len(tokens) or tokens[i][1]!='(':
-        raise ValueError('DAX_INFO_ROWSET_REQUIRED')
-    i+=1;arguments=[]
-    while i<len(tokens) and tokens[i][1]!=')':
-        if tokens[i][0] not in ('string','number'):raise ValueError('DAX_INFO_LITERAL_RESTRICTIONS_ONLY')
-        arguments.append(tokens[i][1]);i+=1
-        if i<len(tokens) and tokens[i][1]==',':
-            i+=1
-            if i>=len(tokens) or tokens[i][1]==')':raise ValueError('DAX_INFO_ARGUMENTS_REQUIRED')
-        elif i>=len(tokens) or tokens[i][1]!=')':raise ValueError('DAX_INFO_ARGUMENTS_REQUIRED')
-    if i!=len(tokens)-1 or tokens[i][1]!=')':raise ValueError('ONE_DAX_INFO_READ_REQUIRED')
-    expression='.'.join(names)+'('+','.join(arguments)+')'
-    return _bound('EVALUATE TOPN('+str(rows+1)+','+expression+')',layer,rows,['.'.join(names)])
+    if not any(k=='name' and v.upper()=='INFO' for k,v in tokens):return None
+    if len(tokens)>1600:raise ValueError('DAX_METADATA_TOKEN_BOUND')
+    columns={'INFO.PARTITIONS':set(name.casefold() for name in (
+        'ID','TableID','Name','Description','DataSourceID','QueryDefinition','State',
+        'Type','PartitionStorageID','Mode','DataView','ModifiedTime','RefreshedTime',
+        'SystemFlags','ErrorMessage','RetainDataTillForceCalculate','RangeStart',
+        'RangeEnd','RangeGranularity','RefreshBookmark','QueryGroupID',
+        'ExpressionSourceID','MAttributes'))}
+    position=1;targets=[]
+    def take(expected=None):
+        nonlocal position
+        if position>=len(tokens) or expected is not None and tokens[position][1].upper()!=expected:
+            raise ValueError('DAX_METADATA_READ_GRAMMAR')
+        value=tokens[position];position+=1;return value
+    def table(depth=0):
+        if depth>12:raise ValueError('DAX_METADATA_NESTING_BOUND')
+        kind,name=take();name=name.upper()
+        if kind!='name':raise ValueError('DAX_INFO_ROWSET_REQUIRED')
+        if name=='INFO':
+            parts=[name]
+            while position<len(tokens) and tokens[position][1]=='.':
+                take('.');part_kind,part=take()
+                if part_kind!='name':raise ValueError('DAX_INFO_ROWSET_REQUIRED')
+                parts.append(part.upper())
+            if not 2<=len(parts)<=3:raise ValueError('DAX_INFO_ROWSET_REQUIRED')
+            take('(');args=[]
+            if position<len(tokens) and tokens[position][1]!=')':
+                while True:
+                    arg_kind,arg=take()
+                    if arg_kind not in ('string','number'):raise ValueError('DAX_INFO_LITERAL_RESTRICTIONS_ONLY')
+                    args.append(arg)
+                    if position<len(tokens) and tokens[position][1]==',':take(',')
+                    else:break
+            take(')')
+            if len(args)%2:raise ValueError('DAX_INFO_RESTRICTION_PAIRS_REQUIRED')
+            target='.'.join(parts);targets.append(target)
+            return target+'('+','.join(args)+')',columns.get(target)
+        if name=='SELECTCOLUMNS':
+            take('(');source,known=table(depth+1);parts=[source];projected=set()
+            while position<len(tokens) and tokens[position][1]==',':
+                take(',');alias_kind,alias=take();take(',');ref_kind,ref=take()
+                if alias_kind!='string' or ref_kind!='ref' or known is None:
+                    raise ValueError('DAX_METADATA_PROJECTION_REQUIRES_DOCUMENTED_ROWSET_COLUMNS')
+                field=ref[1:-1].replace(']]',']').casefold()
+                if field not in known:raise ValueError('DAX_METADATA_COLUMN_NOT_IN_ROWSET')
+                projected.add(alias[1:-1].replace('""','"').casefold());parts.extend([alias,ref])
+            take(')')
+            if not projected:raise ValueError('DAX_METADATA_PROJECTION_REQUIRED')
+            return 'SELECTCOLUMNS('+','.join(parts)+')',projected
+        if name=='TOPN':
+            take('(');count_kind,count=take();take(',')
+            if count_kind!='number' or not count.isdigit() or not 1<=int(count)<=251:
+                raise ValueError('DAX_METADATA_CONSTANT_TOP_BOUND')
+            source,known=table(depth+1);take(')')
+            return 'TOPN('+count+','+source+')',known
+        raise ValueError('DAX_METADATA_AND_BUSINESS_READS_MUST_BE_SEPARATE')
+    expression,_=table()
+    if position!=len(tokens):raise ValueError('ONE_DAX_INFO_READ_REQUIRED')
+    return expression,targets
+
+
+def dax(text, layer, rows):
+    parsed=dax_rowset_expression(text)
+    if parsed is None:return None
+    expression,targets=parsed
+    return _bound('EVALUATE TOPN('+str(rows+1)+','+expression+')',layer,rows,targets)
 
 
 def spark(text, layer, rows):

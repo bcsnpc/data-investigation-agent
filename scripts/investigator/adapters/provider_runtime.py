@@ -1,7 +1,30 @@
 """Trusted installation routing, shared by all AI steps; never ticket-selected."""
 from copy import deepcopy
 
-STEPS = frozenset(('INTAKE', 'INTAKE_FALLBACK', 'INVESTIGATOR', 'INVESTIGATOR_FALLBACK', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'SECONDARY_GRADING', 'REVIEWER', 'SMOKE'))
+STEPS = frozenset(('INTAKE', 'INTAKE_FALLBACK', 'INVESTIGATOR', 'INVESTIGATOR_FALLBACK', 'EVALUATOR', 'SCREENSHOT', 'SUMMARY', 'ENRICHMENT', 'WRITER', 'GRADING', 'SECONDARY_GRADING', 'REVIEWER', 'SMOKE'))
+
+
+def intake_selection(configuration, *, tenant, strategy='investigator'):
+    """Default intake shares the reasoning model; cheap/cascade routes are opt-in.
+
+    The installation chooses the model. Ticket text cannot change providers,
+    invoke a fallback or alter an identity or secret reference.
+    """
+    if strategy=='investigator' and False:strategy='configured'
+    if strategy not in ('investigator', 'configured', 'cascade'):
+        raise ValueError('INTAKE_STRATEGY_CONFIGURATION')
+    return select(configuration, tenant=tenant,
+                  step='INVESTIGATOR' if strategy == 'investigator' else 'INTAKE')
+
+
+def auxiliary_selection(configuration, *, tenant, step):
+    """R27 auxiliary-to-investigator routing is independently reversible by role."""
+    if step not in ('SCREENSHOT','SUMMARY','EVALUATOR'):raise ValueError('AUXILIARY_STEP_REQUIRED')
+    shared={'SCREENSHOT':True,
+            'SUMMARY':True,
+            'EVALUATOR':True}
+    selected='INVESTIGATOR' if shared[step] else step
+    return select(configuration,tenant=tenant,step=selected)
 
 
 def select(configuration, *, tenant, step):
@@ -18,12 +41,26 @@ def select(configuration, *, tenant, step):
 
 def validate(config):
     required = {'model', 'rate_card', 'secret_reference', 'gateway_identity', 'worker_identity'}
-    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache', 'region'}:
+    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache', 'region', 'synthetic_only', 'quality_scope', 'batch_static'}:
         raise ValueError('PROVIDER_CONFIGURATION_SHAPE')
     provider = config.get('provider', 'anthropic')
-    if provider not in ('anthropic', 'openai', 'azure_openai', 'bedrock'):
+    if provider not in ('anthropic', 'openai', 'azure_openai', 'bedrock', 'nvidia', 'openrouter'):
         raise ValueError('PROVIDER_NOT_INSTALLED')
-    if provider == 'bedrock':
+    if 'batch_static'in config and (provider!='anthropic'or config['batch_static']is not True):
+        raise ValueError('STATIC_ANTHROPIC_BATCH_CONFIGURATION_REQUIRED')
+    if provider == 'nvidia':
+        from .reasoning_nvidia import BASE
+        if config.get('endpoint') != BASE or config.get('synthetic_only') is not True or config.get('quality_scope') != 'DEV_ONLY':
+            raise ValueError('NVIDIA_SYNTHETIC_DEV_CONFIGURATION_REQUIRED')
+    elif provider == 'openrouter':
+        from .reasoning_openrouter import BASE
+        if (config.get('endpoint')!=BASE or config.get('synthetic_only')is not True
+                or config.get('quality_scope')!='DEV_ONLY' or '/'not in config['model']
+                or config['model'].startswith('openrouter/')):
+            raise ValueError('OPENROUTER_PINNED_SYNTHETIC_DEV_CONFIGURATION_REQUIRED')
+    elif {'synthetic_only', 'quality_scope'} & config.keys():
+        raise ValueError('FREE_PROVIDER_CONFIGURATION_ONLY')
+    elif provider == 'bedrock':
         from .reasoning_bedrock import endpoint, model_guard
         model_guard(config['model'])
         base = endpoint(config.get('region', 'us-east-1'))
@@ -45,10 +82,15 @@ def client(config, *, budget, record, diagnostic_prompt_cache=None, **ports):
                  'identity': config['gateway_identity'], 'secret_reference': config['secret_reference'], **ports}
     if provider == 'anthropic':
         from .reasoning_anthropic import Client
+        arguments['batch_static']=config.get('batch_static',False)
         if diagnostic_prompt_cache is None and 'explicit_cache' in config:
             diagnostic_prompt_cache = config['explicit_cache']
         if diagnostic_prompt_cache is not None:
             arguments['diagnostic_prompt_cache'] = diagnostic_prompt_cache
+    elif provider == 'nvidia':
+        from .reasoning_nvidia import Client
+    elif provider == 'openrouter':
+        from .reasoning_openrouter import Client
     elif provider == 'bedrock':
         from .reasoning_bedrock import Client
         arguments['region'] = config.get('region', 'us-east-1')
@@ -84,12 +126,19 @@ class UnifiedClient:
                       'step': purpose if isinstance(purpose, str) else 'INVESTIGATOR',
                       'normalized_usage': deepcopy(usage.__dict__), 'cost_microdollars': cost,
                       'cache_read_ratio': usage.cache_read_ratio}
+        if self.provider in ('nvidia','openrouter'):
+            label=self.provider+('-free' if self.provider=='nvidia' or self.model.endswith(':free') else '-paid-dev')
+            normalized.update(label=label, quality_scope='DEV_ONLY', synthetic_only=True)
         self.record({'event': 'AI_NORMALIZED_USAGE', **normalized})
         return {**native, **normalized}
 
 
 def validate_graders(investigator, primary, secondary, reviewer):
     providers = [validate(c) for c in (investigator, primary, secondary, reviewer)]
+    if 'nvidia' in providers:
+        raise ValueError('NVIDIA_DEV_ONLY_NOT_A_QUALITY_GATE')
+    if 'openrouter' in providers:
+        raise ValueError('OPENROUTER_DEV_ONLY_NOT_A_QUALITY_GATE')
     if providers[0] == providers[1]:
         raise ValueError('PRIMARY_GRADER_MUST_USE_DIFFERENT_PROVIDER')
     for config in (secondary, reviewer):

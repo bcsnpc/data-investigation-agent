@@ -24,7 +24,7 @@ class RuntimeTests(unittest.TestCase):
  def test_structured_entry_uses_only_the_explicitly_configured_provider(self):
   configuration={'provider':'openai','model':'synthetic','rate_card':{'input_rate':'1','output_rate':'2','source':'https://example.test/pricing','observed_at':'2026-11-01'},'secret_reference':{},'gateway_identity':'model','worker_identity':'worker'}
   expected=Mock()
-  with patch.dict('os.environ',{'DIA_RUNTIME_AI_JSON':json.dumps(configuration),'DIA_RUN_ID':'synthetic-case'},clear=True),patch.object(runtime,'configured_state',return_value=Mock()),patch.object(runtime,'TicketBudget')as budget,patch('investigator.adapters.provider_runtime.client',return_value=expected)as factory:
+  with patch.dict('os.environ',{'DIA_RUNTIME_AI_JSON':json.dumps(configuration),'DIA_RUN_ID':'synthetic-case'},clear=True),patch.object(runtime,'configured_state',return_value=Mock()),patch('investigator.reasoning_budget.TicketBudget')as budget,patch('investigator.adapters.provider_runtime.client',return_value=expected)as factory:
    self.assertIs(runtime.installed_client(),expected)
    self.assertEqual(budget.call_args.kwargs['provider'],'openai')
    self.assertEqual(factory.call_args.args[0],configuration)

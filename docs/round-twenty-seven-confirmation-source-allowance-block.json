@@ -1,0 +1,39 @@
+{
+  "at_utc": "2026-11-26T06:10:11.972576+00:00",
+  "status": "CONFIRMATION_PENDING_RESOURCE_ALLOWANCE_NOT_A_FINAL_GATE",
+  "completed_graded": 21,
+  "required": 25,
+  "reviewed_correct": 14,
+  "useful_handoff": 2,
+  "reviewed_harmful": 0,
+  "remaining_tickets": [
+    "form-v2-latency-record-v1",
+    "form-v2-waiting-application-load-v2",
+    "form-v2-access-export-v1",
+    "form-v2-access-export-v2"
+  ],
+  "cause": {
+    "sql_error_number": 42119,
+    "native_error": "This database has reached the monthly free amount allowance for the month of November 2026 and is paused for the remainder of the month. The free amount will renew at 12:00 AM (UTC) on December 01, 2026. To regain access immediately, open the Compute and Storage tab from the database menu on the Azure Portal and select the \"Continue using database with additional charges\" option. This will resume the database and bill you for additional usage charges the rest of this month. For more details, see https://go.microsoft.com/fwlink/?linkid=2243105&clcid=0x409.",
+    "database": "ordersops",
+    "azure_readback": {
+      "status": "Paused",
+      "useFreeLimit": true,
+      "freeLimitExhaustionBehavior": "AutoPause",
+      "autoPauseDelay": 60
+    }
+  },
+  "source_current_rows_and_business_schema_hashes_restored": true,
+  "downstream_original360_restoration_load": "FAILED3161; not restored/verified yet",
+  "paused_source_read_receipt_sha256": "76140d8a16c08f5210a2933f5b91850ba885d951e48a5a6602c64ed3d2bab07f",
+  "original_restore_job": "733476c3-c8bf-4170-a04e-d54c984bf974",
+  "recovery_original_definition_verified": true,
+  "recovery_new_load_submissions": 0,
+  "original_ticket_reruns": 0,
+  "budget_reservations": 0,
+  "cash_reserve_dollars": 3,
+  "calibration": "DEFERRED_DEC1_AND_CONFIRMATION_PASS",
+  "v5": "SEALED",
+  "paid_sql_change": "NOT_AUTHORIZED_NOT_CHANGED",
+  "no_new_roles_permissions_or_secrets": true
+}

@@ -1,0 +1,27 @@
+{
+  "approval": "Owner2026-11-25 gate-and-close, OpenAI grading only",
+  "before_allowed_purposes": [
+    "GRADING",
+    "SMOKE"
+  ],
+  "after_allowed_purposes": [
+    "GRADING"
+  ],
+  "prices_or_limits_or_counters_changed": false,
+  "actual_new_paid_generations_before_correction": 0,
+  "investigation_algorithm_or_expected_outputs_changed": false,
+  "reason": "Existing older configuration permitted SMOKE; actual close profiles already use only free OpenRouter. Narrow the money safety policy for final release.",
+  "old_engine_freeze_preserved": "docs/round-twenty-seven-confirmation-freeze.json; sourcee1/image1b, three original current-config smoke results preserved",
+  "qualification_attempts": [
+    {
+      "workflow": 45742152680,
+      "source": "16f5fa9b",
+      "status": "FAILED: obsolete test expected paid OpenAI smoke permission; original failure retained"
+    },
+    {
+      "workflow": 45743138929,
+      "source": "3081e140",
+      "status": "RUNNING; same money policy, corrected test asserts refusal"
+    }
+  ]
+}
