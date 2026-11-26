@@ -15,7 +15,9 @@ class GuidedSmokePurposeTests(unittest.TestCase):
                 with ai_step('SMOKE'):
                     purpose=model_budget_purpose(step)
                     self.assertEqual(purpose,'SMOKE')
-                    check_credit('openai',now,owner='round27-release-smokes',purpose=purpose)
+                    # Latest owner scope is grading-only, including trusted smoke contexts.
+                    with self.assertRaisesRegex(SpendHold,'PURPOSE_NOT_APPROVED'):
+                        check_credit('openai',now,owner='round27-release-smokes',purpose=purpose)
                     with self.assertRaisesRegex(SpendHold,'PURPOSE_NOT_APPROVED'):
                         check_credit('anthropic',now,owner='round27-release-smokes',purpose=purpose)
                 self.assertEqual(model_budget_purpose(step),step)
