@@ -1,0 +1,27 @@
+{
+  "observed_at_utc": "2026-11-26T18:25:24.958369+00:00",
+  "baseline_head": "d20bbd544862acc514d0a716adcc3ebd474f708b",
+  "tested_source": "3c37d9c7227eda143751cbe8ed21c1856a7c6a7a",
+  "estate_config": "config/estates/practice-fixture.json",
+  "estate_config_sha256": "c91e53d7e0422c5a3687572065de31fed2f1ad0c35c6f76d367cd7c12dd42b93",
+  "config_activated_in_engine": true,
+  "baseline_sha256": "c23a0614750ec7529fd6842e8d0be441dfc46811589c47d1d4261b154eacdb93",
+  "actual_sha256": "d42f68f4c582a8dda9a91d5051fb9009b5e2de5b7bf8da104797e7f60f30ee27",
+  "count": 123,
+  "matched": 123,
+  "changed": 0,
+  "baseline_counts": {
+    "REPLAY_FAILURE": 28,
+    "REPLAY_FINISHED": 86,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "actual_counts": {
+    "REPLAY_FAILURE": 28,
+    "REPLAY_FINISHED": 86,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "preserves_three_recorded_r27_exceptions": true,
+  "negative_traces": "28 preserved replay failures and9 preserved no-investigation cases; not scored quality results",
+  "estate_reads": 0,
+  "model_calls": 0
+}
