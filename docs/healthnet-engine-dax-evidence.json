@@ -1,0 +1,229 @@
+{
+  "date": "2026-11-26",
+  "qualified_source": "b7b3b2c9a562242ef39f422fc974f82c326c73f2",
+  "qualification": {
+    "source": "b7b3b2c9a562242ef39f422fc974f82c326c73f2",
+    "workflow": 45901279787,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
+    "full": {
+      "tests": 6293,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 54,
+      "passed": 6239
+    },
+    "shards": 8,
+    "status": "SUCCESS"
+  },
+  "linux_proof": {
+    "status": "PASS",
+    "execution_name": "job-dia-worker-p3vbys2",
+    "execution_status": "Succeeded",
+    "image_matches_qualified_digest": true,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
+    "image_source": "b7b3b2c9a562242ef39f422fc974f82c326c73f2",
+    "start_utc": "2026-11-26T22:10:44+00:00",
+    "end_utc": "2026-11-26T22:11:30+00:00",
+    "azure_duration_seconds": 46.0,
+    "engine_query_seconds": 14.971,
+    "actual_engine_path": "NativeQueries -> run_native_diagnostic.execute -> xmla_query.read -> dotnet ADOMD ExecuteReader",
+    "authentication": "existing worker managed identity -> existing investigator federation; no laptop provider substitution",
+    "configured_investigator_principal": "439ceb25-d200-4f02-95cf-4b1318faca62",
+    "query": "EVALUATE ROW(\"ok\", 1)",
+    "rows": [
+      {
+        "[ok]": 1
+      }
+    ],
+    "ai_calls": 0,
+    "ticket_runs": 0,
+    "job_unchanged": true,
+    "reservation_counts": [
+      {
+        "owner": "healthnet-xmla-connector-20261126",
+        "status": "SETTLED",
+        "count": 1
+      },
+      {
+        "owner": "healthnet-xmla-linux-20261126",
+        "status": "SETTLED",
+        "count": 1
+      }
+    ],
+    "open_reservations": 0
+  },
+  "replay": {
+    "source": "b7b3b2c9",
+    "matched": 123,
+    "count": 123,
+    "changed": [],
+    "counts": {
+      "REPLAY_FAILURE": 28,
+      "REPLAY_FINISHED": 86,
+      "NO_INVESTIGATION_CASE": 9
+    },
+    "estate_reads": 0,
+    "ai_calls": 0
+  },
+  "budget": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-11",
+    "used": {
+      "INVESTIGATION": 16819,
+      "RESTORATION": 51,
+      "SCAN": 2430
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 17905,
+      "RESTORATION": 95
+    },
+    "total": 19300,
+    "total_limit": 20500,
+    "historical_restoration_requests": 0,
+    "restoration_remaining": 44,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT",
+      "INVESTIGATION_MONTHLY_80_PERCENT",
+      "PHYSICAL_MONTHLY_80_PERCENT"
+    ]
+  },
+  "payer_plan_history": {
+    "database": "hn_billing",
+    "object": "app.payer_plan_history",
+    "temporal_type": "NON_TEMPORAL_TABLE",
+    "current_table_parent": null,
+    "read_role": "db_datareader",
+    "effective_insert": 0,
+    "effective_update": 0,
+    "effective_delete": 0,
+    "effective_control": 0,
+    "data_read": "NOT_RUN",
+    "reason": "Owner forbids direct history reads; no current-table FOR SYSTEM_TIME route exists for this ordinary table; not a proved SQL denial",
+    "history_insert_reports": "Five active temporal history objects still report INSERT=1; origin remains unexplained. No DENY/REVOKE or guard change."
+  },
+  "receipt_root": ".local/healthnet-xmla-connector",
+  "excluded": "No credentials, token caches, helper scripts, browser profiles or sealed test bodies included. Prior33smoke receipts unchanged.",
+  "files": [
+    {
+      "path": "engine-proof.json",
+      "bytes": 816,
+      "sha256": "17250bb641926c0da119608af7bfe9f7b3b9bdcd304a7c0d9250ddcdaab2fe27"
+    },
+    {
+      "path": "caller-fabric-powerbi.json",
+      "bytes": 227,
+      "sha256": "35e4e4da6e322aca463a0746e5479fc4365589cdba4d8fb2e4a17e24efb541dd"
+    },
+    {
+      "path": "physical-reads.jsonl",
+      "bytes": 201,
+      "sha256": "e2cad90c5da6892bd77b346ff0fecb2185f1da8b75170bc5fc07105fb39ab447"
+    },
+    {
+      "path": "budget-after.json",
+      "bytes": 488,
+      "sha256": "272f81e318f18523c908cc8e2345afc412046cd57a33dcf4390571956debadee"
+    },
+    {
+      "path": "config-validation.json",
+      "bytes": 204,
+      "sha256": "97b0f35c4b6827aafb4932341c012745f456acc3e15075cd68ddabd8df4e4ae7"
+    },
+    {
+      "path": "replay-verification.json",
+      "bytes": 442,
+      "sha256": "645ff8e6294988911e3a9be072be28fccdd9d8d7894189f6bc8d6d17ceb3e6ba"
+    },
+    {
+      "path": "freeze-verification.json",
+      "bytes": 1778,
+      "sha256": "edc731b9963e014b1bc0cf954dda1b1ed4ab3085ded3eb9a2b8e8bece308e762"
+    },
+    {
+      "path": "reservation-status.json",
+      "bytes": 107,
+      "sha256": "7ddbf1d37e75e3bc9ec6e5fdaca3f3193866e52183b96066db79e530bd97c8fe"
+    },
+    {
+      "path": "prior-receipts-verification.json",
+      "bytes": 39,
+      "sha256": "87c3ab234a71e49ef3c64b6109628bcfdb1b77b33ea153a095de351eb4b024e3"
+    },
+    {
+      "path": "linux/qualification.json",
+      "bytes": 389,
+      "sha256": "db6418200b4a0e86cf15d7c017648546a7934ba782b4108b8d11b803188dee90"
+    },
+    {
+      "path": "linux/full-verification.json",
+      "bytes": 94,
+      "sha256": "d244cb328508591529191b9160386468168ad4e705375d6667c776b99fc7639d"
+    },
+    {
+      "path": "linux/shard-verification.json",
+      "bytes": 1822,
+      "sha256": "d3860e45ea9b2d0e9145ae006ac1dff2b5df72332af90f0e26238066ca02c227"
+    },
+    {
+      "path": "linux/cloud-proof.json",
+      "bytes": 508,
+      "sha256": "178ab1b7fe29dea1fcb0ea19ab410c2a32add749c5b948cd7892336745690dbc"
+    },
+    {
+      "path": "linux/cloud-proof-download.json",
+      "bytes": 485,
+      "sha256": "1be13ff9f5f115656a01de88aa46053acdc132f77f06c91fd30f9537fd6f2d6b"
+    },
+    {
+      "path": "linux/proof-verification.json",
+      "bytes": 1282,
+      "sha256": "292d6c26c61aeee91cc942b72e8a8018803eb29f17bed3cfc7b605a2cdc9f107"
+    },
+    {
+      "path": "linux/terminal.json",
+      "bytes": 68,
+      "sha256": "fdc9982888ff0d2dbbe9434814db8061601b13ecb047b64a0e5f376a568a7445"
+    },
+    {
+      "path": "linux/job-unchanged.json",
+      "bytes": 124,
+      "sha256": "351fc89f5d78379e421eda3fd350806089fae1589613303fe22d310cf4bc07ec"
+    },
+    {
+      "path": "linux/physical-reads.jsonl",
+      "bytes": 207,
+      "sha256": "fe577f23d832cdc1c83eac25673c3387e7c0c6fbf157c04476550323bb689588"
+    },
+    {
+      "path": "linux/budget-after.json",
+      "bytes": 488,
+      "sha256": "ae49553d83448692ecde1821b01e5cbecc6cb0bb6aedf351d54b58fef2979da4"
+    },
+    {
+      "path": "linux/replay-verification.json",
+      "bytes": 232,
+      "sha256": "804e31e40e0efdd572cdb26088848df68ba2986b5ae29d4d8f4e4dba4ebd4a17"
+    },
+    {
+      "path": "linux/freeze-verification.json",
+      "bytes": 2307,
+      "sha256": "badd088fac289a30dd015874bb48ccad16248d27a8ceeeb9ddcaffe6815c8a92"
+    },
+    {
+      "path": "linux/reservation-status.json",
+      "bytes": 263,
+      "sha256": "04faef08d00f9b8cdc1a0f946b4ad5e5649bc594f462cc5323aed57c9d813147"
+    },
+    {
+      "path": "linux/executions-before.json",
+      "bytes": 364,
+      "sha256": "747f356f8db024bb6277fa8ac51833066e7e577d1e3cf579bf24ba02af3beb44"
+    },
+    {
+      "path": "linux/control-read-before-admission.json",
+      "bytes": 188,
+      "sha256": "cd65121dd76eba50d97b56d95b5113cd6ab0b4f2c1067232f8a34a1573118394"
+    }
+  ]
+}

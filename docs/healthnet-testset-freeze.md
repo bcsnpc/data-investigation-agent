@@ -87,3 +87,7 @@ from test authorship remains disclosed; future grading must remain independent.
 
 
 2026-11-26 owner-authorized connector exception: default REST remains unchanged; HealthNet native bundle selects read-only gateway XMLA for the three verified models. Only transport/configuration and synthetic practice-fixture tests changed, not reasoning/prompts/expectations. One trivial actual-engine-port DAX read passed, with no ticket or AI run. Approved sealed files remain unchanged. See docs/healthnet-engine-dax.md.
+
+
+2026-11-26 Linux extension complete
+Only the generic pinned ADOMD 19.117.0 .NET 8 reader, native transport and image packaging changed. The actual Azure engine port passed the trivial read and the execution Succeeded; no HealthNet ticket or AI call ran. The build-context file changed solely to admit the two native client source files; no prompt text or HealthNet-specific reasoning changed. The other 68 prompt-bearing file hashes and all approved sealed test files remain unchanged. See docs/healthnet-engine-dax.md and its evidence JSON.

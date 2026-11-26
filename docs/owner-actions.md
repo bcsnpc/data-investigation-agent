@@ -1051,3 +1051,7 @@ OpenAI grading credit expires Nov29; valid December grading funding/top-up is ne
 
 
 HealthNet XMLA connector follow-up, 2026-11-26: the owner-authorized transport selection is now implemented in the native HealthNet bundle and one trivial DAX read passed through the actual engine port on Windows. The earlier pending XMLA integration decision is resolved for that runtime. Linux cloud XMLA dependencies/deployment are not proved; do not claim cloud HealthNet readiness from the Windows read. No ticket admission or additional grant was taken. See docs/healthnet-engine-dax.md.
+
+
+Resolved, 2026-11-26: HealthNet XMLA Linux runtime
+The actual Azure worker proof passed and Succeeded on image 8018ca9a (source b7b3b2c9). Readback confirms no persistent job change. No owner action is needed for the connector proof. app.payer_plan_history data readability remains unproved under the existing no-direct-history instruction: it is an ordinary table with no FOR SYSTEM_TIME parent, not a demonstrated permission denial. No direct read or grant was taken. See docs/healthnet-engine-dax.md.
