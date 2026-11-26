@@ -1,4 +1,4 @@
-# HealthNet test-set authoring
+# HealthNet test-set authoring (revision 1, superseded below)
 
 Owner-approved 2026-11-26 on draft PR #436. Engine was frozen before reads and
 authoring at `9fb0190b11a5e2a83579de4ed5bdb58c5ac73300`; all 833 runtime files and
@@ -59,3 +59,48 @@ SHA-256:
 - `tests/tickets/healthnet/expected-answers.enc.json`: `7254f2f7abe08f84d94593f27b6ce716d62e96d3df56526dd15802f091df1815`
 
 See [freeze](healthnet-testset-freeze.md), [verification](healthnet-testset-verification.json) and [hash manifest](../tests/tickets/healthnet/hashes.json).
+
+## Revision 2 - reviewer feedback, 2026-11-26
+
+The active set now contains **27 tickets**: 15 static (including **3 defined-only
+static DEVIATION controls**), seven defined-only operational faults, three
+business/unanswerable cases, and **two screenshot cases**. Input formats are
+13 forms, 12 free-text and two screenshots. **Seven of the 12 free-text tickets**
+use informal names, rounded numbers or missing details. Cause hints were removed
+as requested. The revised hash manifest supersedes revision 1; its encrypted
+answers remain available in Git history and its plaintext inputs/review are
+retained locally as superseded evidence.
+
+Nineteen original expected records are unchanged. The authorized changes are
+three replacement static questions and three operational verdict classifications.
+R27 canonical operational classes and independent verdict/layer/cause grading are
+mapped explicitly in the local review packet and encrypted answers. Physical
+layer boundaries remain truthful to HealthNet rather than copying the fixture's
+layer names. Existing technical causes for the operational cases are unchanged.
+
+The three proposed static defects were projected with one additional read-only
+SQL query and two additional DAX queries; **no definition or data was changed**.
+Each encrypted plan specifies exact target/predicate, baseline evidence, independent
+fresh admission and restoration/hash checks. They are future controlled cases,
+not claims of existing defects. Authoring totals are 35 successful SQL SELECT
+reads and nine DAX queries, plus native definitions and export metadata.
+
+Screenshot cases use **real Power BI service-rendered baseline report pages**.
+PNG export returned tenant-disabled403; no setting was changed. Native PDF exports
+succeeded and were rasterized without editing in an isolated local PDF dependency
+folder; both images were visually inspected and their visible values match the
+measured baselines. The user mentions the number instead of a fabricated circle.
+Images, plaintext tickets, source PDFs and reviewer packet remain local; only
+encrypted answers and hashes are committed as test-set artifacts. Image hashes
+are included in hashes.json and embedded in their ticket attachment references.
+
+All833 engine/runtime and69 prompt-bearing files remain unchanged. No DIA run,
+AI call, permission/tenant-setting change, injection, merge or tag was performed.
+Config remains disabled; reviewer approval is pending. The existing Key Vault key
+version was reused in memory with a fresh AES-GCM nonce and authenticated revision
+and ticket hash; independent decrypt-and-compare verification passed.
+
+Active SHA-256:
+
+- `tests/tickets/healthnet/tickets.json`: `963338bf68093d451b118d516c4b05b748b8ec08e3714e57b59d9a85c9a506bc`
+- `tests/tickets/healthnet/expected-answers.enc.json`: `fd850945e439d15f821905be2456fa72bc330ba7ce3267cbafe5233d572f0407`

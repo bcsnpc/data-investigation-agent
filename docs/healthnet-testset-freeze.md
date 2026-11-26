@@ -31,3 +31,8 @@ pre-authoring hashes. No engine, model prompt or runtime rule was changed.
 The requested CLAUDE.md authoring constraint is the sole new operating instruction.
 See healthnet-testset-verification.json. Owner/reviewer approval of the test set is
 pending; these hashes protect the authored bytes and do not assert reviewer approval.
+
+Revision 2 reviewer changes, 2026-11-26: test inputs, encrypted expectations and
+review material only. All833 runtime and69 prompt-bearing files still match the
+original freeze. Static definition defects remain plans only, never live changes.
+See the revised hash manifest and healthnet-testset-verification.json.
