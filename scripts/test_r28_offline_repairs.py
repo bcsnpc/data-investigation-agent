@@ -135,7 +135,7 @@ class SourceComparisonTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'SOURCE_COMPARISON_REQUIRES'):source_comparison(self.args,self.case)
 
     def test_gold_metadata_uncited_failed_or_wrong_object_does_not_count(self):
-        for change in ('gold','metadata','uncited','failed','wrong_object','truncated'):
+        for change in ('gold','metadata','uncited','failed','wrong_object','truncated','top_truncated'):
             with self.subTest(change=change):
                 case=deepcopy(self.case);args=deepcopy(self.args)
                 query={'id':'q','layer':'source','purpose':'compare','asset_ids':[self.source],
@@ -145,6 +145,7 @@ class SourceComparisonTests(unittest.TestCase):
                 if change=='failed':query['status']='ERROR'
                 if change=='wrong_object':query['asset_ids']=['sql://synthetic/other/object/1']
                 if change=='truncated':query['result']['truncated']=True
+                if change=='top_truncated':query['truncated']=True
                 case['queries']=[query];args['evidence_ids']=[] if change=='uncited' else ['q']
                 with self.assertRaisesRegex(ValueError,'SOURCE_COMPARISON_REQUIRES'):source_comparison(args,case)
 

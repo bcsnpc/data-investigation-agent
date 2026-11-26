@@ -1,0 +1,1011 @@
+{
+  "scope": "ALL_123_ORDERED_SAVED_RESPONSE_REPLAYS",
+  "generation_calls": 0,
+  "estate_reads": 0,
+  "baseline_file": ".local\\round-twenty-seven\\free-models\\investigation-replay-native-reference-c7a06c1f.json",
+  "baseline_sha256": "095ad70fc1879f118f6927023fb619f0673f1039b93e4fab55a42e53a72d6de5",
+  "baseline_counts": {
+    "REPLAY_FAILURE": 29,
+    "REPLAY_FINISHED": 85,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "current_counts": {
+    "REPLAY_FAILURE": 28,
+    "REPLAY_FINISHED": 86,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "unchanged": 120,
+  "newly_completed": 2,
+  "previously_completed_now_requires_unsaved_source_step": 1,
+  "claim_all_123_classifications_identical": false,
+  "interpretation": "120 unchanged, two replay continuations repaired, one intentional new source-coverage refusal. All nine no-case records remain no-case. Do not claim 123 unchanged or a new quality score. The new refusal is exactly the owner-requested source check, not a read-only/codec regression.",
+  "rows": [
+    {
+      "case": "dev01-completion-advisory-form-v2-access-export-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-completion-advisory-form-v2-access-export-v2.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-completion-advisory-form-v2-stale-model-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-completion-advisory-form-v2-stale-model-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-completion-advisory-text-latency-900502-v1.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-completion-advisory-text-latency-900502-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-completion-advisory-text-stale-total-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-completion-advisory-text-stale-total-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-application-baseline-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-application-baseline-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-before-temporal-retention-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-billing-invoices-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-billing-invoices-v2.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-billing-mrr-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-failed-application-load-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-failed-billing-transform-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-fixture-quantity-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-latency-record-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-other-collected-definition-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-other-collected-definition-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-record-absent-everywhere-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-record-repeated-gold-v2.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-screenshot-record-01-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-screenshot-record-02-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-screenshot-record-03-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-screenshot-record-04-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": false,
+      "reason": "Saved continuation now reaches the recorded answer/handoff after deterministic delivery repairs; no model result or native response invented."
+    },
+    {
+      "case": "dev01-form-v2-source-history-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-source-history-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-waiting-application-load-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-warehouse-scope-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-form-v2-warehouse-scope-v2.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-plumbing-form-v2-before-temporal-retention-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-plumbing-form-v2-record-absent-everywhere-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-plumbing-text-older-export-movement-1-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-plumbing-text-R17-08-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-plumbing-text-R17-09-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-baseline-S01-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-baseline-S02-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-baseline-S03-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-different-warehouse-v2.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-failed-billing-load-v1.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-history-source-900201-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-history-source-900201-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-latency-900501-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-older-export-movement-1-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-older-export-movement-1-v2.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-01-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-02-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-04-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-05-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-08-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-09-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-10-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev01-text-R17-11-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": false,
+      "reason": "Saved continuation now reaches the recorded answer/handoff after deterministic delivery repairs; no model result or native response invented."
+    },
+    {
+      "case": "dev02-advisory-form-v2-access-export-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-access-export-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-application-baseline-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-application-baseline-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-before-temporal-retention-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-billing-invoices-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-billing-invoices-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-billing-mrr-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-failed-application-load-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-failed-billing-transform-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-fixture-quantity-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": false,
+      "reason": "New mandatory source-comparison rule: original replay had no source data read. No saved response exists for that new rejection; cannot synthesize a continuation."
+    },
+    {
+      "case": "dev02-advisory-form-v2-latency-record-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-other-collected-definition-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-other-collected-definition-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-record-absent-everywhere-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-record-repeated-gold-v2.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-screenshot-record-01-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-screenshot-record-02-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-screenshot-record-03-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-screenshot-record-04-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-source-history-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-stale-model-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-stale-model-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-waiting-application-load-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-warehouse-scope-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-form-v2-warehouse-scope-v2.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-baseline-S01-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-baseline-S02-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-baseline-S03-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-different-warehouse-v2.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-failed-billing-load-v1.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-history-source-900201-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-history-source-900201-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-latency-900501-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-latency-900501-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-latency-900502-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-latency-900502-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-older-export-movement-1-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-01-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-02-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-04-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-05-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-08-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-09-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-10-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-R17-11-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-stale-total-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev02-advisory-text-stale-total-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-application-baseline-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-application-baseline-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-billing-invoices-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-billing-mrr-v1.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-fixture-quantity-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-other-collected-definition-v2.json",
+      "before": "REPLAY_FAILURE",
+      "before_outcome": null,
+      "after": "REPLAY_FAILURE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-record-absent-everywhere-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-record-repeated-gold-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-screenshot-record-01-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-screenshot-record-02-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-screenshot-record-03-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-screenshot-record-04-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-warehouse-scope-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-form-v2-warehouse-scope-v2.json",
+      "before": "NO_INVESTIGATION_CASE",
+      "before_outcome": null,
+      "after": "NO_INVESTIGATION_CASE",
+      "after_outcome": null,
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-text-older-export-movement-1-v2.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "UNRESOLVED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "UNRESOLVED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-text-R17-01-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-text-R17-02-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-text-R17-04-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-text-R17-05-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-text-R17-08-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    },
+    {
+      "case": "dev03-slim-text-R17-10-v1.json",
+      "before": "REPLAY_FINISHED",
+      "before_outcome": "ANSWERED",
+      "after": "REPLAY_FINISHED",
+      "after_outcome": "ANSWERED",
+      "unchanged": true
+    }
+  ]
+}

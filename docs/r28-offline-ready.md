@@ -53,7 +53,15 @@ This is a boundary counterfactual, not a generated continuation, new live run, o
 | text-R17-08-v1 | UNRESOLVED | yes |
 | text-R17-10-v1 | UNRESOLVED | yes |
 
-The 123-case ordered saved-response replay and qualification receipt are recorded separately. Do not treat any baseline difference or missing saved continuation as a newly measured quality score.
+The ordered 123-case replay completed: baseline **85 completed / 29 negative / 9 without an investigation case** becomes **86 completed / 28 negative / 9 without a case**. **120 classifications are unchanged**, two saved continuations now complete, and one previously completed trace stops at the new mandatory source-coverage check. Therefore I cannot claim all 123 classifications are identical.
+
+| Changed saved trace | Before | After | Reason |
+|---|---|---|---|
+| dev01 / screenshot-record-04-v1 | replay failure | completed UNRESOLVED | Conservative delivery-detail normalization enables the saved handoff. |
+| dev01 / text-R17-11-v1 | replay failure | completed ANSWERED | Exact successful retry can support the answer while the failed attempt remains history. |
+| dev02-advisory / fixture-quantity-v1 | completed ANSWERED | new source-check refusal | This source-comparison trace never read the application source. Returning its old answer would violate the new owner rule. No saved response exists for the newly required step; no continuation was fabricated. |
+
+All nine no-case classifications remain unchanged. No previously successful saved native query is newly refused by the compiler. The one tightened delivery is intentional source coverage; this is not a newly measured harmful or correct count. Full per-case comparison: `docs/r28-saved-classification-comparison.json`.
 
 ## December 1 sequence
 

@@ -119,7 +119,6 @@ def consistency_proof_gap(required, compared, support, case):
 def finding(args,case):
     support=cited(args,case)
     from .delivery_coverage import source_comparison
-    source_comparison(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
     from .primary_verification import no_comparison
@@ -206,6 +205,7 @@ def finding(args,case):
             if len(values)!=1:raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: compared native values differ')
         if not any(item.get('content') and item.get('provenance') for item in support):
             raise ValueError('AS_DESIGNED_NEEDS_RETAINED_DEFINITION: native equality alone does not explain the definition')
+    source_comparison(args,case)
     # A response already supplied in the form is a reported value, never an
     # observed query value. Preserve its provenance in the technical output.
     actual={number(v) for record in support for v in leaves(record)}
