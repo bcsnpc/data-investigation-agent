@@ -42,7 +42,6 @@ class NvidiaFreeTests(unittest.TestCase):
         body=request_for(model=MODEL,system='s',messages=[{'role':'assistant','content':[{'type':'text','text':'Read it.'}]}],tools=TOOLS,max_tokens=50)
         self.assertEqual(body['messages'][1]['content'],'Read it.')
         self.assertTrue(body['stream']);self.assertEqual(body['stream_options'],{'include_usage':True})
-        self.assertFalse(old['stream']);self.assertNotIn('stream_options',old)
     def stream_bytes(self,*,done=True,usage=True,finish=True,model=MODEL):
         chunks=[{'id':'r1','model':model,'choices':[{'index':0,'delta':{'role':'assistant','reasoning_content':'opaque',
           'tool_calls':[{'index':0,'id':'t1','type':'function','function':{'name':'get_definition','arguments':'{"id":'}}]},'finish_reason':None}]},

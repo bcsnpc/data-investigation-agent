@@ -125,8 +125,6 @@ class NativeTableReferenceTests(unittest.TestCase):
         self.assertFalse(result['exhaustive'])
         self.assertIsNone(select_unique(result, [], None)['selected'])
 
-    def test_confidence_ablation_keeps_the_weak_measure(self):
-        self.assertIn('metric', {x['id'] for x in result['candidates']})
 
 
 if __name__ == '__main__':

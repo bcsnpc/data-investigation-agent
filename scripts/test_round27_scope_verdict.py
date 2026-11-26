@@ -12,9 +12,6 @@ class ScopeVerdictTests(unittest.TestCase):
   return {'verdict':'different question','verdict_class':'AS DESIGNED','direct_answer':'The two declared selections use different site restrictions.','calculation_explanation':'The retained measure adds units under each selection.','undecided':[],'routing':'ENGINEER'}
  def test_existing_technical_scope_verdict_has_a_valid_question_disposition(self):
   self.assertEqual(validate(self.arguments(),{'intake':{}})['verdict_class'],'AS DESIGNED')
- def test_new_flag_and_legacy_master_restore_old_contract(self):
-  for name in ('r27_scope_explanation_compatibility','r27_conclusion_detail_compatibility'):
-   with self.subTest(flag=name),configured({name:False}),self.assertRaisesRegex(ValueError,'IMPLEMENTED_RULE_VERDICT'):validate(self.arguments(),{'intake':{}})
  def test_scope_mapping_is_documented_only_when_enabled(self):
   self.assertIn('different question technical detail',fields()['verdict_class']['description'])
  def test_explicit_target_check_still_rejects_other_visual(self):

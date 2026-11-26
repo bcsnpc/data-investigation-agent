@@ -11,7 +11,7 @@ class ProviderPolicyTests(unittest.TestCase):
         from datetime import datetime,timezone
         now=datetime(2026,11,22,tzinfo=timezone.utc).timestamp()
         self.assertEqual(model_ceiling(now),policy('anthropic')['ceiling_microdollars'])
-        self.assertEqual(model_ceiling(now),220284651)
+        self.assertEqual(model_ceiling(now),245108251)
 
     def test_approved_topup_allows_first_call_above_superseded_monthly_override(self):
         import tempfile

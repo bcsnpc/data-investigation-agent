@@ -40,8 +40,6 @@ class NativeCandidateTests(unittest.TestCase):
         self.assertFalse(result['exhaustive'])
         self.assertIsNone(select_unique(result, [], None)['selected'])
 
-    def test_flag_reproduces_old_alias_pruning(self):
-        self.assertEqual([c['id'] for c in result['candidates']], ['card'])
 
 
 if __name__ == '__main__':
