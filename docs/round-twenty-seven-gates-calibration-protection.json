@@ -1,0 +1,27 @@
+{
+  "basis": "Use existing protected-account field; no counters reset, cash3 excluded once, calibration14.34 protected until confirmation completes",
+  "before": {
+    "identity": "model-microdollars:2026-11",
+    "unit": "MICRODOLLARS",
+    "ceiling": "255108251",
+    "protected": "3000000",
+    "opening": "0",
+    "charged": "202108251",
+    "violated": false
+  },
+  "after": {
+    "identity": "model-microdollars:2026-11",
+    "unit": "MICRODOLLARS",
+    "ceiling": "258108251",
+    "protected": "17340000",
+    "opening": "0",
+    "charged": "202108251",
+    "violated": false
+  },
+  "normalized_monthly_hard_cap": 255108251,
+  "effective_confirmation_headroom": 38660000,
+  "confirmation_forecast": 37568245,
+  "calibration_release": "Only after confirmation gate passes, lower raw protected from17.34 to3, leaving normalized cap unchanged; otherwise leave calibration unspent",
+  "raw_account_ceiling_includes_protected_cash": true,
+  "cash_reserve_excluded_from_normalized_cap": true
+}

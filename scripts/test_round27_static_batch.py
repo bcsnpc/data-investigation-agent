@@ -37,6 +37,22 @@ class BatchTests(unittest.TestCase):
    cls.return_value.submit.side_effect=TimeoutError()
    with self.assertRaisesRegex(BatchPending,'SUBMIT_UNCERTAIN'):client.generate(self.body(),'r')
    self.assertEqual(cls.return_value.submit.call_count,1)
+ def test_authentication_or_credit_failure_stays_visible_to_hard_stop(self):
+  from unittest.mock import patch
+  from investigator.adapters.reasoning_anthropic import Client,ProviderHTTPError
+  budget=Mock();budget.rate.model='claude-opus-5-5'
+  with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+   client=Client(model='claude-opus-5-5',budget=budget,identity='reader',secret_reference={},record=Mock(),send=Mock(),batch_static=True)
+  with patch('investigator.adapters.reasoning_anthropic_batch.StaticBatch')as cls:
+   cls.return_value.submit.side_effect=ProviderHTTPError(401,'authentication_error')
+   with self.assertRaises(ProviderHTTPError):client.generate(self.body(),'r')
+   self.assertEqual(cls.return_value.submit.call_count,1)
+ def test_static_batch_is_installed_anthropic_only_and_not_ticket_selected(self):
+  from investigator.adapters.provider_runtime import validate
+  configuration={'provider':'anthropic','model':'claude-opus-5-5','rate_card':{},'secret_reference':{},'gateway_identity':'reader','worker_identity':'round27-confirmation','batch_static':True}
+  self.assertEqual(validate(configuration),'anthropic')
+  for change in ({'provider':'openai'},{'batch_static':False},{'batch_static':'true'}):
+   with self.assertRaisesRegex(ValueError,'STATIC_ANTHROPIC'):validate({**configuration,**change})
  def test_unknown_submission_not_retried_and_reserved(self):
   client=self.client();client.send.side_effect=TimeoutError()
   with self.assertRaises(TimeoutError):StaticBatch(client,static_ticket=True).submit([self.body()])

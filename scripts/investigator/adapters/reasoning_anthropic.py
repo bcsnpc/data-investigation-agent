@@ -144,7 +144,9 @@ class Client:
             receipt=batch.submit([body],reserved=[reservation])
         except Exception as error:
             # A batch POST may have reached Anthropic; never repeat it.
-            self.record({'event':'STATIC_BATCH_SUBMIT_UNCERTAIN','error_type':type(error).__name__})
+            status=getattr(error,'http_status',None)
+            self.record({'event':'STATIC_BATCH_SUBMIT_ERROR','error_type':type(error).__name__,'http_status':status,'no_unknown_post_retry':True})
+            if isinstance(error,ProviderHTTPError)and status in (401,402,403,429):raise
             raise BatchPending('STATIC_BATCH_SUBMIT_UNCERTAIN_NO_RETRY')from error
         results=batch.collect(receipt,wait_seconds=600)
         result=next(iter(results.values()))
