@@ -19,14 +19,16 @@ def sql(database, account='reader'):
 
 class NamedConnectionTests(unittest.TestCase):
     def bundle(self):
-        from test_estate_manifest import ManifestTests
-        manifest=ManifestTests().fixture()
-        options=manifest['adapters'][0]['options']
-        options.pop('sql', None)
-        options['sql_connections']={'first':sql('first'), 'second':sql('second','other-reader')}
-        # Use only synthetic application declarations; no fixture semantics involved.
-        manifest['layers']=[];manifest['resources']=[];manifest['system_of_record']=None
-        manifest['pipelines']=[];manifest['lineage']['source_delivery']=None
+        # Public image deliberately excludes deployment manifests. Build the
+        # minimal native configuration in memory, using synthetic addresses only.
+        identity='11111111-1111-4111-8111-111111111111'
+        options={'fabric':dict(workspace_id=identity,auth=dict(mode='fabric_cli',tenant_id=identity,python='python')),
+                 'sql_connections':{'first':sql('first'), 'second':sql('second','other-reader')}}
+        manifest=dict(adapters=[dict(id='native',implementation='microsoft',options=options)],
+            layers=[],resources=[],identities=[],system_of_record=None,pipelines=[],
+            lineage=dict(source_delivery=None),storage=dict(inventory='unused.sqlite'),
+            budgets=dict(round='synthetic'),capability_ceiling=[],accepted_limits=[],
+            model=dict(provider='synthetic',deployment='synthetic',endpoint='https://example.test'))
         for name,connection in options['sql_connections'].items():
             manifest['identities'].append(dict(id='reader-'+name,principal=connection['auth']['account'],
                 credential_reference='unused.xml',scopes=[]))
@@ -131,7 +133,7 @@ class NamedConnectionTests(unittest.TestCase):
             found={a['id'] for a in batch['assets'] if a['kind']=='SqlDatabase'}
             self.assertEqual(found,{root(c) for c in config['sql_connections'].values()})
             for reader in readers.values():reader.assert_called_once()
-        finally:fixture.tearDown()
+        finally:fixture.doCleanups()
 
     def test_named_secret_references_validate_offline_without_fetching(self):
         from metadata_config import validate_config
