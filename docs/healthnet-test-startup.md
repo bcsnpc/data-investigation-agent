@@ -1,0 +1,11 @@
+# HealthNet test admission and startup
+
+Qualified image: `ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9`. No engine, prompt or rule changes are allowed through the whole test.
+
+The first two Azure containers failed before Python with `exec /usr/local/bin/python: argument list too long`. Their original execution IDs and CaseLogs remain intact. Authoritative model reservations for their owner were zero. The owner approved one replacement per ticket, and file-based transport for all subsequent tickets.
+
+No-ticket check `job-dia-worker-gggzc4v` Succeeded: Python and child Python both started. Original and materialized full configuration SHA-256: `599796597a1e0c9d063bc7e42b072bb24d4c3b026222db67915896b208c44ec7`; canonical gateway hash: `d39eec75a6b7ae4d360327e51b44a287b5cff9284fc927dc2740d85f35c7538a`. Zero ticket/AI/estate calls. A deployment-only bootstrap materializes the exact original configuration and uses the installed runner handler unchanged, keeping oversized public JSON out of exec environment strings. Image source remains b7b3b2c9.
+
+HealthNet-only native catalog/definitions are normal installation metadata. Retained definition captures were obtained earlier by the owner; no expected answers, authoring calculations, practice cases or previous investigation findings are supplied to the worker. Actual ticket queries use the investigator. The operator authored and has seen this test set; grading is independently performed by Sol/Astra and Terra on disagreements. This is not an operator-blind test.
+
+Part1:17 unchanged-baseline tickets in pairs, then HN004-006 serially with their sealed planted-definition controls, fresh admission and hash/baseline restoration. Part2:7faults serially only if bothSQL allowances exceed40000 afterPart1. Before everypair, bothallowances must exceed20000; metriclag is conservatively charged at full2vCore capacity. Protect Anthropic3USD reserve plus5USD R27confirmation in the sharedaccount; no ceiling increase. No merge/tag.

@@ -895,3 +895,6 @@ Qualified image 8018ca9a (source b7b3b2c9) ran as job-dia-worker-p3vbys2 and Suc
 
 
 HealthNet owner clarification, 2026-11-26: ordinary payer_plan_history is not covered by the no-direct-system-history rule. One bounded default NativeQueries SOURCE_SQL count on the qualified Linux Azure image returned14 and read_only_verified true; unchanged database/object guard, no permission change. READY_SEALED_TEST retained, obsolete smoke-partial name corrected; tickets remain disabled and sealed. Ten prepaid physical slots settled, conservatively charged10; no new model spend. See docs/healthnet-final-readiness.md.
+
+
+2026-11-26 HealthNet sealed test owner GO: immutable qualified image8018ca9a/sourceb7b3b2c9, no engine/prompt/rule changes. Account reserve raised3->8USD and combined effective ceiling reduced5USD to250.108251, usage210.774854 unchanged, preserving owner cash3+R27confirmation5; no credit increase. Owner clarified HN004-006 are serial Part1 definition controls with admission/hashrestore/baseline recheck, never overlapping affected model/mart. Two initial container attempts failed before Python (exec argument list too long), no engine/AI/SQL; owner approved one replacement each only after no-ticket startup and hash-identical file transport proof. No extra permission or identity, no merge/tag.

@@ -1348,3 +1348,6 @@ Owner-authorized XMLA transport passed through the actual engine NativeQueries p
 
 
 HealthNet section 8 owner clarification, 2026-11-26: no-direct-history applies only to the five system-versioned temporal history tables. Ordinary hn_billing.app.payer_plan_history is approved for a normal gateway engine count, with guard unchanged. Linux job-dia-worker-bfp6ngi Succeeded, count14/read_only_verified true. No grant/revoke, engine/prompt/model change, ticket, AI call or injection. healthnet.json READY_SEALED_TEST, disabled/no installation. See docs/healthnet-final-readiness.md.
+
+
+HealthNet owner GO, 2026-11-26: freeze qualified b7b3b2c9/image8018ca9a for entire sealed27test, no engine/prompt/rule changes;20non-fault (including serial HN004-006 approved planted-definition controls),7faultserial only afterbothSQLallowances>40000. Baselinepairs2, eachcaseonce, SQLcheck>=20000beforeeachpair,8USDprotected(3cashreserve+5R27). IndependentSol/Astra,Terra disagreements; author/operator exposure disclosed. Owner approves replacing only the two pre-Python argument-list startup failures once, after a no-ticket Python startup proof and hash-identical file config; allremainingusefiletransport. Existingcaps unchanged; no merge/tag.
