@@ -53,3 +53,14 @@ Details: [configuration](estate-config.md), [API](api/README.md),
 [replay](round-twenty-eight-a-replay.json),
 [immutability](round-twenty-eight-a-immutability.json),
 [HTTP proof](round-twenty-eight-a-api-replay.json).
+
+## Named-connection extension, 2026-11-26
+
+PR #436 additionally supports multiple named SQL databases in one native bundle,
+with per-layer references and independent reader/secret bindings. The practice
+fixture remains one connection with its native manifest unchanged. HealthNet is a
+disabled metadata-only draft, validated offline; no test material or live data was
+read. Final qualified source `4d4fd7ed`: 6,228 tests passed / 53 skipped, all eight
+image shards green, 123/123 saved classifications and 248 frozen hashes unchanged.
+See [extension report and receipts](round-twenty-eight-connections.md). No deployment,
+merge or tag.

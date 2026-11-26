@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-11-26T18:53:58.372923+00:00",
+  "tested_source": "4d4fd7ed583975757069e1cf0fe21d3d5ed27926",
+  "frozen_confirmation_members": 248,
+  "matched": 248,
+  "changed": 0,
+  "checkpoint_members_sha256": "43c9d7cf1004485c5c344213c337eeb636ddfc4b33bed96149158a324c9923b9",
+  "r27_head_unchanged": true,
+  "practice_native_manifest_unchanged": true
+}
