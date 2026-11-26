@@ -1,5 +1,5 @@
 {
-  "status": "NOT_ADMITTED_AWAITS_FULL_QUALIFICATION",
+  "status": "WHOLE_COHORT_ADMITTED_AFTER_QUALIFICATION",
   "ticket_ids": [
     "form-v2-access-export-v1",
     "form-v2-access-export-v2",
@@ -107,5 +107,14 @@
   },
   "all_25_required": true,
   "calibration_ids_predeclared": "docs/round-twenty-seven-fresh-calibration-selection.json",
-  "v5": "SEALED"
+  "v5": "SEALED",
+  "qualified_source": "6731ead4aa64c0c34980f97dd38df75b1167ce26",
+  "qualification_workflow": 45745311009,
+  "first_native_executions": [
+    "job-dia-worker-t17lk68",
+    "job-dia-worker-ci36tia"
+  ],
+  "input_archive_sha256": "43ff54cbff0737cd0d32ef30253a2df5152dc1d9e21f4150ee4076da430c44cd",
+  "input_uploaded_content_md5_matches": true,
+  "earlier_unadmitted_template_errors": "docs/round-twenty-seven-confirmation-launch-preflight.json"
 }

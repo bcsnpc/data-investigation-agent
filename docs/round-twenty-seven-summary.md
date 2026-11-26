@@ -33,7 +33,7 @@ The approved $25 top-up gives a conservative November Anthropic ceiling of $245.
 
 Registered feature flags went from 64 to 3. The evaluator's measured advisory, slim and enabled switches remain; 61 proven fixes are unconditional. Historical default-true specs are accepted as no-ops, while retired off-mode ablations are explicitly refused. Historical baseline-only tests are preserved as source fixtures; current behavior and safety tests remain executable.
 
-Physical executable source lines, including comments and blanks: engine 68,705 to 68,750; tracked harness 21,767 to 21,765; tests 71,591 to 71,494. The prepared Batch and two-model-default modules account for the net engine increase. Active free defaults are SuperVL primary and Kimi backup. Old model test records remain.
+Physical executable source lines, including comments and blanks: engine 68,705 to 68,804; tracked harness 21,767 to 21,765; tests 71,591 to 71,572. The prepared Batch and two-model-default modules account for the net engine increase. Active free defaults are SuperVL primary and Kimi backup. Old model test records remain.
 
 All 123 saved `(status, after)` classifications match qualified c7a06c1f: 85 finished, 29 historical negative/incomplete traces and 9 without an investigation case. This is not 123 successful exact replays. Compatibility replay made zero estate or model calls. The [templating audit](templating-audit.md) indexes 4,594 source locations and makes no runtime change.
 
