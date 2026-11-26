@@ -70,7 +70,9 @@ class IntakeTests(unittest.TestCase):
         self.assertEqual(self.catalog.visuals('report','page')[0]['measures'],[{'id':'measure','name':'Measure'}])
         self.assertEqual(admit(request(),self.catalog)['measure_candidates'],[{'id':'measure','name':'Measure'}])
     def test_wrong_report_page_or_visual_never_substituted(self):
-        for key,value in [('page','otherpage'),('visual','othercard'),('report','unknown')]:
+        # Known conflicting scopes cannot be replaced, even when another
+        # explicit child's containment could identify a different parent.
+        for key,value in [('page','otherpage'),('visual','othercard'),('report','other')]:
             item=request();item[key]=value
             with self.subTest(key=key),self.assertRaises(ValueError):admit(item,self.catalog)
     def test_optional_visual_and_nothing_do_not_block(self):

@@ -1,0 +1,55 @@
+{
+  "at_utc": "2026-11-26T06:17:10.658433+00:00",
+  "kind": "OFFLINE_SAVED_NATIVE_COMPONENT_PROOF_NOT_LIVE_OR_REGRADE",
+  "source_result_sha256": "0327a9da9672a6e73b7b0bcac54a3622ed0eb33cda154ee18ee4cc4423695d72",
+  "source_assets_sha256": "37dd61fb8ea3a36c06c21032314fc28e02ed23208b3ba99fca2a261fd7dbf2f7",
+  "original_candidates": 5,
+  "new_measurable_candidates": 3,
+  "excluded_literal_headers": 2,
+  "explicit_target_rule_unchanged": true,
+  "rows": [
+    {
+      "candidate": "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e",
+      "native_type": "textbox",
+      "excluded": true,
+      "proof": {
+        "basis": "EXACT_NATIVE_LITERAL_NONMATCH",
+        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/visual/definition%2Fpages%2F8b067ecb975e5af7a39b%2Fvisuals%2F6b1bb066d22d5e9a9cc3%2Fvisual.json",
+        "metadata_sha256": "049d8ef743f7053fc599255f19f0066a34c839e27a63132bcdc33f0838ea3311",
+        "reason": "Literal-only text visual contains no matching stated numeric value."
+      }
+    },
+    {
+      "candidate": "3792249b906b532a7ad777cacc43ae6c53924d8f759aa9d08e291adc677c1ed4",
+      "native_type": "card",
+      "excluded": false,
+      "proof": null
+    },
+    {
+      "candidate": "9ce0e047c27063c110caf8859dcb68a2802c693602052d8e05a6e554689393dd",
+      "native_type": "card",
+      "excluded": false,
+      "proof": null
+    },
+    {
+      "candidate": "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85",
+      "native_type": "textbox",
+      "excluded": true,
+      "proof": {
+        "basis": "EXACT_NATIVE_LITERAL_NONMATCH",
+        "asset_id": "fabric://149f8d99-1c66-4a0a-9624-759be002bb60/2bc1cb2d-9230-4b8f-b7dc-c9f6b2151995/visual/definition%2Fpages%2F7547db8624ef59509188%2Fvisuals%2F0c3b2289ac445c1b99b9%2Fvisual.json",
+        "metadata_sha256": "51e5ace7263193fbe2b4f7e4ae590f40ce3b41a16159801a90b72f61e7d3ca7f",
+        "reason": "Literal-only text visual contains no matching stated numeric value."
+      }
+    },
+    {
+      "candidate": "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+      "native_type": "card",
+      "excluded": false,
+      "proof": null
+    }
+  ],
+  "new_model_calls": 0,
+  "new_estate_requests": 0,
+  "original_grade_unchanged": true
+}

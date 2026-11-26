@@ -46,3 +46,12 @@ Separately, that ticket first encountered a PostgreSQL statement timeout at loca
 At 05:43 UTC, 20 tickets are independently graded: official, strict and reviewed each show 13 correct, 2 useful handoffs and 0 harmful. The guard is 13 correct out of 15 measured. Both failed-job tickets are correct. Their original pipeline definitions are hash-restored; the fixture's original run completed, and billing's original run reproduced its retained pre-existing 2011 failure.
 
 The first history staging attempt stopped before any history ticket or model call because a local control helper did not accept the plan's structured archive reference. Its original source hash and restoration load are verified, and all records and charges remain. Six focused tests pass for the format fix; fresh staging is in a new folder on the same frozen engine. The final five tickets remain in the serial fault cohort.
+
+
+## Source-blocked confirmation checkpoint, 2026-11-26
+
+The required full25 confirmation is **not complete**, so no confirmation gate result is claimed. Of21 independently graded outcomes,14 are fully correct,2 useful handoffs and0 harmful; the guard is14 correct of16 measured, with20 required. Four cases (latency, waiting, two access cases) remain unadmitted. The21 outcomes cost Anthropic$8.666603 in actual recorded usage. There are no open budget reservations. The provider account has$44.333397 remaining commitment after the$3 cash reserve; this is ledger headroom, not a fresh Console cash reading.
+
+The remaining blocker is the practice source resource allowance: ordersops returnedSQL42119, and Azure confirmsPaused/useFreeLimit=true/AutoPause untilDec1. The current source business/schema hashes were restored before it paused; the original360 downstream copy failed3161 and model7661 has not yet been reverified. No paid-overage setting or permission changed. Owner decision is pending. Original and recovery records are preserved.
+
+Three generic repairs are being qualified offline, separately from the immutable original confirmation image. None is live-proven and no corrected quality score is inferred from unit tests. Calibration stays deferred to confirmedDec1balance and a passing full confirmation; v5 remains sealed. PR435 staysdraft/unmerged and v0.27 is not tagged at this checkpoint.

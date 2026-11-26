@@ -50,3 +50,12 @@ Fresh read-only checks confirmed the original 360-row source and schema hashes a
 The original close image, source e1f98b30, passed 6,157 tests (53 skipped) and all eight image shards. Three corrected-input daily checks on that image all ended Azure Succeeded and delivered the expected 7,661-to-8,765 transformation finding, but all three daily checks remained FAIL. The frozen native checker requires a one-column aggregate; the model returned SUM and COUNT together. December's budget readiness was also unconfirmed. These are not three green smokes. Original failures and captures are retained, and no expectation was changed.
 
 A final money-safety correction restricts OpenAI to grading only, as the latest owner direction requires. Earlier close profiles already used free OpenRouter, so no unauthorized paid call occurred. A stale smoke-purpose test was corrected to assert refusal. The final qualification, final-image daily checks and exact merge validation are recorded below when complete; this remains an engineering release without a passed quality gate.
+
+
+## Source-blocked confirmation checkpoint, 2026-11-26
+
+The required full25 confirmation is **not complete**, so no confirmation gate result is claimed. Of21 independently graded outcomes,14 are fully correct,2 useful handoffs and0 harmful; the guard is14 correct of16 measured, with20 required. Four cases (latency, waiting, two access cases) remain unadmitted. The21 outcomes cost Anthropic$8.666603 in actual recorded usage. There are no open budget reservations. The provider account has$44.333397 remaining commitment after the$3 cash reserve; this is ledger headroom, not a fresh Console cash reading.
+
+The remaining blocker is the practice source resource allowance: ordersops returnedSQL42119, and Azure confirmsPaused/useFreeLimit=true/AutoPause untilDec1. The current source business/schema hashes were restored before it paused; the original360 downstream copy failed3161 and model7661 has not yet been reverified. No paid-overage setting or permission changed. Owner decision is pending. Original and recovery records are preserved.
+
+Three generic repairs are being qualified offline, separately from the immutable original confirmation image. None is live-proven and no corrected quality score is inferred from unit tests. Calibration stays deferred to confirmedDec1balance and a passing full confirmation; v5 remains sealed. PR435 staysdraft/unmerged and v0.27 is not tagged at this checkpoint.

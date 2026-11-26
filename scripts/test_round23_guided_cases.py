@@ -71,6 +71,9 @@ class Tests(unittest.TestCase):
     def submit(self):return self.cases.submit({'request_key':'test','intake':request()})
     def test_unknown_report_is_a_saved_question_not_an_unsealed_exception(self):
         item=request();item['report']='unknown-literal-report'
+        # No retained native child can prove this report. A complete explicit
+        # child address has a separate exact-containment recovery contract.
+        item.pop('visual');item.pop('page')
         case=self.cases.submit({'request_key':'unknown-report','intake':item})
         self.assertEqual(case['status'],'NEEDS_INPUT')
         self.assertEqual(case['outcome']['stop'],'UNKNOWN_REPORT')

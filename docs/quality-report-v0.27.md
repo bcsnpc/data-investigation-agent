@@ -83,3 +83,12 @@ All123saved(status,after)classifications unchanged against qualifiedc7a06c1f:85f
 Fresh read-only source/schema hashes match the360-row baseline; model7,661 and a completed native refresh are recorded in round-twenty-seven-close-restoration.json. All saved control restoration flags are false. Temporal history remainsON by prior decision. No new injection or Fabric toggle was performed at closure. The automatic-update setting is last owner-reportedON; current browser readback is unavailable and is explicitly an owner action, never claimed as tool verification.
 
 Release validation, three full daily smokes, merge and tag are recorded in the final summary and machine receipts. Release smoke generation uses only the permitted$0synthetic free provider, because OpenAI is grading-only under the latest direction. A smoke is infrastructure/regression evidence, not an Opus quality score. No sealed expectation was changed.
+
+
+## Source-blocked confirmation checkpoint, 2026-11-26
+
+The required full25 confirmation is **not complete**, so no confirmation gate result is claimed. Of21 independently graded outcomes,14 are fully correct,2 useful handoffs and0 harmful; the guard is14 correct of16 measured, with20 required. Four cases (latency, waiting, two access cases) remain unadmitted. The21 outcomes cost Anthropic$8.666603 in actual recorded usage. There are no open budget reservations. The provider account has$44.333397 remaining commitment after the$3 cash reserve; this is ledger headroom, not a fresh Console cash reading.
+
+The remaining blocker is the practice source resource allowance: ordersops returnedSQL42119, and Azure confirmsPaused/useFreeLimit=true/AutoPause untilDec1. The current source business/schema hashes were restored before it paused; the original360 downstream copy failed3161 and model7661 has not yet been reverified. No paid-overage setting or permission changed. Owner decision is pending. Original and recovery records are preserved.
+
+Three generic repairs are being qualified offline, separately from the immutable original confirmation image. None is live-proven and no corrected quality score is inferred from unit tests. Calibration stays deferred to confirmedDec1balance and a passing full confirmation; v5 remains sealed. PR435 staysdraft/unmerged and v0.27 is not tagged at this checkpoint.
