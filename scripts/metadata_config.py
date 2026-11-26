@@ -19,7 +19,7 @@ def text(value):
 
 
 WORKER_CONFIG_FIELDS = ('version', 'sql', 'fabric', 'storage', 'sql_connections')
-WORKER_FABRIC_FIELDS = ('workspace_id', 'auth', 'native_reader')
+WORKER_FABRIC_FIELDS = ('workspace_id', 'auth', 'native_reader', 'dax_transport')
 
 
 def worker_configuration(config, request):
@@ -39,6 +39,11 @@ def worker_configuration(config, request):
     projected = {key: copy.deepcopy(config[key]) for key in WORKER_CONFIG_FIELDS if key in config}
     projected['fabric'] = {key: copy.deepcopy(config['fabric'][key])
                            for key in WORKER_FABRIC_FIELDS if key in config['fabric']}
+    if 'dax_transport' in projected['fabric']:
+        binding=projected['fabric']['dax_transport']
+        model=request['native_model_id']
+        if model not in binding['models']:raise ValueError('XMLA worker model outside configured bindings')
+        binding['models']={model:binding['models'][model]}
     if estate is not None:
         reader = projected['fabric']['native_reader']
         from investigator.native_identity import allows
@@ -99,7 +104,7 @@ def validate_config(config):
                 if len(text(sql['auth']['account']))>128:raise ValueError('Source reader account exceeds bound')
             if sql['auth']['mode'] != 'dpapi_file':
                 raise ValueError('Unsupported SQL authentication mode')
-    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'refresh_timing_reader', 'snapshot_identity_reader', 'retained_endpoints') if k in fabric]
+    optional = [k for k in ('native_reader', 'sql_session', 'sql_reader', 'xmla_client', 'dax_transport', 'refresh_timing_reader', 'snapshot_identity_reader', 'retained_endpoints') if k in fabric]
     keys(fabric, ['workspace_id', 'auth'] + optional)
     fabric['workspace_id'] = str(UUID(text(fabric['workspace_id'])))
     if fabric['auth'].get('mode') == FEDERATED:
@@ -142,6 +147,15 @@ def validate_config(config):
         profile_path(fabric['xmla_client']['library'])
         if 'native_reader' not in fabric:
             raise ValueError('XMLA failure detail requires the native reader identity')
+    if 'dax_transport' in fabric:
+        from investigator.adapters.xmla_query import validate
+        validate(fabric['dax_transport'])
+        if 'native_reader' not in fabric:
+            raise ValueError('XMLA queries require the native reader identity')
+        from investigator.native_identity import allows
+        if fabric['dax_transport']['workspace_id'] != fabric['workspace_id'] or any(
+                not allows(fabric['native_reader'],fabric['workspace_id'],model) for model in fabric['dax_transport']['models']):
+            raise ValueError('XMLA bindings differ from the configured reader scope')
     if 'refresh_timing_reader' in fabric:
         from fabric_sql_auth import account_name,profile_path
         timing=fabric['refresh_timing_reader']

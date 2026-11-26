@@ -69,8 +69,9 @@ class NativeQueries:
         execute=self.dax
         if execute is None:
             from run_native_diagnostic import execute
+        options={'transport_config':config['fabric']['dax_transport']} if 'dax_transport' in config['fabric'] else {}
         raw=execute(request,config['fabric']['auth']['tenant_id'],reader,
-                    authentication=config['fabric']['auth'],timeout_seconds=timeout_seconds)
+                    authentication=config['fabric']['auth'],timeout_seconds=timeout_seconds,**options)
         result=json.loads(raw,parse_float=Decimal) if isinstance(raw,str) else raw
         tables=result.get('results',[])
         if len(tables)!=1 or tables[0].get('error'):raise ValueError('NATIVE_DAX_RESULT_ERROR')

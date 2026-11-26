@@ -111,7 +111,18 @@
       "server": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
       "tenant_id": "dff91047-ebc2-4657-8dbe-5af328d57780"
     },
-    "workspace_id": "d237966c-b0b6-4123-bc89-e69643f4bf1f"
+    "workspace_id": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+    "dax_transport": {
+      "mode": "xmla",
+      "library": ".local/adomd-client/19.117.0/lib/net472/Microsoft.AnalysisServices.AdomdClient.dll",
+      "workspace_id": "d237966c-b0b6-4123-bc89-e69643f4bf1f",
+      "workspace_name": "HealthNet Analytics",
+      "models": {
+        "85e662ed-c4e6-41fb-9e43-be0c5a6aeeae": "HealthNet Operations",
+        "df6e3f67-deb6-4cb8-b15a-353176931679": "HealthNet Revenue",
+        "0ef2b1a3-c6b7-4623-b962-39fe12c84d06": "HealthNet Productivity"
+      }
+    }
   },
   "storage": {
     "database": ".local/healthnet-smoke/catalog.sqlite"

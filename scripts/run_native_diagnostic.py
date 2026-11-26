@@ -47,7 +47,7 @@ def worker_failure(exc):
     return failure
 
 
-def execute(request,tenant,reader=None,authentication=None,*,identity_observer=None,timeout_seconds=90):
+def execute(request,tenant,reader=None,authentication=None,*,identity_observer=None,timeout_seconds=90,transport_config=None):
     if type(timeout_seconds) is not int or not 1<=timeout_seconds<=90:raise ValueError('Native query timeout bound')
     if identity_observer is not None and (reader is None or not callable(identity_observer)):
         raise ValueError('Native identity observer requires a bound reader')
@@ -86,12 +86,22 @@ def execute(request,tenant,reader=None,authentication=None,*,identity_observer=N
         claims=json.loads(base64.urlsafe_b64decode(part+'='*(-len(part)%4)))
         if claims.get('oid') != reader['principal_id']:
             raise ValueError('Native reader principal differs')
+        if transport_config is not None and (claims.get('tid') != tenant or claims.get('aud') not in
+                ('https://analysis.windows.net/powerbi/api','00000009-0000-0000-c000-000000000000')):
+            raise ValueError('XMLA reader tenant or audience differs')
         if identity_observer is not None:
             # Trusted deployment observer only. Never forward the bearer,
             # credential, roles, account claims or an arbitrary decoded object.
             observed={key:claims[key] for key in ('aud','tid','oid','appid','azp')
                       if isinstance(claims.get(key),str)}
             identity_observer(observed)
+    if transport_config is not None:
+        if reader is None:raise ValueError('XMLA queries require the native reader identity')
+        from investigator.adapters.xmla_query import read
+        decoded=read(transport_config,request,token,timeout_seconds=timeout_seconds)
+        response=json.loads(decoded,parse_float=Decimal)
+        evidence=make(response,request,reader)
+        return decoded.rstrip()[:-1]+','+json.dumps(KEY)+':'+json.dumps(evidence)+'}'
     body={'queries':[{'query':request['query']}],'serializerSettings':{'includeNulls':True}}
     http=Request(f'https://api.powerbi.com/v1.0/myorg/groups/{workspace}/datasets/{model}/executeQueries',
                  data=json.dumps(body).encode(),headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'})
@@ -151,7 +161,8 @@ if __name__=='__main__':
         try:
             request=json.load(sys.stdin)
             if request['workspace']!=config['fabric']['workspace_id']:raise ValueError('Workspace differs')
-            print(execute(request,config['fabric']['auth']['tenant_id'],config['fabric'].get('native_reader'),config['fabric']['auth']))
+            options={'transport_config':config['fabric']['dax_transport']} if 'dax_transport' in config['fabric'] else {}
+            print(execute(request,config['fabric']['auth']['tenant_id'],config['fabric'].get('native_reader'),config['fabric']['auth'],**options))
         except Exception as exc:
             print(json.dumps(worker_failure(exc)));raise SystemExit(1)
     else:
