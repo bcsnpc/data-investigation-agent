@@ -41,3 +41,30 @@ Onboarding draft: approve the client's existing read-only identities and gateway
 scope, name existing Key Vault references, fill the native installation and layer
 references, validate offline, then arrange a separately approved first live check.
 Do not reuse practice identities or infer bindings by similar names.
+
+## Named SQL connections
+
+`connections` maps names to `{server, database, identity, secret_refs}`. A connector
+selects its `connection`; a layer's optional `connections` must be a subset of
+its connectors' bindings. Native options use either the legacy `sql` object or
+`sql_connections: {name: {server, database, visibility_schema, auth}}`, never both.
+Each native layer/resource can select `reach.connection`; exact asset addresses,
+reader principals and credential references must agree. Outer database and secret
+names are cross-checked against that bundle. The practice config declares one
+`application` connection and preserves its original native installation exactly.
+
+Native catalog routes project only their exact source connection. Requests spanning
+databases or lacking an exact target are refused. Existing parser, read-only,
+physical-request and gateway checks remain in force. Metadata collection accepts
+connection-bound reader ports by name; it never reuses the first reader for another
+database. Legacy single-source runner entrypoints are not converted into automatic
+multi-database discovery jobs in this change.
+
+`healthnet.json` is a **disabled metadata-only draft**, derived solely from
+`docs/healthnet-status.md`. It names both recorded source databases and recorded
+analytics containers/models/reports. Unknown object bindings, approved reader
+references, secret names and model choice remain placeholders; `installation` and
+`deepest_reachable` are null. Silver/Gold share the recorded warehouse container;
+this does not assert table bindings. Limits of 1 are inert schema minima, **not a
+HealthNet budget allocation**. No HealthNet data, tickets or expectations were read,
+and no discovery, investigation or credential resolution was performed.

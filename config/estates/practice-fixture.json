@@ -19,7 +19,8 @@
       "objects": [
         "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
       ],
-      "discovery": []
+      "discovery": [],
+      "connection": "application"
     },
     {
       "id": "analytics",
@@ -50,7 +51,10 @@
       "objects": [
         "sql://sql-orderops-9696025.database.windows.net/ordersops/object/1938105945"
       ],
-      "discovery": []
+      "discovery": [],
+      "connections": [
+        "application"
+      ]
     },
     "bronze": {
       "connectors": [
@@ -836,5 +840,13 @@
     },
     "system_of_record": "application",
     "version": "estate-manifest-v1"
+  },
+  "connections": {
+    "application": {
+      "server": "sql-orderops-9696025.database.windows.net",
+      "database": "ordersops",
+      "identity": "source-reader",
+      "secret_refs": []
+    }
   }
 }

@@ -174,12 +174,14 @@ class Discovery:
             for aid,a in before.items():
                 if aid in current:continue
                 allowed_root='fabric://'+self.config['fabric']['workspace_id']
-                sql=self.config.get('sql')
+                from .adapters.sql_connections import for_asset
+                try: sql=for_asset(self.config, aid).get('sql')
+                except ValueError: sql=None
                 allowed_sql='sql://'+sql['server']+'/'+sql['database'] if sql else None
                 ancestor=a
                 while ancestor.get('parent_id') in before and ancestor['kind'] not in ('SqlObject','SqlSchema'):
                     ancestor=before[ancestor['parent_id']]
-                outside_schema=sql is not None and ((ancestor['kind']=='SqlObject' and ancestor['metadata'].get('schema_name')!=self.config['sql']['visibility_schema']) or (ancestor['kind']=='SqlSchema' and ancestor['name']!=self.config['sql']['visibility_schema']))
+                outside_schema=sql is not None and ((ancestor['kind']=='SqlObject' and ancestor['metadata'].get('schema_name')!=sql['visibility_schema']) or (ancestor['kind']=='SqlSchema' and ancestor['name']!=sql['visibility_schema']))
                 if outside_schema or not (aid==allowed_root or aid.startswith(allowed_root+'/') or (allowed_sql is not None and (aid==allowed_sql or aid.startswith(allowed_sql+'/')))):
                     changes.append({'asset_id':aid,'state':'REMOVED','reason':'OUTSIDE_CURRENT_POLICY'})
                     continue

@@ -1,0 +1,222 @@
+{
+  "version": "estate-config/1",
+  "id": "healthnet",
+  "name": "HealthNet Analytics ? disabled metadata draft",
+  "enabled": false,
+  "status": "DRAFT",
+  "references": {
+    "tenant": "dff91047-ebc2-4657-8dbe-5af328d57780",
+    "subscription": "d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9",
+    "resource_group": "rg-investigator-dev"
+  },
+  "connectors": [
+    {
+      "id": "clinical",
+      "kind": "azure-sql",
+      "enabled": false,
+      "identity": "source-reader",
+      "adapter": "PLACEHOLDER-native-bundle",
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-approved-object-bindings"
+      ],
+      "connection": "clinical"
+    },
+    {
+      "id": "billing",
+      "kind": "azure-sql",
+      "enabled": false,
+      "identity": "source-reader",
+      "adapter": "PLACEHOLDER-native-bundle",
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-approved-object-bindings"
+      ],
+      "connection": "billing"
+    },
+    {
+      "id": "analytics",
+      "kind": "fabric",
+      "enabled": false,
+      "identity": "analytics-reader",
+      "adapter": "PLACEHOLDER-native-bundle",
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0d5289e1-3133-4ddb-87bc-77e287b54935",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/ef705467-9870-481c-b977-aad877b83c30",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/85e662ed-c4e6-41fb-9e43-be0c5a6aeeae",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/da276dc2-b133-40a9-8da4-fde9f9980545",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/d47bb5e2-608f-4294-85cd-8fb0ade7a5d4",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/48b38369-2aac-427c-9c4b-a184fb464808"
+      ],
+      "discovery": [
+        "PLACEHOLDER-approved-native-bindings"
+      ]
+    }
+  ],
+  "layers": {
+    "source": {
+      "connectors": [
+        "clinical",
+        "billing"
+      ],
+      "objects": [],
+      "connections": [
+        "clinical",
+        "billing"
+      ],
+      "discovery": [
+        "PLACEHOLDER-approved-source-objects"
+      ]
+    },
+    "bronze": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0d5289e1-3133-4ddb-87bc-77e287b54935"
+      ],
+      "discovery": [
+        "PLACEHOLDER-bronze-exact-object-bindings"
+      ]
+    },
+    "silver": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/ef705467-9870-481c-b977-aad877b83c30"
+      ],
+      "discovery": [
+        "PLACEHOLDER-silver-exact-object-bindings"
+      ]
+    },
+    "gold": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/ef705467-9870-481c-b977-aad877b83c30"
+      ],
+      "discovery": [
+        "PLACEHOLDER-gold-exact-object-bindings"
+      ]
+    },
+    "model": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/85e662ed-c4e6-41fb-9e43-be0c5a6aeeae"
+      ],
+      "discovery": [
+        "PLACEHOLDER-model-exact-object-bindings"
+      ]
+    },
+    "report": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/da276dc2-b133-40a9-8da4-fde9f9980545",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/d47bb5e2-608f-4294-85cd-8fb0ade7a5d4",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/48b38369-2aac-427c-9c4b-a184fb464808"
+      ],
+      "discovery": [
+        "PLACEHOLDER-report-exact-object-bindings"
+      ]
+    }
+  },
+  "source_of_truth": "source",
+  "deepest_reachable": null,
+  "identities": {
+    "source-reader": {
+      "kind": "service-principal",
+      "reference": "PLACEHOLDER-approved-source-reader",
+      "tenant": "aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+      "secret_refs": [
+        "placeholder-clinical-reader",
+        "placeholder-billing-reader"
+      ]
+    },
+    "analytics-reader": {
+      "kind": "service-principal",
+      "reference": "PLACEHOLDER-approved-analytics-reader",
+      "tenant": "dff91047-ebc2-4657-8dbe-5af328d57780",
+      "secret_refs": [
+        "placeholder-analytics-reader"
+      ]
+    }
+  },
+  "secrets": {
+    "vault": "kv-dia-d5dd7d65",
+    "names": [
+      "placeholder-clinical-reader",
+      "placeholder-billing-reader",
+      "placeholder-analytics-reader",
+      "placeholder-model-key"
+    ]
+  },
+  "model": {
+    "provider": "PLACEHOLDER-provider",
+    "model": "PLACEHOLDER-model",
+    "secret_ref": "placeholder-model-key",
+    "limits": {
+      "requests_per_ticket": 1,
+      "requests_per_day": 1,
+      "microdollars_per_ticket": 1,
+      "microdollars_per_day": 1,
+      "microdollars_per_month": 1
+    }
+  },
+  "limits": {
+    "requests_per_ticket": 1,
+    "requests_per_day": 1,
+    "microdollars_per_ticket": 1,
+    "microdollars_per_day": 1,
+    "microdollars_per_month": 1
+  },
+  "optional_sources": {
+    "catalog": {
+      "enabled": false,
+      "adapter": "not-installed"
+    },
+    "ontology": {
+      "enabled": false,
+      "adapter": "not-installed"
+    },
+    "glossary": {
+      "enabled": false,
+      "adapter": "not-installed"
+    }
+  },
+  "deployment": {
+    "jobs": {
+      "worker": "healthnet-draft-worker",
+      "graph": "healthnet-draft-graph",
+      "collectors": "healthnet-draft-collectors"
+    }
+  },
+  "installation": null,
+  "connections": {
+    "clinical": {
+      "server": "sql-orderops-9696025.database.windows.net",
+      "database": "hn_clinical",
+      "identity": "source-reader",
+      "secret_refs": [
+        "placeholder-clinical-reader"
+      ]
+    },
+    "billing": {
+      "server": "sql-orderops-9696025.database.windows.net",
+      "database": "hn_billing",
+      "identity": "source-reader",
+      "secret_refs": [
+        "placeholder-billing-reader"
+      ]
+    }
+  }
+}

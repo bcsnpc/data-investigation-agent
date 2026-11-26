@@ -49,9 +49,13 @@ class NativeCatalog:
                                   if a['kind'] in ('SemanticTable','SemanticColumn','Measure')]
                 route['asset_ids']=[a['id'] for a in route['objects']]
             elif kind=='SqlDatabase':
-                expected='sql://'+self.config['sql']['server']+'/'+self.config['sql']['database']
+                from .sql_connections import for_asset
+                try: route['config'] = for_asset(self.config, parent)
+                except ValueError: continue
+                selected = route['config']
+                expected='sql://'+selected['sql']['server']+'/'+selected['sql']['database']
                 if parent!=expected:continue
-                route.update(kind='SOURCE_SQL',dialect='T-SQL',database=self.config['sql']['database'])
+                route.update(kind='SOURCE_SQL',dialect='T-SQL',database=selected['sql']['database'])
                 route['objects']=[{'id':a['id'],'metadata':deepcopy(a['metadata'])} for a in objects]
             elif kind in ('Lakehouse','Warehouse'):
                 route.update(kind='FABRIC_SQL',dialect='T-SQL')

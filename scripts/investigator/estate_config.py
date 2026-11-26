@@ -23,6 +23,8 @@ def validate(value):
     result = deepcopy(value)
     def fail(path, message):
         raise ValueError('estate.' + path + ': ' + message)
+    if result['enabled'] and result['deepest_reachable'] is None:
+        fail('deepest_reachable', 'enabled estate requires declared reachability')
     if result['enabled'] and result['status'] != 'CONFIGURED':
         fail('status', 'an enabled installation must be CONFIGURED')
     connectors = {row['id']: row for row in result['connectors']}
@@ -35,12 +37,23 @@ def validate(value):
         if caps['requests_per_ticket'] > caps['requests_per_day']: fail(key, 'ticket request cap exceeds day')
         if not caps['microdollars_per_ticket'] <= caps['microdollars_per_day'] <= caps['microdollars_per_month']:
             fail(key, 'ticket/day/month cash caps are out of order')
+    connections = result.get('connections', {})
+    for name, connection in connections.items():
+        if connection['identity'] not in result['identities']: fail('connections.' + name, 'unknown identity')
+        if not set(connection['secret_refs']) <= secrets: fail('connections.' + name, 'missing secret name')
     for row in connectors.values():
+        if 'connection' in row:
+            connection = connections.get(row['connection'])
+            if connection is None: fail('connectors.' + row['id'], 'unknown connection')
+            if row['identity'] != connection['identity']: fail('connectors.' + row['id'], 'connection identity differs')
         if row['identity'] not in result['identities']: fail('connectors.' + row['id'], 'unknown identity reference')
         if row['enabled'] and (not result['enabled'] or row['kind'] in ('databricks', 'snowflake')):
             fail('connectors.' + row['id'], 'disabled estate or unimplemented connector')
         if not row['objects'] and not row['discovery']: fail('connectors.' + row['id'], 'object or discovery rule required')
     for role, layer in result['layers'].items():
+        if not set(layer.get('connections', [])) <= connections.keys(): fail('layers.' + role, 'unknown connection')
+        declared = {connectors[key].get('connection') for key in layer['connectors'] if key in connectors}
+        if not set(layer.get('connections', [])) <= declared: fail('layers.' + role, 'connection outside layer connectors')
         if not layer['connectors'] or not layer['objects'] and not layer['discovery']:
             fail('layers.' + role, 'layer gap: declare connectors and objects or discovery rules')
         if not set(layer['connectors']) <= connectors.keys(): fail('layers.' + role, 'unknown connector')

@@ -18,7 +18,7 @@ def text(value):
     return value
 
 
-WORKER_CONFIG_FIELDS = ('version', 'sql', 'fabric', 'storage')
+WORKER_CONFIG_FIELDS = ('version', 'sql', 'fabric', 'storage', 'sql_connections')
 WORKER_FABRIC_FIELDS = ('workspace_id', 'auth', 'native_reader')
 
 
@@ -56,7 +56,7 @@ def load_config(path):
 
 def validate_config(config):
     """Adapter projection validation without consulting another config file."""
-    keys(config, [k for k in WORKER_CONFIG_FIELDS if k!='sql' or k in config] + [k for k in ('system_of_record','load_audits','source_delivery','layer_roles') if k in config])
+    keys(config, [k for k in WORKER_CONFIG_FIELDS if k not in ('sql','sql_connections') or k in config] + [k for k in ('system_of_record','load_audits','source_delivery','layer_roles') if k in config])
     if 'layer_roles' in config:
         from investigator.layer_roles import declarations
         declarations(config['layer_roles'])
@@ -71,6 +71,9 @@ def validate_config(config):
         declaration(config['system_of_record'])
     if config['version'] != 1:
         raise ValueError('Unsupported configuration version')
+    if 'sql_connections' in config:
+        from investigator.adapters.sql_connections import validate_connections
+        validate_connections(config)
     sql, fabric = config.get('sql'), config['fabric']
     from investigator.adapters.managed_identity import validate as managed_identity
     from investigator.adapters.vault_user_cache import MODE as USER_CACHE, FIELDS as USER_FIELDS, validate as user_cache, PBI, SQL
@@ -83,6 +86,9 @@ def validate_config(config):
         if sql['auth'].get('mode') == FEDERATED:
             keys(sql['auth'], FED_FIELDS | {'account'})
             federated({k:sql['auth'][k] for k in FED_FIELDS});text(sql['auth']['account'])
+        elif sql['auth'].get('mode') == USER_CACHE:
+            user_cache(sql['auth'])
+            if sql['auth']['scope'] != SQL: raise ValueError('Source reader requires SQL audience')
         elif sql['auth'].get('mode') == 'managed_identity':
             keys(sql['auth'], ['mode', 'tenant_id', 'client_id', 'principal_id', 'account'])
             managed_identity({k:sql['auth'][k] for k in ('mode','tenant_id','client_id','principal_id')})

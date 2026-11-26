@@ -18,9 +18,12 @@ SCHEMA = _object({
     'connectors': {'type': 'array', 'minItems': 1, 'items': _object({
         'id': IDENTIFIER, 'kind': {'enum': ['fabric', 'powerbi', 'azure-sql', 'fabric-sql', 'databricks', 'snowflake']},
         'enabled': FLAG, 'identity': TEXT, 'adapter': TEXT,
-        'objects': NAMES, 'discovery': NAMES})},
-    'layers': _object({role: _object({'connectors': NAMES, 'objects': NAMES, 'discovery': NAMES}) for role in ROLES}),
-    'source_of_truth': {'enum': list(ROLES)}, 'deepest_reachable': {'enum': list(ROLES)},
+        'objects': NAMES, 'discovery': NAMES, 'connection': IDENTIFIER}, optional=('connection',))},
+    'connections': {'type': 'object', 'minProperties': 1, 'propertyNames': IDENTIFIER,
+        'additionalProperties': _object({'server': TEXT, 'database': TEXT, 'identity': TEXT, 'secret_refs': NAMES})},
+    'layers': _object({role: _object({'connectors': NAMES, 'objects': NAMES, 'discovery': NAMES,
+        'connections': NAMES}, optional=('connections',)) for role in ROLES}),
+    'source_of_truth': {'enum': list(ROLES)}, 'deepest_reachable': {'enum': list(ROLES) + [None]},
     'identities': {'type': 'object', 'minProperties': 1, 'additionalProperties': _object({
         'kind': {'enum': ['managed-identity', 'service-principal']}, 'reference': TEXT,
         'tenant': TEXT, 'secret_refs': NAMES})},
@@ -33,4 +36,4 @@ SCHEMA = _object({
     # Existing adapter-owned manifest is the sole native-address/credential binding.
     # The outer connector and layer lists reference it; they never override it.
     'installation': {'type': ['object', 'null']},
-})
+}, optional=('connections',))

@@ -10,8 +10,34 @@ def validate_bindings(value):
             raise ValueError('estate.connectors.' + row['id'] + ': object is not installed')
         options = adapters[row['adapter']]['options']
         required = 'sql' if row['kind'] == 'azure-sql' else 'fabric'
-        if row['enabled'] and required not in options:
+        if row['enabled'] and required not in options and not (required == 'sql' and 'sql_connections' in options):
             raise ValueError('estate.connectors.' + row['id'] + ': installed platform is absent')
+    from .sql_connections import entries, for_asset
+    for name, connection in value.get('connections', {}).items():
+        installed = [entry for adapter in adapters.values() for key, entry in entries(adapter['options']).items()
+                     if key == name or key == 'default' and len(value['connections']) == 1]
+        if len(installed) != 1 or any(installed[0][k] != connection[k] for k in ('server', 'database')):
+            raise ValueError('estate.connections.' + name + ': installed database differs')
+        identity = value['identities'][connection['identity']]['reference']
+        reader = next((row for row in manifest['identities'] if row['id'] == identity), None)
+        if reader is None: raise ValueError('estate.connections.' + name + ': reader is not installed')
+        if installed[0]['auth'].get('account') != reader['principal']:
+            raise ValueError('estate.connections.' + name + ': installed reader differs')
+        def secret_names(item):
+            if isinstance(item, dict):
+                return ({item['secret_name']} if 'secret_name' in item else set()) | set().union(*(secret_names(v) for v in item.values()))
+            if isinstance(item, list): return set().union(*(secret_names(v) for v in item))
+            return set()
+        if secret_names(installed[0]['auth']) != set(connection['secret_refs']):
+            raise ValueError('estate.connections.' + name + ': installed secret names differ')
+    for row in value['connectors']:
+        if 'connection' not in row: continue
+        options = adapters[row['adapter']]['options']
+        connection = value['connections'][row['connection']]
+        for asset in row['objects']:
+            selected = for_asset(options, asset, row['connection'] if 'sql_connections' in options else None)
+            if any(selected['sql'][k] != connection[k] for k in ('server', 'database')):
+                raise ValueError('estate.connectors.' + row['id'] + ': object leaves connection')
     identities = {row['id']: row for row in manifest['identities']}
     for name, row in value['identities'].items():
         if row['reference'] not in identities:

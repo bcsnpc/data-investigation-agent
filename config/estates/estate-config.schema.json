@@ -1,5 +1,4 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -101,6 +100,10 @@
               "maxLength": 1000
             },
             "uniqueItems": true
+          },
+          "connection": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,79}$"
           }
         },
         "required": [
@@ -111,6 +114,50 @@
           "adapter",
           "objects",
           "discovery"
+        ]
+      }
+    },
+    "connections": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]{0,79}$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "server": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "database": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "identity": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "secret_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1000
+            },
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "server",
+          "database",
+          "identity",
+          "secret_refs"
         ]
       }
     },
@@ -141,6 +188,15 @@
               "uniqueItems": true
             },
             "discovery": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "uniqueItems": true
+            },
+            "connections": {
               "type": "array",
               "items": {
                 "type": "string",
@@ -186,6 +242,15 @@
                 "maxLength": 1000
               },
               "uniqueItems": true
+            },
+            "connections": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "uniqueItems": true
             }
           },
           "required": [
@@ -217,6 +282,15 @@
               "uniqueItems": true
             },
             "discovery": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "uniqueItems": true
+            },
+            "connections": {
               "type": "array",
               "items": {
                 "type": "string",
@@ -262,6 +336,15 @@
                 "maxLength": 1000
               },
               "uniqueItems": true
+            },
+            "connections": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "uniqueItems": true
             }
           },
           "required": [
@@ -293,6 +376,15 @@
               "uniqueItems": true
             },
             "discovery": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "uniqueItems": true
+            },
+            "connections": {
               "type": "array",
               "items": {
                 "type": "string",
@@ -338,6 +430,15 @@
                 "maxLength": 1000
               },
               "uniqueItems": true
+            },
+            "connections": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              },
+              "uniqueItems": true
             }
           },
           "required": [
@@ -373,7 +474,8 @@
         "silver",
         "gold",
         "model",
-        "report"
+        "report",
+        null
       ]
     },
     "identities": {

@@ -12,25 +12,32 @@ def configuration(manifest):
     options=copy.deepcopy(manifest['adapters'][0]['options'])
     # Scattered roles/audits/source declarations are forbidden in adapter
     # options: these are derived solely from the neutral manifest inventory.
-    if set(options) not in ({'sql','fabric'},{'fabric'}):
-        raise ValueError('manifest.adapters.options: expected fabric and optional sql only')
-    if 'sql' not in options and (manifest['resources'] or any(row['role']!='SEMANTIC' for row in manifest['layers'])):
+    if set(options) not in ({'sql','fabric'},{'fabric'},{'sql_connections','fabric'}):
+        raise ValueError('manifest.adapters.options: expected fabric and optional sql or sql_connections only')
+    if not ({'sql','sql_connections'} & options.keys()) and (manifest['resources'] or any(row['role']!='SEMANTIC' for row in manifest['layers'])):
         raise ValueError('manifest.adapters.options.sql: required for declared non-semantic layers or resources')
     identities={i['id']:i for i in manifest['identities']}
     for row in manifest['layers']+manifest['resources']:
         if row['reach']['address']!=row['asset_id']:
             raise ValueError('manifest.reach.address: this adapter requires the exact discovered asset address')
+        from .sql_connections import for_asset
+        selected = for_asset(options, row['asset_id'], row['reach'].get('connection')) if row.get('role')=='APPLICATION' or 'connection' in row['reach'] else options
         declared=identities[row['reach']['reader']]['principal']
-        options_reader=(options['sql']['auth'].get('account') if row['role']=='APPLICATION'
-            else options['fabric'].get('native_reader',{}).get('account')) if 'role' in row else options['fabric'].get('sql_reader',{}).get('account')
+        if row.get('role')=='APPLICATION' or 'connection' in row['reach']:
+            options_reader=selected['sql']['auth'].get('account')
+        else:
+            options_reader=options['fabric'].get('native_reader' if 'role' in row else 'sql_reader',{}).get('account')
         if declared!=options_reader:
             raise ValueError('manifest.identities.'+row['reach']['reader']+': adapter account differs')
         reference=identities[row['reach']['reader']]['credential_reference']
-        if row.get('role')=='APPLICATION':
-            auth=options['sql']['auth']
+        if row.get('role')=='APPLICATION' or 'connection' in row['reach']:
+            auth=selected['sql']['auth']
             if auth.get('mode')=='federated_reader':
                 from .vault_user_cache import credential
                 from .federated_reader import reference as identity_reference
+                actual=identity_reference(credential(auth))
+            elif auth.get('mode')=='key_vault_user_cache':
+                from .vault_user_cache import credential, reference as identity_reference
                 actual=identity_reference(credential(auth))
             elif auth.get('mode')=='managed_identity':
                 from .managed_identity import reference as identity_reference
