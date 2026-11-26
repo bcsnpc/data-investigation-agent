@@ -1,0 +1,373 @@
+{
+  "owner_approval": "Latest owner: complete full confirmation now as priority; keep3USDcashreserve; calibration after confirmedDec1balance if combined forecast does not fit",
+  "recorded_at_utc": "2026-11-26T03:26:33.101524+00:00",
+  "complete_confirmation_forecast_microdollars": 38612307,
+  "calibration_corrected_forecast_microdollars": 14611367,
+  "combined_with_cash_reserve_microdollars": 56223674,
+  "original_cash_conservative": 56000000,
+  "combined_shortfall_before_actual_savings": 223674,
+  "confirmation_plus_reserve": 41612307,
+  "confirmation_fits": true,
+  "calibration": "DEFERRED_UNTIL_CONFIRMED_DEC1_BALANCE_AND_CONFIRMATION_GATE_PASS",
+  "v5": "SEALED; no admission before both gates and full budget",
+  "before": {
+    "identity": "model-microdollars:2026-11",
+    "unit": "MICRODOLLARS",
+    "ceiling": "258108251",
+    "protected": "17611367",
+    "opening": "0",
+    "charged": "203246858",
+    "violated": false
+  },
+  "after": {
+    "identity": "model-microdollars:2026-11",
+    "unit": "MICRODOLLARS",
+    "ceiling": "258108251",
+    "protected": "3000000",
+    "opening": "0",
+    "charged": "203246858",
+    "violated": false
+  },
+  "ceiling_and_counters_preserved": true,
+  "money_safety": "Normalizedcap255.108251;rawcap258.108251 minusprotected3 enforces same cap; no new credit or request increase",
+  "higher_cold_cache_scenario_rows": [
+    {
+      "ticket": "form-v2-access-export-v1",
+      "forecast": 665820,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          665820,
+          "dev02-advisory"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-access-export-v2",
+      "forecast": 611095,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          611095,
+          "dev02-advisory"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "forecast": 384072,
+      "source": "dev03-slim",
+      "options": [
+        [
+          340186,
+          "dev02-advisory"
+        ],
+        [
+          384072,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "forecast": 405108,
+      "source": "dev03-slim",
+      "options": [
+        [
+          399606,
+          "dev02-advisory"
+        ],
+        [
+          405108,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "forecast": 1058334,
+      "source": "dev03-slim",
+      "options": [
+        [
+          1045088,
+          "dev02-advisory"
+        ],
+        [
+          1058334,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "forecast": 2760799,
+      "source": "dev03-slim",
+      "options": [
+        [
+          985088,
+          "dev02-advisory"
+        ],
+        [
+          2760799,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "forecast": 1128098,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          1128098,
+          "dev02-advisory"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "forecast": 2198102,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          2198102,
+          "dev02-advisory"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "forecast": 727295,
+      "source": "dev03-slim",
+      "options": [
+        [
+          707091,
+          "dev02-advisory"
+        ],
+        [
+          727295,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "forecast": 1054070,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          1054070,
+          "dev02-advisory"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "forecast": 1953947,
+      "source": "dev03-slim",
+      "options": [
+        [
+          1072821,
+          "dev02-advisory"
+        ],
+        [
+          1953947,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "forecast": 1371288,
+      "source": "dev03-slim",
+      "options": [
+        [
+          1184297,
+          "dev02-advisory"
+        ],
+        [
+          1371288,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "forecast": 2262172,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          2262172,
+          "dev02-advisory"
+        ],
+        [
+          750448,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "forecast": 873337,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          873337,
+          "dev02-advisory"
+        ],
+        [
+          545305,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "forecast": 398116,
+      "source": "dev03-slim",
+      "options": [
+        [
+          392879,
+          "dev02-advisory"
+        ],
+        [
+          398116,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "forecast": 3383181,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          3383181,
+          "dev02-advisory"
+        ],
+        [
+          385722,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "forecast": 687822,
+      "source": "dev03-slim",
+      "options": [
+        [
+          442649,
+          "dev02-advisory"
+        ],
+        [
+          687822,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "forecast": 1825665,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          1825665,
+          "dev02-advisory"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-waiting-application-load-v2",
+      "forecast": 754727,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          754727,
+          "dev02-advisory"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "forecast": 1273973,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          1273973,
+          "dev02-advisory"
+        ],
+        [
+          1096684,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "forecast": 1430000,
+      "source": "IMPUTED_UNCHANGED_NORMAL_PRICE",
+      "options": []
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "forecast": 1660301,
+      "source": "dev03-slim",
+      "options": [
+        [
+          1518512,
+          "dev02-advisory"
+        ],
+        [
+          1660301,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "forecast": 2861008,
+      "source": "dev03-slim",
+      "options": [
+        [
+          2593747,
+          "dev02-advisory"
+        ],
+        [
+          2861008,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "forecast": 5342719,
+      "source": "dev03-slim",
+      "options": [
+        [
+          4044181,
+          "dev02-advisory"
+        ],
+        [
+          5342719,
+          "dev03-slim"
+        ]
+      ]
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "forecast": 1541258,
+      "source": "dev02-advisory",
+      "options": [
+        [
+          1541258,
+          "dev02-advisory"
+        ],
+        [
+          1452308,
+          "dev03-slim"
+        ]
+      ]
+    }
+  ]
+}
