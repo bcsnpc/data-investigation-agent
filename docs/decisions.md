@@ -862,3 +862,10 @@ Full suite, all eight image shards and the 123 saved classifications are require
 Owner additionally approved only row counts per mapped SQL table and one main
 measure total per model, compared with saved owner-baseline receipts, no tickets
 or model calls. Sealed HealthNet inputs/expectations will not be opened.
+
+HealthNet smoke plumbing: the guarded SQL worker rejected SELECT 1 after the gateway
+correctly returned an empty business-object set. Permit only a literal SELECT 1
+(with optional simple alias) without object guards; gateway, identity and database
+read-only permission checks still run. Other zero-object reads and all writes
+remain refused. Regression tests cover successful connectivity and a write-capable
+identity refusal. No intake, investigation, prompt or answer behavior changes.

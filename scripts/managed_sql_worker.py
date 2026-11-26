@@ -149,7 +149,10 @@ def execute(payload, *, connect=None, tokens=None, protocol=None, progress=None)
         authorize_sql_control(payload['server'], payload['database'], control)
     else:
         payload = authorize_sql_payload(payload)
-        if payload.get('require_read_only') is not True or not 1 <= len(payload.get('read_only_objects', [])) <= 24:
+        connectivity_only = re.fullmatch(r'SELECT\s+1(?:\s+AS\s+[A-Za-z_][A-Za-z0-9_]*)?', payload['query'].strip(), re.I) is not None
+        if payload.get('require_read_only') is not True or not (
+                1 <= len(payload.get('read_only_objects', [])) <= 24 or
+                connectivity_only and payload.get('read_only_objects') == []):
             raise ValueError('Read-only object guards required')
         if type(payload.get('max_rows')) is not int or not 2 <= payload['max_rows'] <= 251:
             raise ValueError('Row bound required')
