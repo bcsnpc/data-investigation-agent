@@ -88,5 +88,13 @@
       }
     ]
   },
-  "safety": "No dollar cap or cash reserve was exceeded; actual per-call reservations always bound cache writes. No new admission while paused; no score/expectation changed."
+  "safety": "No dollar cap or cash reserve was exceeded; actual per-call reservations always bound cache writes. No new admission while paused; no score/expectation changed.",
+  "subsequent_owner_resolution": {
+    "receipt": "round-twenty-seven-owner-confirmation-priority.json",
+    "max_cold_scenario_additional_microdollars": 94440,
+    "final_confirmation_forecast_microdollars": 38612307,
+    "combined_shortfall_microdollars": 223674,
+    "calibration": "DEFERRED_UNTIL_CONFIRMED_DEC1_BALANCE_AND_CONFIRMATION_GATE_PASS",
+    "reserve_microdollars": 3000000
+  }
 }
