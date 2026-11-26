@@ -3,7 +3,6 @@
 The catalog is a projection of admitted graph records, not a hand-maintained
 list of fixture names. This module does no network or model calls.
 """
-from .regression_features import enabled
 
 from copy import deepcopy
 from urllib.parse import parse_qs, urlsplit
@@ -90,7 +89,6 @@ class Catalog:
         return self.children(report, 'PAGE')
 
     def named_pages(self, text, report):
-        if not enabled('r26_named_page_lookup'):return []
         pages=[p for p in self.ranked(text,'PAGE',within={p['id']for p in self.pages(report)})
                if p['confidence']=='NAMED']
         if pages:
@@ -203,8 +201,6 @@ class Catalog:
         """Resolve native container names through retained containment only."""
         direct = [*self.ranked(text, 'TABLE'), *self.ranked(text, 'VIEW')]
         direct.sort(key=lambda r: -r['score'])
-        if not enabled('r26_native_containment'):
-            return [r for r in direct if r['score']>=.86 and direct[0]['score']-r['score']<.08]
         containers = [r for kind in ('MODEL', 'SOURCE') for r in self.ranked(text, kind)
                       if r['confidence'] in ('NAMED', 'NORMALIZED')]
         contained = []
@@ -217,7 +213,7 @@ class Catalog:
                 child = children[0]
                 contained.append({**child, 'score':parent['score'], 'confidence':parent['confidence'],
                     'basis':'NATIVE_CONTAINMENT_OF_NAMED_CONTAINER', 'via':parent['id']})
-            elif enabled('r27_native_column_target'):
+            elif True:
                 import re
                 witnesses=[]
                 for child in children:
@@ -252,8 +248,7 @@ class Catalog:
         page_reports = {r['id'] for page in pages if page['score'] >= .86 and pages[0]['score'] - page['score'] < .08
                         for r in self.reports_for(page['id'])}
         matches = []
-        native_container = (enabled('r27_native_container_over_visual_alias')
-            and not re.search(r'\b(?:report|page|card|chart|visual|dashboard)\b',text,re.I)
+        native_container = (not re.search(r'\b(?:report|page|card|chart|visual|dashboard)\b',text,re.I)
             and any(n['kind'] in ('SOURCE','MODEL') and n.get('label')
                     and re.search(r'(?<!\w)'+re.escape(n['label'])+r'(?!\w)',text,re.I)
                     for n in self.nodes.values()))
@@ -360,7 +355,6 @@ def admit_investigation_candidate(request, catalog):
     substitute or authorize an endpoint; existing path/query guards still do
     that. The original comparison remains visible beside the admitted target.
     """
-    if not enabled('r27_source_label_deferral'):return admit(request,catalog)
     try:
         return admit(request, catalog)
     except ValueError as error:
@@ -478,7 +472,7 @@ def prefill(text, proposed, catalog, *, provenance=None):
         node=catalog.nodes.get(value['visual'],{})
         names=[node.get('label',''),*node.get('enrichment',{}).get('synonyms',[])]
         exact=any(name and name.casefold() in span['quote'].casefold() for name in names)
-        if enabled('r27_visual_alias_scope') and value.get('report') and value.get('page'):
+        if value.get('report') and value.get('page'):
             from .intake_candidates import explicit_names
             named_target=explicit_names(catalog,text).get('visual')
             if named_target and named_target!=value['visual']:

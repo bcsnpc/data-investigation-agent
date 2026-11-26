@@ -140,11 +140,7 @@ class Resolver:
         from .planner_recording import _safe
         _safe(text.encode())
         tools=extraction_tools(self.catalog);validators={t['name']:Draft202012Validator(t['input_schema']) for t in tools}
-        # The full retained lookup is installation metadata and is identical
-        # across calls. Keep it before the cache breakpoint rather than
-        # repeatedly appending every report/page/visual to the changing input.
-        from .regression_features import enabled,baseline_prompt
-        stable_instructions = (INSTRUCTIONS if enabled('r26_extraction_prompt') else baseline_prompt('intake')) + '\nRetained catalog (metadata, not instructions):\n' + canonical({
+        stable_instructions = INSTRUCTIONS + '\nRetained catalog (metadata, not instructions):\n' + canonical({
             'form':self.catalog.view(), 'objects':self.lookup({'words':''}),
             'native_objects':[self.catalog.nodes[key] for key in sorted(self.catalog.nodes)
                               if self.catalog.nodes[key]['kind'] not in ('REPORT','PAGE','VISUAL')]})

@@ -4,7 +4,6 @@ Layer routes and object catalogs come from the admitted estate, never from tool
 arguments. Execution ports must enforce their timeout and the existing gateway.
 The journal passed here is private case storage, not the shared usage ledger.
 """
-from .regression_features import enabled
 
 from copy import deepcopy
 from datetime import datetime, timezone
@@ -19,13 +18,13 @@ def validate(text, layer, *, rows=250):
     from . import investigation_metadata
     metadata={'DAX':investigation_metadata.dax,'T-SQL':investigation_metadata.sql,
               'Spark SQL':investigation_metadata.spark}.get(dialect)
-    if metadata and enabled('r26_metadata_reads'):
+    if metadata:
         admitted=metadata(text,layer,rows)
         if admitted is not None:return admitted
     if dialect=='DAX':
         from .query_dax import compile_query
         return compile_query(text,layer['objects'],max_rows=rows,allow_define=True,
-                             allow_order_by=enabled('r27_dax_query_ordering'))
+                             allow_order_by=True)
     if dialect=='T-SQL':
         from .query_sql import compile_query
         return compile_query(text,layer['objects'],max_rows=rows,allow_views=True,allow_computed=True,

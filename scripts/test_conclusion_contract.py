@@ -36,10 +36,6 @@ class ConclusionTests(unittest.TestCase):
         value.update(verdict='access difference', direct_answer='The view uses the caller mapping.',
                      calculation_explanation='The retained mapping yields 10/1 and 25/2.')
         self.assertEqual(validate(value, {})['verdict_class'], 'AS DESIGNED')
-        with configured({'r27_conclusion_detail_compatibility': False}):
-            with self.assertRaisesRegex(ValueError, 'IMPLEMENTED_RULE_VERDICT'):
-                validate(value, {})
-            self.assertNotIn('description', fields()['verdict_class'])
 
     def test_current_record_absence_does_not_require_an_unresolved_label(self):
         value = self.value()
@@ -77,8 +73,6 @@ class ConclusionTests(unittest.TestCase):
         from investigator.regression_features import configured
         from jsonschema import ValidationError
         value=self.value();value['context_gap']='invalid'
-        with configured({'r27_context_gap_nonblocking':False}):
-            with self.assertRaises(ValidationError):validate(value,{})
 
     def test_bad_metadata_does_not_disable_target_or_verdict_checks(self):
         value=self.value();value['context_gap']='invalid';value['verdict_class']='DEVIATION'

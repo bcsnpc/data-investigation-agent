@@ -1,0 +1,381 @@
+{
+  "status": "WHOLE_CONFIRMATION_NOT_ADMITTED",
+  "method": "Same-ticket higher saved P2/P3 actual token counts. Batch 50% only known static; cache misses conservatively re-price earlier reads as writes; 1.3 planning margin. No double-counted cache discount. Unknown fixture normal price.",
+  "rows": [
+    {
+      "ticket": "form-v2-access-export-v1",
+      "fixture": "access",
+      "transport": "NORMAL_FAULT_OR_UNKNOWN",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 297510,
+      "counts": {
+        "input_tokens": 87147,
+        "cached_input_tokens": 43008,
+        "cache_write_tokens": 15850,
+        "output_tokens": 4825
+      },
+      "cache_hit_equivalent_forecast_microdollars": 386763,
+      "forecast_microdollars": 655130
+    },
+    {
+      "ticket": "form-v2-access-export-v2",
+      "fixture": "access",
+      "transport": "NORMAL_FAULT_OR_UNKNOWN",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 231957,
+      "counts": {
+        "input_tokens": 79955,
+        "cached_input_tokens": 48373,
+        "cache_write_tokens": 10193,
+        "output_tokens": 4288
+      },
+      "cache_hit_equivalent_forecast_microdollars": 301545,
+      "forecast_microdollars": 603390
+    },
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 359497,
+      "counts": {
+        "input_tokens": 106300,
+        "cached_input_tokens": 42974,
+        "cache_write_tokens": 32757,
+        "output_tokens": 3242
+      },
+      "cache_hit_equivalent_forecast_microdollars": 233674,
+      "forecast_microdollars": 367752
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 402676,
+      "counts": {
+        "input_tokens": 110585,
+        "cached_input_tokens": 38528,
+        "cache_write_tokens": 40042,
+        "output_tokens": 3335
+      },
+      "cache_hit_equivalent_forecast_microdollars": 261740,
+      "forecast_microdollars": 381947
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 829743,
+      "counts": {
+        "input_tokens": 310815,
+        "cached_input_tokens": 153495,
+        "cache_write_tokens": 69502,
+        "output_tokens": 5013
+      },
+      "cache_hit_equivalent_forecast_microdollars": 539333,
+      "forecast_microdollars": 1018237
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 1546691,
+      "counts": {
+        "input_tokens": 826076,
+        "cached_input_tokens": 546839,
+        "cache_write_tokens": 64590,
+        "output_tokens": 12789
+      },
+      "cache_hit_equivalent_forecast_microdollars": 1005350,
+      "forecast_microdollars": 2711484
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "fixture": "failed-fixture",
+      "transport": "NORMAL_FAULT_OR_UNKNOWN",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 483796,
+      "counts": {
+        "input_tokens": 163485,
+        "cached_input_tokens": 73960,
+        "cache_write_tokens": 36223,
+        "output_tokens": 3734
+      },
+      "cache_hit_equivalent_forecast_microdollars": 628935,
+      "forecast_microdollars": 1090444
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "fixture": "failed-billing",
+      "transport": "NORMAL_FAULT_OR_UNKNOWN",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 902343,
+      "counts": {
+        "input_tokens": 321461,
+        "cached_input_tokens": 149450,
+        "cache_write_tokens": 73968,
+        "output_tokens": 5522
+      },
+      "cache_hit_equivalent_forecast_microdollars": 1173046,
+      "forecast_microdollars": 2105613
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 570644,
+      "counts": {
+        "input_tokens": 211596,
+        "cached_input_tokens": 104017,
+        "cache_write_tokens": 44763,
+        "output_tokens": 3738
+      },
+      "cache_hit_equivalent_forecast_microdollars": 370919,
+      "forecast_microdollars": 695451
+    },
+    {
+      "ticket": "form-v2-latency-record-v1",
+      "fixture": "latency",
+      "transport": "NORMAL_FAULT_OR_UNKNOWN",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 415524,
+      "counts": {
+        "input_tokens": 149826,
+        "cached_input_tokens": 77579,
+        "cache_write_tokens": 33900,
+        "output_tokens": 3856
+      },
+      "cache_hit_equivalent_forecast_microdollars": 540182,
+      "forecast_microdollars": 1024274
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 1339834,
+      "counts": {
+        "input_tokens": 567109,
+        "cached_input_tokens": 331149,
+        "cache_write_tokens": 51179,
+        "output_tokens": 13929
+      },
+      "cache_hit_equivalent_forecast_microdollars": 870893,
+      "forecast_microdollars": 1904074
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 800330,
+      "counts": {
+        "input_tokens": 409454,
+        "cached_input_tokens": 266931,
+        "cache_write_tokens": 33010,
+        "output_tokens": 7192
+      },
+      "cache_hit_equivalent_forecast_microdollars": 520215,
+      "forecast_microdollars": 1353039
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 1330183,
+      "counts": {
+        "input_tokens": 681003,
+        "cached_input_tokens": 433031,
+        "cache_write_tokens": 44503,
+        "output_tokens": 10359
+      },
+      "cache_hit_equivalent_forecast_microdollars": 864619,
+      "forecast_microdollars": 2215672
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 577108,
+      "counts": {
+        "input_tokens": 245412,
+        "cached_input_tokens": 155742,
+        "cache_write_tokens": 38557,
+        "output_tokens": 7436
+      },
+      "cache_hit_equivalent_forecast_microdollars": 375121,
+      "forecast_microdollars": 861034
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 389170,
+      "counts": {
+        "input_tokens": 109000,
+        "cached_input_tokens": 42979,
+        "cache_write_tokens": 41310,
+        "output_tokens": 3759
+      },
+      "cache_hit_equivalent_forecast_microdollars": 252961,
+      "forecast_microdollars": 387055
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 2135486,
+      "counts": {
+        "input_tokens": 1000323,
+        "cached_input_tokens": 621866,
+        "cache_write_tokens": 36001,
+        "output_tokens": 23064
+      },
+      "cache_hit_equivalent_forecast_microdollars": 1388066,
+      "forecast_microdollars": 3328286
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 467282,
+      "counts": {
+        "input_tokens": 198118,
+        "cached_input_tokens": 119104,
+        "cache_write_tokens": 39145,
+        "output_tokens": 4413
+      },
+      "cache_hit_equivalent_forecast_microdollars": 303734,
+      "forecast_microdollars": 675338
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "fixture": "history",
+      "transport": "NORMAL_FAULT_OR_UNKNOWN",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 672443,
+      "counts": {
+        "input_tokens": 266214,
+        "cached_input_tokens": 145124,
+        "cache_write_tokens": 37795,
+        "output_tokens": 6063
+      },
+      "cache_hit_equivalent_forecast_microdollars": 874176,
+      "forecast_microdollars": 1779746
+    },
+    {
+      "ticket": "form-v2-waiting-application-load-v2",
+      "fixture": "waiting",
+      "transport": "NORMAL_FAULT_OR_UNKNOWN",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 380979,
+      "counts": {
+        "input_tokens": 104050,
+        "cached_input_tokens": 36777,
+        "cache_write_tokens": 38291,
+        "output_tokens": 3312
+      },
+      "cache_hit_equivalent_forecast_microdollars": 495273,
+      "forecast_microdollars": 724761
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev02-advisory",
+      "saved_actual_microdollars": 837225,
+      "counts": {
+        "input_tokens": 366605,
+        "cached_input_tokens": 228365,
+        "cache_write_tokens": 34128,
+        "output_tokens": 10223
+      },
+      "cache_hit_equivalent_forecast_microdollars": 544197,
+      "forecast_microdollars": 1256693
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "fixture": "baseline",
+      "missing_token_counts": true,
+      "forecast_microdollars": 1430000
+    },
+    {
+      "ticket": "text-R17-05-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 1112611,
+      "counts": {
+        "input_tokens": 477291,
+        "cached_input_tokens": 276478,
+        "cache_write_tokens": 57143,
+        "output_tokens": 9846
+      },
+      "cache_hit_equivalent_forecast_microdollars": 723198,
+      "forecast_microdollars": 1585809
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 2151913,
+      "counts": {
+        "input_tokens": 855637,
+        "cached_input_tokens": 431549,
+        "cache_write_tokens": 200751,
+        "output_tokens": 8425
+      },
+      "cache_hit_equivalent_forecast_microdollars": 1398744,
+      "forecast_microdollars": 2745177
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 3006913,
+      "counts": {
+        "input_tokens": 1610631,
+        "cached_input_tokens": 1054750,
+        "cache_write_tokens": 198699,
+        "output_tokens": 18687
+      },
+      "cache_hit_equivalent_forecast_microdollars": 1954494,
+      "forecast_microdollars": 5245314
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2",
+      "fixture": "baseline",
+      "transport": "BATCH",
+      "source": "dev03-slim",
+      "saved_actual_microdollars": 879644,
+      "counts": {
+        "input_tokens": 417536,
+        "cached_input_tokens": 272679,
+        "cache_write_tokens": 19696,
+        "output_tokens": 11299
+      },
+      "cache_hit_equivalent_forecast_microdollars": 571769,
+      "forecast_microdollars": 1422525
+    }
+  ],
+  "confirmation_forecast_microdollars": 37568245,
+  "cash_owner_approximate_microdollars": 46000000,
+  "reserve_microdollars": 3000000,
+  "calibration_protected_microdollars": 14340000,
+  "available_confirmation_microdollars": 28660000,
+  "shortfall_microdollars": 8908245,
+  "batch_discount_source": "https://platform.claude.com/docs/en/about-claude/pricing",
+  "cache_hits_best_effort": true,
+  "saved_cache_hit_equivalent_forecast_microdollars": 18008947
+}

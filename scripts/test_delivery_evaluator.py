@@ -17,7 +17,7 @@ class DeliveryEvaluatorTests(unittest.TestCase):
         bad={'content':[],'stop_reason':'max_tokens'}
         loop.evaluator_model=Mock();loop.evaluator_model.complete.side_effect=[bad,bad,good]
         draft={'direct_answer':'A supported answer.','evidence_ids':[]};original=deepcopy(draft)
-        with configured({'r27_slim_evaluator':True,'r27_evaluator_format_repair':True}):
+        with configured({'r27_slim_evaluator':True,}):
             result=loop.evaluate_draft(draft)
         self.assertTrue(result['approved']);self.assertEqual(loop.state['model_calls'],3)
         self.assertEqual([x['format_retry']for x in loop.state['delivery_evaluations']],[0,1,2])
@@ -26,7 +26,7 @@ class DeliveryEvaluatorTests(unittest.TestCase):
             self.assertEqual(json.loads(call.kwargs['messages'][0]['content'])['draft'],original)
         self.assertEqual(draft,original);loop.repair_delivery.assert_not_called()
         loop.evaluator_model.complete.side_effect=None;loop.evaluator_model.complete.return_value=bad
-        with configured({'r27_slim_evaluator':True,'r27_evaluator_format_repair':True}):
+        with configured({'r27_slim_evaluator':True,}):
             warning=loop.evaluate_draft(draft)
         self.assertFalse(warning['approved']);self.assertTrue(warning['delivered_with_warning'])
         self.assertEqual(warning['blocking_failures'],[]);loop.repair_delivery.assert_not_called()

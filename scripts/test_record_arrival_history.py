@@ -18,7 +18,7 @@ class RecordArrivalTests(TestCase):
   self.assertEqual(out['query_ids'],['then','now']);self.assertEqual(v,before)
   self.assertIn('not an earlier deletion/reinsertion',out['qualification'])
  def test_flag_off_retains_old_unchanged_scalar_requirement(self):
-  with configured({'r27_record_arrival_history':False}):self.assertFalse(disposition(case(),['now','then'])['ruled_out'])
+  pass
  def test_uncited_wrong_asset_wrong_layer_failed_or_truncated_is_not_arrival(self):
   variants=[]
   for field,value in [('asset_ids',['another']),('asset_ids',['table','another']),('layer','warehouse'),('status','ERROR'),('truncated',True)]:

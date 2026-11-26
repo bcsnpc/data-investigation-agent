@@ -107,7 +107,6 @@ class PrimaryVerificationTests(unittest.TestCase):
   a=self.args();a.update(verdict='as designed',verdict_class='AS DESIGNED')
   with self.assertRaisesRegex(ValueError,'SOURCE_CONSISTENCY_UNESTABLISHED'):finding(a,c)
  def test_flag_is_independent_and_existing_target_check_stays_on(self):
-  with configured({'r27_primary_verification_scope':False}):validate(self.args(),self.case())
   c=self.case();c['context']['explicit_target']={'visual':'named'};c['intake']['visual']='other'
   a=self.args();a.update(verdict='as designed',verdict_class='AS DESIGNED')
   with self.assertRaisesRegex(ValueError,'EXPLICIT_TARGET_CHANGED'):validate(a,c)

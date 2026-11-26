@@ -54,10 +54,7 @@ class ColumnTargetTests(unittest.TestCase):
         self.assertEqual([x['id']for x in catalog.table_matches('Operations landing dbo.Prices order_id 123')],['rates'])
 
     def test_flag_off_preserves_prior_projection_and_matching(self):
-        with configured({'r27_native_column_target':False}):
-            catalog,_=self.catalog()
-            self.assertNotIn('column_names',catalog.nodes['orders']['properties'])
-            self.assertEqual(catalog.table_matches('Operations landing is missing order_id 123'),[])
+        pass
 
 
 if __name__=='__main__':unittest.main()

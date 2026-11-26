@@ -62,8 +62,7 @@ def request_for(*, model, system, messages, tools, max_tokens):
             row = {'role': message['role'], 'content': body, **state}
             if calls: row['tool_calls'] = calls
             native.append(row)
-    from ..regression_features import enabled
-    streaming=enabled('r27_nvidia_streaming')
+    streaming=True
     return {'model': model, 'messages': native, 'tools': [{'type': 'function', 'function':
             {'name': t['name'], 'description': t['description'], 'parameters': deepcopy(t['input_schema'])}} for t in tools],
             'max_tokens': max_tokens, 'temperature': .2, 'stream': streaming, 'tool_choice': 'auto',

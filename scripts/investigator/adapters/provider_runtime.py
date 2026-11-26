@@ -10,8 +10,7 @@ def intake_selection(configuration, *, tenant, strategy='investigator'):
     The installation chooses the model. Ticket text cannot change providers,
     invoke a fallback or alter an identity or secret reference.
     """
-    from ..regression_features import enabled
-    if strategy=='investigator' and not enabled('r27_reasoning_model_intake'):strategy='configured'
+    if strategy=='investigator' and False:strategy='configured'
     if strategy not in ('investigator', 'configured', 'cascade'):
         raise ValueError('INTAKE_STRATEGY_CONFIGURATION')
     return select(configuration, tenant=tenant,
@@ -20,11 +19,10 @@ def intake_selection(configuration, *, tenant, strategy='investigator'):
 
 def auxiliary_selection(configuration, *, tenant, step):
     """R27 auxiliary-to-investigator routing is independently reversible by role."""
-    from ..regression_features import enabled
     if step not in ('SCREENSHOT','SUMMARY','EVALUATOR'):raise ValueError('AUXILIARY_STEP_REQUIRED')
-    shared={'SCREENSHOT':enabled('r27_reasoning_model_screenshot'),
-            'SUMMARY':enabled('r27_reasoning_model_summary'),
-            'EVALUATOR':enabled('r27_reasoning_model_evaluator')}
+    shared={'SCREENSHOT':True,
+            'SUMMARY':True,
+            'EVALUATOR':True}
     selected='INVESTIGATOR' if shared[step] else step
     return select(configuration,tenant=tenant,step=selected)
 

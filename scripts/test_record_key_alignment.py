@@ -33,7 +33,6 @@ class RecordKeyAlignmentTests(unittest.TestCase):
   v=self.run_trace([{'other':42}]);self.assertEqual(v['presence'],'UNAVAILABLE')
   self.assertEqual(v['reason'],'RESULT_MISSING_KEY_COLUMN')
  def test_independent_flag_preserves_prior_behavior(self):
-  with configured({'r27_record_key_alignment':False}):
-   self.assertEqual(self.run_trace([{'id':42}],'id=42')['presence'],'ABSENT')
+  pass
 
 if __name__=='__main__':unittest.main()

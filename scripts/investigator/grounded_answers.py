@@ -4,7 +4,6 @@ These checks bind references and literal values. They do not pretend to prove
 the semantic equivalence of arbitrary model-written calculations; independent
 grading evaluates verdict, layer and causal interpretation.
 """
-from .regression_features import enabled
 
 from copy import deepcopy
 from decimal import Decimal,InvalidOperation
@@ -113,7 +112,7 @@ def finding(args,case):
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
     from .primary_verification import no_comparison
     issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
-    calculation_only=(enabled('r27_calculation_fault_scope') and enabled('r26_current_fault_consistency') and issue=='HOW_IS_THIS_CALCULATED'
+    calculation_only=(issue=='HOW_IS_THIS_CALCULATED'
         and no_comparison(case['intake'])
         and normalized in ('as designed','definition explained'))
     separate_operational=[]
@@ -132,12 +131,12 @@ def finding(args,case):
         off_claim = re.search(r'(?:automatic\s+(?:updates?|refresh(?:es)?|framing)|auto[ -]?sync)[^.!?\n]{0,55}\b(?:off|disabled)\b', args['cause'], re.I)
         if off_claim and (not known or any(known)):
             raise ValueError('AUTOMATIC_UPDATE_SETTING_UNREADABLE: report native refresh and newer-data timestamps; do not infer the switch is OFF')
-    if normalized == 'latency' and enabled('r26_source_history_requirement'):
+    if normalized == 'latency':
         from .history_comparison import disposition
         history = disposition(case, args['evidence_ids'])
         if not history['ruled_out']:
             raise ValueError('CHECK_SOURCE_HISTORY_BEFORE_LATENCY: ' + history['reason'])
-    if enabled('r26_current_fault_consistency') and normalized in ('as designed','definition explained','consistent to source','consistent to boundary'):
+    if normalized in ('as designed','definition explained','consistent to source','consistent to boundary'):
         from .triage_hints import current_job_hints
         current_faults=current_job_hints(case)
         if current_faults and calculation_only:
@@ -149,15 +148,14 @@ def finding(args,case):
     issue=case['intake'].get('classified_issue_type')or args.get('classified_issue_type')or case['intake'].get('issue_type')
     definition_only=(normalized=='as designed'and issue=='HOW_IS_THIS_CALCULATED'
         and no_comparison(case['intake']))
-    if enabled('r27_primary_verification_scope') and normalized in ('as designed','definition explained'):
+    if normalized in ('as designed','definition explained'):
         from .primary_verification import is_display_verification
         definition_only=definition_only or normalized=='definition explained' or is_display_verification(case,args)
     if definition_only:
         if not any(item.get('content')and item.get('provenance')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_RETAINED_DEFINITION')
         if not any(item.get('native_result')for item in support):raise ValueError('CALCULATION_EXPLANATION_NEEDS_NATIVE_RECREATION')
         from .triage_hints import job_hint,current_job_hints
-        faults=(current_job_hints(case) if enabled('r26_current_fault_consistency')
-                else job_hint(case.get('triage',{})))
+        faults=current_job_hints(case)
         if faults and not calculation_only:raise ValueError('CURRENT_OPERATIONAL_FAULT_NEEDS_DISPOSITION_BEFORE_AS_DESIGNED')
     source_consistency=(normalized=='consistent to source'or normalized=='as designed'and not definition_only)
     if source_consistency:
@@ -167,11 +165,10 @@ def finding(args,case):
             raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: no reachable declared system of record; report only the reached boundary or observed value')
         source_asset=declaration.get('asset_id')
         if source_asset and not any(item.get('subject')==source and source_asset in item.get('asset_ids',[]) for item in support):
-            if enabled('r27_source_consistency_feedback'):
-                existing = [q['id'] for q in case.get('queries', []) if q.get('status') == 'SUCCEEDED'
-                            and q.get('layer') == source and source_asset in q.get('asset_ids', [])]
-                if existing:
-                    raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was read but its native query evidence was not cited; cite ' + ', '.join(existing))
+            existing = [q['id'] for q in case.get('queries', []) if q.get('status') == 'SUCCEEDED'
+                        and q.get('layer') == source and source_asset in q.get('asset_ids', [])]
+            if existing:
+                raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was read but its native query evidence was not cited; cite ' + ', '.join(existing))
             raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried')
         compared={}
         for item in support:
@@ -191,8 +188,7 @@ def finding(args,case):
                     record_consistency=True;break
         if not record_consistency:
             if not required<=compared.keys():
-                if enabled('r27_source_consistency_feedback'):
-                    raise ValueError(consistency_proof_gap(required, compared, support, case))
+                raise ValueError(consistency_proof_gap(required, compared, support, case))
                 raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: unread layers '+', '.join(sorted(required-compared.keys())))
             values=set().union(*(compared[layer] for layer in required))
             if len(values)!=1:raise ValueError('SOURCE_CONSISTENCY_UNESTABLISHED: compared native values differ')

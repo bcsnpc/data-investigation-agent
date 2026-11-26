@@ -49,8 +49,6 @@ class DeclaredSourceComparisonTests(unittest.TestCase):
   self.assertTrue(c['system_of_record']['admitted_in_case'])
  def test_flag_reproduces_old_advertised_but_inactive_case(self):
   f,path,c,a,l=self.fixture()
-  with configured({'r27_declared_source_comparison':False}):
-   self.assertIsNone(f.prepare_declared_source_comparison(path,c,a,l))
   self.assertTrue(c['system_of_record']['reachable']);self.assertEqual(l,{})
  def test_real_factory_exposes_source_in_tool_enums_without_changing_target_path(self):
   from tempfile import TemporaryDirectory

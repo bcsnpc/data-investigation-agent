@@ -82,9 +82,9 @@ class CacheTests(unittest.TestCase):
    tools=[{'name':name,'description':'Use this named helper','input_schema':{'type':'object','properties':{}}}]
    client.complete(system='helper instructions',messages=[],tools=tools)
    body=send.call_args.args[2]
-   self.assertEqual(body['tools'],tools);self.assertEqual(body['system'][0]['text'],'helper instructions')
+   self.assertEqual(body['tools'],[{**tools[0],'cache_control':{'type':'ephemeral'}}]);self.assertEqual(body['system'][0]['text'],'helper instructions')
   events=[x.args[0]for x in record.call_args_list if x.args[0].get('event')=='REASONING_CACHE_USAGE']
-  self.assertEqual(len(events),2);self.assertTrue(all(x['phase']=='INTAKE_HELPER_UNCHANGED'for x in events));assert_cache_reads(events)
+  self.assertEqual(len(events),2);self.assertTrue(all(x['phase']=='HELPER_TOOL_AND_SYSTEM_CACHE'for x in events));assert_cache_reads(events)
  def test_investigation_cache_check_still_rejects_later_misses(self):
   with self.assertRaisesRegex(AssertionError,'ZERO_CACHE_READS'):
    assert_cache_reads([{'successful_call':2,'cache_read_input_tokens':0,'cache_assertion_applies':True}])

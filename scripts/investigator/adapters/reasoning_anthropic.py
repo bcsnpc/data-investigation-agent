@@ -120,7 +120,7 @@ class Client:
                 data=response.read(4*1024*1024+1)
             if len(data)>4*1024*1024:raise ValueError('MODEL_RESPONSE_BOUND')
             if key in data.decode('utf8',errors='replace'):raise ValueError('MODEL_SECRET_ECHO')
-            return json.loads(data)
+            return [json.loads(line)for line in data.splitlines()if line]if url.endswith('/results')else json.loads(data)
         except HTTPError as error:
             raw=error.read(16384).decode('utf8',errors='replace')
             if key in raw:raise ValueError('MODEL_SECRET_ECHO') from None
@@ -143,6 +143,10 @@ class Client:
         # helper requests exactly instead of hiding their next required tool.
         cache_investigation=self.diagnostic_cache is not None and any(t.get('name')=='submit_finding'for t in tools)
         if cache_investigation:body=self.diagnostic_cache.prepare(body)
+        elif self.diagnostic_helper_usage is not None and body['tools']:
+            # Helper schemas can change between phases. Cache this call's
+            # actual toolbox, never pin an earlier helper's schema.
+            body['tools'][-1]['cache_control']={'type':'ephemeral'}
         from ..planner_recording import _safe
         _safe(canonical(body).encode())
         # The real transport checks the date before making a reservation. The
@@ -185,7 +189,7 @@ class Client:
                     observed=self.diagnostic_cache.observe(response.get('usage'));observed.update(phase='INVESTIGATION',cache_assertion_applies=True);self.record(observed)
                 elif self.diagnostic_helper_usage is not None:
                     self.diagnostic_helper_usage.prefix_sha256=__import__('hashlib').sha256(canonical([body['tools'],body['system']]).encode()).hexdigest()
-                    observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='INTAKE_HELPER_UNCHANGED',cache_assertion_applies=False,subsequent_cache_read_check='NOT_APPLICABLE_NO_ADMITTED_PATH_PREFIX');self.record(observed)
+                    observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='HELPER_TOOL_AND_SYSTEM_CACHE',cache_assertion_applies=False,subsequent_cache_read_check='NOT_APPLICABLE_NO_ADMITTED_PATH_PREFIX');self.record(observed)
                 return response
             except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError)as error:
                 if attempt==2 or not retryable(error):raise

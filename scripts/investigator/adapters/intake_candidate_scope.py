@@ -12,8 +12,6 @@ from ..estate_graph_contract import digest
 
 
 def compile_scope(model, measure_id, target_id, filters=(), *, total=False):
-    from ..regression_features import enabled
-    if not enabled('r26_native_candidate_scope'):raise ValueError('NATIVE_CANDIDATE_SCOPE_DISABLED')
     from . import report_predicates as predicates
     from .report_cells import roles, addresses
     from ..declared_reproduction import compose

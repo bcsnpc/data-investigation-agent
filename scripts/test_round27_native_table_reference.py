@@ -81,8 +81,6 @@ class NativeTableReferenceTests(unittest.TestCase):
 
     def test_visual_alias_context_ablation_reproduces_the_wrong_report(self):
         c = self.alias_visual()
-        with configured({'r27_native_container_over_visual_alias': False}):
-            self.assertEqual(c.report_matches('visit_id 42 has units in Clinical Bronze')[0]['id'], 'report')
 
     def test_missing_containment_never_creates_a_binding(self):
         c = catalog(); c.edges.clear()
@@ -101,8 +99,7 @@ class NativeTableReferenceTests(unittest.TestCase):
         self.assertNotIn('table', selected)
 
     def test_ablation_retains_old_unresolved_reference(self):
-        with configured({'r27_unique_native_table_reference': False}):
-            self.assertEqual(explicit_names(catalog(), 'visit_id units in Clinical Bronze'), {})
+        pass
 
     def alternatives(self, text, **kwargs):
         c = catalog()
@@ -129,8 +126,6 @@ class NativeTableReferenceTests(unittest.TestCase):
         self.assertIsNone(select_unique(result, [], None)['selected'])
 
     def test_confidence_ablation_keeps_the_weak_measure(self):
-        with configured({'r27_candidate_confidence_priority': False}):
-            result = self.alternatives('Stock Movements units differ')
         self.assertIn('metric', {x['id'] for x in result['candidates']})
 
 

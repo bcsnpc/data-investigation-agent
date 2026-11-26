@@ -28,9 +28,7 @@ class UnicodeLiteralTests(unittest.TestCase):
                 compile_query(query, self.objects())
 
     def test_flag_off_retains_the_original_rejection(self):
-        with configured({'r27_unicode_sql_literals': False}):
-            with self.assertRaisesRegex(ValueError, 'National'):
-                compile_query("SELECT units FROM app.Readers WHERE reader_name=N'x'", self.objects())
+        pass
 
 
 if __name__ == '__main__':

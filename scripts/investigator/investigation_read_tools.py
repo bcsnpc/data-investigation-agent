@@ -3,7 +3,6 @@ from copy import deepcopy
 from decimal import Decimal,localcontext,ROUND_HALF_EVEN
 from collections import deque
 from datetime import datetime
-from .regression_features import enabled
 
 import re
 from .ai_investigation import schema
@@ -131,7 +130,7 @@ class ReadTools:
                     hits=[v for v in values if str(v[item['key_field']])==args['key']]
                     row.update(presence='PRESENT' if hits else 'ABSENT',matching_rows=len(hits),
                                duplicate_observed=len(hits)>1,truncated=record.get('truncated',False))
-                    if enabled('r27_record_key_alignment') and values and not hits:
+                    if values and not hits:
                         row.update(presence='UNESTABLISHED_KEY_MISMATCH',
                                    reason='Nonempty lookup rows contain different literal key values. Use the literal key_field value, not a predicate or record description; inspect the cited query result.')
                     if record.get('truncated') and not hits:row['presence']='UNESTABLISHED_IN_TRUNCATED_RESULT'
@@ -155,7 +154,7 @@ class ReadTools:
             query=args[side]
             observed=self.queries.run(query['layer'],query['query'],kind=query['kind'],purpose='compare')
             records.append(observed.get('record',observed))
-        projected=enabled('r27_analysis_native_projection')
+        projected=True
         bindings={}
         if projected:
             from .adapters.analysis_projection import project
@@ -179,8 +178,6 @@ class ReadTools:
             seen.add(check['candidate'])
             record=self.queries.run(check['layer'],check['query'],kind=check['kind'],purpose='recreate')
             record=record.get('record',record)
-            if not enabled('r27_candidate_refusal_handling'):
-                record['status'];record['id']  # historical strict response shape, useful for offline diagnosis
             row={'candidate':check['candidate'],'status':record.get('status','ERROR'),'evidence_id':record.get('id'),
                  'truncated':bool(record.get('truncated'))}
             if row['status']=='SUCCEEDED' and row['evidence_id']:
@@ -236,15 +233,7 @@ class ReadTools:
                     'candidate':{'enum':identities},'layer':{'enum':list(self.queries.layers)},
                     'kind':{'enum':['sql','dax']},'query':{'type':'string','minLength':1}})}},self.check_targets)
         registry['record_trace']=entry('Run your key lookup queries in source-to-model order. Distinguish presence, duplicates, absence, truncation and failed reads. Then inspect definitions/jobs for the cause.',
-            {'key':{'type':'string',**({'description':'The same literal key_field value in every query, for example "42"; not a predicate, descriptive record label or compound key. Read related records with different key values separately.'} if enabled('r27_record_key_alignment') else {})},'queries':{'type':'array','minItems':1,'maxItems':5,'items':record_query}},self.record_trace)
-        if not enabled('r27_contribution_tool'):registry.pop('contribution_analysis',None)
-        if not enabled('r27_row_diff_tool'):registry.pop('row_layer_diff',None)
-        if not enabled('r27_identifier_role_descriptions'):
-            for tool in registry.values():
-                for key in ('node','layer','checked'):
-                    tool['schema']['properties'].get(key,{}).pop('description',None)
-            for name in ('get_definition','get_lineage','get_job_runs','get_refresh_history','get_security_definitions'):
-                if name in registry:registry[name]['description']=name.replace('_',' ')+' within the admitted path.'
+            {'key':{'type':'string',**{'description':'The same literal key_field value in every query, for example "42"; not a predicate, descriptive record label or compound key. Read related records with different key values separately.'}},'queries':{'type':'array','minItems':1,'maxItems':5,'items':record_query}},self.record_trace)
         # Empty enum tools are unavailable on this path, not invented scopes.
         return {name:value for name,value in registry.items()
                 if all(prop.get('enum')!=[] for prop in value['schema']['properties'].values())}

@@ -52,8 +52,6 @@ class CatalogResolutionTests(unittest.TestCase):
         result=prefill(text,proposal,catalog,provenance={'visual':[3,5]})
         self.assertEqual(result['code'],'NATIVE_SCOPE_CANDIDATES')
         self.assertEqual({c['id']for c in result['question']['fields'][0]['choices']},{'card','global'})
-        with configured({'r27_visual_alias_scope':False}):
-            self.assertEqual(prefill(text,proposal,catalog,provenance={'visual':[3,5]})['status'],'READY')
 
     def test_shared_alias_is_resolved_only_inside_the_user_named_page(self):
         result=prefill('Billing Overview Global page Total revenue card',

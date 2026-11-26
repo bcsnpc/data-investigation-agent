@@ -8,7 +8,6 @@ Rejected attempts log hashes, never SQL, ticket text, URLs with secrets or token
 from contextlib import contextmanager
 from contextvars import ContextVar
 from dataclasses import dataclass
-from .regression_features import enabled
 
 import hashlib
 import json
@@ -207,6 +206,10 @@ class Gateway:
             from .adapters.scanner_policy import response_bound_only,followup
             if response_bound_only(url) and followup(identity,method,url) is None:
                 _deny('SCANNER_RESPONSE_BINDING_REQUIRED',identity=identity,operation=method,target=url)
+        if not matches and permissions.get('role')=='model':
+            from .adapters.reasoning_anthropic_batch import permits as reasoning_batch_permits
+            if reasoning_batch_permits(permissions,identity,method,url,body):
+                return {'method':method,'url':url,'purpose':'STATIC_REASONING_BATCH'}
         if not matches and permissions.get('role')=='enrichment':
             from .adapters.enrichment_anthropic import permits
             if permits(self,identity,method,url,body,headers):
@@ -394,7 +397,7 @@ def validate_dax(query,*,allow_define=False):
     for scalar in SCALARS:inspected=inspected.replace(scalar,'1')
     tokens,gaps=tokenize(inspected)
     from .investigation_metadata import dax_rowset_expression
-    try:metadata=dax_rowset_expression(query) if enabled('r26_metadata_reads') else None
+    try:metadata=dax_rowset_expression(query)
     except ValueError:_deny('DAX_METADATA_READ_GRAMMAR_REJECTED',target=query)
     if metadata is not None:return query
     if allow_define is True and tokens and tokens[0][1].upper()=='DEFINE':
@@ -403,7 +406,7 @@ def validate_dax(query,*,allow_define=False):
         # pass cannot be used to admit DDL or a second EVALUATE.
         from .query_dax import Parser
         try:Parser(query,[],allow_define=True,bind_catalog=False,
-                   allow_order_by=enabled('r27_dax_query_ordering')).parse()
+                   allow_order_by=True).parse()
         except Exception:_deny('DAX_QUERY_DEFINITION_GRAMMAR_REJECTED',target=query)
         return query
     if gaps or not tokens or tokens[0][0]!='name' or tokens[0][1].upper()!='EVALUATE':
@@ -477,7 +480,7 @@ def authorize_sql_payload(payload):
     if catalog_objects is None:
         from .adapters.graph_sql_changes import compiled_control_objects as graph_catalog_objects
         catalog_objects=graph_catalog_objects(payload)
-    if catalog_objects is None and enabled('r27_metadata_gateway_revalidation'):
+    if catalog_objects is None:
         from .investigation_metadata import compiled_control_objects as investigation_catalog_objects
         catalog_objects=investigation_catalog_objects(payload)
     if catalog_objects is not None:

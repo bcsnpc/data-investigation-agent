@@ -1,261 +1,81 @@
 {
-  "version": 1,
+  "version": 2,
   "features": {
     "r27_evaluator_advisory": {
       "default": false,
       "description": "Owner-approved proof ablation: run and retain evaluator findings without blocking, rewriting or downgrading. Deterministic intake, evidence and delivery validation remain enforced."
     },
-    "r27_evaluator_hard_soft": {
-      "default": true,
-      "description": "Separate unsupported/question/target failures from repairable delivery presentation issues."
-    },
-    "r27_delivery_saved_evidence_repair": {
-      "default": true,
-      "description": "Repair a malformed structured delivery once using saved evidence only, with all deterministic checks retained."
-    },
-    "r26_native_containment": {
-      "default": true,
-      "description": "Resolve loose table names through declared native container membership."
-    },
-    "r26_named_page_lookup": {
-      "default": true,
-      "description": "Use named-page lookup during intake prefill."
-    },
-    "r26_source_history_requirement": {
-      "default": true,
-      "description": "Require matched source-history evidence before a latency claim."
-    },
-    "r26_metadata_reads": {
-      "default": true,
-      "description": "Admit bounded catalog/INFO/Delta metadata reads through independent validation."
-    },
-    "r26_temporal_extensions": {
-      "default": true,
-      "description": "Permit newly supported BETWEEN temporal / Spark VERSION syntax."
-    },
-    "r26_operational_fastpath": {
-      "default": true,
-      "description": "Route report-free named job questions through native status facts."
-    },
-    "r26_access_priming": {
-      "default": true,
-      "description": "Read access definitions before other access-question tools."
-    },
-    "r26_operational_priming": {
-      "default": true,
-      "description": "Read native run evidence first for operational question kinds."
-    },
-    "r26_final_action_reserve": {
-      "default": true,
-      "description": "Reserve the final tool slot for delivery."
-    },
-    "r26_terminal_report": {
-      "default": true,
-      "description": "Append per-layer findings and honest unresolved handoff."
-    },
-    "r27_reasoning_model_intake": {
-      "default": true,
-      "description": "Default extraction to the configured investigator model; off uses configured INTAKE."
-    },
-    "r27_candidate_routing": {
-      "default": true,
-      "description": "Pass bounded unresolved target alternatives into investigation."
-    },
-    "r27_structured_delivery": {
-      "default": true,
-      "description": "Require/render question-first structured conclusion fields."
-    },
-    "r27_question_first_prompt": {
-      "default": true,
-      "description": "Append the Round27 question-first/candidate/as-designed reasoning guidance."
-    },
     "r27_delivery_evaluator": {
       "default": true,
       "description": "Run the separate model delivery evaluator after code evidence checks."
     },
-    "r27_evaluator_format_repair": {
-      "default": true,
-      "description": "Use3200 output tokens and distinguish malformed/truncated evaluation from rejection."
-    },
-    "r27_contribution_tool": {
-      "default": true,
-      "description": "Expose bounded contribution analysis."
-    },
-    "r27_row_diff_tool": {
-      "default": true,
-      "description": "Expose bounded row-level layer comparison."
-    },
-    "r27_metadata_gateway_revalidation": {
-      "default": true,
-      "description": "Revalidate pure catalog SQL payloads at transport; off restores refusal."
-    },
-    "r27_retained_definition_references": {
-      "default": true,
-      "description": "Give existing retained definitions independently citable case evidence IDs."
-    },
-    "r27_identifier_role_descriptions": {
-      "default": true,
-      "description": "Explain graph/native/evidence identifier roles in tool descriptions."
-    },
-    "r27_selected_target_restore": {
-      "default": true,
-      "description": "Restore a reversible selected_target alias before local validation."
-    },
-    "r27_source_label_deferral": {
-      "default": true,
-      "description": "Retain loose unbound source labels for investigation without selecting a source."
-    },
-    "r27_neutral_unresolved_wording": {
-      "default": true,
-      "description": "Do not turn the first failed query into a discrepancy cause."
-    },
-    "r27_candidate_refusal_handling": {
-      "default": true,
-      "description": "Represent id-less query-limit refusal as unavailable candidate, never a match."
-    },
-    "r26_investigation_prompt": {
-      "default": true,
-      "description": "Use the current investigation prompt; off uses the exact v0.24 literal, with safety still enforced in code."
-    },
-    "r26_extraction_prompt": {
-      "default": true,
-      "description": "Use the current extraction prompt; off uses the exact v0.24 literal."
-    },
-    "r26_metadata_prompt": {
-      "default": true,
-      "description": "Show newly added metadata examples in query-dialect guidance."
-    },
-    "r26_current_fault_consistency": {
-      "default": true,
-      "description": "Require current native faults to be explained before an as-designed conclusion."
-    },
-    "r26_native_candidate_scope": {
-      "default": true,
-      "description": "Enable retained native candidate-scope compilation; off refuses the optional probe, never drops its filters."
-    },
-    "r27_reasoning_model_screenshot": {
-      "default": true,
-      "description": "Use investigator model for screenshot; off restores that role's configured ai_routing selection."
-    },
-    "r27_reasoning_model_summary": {
-      "default": true,
-      "description": "Use investigator model for summary; off restores that role's configured ai_routing selection."
-    },
-    "r27_reasoning_model_evaluator": {
-      "default": true,
-      "description": "Use investigator model for evaluator; off restores that role's configured ai_routing selection."
-    },
-    "r27_delivery_reference_reformat": {
-      "default": true,
-      "description": "Reformat exact same-case query/layer and fetched-original citation roles from saved evidence before delivery validation; unknown references remain invalid."
-    },
-    "r27_conclusion_detail_compatibility": {
-      "default": true,
-      "description": "Keep question-level AS DESIGNED compatible with supported access/presence/observed-value technical details. Native support, explicit target and deviation contradictions remain validated."
-    },
-    "r27_terminal_calculation_consistency": {
-      "default": true,
-      "description": "Keep a validated answered calculation explanation in the terminal summary, labelled as delivered prose rather than new native evidence. Unresolved and hard-stop results remain unchanged."
-    },
-    "r27_unicode_sql_literals": {
-      "default": true,
-      "description": "Normalize T-SQL national string literals into the existing length/count-bounded Unicode parameter binder. SELECT-only roots, native object allowlists and write rejection remain unchanged."
-    },
-    "r27_declared_source_comparison": {
-      "default": true,
-      "description": "Expose an already-authorized exact declared source binding as a comparison read route when it is advertised reachable but absent from the case toolbox; add no lineage edge or permission."
-    },
-    "r27_primary_verification_scope": {
-      "default": true,
-      "description": "Do not substitute an incidental pipeline deviation for a reproduced named-measure verification with no supplied comparison. Retained definitions and native recreation remain required."
-    },
-    "r27_visual_alias_scope": {
-      "default": true,
-      "description": "Treat visual synonyms as search aids, not unique native identities; preserve native-title priority and check ties within the user's named scope."
-    },
-    "r27_context_gap_nonblocking": {
-      "default": true,
-      "description": "Record missing or malformed context-gap metadata separately without blocking a validated finding or consuming delivery repair."
-    },
-    "r27_record_key_alignment": {
-      "default": true,
-      "description": "Do not claim record absence when a nonempty lookup returned different literal keys. Preserve empty-result, truncation and failed-read distinctions."
-    },
     "r27_slim_evaluator": {
       "default": false,
       "description": "Owner-selected question-only blocking evaluator; all other model checks advisory, unchanged native code validation, at most two exact-question retries."
-    },
-    "r27_record_arrival_history": {
-      "default": true,
-      "description": "Allow cited keyed native source absence at the completed load and presence now to support record-arrival latency, without claiming a detailed source-change timeline."
-    },
-    "r27_future_job_schedule": {
-      "default": true,
-      "description": "Expose supported enabled UTC Cron schedules' future first start as a declared next due time, without inferring past recurrence, execution or completion."
-    },
-    "r27_native_column_target": {
-      "default": true,
-      "description": "Use admitted native column-name containment to disambiguate a table inside an exactly named container. Unique-match and explicit-target checks remain unchanged; tied schemas remain tied."
-    },
-    "r27_calculation_fault_scope": {
-      "default": true,
-      "description": "Keep a supported calculation-only answer with a separate native operational warning; never infer freshness or source consistency."
-    },
-    "r27_evaluator_same_draft_format_retry": {
-      "default": true,
-      "description": "Retry malformed checker output against the unchanged draft twice rather than rewriting the business answer."
-    },
-    "r27_measured_definition_reference_binding": {
-      "default": true,
-      "description": "Bind only the unique retained native definition of the exact selected measure already read by a cited successful query."
-    },
-    "r27_partial_handoff_reporting": {
-      "default": true,
-      "description": "Render already-retained engine context and queries after an interruption instead of reporting that no layer was read."
-    },
-    "r27_nvidia_streaming": {
-      "default": true,
-      "description": "Request documented NVIDIA SSE with usage, retain its native bytes and assemble complete tools only after DONE."
-    },
-    "r27_terminal_retry_recovery": {
-      "default": true,
-      "description": "Do not list an old read error as missing after a later successful execution of the exact same bound query; retain the failed observation."
-    },
-    "r27_dax_query_ordering": {
-      "default": true,
-      "description": "Admit bounded read-only DAX ORDER BY over declared projections and bound model members; preserve single-query, catalog and row limits."
-    },
-    "r27_source_consistency_feedback": {
-      "default": true,
-      "description": "Describe uncited or non-scalar native reads as missing comparison proof, rather than falsely calling successfully measured layers unread; all finding acceptance rules stay the same."
-    },
-    "r27_scope_explanation_compatibility": {
-      "default": true,
-      "description": "Allow the existing different-question technical verdict to describe evidenced selection differences under AS DESIGNED; preserve native evidence and explicit-target checks."
-    },
-    "r27_analysis_native_projection": {
-      "default": true,
-      "description": "Project declared DAX output headers and native scalar types only within bounded analysis; preserve original query records, text identities, ambiguity refusal and truncation limits."
-    },
-    "r27_candidate_native_names_only": {
-      "default": true,
-      "description": "Only native visual names may prune fallback target candidates; enrichment aliases rank search but cannot exclude retained scopes."
-    },
-    "r27_triage_refresh_observations": {
-      "default": true,
-      "description": "Retain actual timestamped job observations collected during this bounded path refresh even when sequential checks exceed the 30-second cache TTL; older cache and future observations remain excluded."
-    },
-    "r27_unique_native_table_reference": {
-      "default": true,
-      "description": "Resolve a uniquely contained native table from a verbatim named container and native column evidence, before adding unrelated weak measure candidates; preserve explicit visual/report choices and competing named measures."
-    },
-    "r27_candidate_confidence_priority": {
-      "default": true,
-      "description": "When direct table or measure references are named or normalized, preserve all such peers and exclude weaker fuzzy/related-word candidates before native route initialization; never choose between strong ties."
-    },
-    "r27_native_container_over_visual_alias": {
-      "default": true,
-      "description": "Do not infer an unrelated report from a visual search alias embedded in prose when a native data container is named; preserve direct report/page/measure references, actual native visual names and explicit visual-question wording."
     }
-  }
+  },
+  "retired_defaults": {
+    "r27_evaluator_hard_soft": true,
+    "r27_delivery_saved_evidence_repair": true,
+    "r26_native_containment": true,
+    "r26_named_page_lookup": true,
+    "r26_source_history_requirement": true,
+    "r26_metadata_reads": true,
+    "r26_temporal_extensions": true,
+    "r26_operational_fastpath": true,
+    "r26_access_priming": true,
+    "r26_operational_priming": true,
+    "r26_final_action_reserve": true,
+    "r26_terminal_report": true,
+    "r27_reasoning_model_intake": true,
+    "r27_candidate_routing": true,
+    "r27_structured_delivery": true,
+    "r27_question_first_prompt": true,
+    "r27_evaluator_format_repair": true,
+    "r27_contribution_tool": true,
+    "r27_row_diff_tool": true,
+    "r27_metadata_gateway_revalidation": true,
+    "r27_retained_definition_references": true,
+    "r27_identifier_role_descriptions": true,
+    "r27_selected_target_restore": true,
+    "r27_source_label_deferral": true,
+    "r27_neutral_unresolved_wording": true,
+    "r27_candidate_refusal_handling": true,
+    "r26_investigation_prompt": true,
+    "r26_extraction_prompt": true,
+    "r26_metadata_prompt": true,
+    "r26_current_fault_consistency": true,
+    "r26_native_candidate_scope": true,
+    "r27_reasoning_model_screenshot": true,
+    "r27_reasoning_model_summary": true,
+    "r27_reasoning_model_evaluator": true,
+    "r27_delivery_reference_reformat": true,
+    "r27_conclusion_detail_compatibility": true,
+    "r27_terminal_calculation_consistency": true,
+    "r27_unicode_sql_literals": true,
+    "r27_declared_source_comparison": true,
+    "r27_primary_verification_scope": true,
+    "r27_visual_alias_scope": true,
+    "r27_context_gap_nonblocking": true,
+    "r27_record_key_alignment": true,
+    "r27_record_arrival_history": true,
+    "r27_future_job_schedule": true,
+    "r27_native_column_target": true,
+    "r27_calculation_fault_scope": true,
+    "r27_evaluator_same_draft_format_retry": true,
+    "r27_measured_definition_reference_binding": true,
+    "r27_partial_handoff_reporting": true,
+    "r27_nvidia_streaming": true,
+    "r27_terminal_retry_recovery": true,
+    "r27_dax_query_ordering": true,
+    "r27_source_consistency_feedback": true,
+    "r27_scope_explanation_compatibility": true,
+    "r27_analysis_native_projection": true,
+    "r27_candidate_native_names_only": true,
+    "r27_triage_refresh_observations": true,
+    "r27_unique_native_table_reference": true,
+    "r27_candidate_confidence_priority": true,
+    "r27_native_container_over_visual_alias": true
+  },
+  "retirement": "Owner2026-11-25: proven behavior folded into code; old default-true specs accepted as no-ops, retired ablations refused. Historical tests in fixtures/round27-retired-ablations."
 }

@@ -75,7 +75,7 @@ def run(plan,context):
 
 
 def _run(plan,context):
-    from investigator.regression_features import enabled,snapshot
+    from investigator.regression_features import snapshot
     from investigator.shared_state import configured_state
     from investigator.estate_manifest import load
     from investigator.adapters.estate_installation import configuration
@@ -180,7 +180,7 @@ def _run(plan,context):
     initial_intake_queries=[]
     candidate_binding=None
     operational_admission = None
-    if set(submitted)=={'text'} and enabled('r26_operational_fastpath'):
+    if set(submitted)=={'text'}:
         from investigator.operational_intake import admit as admit_operational
         admission = admit_operational(submitted, {'candidates': list(catalog.nodes.values())})
         if admission['status'] == 'READY':operational_admission = admission
@@ -194,8 +194,6 @@ def _run(plan,context):
         record({'event':'GUIDED_INTAKE_ADMISSION','status':mapped['status'],
                 'resolution':intake_resolution,'confidence':mapped.get('resolution_confidence')})
         if mapped['status']!='READY':
-            if not enabled('r27_candidate_routing'):
-                return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,step_costs=step_costs(ai_usage),cost=budget(case_id).status())
             from investigator.intake_candidates import enumerate_targets,explicit_names
             from investigator.guided_intake import VERSION,SCHEMA
             proposal={key:value for key,value in (mapped.get('prefilled')or{}).items()if key in SCHEMA['properties']}

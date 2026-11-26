@@ -48,4 +48,3 @@ class ConsistencyFeedbackTests(unittest.TestCase):
  def test_flag_restores_original_feedback_without_allowing_finding(self):
   c,a=self.fixture()
   for q in c['queries']:q['result']['rows']=[{'quantity':7,'record_id':1}]
-  with configured({'r27_source_consistency_feedback':False}),self.assertRaisesRegex(ValueError,'unread layers'):finding(a,c)

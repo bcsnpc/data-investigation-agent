@@ -148,12 +148,7 @@ def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
     if conclusion_contract:
         from .conclusion_contract import fields
         submit['properties'].update(fields())
-        submit['required'].extend(k for k in fields() if k!='context_gap' or not enabled('r27_context_gap_nonblocking'))
-    if not enabled('r27_identifier_role_descriptions'):
-        for tool in tools:
-            for key in ('node','layer','checked'):
-                tool['input_schema']['properties'].get(key,{}).pop('description',None)
-            if tool['name']=='get_evidence':tool['description']='Read full saved case evidence by its ID; no estate read.'
+        submit['required'].extend(k for k in fields() if k!='context_gap')
     return tools
 
 
@@ -177,13 +172,9 @@ class Investigator:
         self.clock,self.tool_limit,self.deadline_seconds=clock,tool_limit,deadline_seconds
         self.model_seconds=0
         self.refresh_tools()
-        from .regression_features import baseline_prompt
-        guidance=INSTRUCTIONS if enabled("r26_investigation_prompt") else baseline_prompt("investigator")
-        if enabled('r27_calculation_fault_scope') and enabled('r26_current_fault_consistency'):
-            guidance+='\nFor a definition-only request without a comparison, explain the evidenced implemented calculation and report unresolved operational observations separately. That limited explanation does not establish freshness, source consistency or business correctness.'
-        else:
-            guidance+='\nNever conclude as designed while a fresh triage fault is unexplained.'
-        if self.context.get('conclusion_contract')=='question-first-v1' and enabled('r27_question_first_prompt'):
+        guidance=INSTRUCTIONS
+        guidance+='\nFor a definition-only request without a comparison, explain the evidenced implemented calculation and report unresolved operational observations separately. That limited explanation does not establish freshness, source consistency or business correctness.'
+        if self.context.get('conclusion_contract')=='question-first-v1':
             guidance+='''
 The conclusion must answer the exact selected question, not an incidental
 divergence. Judge the number against implemented rules, never business intent.
@@ -199,10 +190,8 @@ return side-by-side checked findings, never promote one candidate as the target.
 Submit all required conclusion fields, including routing and a single record-only
 context_gap. No fix suggestions, no glossary request and no business context file.
 '''
-        if enabled('r27_context_gap_nonblocking'):
-            guidance+='\nContext-gap tagging is optional record-only metadata. Record a genuine gap when known; incomplete tagging must not suppress a supported answer or invent a missing business fact.'
-        if enabled('r27_primary_verification_scope'):
-            guidance+='''
+        guidance+='\nContext-gap tagging is optional record-only metadata. Record a genuine gap when known; incomplete tagging must not suppress a supported answer or invent a missing business fact.'
+        guidance+='''
 Keep the primary comparison separate from incidental path observations. When no
 comparison was supplied and the cited native selected-measure recreation matches
 the reported figure, explain its cited implemented definition as AS DESIGNED;
@@ -215,8 +204,7 @@ availability claims to the exact objects and coverage actually checked. A
 candidate shortlist does not exclude the declared system-of-record object:
 inspect its admitted native binding before ruling out that historical path.
 '''
-        if enabled('r27_future_job_schedule'):
-            guidance+='''
+        guidance+='''
 For a source row absent from the delivered layer, compare its presence at the
 last successful load with the current source and the enabled next load. A
 declared future first scheduled start is usable evidence of when the next load
@@ -258,15 +246,15 @@ that detailed timeline undecided rather than inventing a source-history cause.
     def dispatch(self,name,args):
         self.refresh_tools()
         if name not in self.schemas:raise ValueError('UNKNOWN_TOOL')
-        if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair') and enabled('r27_delivery_reference_reformat'):
+        if name=='submit_finding':
             from .delivery_references import reformat,calculation_measure
             path=self.context.get('path',{})
-            definition_measure=calculation_measure(self.context,args) if enabled('r27_measured_definition_reference_binding') else None
+            definition_measure=calculation_measure(self.context,args)
             args,changes=reformat(args,queries=self.queries.records,evidence=self.state['evidence'],
                                   layers=getattr(self.queries,'layers',{}),nodes=path.get('nodes',[]) if isinstance(path,dict) else [],
                                   definition_measure=definition_measure)
             if changes:self.evidence({'kind':'DELIVERY_REFERENCE_REFORMAT','changes':changes})
-        if name=='submit_finding' and enabled('r27_delivery_saved_evidence_repair'):
+        if name=='submit_finding':
             try:
                 self.schemas[name].validate(args)
                 if self.context.get('conclusion_contract')=='question-first-v1':
@@ -388,7 +376,7 @@ that detailed timeline undecided rather than inventing a source-history cause.
         attempts=self.state.setdefault('delivery_evaluations',[])
         slim=enabled('r27_slim_evaluator')
         def rejected(item):
-            if enabled('r27_evaluator_format_repair') and enabled('r27_evaluator_same_draft_format_retry') and item.get('format_error'):return False
+            if item.get('format_error'):return False
             return bool(item.get('blocking_failures')) if slim else not item['approved']
         if (slim or not enabled('r27_evaluator_advisory')) and sum(rejected(item) for item in attempts)>=3:
             raise ValueError('DELIVERY_EVALUATOR_RETRIES_EXHAUSTED')
@@ -406,11 +394,10 @@ that detailed timeline undecided rather than inventing a source-history cause.
             self.evidence({'kind':'DELIVERY_EVALUATION','draft':deepcopy(args),'evaluation':review})
             self.state['pending']=None;self.save()
             if not review.get('format_error'):break
-            if not (enabled('r27_evaluator_format_repair') and enabled('r27_evaluator_same_draft_format_retry')):break
             # Malformed checker output says nothing about the draft's truth.
             # Retry the checker, not the business answer or any estate read.
             packet['evaluator_format_feedback']=deepcopy(review['format_error'])
-        if review.get('format_error') and enabled('r27_evaluator_format_repair') and enabled('r27_evaluator_same_draft_format_retry'):
+        if review.get('format_error'):
             return {**review,'format_warning':'Evaluator could not complete its structured check after two format retries.',
                     'delivered_with_warning':True}
         if slim:
@@ -427,7 +414,7 @@ that detailed timeline undecided rather than inventing a source-history cause.
             return review
         if not review['approved']:
             reasons='; '.join(k+': '+v['reason'] for k,v in review['checks'].items() if not v['passed'])
-            if enabled('r27_evaluator_hard_soft') and not review['hard_failures'] and 'structured_question' not in args:
+            if not review['hard_failures'] and 'structured_question' not in args:
                 # At most two rewrites. A soft-only check can never erase an
                 # otherwise deterministically validated answer.
                 soft_attempts=sum(item.get('rejection_level')=='soft' for item in attempts)
@@ -494,7 +481,6 @@ that detailed timeline undecided rather than inventing a source-history cause.
         return result
 
     def prime_operational_run(self):
-        if not enabled('r26_operational_priming'):return
         """Read the current triage run before asking the model about values."""
         from .triage_hints import job_hint
         self.refresh_tools()
@@ -518,7 +504,6 @@ that detailed timeline undecided rather than inventing a source-history cause.
                 self.state['pending']=None;self.save();return
 
     def prime_access_definitions(self):
-        if not enabled('r26_access_priming'):return
         """Access questions start with roles/views, before value recreation."""
         intake=self.context.get('intake',{})
         if intake.get('issue_type')!='OTHERS_SEE_DIFFERENT_NUMBER':return
@@ -574,7 +559,7 @@ that detailed timeline undecided rather than inventing a source-history cause.
             self.evidence({'kind':'TRIAGE','facts':self.triage})
             from .retained_definition_evidence import references
             definitions=[{'evidence_id':self.evidence(reference),**reference}
-                         for reference in (references(self.context) if enabled('r27_retained_definition_references') else [])]
+                         for reference in references(self.context)]
             if definitions:
                 self.state['messages'].append({'role':'user','content':canonical({
                     'retained_definition_references':definitions,
@@ -675,7 +660,6 @@ that detailed timeline undecided rather than inventing a source-history cause.
         return self.finish()
 
     def closing_action_reserved(self):
-        if not enabled('r26_final_action_reserve'):return False
         # The seven-action cascade stage hands off to another model; it is
         # not a final-delivery boundary. Keep that existing handoff unchanged.
         if self.context.get('conclusion_contract')=='question-first-v1':
@@ -689,7 +673,7 @@ that detailed timeline undecided rather than inventing a source-history cause.
         from .terminal_findings import attach
         outcome=attach(outcome,queries=self.queries.records,context=self.context)
         if (self.context.get('conclusion_contract')=='question-first-v1'
-                and enabled('r27_delivery_evaluator') and enabled('r26_terminal_report')
+                and enabled('r27_delivery_evaluator')
                 and not self.state.get('delivery_evaluations')
                 and outcome['status'] not in ('BLOCKED','UNESTABLISHED')):
             cited=[q['id'] for q in self.queries.records]

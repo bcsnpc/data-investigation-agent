@@ -95,8 +95,6 @@ class DaxOrderingTests(unittest.TestCase):
         self.assertEqual(left['validator_version'],'bounded-dax-v1')
         ordered='EVALUATE ROW("value",[Quantity]) ORDER BY [value]'
         with self.assertRaises(ValueError):compile_query(ordered,self.objects)
-        with configured({'r27_dax_query_ordering':False}),self.assertRaises(ValueError):
-            validate(ordered,self.layer)
 
 
 if __name__=='__main__':unittest.main()

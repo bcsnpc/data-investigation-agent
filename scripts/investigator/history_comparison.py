@@ -5,7 +5,6 @@ No current-only query is treated as history and no missing retention is guessed.
 """
 from sqlglot import parse_one, exp
 from datetime import datetime, timezone
-from .regression_features import enabled
 
 
 def instant(value):
@@ -48,9 +47,8 @@ def disposition(case, evidence_ids):
     anchor = load_anchor(case)
     if anchor is None:
         return {'ruled_out': False, 'reason': 'No successful native load end time anchors the historical source comparison.'}
-    if enabled('r27_record_arrival_history'):
-        arrival=record_arrival(case,evidence_ids,declaration,anchor)
-        if arrival:return arrival
+    arrival=record_arrival(case,evidence_ids,declaration,anchor)
+    if arrival:return arrival
     selected = []
     for q in case.get('queries', []):
         if q['id'] not in evidence_ids or q.get('layer') != layer or q.get('status') != 'SUCCEEDED':continue

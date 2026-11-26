@@ -14,8 +14,6 @@ class TerminalTests(unittest.TestCase):
         self.assertEqual(before,saved);self.assertEqual(result['status'],'INTERRUPTED')
         self.assertIn('Serving:',result['business']);self.assertNotIn('No layer was admitted or read',result['business'])
         self.assertEqual(result['investigation_report']['findings_per_layer'][0]['observations'][0]['rows_sample'],[{'quantity':7}])
-        with configured({'r27_partial_handoff_reporting':False}):
-            self.assertIn('No layer was admitted or read',attach(before)['business'])
     def test_unestablished_or_unlabelled_handoff_is_not_native_support(self):
         for label in (None,'NOT_ESTABLISHED_BEFORE_ENGINE_INITIALIZATION'):
             result=attach({'status':'INTERRUPTED','handoff':{'queries':[self.query()],'query_history_status':label}})
@@ -57,9 +55,6 @@ class TerminalTests(unittest.TestCase):
         self.assertEqual([o['status']for o in observations],['READ_FAILED','OBSERVED'])
         self.assertEqual(result['status'],'UNRESOLVED')
         from investigator.regression_features import configured
-        with configured({'r27_terminal_retry_recovery':False}):
-            self.assertIn('one: endpoint timed out',attach(outcome,queries=[failed,success],
-                context=context)['conclusion']['undecided'])
         for queries in ([success,failed],[failed,{**success,'signature':'different-query'}],
                         [{k:v for k,v in failed.items()if k!='signature'},success]):
             with self.subTest(queries=queries):
@@ -120,8 +115,6 @@ class TerminalTests(unittest.TestCase):
         self.assertEqual(calculation['expression'], conclusion['calculation_explanation'])
         self.assertEqual(calculation['source'], 'DELIVERED_CONCLUSION')
         self.assertNotIn('calculation definition was not established', result['business'])
-        with configured({'r27_terminal_calculation_consistency': False}):
-            self.assertEqual(attach(outcome)['investigation_report']['calculation'], [])
 
     def test_summary_does_not_upgrade_an_unresolved_or_malformed_explanation(self):
         result = attach({'status': 'UNRESOLVED', 'conclusion': {'calculation_explanation': 'Not verified.'}})

@@ -40,7 +40,7 @@ class FutureScheduleTests(TestCase):
   raw={'value':[schedule()]}
   def http(path,audience):return {'status_code':200,'text':deepcopy(raw) if path.endswith('/schedules') else {'value':[]}}
   for on in (True,False):
-   with self.subTest(on=on),configured({'r27_future_job_schedule':on}):
+   with self.subTest(on=on):
     adapter=MicrosoftRuntimeFacts({'job':{'kind':'JOB','workspace':WS,'item':ITEM,'job_type':'Pipeline'}},http=Mock(side_effect=http),retain=retained)
     adapter.list_changes(['job']);facts=adapter.fetch('job',now=NOW)
     fact=next(f for f in facts if f['kind']=='SCHEDULE')

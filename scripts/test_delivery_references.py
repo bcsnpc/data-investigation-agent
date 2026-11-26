@@ -145,17 +145,13 @@ class ReferenceTests(unittest.TestCase):
         loop.repair_delivery = Mock(side_effect=ValueError('MODEL_REFORMAT_REQUIRED'))
         args = {'verdict': 'observed value', 'cause': 'Scoped native read.', 'numbers': [25],
                 'checked': ['query-one'], 'evidence_ids': ['fetch']}
-        with configured({'r27_delivery_reference_reformat': True}):
-            result = loop.dispatch('submit_finding', args)
+        result = loop.dispatch('submit_finding', args)
         self.assertEqual(result['business'], 'The scoped read returned 25.')
         delivered = loop.validate_finding.call_args.args[0]
         self.assertEqual(delivered['checked'], ['source'])
         self.assertEqual(delivered['evidence_ids'], ['query-one'])
         self.assertTrue(any(x.get('kind') == 'DELIVERY_REFERENCE_REFORMAT' for x in loop.state['evidence'].values()))
         loop.repair_delivery.assert_not_called()
-        with configured({'r27_delivery_reference_reformat': False}):
-            with self.assertRaisesRegex(ValueError, 'MODEL_REFORMAT_REQUIRED'):
-                loop.dispatch('submit_finding', args)
 
 
 if __name__ == '__main__':

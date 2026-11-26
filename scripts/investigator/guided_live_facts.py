@@ -3,7 +3,6 @@ from copy import deepcopy
 from datetime import datetime,timezone
 from .path_triage import Triage
 from .usage_governance import UsageHold
-from .regression_features import enabled
 
 
 class ScanFactsUnavailable(ValueError):
@@ -50,8 +49,7 @@ class PathFacts:
                 # discard the first subject's just-read failure while keeping
                 # only the later subject's success. Preserve actual timestamps;
                 # this is an observation during this refresh, not a new read.
-                return (enabled('r27_triage_refresh_observations')
-                        and self.refresh_started_at is not None
+                return (self.refresh_started_at is not None
                         and self.refresh_completed_at is not None
                         and self.refresh_started_at<=collected<=self.refresh_completed_at
                         and 0<=age<=900)

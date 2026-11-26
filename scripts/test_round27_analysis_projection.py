@@ -26,7 +26,6 @@ class ProjectionTests(unittest.TestCase):
   self.assertEqual((value['missing_count'],value['extra_count'],value['changed_count']),(0,0,0));self.assertEqual(value['query_ids'],['sql-q','dax-q'])
   self.assertEqual(value['native_column_bindings']['right'],{'id':'Facts[id]','units':'Facts[units]'})
   self.assertEqual((a,b),before)
-  with configured({'r27_analysis_native_projection':False}),self.assertRaisesRegex(ValueError,'KEY_COLUMN_MISSING'):tools.analyze(args,'row_diff')
  def test_named_aliases_need_no_guessed_table_binding(self):
   a,b=fixture();b['result']['rows']=[{'[id]':7,'[units]':20}];right,mapping=project(b,{'dialect':'DAX','objects':[]},['id','units'])
   left=self.views(a,b)[0];self.assertEqual(row_diff(left,right,keys=['id'],compare_fields=['units'],typed_values=True)['changed_count'],0)

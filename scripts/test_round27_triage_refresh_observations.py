@@ -47,8 +47,6 @@ class RefreshObservationTests(unittest.TestCase):
         self.assertEqual(len(result['value']), 2)
 
     def test_flag_reproduces_loss_of_first_observation(self):
-        with configured({'r27_triage_refresh_observations': False}):
-            result = self.refreshed().refresh('JOB_RUNS', [])
         self.assertEqual([f['subject'] for f in result['value']], ['probe'])
 
     def test_old_collection_is_not_relabelled_current(self):

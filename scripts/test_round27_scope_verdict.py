@@ -17,7 +17,6 @@ class ScopeVerdictTests(unittest.TestCase):
    with self.subTest(flag=name),configured({name:False}),self.assertRaisesRegex(ValueError,'IMPLEMENTED_RULE_VERDICT'):validate(self.arguments(),{'intake':{}})
  def test_scope_mapping_is_documented_only_when_enabled(self):
   self.assertIn('different question technical detail',fields()['verdict_class']['description'])
-  with configured({'r27_scope_explanation_compatibility':False}):self.assertNotIn('different question technical detail',fields()['verdict_class']['description'])
  def test_explicit_target_check_still_rejects_other_visual(self):
   c={'intake':{'visual':'other'},'context':{'explicit_target':{'visual':'named'}}}
   with self.assertRaisesRegex(ValueError,'EXPLICIT_TARGET_CHANGED'):validate(self.arguments(),c)

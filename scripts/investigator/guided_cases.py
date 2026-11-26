@@ -72,8 +72,6 @@ class Cases:
         This is not exposed as an arbitrary HTTP callback. All candidate
         addresses are admitted against the same retained catalog before queueing.
         """
-        from .regression_features import enabled
-        if not enabled('r27_candidate_routing'):raise ValueError('CANDIDATE_ROUTING_DISABLED')
         from .estate_graph_contract import canonical
         catalog=Catalog.from_graph(self.graph)
         candidates=deepcopy(inventory['candidates'])

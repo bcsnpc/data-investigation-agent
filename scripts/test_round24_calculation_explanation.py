@@ -19,8 +19,6 @@ class CalculationTests(unittest.TestCase):
   self.assertIn('run r is Failed',result['business'])
   self.assertIn('does not establish freshness',result['business'])
   from investigator.regression_features import configured
-  with configured({'r26_current_fault_consistency':False}),patch('investigator.grounded_answers.cited',return_value=self.support),self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):
-   finding(self.args,self.case)
   self.case['intake']['compared_with']={'kind':'SOURCE_SYSTEM'}
   with patch('investigator.grounded_answers.cited',return_value=self.support),self.assertRaisesRegex(ValueError,'CURRENT_OPERATIONAL_FAULT'):
    finding(self.args,self.case)

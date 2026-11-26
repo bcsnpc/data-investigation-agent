@@ -3,7 +3,6 @@
 An alias is an address, never a replacement query, target, value or definition.
 Local schemas and all native execution receive the original identifiers.
 """
-from .regression_features import enabled
 
 import json
 import re
@@ -37,7 +36,7 @@ class Presentation:
 
     def restore(self,value,field=None):
         if isinstance(value,str):
-            if field=='selected_target' and not enabled('r27_selected_target_restore'):return value
+            if field=='selected_target' and False:return value
             return self.reverse.get(value,value) if field in ('node','layer','id','checked','evidence_ids','candidate','asset_ids','selected_target') else value
         if isinstance(value,list):return [self.restore(v,field) for v in value]
         if isinstance(value,dict):return {k:self.restore(v,k) for k,v in value.items()}

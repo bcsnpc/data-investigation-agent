@@ -4,7 +4,6 @@ SQLGlot owns syntax/CTE/alias qualification. An explicit AST allowlist is the
 security boundary, not a keyword regex. Native SQL remains the calculation engine.
 """
 from . import proposal_limits as limits
-from .regression_features import enabled
 
 import re
 from sqlglot import parse, exp
@@ -29,11 +28,11 @@ def temporal_read(node, *, dialect='tsql'):
     from datetime import datetime
     if not isinstance(node.parent,exp.Table) or set(node.args)-{'this','kind','expression'}:return False
     kind=node.args.get('kind');value=node.args.get('expression')
-    if enabled('r26_temporal_extensions') and dialect == 'spark' and node.args.get('this') == 'VERSION':
+    if dialect == 'spark' and node.args.get('this') == 'VERSION':
         return kind == 'AS OF' and isinstance(value, exp.Literal) and value.is_int and int(value.this) >= 0
     if node.args.get('this') != 'TIMESTAMP':return False
     if kind=='ALL':return value is None
-    if enabled('r26_temporal_extensions') and kind == 'BETWEEN' and dialect == 'tsql':
+    if kind == 'BETWEEN' and dialect == 'tsql':
         if not isinstance(value, exp.Tuple) or len(value.expressions) != 2:return False
         try:
             dates = [datetime.fromisoformat(v.this.replace('Z', '+00:00'))
@@ -134,14 +133,13 @@ def compile_query(query, objects, *, max_rows=limits.QUERY_ROWS, allow_views=Fal
     query_roots=(exp.Select,exp.Union,exp.Intersect,exp.Except) if allow_set_operations else (exp.Select,)
     if len(statements)!=1 or not isinstance(statements[0],query_roots):raise ValueError('One SELECT/CTE query required')
     tree=statements[0]
-    if enabled('r27_unicode_sql_literals'):
-        # T-SQL N'...' is a data literal, not an executable function. Normalize
-        # it into the existing bounded NVarChar parameter path before checking
-        # nodes, lengths or parameter counts; never emit its text as SQL code.
-        for literal in list(tree.find_all(exp.National)):
-            if set(literal.args)!={'this'} or not isinstance(literal.this,str):
-                raise ValueError('Unsupported national string literal')
-            literal.replace(exp.Literal.string(literal.this))
+    # T-SQL N'...' is a data literal, not an executable function. Normalize
+    # it into the existing bounded NVarChar parameter path before checking
+    # nodes, lengths or parameter counts; never emit its text as SQL code.
+    for literal in list(tree.find_all(exp.National)):
+        if set(literal.args)!={'this'} or not isinstance(literal.this,str):
+            raise ValueError('Unsupported national string literal')
+        literal.replace(exp.Literal.string(literal.this))
     if len(list(tree.walk()))>1200:raise ValueError('SQL syntax budget exceeded')
     unsupported=sorted({type(n).__name__ for n in tree.walk()}-NODES)
     if allow_convert and 'Convert' in unsupported:unsupported.remove('Convert')

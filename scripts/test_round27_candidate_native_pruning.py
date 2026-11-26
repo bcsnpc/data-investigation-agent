@@ -41,8 +41,6 @@ class NativeCandidateTests(unittest.TestCase):
         self.assertIsNone(select_unique(result, [], None)['selected'])
 
     def test_flag_reproduces_old_alias_pruning(self):
-        with configured({'r27_candidate_native_names_only': False}):
-            result = self.inventory(self.catalog(), 'Billing Overview Total revenue card')
         self.assertEqual([c['id'] for c in result['candidates']], ['card'])
 
 

@@ -14,7 +14,6 @@ from ..facts_collectors import observation, derived_runs
 from ..shared_state import encoded, sha
 from ..estate_graph_incremental import is_stop_condition
 from .metadata_error import MetadataUnavailable, safe_failure
-from ..regression_features import enabled
 
 STATUSES={'Completed':'SUCCEEDED','Succeeded':'SUCCEEDED','Failed':'FAILED','InProgress':'RUNNING',
           'NotStarted':'QUEUED','Queued':'QUEUED','Cancelled':'CANCELLED','Canceled':'CANCELLED',
@@ -261,9 +260,8 @@ class MicrosoftRuntimeFacts:
             if failure:result.append(self._gap(node,'SCHEDULE',failure,now,[receipt]))
             else:
                 schedule_value={'native_schedules':schedules,'next_due':None,'reason':'Job schedule recurrence retained; unsupported recurrence types remain a named coverage gap.'}
-                if enabled('r27_future_job_schedule'):
-                    try:schedule_value.update(future_job_schedule(schedules,now))
-                    except ValueError as error:schedule_value['reason']=str(error)
+                try:schedule_value.update(future_job_schedule(schedules,now))
+                except ValueError as error:schedule_value['reason']=str(error)
                 result.append(observation(node,'SCHEDULE',schedule_value,now,[receipt],self.identity))
         if kind=='JOB' and route.get('audit'):
             rows,receipt,failure=self._sql(route['audit'],'audit')

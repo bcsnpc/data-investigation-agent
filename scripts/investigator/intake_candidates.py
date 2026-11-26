@@ -5,7 +5,6 @@ binding or chooses a target because of a similar name or value elsewhere.
 """
 from copy import deepcopy
 import re
-from .regression_features import enabled
 
 
 def explicit_names(catalog,text):
@@ -38,7 +37,7 @@ def explicit_names(catalog,text):
     if result.get('visual') and result.get('report') and not result.get('page'):
         parents=[p for p in catalog.pages(result['report'])if any(v['id']==result['visual']for v in catalog.visuals(result['report'],p['id']))]
         if len(parents)==1:result['page']=parents[0]['id']
-    if (not result and enabled('r27_unique_native_table_reference')
+    if (not result
             and not re.search(r'\b(?:report|page|card|chart|visual|dashboard)\b',text,re.I)):
         # The ticket can name a native source/container rather than a report.
         # A unique declared child, established by containment and (where
@@ -114,17 +113,16 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
             else:
                 ranked = catalog.ranked(text, 'VISUAL', within={v['id'] for _, v in visuals})
                 named = {r['id'] for r in ranked if r['confidence'] in ('NAMED', 'NORMALIZED')}
-                if enabled('r27_candidate_native_names_only'):
-                    # Enrichment is useful for ranking, never authority to omit
-                    # another retained scope. The resolver's fallback reaches
-                    # this path precisely when extraction did not establish a
-                    # target; a unique search alias is not a native selection.
-                    import unicodedata
-                    def native_words(value):
-                        return re.findall(r'[^\W_]+', unicodedata.normalize('NFKC', value).casefold())
-                    named = {r['id'] for r in ranked if r['id'] in named
-                             and native_words(r.get('matched_name') or '')
-                             == native_words(catalog.nodes[r['id']]['label'])}
+                # Enrichment is useful for ranking, never authority to omit
+                # another retained scope. The resolver's fallback reaches
+                # this path precisely when extraction did not establish a
+                # target; a unique search alias is not a native selection.
+                import unicodedata
+                def native_words(value):
+                    return re.findall(r'[^\W_]+', unicodedata.normalize('NFKC', value).casefold())
+                named = {r['id'] for r in ranked if r['id'] in named
+                         and native_words(r.get('matched_name') or '')
+                         == native_words(catalog.nodes[r['id']]['label'])}
                 if named:
                     visuals = [(p, v) for p, v in visuals if v['id'] in named]
             rows.extend({**base, 'report': report_id, 'page': p['id'], 'visual': v['id']}
@@ -132,14 +130,13 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
         if not reports:
             alternatives={'table':catalog.table_matches(text),
                           'measure':catalog.measure_matches(text)}
-            if enabled('r27_candidate_confidence_priority'):
-                named=('NAMED','NORMALIZED')
-                if any(row.get('confidence') in named for values in alternatives.values() for row in values):
-                    # Do not turn every measure sharing a business word into
-                    # another target when an actual named referent is known.
-                    # Keep all equally strong table/measure alternatives.
-                    alternatives={field:[row for row in values if row.get('confidence') in named]
-                                  for field,values in alternatives.items()}
+            named=('NAMED','NORMALIZED')
+            if any(row.get('confidence') in named for values in alternatives.values() for row in values):
+                # Do not turn every measure sharing a business word into
+                # another target when an actual named referent is known.
+                # Keep all equally strong table/measure alternatives.
+                alternatives={field:[row for row in values if row.get('confidence') in named]
+                              for field,values in alternatives.items()}
             for field,matches in alternatives.items():
                 rows.extend({**base, field: row['id']} for row in matches)
     unique = {}
