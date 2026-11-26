@@ -64,10 +64,13 @@ class StablePrefix:
 
 
 def evaluator_prefix(body):
-    """Cache only this evaluation's ticket/evidence; keep drafts outside it.
+    """Cache retained definitions; keep ticket/draft/native reads after it.
 
     Rebuild from current cited evidence each time: never retain evidence removed
     by a later draft, and never expose investigation messages to the evaluator.
+    Tool/system breakpoints remain shared across tickets; this per-ticket
+    breakpoint survives different tickets using the same cited definitions,
+    additional query IDs/results and formatting retries.
     """
     import json
     result=deepcopy(body)
@@ -80,8 +83,15 @@ def evaluator_prefix(body):
     except (ValueError,TypeError):return result,None
     if not isinstance(packet,dict)or not {'ticket','draft','cited_evidence'}<=packet.keys():
         return result,None
-    stable={key:packet[key]for key in ('ticket','cited_evidence')}
-    changing={key:value for key,value in packet.items()if key not in stable}
+    # Native results contain query IDs/times and grow between drafts. Caching
+    # the entire cited map invalidated a large prefix on almost every call.
+    # Only actual retained definitions belong before this breakpoint. Keep the
+    # complete CURRENT cited map afterwards: removed evidence is never retained.
+    definitions={key:record for key,record in packet['cited_evidence'].items()
+                 if isinstance(record,dict) and record.get('content') and record.get('provenance')}
+    stable={'retained_definitions':definitions}
+    changing={**packet,'cited_evidence':{key:value for key,value in packet['cited_evidence'].items()
+                                       if key not in definitions}}
     result['messages']=[{'role':'user','content':[
         {'type':'text','text':canonical(stable),'cache_control':{'type':'ephemeral'}},
         {'type':'text','text':canonical(changing)}]}]

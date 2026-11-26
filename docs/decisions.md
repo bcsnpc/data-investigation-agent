@@ -825,3 +825,8 @@ Original confirmation remains pending because ordersops is paused at its Novembe
 
 ### Owner source renewal decision, 2026-11-26
 Owner chose: "Wait until Dec 1; continue offline." Do not enable paid continuation on ordersops, change AutoPause, or admit source-dependent/live confirmation work before renewal. The free allowance renews2026-12-01 00:00UTC (November30 18:00America/Chicago). Source hashes were restored before pause; downstream original360 load/model7661 verification remains pending and is the first live step after renewal. Preserve21saved outcomes and four unadmitted tickets; the original confirmation image is unchanged. Calibration still requires a passed full confirmation and confirmedDec1balance; v5 remains sealed. No model/estate caps, counters, roles or secrets changed. Offline qualification is6185PASS/53skip/all8shardsPASS, and all non-skipped hosted checks onb1b19d3a passed. PR435 remainsdraft/unmerged, no v0.27tag. See round-twenty-seven-owner-source-renewal-wait.json.
+
+
+## R28 offline repair preparation, owner direction 2026-11-26
+
+Owner approved offline-only coverage, source-comparison, delivery, evaluator-cache and smoke-column repairs on PR435. Original confirmation source6731ead4/imagea0e47731 stays frozen and goes first for the four outstanding cases after SQL renewal. No estate/model call, role/secret/ceiling change, merge or tag. See docs/r28-offline-ready.md.

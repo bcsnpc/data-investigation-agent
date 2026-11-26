@@ -1,0 +1,572 @@
+{
+  "scope": "OFFLINE_SAVED_NATIVE_QUERY_AND_DELIVERY_BOUNDARIES",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "official_scores_changed": false,
+  "counts": {
+    "SAVED_BOUNDARIES_REPLAYED": 20,
+    "NO_INVESTIGATION_CASE": 1
+  },
+  "rows": [
+    {
+      "ticket": "form-v2-application-baseline-v1",
+      "saved_sha256": "e45710ca82721ab4ab1f81b7e90d983dede755aaa49b2f6be99499266d208d91",
+      "saved_status": "ANSWERED",
+      "capture_seal": "b4a18dbbccdd1fbb95c8dc2be57f24449c5dbdf44836ca4bdf67605963f15b7f",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01S5YrUr6GifWFbaTgvHvFKr",
+          "verdict": "as designed",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "REFUSED",
+          "reason": "SOURCE_CONSISTENCY_UNESTABLISHED: read layers without a comparable one-cell value: native:4caf47d120d4fd198ffe, native:9e3796a26d8d5c1a039e, native:e95b94fd338e7086320f; Source value agreement needs the same selected value and scope in a one-cell native result at each layer. Multi-row or multi-column reads do not satisfy that scalar proof; narrow the existing selected record/value rather than choosing another table. A record-presence trace proves presence/counts only, not equality of other fields."
+        },
+        {
+          "saved_tool_id": "toolu_01KnNBctBqugHJa5EWdUzJcR",
+          "verdict": "as designed",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 6
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 6,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-application-baseline-v2",
+      "saved_sha256": "ff778a859cc53d1f4bb246f407acbdf589c3f60646a96a0d87485f7ad2dde327",
+      "saved_status": "ANSWERED",
+      "capture_seal": "5fb0c1f8abf1bc7637574d0ee743fe7a9f71c114291a73737e7f3e2dc10a7f82",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01P9KhEtXsNmExuGALneRyBs",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 3
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 3,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-billing-invoices-v2",
+      "saved_sha256": "7de256629a6f254fb37aac59f3979db2c371537f2d67dff50f55638402714d74",
+      "saved_status": "ANSWERED",
+      "capture_seal": "669bb94eef5d6cc864d60643297313d8e5d5f7d8ae1654907dbd718827ead50a",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01V9YEauF4XjowCE7bFeC8kp",
+          "verdict": "transformation logic",
+          "verdict_class": "DEVIATION",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 7
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 7,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-billing-mrr-v1",
+      "saved_sha256": "56833de3498767661e86c65555ce5679cece4e337246b57ef62140a004f4b3e5",
+      "saved_status": "ANSWERED",
+      "capture_seal": "b51cf233dc86dad725f6ce9855b688d58b0a3429c640039efbb353545440582d",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01NAotEsyjoUvyWy7CKQPtFq",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 3
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 3,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-failed-application-load-v1",
+      "saved_sha256": "69e42aa25fc9742d38ec5a928d8818a34a24472ed917591b29806d7241e08c9d",
+      "saved_status": "ANSWERED",
+      "capture_seal": "998ff29304dc2d562b7b4d8d3d7492991202e1d368c701160d34fef56393f94c",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_015XaTQMJa3K4PkSY5aUY4mQ",
+          "verdict": "failed job",
+          "verdict_class": "DEVIATION",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 5
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 5,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-failed-billing-transform-v1",
+      "saved_sha256": "785165d7c4537b1dfa58230d89ebb45f3a613f546f31c15b768fe9d3c69c1f08",
+      "saved_status": "ANSWERED",
+      "capture_seal": "cca6310bc5c802ebcf41502577270d7cbcb9dfff02fc2c2ad897b5d29a862bbe",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_019rNJagHGEPPoc9CC4frude",
+          "verdict": "failed job",
+          "verdict_class": "DEVIATION",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 7
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 7,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-fixture-quantity-v1",
+      "saved_sha256": "c70e9e7f5f1c856a0de8940f3ef1ddea6e145a15471cb906334c2649c2c859ab",
+      "saved_status": "ANSWERED",
+      "capture_seal": "a857af7dc8d3498bd8fe607dc387f7e8069ac7235453bdec596ff9d86ddde3a6",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01VvpJSrjPz6EgPRd2LMtkRM",
+          "verdict": "transformation logic",
+          "verdict_class": "DEVIATION",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 9
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 9,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-other-collected-definition-v2",
+      "saved_sha256": "e668de996c57e3426af49a2fb6b82e1bd8deabc7af9e2569a066f59464e7bbe9",
+      "saved_status": "ANSWERED",
+      "capture_seal": "5ac2bf479997f5bf2b1ed634da6c195ebe6ed00d694b49fec556f84bc4033ceb",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01H1wVuehpm2mZnPV3C5nbm8",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 4
+        },
+        {
+          "saved_tool_id": "toolu_01Q8FFzKxQEufQBJABSxQpNs",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "REFUSED",
+          "reason": "FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING"
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 5,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-record-absent-everywhere-v1",
+      "saved_sha256": "e9cdd41164d45b47a4f551da920fcaa31fab152cf489e182e37d31eb1aad3c9a",
+      "saved_status": "ANSWERED",
+      "capture_seal": "80dea66623f7b9a49872531c0fbfe94d0ea87e636029b8490306d2946b2b5f29",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_015tFzCGh7nVnA1J2HP9MfbJ",
+          "verdict": "record missing",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 10
+        },
+        {
+          "saved_tool_id": "toolu_01HYcYBRkob5Rqwz1znZtoaL",
+          "verdict": "record missing",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "REFUSED",
+          "reason": "FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING"
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 11,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-record-repeated-gold-v2",
+      "saved_sha256": "ff4dde4369ce04b00d2a163da269f651224e9be4335ac858525f4af58a4ea7d8",
+      "saved_status": "ANSWERED",
+      "capture_seal": "0d24278ab8668ee650935df7c2a011068eb9fd32f5167897987513cdd9c36aeb",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01QxnPfmqnsFjGhS2vwdXXn4",
+          "verdict": "transformation logic",
+          "verdict_class": "DEVIATION",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 8
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 7,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-screenshot-record-01-v1",
+      "saved_sha256": "a3c98cb220c68a27cedb83bfc479992fc15ea5996ebb8066f3b5d23335097a66",
+      "saved_status": "ANSWERED",
+      "capture_seal": "dc9c546c452e838f864faa31ba2d6808f7a10a909413a483fb64feea55ab335b",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01BVdKqJixFckCgfh8vZX3oj",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 3
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 3,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-screenshot-record-02-v1",
+      "saved_sha256": "933485ddb35175f4e6902ebaaf470aad76433780b029ac58a914899a220c4dfb",
+      "saved_status": "ANSWERED",
+      "capture_seal": "d70c02af8c31c6efbf5a303f16f6225e072be5958dddbba8f43205929f02d142",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_013Jjj2znb5Vr1iHa8MUVmYV",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 3
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 3,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-screenshot-record-03-v1",
+      "saved_sha256": "12a553e83423e20733961ed3543110852af90e217e2e39f5c905b81c4a239e99",
+      "saved_status": "ANSWERED",
+      "capture_seal": "77bb1ee73a07c4b00bf172a7b60e580b7c1ec0ded637cca1f420b9a05966d89f",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01T43Yqa1AgpBQCCrZDpcZpz",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 3
+        },
+        {
+          "saved_tool_id": "toolu_01XAPvUrRLbH28YUmFgLxhFv",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "REFUSED",
+          "reason": "NUMBER_NOT_IN_CITED_RESULTS_OR_REPORTED_INPUT:8"
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 3,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-screenshot-record-04-v1",
+      "saved_sha256": "0812641c5ee27726289f01f7ce46eb1994d8ef2776449caeb707dc94d3936b39",
+      "saved_status": "ANSWERED",
+      "capture_seal": "adda7bd42655ac8c5a50fa27728031b9e107190de4f2f536b18725744d20c6b2",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01Y1cxS52PjuTk1B2RAoJfJJ",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "REFUSED",
+          "reason": "FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING"
+        },
+        {
+          "saved_tool_id": "toolu_01ADWJcT4hqBmSij9ZvFajmC",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 3
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 4,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-source-history-v2",
+      "saved_sha256": "2a132c746027e8e0a7b8489d09d9c99660511846f363e080fae0e27d71ca4fa9",
+      "saved_status": "ANSWERED",
+      "capture_seal": "de0a1cf1b1034ef02d9a7e31ae1af8fd78cefa82e3b8da2732efa54c5083d32c",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01P96RDXHkhEcSdxj4Aj5nEj",
+          "verdict": "source changed history",
+          "verdict_class": "DEVIATION",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 8
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 11,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v1",
+      "saved_sha256": "13cdfa4438330a75686df056ee3e238dc9939a94a3c0fb1ef037367165326535",
+      "saved_status": "ANSWERED",
+      "capture_seal": "e6b89be55c9369b40ee06d14b06f97443c3f42d65b33bf43cb042076b22b4ee1",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_015mUuVZL9fvhFenqe4ddUsW",
+          "verdict": "different question",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 5
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 5,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "form-v2-warehouse-scope-v2",
+      "saved_sha256": "59b070e1f32cab107c6b5fb6267be88ddc7ec51854cfaa4e3daa7d95fffbc077",
+      "saved_status": "NEEDS_INPUT",
+      "capture_seal": "769b2c5f755acfedf13c6fe7ee1cc1b8f76db0257d1bf30b0d427d676b5ce452",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "classification": "NO_INVESTIGATION_CASE",
+      "drafts": [],
+      "queries_replayed": 0,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "text-older-export-movement-1-v2-preflight-repair1",
+      "saved_sha256": "f761835e44c5cd581d6b961cefe46e413a0ded02bd86c9a183bed34a3b50c6d4",
+      "saved_status": "UNRESOLVED",
+      "capture_seal": "f872d34909f47fd05abae92331ce3cd97fa1f3870f8b90c92e2a5c89865ae730",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "excluded_static_candidates": [],
+      "derived_evidence_remap": {},
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_013zCWD2K7y1XPKEmbLnTqC7",
+          "verdict": "observed value",
+          "verdict_class": "UNRESOLVED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 11
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 13,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "text-R17-05-v1-preflight-repair1",
+      "saved_sha256": "0327a9da9672a6e73b7b0bcac54a3622ed0eb33cda154ee18ee4cc4423695d72",
+      "saved_status": "UNRESOLVED",
+      "capture_seal": "9541903639807cf818354806c0a316a084b8dd696370d034d818198880f650d9",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "excluded_static_candidates": [
+        "fd3512569e223fa583f312a19af675e13a1d80840c94e63be920a19486b9245e",
+        "9e43215aaec958a6ab6e145a5eb06c396a68464872b00edba1182181dd9d8f85"
+      ],
+      "derived_evidence_remap": {
+        "case-evidence:55f865edd5e300696d456c4e838afd15b8521928042f090d8a4ea187dc764afd": "case-evidence:18d14d77388cabc1fe0763e8ad049c7db99e5aa291ea189bf4d66ff233963737"
+      },
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_019A8gkZvkRJVQaYR7Ggc5Li",
+          "verdict": "as designed",
+          "verdict_class": "AS DESIGNED",
+          "code_selected_from_unique_cited_match": {
+            "basis": "UNIQUE_CITED_NATIVE_VALUE_MATCH",
+            "selected": "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+            "query_id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:4"
+          },
+          "code_boundary": "REFUSED",
+          "reason": "SOURCE_CONSISTENCY_UNESTABLISHED: declared source object was not queried"
+        },
+        {
+          "saved_tool_id": "toolu_01Lg2u4XeMjPQ6qgvgTaPTyW",
+          "verdict": "different question",
+          "verdict_class": "AS DESIGNED",
+          "code_selected_from_unique_cited_match": {
+            "basis": "UNIQUE_CITED_NATIVE_VALUE_MATCH",
+            "selected": "971a54dd1b44ecc035bdd009dbea646755da7baa056300de9d17c6533d51b1df",
+            "query_id": "query:59185bb522fec637da752959b5f3f41303501689784477067b4966d2badcafbb:4"
+          },
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 0
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 4,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "text-R17-08-v1",
+      "saved_sha256": "5388ccd31dfd5385fb73ddefd8d38569e3c3522eb8b6f32275b8083e31d43fab",
+      "saved_status": "UNRESOLVED",
+      "capture_seal": "91e7837c42ecc48ec621fe125df1b1c8f45386677d5c7b61453c75591ef0061b",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "excluded_static_candidates": [
+        "9b0ed54bc1e9f4cce854489425fa3b88ae9a479e0b3c676e292d0c140e5b883c"
+      ],
+      "derived_evidence_remap": {},
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01KAM7JKotN3UL6SiRSYtK6x",
+          "verdict": "not found",
+          "verdict_class": "UNRESOLVED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 6
+        },
+        {
+          "saved_tool_id": "toolu_01RsNMNZRcuWoBmWeuS1umBZ",
+          "verdict": "not found",
+          "verdict_class": "UNRESOLVED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 6
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 6,
+      "successful_query_compiler_regressions": 0
+    },
+    {
+      "ticket": "text-R17-10-v1",
+      "saved_sha256": "1abe561db44602ff9a199b117ac8a42c038684fe668b40c4b577483d57067305",
+      "saved_status": "UNRESOLVED",
+      "capture_seal": "987078fe4931c1098f9fdc6ce7d92fe48888350a27c50bf9f948e96c74829c40",
+      "estate_reads": 0,
+      "model_calls": 0,
+      "excluded_static_candidates": [],
+      "derived_evidence_remap": {},
+      "classification": "SAVED_BOUNDARIES_REPLAYED",
+      "drafts": [
+        {
+          "saved_tool_id": "toolu_01MU2KezDaf8Vk1ogAZxvVoq",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 8
+        },
+        {
+          "saved_tool_id": "toolu_01ETsB8apRPwZwLy6QcqjHqC",
+          "verdict": "definition explained",
+          "verdict_class": "AS DESIGNED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 8
+        },
+        {
+          "saved_tool_id": "toolu_01XYZ6EoUpJ8X7hv3YRYwQYB",
+          "verdict": "definition explained",
+          "verdict_class": "UNRESOLVED",
+          "code_boundary": "ACCEPTED",
+          "reference_reformats": 9
+        }
+      ],
+      "any_supported_draft": true,
+      "fresh_evaluator_required_for_changed_draft": true,
+      "limitation": "Boundary counterfactual, not a generated continuation or new independent grade. Saved model replies cannot supply a newly required source read, target choice, or evaluator response.",
+      "queries_replayed": 9,
+      "successful_query_compiler_regressions": 0
+    }
+  ]
+}

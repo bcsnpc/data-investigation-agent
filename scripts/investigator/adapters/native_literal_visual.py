@@ -1,16 +1,12 @@
-"""Prove that a retained literal text visual cannot display a stated number.
+"""Identify complete, unbound static text separately from numeric data visuals.
 
 Only the exact admitted native asset is considered. Missing or dynamic content
-is never evidence of a non-data visual; a matching literal remains a candidate.
+is never evidence of a non-data visual; explicit targets remain the caller's choice.
 """
-from decimal import Decimal, InvalidOperation
-import re
 from ..estate_graph_contract import digest
 
 
 def nonmatching_literal(asset, figure):
-    if not figure or figure.get('state')!='NUMBER' or figure.get('precision')!='EXACT':
-        return None
     meta=asset.get('metadata',{})
     if (asset.get('kind')!='ReportVisual' or not isinstance(meta,dict)
             or not isinstance(meta.get('visual'),dict)
@@ -38,18 +34,11 @@ def nonmatching_literal(asset, figure):
             runs=paragraph['textRuns']
             if not runs or any(not isinstance(run.get('value'),str) for run in runs):return None
             text.append(''.join(run['value'] for run in runs))
-        content=' '.join([*text,*literals])
-        # Spelled quantities or unknown magnitude conventions remain ambiguous.
-        if re.search(r'\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion)\b',content,re.I):return None
-        number=Decimal(figure['value'])
-        if not number.is_finite():return None
-        for match in re.finditer(r'[-+]?\d[\d,]*(?:\.\d+)?(?:e[-+]?\d+)?\s*[kmb]?',content,re.I):
-            token=match.group().replace(',','').strip().lower()
-            scale={'k':1000,'m':1000000,'b':1000000000}.get(token[-1],1)
-            value=Decimal(token[:-1].strip() if scale!=1 else token)*scale
-            if value==number:return None
-    except (KeyError,TypeError,ValueError,InvalidOperation):
+        # Dates and numbers in an annotation do not make it a measured visual.
+        # A static literal has no data binding; it belongs in the exclusions
+        # proof, not in the set requiring native quantity reads.
+    except (KeyError,TypeError,ValueError):
         return None
-    return {'basis':'EXACT_NATIVE_LITERAL_NONMATCH','asset_id':asset['id'],
+    return {'basis':'EXACT_NATIVE_STATIC_LITERAL','asset_id':asset['id'],
             'metadata_sha256':digest(meta),
-            'reason':'Literal-only text visual contains no matching stated numeric value.'}
+            'reason':'Complete static text visual has no native data binding; it is not a measured number candidate.'}

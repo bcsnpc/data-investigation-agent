@@ -137,13 +137,13 @@ class LiteralCandidateTests(unittest.TestCase):
         self.assertEqual(proof['asset_id'],'native-header');self.assertEqual(len(proof['metadata_sha256']),64)
         self.assertEqual(self.asset,before)
 
-    def test_matching_formatted_scaled_or_split_text_remains_a_candidate(self):
+    def test_numeric_annotations_are_static_not_measured_candidates(self):
         for text in ('1,234','1.234K','1.234e3','total 1234'):
             with self.subTest(text=text):
-                self.text(text);self.assertEqual(len(self.inventory()['candidates']),2)
+                self.text(text);self.assertEqual(len(self.inventory()['candidates']),1)
         paragraph=self.asset['metadata']['visual']['objects']['general'][0]['properties']['paragraphs'][0]
         paragraph['textRuns']=[{'value':'12'},{'value':'34'}]
-        self.assertEqual(len(self.inventory()['candidates']),2)
+        self.assertEqual(len(self.inventory()['candidates']),1)
 
     def test_explicit_literal_is_never_dropped(self):
         inv=self.inventory(explicit={'report':'report','page':'page','visual':'header'})
@@ -162,11 +162,11 @@ class LiteralCandidateTests(unittest.TestCase):
         self.asset['metadata']['visual']['visualType']='card'
         self.assertFalse(self.inventory(limit=1)['exhaustive'])
 
-    def test_unspecified_or_rounded_figures_do_not_remove_literal_candidates(self):
+    def test_static_annotation_is_excluded_without_an_exact_figure(self):
         self.proposal.pop('reported_figure')
-        self.assertEqual(len(self.inventory()['candidates']),2)
+        self.assertEqual(len(self.inventory()['candidates']),1)
         self.proposal['reported_figure']={'state':'NUMBER','value':'1234','precision':0}
-        self.assertEqual(len(self.inventory()['candidates']),2)
+        self.assertEqual(len(self.inventory()['candidates']),1)
 
     def test_missing_or_malformed_native_metadata_remains_a_candidate(self):
         for metadata in (None,[],{}, {'visual':None}, {'visual':{'visualType':'textbox'}}):

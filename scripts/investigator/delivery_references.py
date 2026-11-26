@@ -24,6 +24,13 @@ def reformat(value, *, queries, evidence, layers, nodes=(), definition_measure=N
     by_id = {query['id']: query for query in queries}
     known = set(by_id) | set(evidence)
     changes = []
+    # UNRESOLVED is already the conservative question-level disposition. Keep
+    # observed facts and limitations, but don't reject that handoff merely
+    # because its technical detail uses an answered-only enum label.
+    if result.get('verdict_class')=='UNRESOLVED' and result.get('verdict') in ('observed value','definition explained'):
+        changes.append({'field':'verdict','before':result['verdict'],'after':'not found',
+                        'basis':'PRESERVE_UNRESOLVED_DISPOSITION'})
+        result['verdict']='not found'
     node_assets={node['id']:(node.get('properties') or {}).get('asset_id') for node in nodes}
 
     def original(identity):

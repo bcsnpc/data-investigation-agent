@@ -176,10 +176,6 @@ def select_unique(inventory, observations, figure):
         if candidate['id'] in [explicit.get(k) for k in ('visual', 'table', 'measure')]:
             return {'selected': candidate['id'], 'matches': [], 'exhaustive': True,
                     'observations': deepcopy(observations), 'reason': 'EXPLICIT_TARGET'}
-    if not figure:
-        return {'selected': None, 'matches': [], 'exhaustive': False,
-                'observations': deepcopy(observations),
-                'reason': 'NO_REPORTED_VALUE_FOR_TARGET_DISAMBIGUATION'}
     by_id = {}
     for observation in observations:
         identity = observation['candidate']
@@ -189,8 +185,12 @@ def select_unique(inventory, observations, figure):
     usable = {key: row for key, row in by_id.items()
               if row.get('status') == 'SUCCEEDED' and row.get('evidence_id') and
               'value' in row and not row.get('truncated')}
-    matches = [key for key, row in usable.items() if compare_figure(figure, row['value'])['matches']]
     exhaustive = inventory['exhaustive'] and set(usable) == expected and bool(expected)
+    if not figure:
+        return {'selected': None, 'matches': [], 'exhaustive': exhaustive,
+                'observations': deepcopy(observations),
+                'reason': 'NO_REPORTED_VALUE_FOR_TARGET_DISAMBIGUATION'}
+    matches = [key for key, row in usable.items() if compare_figure(figure, row['value'])['matches']]
     return {'selected': matches[0] if exhaustive and len(matches) == 1 else None,
             'matches': matches, 'exhaustive': exhaustive,
             'observations': deepcopy(observations),

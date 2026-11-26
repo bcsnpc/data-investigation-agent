@@ -30,6 +30,8 @@ def number(value):
 
 def cited(args,case):
     queries={q['id']:q for q in case['queries']}
+    from .primary_verification import query_references
+    referenced_queries=query_references(case,args['evidence_ids'])
     found=[]
     def native_query(record):
         if record['status']=='SUCCEEDED':
@@ -37,6 +39,14 @@ def cited(args,case):
                     'native_result':deepcopy(record['result']),'asset_ids':record.get('asset_ids',[])}
         if args.get('verdict','').casefold() in ('not found','unresolved','blocked'):
             return {'query_id':record['id'],'subject':record['layer'],'error':record.get('error')}
+        succeeded=next((q for q in case['queries'] if q['id'] in referenced_queries
+            and q.get('status')=='SUCCEEDED' and not q.get('truncated') and not q.get('result',{}).get('truncated')
+            and all(q.get(k)==record.get(k) for k in ('layer','text','parameters','asset_ids'))),None)
+        if succeeded:
+            # Preserve the failed attempt as history, never promote its error
+            # to native support or silently replace the original tape record.
+            return {'superseded_native_attempt':record['id'],'subject':record['layer'],
+                    'error':record.get('error'),'successful_retry_query_id':succeeded['id']}
         raise ValueError('FAILED_QUERY_DOES_NOT_SUPPORT_TECHNICAL_FINDING')
     for identity in args['evidence_ids']:
         if identity in queries:
@@ -108,6 +118,8 @@ def consistency_proof_gap(required, compared, support, case):
 
 def finding(args,case):
     support=cited(args,case)
+    from .delivery_coverage import source_comparison
+    source_comparison(args,case)
     if not args['verdict'].strip() or not args['cause'].strip():raise ValueError('VERDICT_AND_CAUSE_REQUIRED')
     normalized=args['verdict'].casefold().replace('_',' ').replace('-',' ')
     from .primary_verification import no_comparison

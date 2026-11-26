@@ -39,10 +39,12 @@ def query_references(case, identities):
             pending.append(result['id'])
         if isinstance(result.get('query_ids'), list):
             pending.extend(result['query_ids'])
-        checks = result.get('layers', result.get('checks', []))
+        checks = result.get('layers', result.get('checks', result.get('observations', [])))
         for check in checks if isinstance(checks, list) else []:
             if isinstance(check, dict) and check.get('query_id'):
                 pending.append(check['query_id'])
+            elif isinstance(check, dict) and check.get('evidence_id'):
+                pending.append(check['evidence_id'])
     return found
 
 
