@@ -1,0 +1,14 @@
+{
+  "scope": "LOCAL_HTTP_SAVED_DELIVERY_REPLAY",
+  "status": "PASS",
+  "http_requests": 4,
+  "saved_outcome_sha256": "56833de3498767661e86c65555ce5679cece4e337246b57ef62140a004f4b3e5",
+  "estate_id": "practice-fixture",
+  "delivery_sha256": "9ad06bab91c103745ee815be5083106860392bbf2dff311dc9e974fc80a328c3",
+  "returned_saved_delivery_unchanged": true,
+  "case_status": "COMPLETED",
+  "requester_passed_through": true,
+  "audit_events": 4,
+  "estate_reads": 0,
+  "model_calls": 0
+}

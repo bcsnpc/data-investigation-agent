@@ -1032,3 +1032,10 @@ The earlier paid-SQL decision request is RESOLVED as WAIT; no paid SQL action is
 ## December 1 funding and original confirmation first
 
 OpenAI grading credit expires Nov29; valid December grading funding/top-up is needed. Owner must confirm the exact Dec1 Anthropic balance. SQL billing decision is already WAIT: restore downstream and verify original hashes/model7661 after free renewal, then finish/grade the four outstanding original-image confirmation cases BEFORE the repaired-image SuperVL proof, one Opus failure-only attempt, and any funded calibration. Keep3USD reserve; v5 stays sealed.
+
+
+## Round 28A (2026-11-26), offline narrowed scope
+
+- **Approve API ingress on Azure** before any public deployment; no ingress or Azure resource was created. A named API authentication secret also needs provisioning before deployment; the local tests used memory-only keys.
+- Dec 1: execute the R27 restoration/last-four/frozen-image gate plan first. R28A is a separate draft and must not merge before R27 is merged/tagged.
+- Existing R27 funding actions remain: confirm Dec 1 Anthropic balance and December grading funding (OpenAI credit expires Nov 29). No live/model work was admitted by R28A.

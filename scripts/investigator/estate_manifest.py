@@ -219,7 +219,11 @@ def load(path):
     # The only configuration read. Credential references name secrets, not
     # other configuration files; no environment/default file participates.
     from .provider_tape_contract import parse
-    return validate(parse(Path(path).read_text(encoding='utf-8-sig')))
+    value=parse(Path(path).read_text(encoding='utf-8-sig'))
+    if isinstance(value,dict) and value.get('version')=='estate-config/1':
+        from .estate_config import engine_manifest
+        return engine_manifest(value)
+    return validate(value)
 
 
 def policy(manifest):

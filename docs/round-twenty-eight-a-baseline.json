@@ -1,0 +1,17 @@
+{
+  "frozen_confirmation_members": 248,
+  "unchanged": 248,
+  "modified": 0,
+  "parent_r27_head": "d20bbd544862acc514d0a716adcc3ebd474f708b",
+  "original_index_entries": 4594,
+  "original_index_counts": {
+    "infrastructure": 267,
+    "identity/secrets": 83,
+    "estate config": 932,
+    "test-only": 3312
+  },
+  "scope": "NARROWED_ENGINE_RUNTIME_CONFIG_AND_LOCAL_REPLAY_API",
+  "estate_reads": 0,
+  "model_calls": 0,
+  "runner_and_test_fixture_cleanup": "OUT_OF_SCOPE"
+}
