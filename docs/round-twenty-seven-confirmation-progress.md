@@ -31,4 +31,12 @@ Raw R17-05 trace inspection refines its failure cause: the model had drafted the
 
 ## Twelve-ticket checkpoint
 
-At04:36UTC,12of25are independently graded: official/strict/reviewed8correct,2usefulhandoffs,0harmful. Guard8/10measured,20required. Allfourcompletedrecord/firstscreenshot casesarecorrect. Completecohort remainsinprogress;noharmisnotaguardpass. ActualcompletedAnthropiccost$4.207519. CaldeferredDec1andconfirmationPASS;v5sealed.
+At 04:36 UTC, 12 of 25 tickets are independently graded: official, strict and reviewed each show 8 correct, 2 useful handoffs and 0 harmful. The guard is 8 correct out of 10 measured, with 20 required. Both record tickets and the first two screenshot tickets are correct. The full cohort remains in progress; zero harm does not establish a guard pass. Actual Anthropic cost for completed tickets is $4.207519. Calibration is deferred until the confirmed December 1 balance and a passed confirmation gate; v5 remains sealed.
+
+## Sixteen-ticket checkpoint
+
+At 05:02 UTC, 16 of 25 tickets are independently graded: official, strict and reviewed each show 11 correct, 2 useful handoffs and 0 harmful. The guard is 11 correct out of 13 measured, with all 20 required. Actual completed Anthropic cost is $4.953158.
+
+All four screenshot tickets and warehouse-scope-v1 are correct. Warehouse-scope-v2 returned UNKNOWN_REPORT without an estate read or model call and remains an incorrect, non-harmful outcome. Its source form has two characters transposed in the report reference, while its selected page and visual are the same as the valid variant. The older saved passes had the same intake failure. No ticket or expectation was edited, and the outcome was not excluded.
+
+Separately, that ticket first encountered a PostgreSQL statement timeout at local admission, before any submission. A single safe read-only retry passed using the same hash-chained journal; its subsequent real intake failure is distinct. The controller has reconciled both saved warehouse outcomes and resumed the last two static tickets, followed by seven fault tickets. All native outcomes are preserved.

@@ -997,3 +997,6 @@ Round27first actual daily smoke is retained as FAIL despite Azure Succeeded: pin
 
 
 Round27 final money policy, Nov26UTC: older OpenAI allowed_purposes included SMOKE despite latest owner grading-only direction. Narrowed to GRADING only; zero paid generations made in close task. Qualification45742152680 exposed one old test asserting SMOKE admission; updated only that assertion to require refusal (3081e140). Focused10tests passed. Full/image requalification45743138929 follows; earlier failed qualification retained. Investigation expectations and frozen algorithm unchanged.
+
+
+Nov26 funded confirmation: warehouse-scope-v2 hit PostgreSQL QueryCanceled during ADMISSION, before SUBMIT_ATTEMPT. Zero native/model calls; not a scored engine result. Read-only pg_stat_activity/pg_locks afterward showed no other active transactions or waiting locks, so the underlying cause is not established. One safe read-only admission retry passed using the SAME hash-chained journal; original failure retained. No database setting, role, limit, counter or engine image changed. See docs/round-twenty-seven-confirmation-admission-retry.json; preserve the actual native run and never duplicate it.
