@@ -569,7 +569,7 @@ Occurrences: estate config: 932, identity/secrets: 83, infrastructure: 267, test
 | scripts/investigator/adapters/platform_lineage.py:45 | workspaces/ |
 | scripts/investigator/adapters/platform_preflight_receipts.py:56 | database.windows.net |
 | scripts/investigator/adapters/platform_preflight_receipts.py:60 | database.windows.net |
-| scripts/investigator/adapters/reasoning_anthropic.py:153 | fixture |
+| scripts/investigator/adapters/reasoning_anthropic.py:176 | fixture |
 | scripts/investigator/adapters/report_link.py:81 | app.powerbi |
 | scripts/investigator/adapters/retained_endpoints.py:22 | lakehouse |
 | scripts/investigator/adapters/retained_endpoints.py:52 | lakehouse |

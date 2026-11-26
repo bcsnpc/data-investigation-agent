@@ -1,5 +1,5 @@
 {
-  "source_head": "405e78a64f028de3cebc5eee19e834d5896b0e5e",
+  "source_head": "84c598ba20287b3b93ec505dec2e8deff2d9797b",
   "method": "conservative literal/line index; not a proof that all dynamic configuration is portable",
   "rows": [
     {
@@ -1239,7 +1239,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1248,7 +1248,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1257,7 +1257,7 @@
       "terms": [
         "semantic model"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1266,7 +1266,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1275,7 +1275,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1284,7 +1284,7 @@
       "terms": [
         "semantic model"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1293,7 +1293,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1302,7 +1302,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1311,7 +1311,7 @@
       "terms": [
         "semantic model"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "estate config",
@@ -1320,7 +1320,7 @@
       "terms": [
         "fixture"
       ],
-      "source_sha256": "d821200b80d94ea1a9b815dbba48ada399e4532996b11a26f882b1fcde33e991"
+      "source_sha256": "5d86e51ef8ee622e61af79785238d93f7e45d4cfcb509409c50dba14aa2f54f2"
     },
     {
       "group": "infrastructure",
@@ -12814,11 +12814,11 @@
     {
       "group": "estate config",
       "file": "scripts/investigator/adapters/reasoning_anthropic.py",
-      "line": 153,
+      "line": 176,
       "terms": [
         "fixture"
       ],
-      "source_sha256": "54dd7fbb954712415a19900e76a055b166cb9936601adbf817e9d477247ab7cd"
+      "source_sha256": "53beb5676691e5e4166b5f0e9e54db5a6ff8c8a36df0aaaec14b1ec8ace96fa5"
     },
     {
       "group": "identity/secrets",

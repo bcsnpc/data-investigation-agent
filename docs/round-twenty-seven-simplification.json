@@ -20,7 +20,7 @@
     "flags": 3,
     "engine": {
       "files": 507,
-      "physical_lines": 68750
+      "physical_lines": 68804
     },
     "harness": {
       "files": 234,
@@ -28,10 +28,10 @@
     },
     "tests": {
       "files": 671,
-      "physical_lines": 71494
+      "physical_lines": 71572
     },
-    "source": "3081e140",
-    "note": "Includes grading-only safety regression and updated trusted-smoke test"
+    "source": "6731ead4",
+    "note": "Final paid-gate transport/evaluator caching and owner cap included; no prompt reasoning change"
   },
   "archived_ablations": 24,
   "retired_flags": 61,
