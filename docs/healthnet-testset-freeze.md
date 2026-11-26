@@ -84,3 +84,6 @@ experiment. No test injection or DIA/AI run was made. This is an access smoke,
 not a scored HealthNet run. No sealed ticket/answer body was read in the task;
 no ticket, answer, seal or expectation was changed. Author/operator exposure
 from test authorship remains disclosed; future grading must remain independent.
+
+
+2026-11-26 owner-authorized connector exception: default REST remains unchanged; HealthNet native bundle selects read-only gateway XMLA for the three verified models. Only transport/configuration and synthetic practice-fixture tests changed, not reasoning/prompts/expectations. One trivial actual-engine-port DAX read passed, with no ticket or AI run. Approved sealed files remain unchanged. See docs/healthnet-engine-dax.md.

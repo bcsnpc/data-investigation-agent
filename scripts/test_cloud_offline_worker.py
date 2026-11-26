@@ -34,6 +34,9 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertTrue(admitted('apps/investigator-workspace/essentials.js'))
         self.assertFalse(admitted('apps/investigator-workspace/credentials.json'))
         self.assertFalse(admitted('apps/investigator-workspace/.local/private.js'))
+        self.assertTrue(admitted('infra/xmla-reader/Program.cs'))
+        self.assertTrue(admitted('infra/xmla-reader/Dia.XmlaReader.csproj'))
+        self.assertFalse(admitted('infra/xmla-reader/private.json'))
 
     def test_eight_shards_cover_each_entry_once(self):
         entries = list(range(63))

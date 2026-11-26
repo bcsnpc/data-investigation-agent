@@ -1,4 +1,4 @@
-﻿"""Synthetic connector tests: transport selection changes no reasoning or grants."""
+"""Synthetic connector tests: transport selection changes no reasoning or grants."""
 import base64
 from copy import deepcopy
 import json
@@ -94,7 +94,7 @@ class XmlaConnectorTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             library=Path(folder)/'client.dll';library.touch()
             runner=Mock(return_value=SimpleNamespace(returncode=0,stdout='{"results":[{"tables":[{"rows":[{"[ok]":1}]}]}]}'))
-            with patch('fabric_sql_auth.profile_path',return_value=library),allow_native('XMLA_EVALUATE',workspace=W,model=M):
+            with patch('sys.platform','win32'),patch('fabric_sql_auth.profile_path',return_value=library),allow_native('XMLA_EVALUATE',workspace=W,model=M):
                 result=xmla_query.read(setting(),self.request(),'secret-token',timeout_seconds=30,run=runner)
                 self.assertEqual(json.loads(result)['results'][0]['tables'][0]['rows'],[{'[ok]':1}])
                 self.assertNotIn('secret-token',str(runner.call_args.args))
@@ -113,6 +113,31 @@ class XmlaConnectorTests(unittest.TestCase):
         self.assertIn('DbConnectionStringBuilder',script)
         for prohibited in ('EffectiveUserName','Password','Roles','ExecuteNonQuery','Invoke-ASCmd'):
             self.assertNotIn(prohibited,script)
+
+    def test_linux_uses_pinned_dotnet_client_and_no_powershell_or_local_dll(self):
+        runner=Mock(return_value=SimpleNamespace(returncode=0,stdout='{"results":[{"tables":[{"rows":[{"[ok]":1}]}]}]}'))
+        with patch('sys.platform','linux'),patch.object(Path,'is_file',return_value=True),allow_native('XMLA_EVALUATE',workspace=W,model=M):
+            xmla_query.read(setting(),self.request(),'secret-token',timeout_seconds=30,run=runner)
+        self.assertEqual(runner.call_args.args[0],['dotnet','/opt/dia/xmla-reader/Dia.XmlaReader.dll'])
+        self.assertEqual(json.loads(runner.call_args.kwargs['input'])['library'],'')
+
+    def test_cloud_probe_has_fixed_query_and_uses_real_engine_port(self):
+        from probe_native_dax import probe, QUERY
+        config=dict(version=1,fabric=dict(workspace_id=W,auth=dict(mode='fabric_cli',tenant_id=T,python='python'),
+                    native_reader=reader(),dax_transport=setting()),storage=dict(database='.local/synthetic/catalog.sqlite'))
+        with patch('investigator.adapters.investigative_native.NativeQueries') as native:
+            native.return_value.return_value={'rows':[{'[ok]':1}]}
+            self.assertEqual(probe(config,M)['status'],'PASS')
+            self.assertEqual(native.return_value.call_args.args[1]['query'],QUERY)
+            self.assertEqual(QUERY,'EVALUATE ROW("ok", 1)')
+            with self.assertRaises(ValueError):probe(config,W)
+
+    @unittest.skipUnless(Path('/opt/dia/xmla-reader/Dia.XmlaReader.dll').is_file(),'native Linux image dependency check')
+    def test_linux_image_loads_adomd_without_network_or_credentials(self):
+        import subprocess
+        result=subprocess.run(['dotnet','/opt/dia/xmla-reader/Dia.XmlaReader.dll','--self-test'],
+                              capture_output=True,text=True,check=True,timeout=30)
+        self.assertEqual(json.loads(result.stdout)['status'],'PASS')
 
 
 if __name__=='__main__':unittest.main()

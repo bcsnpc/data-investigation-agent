@@ -2,6 +2,7 @@
 import json
 from pathlib import Path
 import subprocess
+import sys
 from uuid import UUID
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -28,14 +29,19 @@ def read(config, request, token, *, timeout_seconds, run=None):
         raise ValueError('XMLA query timeout bound')
     from investigator.live_gateway import authorize_native_control
     authorize_native_control('XMLA_EVALUATE',dict(workspace=request['workspace'],model=request['native_model_id']),request['query'])
-    from fabric_sql_auth import profile_path
-    library=profile_path(config['library'])
-    if not library.is_file():
-        raise ValueError('Configured XMLA library unavailable')
+    if sys.platform == 'linux':
+        helper=Path('/opt/dia/xmla-reader/Dia.XmlaReader.dll')
+        if not helper.is_file():raise ValueError('Configured Linux XMLA client unavailable')
+        command=['dotnet',helper.as_posix()];library=''
+    else:
+        from fabric_sql_auth import profile_path
+        library=profile_path(config['library'])
+        if not library.is_file():raise ValueError('Configured XMLA library unavailable')
+        command=['powershell','-NoProfile','-NonInteractive','-File',str(ROOT/'infra/scripts/Read-XmlaQuery.ps1')]
     payload=dict(library=str(library),workspace=config['workspace_name'],model=config['models'][request['native_model_id']],
                  query=request['query'],access_token=token,timeout_seconds=timeout_seconds)
     try:
-        completed=(run or subprocess.run)(['powershell','-NoProfile','-NonInteractive','-File',str(ROOT/'infra/scripts/Read-XmlaQuery.ps1')],
+        completed=(run or subprocess.run)(command,
             input=json.dumps(payload),capture_output=True,text=True,encoding='utf-8',timeout=timeout_seconds+30)
     except subprocess.TimeoutExpired:
         raise TimeoutError('XMLA native completion uncertain') from None
