@@ -189,3 +189,8 @@ direct history access is required; decide separately whether the ordinary
 history-named table may be counted directly; reconsider REST versus native XMLA
 integration before an actual sealed test. No permission change is awaiting
 automatic application.
+
+
+## Owner clarification follow-up, 2026-11-26
+
+The earlier NOT RUN status for ordinary `payer_plan_history` is superseded: its real Linux engine count is 14, with the unchanged permission guard admitted and Azure Succeeded. The no-direct-history rule still applies to the five system-versioned history objects. See [final readiness](healthnet-final-readiness.md) and its pinned receipts. No new permission or engine change.

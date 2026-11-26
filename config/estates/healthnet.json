@@ -1,7 +1,7 @@
 {
   "version": "estate-config/1",
   "id": "healthnet",
-  "name": "HealthNet Analytics - sealed tests disabled; smoke partial",
+  "name": "HealthNet Analytics - ready for sealed tests",
   "enabled": false,
   "status": "READY_SEALED_TEST",
   "references": {

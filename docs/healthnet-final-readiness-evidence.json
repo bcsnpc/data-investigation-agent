@@ -1,0 +1,105 @@
+{
+  "date": "2026-11-26",
+  "receipts": [
+    {
+      "path": ".local/healthnet-payer-count/qualification.json",
+      "sha256": "db6418200b4a0e86cf15d7c017648546a7934ba782b4108b8d11b803188dee90",
+      "bytes": 389
+    },
+    {
+      "path": ".local/healthnet-payer-count/cloud-count.py",
+      "sha256": "489f152968715c3e7d377572834fb4e247e77a7cc9f7ed7a213673cc29de343d",
+      "bytes": 3749
+    },
+    {
+      "path": ".local/healthnet-payer-count/execution-template.json",
+      "sha256": "148548d8e16c648ef94329edccc2c7269f5c53f286dc6d1255009d0f9b8a333e",
+      "bytes": 11420
+    },
+    {
+      "path": ".local/healthnet-payer-count/prepared.json",
+      "sha256": "8fd1f807cd954d2aa7e8d0d571409844f2c8effa8e013c6b74fdc7df5a80d359",
+      "bytes": 903
+    },
+    {
+      "path": ".local/healthnet-payer-count/start-request.json",
+      "sha256": "1f4fc8119ec82087f21461cde5c4aabc5960a2694fbb594f19d7f97a882398c7",
+      "bytes": 266
+    },
+    {
+      "path": ".local/healthnet-payer-count/start-response.json",
+      "sha256": "e6cde86c829f0e95c32d3f4d980697610e384a11c7d414454bfa067b66ea4161",
+      "bytes": 215
+    },
+    {
+      "path": ".local/healthnet-payer-count/execution-latest.json",
+      "sha256": "c2ebaf89118737b5162504cf71d931a5d3f53750087793d676e7da157f1caaf5",
+      "bytes": 12184
+    },
+    {
+      "path": ".local/healthnet-payer-count/terminal.json",
+      "sha256": "7aeec6cd3e9c72289c68be6e6ac83e0aa37c9a257419994fabc952fd28415e68",
+      "bytes": 68
+    },
+    {
+      "path": ".local/healthnet-payer-count/cloud-proof.json",
+      "sha256": "2149c4429e1bddeb5cdf5948c5a98e61c912242c3f3301f76abaa3f3eed2ff73",
+      "bytes": 2268
+    },
+    {
+      "path": ".local/healthnet-payer-count/cloud-proof-download.json",
+      "sha256": "c13d94f42ea9c1694345aea05cd326bf0e33f259fb08ecd2c9e34c2f97045216",
+      "bytes": 484
+    },
+    {
+      "path": ".local/healthnet-payer-count/proof-verification.json",
+      "sha256": "4aff002bea7d6d63a7b6426c471f203d63b2709e81098290e6c97202a1551338",
+      "bytes": 658
+    },
+    {
+      "path": ".local/healthnet-payer-count/job-unchanged.json",
+      "sha256": "351fc89f5d78379e421eda3fd350806089fae1589613303fe22d310cf4bc07ec",
+      "bytes": 124
+    },
+    {
+      "path": ".local/healthnet-payer-count/offline-admission.json",
+      "sha256": "702e9c4ccd5c85ff107770e4cd8317977f50cbba48221c17054dc612055f56fd",
+      "bytes": 163
+    },
+    {
+      "path": ".local/healthnet-payer-count/config-validation.json",
+      "sha256": "14c7d85646b26df01331ee4bc73f1b439b93cb9c42ecddff7014d340ae09bd41",
+      "bytes": 463
+    },
+    {
+      "path": ".local/healthnet-payer-count/seal-verification.json",
+      "sha256": "d0f8f620866e9bd7583ff26c8c94d1d391b0a774b502398ecb8c7b2172f4dc8a",
+      "bytes": 127
+    },
+    {
+      "path": ".local/healthnet-payer-count/focused-tests.json",
+      "sha256": "ff17f08f17dba6d891e2f22686d083b7202d50f693e26bdb3307b322c1109064",
+      "bytes": 177
+    },
+    {
+      "path": ".local/healthnet-payer-count/reservations.json",
+      "sha256": "217d2dabbbf34462d9f3c993a19b91f93d519fb78152450a57e8ffb3b464d607",
+      "bytes": 911
+    },
+    {
+      "path": ".local/healthnet-payer-count/reservation-status.json",
+      "sha256": "0bbdb827144cee06c1971b87e2edb7dd51115052bf6fb3a07ebb499e27ab3be2",
+      "bytes": 108
+    },
+    {
+      "path": ".local/healthnet-payer-count/settlement.json",
+      "sha256": "719c251da49d7e75c880174a82060323cd4b2b18e49a5aa4fe56f49680b59aea",
+      "bytes": 729
+    },
+    {
+      "path": ".local/healthnet-payer-count/budget-final.json",
+      "sha256": "cff12c82d4f6691ca9e61c9b4a9615f53b9eb20efec9d96b2d50c4afe552b5e2",
+      "bytes": 488
+    }
+  ]
+}

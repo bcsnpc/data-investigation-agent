@@ -53,3 +53,8 @@ The proof used the existing job's 0.5 vCPU / 1 GiB resources through an executio
 [Qualification workflow 45901279787](https://github.com/bcsnpc/data-investigation-agent/actions/runs/45901279787): **6,239 passed, 54 skipped, zero failures/errors; all eight image shards passed**, then the immutable image was published. The native Linux ADOMD dependency test actually ran in the image (not skipped), loading client 19.117.0.0 on .NET 8.0.34. All 123 saved replay classifications/statuses/stops remain unchanged: 86 completed, 28 preserved failures, nine preserved no-investigation cases. No new estate or AI call occurred in replay.
 
 Both proof reservations (one Windows, one Linux) are SETTLED, with zero open. After the Linux proof: physical 19,300/20,500; INVESTIGATION 16,819/17,905; SCAN 2,430/2,500; RESTORATION 51/95, unchanged. Monthly limits and all model budgets remain unchanged. The local hash manifest pins 24 receipt files; older 33 smoke receipt pins and approved sealed HealthNet test files remain unchanged. PR436 remains draft; no merge/tag.
+
+
+## Owner clarification follow-up, 2026-11-26
+
+The earlier NOT RUN status for ordinary `payer_plan_history` is superseded: its real Linux engine count is 14, with the unchanged permission guard admitted and Azure Succeeded. The no-direct-history rule still applies to the five system-versioned history objects. See [final readiness](healthnet-final-readiness.md) and its pinned receipts. No new permission or engine change.
