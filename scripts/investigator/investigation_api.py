@@ -8,7 +8,7 @@ import os
 from pathlib import Path
 import re
 from threading import RLock
-import uuid
+from .process_tape import uuid4
 
 MAX_BODY = 1500000
 REQUEST_KEYS = {'text', 'screenshot', 'report', 'page', 'visual', 'estate_id', 'requester'}
@@ -86,7 +86,7 @@ class Service:
 
     def _write(self, name, value):
         target = self.root / (name + '.json')
-        temporary = self.root / (name + '.' + uuid.uuid4().hex + '.tmp')
+        temporary = self.root / (name + '.' + uuid4().hex + '.tmp')
         with temporary.open('x', encoding='utf8') as stream:
             json.dump(value, stream, ensure_ascii=False, allow_nan=False)
             stream.flush(); os.fsync(stream.fileno())
@@ -99,7 +99,7 @@ class Service:
             with (self.root / 'audit.jsonl').open('a', encoding='utf8') as stream:
                 stream.write(json.dumps(event) + '\n'); stream.flush(); os.fsync(stream.fileno())
             # Calls without a case (including unauthenticated health) get an access case.
-            name = case_id if case_id and (self.root / (case_id + '.json')).exists() else 'access-' + uuid.uuid4().hex
+            name = case_id if case_id and (self.root / (case_id + '.json')).exists() else 'access-' + uuid4().hex
             path = self.root / (name + '.json')
             value = json.loads(path.read_bytes()) if path.exists() else {'events': []}
             value['events'].append(event)
@@ -111,7 +111,7 @@ class Service:
         estate = value['estate_id']
         if estate not in allowed or estate not in self.estates: raise PermissionError('ESTATE_NOT_AUTHORIZED')
         if not self.estates[estate]['enabled']: raise RequestError('ESTATE_DISABLED')
-        identity = uuid.uuid4().hex
+        identity = uuid4().hex
         case = {'id': identity, 'estate_id': estate, 'requester': principal, 'status': 'RUNNING',
                 'mode': 'REPLAY', 'request': value, 'events': []}
         with self.lock: self._write(identity, case)
