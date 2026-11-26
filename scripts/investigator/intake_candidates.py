@@ -64,7 +64,7 @@ def explicit_names(catalog,text):
     return result
 
 
-def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
+def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5, native_assets=None):
     if type(limit) is not int or not 1 <= limit <= 5:
         raise ValueError('TARGET_CANDIDATE_LIMIT')
     explicit = deepcopy(explicit or {})
@@ -140,8 +140,18 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
             for field,matches in alternatives.items():
                 rows.extend({**base, field: row['id']} for row in matches)
     unique = {}
+    excluded = []
+    assets = {a['id']: a for a in (native_assets or [])}
     for request in rows:
         key = next(request[field] for field in ('visual', 'table', 'measure', 'page', 'report') if request.get(field))
+        if key != explicit.get('visual') and request.get('visual'):
+            asset_id=catalog.nodes[key].get('properties',{}).get('asset_id')
+            if asset_id in assets:
+                from .adapters.native_literal_visual import nonmatching_literal
+                proof=nonmatching_literal(assets[asset_id],proposal.get('reported_figure'))
+                if proof:
+                    if key not in {row['id'] for row in excluded}:excluded.append({'id':key,**proof})
+                    continue
         unique.setdefault(key, request)
     result = []
     for identity, request in list(unique.items())[:limit]:
@@ -152,6 +162,7 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5):
                        'explicit': deepcopy(explicit)})
     return {'candidates': result, 'total_candidates': len(unique),
             'exhaustive': len(unique) <= limit,
+            **({'excluded_native_literals':excluded} if excluded else {}),
             'qualification': 'Retained catalog scope, including filters, is preserved. Interactive state is not inferred.'}
 
 

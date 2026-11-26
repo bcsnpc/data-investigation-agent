@@ -692,3 +692,8 @@ Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restora
 
 
 Clarification for Round27 opus-confirmation/injections/form-current-history (Nov26): the prior helper note uses the scenario label 41-load47-change; this unadmitted control actually stopped after the real41 load, before the47 mutation or any scored history submission, on the archive-reference format TypeError. Original360 business/schema hash assertions and real restoration load Completed; temporal keptON. Its records/charges are retained. Fresh restaging uses form-current-history-archive-retry1; never overwrite or score the unadmitted control.
+
+
+Round27 history g1 HISTORY_COHORT_TICKETS_COMPLETED; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\opus-confirmation\injections\form-current-history-archive-retry1\status.json. Temporal history ON; native historical versions retained.
+
+Round27 history scored ticket retained, never repeated. Its original restoration copy failed native3161; source was already hash-restored. Separate original-definition restoration recovery: PRECHECK; receipt .local\round-twenty-seven\opus-confirmation\injections\history-restoration-copy-recovery1\status.json. Old failed load and charges retained.

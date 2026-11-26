@@ -207,7 +207,7 @@ def _run(plan,context):
             proposal.update(version=VERSION,description=submitted['text'])
             proposal.setdefault('issue_type','SOMETHING_ELSE')
             proposal.setdefault('compared_with',{'kind':'NOTHING'})
-            pending_inventory=enumerate_targets(catalog,text=submitted['text'],proposal=proposal,explicit=explicit)
+            pending_inventory=enumerate_targets(catalog,text=submitted['text'],proposal=proposal,explicit=explicit,native_assets=assets)
             if not pending_inventory['candidates']:
                 return intake_question_outcome(submitted['text'],mapped,resolution=intake_resolution,
                     step_costs=step_costs(ai_usage),cost=budget(case_id).status())

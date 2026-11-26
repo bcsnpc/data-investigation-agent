@@ -6,9 +6,9 @@
   "guard": 20,
   "algorithm_profile": "Unchanged P3 slim evaluator; evaluator cache/body split and Batch transport only",
   "cash_forecast": "gates-reforecast.json",
-  "no_v5_admission": true,
   "cash_forecast_correction": "round-twenty-seven-owner-confirmation-priority.json",
   "complete_confirmation_forecast_microdollars": 38612307,
   "cash_reserve_microdollars": 3000000,
-  "calibration_status": "DEFERRED_UNTIL_CONFIRMED_DEC1_BALANCE_AND_CONFIRMATION_GATE_PASS"
+  "calibration_status": "DEFERRED_UNTIL_CONFIRMED_DEC1_BALANCE_AND_CONFIRMATION_GATE_PASS",
+  "no_v5_admission": true
 }

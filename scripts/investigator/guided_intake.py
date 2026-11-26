@@ -282,12 +282,59 @@ class Catalog:
         return []
 
 
+def canonical_target_reference(target, catalog):
+    """Recover unknown parent references from exact native containment only.
+
+    A valid explicit parent or an unknown leaf is never replaced. In particular,
+    primary and comparison addresses must each prove their own containment.
+    """
+    result = deepcopy(target)
+    changes = []
+    visual = result.get('visual')
+    page = result.get('page')
+    report = result.get('report')
+    if visual and catalog.nodes.get(visual, {}).get('kind') != 'VISUAL':
+        return result, changes
+    if visual:
+        parents = {e['source'] for e in catalog.edges
+                   if e['kind'] == 'CONTAINS' and e['target'] == visual
+                   and catalog.nodes.get(e['source'], {}).get('kind') == 'PAGE'}
+        if len(parents) != 1:
+            return result, changes
+        native_page = next(iter(parents))
+        if page and catalog.nodes.get(page, {}).get('kind') == 'PAGE' and page != native_page:
+            return result, changes
+        if page and catalog.nodes.get(page, {}).get('kind') != 'PAGE':
+            changes.append({'field': 'page', 'supplied': page, 'resolved': native_page})
+            result['page'] = native_page
+        page = native_page
+    if page and catalog.nodes.get(page, {}).get('kind') == 'PAGE':
+        parents = {e['source'] for e in catalog.edges
+                   if e['kind'] == 'CONTAINS' and e['target'] == page
+                   and catalog.nodes.get(e['source'], {}).get('kind') == 'REPORT'}
+        if len(parents) == 1 and report and catalog.nodes.get(report, {}).get('kind') != 'REPORT':
+            native_report = next(iter(parents))
+            changes.append({'field': 'report', 'supplied': report, 'resolved': native_report})
+            result['report'] = native_report
+    return result, changes
+
+
 def admit(request, catalog):
     from .planner_recording import _safe
     from .estate_graph_contract import canonical
     _safe(canonical(request).encode())
     Draft202012Validator(SCHEMA).validate(request)
+    request, primary_changes = canonical_target_reference(request, catalog)
+    comparison_changes = []
+    if request['compared_with'].get('target'):
+        target, comparison_changes = canonical_target_reference(request['compared_with']['target'], catalog)
+        request['compared_with']['target'] = target
     result = deepcopy(request)
+    if primary_changes or comparison_changes:
+        result['parent_reference_resolution'] = {
+            'basis': 'UNIQUE_EXACT_NATIVE_CONTAINMENT',
+            'primary': primary_changes, 'comparison': comparison_changes}
+        result['format_warnings'] = ['Unknown parent references resolved from the explicitly selected native child; visual selections are unchanged.']
     if sum(bool(request.get(k)) for k in ('report', 'table', 'measure')) > 1:
         raise ValueError('CONFLICTING_TARGET_SELECTION')
     result['measure_candidates'] = catalog.target(request)
@@ -306,10 +353,10 @@ def admit(request, catalog):
                       if len(declared) == 1 else {'kind': 'NOTHING'})
         kind = comparison['kind']
         required = set(comparison)
-        result['format_warnings'] = [
+        result.setdefault('format_warnings', []).append(
             'Comparison details are incomplete; using the declared source of truth.'
             if declared and len(declared) == 1 else
-            'Comparison details are incomplete; recreation and freshness proceed without a comparison.']
+            'Comparison details are incomplete; recreation and freshness proceed without a comparison.')
     extras = set(comparison) - required
     # A copied reference to the selected visual is harmless formatting, but a
     # different target is a real competing referent and must not be discarded.
@@ -571,7 +618,8 @@ def admit_or_question(request, catalog):
     """Public intake boundary: malformed selections ask once, never crash.
 
     Secret protection runs outside the recoverable-validation handler. No
-    malformed target is replaced with a different report or visual.
+    explicit visual or valid conflicting parent is replaced. Unknown parent
+    references can be recovered only from exact unique native child containment.
     """
     from .planner_recording import _safe
     from .estate_graph_contract import canonical
