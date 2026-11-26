@@ -680,3 +680,15 @@ No new fault injection or toggle was made. Browser control required node_repl/sk
 |2026-11-26close read-only check|unchanged|no UI tool; fresh source/schema hashes MATCH, model7661; latest refresh85942e74-bd08-407b-8c4b-02692a51512e Completed|
 
 Fresh close-native-restoration readback used4physical requests and zero models.360source business rows/hash0a78462d4e4dfd7bf66aeda89cd4d4757f2149fb00d61a14a597922216049a0b and schemabf740fed4ff464295e4ccc9642380fc576dc5013411a1c2e8f2fd91ba822bbbd match; all inspected saved control restoration flags are false. Temporal history staysON by prior decision. The completed refresh is the retained Nov23native refresh, not a newly triggered one. See docs/round-twenty-seven-close-restoration.json. Current UI ON readback remains explicitly unavailable; owner can verify later without blocking other close work.
+
+
+Round27 failed-fixture g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_REAL_SUCCESS. Original definition semantic SHA256 89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259; injected f4dffb7f6d594cd0a3c773c991f64447c9abe95f6088f80654a1d5fb4b1725fe. Native run and hash readback retained in .local\round-twenty-seven\opus-confirmation\injections\dev-failed-fixture\status.json. No grant/identity change.
+
+
+Round27 failed-billing g1: COHORT_COMPLETE_ORIGINAL_HASH_RESTORED_EXISTING_BILLING_2011. Original definition semantic SHA256 392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552; injected 99e1d5a84f17cdba4386620b6856a992af4d0cd8272f81e46324e8d62149f8b1. Native run and hash readback retained in .local\round-twenty-seven\opus-confirmation\injections\dev-failed-billing\status.json. No grant/identity change.
+
+
+Round27 history g1 HISTORY_COHORT_ORIGINAL360_HASH_RESTORED_TEMPORAL_ON; restoration_required=False. Native41-load47-change versions and original360row/schema hash restore: .local\round-twenty-seven\opus-confirmation\injections\form-current-history\status.json. Temporal history ON; native historical versions retained.
+
+
+Clarification for Round27 opus-confirmation/injections/form-current-history (Nov26): the prior helper note uses the scenario label 41-load47-change; this unadmitted control actually stopped after the real41 load, before the47 mutation or any scored history submission, on the archive-reference format TypeError. Original360 business/schema hash assertions and real restoration load Completed; temporal keptON. Its records/charges are retained. Fresh restaging uses form-current-history-archive-retry1; never overwrite or score the unadmitted control.

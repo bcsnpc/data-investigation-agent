@@ -40,3 +40,9 @@ At 05:02 UTC, 16 of 25 tickets are independently graded: official, strict and re
 All four screenshot tickets and warehouse-scope-v1 are correct. Warehouse-scope-v2 returned UNKNOWN_REPORT without an estate read or model call and remains an incorrect, non-harmful outcome. Its source form has two characters transposed in the report reference, while its selected page and visual are the same as the valid variant. The older saved passes had the same intake failure. No ticket or expectation was edited, and the outcome was not excluded.
 
 Separately, that ticket first encountered a PostgreSQL statement timeout at local admission, before any submission. A single safe read-only retry passed using the same hash-chained journal; its subsequent real intake failure is distinct. The controller has reconciled both saved warehouse outcomes and resumed the last two static tickets, followed by seven fault tickets. All native outcomes are preserved.
+
+## Twenty-ticket checkpoint
+
+At 05:43 UTC, 20 tickets are independently graded: official, strict and reviewed each show 13 correct, 2 useful handoffs and 0 harmful. The guard is 13 correct out of 15 measured. Both failed-job tickets are correct. Their original pipeline definitions are hash-restored; the fixture's original run completed, and billing's original run reproduced its retained pre-existing 2011 failure.
+
+The first history staging attempt stopped before any history ticket or model call because a local control helper did not accept the plan's structured archive reference. Its original source hash and restoration load are verified, and all records and charges remain. Six focused tests pass for the format fix; fresh staging is in a new folder on the same frozen engine. The final five tickets remain in the serial fault cohort.
