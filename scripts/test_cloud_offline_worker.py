@@ -13,6 +13,7 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertIn('mkdir /results /work /inputs',dockerfile)
         self.assertIn('chown dia:dia /results /work /inputs',dockerfile)
         self.assertIn('USER 10001:10001',dockerfile)
+        self.assertIn('COPY infra/xmla-reader/ /app/infra/xmla-reader/',dockerfile)
 
     def test_public_build_context_excludes_private_and_untyped_material(self):
         for name in ['.local/tape.json', 'acceptance/answer.json', 'scripts/reader-secret.txt',
