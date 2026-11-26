@@ -990,3 +990,5 @@ Browser tool unavailable (required node_repl/sky not exposed). No toggle changed
 
 
 Round27 close: tool execution policy rejected deletion of two exact-archived unused generators (blocked by policy). Nothing was deleted. Owner may run .local/round-twenty-seven/cleanup-verified-obsolete-generators.ps1 after reviewing docs/round-twenty-seven-dead-code-cleanup.json; expected5274bytes. C/D guards already pass, so no evidence or cache deletion is needed to admit release checks. Browser node_repl/sky capability is absent: owner may independently reopen the one approved model refresh setting to verify ON; no setting change was attempted in the close run.
+
+Round27cleanup scope clarification: 96 historical worktree registrations/directories already exist in the shared repository, including protected dirty owner work. This run created none and used only the existing C:/temp/dia-r26-build worktree. They were not deleted or silently called clean; deletion policy and source/evidence review remain owner work. The old main checkout D:/dia-r19-main is preserved; current release can inspect the merged commit detached in the active worktree.

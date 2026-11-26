@@ -1,0 +1,74 @@
+{
+  "original_failure": {
+    "execution": "job-dia-worker-g64wyyw",
+    "run_id": "0485c2e9-554c-4d34-8af6-aaf79ca2b800",
+    "seal": "43fb0fce2017f1f3247bdb0fc99f29848eebfa39849f76c80afeea9d46d5efef",
+    "azure_status": "Succeeded",
+    "smoke_status": "FAIL",
+    "model_calls": 0,
+    "causes": [
+      "stale superseded secret-expiry metadata",
+      "internal budget worker label did not have required round27-free- prefix"
+    ]
+  },
+  "metadata_source": {
+    "source": "READ_ONLY_NATIVE_GRAPH_APPLICATION_METADATA",
+    "application_id": "531419ef-1610-415a-b8bf-01a4b6aad751",
+    "credentials": [
+      {
+        "keyId": "1a7bc508-0219-4a1a-9464-2c2aab35c9de",
+        "endDateTime": "2026-12-21T21:28:50.276696Z"
+      }
+    ],
+    "permissions_changed": false,
+    "secret_values_read_or_written": false
+  },
+  "input_comparison": [
+    {
+      "file": "access-bindings.json",
+      "changed": true,
+      "before_sha256": "05a97c3c2dd6c2ae370c7b6701e96e3f9b6eabbf083b0ff98830553b3c267165",
+      "after_sha256": "59145afc0044eec84f0667090929e4df419777a9b4e283a02c85a69e238f727d"
+    },
+    {
+      "file": "estate.json",
+      "changed": false,
+      "before_sha256": "63c56beee00c26ff378e0b0fbe3650067b3e235c6cea8ebb0835ec81f8ed7368",
+      "after_sha256": "63c56beee00c26ff378e0b0fbe3650067b3e235c6cea8ebb0835ec81f8ed7368"
+    },
+    {
+      "file": "fixture-assets.json",
+      "changed": false,
+      "before_sha256": "37dd61fb8ea3a36c06c21032314fc28e02ed23208b3ba99fca2a261fd7dbf2f7",
+      "after_sha256": "37dd61fb8ea3a36c06c21032314fc28e02ed23208b3ba99fca2a261fd7dbf2f7"
+    },
+    {
+      "file": "fixture-collector.json",
+      "changed": false,
+      "before_sha256": "0d315ec1e3ef9aef11bafbde29b8929197c5b174fb3403b5bcea80ef05d673c2",
+      "after_sha256": "0d315ec1e3ef9aef11bafbde29b8929197c5b174fb3403b5bcea80ef05d673c2"
+    },
+    {
+      "file": "permission-map.yaml",
+      "changed": false,
+      "before_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899",
+      "after_sha256": "4fb3686a4d6405432c3adeade531c608dcdc91123a06d1fa52f42c0028e1e899"
+    },
+    {
+      "file": "round24-smoke-spec.json",
+      "changed": true,
+      "before_sha256": "3816982e71e369b4007f43af31deefdd8274c934950b2055793427240b53cf13",
+      "after_sha256": "f082e58a3fc1fdddabf094e75c70d070128f8d57d73db8b06d972664c0dffada"
+    },
+    {
+      "file": "round24-smoke-ticket.json",
+      "changed": false,
+      "before_sha256": "80144fa321633c9c009d1f6fd2ce8a9fd0a4eb22bd421063c5199bff67394832",
+      "after_sha256": "80144fa321633c9c009d1f6fd2ce8a9fd0a4eb22bd421063c5199bff67394832"
+    }
+  ],
+  "estate_identity_or_permission_changes": false,
+  "native_expectations_and_ticket_bytes_changed": false,
+  "image_changed": false,
+  "new_input_archive_sha256": "b6234a37adc1e1538c1e91e9fbd147632d0b92d7eb1fa69bf104d341a081da13"
+}

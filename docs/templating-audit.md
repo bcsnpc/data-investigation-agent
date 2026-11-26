@@ -1,16 +1,16 @@
 # Estate templating audit
 
-2026-11-25. Inventory only; no runtime or template changes were made for this audit. Scope: every tracked code/configuration/prompt/test/infrastructure file with a recognized estate identifier, address, connection or fixture literal. Historical evidence and sealed sets are excluded. Each row points to the original line rather than copying a possibly sensitive connection string. Generic words are deliberately over-inclusive; inspect the line before deciding it needs a template parameter. Dynamic values without a literal cannot be identified by this scan.
+2026-11-25. Inventory only; no runtime or template changes were made for this audit. Scope: every tracked code/configuration/prompt/test/infrastructure file with a recognized estate identifier, address, connection or fixture literal. Historical ticket datasets, acceptance records and sealed sets are excluded; this inventories executable code, configuration, prompts and unit-test fixtures. Each row points to the original line rather than copying a possibly sensitive connection string. Generic words are deliberately over-inclusive; inspect the line before deciding it needs a template parameter. Dynamic values without a literal cannot be identified by this scan.
 
 Estate configuration belongs in the installation manifest. Identity IDs and Key Vault references belong in deployment identity configuration; secret values stay in Key Vault. Resource names belong in infrastructure parameters. Synthetic fixtures belong in test data and never determine a client route.
 
-Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, test-only: 2925.
+Occurrences: estate config: 932, identity/secrets: 83, infrastructure: 267, test-only: 3312.
 
 ## estate config
 
 | Source | Matched identifier or marker |
 |---|---|
-| config/permission-map.yaml:27 | id-dia |
+| config/permission-map.yaml:27 | id-dia-worker |
 | config/permission-map.yaml:41 | orderops_investigator |
 | config/permission-map.yaml:61 | billingapp |
 | config/permission-map.yaml:72 | fixture |
@@ -56,15 +56,15 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | config/permission-map.yaml:437 | 5099b9ff-1f27-488c-98c5-01c030dc4f3c |
 | config/permission-map.yaml:438 | fixed-identity |
 | config/permission-map.yaml:448 | ordersops |
-| config/permission-map.yaml:450 | database.windows.net, ordersops, sql-orderops |
+| config/permission-map.yaml:450 | database.windows.net, ordersops, sql-orderops-9696025 |
 | config/permission-map.yaml:453 | fixture |
 | config/permission-map.yaml:460 | ordersops |
-| config/permission-map.yaml:462 | database.windows.net, ordersops, sql-orderops |
+| config/permission-map.yaml:462 | database.windows.net, ordersops, sql-orderops-9696025 |
 | config/permission-map.yaml:465 | fixture |
 | config/permission-map.yaml:473 | billingapp |
-| config/permission-map.yaml:475 | billingapp, database.windows.net, sql-orderops |
+| config/permission-map.yaml:475 | billingapp, database.windows.net, sql-orderops-9696025 |
 | config/permission-map.yaml:485 | billingapp |
-| config/permission-map.yaml:487 | billingapp, database.windows.net, sql-orderops |
+| config/permission-map.yaml:487 | billingapp, database.windows.net, sql-orderops-9696025 |
 | config/permission-map.yaml:829 | 531419ef-1610-415a-b8bf-01a4b6aad751 |
 | config/permission-map.yaml:855 | orderops_investigator |
 | config/permission-map.yaml:881 | 2dd2f5c3-f7af-4804-b79e-6019e63efa60 |
@@ -89,6 +89,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/build_powerbi_model.py:77 | SemanticModel |
 | scripts/build_powerbi_reports.py:23 | powerbi:// |
 | scripts/build_powerbi_reports.py:98 | semantic_model |
+| scripts/business_demo.py:173 | app.js |
 | scripts/check_model_freshness.py:21 | SemanticModel |
 | scripts/check_model_scores.py:47 | fixture |
 | scripts/cloud_guided_investigator.py:237 | Lakehouse, lakehouse, warehouse |
@@ -115,9 +116,12 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/collect_snapshot_lineage.py:17 | lakehouse |
 | scripts/connect_fixture_reader.py:1 | fixture |
 | scripts/connect_fixture_reader.py:26 | fixture |
+| scripts/connect_fixture_reader.py:35 | app.acquire_token_silent |
+| scripts/connect_fixture_reader.py:37 | app.acquire_token_interactive |
 | scripts/connect_fixture_reader.py:75 | fixture |
 | scripts/connect_fixture_reader.py:89 | fixture |
 | scripts/connect_fixture_reader.py:113 | fixture |
+| scripts/cross_layer_investigation.py:95 | app.orders |
 | scripts/cross_layer_investigation.py:97 | Lakehouse, lakehouse |
 | scripts/cross_layer_investigation.py:98 | semantic_model |
 | scripts/cross_layer_investigation.py:147 | semantic_model |
@@ -232,6 +236,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixture/definitions.py:41 | lakehouse |
 | scripts/fixture/definitions.py:42 | WAREHOUSE |
 | scripts/fixture/guided_report.py:17 | fixture |
+| scripts/fixture/model_autosync.py:64 | app.powerbi |
 | scripts/fixture/pipeline_runtime.py:1 | Fixture |
 | scripts/fixture/pipeline_schedule.py:27 | workspaces/ |
 | scripts/fixture/rebuild.py:1 | fixture |
@@ -243,6 +248,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixture/rebuild.py:78 | LAKEHOUSE, fixture |
 | scripts/fixture/rebuild.py:83 | fixture |
 | scripts/fixture/rebuild.py:84 | WAREHOUSE, warehouse |
+| scripts/fixture/rebuild.py:85 | dbo.load_run_audit |
 | scripts/fixture/rebuild.py:86 | lakehouse |
 | scripts/fixture/rebuild.py:87 | fixture |
 | scripts/fixture/rebuild.py:88 | Warehouse |
@@ -281,15 +287,19 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixture/source_access.py:1 | fixture |
 | scripts/fixture/source_access.py:12 | dia-investigator, orderops_investigator |
 | scripts/fixture/source_access.py:24 | billingapp |
+| scripts/fixture/source_access.py:35 | app.round22_access_export |
+| scripts/fixture/source_access.py:39 | app.round22_access_readers, app.round22_access_rows |
+| scripts/fixture/source_access.py:40 | app.round22_access_export |
 | scripts/fixture/source_access.py:41 | fixture |
 | scripts/fixture/source_access.py:46 | fixture |
 | scripts/fixture/source_access.py:49 | billingapp |
-| scripts/fixture/source_access.py:50 | fixture |
+| scripts/fixture/source_access.py:50 | app.round22_access_export, app.round22_access_readers, app.round22_access_rows, fixture |
 | scripts/fixture/source_access.py:54 | dia-investigator, orderops_investigator |
 | scripts/fixture/source_access.py:65 | fixture |
 | scripts/fixture/source_access.py:67 | fixture |
 | scripts/fixture/source_access.py:68 | FIXTURE |
 | scripts/fixture/source_access.py:69 | FIXTURE |
+| scripts/fixture/source_access.py:72 | app.round22_access_ |
 | scripts/fixture/source_access.py:74 | billingapp |
 | scripts/fixture/source_access.py:76 | fixture |
 | scripts/fixture/source_history.py:11 | 20261003 |
@@ -306,19 +316,22 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixture/source_latency.py:93 | FIXTURE, Fixture |
 | scripts/fixture/source_latency.py:98 | Fixture |
 | scripts/fixture/source_scopes.py:7 | warehouse |
-| scripts/fixture/source_temporal.py:54 | 20261003 |
-| scripts/fixture/source_temporal.py:56 | 20261003 |
+| scripts/fixture/source_temporal.py:54 | app.stock_movements_round_two_20261003 |
+| scripts/fixture/source_temporal.py:56 | app.stock_movements_round_two_20261003 |
+| scripts/fixture/source_temporal.py:63 | app.stock_movements_round22_history |
 | scripts/fixture/source_temporal.py:112 | fixture |
 | scripts/fixture/source_temporal.py:132 | fixture |
 | scripts/fixture/source_temporal.py:135 | fixture |
 | scripts/fixture/source_temporal.py:157 | FIXTURE |
 | scripts/fixture/source_temporal.py:160 | Fixture |
-| scripts/fixture/templates/application-model.json:7 | 20261003, Application load fixture, SemanticModel, fixture |
+| scripts/fixture/source_temporal.py:169 | app.stock_movements_round22_history |
+| scripts/fixture/templates/application-model.json:7 | Application load fixture 20261003, SemanticModel, fixture |
 | scripts/fixture/templates/application-model.json:12 | semanticModel |
 | scripts/fixture/templates/application-model.json:17 | 20261003, WAREHOUSE, warehouse |
 | scripts/fixture/templates/audit-pipeline.json:41 | WAREHOUSE |
 | scripts/fixture/templates/audit-pipeline.json:43 | Warehouse |
 | scripts/fixture/templates/audit-pipeline.json:45 | WAREHOUSE |
+| scripts/fixture/templates/audit-pipeline.json:56 | dbo.load_run_audit |
 | scripts/fixture/templates/copy-job.json:12 | ordersops |
 | scripts/fixture/templates/copy-job.json:20 | Lakehouse |
 | scripts/fixture/templates/copy-job.json:22 | Lakehouse |
@@ -401,9 +414,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/investigator/acceptance_context.py:139 | fixture |
 | scripts/investigator/acceptance_context.py:146 | fixture |
 | scripts/investigator/acceptance_context.py:149 | fixture |
-| scripts/investigator/adapters/access_probes.py:182 | id-dia |
+| scripts/investigator/adapters/access_probes.py:182 | id-dia-worker |
 | scripts/investigator/adapters/access_probes.py:191 | database.windows.net |
-| scripts/investigator/adapters/access_probes.py:209 | id-dia |
+| scripts/investigator/adapters/access_probes.py:209 | id-dia-worker |
 | scripts/investigator/adapters/ai_native_catalog.py:32 | Lakehouse, Warehouse |
 | scripts/investigator/adapters/ai_native_catalog.py:42 | SemanticModel |
 | scripts/investigator/adapters/ai_native_catalog.py:56 | Lakehouse, Warehouse |
@@ -513,7 +526,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/investigator/adapters/known-platform-limits.md:13 | lakehouse |
 | scripts/investigator/adapters/known-platform-limits.md:14 | Warehouse |
 | scripts/investigator/adapters/known-platform-limits.md:20 | dia-scanner |
-| scripts/investigator/adapters/known-platform-limits.md:22 | Fixture |
+| scripts/investigator/adapters/known-platform-limits.md:22 | Fixture, Microsoft sample |
 | scripts/investigator/adapters/load_audit.py:20 | Lakehouse |
 | scripts/investigator/adapters/load_audit.py:21 | LAKEHOUSE, Warehouse, lakehouse |
 | scripts/investigator/adapters/load_audit.py:22 | Warehouse |
@@ -557,6 +570,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/investigator/adapters/platform_preflight_receipts.py:56 | database.windows.net |
 | scripts/investigator/adapters/platform_preflight_receipts.py:60 | database.windows.net |
 | scripts/investigator/adapters/reasoning_anthropic.py:153 | fixture |
+| scripts/investigator/adapters/report_link.py:81 | app.powerbi |
 | scripts/investigator/adapters/retained_endpoints.py:22 | lakehouse |
 | scripts/investigator/adapters/retained_endpoints.py:52 | lakehouse |
 | scripts/investigator/adapters/retained_endpoints.py:54 | Lakehouse |
@@ -580,6 +594,8 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/investigator/adapters/scanner_policy.py:152 | workspaces/ |
 | scripts/investigator/adapters/source_delivery.py:45 | lakehouse |
 | scripts/investigator/adapters/vault_user_cache.py:17 | database.windows.net |
+| scripts/investigator/adapters/vault_user_cache.py:155 | app.get_accounts |
+| scripts/investigator/adapters/vault_user_cache.py:158 | app.acquire_token_silent |
 | scripts/investigator/adapters/warehouse_catalog.py:1 | Warehouse |
 | scripts/investigator/adapters/warehouse_catalog.py:8 | warehouse |
 | scripts/investigator/adapters/warehouse_catalog.py:9 | Warehouse |
@@ -658,10 +674,10 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/investigator/estate_manifest.py:117 | fixture |
 | scripts/investigator/estate_manifest.py:119 | fixture |
 | scripts/investigator/estate_manifest.py:159 | fixture |
-| scripts/investigator/facts_migration.py:20 | id-dia |
-| scripts/investigator/facts_migration.py:21 | id-dia |
-| scripts/investigator/facts_worker_verification.py:16 | id-dia |
-| scripts/investigator/facts_worker_verification.py:18 | id-dia |
+| scripts/investigator/facts_migration.py:20 | id-dia-worker |
+| scripts/investigator/facts_migration.py:21 | id-dia-worker |
+| scripts/investigator/facts_worker_verification.py:16 | id-dia-worker |
+| scripts/investigator/facts_worker_verification.py:18 | id-dia-worker |
 | scripts/investigator/grounded_answers.py:263 | semantic model |
 | scripts/investigator/guided_intake.py:4 | fixture |
 | scripts/investigator/guided_runtime_reads.py:43 | Semantic model |
@@ -793,6 +809,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/onelake_metadata.py:54 | lakehouse |
 | scripts/onelake_metadata.py:57 | lakehouse |
 | scripts/owner_demo.py:69 | fixture |
+| scripts/package_portal.py:19 | app.js |
 | scripts/platform-literal-debt-ceiling.json:6 | fixture |
 | scripts/platform-literal-debt-ceiling.json:19 | fixture |
 | scripts/platform-literal-debt-ceiling.json:29 | fixture |
@@ -809,7 +826,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/prove_ledger_verdicts.py:35 | fixture |
 | scripts/prove_ledger_verdicts.py:43 | warehouse |
 | scripts/prove_ledger_verdicts.py:71 | warehouse |
-| scripts/prove_ledger_verdicts.py:76 | warehouse |
+| scripts/prove_ledger_verdicts.py:76 | dbo.source_history, warehouse |
 | scripts/prove_ledger_verdicts.py:84 | warehouse |
 | scripts/provision_model_month.py:125 | database.windows.net |
 | scripts/publish_import_fixture.py:1 | fixture |
@@ -846,8 +863,8 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/refresh_powerbi.py:12 | workspaces/ |
 | scripts/refresh_powerbi.py:34 | Semantic model |
 | scripts/refresh_powerbi.py:46 | semantic model |
-| scripts/renew_platform_cost_observation.py:68 | rg-dia |
-| scripts/renew_platform_cost_observation.py:74 | rg-dia |
+| scripts/renew_platform_cost_observation.py:68 | rg-dia-platform |
+| scripts/renew_platform_cost_observation.py:74 | rg-dia-platform |
 | scripts/report_definition_evidence.py:37 | semanticmodel |
 | scripts/report_definition_evidence.py:42 | SemanticModel |
 | scripts/report_definition_evidence.py:44 | semanticmodel |
@@ -881,6 +898,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/upload_source_snapshot.py:19 | lakehouse |
 | scripts/upload_source_snapshot.py:24 | lakehouse |
 | scripts/upload_source_snapshot.py:47 | lakehouse |
+| scripts/validate_lineage.py:12 | app.order_lines, app.orders, app.payments, app.products, app.refund_lines, app.refunds |
 | scripts/validate_lineage.py:22 | Lakehouse |
 | scripts/validate_metadata_inventory.py:19 | Lakehouse |
 | scripts/validate_metadata_inventory.py:25 | lakehouse |
@@ -924,93 +942,6 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/verify_reader_runtime.py:142 | fixture |
 | scripts/verify_reader_runtime.py:145 | fixture |
 | scripts/verify_reader_runtime.py:149 | Fixture |
-| tests/tickets/derive_baseline_cases.py:1 | Fixture |
-| tests/tickets/derive_baseline_cases.py:7 | fixture |
-| tests/tickets/derive_baseline_cases.py:15 | fixture |
-| tests/tickets/derive_baseline_cases.py:17 | fixture |
-| tests/tickets/independent-baseline-arithmetic.json:3 | fixture |
-| tests/tickets/independent-drafts-access-dev.json:1 | billingapp, dia-investigator, orderops_investigator |
-| tests/tickets/independent-drafts-access-heldout.json:1 | billingapp, dia-investigator, orderops_investigator |
-| tests/tickets/independent-drafts-blocked-heldout.json:1 | 20261003, Application load fixture, FIXTURE, fixture, ordersops, semantic model |
-| tests/tickets/independent-drafts-context-dev.json:1 | warehouse |
-| tests/tickets/independent-drafts-context-heldout.json:1 | warehouse |
-| tests/tickets/independent-drafts-final-nine-dev.json:1 | 20261003 |
-| tests/tickets/independent-drafts-final-nine-heldout.json:1 | 20261003, Application load fixture, Warehouse, semantic model |
-| tests/tickets/independent-drafts-history-gap-dev.json:1 | ordersops |
-| tests/tickets/independent-drafts-history-gap-heldout.json:1 | ordersops |
-| tests/tickets/independent-drafts-real-failures.json:10 | fixture |
-| tests/tickets/independent-drafts-real-failures.json:11 | fixture |
-| tests/tickets/independent-drafts-real-failures.json:13 | 20261003 |
-| tests/tickets/independent-drafts-real-failures.json:16 | fixture |
-| tests/tickets/independent-drafts-real-failures.json:17 | fixture |
-| tests/tickets/independent-drafts-real-failures.json:19 | 20261003 |
-| tests/tickets/independent-drafts-real-failures.json:25 | Warehouse |
-| tests/tickets/independent-drafts-real-failures.json:31 | Warehouse |
-| tests/tickets/independent-drafts-stale-dev.json:1 | 20261003, Application load fixture, lakehouse, semantic model, warehouse |
-| tests/tickets/independent-drafts-stale-heldout.json:1 | 20261003, Application load fixture, lakehouse, semantic model, warehouse |
-| tests/tickets/independent-drafts-waiting-dev.json:1 | 20261003, fixture |
-| tests/tickets/independent-drafts-waiting-heldout.json:1 | Warehouse |
-| tests/tickets/injections.md:7 | fixture |
-| tests/tickets/injections.md:11 | b4871498-bd35-45be-916c-9a642568012c, fixture |
-| tests/tickets/injections.md:12 | 76c60248-b830-433b-9880-90593da28e7e |
-| tests/tickets/injections.md:13 | fc8438fd-2c18-4196-9191-33e26481e2e0 |
-| tests/tickets/injections.md:15 | 62eb1a7f-19c2-466f-85ec-cda6bc231fb9 |
-| tests/tickets/injections.md:21 | fixture |
-| tests/tickets/injections.md:33 | fixture |
-| tests/tickets/injections.md:38 | fixture |
-| tests/tickets/injections.md:45 | Fixture, fixture |
-| tests/tickets/injections.md:49 | 605f92df-b2e4-4851-8263-51d7ade0ad1e, fixture |
-| tests/tickets/injections.md:51 | fixture |
-| tests/tickets/injections.md:53 | fixture |
-| tests/tickets/injections.md:55 | fixture, ordersops |
-| tests/tickets/injections.md:57 | fixture |
-| tests/tickets/injections.md:59 | fixture |
-| tests/tickets/injections.md:65 | Warehouse, fixture |
-| tests/tickets/injections.md:67 | warehouse |
-| tests/tickets/injections.md:71 | billingapp, fixture |
-| tests/tickets/injections.md:73 | 659ea59a-256f-4673-a661-0d6f3359d9be, Warehouse, fixture |
-| tests/tickets/injections.md:77 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 20261003, Application load fixture, fixture, lakehouse |
-| tests/tickets/injections.md:88 | fixture |
-| tests/tickets/injections.md:94 | 30fc840e-2343-4420-9c47-0d763dd694f3 |
-| tests/tickets/injections.md:99 | 95a3d0f6-ef3a-4d1c-8815-0af704190707 |
-| tests/tickets/injections.md:101 | 623ed85f-40dc-4f32-b6f8-447a8468d318 |
-| tests/tickets/injections.md:110 | fixture |
-| tests/tickets/injections.md:125 | fixture |
-| tests/tickets/injections.md:155 | 03d815b4-3134-4792-9d2a-a0475374b6d4 |
-| tests/tickets/injections.md:173 | fixture |
-| tests/tickets/injections.md:197 | f5181b94-b40a-4a0a-afda-970e040d8f7f |
-| tests/tickets/injections.md:200 | fixture |
-| tests/tickets/injections.md:227 | fixture |
-| tests/tickets/injections.md:254 | fixture |
-| tests/tickets/injections.md:287 | fixture |
-| tests/tickets/injections.md:308 | fixture |
-| tests/tickets/injections.md:344 | fixture |
-| tests/tickets/injections.md:371 | fixture |
-| tests/tickets/injections.md:374 | fixture |
-| tests/tickets/injections.md:377 | fixture |
-| tests/tickets/injections.md:404 | fixture |
-| tests/tickets/injections.md:428 | fixture |
-| tests/tickets/injections.md:431 | fixture |
-| tests/tickets/injections.md:440 | fixture |
-| tests/tickets/injections.md:464 | 625f3197-0754-46b7-b2f5-8a3666cb27b7, eeff6b5a-59db-48c1-b6ef-4875fe29cf3a |
-| tests/tickets/injections.md:488 | e0773fcf-6fb9-456a-bd08-44839e3a539f |
-| tests/tickets/injections.md:491 | fixture |
-| tests/tickets/injections.md:519 | 20261003, Application load fixture |
-| tests/tickets/injections.md:522 | fixture |
-| tests/tickets/injections.md:540 | fixture |
-| tests/tickets/injections.md:572 | 1221447d-8e70-4bf0-beca-528ff36c33c3 |
-| tests/tickets/injections.md:575 | fixture |
-| tests/tickets/injections.md:599 | acb61da4-c7aa-4aa5-b7e3-0be7d613aa1c |
-| tests/tickets/injections.md:602 | fixture |
-| tests/tickets/injections.md:614 | 3e0fe208-bece-4164-a89f-42930ab377f8 |
-| tests/tickets/injections.md:617 | fixture |
-| tests/tickets/injections.md:629 | fixture |
-| tests/tickets/injections.md:653 | fixture |
-| tests/tickets/injections.md:669 | 85942e74-bd08-407b-8c4b-02692a51512e, fixture |
-| tests/tickets/injections.md:674 | f238f1ba-1142-4b55-bdc1-958c61911343 |
-| tests/tickets/injections.md:680 | 85942e74-bd08-407b-8c4b-02692a51512e |
-| tests/tickets/round22-old-refresh-contract.json:1 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
-| tests/tickets/scored-set-v1-heldout.json:1 | 20261003, Application load fixture, Warehouse, billingapp, dia-investigator, fixture, lakehouse, orderops_investigator, ordersops, semantic model, warehouse |
 
 ## identity/secrets
 
@@ -1041,11 +972,11 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | config/permission-map.yaml:512 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | config/permission-map.yaml:524 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | config/permission-map.yaml:536 | dff91047-ebc2-4657-8dbe-5af328d57780 |
-| config/permission-map.yaml:718 | kv-dia- |
-| config/permission-map.yaml:755 | kv-dia- |
-| config/permission-map.yaml:792 | kv-dia- |
-| config/permission-map.yaml:805 | kv-dia- |
-| config/permission-map.yaml:817 | kv-dia- |
+| config/permission-map.yaml:718 | kv-dia-d5dd7d65 |
+| config/permission-map.yaml:755 | kv-dia-d5dd7d65 |
+| config/permission-map.yaml:792 | kv-dia-d5dd7d65 |
+| config/permission-map.yaml:805 | kv-dia-d5dd7d65 |
+| config/permission-map.yaml:817 | kv-dia-d5dd7d65 |
 | config/permission-map.yaml:868 | skynwhy.com |
 | infra/estates/fixture-code-git.json:19 | orderops_investigator |
 | infra/estates/fixture-code-git.json:27 | dff91047-ebc2-4657-8dbe-5af328d57780 |
@@ -1084,7 +1015,10 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | infra/metadata/development.json:9 | orderops_investigator |
 | infra/metadata/development.json:16 | dff91047-ebc2-4657-8dbe-5af328d57780 |
 | infra/metadata/development.json:20 | skynwhy.com |
+| scripts/connect_fixture_reader.py:34 | app.get_accounts |
 | scripts/fixture/source_history.py:3 | fixture |
+| scripts/investigator/adapters/connection_rotation.py:114 | app.get |
+| scripts/investigator/adapters/connection_rotation.py:115 | app.get |
 | scripts/investigator/adapters/connection_rotation.py:122 | workspaces/ |
 | scripts/investigator/adapters/known-platform-limits.md:24 | Fixture, Warehouse |
 | scripts/investigator/adapters/record_presence.py:100 | Warehouse |
@@ -1093,14 +1027,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/investigator/adapters/warehouse_catalog.py:68 | warehouse |
 | scripts/investigator/planner_recording.py:1 | fixture |
 | scripts/investigator/postgres_connection.py:17 | database.windows.net |
-| scripts/review_round25_disagreements.py:26 | kv-dia- |
-| scripts/setup_bedrock_identity.py:50 | kv-dia- |
-| tests/tickets/injections.md:69 | billingapp, dia-investigator, fixture, orderops_investigator |
-| tests/tickets/injections.md:79 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, b1a57512-f71a-41a3-b868-4ee2999c42b9, fixture |
-| tests/tickets/injections.md:81 | warehouse |
-| tests/tickets/injections.md:104 | fixture, semantic-model, semanticmodel |
-| tests/tickets/scored-set-v1-dev-expected.json:1 | 20261003, Application load fixture, Warehouse, fixture, orderops_investigator, warehouse |
-| tests/tickets/scored-set-v1-heldout-expected.json:1 | 20261003, Application load fixture, Warehouse, fixture, orderops_investigator, warehouse |
+| scripts/prove_ledger_verdicts.py:53 | dbo.records |
+| scripts/review_round25_disagreements.py:26 | kv-dia-d5dd7d65 |
+| scripts/setup_bedrock_identity.py:50 | kv-dia-d5dd7d65 |
 
 ## infrastructure
 
@@ -1121,38 +1050,38 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | .github/workflows/validation.yml:317 | fixture |
 | .github/workflows/validation.yml:318 | workspace/ |
 | .github/workflows/validation.yml:319 | workspace/ |
-| config/permission-map.yaml:32 | id-dia, job-dia- |
-| config/permission-map.yaml:37 | id-dia, job-dia- |
-| config/permission-map.yaml:548 | pg-dia- |
-| config/permission-map.yaml:560 | pg-dia- |
-| config/permission-map.yaml:572 | pg-dia- |
-| config/permission-map.yaml:584 | pg-dia- |
-| config/permission-map.yaml:596 | pg-dia- |
-| config/permission-map.yaml:608 | pg-dia- |
-| config/permission-map.yaml:620 | pg-dia- |
-| config/permission-map.yaml:632 | pg-dia- |
-| config/permission-map.yaml:644 | pg-dia- |
-| config/permission-map.yaml:656 | pg-dia- |
-| config/permission-map.yaml:668 | pg-dia- |
-| config/permission-map.yaml:681 | pg-dia- |
-| config/permission-map.yaml:694 | blob.core.windows.net, diaplatform |
-| config/permission-map.yaml:706 | blob.core.windows.net, diaplatform |
-| config/permission-map.yaml:731 | blob.core.windows.net, diaplatform |
-| config/permission-map.yaml:743 | blob.core.windows.net, diaplatform |
-| config/permission-map.yaml:768 | blob.core.windows.net, diaplatform |
-| config/permission-map.yaml:780 | blob.core.windows.net, diaplatform |
-| config/permission-map.yaml:842 | job-dia-, rg-dia |
-| config/permission-map.yaml:920 | pg-dia- |
-| config/permission-map.yaml:932 | pg-dia- |
-| config/permission-map.yaml:944 | pg-dia- |
-| config/permission-map.yaml:957 | pg-dia- |
-| config/permission-map.yaml:970 | pg-dia- |
-| config/permission-map.yaml:983 | pg-dia- |
-| config/permission-map.yaml:996 | pg-dia- |
-| config/permission-map.yaml:1009 | pg-dia- |
+| config/permission-map.yaml:32 | id-dia-worker, job-dia-graph-scan |
+| config/permission-map.yaml:37 | id-dia-worker, job-dia-worker |
+| config/permission-map.yaml:548 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:560 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:572 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:584 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:596 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:608 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:620 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:632 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:644 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:656 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:668 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:681 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:694 | blob.core.windows.net, diaplatformd5dd7d65 |
+| config/permission-map.yaml:706 | blob.core.windows.net, diaplatformd5dd7d65 |
+| config/permission-map.yaml:731 | blob.core.windows.net, diaplatformd5dd7d65 |
+| config/permission-map.yaml:743 | blob.core.windows.net, diaplatformd5dd7d65 |
+| config/permission-map.yaml:768 | blob.core.windows.net, diaplatformd5dd7d65 |
+| config/permission-map.yaml:780 | blob.core.windows.net, diaplatformd5dd7d65 |
+| config/permission-map.yaml:842 | job-dia-collectors, job-dia-graph-scan, job-dia-worker, rg-dia-platform |
+| config/permission-map.yaml:920 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:932 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:944 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:957 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:970 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:983 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:996 | pg-dia-d5dd7d65 |
+| config/permission-map.yaml:1009 | pg-dia-d5dd7d65 |
 | infra/estates/databricks.json:4 | lakehouse |
 | infra/estates/databricks.json:16 | warehouse |
-| infra/estates/fixture-code-git.json:14 | database.windows.net, sql-orderops |
+| infra/estates/fixture-code-git.json:14 | database.windows.net, sql-orderops-9696025 |
 | infra/estates/fixture-code-git.json:15 | ordersops |
 | infra/estates/fixture-code-git.json:20 | orderops_investigator |
 | infra/estates/fixture-code-git.json:24 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
@@ -1168,21 +1097,21 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | infra/estates/fixture-code-git.json:96 | 09ba0ef9-7342-4179-a49e-1fc8adf48d82, 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture-code-git.json:102 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture-code-git.json:108 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
-| infra/estates/fixture-code-git.json:114 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
-| infra/estates/fixture-code-git.json:120 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
-| infra/estates/fixture-code-git.json:126 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-code-git.json:132 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-code-git.json:142 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
-| infra/estates/fixture-code-git.json:145 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
+| infra/estates/fixture-code-git.json:114 | 149f8d99-1c66-4a0a-9624-759be002bb60, 33618b8d-46eb-4fe7-b80b-122c331260a3, dbo.stock_movements_round_two_20261003 |
+| infra/estates/fixture-code-git.json:120 | 149f8d99-1c66-4a0a-9624-759be002bb60, 33618b8d-46eb-4fe7-b80b-122c331260a3, dbo.stock_movements_round_two_20261003 |
+| infra/estates/fixture-code-git.json:126 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-code-git.json:132 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-code-git.json:142 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de, dbo.load_run_audit |
+| infra/estates/fixture-code-git.json:145 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de, dbo.load_run_audit |
 | infra/estates/fixture-code-git.json:151 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture-code-git.json:154 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture-code-git.json:248 | fixture |
 | infra/estates/fixture-code-git.json:262 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture-code-git.json:263 | 149f8d99-1c66-4a0a-9624-759be002bb60, 57e128c3-6ba0-4aaf-9464-81164ecdc782 |
-| infra/estates/fixture-code-git.json:284 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-code-git.json:285 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-code-git.json:286 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-code-git.json:287 | database.windows.net, ordersops, sql-orderops |
+| infra/estates/fixture-code-git.json:284 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-code-git.json:285 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-code-git.json:286 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-code-git.json:287 | database.windows.net, ordersops, sql-orderops-9696025 |
 | infra/estates/fixture-code-git.json:292 | fixture |
 | infra/estates/fixture-code-git.json:297 | fixture |
 | infra/estates/fixture-code-git.json:308 | fixture |
@@ -1197,7 +1126,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | infra/estates/fixture-code-git.json:416 | fixture |
 | infra/estates/fixture-code-git.json:422 | Warehouse |
 | infra/estates/fixture-code-git.json:430 | fixture |
-| infra/estates/fixture-lineage-proposer.json:14 | database.windows.net, sql-orderops |
+| infra/estates/fixture-lineage-proposer.json:14 | database.windows.net, sql-orderops-9696025 |
 | infra/estates/fixture-lineage-proposer.json:15 | ordersops |
 | infra/estates/fixture-lineage-proposer.json:20 | orderops_investigator |
 | infra/estates/fixture-lineage-proposer.json:24 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
@@ -1217,25 +1146,25 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | infra/estates/fixture-lineage-proposer.json:173 | warehouse |
 | infra/estates/fixture-lineage-proposer.json:182 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture-lineage-proposer.json:188 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
-| infra/estates/fixture-lineage-proposer.json:194 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
-| infra/estates/fixture-lineage-proposer.json:200 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
-| infra/estates/fixture-lineage-proposer.json:215 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-lineage-proposer.json:221 | database.windows.net, ordersops, sql-orderops |
+| infra/estates/fixture-lineage-proposer.json:194 | 149f8d99-1c66-4a0a-9624-759be002bb60, 33618b8d-46eb-4fe7-b80b-122c331260a3, dbo.stock_movements_round_two_20261003 |
+| infra/estates/fixture-lineage-proposer.json:200 | 149f8d99-1c66-4a0a-9624-759be002bb60, 33618b8d-46eb-4fe7-b80b-122c331260a3, dbo.stock_movements_round_two_20261003 |
+| infra/estates/fixture-lineage-proposer.json:215 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-lineage-proposer.json:221 | database.windows.net, ordersops, sql-orderops-9696025 |
 | infra/estates/fixture-lineage-proposer.json:242 | orderops_investigator |
 | infra/estates/fixture-lineage-proposer.json:243 | ordersops |
 | infra/estates/fixture-lineage-proposer.json:252 | ordersops |
 | infra/estates/fixture-lineage-proposer.json:253 | orderops_investigator |
-| infra/estates/fixture-lineage-proposer.json:263 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
-| infra/estates/fixture-lineage-proposer.json:266 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
+| infra/estates/fixture-lineage-proposer.json:263 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de, dbo.load_run_audit |
+| infra/estates/fixture-lineage-proposer.json:266 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de, dbo.load_run_audit |
 | infra/estates/fixture-lineage-proposer.json:272 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture-lineage-proposer.json:275 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture-lineage-proposer.json:369 | fixture |
 | infra/estates/fixture-lineage-proposer.json:383 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture-lineage-proposer.json:384 | 149f8d99-1c66-4a0a-9624-759be002bb60, 57e128c3-6ba0-4aaf-9464-81164ecdc782 |
-| infra/estates/fixture-lineage-proposer.json:405 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-lineage-proposer.json:406 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-lineage-proposer.json:407 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture-lineage-proposer.json:408 | database.windows.net, ordersops, sql-orderops |
+| infra/estates/fixture-lineage-proposer.json:405 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-lineage-proposer.json:406 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-lineage-proposer.json:407 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture-lineage-proposer.json:408 | database.windows.net, ordersops, sql-orderops-9696025 |
 | infra/estates/fixture-lineage-proposer.json:413 | fixture |
 | infra/estates/fixture-lineage-proposer.json:416 | fixture |
 | infra/estates/fixture-lineage-proposer.json:426 | fixture |
@@ -1250,7 +1179,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | infra/estates/fixture-lineage-proposer.json:534 | fixture |
 | infra/estates/fixture-lineage-proposer.json:540 | Warehouse |
 | infra/estates/fixture-lineage-proposer.json:548 | fixture |
-| infra/estates/fixture.json:15 | database.windows.net, sql-orderops |
+| infra/estates/fixture.json:15 | database.windows.net, sql-orderops-9696025 |
 | infra/estates/fixture.json:16 | ordersops |
 | infra/estates/fixture.json:21 | orderops_investigator |
 | infra/estates/fixture.json:25 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
@@ -1270,25 +1199,25 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | infra/estates/fixture.json:174 | warehouse |
 | infra/estates/fixture.json:183 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | infra/estates/fixture.json:189 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
-| infra/estates/fixture.json:195 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
-| infra/estates/fixture.json:201 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
-| infra/estates/fixture.json:216 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture.json:222 | database.windows.net, ordersops, sql-orderops |
+| infra/estates/fixture.json:195 | 149f8d99-1c66-4a0a-9624-759be002bb60, 33618b8d-46eb-4fe7-b80b-122c331260a3, dbo.stock_movements_round_two_20261003 |
+| infra/estates/fixture.json:201 | 149f8d99-1c66-4a0a-9624-759be002bb60, 33618b8d-46eb-4fe7-b80b-122c331260a3, dbo.stock_movements_round_two_20261003 |
+| infra/estates/fixture.json:216 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture.json:222 | database.windows.net, ordersops, sql-orderops-9696025 |
 | infra/estates/fixture.json:243 | orderops_investigator |
 | infra/estates/fixture.json:244 | ordersops |
 | infra/estates/fixture.json:253 | ordersops |
 | infra/estates/fixture.json:254 | orderops_investigator |
-| infra/estates/fixture.json:264 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
-| infra/estates/fixture.json:267 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de |
+| infra/estates/fixture.json:264 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de, dbo.load_run_audit |
+| infra/estates/fixture.json:267 | 149f8d99-1c66-4a0a-9624-759be002bb60, bea673e0-a206-461e-9b2f-1b3b827e80de, dbo.load_run_audit |
 | infra/estates/fixture.json:273 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture.json:276 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture.json:370 | fixture |
 | infra/estates/fixture.json:384 | 149f8d99-1c66-4a0a-9624-759be002bb60, b4871498-bd35-45be-916c-9a642568012c |
 | infra/estates/fixture.json:385 | 149f8d99-1c66-4a0a-9624-759be002bb60, 57e128c3-6ba0-4aaf-9464-81164ecdc782 |
-| infra/estates/fixture.json:406 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture.json:407 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture.json:408 | database.windows.net, ordersops, sql-orderops |
-| infra/estates/fixture.json:409 | database.windows.net, ordersops, sql-orderops |
+| infra/estates/fixture.json:406 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture.json:407 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture.json:408 | database.windows.net, ordersops, sql-orderops-9696025 |
+| infra/estates/fixture.json:409 | database.windows.net, ordersops, sql-orderops-9696025 |
 | infra/estates/fixture.json:414 | fixture |
 | infra/estates/fixture.json:417 | fixture |
 | infra/estates/fixture.json:427 | fixture |
@@ -1353,30 +1282,26 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | infra/llm/quality-gpt54-input-control.json:2 | d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9 |
 | infra/llm/quality-gpt54-reasoning.json:2 | d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9 |
 | infra/llm/quality-gpt54.json:2 | d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9 |
-| infra/metadata/development.json:4 | database.windows.net, sql-orderops |
+| infra/metadata/development.json:4 | database.windows.net, sql-orderops-9696025 |
 | infra/metadata/development.json:5 | ordersops |
 | infra/metadata/development.json:13 | 09cea7db-63ec-41f0-9cf0-872a6dc5c61d |
 | infra/platform/platform.bicep:73 | ba92f5b4-2d11-453d-a403-e96b0029c9fe |
 | infra/platform/platform.bicep:82 | 4633458b-17de-408a-b874-0445c86b69e6 |
-| scripts/audit_directlake_bridge.py:32 | blob.core.windows.net, diaplatform |
+| scripts/audit_directlake_bridge.py:32 | blob.core.windows.net, diaplatformd5dd7d65 |
 | scripts/cloud_job_admission.py:22 | subscriptions/ |
 | scripts/graph_scan_schedule_plan.py:17 | subscriptions/ |
-| scripts/investigator/adapters/collector_schedule.py:10 | job-dia- |
-| scripts/investigator/adapters/collector_schedule.py:28 | job-dia- |
-| scripts/investigator/adapters/collector_schedule.py:66 | job-dia- |
-| scripts/investigator/adapters/runner_deployment.py:42 | job-dia- |
-| scripts/investigator/adapters/runner_deployment.py:44 | job-dia- |
+| scripts/investigator/adapters/collector_schedule.py:10 | job-dia-collectors |
+| scripts/investigator/adapters/collector_schedule.py:28 | job-dia-worker |
+| scripts/investigator/adapters/collector_schedule.py:66 | job-dia-graph-scan, job-dia-worker |
+| scripts/investigator/adapters/runner_deployment.py:42 | job-dia-worker |
+| scripts/investigator/adapters/runner_deployment.py:44 | job-dia-graph-scan, job-dia-worker |
 | scripts/investigator/adapters/runner_deployment.py:79 | subscriptions/ |
-| scripts/investigator/adapters/runner_deployment.py:81 | job-dia- |
+| scripts/investigator/adapters/runner_deployment.py:81 | job-dia-worker |
 | scripts/investigator/adapters/runner_deployment.py:125 | subscriptions/ |
-| scripts/investigator/adapters/runner_graph_schedule.py:15 | job-dia- |
+| scripts/investigator/adapters/runner_graph_schedule.py:15 | job-dia-graph-scan |
 | scripts/investigator/adapters/runner_schedule.py:70 | subscriptions/ |
-| scripts/renew_platform_cost_observation.py:14 | job-dia- |
+| scripts/renew_platform_cost_observation.py:14 | job-dia-collectors, job-dia-graph-scan, job-dia-worker |
 | scripts/renew_platform_cost_observation.py:54 | subscriptions/ |
-| tests/tickets/injections.md:61 | fixture, job-dia- |
-| tests/tickets/injections.md:514 | job-dia- |
-| tests/tickets/round22-definition-contracts.json:1 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 10431c90-79c8-4508-8c17-48ec6d08e638, 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 220708c4-6b51-4be7-ba1a-fb91bbd09e0f, Application load fixture, SemanticModel, blob.core.windows.net, c2fe3283-9d89-4bee-b219-09de50cc38c5, diaplatform, fixture |
-| tests/tickets/scored-set-v1-dev.json:1 | 20261003, Application load fixture, Warehouse, billingapp, dia-investigator, fixture, lakehouse, orderops_investigator, ordersops, semantic model, warehouse |
 
 ## test-only
 
@@ -1628,7 +1553,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/round-six-declared-copy-verification.json:132 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6, 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | scripts/fixtures/round-six-declared-copy-verification.json:134 | a64b0401-bb16-42ec-bb87-64b5ae90a044 |
 | scripts/fixtures/round-six-declared-copy-verification.json:137 | a64b0401-bb16-42ec-bb87-64b5ae90a044 |
-| scripts/fixtures/round-six-declared-copy-verification.json:139 | database.windows.net, sql-orderops |
+| scripts/fixtures/round-six-declared-copy-verification.json:139 | database.windows.net, sql-orderops-9696025 |
 | scripts/fixtures/round-six-declared-copy-verification.json:141 | orderops_investigator |
 | scripts/fixtures/round-six-declared-copy-verification.json:142 | ordersops |
 | scripts/fixtures/round-six-declared-copy-verification.json:144 | 71bf8923-a468-4907-a721-0873a0e4373e |
@@ -1638,22 +1563,59 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/round-six-declared-copy-verification.json:187 | orderops_investigator |
 | scripts/fixtures/round-six-declared-copy-verification.json:188 | ordersops |
 | scripts/fixtures/round-six-declared-copy-verification.json:191 | 71bf8923-a468-4907-a721-0873a0e4373e |
-| scripts/fixtures/round-six-declared-copy-verification.json:236 | database.windows.net, ordersops, sql-orderops |
+| scripts/fixtures/round-six-declared-copy-verification.json:236 | database.windows.net, ordersops, sql-orderops-9696025 |
 | scripts/fixtures/round-six-declared-copy-verification.json:243 | 149f8d99-1c66-4a0a-9624-759be002bb60, 57e128c3-6ba0-4aaf-9464-81164ecdc782 |
-| scripts/fixtures/round-six-declared-copy-verification.json:253 | database.windows.net, ordersops, sql-orderops |
-| scripts/fixtures/round-six-declared-copy-verification.json:258 | 149f8d99-1c66-4a0a-9624-759be002bb60, 20261003, 33618b8d-46eb-4fe7-b80b-122c331260a3 |
+| scripts/fixtures/round-six-declared-copy-verification.json:253 | database.windows.net, ordersops, sql-orderops-9696025 |
+| scripts/fixtures/round-six-declared-copy-verification.json:258 | 149f8d99-1c66-4a0a-9624-759be002bb60, 33618b8d-46eb-4fe7-b80b-122c331260a3, dbo.stock_movements_round_two_20261003 |
 | scripts/fixtures/round-six-declared-copy-verification.json:270 | Warehouse |
 | scripts/fixtures/round-six-declared-copy-verification.json:275 | 20261003 |
 | scripts/fixtures/round-six-declared-copy-verification.json:276 | 20261003 |
 | scripts/fixtures/round-six-declared-copy-verification.json:279 | 20261003 |
 | scripts/fixtures/round-six-declared-copy-verification.json:280 | ordersops |
+| scripts/fixtures/round27-retired-ablations/test_conclusion_contract.py.txt:93 | dbo.Items |
 | scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:9 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:24 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:33 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:44 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:47 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_declared_source_comparison.py.txt:51 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_native_column_target.py.txt:12 | dbo.Rows |
+| scripts/fixtures/round27-retired-ablations/test_native_column_target.py.txt:13 | dbo.Prices |
+| scripts/fixtures/round27-retired-ablations/test_native_column_target.py.txt:54 | dbo.Prices |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:10 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:11 | dbo.Items |
 | scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:24 | warehouse |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:41 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:42 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:43 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:44 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:45 | dbo.Items, dbo.Other |
+| scripts/fixtures/round27-retired-ablations/test_record_arrival_history.py.txt:46 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_record_key_alignment.py.txt:11 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_regression_features.py.txt:90 | dbo.Items, dbo.NotAdmitted |
+| scripts/fixtures/round27-retired-ablations/test_regression_features.py.txt:97 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_regression_features.py.txt:98 | dbo.Items |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:20 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:29 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:50 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:59 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:66 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:80 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:84 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:86 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:102 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:132 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:137 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:157 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:230 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:245 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:250 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:266 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:338 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_catalog_resolution.py.txt:353 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round26_terminal_findings.py.txt:32 | dbo.Rows |
+| scripts/fixtures/round27-retired-ablations/test_round26_terminal_findings.py.txt:85 | dbo.Rows |
+| scripts/fixtures/round27-retired-ablations/test_round26_terminal_findings.py.txt:102 | dbo.Rows |
 | scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:15 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:22 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:31 | fixture |
@@ -1671,6 +1633,11 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/round27-retired-ablations/test_round27_analysis_projection.py.txt:93 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:5 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:10 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:20 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:29 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:34 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:39 | Billing Overview |
+| scripts/fixtures/round27-retired-ablations/test_round27_candidate_native_pruning.py.txt:45 | Billing Overview |
 | scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:9 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:16 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:19 | fixture |
@@ -1681,11 +1648,18 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:43 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:46 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_consistency_feedback.py.txt:49 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_round27_native_table_reference.py.txt:11 | dbo.Visits |
+| scripts/fixtures/round27-retired-ablations/test_round27_native_table_reference.py.txt:13 | dbo.LoadAudit |
 | scripts/fixtures/round27-retired-ablations/test_round27_native_table_reference.py.txt:58 | Warehouse |
 | scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:6 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:8 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:25 | fixture |
 | scripts/fixtures/round27-retired-ablations/test_round27_scope_verdict.py.txt:32 | fixture |
+| scripts/fixtures/round27-retired-ablations/test_unicode_query_literals.py.txt:14 | app.Readers |
+| scripts/fixtures/round27-retired-ablations/test_unicode_query_literals.py.txt:22 | app.Readers |
+| scripts/fixtures/round27-retired-ablations/test_unicode_query_literals.py.txt:25 | app.Readers |
+| scripts/fixtures/round27-retired-ablations/test_unicode_query_literals.py.txt:26 | app.Unknown |
+| scripts/fixtures/round27-retired-ablations/test_unicode_query_literals.py.txt:33 | app.Readers |
 | scripts/fixtures/round_fourteen/false-duplicate-report-questions.json:4 | workspace/ |
 | scripts/fixtures/round_six_i_empty_same_referent.json:2 | 4b2965df-b9cc-49e7-9645-9e2938151f7b |
 | scripts/fixtures/round_six_i_empty_same_referent.json:5 | fixture, warehouse |
@@ -1702,7 +1676,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/round_ten/wrong-cell-sealed-excerpt.json:75 | 149f8d99-1c66-4a0a-9624-759be002bb60, 3484a2bc-98c5-4cef-be5c-a6215484075e |
 | scripts/fixtures/round_ten/wrong-cell-sealed-excerpt.json:77 | 149f8d99-1c66-4a0a-9624-759be002bb60, 95b6d455-9150-4738-983d-ca6e7e0f3719 |
 | scripts/fixtures/sql_group_binding.json:2 | 39503ca8-e318-493f-a6d1-201563c0b444 |
-| scripts/fixtures/sql_group_binding.json:4 | warehouse |
+| scripts/fixtures/sql_group_binding.json:4 | app.inventory_adjustments_e1b8e1, app.stock_movements_e1b8e1, warehouse |
 | scripts/fixtures/sql_group_binding.json:8 | warehouse |
 | scripts/fixtures/synthesis_failures_226.json:6 | 17095597-a4ce-4b70-a918-a4036302a91c, 31e40b4c-fcbf-4f49-950d-ddc6cb385d2f, 34f5188b-c6f8-46aa-b12c-1b54d8862be1, 3572cdc8-30ee-405c-a418-7dbb621af21d, e546c474-87d7-4c6f-a2ce-97800c8a0353 |
 | scripts/fixtures/synthesis_failures_226.json:8 | 17095597-a4ce-4b70-a918-a4036302a91c |
@@ -1742,6 +1716,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/synthesis_failures_226.json:89 | 51fbcb22-d034-4c3c-b48f-6215feda523f |
 | scripts/fixtures/synthesis_failures_226.json:90 | 55945f94-a8f6-45a9-bb66-22e91b4eaea5 |
 | scripts/fixtures/synthesis_failures_226.json:91 | 98347cc7-9997-4d1d-85dc-181e37046349 |
+| scripts/fixtures/synthesis_failures_226.json:99 | app.inventory_adjustments_e1b8e1, app.stock_movements_e1b8e1 |
 | scripts/fixtures/synthesis_failures_226.json:107 | 51fbcb22-d034-4c3c-b48f-6215feda523f |
 | scripts/fixtures/synthesis_failures_226.json:108 | 55945f94-a8f6-45a9-bb66-22e91b4eaea5 |
 | scripts/fixtures/synthesis_failures_226.json:109 | 98347cc7-9997-4d1d-85dc-181e37046349 |
@@ -1792,8 +1767,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/synthesis_failures_226.json:304 | bb367a25-a0b1-484e-95f9-3b173471caba |
 | scripts/fixtures/synthesis_failures_226.json:305 | 95becf16-9e49-4a5b-833e-63d5026f8cb5 |
 | scripts/fixtures/synthesis_failures_226.json:309 | warehouse |
+| scripts/fixtures/synthesis_failures_226.json:310 | app.stock_movements_e1b8e1 |
 | scripts/fixtures/synthesis_failures_226.json:313 | 51e7ec42-ef1f-4d00-b02e-ee022e9049b1 |
-| scripts/fixtures/synthesis_failures_226.json:318 | warehouse |
+| scripts/fixtures/synthesis_failures_226.json:318 | app.inventory_adjustments_e1b8e1, app.stock_movements_e1b8e1, warehouse |
 | scripts/fixtures/synthesis_failures_226.json:320 | 292489c6-80c3-4be8-97f2-1c65b6d1f3e6 |
 | scripts/fixtures/synthesis_failures_226.json:321 | c0b0ebc9-b7e0-465b-8790-7221187a05fc |
 | scripts/fixtures/synthesis_failures_226.json:322 | 8f190552-83a1-4bd1-80c1-a7014de81966 |
@@ -1802,6 +1778,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/fixtures/synthesis_failures_226.json:329 | 8f190552-83a1-4bd1-80c1-a7014de81966 |
 | scripts/fixtures/synthesis_failures_226.json:330 | 97127552-8e69-4316-9950-821b22dd1cbb |
 | scripts/fixtures/synthesis_failures_226.json:331 | aaa5dc3e-abea-4768-819d-def2c7390daa |
+| scripts/fixtures/synthesis_failures_226.json:334 | app.inventory_adjustments_e1b8e1, app.stock_movements_e1b8e1 |
 | scripts/fixtures/synthesis_failures_226.json:336 | 51e7ec42-ef1f-4d00-b02e-ee022e9049b1 |
 | scripts/fixtures/synthesis_failures_226.json:344 | 51e7ec42-ef1f-4d00-b02e-ee022e9049b1 |
 | scripts/fixtures/synthesis_failures_226.json:349 | f33c1f05-91e5-482a-8357-36f182177915 |
@@ -1833,9 +1810,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_acceptance_context.py:44 | fixture |
 | scripts/test_acceptance_context.py:47 | fixture |
 | scripts/test_acceptance_context.py:49 | fixture |
-| scripts/test_access_budget_policy.py:23 | id-dia |
-| scripts/test_access_budget_policy.py:24 | id-dia |
-| scripts/test_access_budget_policy.py:28 | id-dia, postgres.database.azure.com |
+| scripts/test_access_budget_policy.py:23 | id-dia-worker |
+| scripts/test_access_budget_policy.py:24 | id-dia-worker |
+| scripts/test_access_budget_policy.py:28 | id-dia-worker, postgres.database.azure.com |
 | scripts/test_access_check.py:17 | fixture |
 | scripts/test_access_check.py:40 | fixture |
 | scripts/test_access_check.py:70 | fixture |
@@ -1914,6 +1891,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_application_quantity.py:13 | fixture |
 | scripts/test_application_quantity.py:14 | fixture |
 | scripts/test_application_quantity.py:18 | Lakehouse |
+| scripts/test_application_quantity.py:30 | dbo.new_fact |
 | scripts/test_application_quantity.py:81 | fixture |
 | scripts/test_application_quantity.py:105 | fixture |
 | scripts/test_approved_categorical_replay.py:17 | fixture |
@@ -1989,6 +1967,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_business_vocabulary.py:96 | fixture |
 | scripts/test_business_vocabulary.py:110 | fixture |
 | scripts/test_business_vocabulary.py:117 | fixture |
+| scripts/test_business_vocabulary.py:123 | app.Sales |
 | scripts/test_business_vocabulary.py:125 | 163ce520-ec47-4824-975c-96f5c749205f |
 | scripts/test_calculation_intake.py:306 | warehouse |
 | scripts/test_calculation_intake.py:307 | warehouse |
@@ -1996,12 +1975,16 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_calculation_intake.py:342 | warehouse |
 | scripts/test_calculation_intake.py:345 | warehouse |
 | scripts/test_calculation_intake.py:346 | warehouse |
+| scripts/test_candidate_investigation.py:76 | dbo.Items |
+| scripts/test_candidate_investigation.py:77 | dbo.Items |
 | scripts/test_capability_evidence.py:12 | fixture |
 | scripts/test_capability_evidence.py:17 | fixture |
 | scripts/test_capture_publication_retry.py:12 | fixture |
 | scripts/test_capture_publication_retry.py:20 | fixture |
 | scripts/test_capture_publication_retry.py:30 | fixture |
 | scripts/test_capture_transaction_publication.py:14 | fixture |
+| scripts/test_catalog_gateway.py:14 | dbo.movements, dbo.rates |
+| scripts/test_catalog_gateway.py:40 | dbo.movements |
 | scripts/test_catalog_scans.py:10 | fixture |
 | scripts/test_catalog_scans.py:19 | fixture |
 | scripts/test_catalog_scans.py:20 | fixture |
@@ -2062,8 +2045,11 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_claim_legacy_execution.py:9 | fixture |
 | scripts/test_claim_legacy_execution.py:10 | fixture |
 | scripts/test_claim_policy_repair.py:31 | 11111111-1111-4111-8111-111111111111, 22222222-2222-4222-8222-222222222222 |
-| scripts/test_claim_policy_repair.py:41 | 33333333-3333-4333-8333-333333333333 |
+| scripts/test_claim_policy_repair.py:35 | app.powerbi |
+| scripts/test_claim_policy_repair.py:41 | 33333333-3333-4333-8333-333333333333, app.powerbi |
 | scripts/test_claim_projection.py:16 | 11111111-1111-1111-1111-111111111111 |
+| scripts/test_claim_projection.py:58 | app.example |
+| scripts/test_claim_projection.py:61 | app.example |
 | scripts/test_claim_reference.py:3 | fixture |
 | scripts/test_claim_reference.py:10 | fixture |
 | scripts/test_claim_reference.py:11 | fixture |
@@ -2201,11 +2187,12 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_code_verification.py:122 | workspace/ |
 | scripts/test_collected_refresh_consumer.py:11 | fixture |
 | scripts/test_collector_schedule.py:12 | fixture |
-| scripts/test_collector_schedule.py:23 | job-dia-, subscriptions/ |
+| scripts/test_collector_schedule.py:23 | job-dia-worker, subscriptions/ |
 | scripts/test_collector_schedule.py:37 | fixture |
-| scripts/test_collector_schedule.py:58 | job-dia- |
+| scripts/test_collector_schedule.py:58 | job-dia-graph-scan, job-dia-worker |
 | scripts/test_comparison_gates.py:11 | fixture |
 | scripts/test_comparison_gates.py:17 | fixture |
+| scripts/test_conclusion_contract.py:87 | dbo.Items |
 | scripts/test_connection_registry.py:17 | workspace/ |
 | scripts/test_connection_registry.py:21 | workspace/ |
 | scripts/test_connection_registry.py:22 | Lakehouse, workspace/ |
@@ -2222,6 +2209,12 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_continuation_catalog.py:31 | warehouse |
 | scripts/test_copy_route_readiness.py:11 | fixture |
 | scripts/test_copy_route_readiness.py:12 | fixture |
+| scripts/test_cross_layer_investigation.py:103 | app.orders |
+| scripts/test_cross_layer_investigation.py:104 | app.payments |
+| scripts/test_cross_layer_investigation.py:105 | app.refunds |
+| scripts/test_cross_layer_investigation.py:106 | app.orders |
+| scripts/test_cross_layer_investigation.py:107 | app.payments |
+| scripts/test_cross_layer_investigation.py:108 | app.refunds |
 | scripts/test_cross_layer_investigation.py:122 | lakehouse, semantic_model |
 | scripts/test_dax_self_report_composition.py:6 | fixture |
 | scripts/test_dax_self_report_composition.py:9 | fixture |
@@ -2232,13 +2225,25 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_declared_lineage_round_trip.py:46 | fixture |
 | scripts/test_declared_lineage_round_trip.py:47 | fixture |
 | scripts/test_declared_lineage_round_trip.py:55 | 20261003 |
-| scripts/test_declared_load_audit.py:52 | Warehouse |
+| scripts/test_declared_load_audit.py:49 | dbo.audit |
+| scripts/test_declared_load_audit.py:52 | Warehouse, dbo.audit |
 | scripts/test_declared_load_audit.py:53 | Warehouse |
 | scripts/test_declared_load_audit.py:55 | Warehouse |
 | scripts/test_declared_load_audit.py:61 | Warehouse |
 | scripts/test_declared_load_audit.py:72 | lakehouse |
 | scripts/test_declared_load_audit.py:74 | Lakehouse |
 | scripts/test_declared_load_audit.py:79 | LAKEHOUSE |
+| scripts/test_declared_pointer.py:10 | dbo.events |
+| scripts/test_declared_pointer.py:11 | dbo.events |
+| scripts/test_declared_pointer.py:14 | dbo.events |
+| scripts/test_declared_pointer.py:18 | DBO.EVENTS |
+| scripts/test_declared_pointer.py:19 | dbo.events |
+| scripts/test_declared_pointer.py:24 | dbo.events |
+| scripts/test_declared_pointer.py:28 | dbo.missing |
+| scripts/test_declared_pointer.py:32 | dbo.events |
+| scripts/test_declared_pointer.py:41 | dbo.events |
+| scripts/test_declared_pointer.py:42 | dbo.events |
+| scripts/test_declared_pointer.py:47 | dbo.events |
 | scripts/test_declared_reproduction.py:416 | fixture |
 | scripts/test_declared_reproduction.py:417 | fixture |
 | scripts/test_declared_reproduction.py:430 | fixture |
@@ -2257,9 +2262,10 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_delivery_transports.py:54 | fixture |
 | scripts/test_delivery_transports.py:60 | fixture |
 | scripts/test_delivery_transports.py:71 | fixture |
-| scripts/test_demo_admission.py:58 | 11111111-1111-1111-1111-111111111111, job-dia-, subscriptions/ |
+| scripts/test_demo_admission.py:58 | 11111111-1111-1111-1111-111111111111, job-dia-worker, subscriptions/ |
 | scripts/test_demo_launcher.py:14 | workspace/ |
 | scripts/test_demo_launcher.py:33 | workspace/ |
+| scripts/test_demo_launcher.py:63 | app.call_args |
 | scripts/test_dependency_context.py:15 | fixture |
 | scripts/test_dependency_context.py:20 | fixture |
 | scripts/test_dependency_context.py:41 | fixture |
@@ -2288,7 +2294,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_directlake_bridge.py:14 | lakehouse |
 | scripts/test_directlake_bridge.py:17 | SemanticModel |
 | scripts/test_directlake_bridge.py:19 | Lakehouse, Warehouse, lakehouse |
-| scripts/test_directlake_bridge.py:20 | Lakehouse, Warehouse, lakehouse |
+| scripts/test_directlake_bridge.py:20 | Lakehouse, Warehouse, dbo.physical_table, lakehouse |
 | scripts/test_directlake_bridge.py:22 | Lakehouse, Warehouse, lakehouse |
 | scripts/test_directlake_bridge.py:26 | warehouse |
 | scripts/test_directlake_bridge.py:27 | fixture |
@@ -2329,6 +2335,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_discovered_source_connection.py:16 | Lakehouse |
 | scripts/test_discovered_source_connection.py:25 | database.windows.net |
 | scripts/test_discovered_source_connection.py:34 | fixture |
+| scripts/test_discovered_source_connection.py:38 | dbo.new_fact |
 | scripts/test_discovered_source_connection.py:44 | database.windows.net |
 | scripts/test_discovered_source_connection.py:54 | database.windows.net |
 | scripts/test_discovered_source_connection.py:55 | database.windows.net |
@@ -2354,11 +2361,13 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_enterprise_discovery.py:72 | Warehouse |
 | scripts/test_enterprise_discovery.py:75 | warehouse |
 | scripts/test_enterprise_discovery.py:80 | warehouse |
-| scripts/test_enterprise_discovery.py:82 | Warehouse |
+| scripts/test_enterprise_discovery.py:82 | Warehouse, dbo.events |
 | scripts/test_enterprise_discovery.py:87 | warehouse |
 | scripts/test_enterprise_discovery.py:88 | Warehouse |
+| scripts/test_enterprise_discovery.py:89 | dbo.audit |
 | scripts/test_enterprise_discovery.py:93 | warehouse |
 | scripts/test_enterprise_discovery.py:98 | warehouse |
+| scripts/test_enterprise_discovery.py:99 | dbo.audit |
 | scripts/test_enterprise_discovery.py:101 | Warehouse |
 | scripts/test_enterprise_discovery.py:102 | Warehouse |
 | scripts/test_enterprise_discovery.py:105 | warehouse |
@@ -2397,12 +2406,16 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_estate_graph_static.py:53 | SemanticModel |
 | scripts/test_estate_graph_static.py:61 | Warehouse |
 | scripts/test_estate_graph_static.py:70 | warehouse |
-| scripts/test_estate_graph_static.py:71 | Warehouse |
-| scripts/test_estate_graph_static.py:72 | Warehouse |
+| scripts/test_estate_graph_static.py:71 | Warehouse, app.source |
+| scripts/test_estate_graph_static.py:72 | Warehouse, app.view |
+| scripts/test_estate_graph_static.py:73 | app.source, app.view |
 | scripts/test_estate_graph_static.py:74 | Warehouse |
 | scripts/test_estate_graph_static.py:92 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_estate_graph_static.py:98 | SemanticModel |
 | scripts/test_estate_graph_static.py:101 | semanticmodel |
+| scripts/test_estate_graph_static.py:135 | app.source |
+| scripts/test_estate_graph_static.py:136 | app.source, app.view |
+| scripts/test_estate_graph_static.py:145 | app.proc |
 | scripts/test_estate_graph_static.py:160 | SemanticModel |
 | scripts/test_estate_graph_static.py:164 | Lakehouse |
 | scripts/test_estate_graph_static.py:173 | SemanticModel |
@@ -2431,7 +2444,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_estate_manifest.py:264 | fixture |
 | scripts/test_estate_manifest.py:267 | fixture |
 | scripts/test_estate_manifest.py:305 | fixture |
-| scripts/test_estate_neutrality.py:15 | billingapp, ordersops, sql-orderops |
+| scripts/test_estate_neutrality.py:15 | billingapp, ordersops, sql-orderops-9696025 |
 | scripts/test_estate_neutrality.py:16 | orderops_investigator, skynwhy.com, warehouse |
 | scripts/test_estate_neutrality.py:25 | Fixture |
 | scripts/test_estate_neutrality.py:79 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
@@ -2452,9 +2465,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_evidence_synthesis.py:399 | 0dd49072-a9ed-4acb-8f82-7755cd446d6a |
 | scripts/test_evidence_synthesis.py:408 | fixture |
 | scripts/test_evidence_synthesis.py:409 | fixture |
-| scripts/test_facts_ledger.py:34 | id-dia |
-| scripts/test_facts_ledger.py:35 | id-dia |
-| scripts/test_facts_ledger.py:207 | id-dia |
+| scripts/test_facts_ledger.py:34 | id-dia-worker |
+| scripts/test_facts_ledger.py:35 | id-dia-worker |
+| scripts/test_facts_ledger.py:207 | id-dia-worker |
 | scripts/test_federated_reader.py:31 | fb60f99c-7a34-4190-8149-302f77469936 |
 | scripts/test_federated_sql_principal.py:12 | 11111111-1111-4111-8111-111111111111 |
 | scripts/test_federated_sql_principal.py:13 | 22222222-2222-4222-8222-222222222222 |
@@ -2473,6 +2486,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_figure_same_referent.py:80 | fixture |
 | scripts/test_filter_translation_forms.py:7 | fixture |
 | scripts/test_filter_translation_forms.py:12 | fixture |
+| scripts/test_filter_translation_forms.py:49 | dbo.Items |
+| scripts/test_filter_translation_forms.py:51 | dbo.Items |
+| scripts/test_filter_translation_forms.py:58 | dbo.Items |
 | scripts/test_fixture_apply.py:4 | fixture |
 | scripts/test_fixture_apply.py:5 | fixture |
 | scripts/test_fixture_apply.py:6 | fixture |
@@ -2537,10 +2553,16 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_fixture_model_autosync.py:4 | 149f8d99-1c66-4a0a-9624-759be002bb60 |
 | scripts/test_fixture_model_autosync.py:5 | 3484a2bc-98c5-4cef-be5c-a6215484075e |
 | scripts/test_fixture_model_autosync.py:6 | 0c89889c-6fe6-49ab-91e9-4b00a51070e6 |
+| scripts/test_fixture_model_autosync.py:44 | app.powerbi |
 | scripts/test_fixture_pipeline_schedule.py:2 | fixture |
 | scripts/test_fixture_pipeline_schedule.py:4 | 149f8d99-1c66-4a0a-9624-759be002bb60, 659ea59a-256f-4673-a661-0d6f3359d9be, b4871498-bd35-45be-916c-9a642568012c |
 | scripts/test_fixture_reader.py:7 | fixture |
 | scripts/test_fixture_reader.py:10 | 11111111-1111-1111-1111-111111111111 |
+| scripts/test_fixture_reader.py:17 | app.get_accounts |
+| scripts/test_fixture_reader.py:22 | app.acquire_token_silent |
+| scripts/test_fixture_reader.py:28 | app.acquire_token_interactive |
+| scripts/test_fixture_reader.py:38 | app.get_accounts |
+| scripts/test_fixture_reader.py:40 | app.acquire_token_interactive |
 | scripts/test_fixture_reader.py:53 | fixture |
 | scripts/test_fixture_reader.py:55 | fixture |
 | scripts/test_fixture_rebuild.py:5 | fixture |
@@ -2582,18 +2604,23 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_fixture_source_temporal.py:12 | warehouse |
 | scripts/test_fixture_source_temporal.py:41 | fixture |
 | scripts/test_fixture_source_temporal.py:53 | 20261003 |
-| scripts/test_fixture_source_temporal.py:56 | 20261003 |
-| scripts/test_fixture_source_temporal.py:57 | 20261003 |
-| scripts/test_fixture_source_temporal.py:58 | 20261003 |
-| scripts/test_fixture_source_temporal.py:59 | 20261003 |
+| scripts/test_fixture_source_temporal.py:55 | app.other_table |
+| scripts/test_fixture_source_temporal.py:56 | app.copy, app.stock_movements_round_two_20261003 |
+| scripts/test_fixture_source_temporal.py:57 | app.stock_movements_round_two_20261003 |
+| scripts/test_fixture_source_temporal.py:58 | app.stock_movements_round_two_20261003 |
+| scripts/test_fixture_source_temporal.py:59 | app.stock_movements_round_two_20261003 |
 | scripts/test_fixture_source_temporal.py:63 | 20261003 |
-| scripts/test_fixture_source_temporal.py:64 | 20261003 |
+| scripts/test_fixture_source_temporal.py:64 | app.stock_movements_round_two_20261003 |
+| scripts/test_fixture_source_temporal.py:66 | app.other_table |
+| scripts/test_fixture_source_temporal.py:72 | app.stock_movements_round22_history |
 | scripts/test_fixture_source_temporal.py:75 | 20261003 |
 | scripts/test_fixture_source_temporal.py:90 | fixture |
 | scripts/test_fixture_source_temporal.py:101 | fixture |
 | scripts/test_fixture_source_temporal.py:108 | fixture |
 | scripts/test_fixture_source_temporal.py:115 | fixture |
 | scripts/test_flexible_investigation.py:6 | fixture |
+| scripts/test_flexible_investigation.py:152 | dbo.secret |
+| scripts/test_flexible_investigation.py:175 | dbo.udf |
 | scripts/test_flexible_investigation.py:325 | fixture |
 | scripts/test_flexible_investigation.py:326 | fixture |
 | scripts/test_flexible_investigation.py:385 | fixture |
@@ -2658,20 +2685,27 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_graph_code_columns.py:18 | Lakehouse |
 | scripts/test_graph_code_columns.py:35 | warehouse |
 | scripts/test_graph_code_columns.py:37 | Warehouse, warehouse |
-| scripts/test_graph_code_columns.py:38 | Warehouse |
+| scripts/test_graph_code_columns.py:38 | Warehouse, app.source |
+| scripts/test_graph_code_columns.py:41 | app.source, app.v |
+| scripts/test_graph_code_columns.py:42 | app.destination, app.v |
+| scripts/test_graph_code_columns.py:49 | app.p, app.source |
 | scripts/test_graph_code_columns.py:54 | warehouse |
+| scripts/test_graph_code_columns.py:55 | app.source, app.v |
+| scripts/test_graph_code_columns.py:57 | app.v |
 | scripts/test_graph_code_columns.py:58 | Warehouse |
+| scripts/test_graph_code_columns.py:60 | app.v, dbo.source |
 | scripts/test_graph_code_columns.py:61 | Lakehouse |
 | scripts/test_graph_code_columns.py:62 | Lakehouse |
 | scripts/test_graph_code_columns.py:63 | Lakehouse |
 | scripts/test_graph_code_columns.py:70 | Warehouse |
 | scripts/test_graph_code_columns.py:75 | Warehouse |
+| scripts/test_graph_container_schema.py:10 | dbo.t |
 | scripts/test_graph_container_schema.py:12 | Lakehouse |
-| scripts/test_graph_container_schema.py:13 | Lakehouse |
+| scripts/test_graph_container_schema.py:13 | Lakehouse, dbo.t |
 | scripts/test_graph_container_schema.py:14 | Lakehouse |
 | scripts/test_graph_container_schema.py:15 | Warehouse |
 | scripts/test_graph_container_schema.py:23 | Lakehouse |
-| scripts/test_graph_container_schema.py:28 | Lakehouse |
+| scripts/test_graph_container_schema.py:28 | Lakehouse, dbo.hidden |
 | scripts/test_graph_container_schema.py:58 | lakehouse |
 | scripts/test_graph_dax_http.py:45 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_graph_dax_http.py:47 | 00000000-0000-0000-0000-000000000001 |
@@ -2688,6 +2722,8 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_graph_interpreter_spans.py:12 | fixture |
 | scripts/test_graph_interpreter_spans.py:13 | fixture |
 | scripts/test_graph_interpreter_spans.py:14 | fixture |
+| scripts/test_graph_interpreter_spans.py:27 | app.source |
+| scripts/test_graph_interpreter_spans.py:32 | app.source |
 | scripts/test_graph_part_b.py:13 | fixture |
 | scripts/test_graph_part_b.py:93 | fixture |
 | scripts/test_graph_part_b.py:102 | fixture |
@@ -2700,6 +2736,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_graph_safe_failures.py:33 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_graph_scan_schedule_plan.py:9 | 00000000-0000-0000-0000-000000000001, subscriptions/ |
 | scripts/test_graph_scan_schedule_plan.py:27 | subscriptions/ |
+| scripts/test_graph_sql_changes.py:12 | dbo.Revenue |
 | scripts/test_graph_sql_changes.py:18 | Warehouse |
 | scripts/test_graph_sql_changes.py:40 | Warehouse |
 | scripts/test_graph_value_verification.py:9 | fixture |
@@ -2764,8 +2801,10 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_input_reference.py:7 | fixture |
 | scripts/test_input_reference.py:9 | 11111111-1111-4111-8111-111111111111 |
 | scripts/test_input_reference.py:10 | 22222222-2222-4222-8222-222222222222 |
+| scripts/test_input_reference.py:12 | app.powerbi |
 | scripts/test_input_reference.py:16 | fixture |
 | scripts/test_input_reference.py:70 | 33333333-3333-4333-8333-333333333333 |
+| scripts/test_input_reference.py:80 | app.powerbi |
 | scripts/test_installation_secrets.py:35 | workspace/ |
 | scripts/test_intake_candidates.py:12 | warehouse |
 | scripts/test_intake_candidates.py:27 | warehouse |
@@ -2951,10 +2990,10 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_intake_name_resolution.py:240 | fixture |
 | scripts/test_intake_name_resolution.py:243 | fixture |
 | scripts/test_intake_name_resolution.py:248 | Warehouse |
-| scripts/test_intake_numeral_roles.py:15 | 20261003, Application load fixture, fixture |
-| scripts/test_intake_numeral_roles.py:16 | 20261003, Application load fixture |
-| scripts/test_intake_numeral_roles.py:25 | 20261003, Application load fixture |
-| scripts/test_intake_numeral_roles.py:26 | 20261003, Application load fixture |
+| scripts/test_intake_numeral_roles.py:15 | Application load fixture 20261003, fixture |
+| scripts/test_intake_numeral_roles.py:16 | Application load fixture 20261003 |
+| scripts/test_intake_numeral_roles.py:25 | Application load fixture 20261003 |
+| scripts/test_intake_numeral_roles.py:26 | Application load fixture 20261003 |
 | scripts/test_intake_numeral_roles.py:80 | 20261003 |
 | scripts/test_intake_questionnaire.py:5 | fixture |
 | scripts/test_intake_questionnaire.py:9 | workspace/ |
@@ -3044,6 +3083,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_judge_composition_retry.py:12 | fixture |
 | scripts/test_keyed_readback.py:10 | fixture |
 | scripts/test_keyed_readback.py:22 | fixture |
+| scripts/test_keyed_readback.py:227 | app.Sales |
 | scripts/test_keyed_readback.py:239 | fixture |
 | scripts/test_keyed_readback.py:242 | fixture |
 | scripts/test_keyed_readback.py:243 | fixture |
@@ -3052,11 +3092,14 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_keyed_readback.py:297 | fixture |
 | scripts/test_layer_roles.py:12 | semantic model |
 | scripts/test_layer_roles.py:13 | semantic model |
+| scripts/test_layer_roles.py:43 | app.stock_movements |
 | scripts/test_ledger_investigator.py:15 | warehouse |
 | scripts/test_ledger_investigator.py:22 | fixture |
 | scripts/test_ledger_investigator.py:53 | warehouse |
 | scripts/test_ledger_investigator.py:66 | warehouse |
+| scripts/test_ledger_investigator.py:88 | dbo.records |
 | scripts/test_ledger_investigator.py:97 | warehouse |
+| scripts/test_ledger_investigator.py:98 | dbo.source_history |
 | scripts/test_ledger_investigator.py:106 | warehouse |
 | scripts/test_ledger_investigator.py:370 | warehouse |
 | scripts/test_ledger_investigator.py:374 | warehouse |
@@ -3083,7 +3126,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_lineage_audit.py:17 | fixture |
 | scripts/test_lineage_audit.py:22 | fixture |
 | scripts/test_lineage_audit.py:28 | fixture |
+| scripts/test_lineage_audit.py:53 | app.orders |
 | scripts/test_lineage_audit.py:54 | Lakehouse, lakehouse, workspace/ |
+| scripts/test_lineage_audit.py:55 | app.orders |
 | scripts/test_lineage_audit.py:56 | lakehouse |
 | scripts/test_lineage_limits.py:4 | fixture |
 | scripts/test_lineage_limits.py:9 | fixture |
@@ -3093,6 +3138,31 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_lineage_runtime.py:2 | fixture |
 | scripts/test_lineage_runtime.py:7 | fixture |
 | scripts/test_live_gateway.py:13 | workspace/ |
+| scripts/test_live_gateway.py:17 | dbo.Customers, dbo.Sales |
+| scripts/test_live_gateway.py:75 | dbo.Sales |
+| scripts/test_live_gateway.py:76 | dbo.Customers, dbo.Sales |
+| scripts/test_live_gateway.py:77 | dbo.New, dbo.Sales |
+| scripts/test_live_gateway.py:78 | dbo.Sales |
+| scripts/test_live_gateway.py:79 | dbo.New, dbo.Sales |
+| scripts/test_live_gateway.py:80 | dbo.Sales |
+| scripts/test_live_gateway.py:81 | dbo.Sales |
+| scripts/test_live_gateway.py:83 | dbo.Sales |
+| scripts/test_live_gateway.py:84 | dbo.Sales, dbo.external_function |
+| scripts/test_live_gateway.py:85 | dbo.Secrets |
+| scripts/test_live_gateway.py:90 | dbo.Sales |
+| scripts/test_live_gateway.py:91 | dbo.Sales |
+| scripts/test_live_gateway.py:92 | dbo.Customers, dbo.Sales |
+| scripts/test_live_gateway.py:98 | dbo.Sales |
+| scripts/test_live_gateway.py:100 | dbo.Sales |
+| scripts/test_live_gateway.py:101 | dbo.Sales |
+| scripts/test_live_gateway.py:105 | dbo.Sales |
+| scripts/test_live_gateway.py:106 | dbo.Customers, dbo.Sales |
+| scripts/test_live_gateway.py:107 | dbo.Secrets |
+| scripts/test_live_gateway.py:140 | dbo.Sales |
+| scripts/test_live_gateway.py:146 | dbo.Sales |
+| scripts/test_live_gateway.py:147 | dbo.Sales |
+| scripts/test_live_gateway.py:150 | dbo.Sales |
+| scripts/test_live_gateway.py:168 | dbo.Sales |
 | scripts/test_live_gateway.py:175 | blob.core.windows.net |
 | scripts/test_live_gateway.py:177 | postgres.database.azure.com |
 | scripts/test_live_gateway.py:183 | postgres.database.azure.com |
@@ -3133,6 +3203,8 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_local_hospital_generator.py:52 | lakehouse |
 | scripts/test_local_hospital_generator.py:53 | warehouse |
 | scripts/test_local_hospital_generator.py:61 | warehouse |
+| scripts/test_local_hospital_generator.py:67 | dbo.load_watermark |
+| scripts/test_local_hospital_generator.py:68 | dbo.load_watermark |
 | scripts/test_local_hospital_generator.py:75 | d237966c-b0b6-4123-bc89-e69643f4bf1f |
 | scripts/test_local_hospital_generator.py:87 | fixture |
 | scripts/test_local_hospital_generator.py:89 | HealthNet |
@@ -3165,6 +3237,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_local_hospital_generator.py:198 | hn_billing |
 | scripts/test_local_hospital_generator.py:246 | warehouse |
 | scripts/test_local_hospital_generator.py:247 | warehouse |
+| scripts/test_local_hospital_generator.py:250 | hn_raw |
 | scripts/test_local_hospital_generator.py:255 | hn_dw |
 | scripts/test_local_hospital_generator.py:258 | hn_billing |
 | scripts/test_local_hospital_generator.py:264 | lakehouse, warehouse |
@@ -3186,11 +3259,15 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_managed_identity_auth.py:53 | cfa8b339-82a2-471a-a3c9-0fc0be7a4093 |
 | scripts/test_managed_identity_auth.py:85 | database.windows.net |
 | scripts/test_managed_identity_auth.py:105 | database.windows.net |
+| scripts/test_managed_identity_auth.py:156 | dbo.synthetic |
 | scripts/test_managed_identity_auth.py:217 | fixture |
 | scripts/test_managed_sql_worker.py:11 | 11111111-1111-1111-1111-111111111111 |
 | scripts/test_managed_sql_worker.py:12 | 22222222-2222-2222-2222-222222222222, 33333333-3333-3333-3333-333333333333 |
 | scripts/test_managed_sql_worker.py:36 | database.windows.net |
+| scripts/test_managed_sql_worker.py:37 | dbo.synthetic |
 | scripts/test_managed_worker_replay.py:14 | database.windows.net |
+| scripts/test_managed_worker_replay.py:16 | dbo.synthetic |
+| scripts/test_managed_worker_replay.py:25 | dbo.synthetic |
 | scripts/test_mechanism_subject_grammar.py:5 | fixture |
 | scripts/test_mechanism_subject_grammar.py:13 | fixture |
 | scripts/test_mechanism_subject_grammar.py:18 | fixture |
@@ -3207,12 +3284,17 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_metadata_connectors.py:140 | lakehouse |
 | scripts/test_metadata_connectors.py:141 | lakehouse |
 | scripts/test_metadata_inventory.py:21 | Lakehouse |
-| scripts/test_metadata_inventory.py:24 | Lakehouse |
+| scripts/test_metadata_inventory.py:24 | Lakehouse, app.orders |
 | scripts/test_metadata_inventory.py:90 | SemanticModel |
 | scripts/test_metric_visual_checks.py:3 | fixture |
 | scripts/test_metric_visual_checks.py:10 | fixture |
 | scripts/test_metric_visual_checks.py:36 | fixture |
+| scripts/test_microsoft_copy_mapping.py:9 | app.events |
 | scripts/test_microsoft_copy_mapping.py:11 | Lakehouse |
+| scripts/test_microsoft_copy_mapping.py:26 | app.events |
+| scripts/test_microsoft_copy_mapping.py:27 | app.events, app.other |
+| scripts/test_microsoft_copy_mapping.py:28 | app.events |
+| scripts/test_microsoft_copy_mapping.py:29 | app.events |
 | scripts/test_microsoft_readiness.py:9 | fixture |
 | scripts/test_microsoft_readiness.py:10 | fixture |
 | scripts/test_microsoft_readiness.py:15 | 55555555-5555-4555-8555-555555555555 |
@@ -3253,6 +3335,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_narrative_form.py:104 | fixture |
 | scripts/test_narrative_form.py:120 | fixture |
 | scripts/test_narrative_form.py:137 | fixture |
+| scripts/test_native_column_target.py:12 | dbo.Rows |
+| scripts/test_native_column_target.py:13 | dbo.Prices |
+| scripts/test_native_column_target.py:54 | dbo.Prices |
 | scripts/test_native_context_planning.py:23 | workspace/ |
 | scripts/test_native_context_planning.py:26 | 22222222-2222-4222-8222-222222222222, workspace/ |
 | scripts/test_native_context_planning.py:27 | SemanticModel |
@@ -3305,6 +3390,8 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_planner_recording.py:18 | fixture |
 | scripts/test_planner_recording.py:168 | fixture |
 | scripts/test_planner_recording.py:170 | fixture |
+| scripts/test_platform_auth_preflight.py:44 | app.get_accounts |
+| scripts/test_platform_auth_preflight.py:45 | app.acquire_token_silent |
 | scripts/test_platform_blob_transfer.py:28 | database.windows.net |
 | scripts/test_platform_blob_transfer.py:35 | blob.core.windows.net, fixture |
 | scripts/test_platform_blob_transfer.py:40 | blob.core.windows.net, fixture |
@@ -3392,18 +3479,22 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_process_debugging.py:393 | fixture |
 | scripts/test_process_debugging.py:394 | fixture |
 | scripts/test_process_debugging.py:405 | fixture |
+| scripts/test_process_debugging.py:415 | dbo.movement_values |
 | scripts/test_process_debugging.py:420 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_process_debugging.py:421 | 00000000-0000-0000-0000-000000000002 |
 | scripts/test_process_debugging.py:423 | 00000000-0000-0000-0000-000000000002 |
 | scripts/test_process_debugging.py:426 | Lakehouse |
-| scripts/test_process_debugging.py:427 | Lakehouse |
-| scripts/test_process_debugging.py:428 | Lakehouse |
+| scripts/test_process_debugging.py:427 | Lakehouse, dbo.events |
+| scripts/test_process_debugging.py:428 | Lakehouse, dbo.events |
 | scripts/test_process_debugging.py:432 | SemanticModel |
 | scripts/test_process_debugging.py:444 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_process_debugging.py:447 | SemanticModel |
 | scripts/test_process_debugging.py:457 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_process_debugging.py:461 | SemanticModel |
 | scripts/test_process_debugging.py:507 | 00000000-0000-0000-0000-000000000001 |
+| scripts/test_process_debugging.py:525 | dbo.movement_values |
+| scripts/test_process_debugging.py:534 | dbo.movement_values |
+| scripts/test_process_debugging.py:542 | dbo.movement_values |
 | scripts/test_process_failure_address.py:4 | fixture |
 | scripts/test_process_failure_address.py:18 | fixture |
 | scripts/test_process_read_receipts.py:9 | fixture |
@@ -3480,7 +3571,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_publication_lineage_contract.py:53 | 11111111-1111-1111-1111-111111111111, 44444444-4444-4444-4444-444444444444 |
 | scripts/test_publication_lineage_contract.py:56 | fixture |
 | scripts/test_publication_lineage_contract.py:61 | Lakehouse |
-| scripts/test_question_account.py:43 | workspace/ |
+| scripts/test_publication_lineage_contract.py:67 | app.orders |
+| scripts/test_publication_lineage_contract.py:71 | app.orders |
+| scripts/test_question_account.py:43 | app.powerbi, workspace/ |
 | scripts/test_question_account.py:195 | fixture |
 | scripts/test_question_account.py:198 | fixture |
 | scripts/test_question_first_probes.py:3 | fixture |
@@ -3511,10 +3604,11 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_read_cell_address.py:9 | fixture |
 | scripts/test_read_cell_address.py:10 | fixture |
 | scripts/test_read_cell_address.py:11 | fixture |
-| scripts/test_read_onelake_commit.py:44 | 00000000-0000-0000-0000-000000000001, 00000000-0000-0000-0000-000000000002 |
-| scripts/test_read_onelake_commit.py:45 | 00000000-0000-0000-0000-000000000001 |
+| scripts/test_read_onelake_commit.py:21 | dbo.events |
+| scripts/test_read_onelake_commit.py:44 | 00000000-0000-0000-0000-000000000001, 00000000-0000-0000-0000-000000000002, dbo.events |
+| scripts/test_read_onelake_commit.py:45 | 00000000-0000-0000-0000-000000000001, dbo.events |
 | scripts/test_read_onelake_commit.py:52 | 00000000-0000-0000-0000-000000000001 |
-| scripts/test_read_onelake_commit.py:53 | 00000000-0000-0000-0000-000000000002, lakehouse |
+| scripts/test_read_onelake_commit.py:53 | 00000000-0000-0000-0000-000000000002, dbo.events, lakehouse |
 | scripts/test_read_onelake_commit.py:62 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_read_onelake_commit.py:63 | 00000000-0000-0000-0000-000000000002, lakehouse |
 | scripts/test_read_redundancy.py:5 | fixture |
@@ -3524,6 +3618,18 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_read_redundancy.py:62 | fixture |
 | scripts/test_read_redundancy.py:76 | fixture |
 | scripts/test_read_redundancy.py:89 | fixture |
+| scripts/test_read_redundancy.py:121 | app.events |
+| scripts/test_read_redundancy.py:122 | app.events |
+| scripts/test_read_redundancy.py:123 | app.events |
+| scripts/test_read_redundancy.py:124 | app.events |
+| scripts/test_read_redundancy.py:125 | app.events |
+| scripts/test_read_redundancy.py:128 | app.events |
+| scripts/test_read_redundancy.py:129 | app.events |
+| scripts/test_read_redundancy.py:130 | app.events |
+| scripts/test_read_redundancy.py:131 | app.events |
+| scripts/test_read_redundancy.py:139 | app.events |
+| scripts/test_read_redundancy.py:140 | app.events |
+| scripts/test_read_redundancy.py:141 | app.events |
 | scripts/test_read_redundancy.py:161 | fixture |
 | scripts/test_reader_execution.py:17 | fixture |
 | scripts/test_reader_execution.py:18 | fixture |
@@ -3541,6 +3647,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_reader_execution.py:149 | fixture |
 | scripts/test_reader_execution.py:155 | fixture |
 | scripts/test_reader_execution.py:162 | fixture |
+| scripts/test_reader_execution.py:164 | app.assert_not_called |
 | scripts/test_reader_execution.py:190 | fixture |
 | scripts/test_reader_execution.py:202 | fixture |
 | scripts/test_reader_execution.py:218 | fixture |
@@ -3557,9 +3664,20 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_reader_runtime.py:97 | Fixture |
 | scripts/test_record_aggregate.py:8 | fixture |
 | scripts/test_record_aggregate.py:19 | fixture |
+| scripts/test_record_arrival_history.py:10 | dbo.Items |
+| scripts/test_record_arrival_history.py:11 | dbo.Items |
 | scripts/test_record_arrival_history.py:24 | warehouse |
+| scripts/test_record_arrival_history.py:41 | dbo.Items |
+| scripts/test_record_arrival_history.py:42 | dbo.Items |
+| scripts/test_record_arrival_history.py:43 | dbo.Items |
+| scripts/test_record_arrival_history.py:44 | dbo.Items |
+| scripts/test_record_arrival_history.py:45 | dbo.Items, dbo.Other |
+| scripts/test_record_arrival_history.py:46 | dbo.Items |
 | scripts/test_record_discovery.py:7 | fixture |
 | scripts/test_record_discovery.py:17 | fixture |
+| scripts/test_record_key_alignment.py:11 | dbo.Items |
+| scripts/test_record_presence.py:102 | app.example |
+| scripts/test_record_presence.py:110 | app.example |
 | scripts/test_refresh_comparison.py:148 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_refresh_comparison.py:149 | 00000000-0000-0000-0000-000000000002 |
 | scripts/test_refresh_comparison.py:188 | 00000000-0000-0000-0000-000000000003 |
@@ -3581,9 +3699,14 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_report_drillthrough_context.py:39 | fixture |
 | scripts/test_report_drillthrough_context.py:43 | fixture |
 | scripts/test_report_layout.py:11 | 11111111-1111-1111-1111-111111111111, 22222222-2222-2222-2222-222222222222 |
-| scripts/test_report_layout.py:36 | 11111111-1111-1111-1111-111111111111, 22222222-2222-2222-2222-222222222222 |
+| scripts/test_report_layout.py:36 | 11111111-1111-1111-1111-111111111111, 22222222-2222-2222-2222-222222222222, app.powerbi |
 | scripts/test_report_link.py:6 | 11111111-1111-4111-8111-111111111111 |
 | scripts/test_report_link.py:7 | 22222222-2222-4222-8222-222222222222 |
+| scripts/test_report_link.py:8 | app.powerbi |
+| scripts/test_report_link.py:59 | app.powerbi |
+| scripts/test_report_link.py:65 | app.powerbi |
+| scripts/test_report_link.py:67 | app.powerbi |
+| scripts/test_report_link.py:68 | app.powerbi |
 | scripts/test_report_list_worker.py:8 | 11111111-1111-4111-8111-111111111111 |
 | scripts/test_report_list_worker.py:9 | 22222222-2222-4222-8222-222222222222 |
 | scripts/test_report_list_worker.py:10 | 33333333-3333-4333-8333-333333333333 |
@@ -3612,7 +3735,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_reproduction_composition.py:42 | warehouse |
 | scripts/test_reproduction_composition.py:44 | warehouse |
 | scripts/test_reproduction_composition.py:45 | warehouse |
-| scripts/test_reproduction_composition.py:91 | 3484a2bc-98c5-4cef-be5c-a6215484075e, workspace/ |
+| scripts/test_reproduction_composition.py:91 | 3484a2bc-98c5-4cef-be5c-a6215484075e, app.Sales, workspace/ |
 | scripts/test_resumable_archive.py:16 | blob.core.windows.net, fixture |
 | scripts/test_resumable_archive.py:126 | blob.core.windows.net |
 | scripts/test_resumable_archive.py:131 | 12345678-1234-1234-1234-123456789012 |
@@ -3636,13 +3759,52 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_retention.py:75 | fixture |
 | scripts/test_reviewed_slicer_context.py:20 | 22222222-2222-4222-8222-222222222222, workspace/ |
 | scripts/test_reviewed_source_scopes.py:12 | fixture |
+| scripts/test_reviewed_source_scopes.py:80 | app.orders |
 | scripts/test_reviewed_source_scopes.py:97 | fixture |
 | scripts/test_reviewed_source_scopes.py:211 | fixture |
 | scripts/test_reviewed_source_scopes.py:214 | fixture |
 | scripts/test_round22_scored_seal.py:38 | fixture |
+| scripts/test_round23_answers_native.py:125 | dbo.Items |
+| scripts/test_round23_answers_native.py:135 | dbo.Items |
+| scripts/test_round23_case_presentation.py:20 | dbo.Items |
+| scripts/test_round23_case_presentation.py:42 | dbo.Items |
+| scripts/test_round23_case_presentation.py:50 | dbo.Items |
+| scripts/test_round23_case_presentation.py:66 | dbo.Items |
+| scripts/test_round23_case_presentation.py:97 | dbo.Items |
 | scripts/test_round23_fixture_control.py:5 | fixture |
 | scripts/test_round23_fixture_control.py:6 | fixture |
+| scripts/test_round23_guided_cases.py:38 | dbo.Items |
+| scripts/test_round23_guided_cases.py:47 | dbo.Items |
+| scripts/test_round23_guided_cases.py:55 | dbo.Items |
+| scripts/test_round23_guided_cases.py:143 | dbo.Items |
+| scripts/test_round23_guided_cases.py:190 | dbo.Items |
+| scripts/test_round23_intake_queries.py:45 | dbo.Items |
+| scripts/test_round23_intake_queries.py:57 | dbo.Items |
+| scripts/test_round23_intake_queries.py:61 | dbo.Items |
+| scripts/test_round23_intake_queries.py:62 | dbo.Items |
+| scripts/test_round23_intake_queries.py:63 | dbo.Unknown |
 | scripts/test_round23_intake_queries.py:164 | workspace/ |
+| scripts/test_round23_intake_queries.py:183 | dbo.Items |
+| scripts/test_round23_intake_queries.py:186 | dbo.Items, dbo.X |
+| scripts/test_round23_intake_queries.py:187 | dbo.Items |
+| scripts/test_round23_intake_queries.py:188 | dbo.Items |
+| scripts/test_round23_intake_queries.py:189 | dbo.Items |
+| scripts/test_round23_intake_queries.py:195 | dbo.Items |
+| scripts/test_round23_intake_queries.py:196 | dbo.Unknown |
+| scripts/test_round23_intake_queries.py:200 | dbo.Items |
+| scripts/test_round23_intake_queries.py:201 | dbo.Items |
+| scripts/test_round23_intake_queries.py:203 | dbo.Items |
+| scripts/test_round23_intake_queries.py:206 | dbo.Items |
+| scripts/test_round23_intake_queries.py:210 | dbo.Items |
+| scripts/test_round23_intake_queries.py:228 | dbo.Items |
+| scripts/test_round23_intake_queries.py:229 | dbo.Items |
+| scripts/test_round23_intake_queries.py:236 | dbo.Items |
+| scripts/test_round23_intake_queries.py:238 | dbo.Items |
+| scripts/test_round23_intake_queries.py:242 | dbo.Items |
+| scripts/test_round23_intake_queries.py:245 | dbo.Items |
+| scripts/test_round23_intake_queries.py:250 | dbo.Items |
+| scripts/test_round23_intake_queries.py:253 | dbo.Items |
+| scripts/test_round23_intake_queries.py:255 | dbo.Items |
 | scripts/test_round23_live_facts.py:15 | fixture |
 | scripts/test_round23_live_facts.py:27 | fixture |
 | scripts/test_round23_live_facts.py:32 | fixture |
@@ -3682,13 +3844,26 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round23_native_catalog.py:258 | SemanticModel |
 | scripts/test_round23_platform.py:72 | database.windows.net |
 | scripts/test_round23_reasoning.py:1 | fixture |
+| scripts/test_round23_reasoning.py:215 | dbo.Items |
+| scripts/test_round23_reasoning.py:228 | dbo.Items |
+| scripts/test_round23_reasoning.py:239 | dbo.Items |
+| scripts/test_round23_reasoning.py:240 | dbo.Items |
+| scripts/test_round23_reasoning.py:250 | dbo.Items |
+| scripts/test_round23_reasoning.py:254 | dbo.Items |
 | scripts/test_round23_runtime_reads.py:11 | fixture |
 | scripts/test_round23_runtime_reads.py:13 | fixture |
 | scripts/test_round23_runtime_reads.py:16 | fixture |
 | scripts/test_round23_runtime_reads.py:24 | 11111111-1111-1111-1111-111111111111, 22222222-2222-2222-2222-222222222222 |
 | scripts/test_round23_triage_tools.py:31 | fixture, warehouse |
+| scripts/test_round23_triage_tools.py:95 | dbo.Items |
+| scripts/test_round23_triage_tools.py:101 | dbo.Items |
+| scripts/test_round23_triage_tools.py:105 | dbo.Items |
+| scripts/test_round23_triage_tools.py:127 | dbo.Items |
+| scripts/test_round23_triage_tools.py:142 | dbo.Items |
 | scripts/test_round23_triage_tools.py:144 | fixture |
+| scripts/test_round23_triage_tools.py:151 | dbo.Items |
 | scripts/test_round23_triage_tools.py:153 | fixture |
+| scripts/test_round23_triage_tools.py:160 | dbo.Items |
 | scripts/test_round23_triage_tools.py:162 | fixture |
 | scripts/test_round24_backtrack_routes.py:14 | fixture |
 | scripts/test_round24_backtrack_routes.py:18 | fixture |
@@ -3699,17 +3874,30 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round24_control_errors.py:21 | fixture |
 | scripts/test_round24_control_errors.py:31 | fixture |
 | scripts/test_round24_copy_bindings.py:6 | workspace/ |
+| scripts/test_round24_copy_bindings.py:13 | app.items |
 | scripts/test_round24_copy_bindings.py:20 | fixture |
 | scripts/test_round24_copy_bindings.py:21 | Lakehouse |
+| scripts/test_round24_copy_bindings.py:26 | app.result |
+| scripts/test_round24_copy_bindings.py:32 | app.result, app.source |
 | scripts/test_round24_copy_bindings.py:44 | Lakehouse, lakehouse, workspace/ |
 | scripts/test_round24_copy_bindings.py:45 | lakehouse |
 | scripts/test_round24_legacy_native.py:2 | fixture |
 | scripts/test_round24_legacy_native.py:6 | fixture |
 | scripts/test_round24_legacy_native.py:12 | fixture |
 | scripts/test_round24_legacy_native.py:16 | fixture |
+| scripts/test_round24_parallel.py:16 | dbo.Items |
 | scripts/test_round24_paths.py:11 | workspace/ |
 | scripts/test_round24_paths.py:12 | SemanticModel |
 | scripts/test_round24_paths.py:27 | SemanticModel |
+| scripts/test_round24_query_feedback.py:8 | dbo.Items |
+| scripts/test_round24_query_feedback.py:12 | dbo.Items |
+| scripts/test_round24_query_feedback.py:14 | dbo.Items |
+| scripts/test_round24_query_feedback.py:16 | dbo.Items |
+| scripts/test_round24_query_feedback.py:17 | dbo.Items |
+| scripts/test_round24_query_feedback.py:18 | dbo.Items |
+| scripts/test_round24_query_feedback.py:21 | dbo.Items |
+| scripts/test_round24_query_patterns.py:7 | dbo.Items |
+| scripts/test_round24_query_patterns.py:9 | dbo.Items, dbo.New |
 | scripts/test_round24_retained_schema.py:3 | fixture |
 | scripts/test_round24_retained_schema.py:6 | fixture |
 | scripts/test_round24_retained_schema.py:7 | fixture |
@@ -3717,8 +3905,18 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round24_retained_schema.py:23 | fixture |
 | scripts/test_round24_retained_schema.py:29 | fixture |
 | scripts/test_round24_retained_schema.py:31 | fixture |
+| scripts/test_round24_script_procedures.py:4 | app.build, app.result, app.source |
+| scripts/test_round24_script_procedures.py:7 | app.result |
+| scripts/test_round24_script_procedures.py:9 | app.build, app.result |
+| scripts/test_round24_script_procedures.py:11 | app.source |
+| scripts/test_round24_script_procedures.py:15 | app.build, app.result, app.source |
 | scripts/test_round24_script_procedures.py:18 | warehouse |
-| scripts/test_round24_script_procedures.py:29 | Warehouse |
+| scripts/test_round24_script_procedures.py:19 | app.build, app.result |
+| scripts/test_round24_script_procedures.py:21 | app.build, app.result |
+| scripts/test_round24_script_procedures.py:24 | app.build, app.result, app.second, app.source |
+| scripts/test_round24_script_procedures.py:25 | app.build, app.second |
+| scripts/test_round24_script_procedures.py:28 | app.build, app.result |
+| scripts/test_round24_script_procedures.py:29 | Warehouse, app.source |
 | scripts/test_round24_smoke_configuration.py:6 | fixture |
 | scripts/test_round25_cohort_report.py:28 | fixture |
 | scripts/test_round25_cohort_report.py:29 | fixture |
@@ -3736,27 +3934,80 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round25_quality.py:339 | fixture |
 | scripts/test_round25_quality.py:340 | fixture |
 | scripts/test_round25_quality.py:341 | fixture |
-| scripts/test_round26_bedrock_setup.py:37 | kv-dia- |
+| scripts/test_round26_bedrock_setup.py:37 | kv-dia-d5dd7d65 |
+| scripts/test_round26_catalog_resolution.py:20 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:29 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:50 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:57 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:64 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:78 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:82 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:84 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:100 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:130 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:135 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:155 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:228 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:243 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:248 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:264 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:336 | Billing Overview |
+| scripts/test_round26_catalog_resolution.py:351 | Billing Overview |
+| scripts/test_round26_closing_action.py:8 | dbo.Items |
+| scripts/test_round26_closing_action.py:14 | dbo.Items |
+| scripts/test_round26_closing_action.py:29 | dbo.Items |
+| scripts/test_round26_closing_action.py:35 | dbo.Items |
+| scripts/test_round26_closing_action.py:40 | dbo.Items |
+| scripts/test_round26_closing_action.py:41 | dbo.Items |
+| scripts/test_round26_closing_action.py:51 | dbo.Items |
 | scripts/test_round26_configured_ai_job.py:14 | fixture |
 | scripts/test_round26_configured_ai_job.py:29 | fixture |
 | scripts/test_round26_configured_ai_job.py:58 | fixture |
 | scripts/test_round26_configured_ai_job.py:61 | fixture |
+| scripts/test_round26_history_comparison.py:18 | dbo.Items |
+| scripts/test_round26_history_comparison.py:20 | dbo.Items |
+| scripts/test_round26_history_comparison.py:26 | dbo.Items |
+| scripts/test_round26_history_comparison.py:31 | dbo.Items |
+| scripts/test_round26_history_comparison.py:41 | dbo.Items |
+| scripts/test_round26_history_queries.py:14 | dbo.Items |
+| scripts/test_round26_history_queries.py:22 | dbo.Items |
+| scripts/test_round26_history_queries.py:27 | dbo.Items |
+| scripts/test_round26_history_queries.py:28 | dbo.Unknown |
+| scripts/test_round26_history_queries.py:29 | dbo.Items |
+| scripts/test_round26_history_queries.py:30 | dbo.Items |
+| scripts/test_round26_history_queries.py:31 | dbo.Unknown |
+| scripts/test_round26_history_queries.py:32 | dbo.Items |
 | scripts/test_round26_intake_candidates.py:25 | warehouse |
+| scripts/test_round26_intake_candidates.py:51 | dbo.Items |
 | scripts/test_round26_intake_fallbacks.py:47 | fixture, warehouse |
+| scripts/test_round26_investigation_cascade.py:10 | dbo.Items |
+| scripts/test_round26_investigation_cascade.py:46 | dbo.Items |
 | scripts/test_round26_job_pagination.py:7 | aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa, bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb |
 | scripts/test_round26_job_pagination.py:8 | workspaces/ |
 | scripts/test_round26_job_pagination.py:15 | fixture |
 | scripts/test_round26_job_pagination.py:41 | workspaces/ |
+| scripts/test_round26_metadata_reads.py:10 | dbo.Items |
+| scripts/test_round26_metadata_reads.py:14 | dbo.Items |
+| scripts/test_round26_metadata_reads.py:28 | dbo.Items |
+| scripts/test_round26_metadata_reads.py:34 | dbo.Copy, dbo.Items |
+| scripts/test_round26_metadata_reads.py:36 | dbo.X |
+| scripts/test_round26_metadata_reads.py:37 | dbo.run_external_code |
+| scripts/test_round26_metadata_reads.py:38 | dbo.Secret |
 | scripts/test_round26_operational_fastpath.py:31 | fixture |
 | scripts/test_round26_scope_candidates.py:13 | fixture |
 | scripts/test_round26_scope_candidates.py:17 | fixture |
 | scripts/test_round26_scope_candidates.py:24 | fixture |
 | scripts/test_round26_scope_candidates.py:34 | fixture |
 | scripts/test_round26_scope_candidates.py:36 | SemanticModel |
+| scripts/test_round26_scope_candidates.py:73 | Billing Overview |
+| scripts/test_round26_scope_candidates.py:94 | Billing Overview |
 | scripts/test_round26_stale_setting.py:16 | 11111111-1111-1111-1111-111111111111 |
 | scripts/test_round26_stale_setting.py:17 | 22222222-2222-2222-2222-222222222222 |
 | scripts/test_round26_step_costs.py:51 | fixture |
 | scripts/test_round26_step_costs.py:52 | fixture |
+| scripts/test_round26_terminal_findings.py:30 | dbo.Rows |
+| scripts/test_round26_terminal_findings.py:80 | dbo.Rows |
+| scripts/test_round26_terminal_findings.py:97 | dbo.Rows |
 | scripts/test_round27_analysis_projection.py:15 | fixture |
 | scripts/test_round27_analysis_projection.py:22 | fixture |
 | scripts/test_round27_analysis_projection.py:30 | fixture |
@@ -3774,6 +4025,10 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round27_analysis_projection.py:92 | fixture |
 | scripts/test_round27_candidate_native_pruning.py:5 | fixture |
 | scripts/test_round27_candidate_native_pruning.py:10 | fixture |
+| scripts/test_round27_candidate_native_pruning.py:20 | Billing Overview |
+| scripts/test_round27_candidate_native_pruning.py:29 | Billing Overview |
+| scripts/test_round27_candidate_native_pruning.py:34 | Billing Overview |
+| scripts/test_round27_candidate_native_pruning.py:39 | Billing Overview |
 | scripts/test_round27_consistency_feedback.py:9 | fixture |
 | scripts/test_round27_consistency_feedback.py:16 | fixture |
 | scripts/test_round27_consistency_feedback.py:19 | fixture |
@@ -3785,6 +4040,15 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round27_consistency_feedback.py:46 | fixture |
 | scripts/test_round27_consistency_feedback.py:49 | fixture |
 | scripts/test_round27_dev_backtrack_fixes.py:57 | 12345678-1234-1234-1234-123456789012 |
+| scripts/test_round27_dev_backtrack_fixes.py:149 | dbo.Items |
+| scripts/test_round27_metadata_projection.py:36 | dbo.Secret |
+| scripts/test_round27_metadata_transport.py:10 | dbo.Items |
+| scripts/test_round27_metadata_transport.py:13 | dbo.Items |
+| scripts/test_round27_metadata_transport.py:17 | dbo.Items |
+| scripts/test_round27_metadata_transport.py:22 | dbo.Secret |
+| scripts/test_round27_metadata_transport.py:25 | dbo.Secret, dbo.X |
+| scripts/test_round27_native_table_reference.py:11 | dbo.Visits |
+| scripts/test_round27_native_table_reference.py:13 | dbo.LoadAudit |
 | scripts/test_round27_native_table_reference.py:58 | Warehouse |
 | scripts/test_round27_scope_verdict.py:6 | fixture |
 | scripts/test_round27_scope_verdict.py:8 | fixture |
@@ -3795,6 +4059,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round_four_acceptance.py:19 | fixture |
 | scripts/test_round_four_acceptance.py:20 | fixture |
 | scripts/test_round_four_acceptance.py:35 | fixture |
+| scripts/test_round_four_acceptance.py:71 | app.sales_123abc |
 | scripts/test_round_four_acceptance.py:78 | fixture |
 | scripts/test_round_thirteen_questionnaire_coverage.py:6 | fixture |
 | scripts/test_round_thirteen_questionnaire_coverage.py:11 | fixture |
@@ -3810,6 +4075,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_round_thirteen_questionnaire_coverage.py:84 | warehouse |
 | scripts/test_round_thirteen_questionnaire_coverage.py:85 | fixture |
 | scripts/test_round_thirteen_questionnaire_coverage.py:86 | warehouse |
+| scripts/test_round_twenty_state.py:153 | dbo.movements |
 | scripts/test_round_twenty_state.py:178 | blob.core.windows.net |
 | scripts/test_round_twenty_state.py:181 | 11111111-1111-1111-1111-111111111111, subscriptions/ |
 | scripts/test_route_readiness.py:29 | fixture |
@@ -3844,10 +4110,11 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_run_history.py:55 | fixture |
 | scripts/test_run_timing.py:13 | fixture |
 | scripts/test_runner_graph_schedule.py:23 | fixture |
-| scripts/test_runner_graph_schedule.py:41 | job-dia- |
+| scripts/test_runner_graph_schedule.py:41 | job-dia-graph-scan |
 | scripts/test_runner_input_policy.py:7 | blob.core.windows.net |
 | scripts/test_runner_prepare.py:9 | 11111111-1111-1111-1111-111111111111, subscriptions/ |
 | scripts/test_runner_prepare.py:13 | blob.core.windows.net |
+| scripts/test_runner_prepare.py:14 | dbo.movements |
 | scripts/test_runtime_facts_microsoft.py:16 | 149f8d99-1c66-4a0a-9624-759be002bb60, 3484a2bc-98c5-4cef-be5c-a6215484075e |
 | scripts/test_runtime_facts_microsoft.py:24 | warehouse |
 | scripts/test_runtime_facts_microsoft.py:29 | Warehouse |
@@ -3940,7 +4207,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_selection_descriptor.py:63 | warehouse |
 | scripts/test_selection_descriptor.py:64 | warehouse |
 | scripts/test_selection_descriptor.py:66 | warehouse |
-| scripts/test_selection_descriptor.py:76 | warehouse |
+| scripts/test_selection_descriptor.py:76 | app.Locations, warehouse |
 | scripts/test_selection_descriptor.py:86 | warehouse |
 | scripts/test_selection_descriptor.py:98 | fixture |
 | scripts/test_selection_descriptor.py:99 | fixture |
@@ -3959,10 +4226,13 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_semantic_snapshot.py:25 | fixture |
 | scripts/test_semantics_control.py:16 | fixture |
 | scripts/test_semantics_control.py:17 | fixture |
+| scripts/test_semantics_control.py:35 | dbo.items |
 | scripts/test_semantics_control.py:64 | fixture |
 | scripts/test_semantics_control.py:67 | fixture |
 | scripts/test_semantics_control.py:68 | fixture |
 | scripts/test_semantics_control.py:69 | fixture |
+| scripts/test_semantics_control.py:86 | dbo.items |
+| scripts/test_semantics_control.py:87 | dbo.items |
 | scripts/test_semantics_control.py:97 | fixture |
 | scripts/test_semantics_control.py:98 | fixture |
 | scripts/test_semantics_control.py:99 | fixture |
@@ -3973,18 +4243,33 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_session_replay.py:73 | fixture |
 | scripts/test_session_replay.py:78 | fixture |
 | scripts/test_session_replay.py:153 | fixture |
+| scripts/test_shared_application.py:45 | app.NAMESPACE, app.key |
+| scripts/test_shared_application.py:71 | app.migrate, app.source |
+| scripts/test_shared_application.py:73 | app.migrate |
+| scripts/test_shared_application.py:76 | app.source |
+| scripts/test_shared_application.py:78 | app.migrate |
+| scripts/test_shared_application.py:85 | app.NAMESPACE, app.key |
+| scripts/test_shared_application.py:86 | app.NAMESPACE, app.key |
+| scripts/test_shared_application.py:94 | app.VERSION |
+| scripts/test_shared_application.py:104 | app.source |
+| scripts/test_shared_application.py:108 | app.source |
+| scripts/test_shared_application.py:112 | app.validate_table |
+| scripts/test_shared_application.py:115 | app.source |
 | scripts/test_shared_application_capture.py:11 | fixture |
 | scripts/test_shared_application_capture.py:20 | fixture |
+| scripts/test_shared_application_capture.py:22 | app.VERSION |
 | scripts/test_shared_application_capture.py:72 | fixture |
 | scripts/test_shared_application_capture.py:73 | fixture |
 | scripts/test_shared_application_capture.py:74 | fixture |
+| scripts/test_shared_application_capture.py:75 | app.VERSION |
 | scripts/test_shared_application_capture.py:84 | fixture |
 | scripts/test_shared_application_capture.py:85 | fixture |
-| scripts/test_shared_application_capture.py:86 | fixture |
+| scripts/test_shared_application_capture.py:86 | app.source, fixture |
 | scripts/test_shared_application_capture.py:88 | fixture |
+| scripts/test_shared_application_capture.py:90 | app.source |
 | scripts/test_shared_application_capture.py:92 | fixture |
-| scripts/test_shared_application_capture.py:94 | fixture |
-| scripts/test_shared_application_capture.py:95 | fixture |
+| scripts/test_shared_application_capture.py:94 | app.NAMESPACE, app.key, fixture |
+| scripts/test_shared_application_capture.py:95 | app.NAMESPACE, app.key, fixture |
 | scripts/test_shared_catalog_capture.py:19 | Fixture, fixture |
 | scripts/test_shared_catalog_capture.py:42 | fixture |
 | scripts/test_shared_catalog_capture.py:44 | fixture |
@@ -3992,6 +4277,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_shared_catalog_capture.py:62 | fixture |
 | scripts/test_shared_screenshots.py:19 | fixture |
 | scripts/test_shared_screenshots.py:32 | fixture |
+| scripts/test_shared_screenshots.py:45 | app.source |
 | scripts/test_shared_screenshots.py:83 | blob.core.windows.net |
 | scripts/test_shared_screenshots.py:84 | 12345678-1234-1234-1234-123456789012 |
 | scripts/test_shared_spend_replay_ordering.py:16 | fixture |
@@ -4058,6 +4344,7 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_smart_intake_eval.py:45 | fixture |
 | scripts/test_smoke_gold_payload.py:11 | fixture |
 | scripts/test_smoke_gold_payload.py:12 | warehouse |
+| scripts/test_smoke_gold_payload.py:26 | dbo.movements |
 | scripts/test_smoke_run_bound_capture.py:17 | blob.core.windows.net |
 | scripts/test_smoke_run_bound_capture.py:32 | fixture |
 | scripts/test_snapshot_attestation.py:161 | database.windows.net |
@@ -4076,9 +4363,11 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_source_availability.py:105 | fixture |
 | scripts/test_source_availability.py:117 | fixture |
 | scripts/test_source_availability.py:134 | fixture |
+| scripts/test_source_delivery.py:150 | dbo.arrivals |
 | scripts/test_source_delivery.py:166 | Warehouse |
 | scripts/test_source_diagnostics.py:13 | fixture |
 | scripts/test_source_diagnostics.py:19 | fixture |
+| scripts/test_source_diagnostics.py:29 | app.Sales |
 | scripts/test_streaming_verification_snapshot.py:17 | fixture |
 | scripts/test_streaming_verification_snapshot.py:25 | fixture |
 | scripts/test_streaming_verification_snapshot.py:29 | fixture |
@@ -4086,6 +4375,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_streaming_verification_snapshot.py:40 | fixture |
 | scripts/test_streaming_verification_snapshot.py:68 | fixture |
 | scripts/test_streaming_verification_snapshot.py:69 | fixture |
+| scripts/test_string_semantics.py:55 | dbo.items |
+| scripts/test_string_semantics.py:77 | dbo.items |
+| scripts/test_string_semantics.py:79 | dbo.items |
 | scripts/test_surface_self_report.py:15 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_synthesis_narrative.py:6 | fixture |
 | scripts/test_synthesis_narrative.py:123 | fixture |
@@ -4211,19 +4503,34 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_translation_measure.py:14 | fixture |
 | scripts/test_translation_measure.py:27 | Warehouse |
 | scripts/test_translation_measure.py:36 | Warehouse |
+| scripts/test_translation_measure.py:40 | dbo.Source |
 | scripts/test_translation_native.py:5 | fixture |
 | scripts/test_translation_native.py:12 | fixture |
 | scripts/test_translation_native.py:13 | fixture |
 | scripts/test_translation_proposer.py:43 | fixture |
+| scripts/test_translation_scope.py:17 | dbo.Source |
+| scripts/test_translation_scope.py:41 | dbo.Other |
+| scripts/test_translation_scope.py:42 | dbo.Source |
+| scripts/test_translation_scope.py:43 | dbo.Source |
+| scripts/test_translator_gaps.py:48 | dbo.Items |
+| scripts/test_translator_gaps.py:75 | dbo.Input |
+| scripts/test_translator_gaps.py:77 | dbo.Input |
+| scripts/test_translator_gaps.py:82 | dbo.Input |
 | scripts/test_typed_scope.py:9 | fixture |
 | scripts/test_typed_scope.py:15 | fixture |
+| scripts/test_unicode_query_literals.py:14 | app.Readers |
+| scripts/test_unicode_query_literals.py:22 | app.Readers |
+| scripts/test_unicode_query_literals.py:25 | app.Readers |
+| scripts/test_unicode_query_literals.py:26 | app.Unknown |
 | scripts/test_unified_runner.py:13 | fixture |
 | scripts/test_unified_runner.py:241 | database.windows.net |
+| scripts/test_unified_runner.py:243 | dbo.synthetic |
+| scripts/test_unified_runner.py:254 | dbo.synthetic |
 | scripts/test_unified_runner.py:271 | 11111111-1111-1111-1111-111111111111, subscriptions/ |
-| scripts/test_unified_runner.py:296 | 11111111-1111-1111-1111-111111111111, job-dia-, subscriptions/ |
+| scripts/test_unified_runner.py:296 | 11111111-1111-1111-1111-111111111111, job-dia-worker, subscriptions/ |
 | scripts/test_unified_runner.py:317 | 11111111-1111-1111-1111-111111111111, subscriptions/ |
-| scripts/test_unified_runner.py:318 | job-dia- |
-| scripts/test_unified_runner.py:319 | job-dia- |
+| scripts/test_unified_runner.py:318 | job-dia-graph-scan |
+| scripts/test_unified_runner.py:319 | job-dia-worker |
 | scripts/test_unified_runner.py:346 | fixture |
 | scripts/test_unified_runner.py:356 | blob.core.windows.net |
 | scripts/test_unified_runner.py:359 | blob.core.windows.net |
@@ -4240,6 +4547,10 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_v2_runtime.py:5 | fixture |
 | scripts/test_v2_runtime.py:14 | fixture |
 | scripts/test_v2_runtime.py:19 | fixture |
+| scripts/test_vault_user_cache.py:26 | app.get_accounts |
+| scripts/test_vault_user_cache.py:27 | app.acquire_token_silent |
+| scripts/test_vault_user_cache.py:109 | dbo.movements |
+| scripts/test_vault_user_cache.py:110 | dbo.movements |
 | scripts/test_visual_display_names.py:8 | fixture |
 | scripts/test_visual_display_names.py:29 | fixture |
 | scripts/test_visual_display_names.py:40 | fixture |
@@ -4266,8 +4577,9 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_warehouse_audit_catalog.py:26 | warehouse |
 | scripts/test_warehouse_audit_catalog.py:30 | warehouse |
 | scripts/test_warehouse_audit_catalog.py:31 | Warehouse |
-| scripts/test_warehouse_audit_catalog.py:33 | warehouse |
-| scripts/test_warehouse_audit_catalog.py:41 | warehouse |
+| scripts/test_warehouse_audit_catalog.py:33 | dbo.audit, warehouse |
+| scripts/test_warehouse_audit_catalog.py:41 | dbo.audit, warehouse |
+| scripts/test_warehouse_audit_catalog.py:45 | dbo.audit |
 | scripts/test_warehouse_copy_lineage.py:1 | Warehouse |
 | scripts/test_warehouse_copy_lineage.py:9 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_warehouse_copy_lineage.py:10 | 00000000-0000-0000-0000-000000000002 |
@@ -4280,8 +4592,8 @@ Occurrences: estate config: 1001, identity/secrets: 85, infrastructure: 271, tes
 | scripts/test_warehouse_copy_lineage.py:43 | WAREHOUSE |
 | scripts/test_warehouse_copy_lineage.py:48 | warehouse |
 | scripts/test_warehouse_copy_lineage.py:49 | Lakehouse |
-| scripts/test_warehouse_copy_lineage.py:72 | Lakehouse |
-| scripts/test_warehouse_copy_lineage.py:74 | Lakehouse |
+| scripts/test_warehouse_copy_lineage.py:72 | Lakehouse, app.events |
+| scripts/test_warehouse_copy_lineage.py:74 | Lakehouse, app.events |
 | scripts/test_worker_replay_paths.py:167 | 00000000-0000-0000-0000-000000000001 |
 | scripts/test_worker_replay_paths.py:168 | 00000000-0000-0000-0000-000000000002, lakehouse |
 | scripts/test_workspace_admission.py:14 | fixture |

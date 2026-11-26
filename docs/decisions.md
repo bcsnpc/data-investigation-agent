@@ -790,3 +790,9 @@ Caching already marked system and investigation tools; helper tools now receive 
 Whole confirmation25cases forecast37.568245USD with static Batch, cache-miss allowance and1.3 margin, calibration14.34USD protected,3reserve: short8.908245USD against approximate46. No partial confirmation. Calibration andv5 not admitted; v5 sealed. The optimistic saved-hit equivalent18.008947USD is reported separately and is not a promise of Batch cache hits.
 
 Browser tool unavailable (required node_repl/sky not exposed). No toggle changed; two stale cases skipped. Prior uncertain start stays unscored, never duplicated. Owner ON and completed refresh/model7661/source hashes remain last verified restoration; fresh UI readback not claimed. Closure continues as expressly directed.
+
+
+DECIDED WITHOUT REVIEW, Round27close: continue the three unchanged daily checks after inspecting the first correct native finding. Keep actual FAIL/INCOMPLETE results. The checker refuses a legitimate SUM+COUNT two-column row; it requires a single-cell aggregate. Current access checks pass; December budget readiness remains NOT_TESTABLE warning and no account/grant is invented. Rejected forcing PASS, altering expectations, changing frozen runtime, or assuming December credit. Latest owner Step7 requires three executions and closure, while explicitly requiring hosted CI green. This is a non-green engineering release, not a quality-gate pass; owner-facing report must disclose it.
+
+
+Round27 final money policy, Nov26UTC: older OpenAI allowed_purposes included SMOKE despite latest owner grading-only direction. Narrowed to GRADING only; zero paid generations made in close task. Qualification45742152680 exposed one old test asserting SMOKE admission; updated only that assertion to require refusal (3081e140). Focused10tests passed. Full/image requalification45743138929 follows; earlier failed qualification retained. Investigation expectations and frozen algorithm unchanged.

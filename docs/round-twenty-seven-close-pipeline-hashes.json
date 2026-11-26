@@ -1,0 +1,26 @@
+{
+  "status": "ALL_READ_ONLY_ORIGINAL_HASHES_MATCH",
+  "rows": [
+    {
+      "control": "dev-failed-fixture",
+      "workspace": "149f8d99-1c66-4a0a-9624-759be002bb60",
+      "item": "b4871498-bd35-45be-916c-9a642568012c",
+      "original_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+      "native_hash": "89cf27eb761019bc6e4edf027511ccc3411a4a385650dcb006fb7a85cddd1259",
+      "status": "MATCH",
+      "original_definition_file_sha256": "a1575cd16935d1b8e07943092776531e957946a02f261d213465cd25e9a0d367"
+    },
+    {
+      "control": "dev-failed-billing",
+      "workspace": "7d67bb36-04f6-4182-95aa-da5d515248fa",
+      "item": "76c60248-b830-433b-9880-90593da28e7e",
+      "original_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+      "native_hash": "392afac3f70faf3339d7c8553e2632a7d7ecad6cf4807d3ee9fedfdae8f47552",
+      "status": "MATCH",
+      "original_definition_file_sha256": "1ea18329070b44a4543dd02065ac115540504a2148d1c8f16f8e84be2d640f47"
+    }
+  ],
+  "physical_requests": 2,
+  "mutations": 0,
+  "waiting_pipeline_same_item_as_fixture": true
+}
