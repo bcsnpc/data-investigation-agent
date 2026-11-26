@@ -88,10 +88,12 @@ def choose_model(listing,preference=PREFERENCE):
 
 
 class Client:
-    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None,diagnostic_prompt_cache=None):
+    def __init__(self,*,model,budget,identity,secret_reference,record,send=None,key_reader=None,sleep=time.sleep,count_tokens=None,diagnostic_prompt_cache=None,batch_static=False):
         from .managed_identity import validate_secret_reference
         validate_secret_reference(secret_reference)
         if budget.rate.model!=model:raise ValueError('MODEL_RATE_MISMATCH')
+        if type(batch_static)is not bool:raise ValueError("BATCH_STATIC_BOOLEAN_REQUIRED")
+        self.batch_static=batch_static
         self.model,self.budget,self.identity=model,budget,identity
         self.reference,self.record=deepcopy(secret_reference),record
         self.send=send;self.key_reader=key_reader
@@ -134,6 +136,21 @@ class Client:
         self.record({'event':'REASONING_MODEL_DISCOVERY','listing':listing})
         return listing
 
+    def generate(self,body,reservation):
+        if not self.batch_static:return (self.send or self._http)('POST',BASE+'/messages',body)
+        from .reasoning_anthropic_batch import StaticBatch,BatchPending
+        batch=StaticBatch(self,static_ticket=True)
+        try:
+            receipt=batch.submit([body],reserved=[reservation])
+        except Exception as error:
+            # A batch POST may have reached Anthropic; never repeat it.
+            self.record({'event':'STATIC_BATCH_SUBMIT_UNCERTAIN','error_type':type(error).__name__})
+            raise BatchPending('STATIC_BATCH_SUBMIT_UNCERTAIN_NO_RETRY')from error
+        results=batch.collect(receipt,wait_seconds=600)
+        result=next(iter(results.values()))
+        if result.get('type')!='succeeded':raise BatchPending('STATIC_BATCH_PROVIDER_RESULT:'+str(result.get('type')))
+        return result['message']
+
     def complete(self,*,system,messages,tools,max_tokens=4000,private_summary=False):
         body={'model':self.model,'max_tokens':max_tokens,'system':[
                   {'type':'text','text':system,'cache_control':{'type':'ephemeral'}}],
@@ -147,6 +164,10 @@ class Client:
             # Helper schemas can change between phases. Cache this call's
             # actual toolbox, never pin an earlier helper's schema.
             body['tools'][-1]['cache_control']={'type':'ephemeral'}
+        evaluator_cache_digest=None
+        if self.diagnostic_helper_usage is not None:
+            from .anthropic_prompt_cache import evaluator_prefix
+            body,evaluator_cache_digest=evaluator_prefix(body)
         from ..planner_recording import _safe
         _safe(canonical(body).encode())
         # The real transport checks the date before making a reservation. The
@@ -179,7 +200,7 @@ class Client:
                 self.record({'event':'REASONING_REQUEST','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(body).encode()).hexdigest()}
                                 if private_summary else {'body':body})})
-                response=(self.send or self._http)('POST',BASE+'/messages',body)
+                response=self.generate(body,identity)
                 _safe(canonical(response).encode())
                 self.record({'event':'REASONING_RESPONSE','reservation':identity,
                              **({'private_case_content_omitted':True,'sha256':__import__('hashlib').sha256(canonical(response).encode()).hexdigest(),'usage':response.get('usage')}
@@ -189,7 +210,7 @@ class Client:
                     observed=self.diagnostic_cache.observe(response.get('usage'));observed.update(phase='INVESTIGATION',cache_assertion_applies=True);self.record(observed)
                 elif self.diagnostic_helper_usage is not None:
                     self.diagnostic_helper_usage.prefix_sha256=__import__('hashlib').sha256(canonical([body['tools'],body['system']]).encode()).hexdigest()
-                    observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='HELPER_TOOL_AND_SYSTEM_CACHE',cache_assertion_applies=False,subsequent_cache_read_check='NOT_APPLICABLE_NO_ADMITTED_PATH_PREFIX');self.record(observed)
+                    observed=self.diagnostic_helper_usage.observe(response.get('usage'));observed.update(phase='EVALUATOR_STABLE_EVIDENCE_CACHE'if evaluator_cache_digest else'HELPER_TOOL_AND_SYSTEM_CACHE',cache_assertion_applies=False,subsequent_cache_read_check='REPORTED_ONLY_PREFIX_MAY_CHANGE');observed.update(evaluator_prefix_sha256=evaluator_cache_digest);self.record(observed)
                 return response
             except (ProviderHTTPError,ConnectionError,TimeoutError,IncompleteRead,URLError)as error:
                 if attempt==2 or not retryable(error):raise

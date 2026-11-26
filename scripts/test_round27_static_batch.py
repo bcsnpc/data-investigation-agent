@@ -10,6 +10,33 @@ class BatchTests(unittest.TestCase):
   return SimpleNamespace(model='claude-opus-5-5',identity='reasoner',budget=Mock(),record=Mock(),send=Mock(),sleep=Mock())
  def body(self):
   return {'model':'claude-opus-5-5','max_tokens':40,'system':[{'type':'text','text':'stable','cache_control':{'type':'ephemeral'}}],'messages':[{'role':'user','content':'synthetic'}],'tools':[{'name':'get_evidence','description':'read','input_schema':{'type':'object'}}]}
+ def test_pre_reserved_generation_is_not_reserved_twice_and_is_durable(self):
+  client=self.client();client.send.return_value={'id':'msgbatch_existing','processing_status':'ended'}
+  batch=StaticBatch(client,static_ticket=True);receipt=batch.submit([self.body()],reserved=['reservation-one'])
+  client.budget.reserve.assert_not_called();self.assertEqual(list(receipt['reservations'].values()),['reservation-one'])
+  self.assertTrue(any(x.args[0]['event']=='STATIC_BATCH_SUBMITTED'for x in client.record.call_args_list))
+ def test_client_static_generation_uses_batch_only_and_keeps_usage(self):
+  from unittest.mock import patch
+  from investigator.adapters.reasoning_anthropic import Client
+  budget=Mock();budget.rate.model='claude-opus-5-5'
+  with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+   client=Client(model='claude-opus-5-5',budget=budget,identity='reader',secret_reference={},record=Mock(),send=Mock(),batch_static=True)
+  message={'content':[],'usage':{'input_tokens':20,'output_tokens':5}}
+  with patch('investigator.adapters.reasoning_anthropic_batch.StaticBatch')as cls:
+   cls.return_value.submit.return_value={'id':'msgbatch_owned'};cls.return_value.collect.return_value={'one':{'type':'succeeded','message':message}}
+   self.assertEqual(client.generate(self.body(),'existing-reservation'),message)
+   cls.return_value.submit.assert_called_once_with([self.body()],reserved=['existing-reservation'])
+  client.send.assert_not_called()
+ def test_unknown_batch_generation_never_retries_submit(self):
+  from unittest.mock import patch
+  from investigator.adapters.reasoning_anthropic import Client
+  budget=Mock();budget.rate.model='claude-opus-5-5'
+  with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+   client=Client(model='claude-opus-5-5',budget=budget,identity='reader',secret_reference={},record=Mock(),send=Mock(),batch_static=True)
+  with patch('investigator.adapters.reasoning_anthropic_batch.StaticBatch')as cls:
+   cls.return_value.submit.side_effect=TimeoutError()
+   with self.assertRaisesRegex(BatchPending,'SUBMIT_UNCERTAIN'):client.generate(self.body(),'r')
+   self.assertEqual(cls.return_value.submit.call_count,1)
  def test_unknown_submission_not_retried_and_reserved(self):
   client=self.client();client.send.side_effect=TimeoutError()
   with self.assertRaises(TimeoutError):StaticBatch(client,static_ticket=True).submit([self.body()])

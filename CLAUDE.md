@@ -1304,3 +1304,10 @@ Section8 practice-control continuation,2026-11-23: owner confirmed automatic upd
 
 
 Section8 final Step4 fixture restoration,2026-11-23: owner confirmed automatic updatesON, schedule unchanged. Native model refresh85942e74-bd08-407b-8c4b-02692a51512e Completed19:01:22UTC and native quantity7661. Original360business/schema hashes and originalrealrestorationload were already verified. Both restoration flags nowfalse; this supersedes the prior ON-pending entry. One Azure-unestablished withdrawn stale attempt remains unscored, secondnotrun; no score/expectation/identity/budget change. See docs/round-twenty-seven-free-step4-final-restoration.json.
+
+
+## Owner extra-credit gate steer, 2026-11-25 / execution November 26 UTC
+
+Owner added10USD; approximate cash56USD (lower than ledger-implied56.1764), reserve3, auto-reloadOFF. Workspace usage endpoint still401/notAdminAPI, so no exact API cash claim. Before any gate call, cloud/code normalized ceiling255.108251 preserves202.108251 charged. PR435 remains open/draft; no merge/tag. Close smoke admission controller was stopped before any final-policy live submission. Earlier sealed smoke failures remain.
+
+The37.568245USD forecast ALREADY includes50% Batch for17 static cases with saved per-ticket tokens; one additional static case lacks saved counts and retains a conservative1.43USD imputation without further discount. Evaluator stable ticket/current-cited-evidence now has a cache breakpoint before changing draft/feedback; no removed or uncited evidence is pinned. New cache savings are NOT assumed in the forecast. Calibration remains14.34, reserve3:54.908245 total vs56,1.091755 headroom. Requalify/freeze cache and static transport wiring before calls; independent Sol/Astra plus Terra disagreements. Confirmation requires all20guard and0reviewedharm; calibration then70%/0harm; v5sealed until Dec1confirmed. Original close-not-admitted forecast/receipts remain historical, superseded by gates-reforecast.

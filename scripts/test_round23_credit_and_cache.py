@@ -35,6 +35,41 @@ class CreditTests(unittest.TestCase):
 
 
 class CacheTests(unittest.TestCase):
+ def test_evaluator_caches_exact_current_evidence_and_keeps_drafts_after_breakpoint(self):
+  from investigator.adapters.anthropic_prompt_cache import evaluator_prefix
+  from investigator.estate_graph_contract import canonical
+  body=self.body();body['tools'][0]['name']='evaluate_delivery'
+  packet={'ticket':{'text':'Why 950?'},'draft':{'answer':'first'},'cited_evidence':{'Q1':{'rows':[[950]]}}}
+  body['messages']=[{'role':'user','content':canonical(packet)}]
+  a,ha=evaluator_prefix(body);packet['draft']={'answer':'repaired'};packet['evaluator_format_feedback']={'missing':'claims'};body['messages'][0]['content']=canonical(packet)
+  b,hb=evaluator_prefix(body)
+  self.assertEqual(ha,hb);self.assertEqual(a['messages'][0]['content'][0],b['messages'][0]['content'][0])
+  blocks=b['messages'][0]['content'];self.assertEqual(blocks[0]['cache_control'],{'type':'ephemeral'});self.assertNotIn('cache_control',blocks[1])
+  self.assertEqual({**json.loads(blocks[0]['text']),**json.loads(blocks[1]['text'])},packet)
+  packet['cited_evidence']={'Q2':{'rows':[[951]]}};body['messages'][0]['content']=canonical(packet);c,hc=evaluator_prefix(body)
+  self.assertNotEqual(hb,hc);self.assertNotIn('Q1',c['messages'][0]['content'][0]['text']);self.assertIn('Q2',c['messages'][0]['content'][0]['text'])
+  self.assertIsInstance(body['messages'][0]['content'],str)
+ def test_other_helpers_do_not_receive_evaluator_evidence_cache(self):
+  from investigator.adapters.anthropic_prompt_cache import evaluator_prefix
+  body=self.body();result,digest=evaluator_prefix(body)
+  self.assertEqual(result,body);self.assertIsNone(digest)
+ def test_evaluator_wire_cache_is_flagged_and_usage_is_logged(self):
+  from unittest.mock import Mock,patch
+  from investigator.adapters.reasoning_anthropic import Client
+  from investigator.estate_graph_contract import canonical
+  packet={'ticket':{'text':'Why?'},'draft':{'answer':'old'},'cited_evidence':{'Q1':{'rows':[[950]]}}}
+  tool={'name':'evaluate_delivery','description':'Evaluate','input_schema':{'type':'object'}}
+  for caching in (True,False):
+   budget=Mock();budget.rate.model='claude-opus-5-5';budget.reserve.return_value='r'
+   send=Mock(return_value={'content':[],'usage':{'input_tokens':10,'cache_read_input_tokens':1000,'output_tokens':1}});record=Mock()
+   with patch('investigator.adapters.managed_identity.validate_secret_reference'):
+    client=Client(model='claude-opus-5-5',budget=budget,identity='reader',secret_reference={},record=record,send=send,diagnostic_prompt_cache=caching)
+   client.complete(system='Stable evaluator policy',messages=[{'role':'user','content':canonical(packet)}],tools=[tool])
+   body=send.call_args.args[2];authorize_body({'reasoning_models':['claude-opus-5-5']},'POST','https://api.anthropic.com/v1/messages',body)
+   self.assertEqual(isinstance(body['messages'][0]['content'],list),caching)
+   if caching:
+    event=next(x.args[0]for x in record.call_args_list if x.args[0].get('event')=='REASONING_CACHE_USAGE')
+    self.assertEqual(event['phase'],'EVALUATOR_STABLE_EVIDENCE_CACHE');self.assertEqual(event['cache_read_input_tokens'],1000)
  def test_existing_query_contract_does_not_pin_initial_layer_enum(self):
   from jsonschema import Draft202012Validator
   cache=StablePrefix();first=self.body()

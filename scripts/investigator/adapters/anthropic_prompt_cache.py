@@ -61,3 +61,29 @@ class StablePrefix:
                 'total_input_tokens':sum(counts[key]for key in('input_tokens','cache_creation_input_tokens','cache_read_input_tokens')),
                 'subsequent_cache_read_check':'NOT_APPLICABLE'if self.calls==1 else'PASS'if counts['cache_read_input_tokens']>0 else'FAIL',
                 'ttl':'5m','minimum_cacheable_tokens':512,'diagnostic_only':False}
+
+
+def evaluator_prefix(body):
+    """Cache only this evaluation's ticket/evidence; keep drafts outside it.
+
+    Rebuild from current cited evidence each time: never retain evidence removed
+    by a later draft, and never expose investigation messages to the evaluator.
+    """
+    import json
+    result=deepcopy(body)
+    if [t.get('name')for t in result['tools']]!=['evaluate_delivery']:
+        return result,None
+    messages=result['messages']
+    if len(messages)!=1 or messages[0].get('role')!='user' or not isinstance(messages[0].get('content'),str):
+        return result,None
+    try:packet=json.loads(messages[0]['content'])
+    except (ValueError,TypeError):return result,None
+    if not isinstance(packet,dict)or not {'ticket','draft','cited_evidence'}<=packet.keys():
+        return result,None
+    stable={key:packet[key]for key in ('ticket','cited_evidence')}
+    changing={key:value for key,value in packet.items()if key not in stable}
+    result['messages']=[{'role':'user','content':[
+        {'type':'text','text':canonical(stable),'cache_control':{'type':'ephemeral'}},
+        {'type':'text','text':canonical(changing)}]}]
+    digest=sha256(canonical([result['tools'],result['system'],stable]).encode()).hexdigest()
+    return result,digest

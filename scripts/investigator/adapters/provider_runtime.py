@@ -41,11 +41,13 @@ def select(configuration, *, tenant, step):
 
 def validate(config):
     required = {'model', 'rate_card', 'secret_reference', 'gateway_identity', 'worker_identity'}
-    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache', 'region', 'synthetic_only', 'quality_scope'}:
+    if not isinstance(config, dict) or not required <= config.keys() <= required | {'provider', 'endpoint', 'explicit_cache', 'region', 'synthetic_only', 'quality_scope', 'batch_static'}:
         raise ValueError('PROVIDER_CONFIGURATION_SHAPE')
     provider = config.get('provider', 'anthropic')
     if provider not in ('anthropic', 'openai', 'azure_openai', 'bedrock', 'nvidia', 'openrouter'):
         raise ValueError('PROVIDER_NOT_INSTALLED')
+    if 'batch_static'in config and (provider!='anthropic'or config['batch_static']is not True):
+        raise ValueError('STATIC_ANTHROPIC_BATCH_CONFIGURATION_REQUIRED')
     if provider == 'nvidia':
         from .reasoning_nvidia import BASE
         if config.get('endpoint') != BASE or config.get('synthetic_only') is not True or config.get('quality_scope') != 'DEV_ONLY':
@@ -80,6 +82,7 @@ def client(config, *, budget, record, diagnostic_prompt_cache=None, **ports):
                  'identity': config['gateway_identity'], 'secret_reference': config['secret_reference'], **ports}
     if provider == 'anthropic':
         from .reasoning_anthropic import Client
+        arguments['batch_static']=config.get('batch_static',False)
         if diagnostic_prompt_cache is None and 'explicit_cache' in config:
             diagnostic_prompt_cache = config['explicit_cache']
         if diagnostic_prompt_cache is not None:

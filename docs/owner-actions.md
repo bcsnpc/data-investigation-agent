@@ -992,3 +992,20 @@ Browser tool unavailable (required node_repl/sky not exposed). No toggle changed
 Round27 close: tool execution policy rejected deletion of two exact-archived unused generators (blocked by policy). Nothing was deleted. Owner may run .local/round-twenty-seven/cleanup-verified-obsolete-generators.ps1 after reviewing docs/round-twenty-seven-dead-code-cleanup.json; expected5274bytes. C/D guards already pass, so no evidence or cache deletion is needed to admit release checks. Browser node_repl/sky capability is absent: owner may independently reopen the one approved model refresh setting to verify ON; no setting change was attempted in the close run.
 
 Round27cleanup scope clarification: 96 historical worktree registrations/directories already exist in the shared repository, including protected dirty owner work. This run created none and used only the existing C:/temp/dia-r26-build worktree. They were not deleted or silently called clean; deletion policy and source/evidence review remain owner work. The old main checkout D:/dia-r19-main is preserved; current release can inspect the merged commit detached in the active worktree.
+
+
+## Round 27 close: actions remaining (2026-11-25 owner / November 26 UTC)
+
+1. Confirm the December Anthropic cash balance. The complete confirmation plus protected calibration and reserve is currently short by $8.908245; a grant alone does not earn either gate. V5 stays sealed until confirmation and calibration pass and its whole-run forecast fits.
+2. Recheck independent grading funding: current OpenAI credit expires November 29. Paid OpenRouter remains blocked.
+3. Reopen Application load fixture 20261003 > Refresh and verify automatic updates are ON. This close task made no toggle change. Source hashes and model 7,661 match; current browser readback is unavailable.
+4. December budget readiness is unconfirmed; no account or grant was created during closure. Current access checks pass; the next-month check is a warning.
+5. Review the daily demo check's aggregate-result shape handling in Round 28. SUM plus COUNT in one native row is rejected by the frozen one-column comparator; actual smoke statuses remain FAIL.
+6. Optional owner cleanup: .local/round-twenty-seven/cleanup-verified-obsolete-generators.ps1 frees only 5,274 bytes. Tool policy rejected deletion, and the exact archived originals remain. Historical worktrees require separate source/evidence review; none were deleted.
+
+
+## Owner extra-credit gate steer, 2026-11-25 / execution November 26 UTC
+
+Owner added10USD; approximate cash56USD (lower than ledger-implied56.1764), reserve3, auto-reloadOFF. Workspace usage endpoint still401/notAdminAPI, so no exact API cash claim. Before any gate call, cloud/code normalized ceiling255.108251 preserves202.108251 charged. PR435 remains open/draft; no merge/tag. Close smoke admission controller was stopped before any final-policy live submission. Earlier sealed smoke failures remain.
+
+The37.568245USD forecast ALREADY includes50% Batch for17 static cases with saved per-ticket tokens; one additional static case lacks saved counts and retains a conservative1.43USD imputation without further discount. Evaluator stable ticket/current-cited-evidence now has a cache breakpoint before changing draft/feedback; no removed or uncited evidence is pinned. New cache savings are NOT assumed in the forecast. Calibration remains14.34, reserve3:54.908245 total vs56,1.091755 headroom. Requalify/freeze cache and static transport wiring before calls; independent Sol/Astra plus Terra disagreements. Confirmation requires all20guard and0reviewedharm; calibration then70%/0harm; v5sealed until Dec1confirmed. Original close-not-admitted forecast/receipts remain historical, superseded by gates-reforecast.

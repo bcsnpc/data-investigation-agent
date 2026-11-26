@@ -37,18 +37,20 @@ class StaticBatch:
         marker=SESSION.set(self)
         try:return (self.client.send or self.client._http)(method,url,body)
         finally:SESSION.reset(marker)
-    def submit(self,requests):
+    def submit(self,requests,*,reserved=None):
         from ..planner_recording import _safe
         from ..estate_graph_contract import canonical
         from ..process_tape import uuid4
         if not isinstance(requests,list)or not 1<=len(requests)<=50:raise ValueError('STATIC_BATCH_BOUND')
         for body in requests:authorize_body({'reasoning_models':[self.model]},'POST',BASE+'/messages',body)
+        if reserved is not None and (not isinstance(reserved,list)or len(reserved)!=len(requests)or any(not isinstance(r,str)or not r for r in reserved)):
+            raise ValueError('STATIC_BATCH_EXISTING_RESERVATIONS')
         rows=[];reservations={}
         # Reserve all requests before the only POST. Unknown failures stay charged.
-        for body in requests:
+        for index,body in enumerate(requests):
             authorize_body({'reasoning_models':[self.model]},'POST',BASE+'/messages',body)
             _safe(canonical(body).encode())
-            key=uuid4().hex;reservation=self.client.budget.reserve(body)
+            key=uuid4().hex;reservation=self.client.budget.reserve(body)if reserved is None else reserved[index]
             self.client.record({'event':'STATIC_BATCH_RESERVED','custom_id':key,'reservation':reservation})
             rows.append({'custom_id':key,'params':deepcopy(body)});reservations[key]=reservation
         if not 1<=len(rows)<=50:raise ValueError('STATIC_BATCH_BOUND')
