@@ -568,5 +568,22 @@
       "queries_replayed": 9,
       "successful_query_compiler_regressions": 0
     }
-  ]
+  ],
+  "qualified_source": "c544d70d769203cf7fd9987d42c6f12d8c685770",
+  "full_tool_schema_checked": true,
+  "full_tool_schema_eligible_cases": 20,
+  "full_tool_schema_private_receipt_sha256": "fd5e3a58e4061be9397f28a1a9028191595c1f05ad20e3958a05a54cf1bb6808",
+  "saved_queries_recompiled": 124,
+  "saved_submit_drafts_checked": 29,
+  "previous_successful_query_regressions": 0,
+  "code_eligible_cases": 20,
+  "new_code_eligible_answer_tickets": [
+    "text-R17-05-v1",
+    "text-R17-10-v1"
+  ],
+  "new_code_eligible_unresolved_handoffs": [
+    "text-older-export-movement-1-v2",
+    "text-R17-08-v1"
+  ],
+  "fresh_evaluator_or_model_continuation_not_generated": true
 }

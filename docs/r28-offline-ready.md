@@ -70,3 +70,17 @@ All nine no-case classifications remain unchanged. No previously successful save
 3. Qualify the repaired image on SuperVL for failed confirmation tickets, with its existing synthetic-data and budget rules. Then rerun only those failures on Opus once, if whole-step funding fits. Preserve original outcomes and report replacements separately.
 4. Calibration follows only if the gate and confirmed Anthropic cash plus independent grading funding permit it; keep the $3 reserve. Never run partial calibration or v5. v5 stays sealed until its own whole-run gate/funding check.
 5. Owner actions: OpenAI grading credit expires 2026-11-29; December grading needs a top-up/valid owner-approved funding. Confirm the exact December 1 Anthropic balance before further paid admission.
+
+## Qualification and review state
+
+Corrected implementation source: `c544d70d769203cf7fd9987d42c6f12d8c685770`. Full clean-checkout repository suite: **6206 passed, 53 skipped, zero failures/errors**. All **8/8 network-disabled image shards passed**, and 130 focused tests passed locally. Workflow [45869021667](https://github.com/bcsnpc/data-investigation-agent/actions/runs/45869021667) published only the tested immutable commit image:
+
+`ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:65aacf992ef4a57e3f6f66fa28c68beb9ecf2a0ad4c2a35fa1b8bbc6a6e4bf70`
+
+It has **not been deployed or admitted for live proof**. The original a0e47731 confirmation image and all 248 files in its archived checkpoint remain byte-identical. No original grade, expected answer, tape, allowance or ledger counter changed. No merge or tag was performed.
+
+The earlier qualification of b03f7874 was superseded when CI caught diagnostic-precedence and adapter-boundary issues; both were corrected in source c544d70d without changing the pre-existing tests or expectations. Final qualification uses c544d70d. The redundant local full-suite runs were stopped; the complete clean-checkout hosted suite above is the full-suite result.
+
+Verification receipts: `docs/r28-offline-qualification.json`, `docs/r28-offline-confirmation-replay.json`, `docs/r28-saved-classification-comparison.json`, and `docs/r28-confirmation-immutability.json`. The full tool-schema check independently agrees with all 20 code-eligible saved cases. Changed drafts still require fresh exact-question evaluation; no repaired live score or improved live cache ratio is claimed.
+
+The prepared smoke configuration format for multi-column results is `reads: {asset_id: {column: "units", value: 8765}}` (using the actual declared result column for that surface). Apply it to the smoke's own configuration at the later authorised live step; do not edit the frozen confirmation runner to add it.

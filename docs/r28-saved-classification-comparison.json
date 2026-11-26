@@ -1007,5 +1007,12 @@
       "after_outcome": "ANSWERED",
       "unchanged": true
     }
-  ]
+  ],
+  "qualified_source": "c544d70d769203cf7fd9987d42c6f12d8c685770",
+  "qualified_source_replay_counts": {
+    "REPLAY_FAILURE": 28,
+    "REPLAY_FINISHED": 86,
+    "NO_INVESTIGATION_CASE": 9
+  },
+  "qualified_source_matches_published_comparison": true
 }
