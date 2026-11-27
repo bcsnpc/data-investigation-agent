@@ -17,8 +17,22 @@ def check(bundle,configuration):
     columns={}
     for a in assets:
         if a['kind']=='SemanticColumn':columns.setdefault(a['parent_id'],set()).add(a['name'])
+    for node in nodes:
+        if node.get('kind')not in ('COLUMN','CALCULATED_COLUMN'):continue
+        asset=index.get(node.get('properties',{}).get('asset_id'),{})
+        if asset.get('kind')not in ('SemanticColumn','SqlColumn','LakehouseColumn','WarehouseColumn'):
+            gaps.append('graph referenced column metadata missing: '+node['id'])
     models=[a for a in assets if a['kind']=='SemanticModel']
     tables=[a for a in assets if a['kind']=='SemanticTable']
+    for declaration in assets:
+        if declaration['kind']!='EngineDependencyMetadata':continue
+        result=declaration.get('metadata',{}).get('result',{})
+        if result.get('status')!='COLLECTED':
+            gaps.append('native dependency collection incomplete: '+declaration['id']);continue
+        table_names={t['name']:t['id'] for t in tables if t['parent_id']==declaration.get('parent_id')}
+        for dependency in result.get('rows',[]):
+            if dependency.get('REFERENCED_OBJECT_TYPE')=='COLUMN' and dependency.get('REFERENCED_OBJECT')not in columns.get(table_names.get(dependency.get('REFERENCED_TABLE')),set()):
+                gaps.append('native dependency column missing: '+declaration['id']+'/'+str(dependency.get('REFERENCED_TABLE'))+'/'+str(dependency.get('REFERENCED_OBJECT')))
     for a in assets:
         if a['kind'] in ('SqlObject','WarehouseTable','LakehouseTable'):
             cs=a.get('metadata',{}).get('columns',[])
