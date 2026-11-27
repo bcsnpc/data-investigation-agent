@@ -22,3 +22,6 @@ Baseline checkpoint (16 saved, HN-009 excluded as unresolved): {"handoff": {"ful
 
 
 Owner-control publication preserves the full native catalog. The HN-004 snapshot has 804 CAS definitions: 799 exactly match immutable SHA-256 objects already uploaded and verified in the baseline publication; five are new. Subsequent control publication reuses those exact objects rather than uploading/verifying them again. This changes only local publication work, never model-facing scope, content or the frozen image.
+
+
+Owner approval, 2026-11-26 (execution UTC 2026-11-27): HealthNet grading packets may use up to **1,000,000 serialized characters**, increased from 24,000, in the local grading process only. The worker/engine/image remains frozen. New unsent grades include the complete saved case, every query/result, all rows, retained definitions and triage, without sampling, dropping procedure bodies or evidence compaction. HN-011's complete packet is 541,828 UTF-8 bytes. Primary Sol, secondary Astra and Terra disagreement review, rubric, output limits and financial guards are unchanged. Completed grades are not rerun. Local boundary tests accept a 500,000-character evidence body, reject over-limit/invalid protocol or malformed tasks, and verify the engine source hash is unchanged.

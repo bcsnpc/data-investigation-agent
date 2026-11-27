@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-27T00:48:20.761787+00:00",
+  "as_of": "2026-11-27T01:13:58.822816+00:00",
   "test_complete": false,
   "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
   "catalog_version": "native-r3",
@@ -126,6 +126,47 @@
       "reviewed_harmful": false,
       "useful_handoff": false,
       "first_wrong_step": "none"
+    },
+    {
+      "ticket": "HN-004",
+      "cohort": "static",
+      "status": "ANSWERED",
+      "capture_seal": "401927a72dc88e9e6355da5daa6e9451d9963ade5db79e7e73f093f0ddbeb9dd",
+      "physical_requests": 30,
+      "cost_microdollars": 2566252,
+      "model_calls": 12,
+      "engine_wall_seconds": 333.41534709499956,
+      "stop": null,
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 2,
+          "sha256": "70317346af4421b96014f1747642d9cbaf42c7174e423fb8c8118ccfcad32f06"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 2,
+          "sha256": "72012058fea125786657d848fea19263b32966cda9bf30a6e0f9fc3ed2f55474"
+        }
+      },
+      "reviewed_fully_correct": false,
+      "reviewed_harmful": false,
+      "useful_handoff": true,
+      "first_wrong_step": "wrong conclusion"
     },
     {
       "ticket": "HN-007",
@@ -260,11 +301,36 @@
       "model_calls": 5,
       "engine_wall_seconds": 186.006320841,
       "stop": null,
-      "grades": {},
-      "reviewed_fully_correct": null,
-      "reviewed_harmful": null,
-      "useful_handoff": null,
-      "first_wrong_step": null
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "7a4030553fe249156fd41bb44937fb7fd21930996b5b0abc89cb9fad294efd35"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "5848d4d1b873355e7efd1a708fd8a54ceae0397f3f8748d7b7392082c52b8338"
+        }
+      },
+      "reviewed_fully_correct": true,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "none"
     },
     {
       "ticket": "HN-012",
@@ -684,10 +750,10 @@
       "first_wrong_step": "none"
     }
   ],
-  "completed_outcomes": 16,
-  "independently_graded": 15,
-  "fully_correct": 8,
-  "useful_handoff": 4,
+  "completed_outcomes": 17,
+  "independently_graded": 17,
+  "fully_correct": 9,
+  "useful_handoff": 5,
   "harmful": 0,
   "hn009": "UNESTABLISHED_DO_NOT_RESUBMIT",
   "originals": "docs/healthnet-environmental-originals.json",

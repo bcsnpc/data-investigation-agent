@@ -1,0 +1,17 @@
+{
+  "owner_approved_date": "2026-11-26",
+  "recorded_at_utc": "2026-11-27T01:13:36.807961+00:00",
+  "old_limit_characters": 24000,
+  "new_limit_characters": 1000000,
+  "scope": "Local grading process only; no engine source/image changes",
+  "evidence_compaction": false,
+  "complete_saved_case": true,
+  "hn011_packet_bytes": 541828,
+  "checks": {
+    "passed": true,
+    "grading_only_limit": 1000000,
+    "engine_file_unchanged": true,
+    "engine_sha256": "12b5893ae5be7ad0e983d52700e11356a8b1b621fe8ed9bad4e699d7dfbaec4c",
+    "complete_evidence": true
+  }
+}
