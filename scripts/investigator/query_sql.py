@@ -15,7 +15,7 @@ VERSION = 'bounded-tsql-v5'
 NODES = set('Select From Table Identifier TableAlias Column Alias Star Where Group Having Order Ordered Limit Join With CTE Subquery Paren And Or Not EQ NEQ GT GTE LT LTE Is In Between Like ILike Add Sub Mul Div Mod Neg Literal Null Boolean Parameter Var Distinct Case If Cast TryCast DataType DataTypeParam Count Sum Avg Min Max Coalesce Nullif Abs Round Floor Ceil DateAdd DateDiff CurrentDate CurrentTimestamp Extract Window RowNumber Partition Offset Concat CurrentSchema'.split())
 MAX_JOINS=4
 MAX_SELECTS=8
-NODES.update(('Upper','Lower','Trim'))
+NODES.update(('Upper','Lower','Trim','Left','Right','Length','Replace','Reverse','StrPosition'))
 
 
 class QueryRejection(ValueError):

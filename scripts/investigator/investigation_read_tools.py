@@ -44,9 +44,8 @@ class ReadTools:
             current=queue.popleft()
             for target in adjacent.get(current,[]):
                 if target not in self.distance:self.distance[target]=self.distance[current]+1;queue.append(target)
-        owners={n.get('owner') for n in path['nodes'] if n.get('owner')}
-        self.visible.update(i for i,n in self.nodes.items() if n.get('owner') in owners
-                            and n['kind'] in ('MODEL','PIPELINE','COPY_ACTIVITY','NOTEBOOK'))
+        # Only exact path/dependency nodes start visible. Search can explicitly
+        # expose further admitted candidates; shared owners never activate them.
         self.expand=expand
         self.definition_reader=definition_reader
         self.job_runs,self.refresh_history,self.security=job_runs,refresh_history,security_definitions

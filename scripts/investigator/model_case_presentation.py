@@ -77,7 +77,8 @@ class Presentation:
         return visit(value,'#')
 
     def complete(self,model,*,system,messages,tools):
-        stable={'context':self.project(self.context),'triage':self.project(self.triage)}
+        from .prompt_scope import project as scoped_context
+        stable={'context':self.project(scoped_context(self.context)),'triage':self.project(self.triage)}
         texts={}
         def native_text(value,field=None):
             if isinstance(value,str) and field in ('content','definition','expression') and len(value)>300:

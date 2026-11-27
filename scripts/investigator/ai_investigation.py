@@ -38,7 +38,7 @@ of data. BLANK is a value; zero is different. Preserve the stated precision.
 Use the supplied tools. Cite evidence for every factual claim. On rejection use
 the precise feedback and continue with a different or corrected check. Query
 repeats reuse saved evidence. Read the current-state recitation each turn.
-Retained-definition references identify native code already supplied in context.
+Retained-definition references identify pinned native code available on demand.
 Cite their evidence IDs for calculation or binding statements, together with
 actual query results for the observed effect. They never establish freshness.
 An unresolved comparison_context is still part of the user's question. Resolve
@@ -223,7 +223,8 @@ timestamps are not temporal validity intervals: ordering those timestamps does
 not prove deletion/reinsertion times. If period columns cannot be read, keep
 that detailed timeline undecided rather than inventing a source-history cause.
 '''
-        self.stable=guidance+'\nAdmitted path, schema, retained definitions and toolbox:\n'+canonical(context)+'\nCompleted path triage:\n'+canonical(triage)
+        from .prompt_scope import project as scoped_context
+        self.stable=guidance+'\nAdmitted path, schema and definition references:\n'+canonical(scoped_context(context))+'\nCompleted path triage:\n'+canonical(triage)
         from .model_case_presentation import Presentation
         self.presentation=Presentation(context,self.triage,guidance)
 
@@ -355,6 +356,9 @@ that detailed timeline undecided rather than inventing a source-history cause.
 
     def repair_delivery(self,args,reason,*,kind):
         """One model-only reformat; no tool in this request can read the estate."""
+        attempts=self.state.get('delivery_repair_attempts',0)
+        if attempts>=2:raise ValueError('DELIVERY_REPAIR_ATTEMPTS_EXHAUSTED')
+        self.state['delivery_repair_attempts']=attempts+1
         repairs=self.state.setdefault('delivery_repairs',[])
         if kind=='contract' and any(r['kind']=='contract' for r in repairs):
             raise ValueError('DELIVERY_CONTRACT_REPAIR_EXHAUSTED')
@@ -581,7 +585,7 @@ that detailed timeline undecided rather than inventing a source-history cause.
             if definitions:
                 self.state['messages'].append({'role':'user','content':canonical({
                     'retained_definition_references':definitions,
-                    'instruction':'The native content is already in the admitted context. Cite these IDs for its retained definition; get_evidence returns full details. These references do not prove current values or deployment freshness.'})})
+                    'instruction':'Fetch get_evidence for complete native definitions before relying on their contents. Cite these IDs; references alone do not prove contents, current values or deployment freshness.'})})
         try:
             if not saved:
                 self.prime_access_definitions()
@@ -609,6 +613,9 @@ that detailed timeline undecided rather than inventing a source-history cause.
                     if not isinstance(content,list):content=[]
                     calls=[b for b in content if isinstance(b,dict) and b.get('type')=='tool_use']
                     if not calls or any(not isinstance(b.get('id'),str) or not b.get('id') for b in calls):
+                        if self.state.get('delivery_rejections'):
+                            self.stop_delivery_loop('DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL')
+                            break
                         self.state['messages'].append({'role':'user','content':'Format warning: use the supplied tools; your response is retained but no unchecked finding is delivered.'})
                         self.save();continue
                     self.state['messages'].append({'role':'assistant','content':content})
@@ -661,6 +668,8 @@ that detailed timeline undecided rather than inventing a source-history cause.
                         except ValueError:message=type(error).__name__
                         result={'rejected_tool':name,'reason':message,'error_type':type(error).__name__}
                         self.evidence(result);is_error=True
+                        if name in ('submit_finding','ask_user_choice'):
+                            self.record_delivery_rejection(message)
                     self.state['pending']=None
                     results.append({'type':'tool_result','tool_use_id':call['id'],
                                     'content':canonical(result),'is_error':is_error})
@@ -676,6 +685,19 @@ that detailed timeline undecided rather than inventing a source-history cause.
             self.state['outcome']={'status':'UNRESOLVED','business':'The checks did not establish a cause within this ticket’s limits.',
                                    'stop':'TOOL_OR_TIME_LIMIT'}
         return self.finish()
+
+    def stop_delivery_loop(self,reason):
+        self.state['outcome']={'status':'UNRESOLVED',
+            'business':'The checked evidence did not establish the requested conclusion. The findings, calculation and remaining checks follow.',
+            'stop':reason}
+
+    def record_delivery_rejection(self,reason):
+        """Bound retries at a fixed evidence frontier, including malformed repair."""
+        frontier=digest([q['id'] for q in self.queries.records])
+        prior=self.state.get('delivery_rejection_frontier')
+        count=self.state.get('delivery_rejections',0)+1 if prior==frontier else 1
+        self.state.update(delivery_rejection_frontier=frontier,delivery_rejections=count)
+        if count>=3:self.stop_delivery_loop('DELIVERY_REJECTED_WITHOUT_NEW_READS: '+reason)
 
     def closing_action_reserved(self):
         # The seven-action cascade stage hands off to another model; it is
