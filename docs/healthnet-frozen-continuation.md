@@ -1,5 +1,7 @@
 # HealthNet frozen continuation
 
+Current checkpoint (2026-11-27 UTC): 17 outcomes saved and independently graded, 9 fully correct, 4 useful handoffs, 0 harmful. HN-011 is now fully graded with complete evidence under the owner-approved grading-only 1,000,000-character bound; earlier unsent/24,000-limit entries below are historical. HN-004 is hash-restored. HN-005 is in flight on the unchanged frozen image; no overlapping affected ticket. HN-009 remains unresolved and unscored.
+
 Owner date 2026-11-26: scoping and retry-loop repairs deferred to R28; continue on qualified frozen image with current catalog. Forecast $3 per ticket ($6 per normal pair) before each pair against the effective Anthropic ceiling already net of $8 protection; stop before an unfunded pair. No cap changes.
 
 Grading transport: oversized unsent packets try existing round25_grader_pool.fit_task lossless transport. HN-010 and HN-011 still do not fit: no grading call was dispatched and no score is assigned. Their complete saved outcomes remain for later grading; do not drop evidence or raise the limit. Scoring rules, models, native results and expectations remain unchanged. Its nine focused tests pass. Also corrected the local helper to recognize both dict and list pre-dispatch planning schemas under its existing labelled hash-reference policy; three focused checks pass. No investigator code or prompts changed.

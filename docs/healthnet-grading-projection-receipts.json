@@ -12,5 +12,22 @@
   ],
   "full_original_projections_private": true,
   "engine_changes": false,
-  "grading_rules_changed": false
+  "grading_rules_changed": false,
+  "grading_only_limit_change": {
+    "owner_date": "2026-11-26",
+    "new_limit_characters": 1000000,
+    "scope": "Local grading harness only",
+    "complete_saved_case_for_new_unsent_grades": true,
+    "no_compaction": true,
+    "completed_prior_grades_unchanged": true,
+    "HN-011": {
+      "evidence_compaction": false,
+      "original_projection_sha256": "b7b7987ca622e31f57b5e94dbc928a5aeb053e6fcc03172d78e79716cad9dd4e",
+      "packet_bytes": 541828,
+      "packet_limit_characters": 1000000,
+      "packet_sha256": "b7b7987ca622e31f57b5e94dbc928a5aeb053e6fcc03172d78e79716cad9dd4e",
+      "sealed_sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52"
+    },
+    "HN-011_complete_case_exactly_matches_capture": true
+  }
 }
