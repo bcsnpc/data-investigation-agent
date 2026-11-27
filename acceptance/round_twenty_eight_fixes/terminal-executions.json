@@ -1,0 +1,62 @@
+{
+  "source": "Azure terminal execution readback retained by each RunHarness before sealed outcome recovery",
+  "executions": [
+    {
+      "ticket": "HN-001",
+      "execution": "job-dia-worker-sfsq8gq",
+      "status": "Failed",
+      "capture_seal": "430325a1a3d4e0ed7caaa3fc708e7efb4a43a05341972fab1e6e0f6c875542ce"
+    },
+    {
+      "ticket": "HN-002",
+      "execution": "job-dia-worker-gioy5pi",
+      "status": "Failed",
+      "capture_seal": "7e845665edfd16443c54cdf9cec1bb1a7df9899f15dc7a9f2b8215d8c9bc2b29"
+    },
+    {
+      "ticket": "HN-003",
+      "execution": "job-dia-worker-rjiyvz1",
+      "status": "Failed",
+      "capture_seal": "089f340594bd10318d242e7bb7239550791e694405df17ff3bee3583e8d6074d"
+    },
+    {
+      "ticket": "HN-008",
+      "execution": "job-dia-worker-yyoz5eb",
+      "status": "Failed",
+      "capture_seal": "16e5add4d7a75365f9bd4dc43ba63622dae4db4ed214bdf834ab72885a731077"
+    },
+    {
+      "ticket": "HN-011",
+      "execution": "job-dia-worker-6h3ore6",
+      "status": "Failed",
+      "capture_seal": "a70b38ce247ee8b9fd788d3421eff28e37859958aafb265f6e0e09baa7df4d30"
+    },
+    {
+      "ticket": "HN-013",
+      "execution": "job-dia-worker-0bbyapc",
+      "status": "Failed",
+      "capture_seal": "d4f415e03ab580b55202dcb96de136ee4fd3167d926d878bfc59b542050f0b43"
+    },
+    {
+      "ticket": "HN-024",
+      "execution": "job-dia-worker-hap1srp",
+      "status": "Failed",
+      "capture_seal": "0ddce8bfdaa230c14a94ecbb5b939d361de9352b5c4a61c6463fe9a3fec757e0"
+    },
+    {
+      "ticket": "HN-026",
+      "execution": "job-dia-worker-zyu2p4d",
+      "status": "Failed",
+      "capture_seal": "7a76ea9a3fb47542e9a0da98f614bfd52154f9299c5430f594c07c71b28b072c"
+    },
+    {
+      "ticket": "HN-024-revised-dev",
+      "execution": "job-dia-worker-gveejzx",
+      "status": "Failed",
+      "capture_seal": "832adbd8ea1887f18a032f4a6adc3dbeafd7d4947d62092d1431524974430822"
+    }
+  ],
+  "all_terminal": true,
+  "unresolved_is_scored_not_environmental": true,
+  "no_new_submission": true
+}

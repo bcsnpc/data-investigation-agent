@@ -43,6 +43,14 @@ class Factory:
         return Resolver(catalog=catalog,model=None,record=lambda _:None).check(origin['text'],
             {'proposal':intake,'provenance':origin['provenance'],'figure_mentions':origin['figure_mentions']})
 
+    def check_form_intake(self,request,catalog):
+        from .form_candidate_admission import check
+        from .guided_intake_candidates import probe_target
+        def probe(target,proposal,queries):
+            return probe_target(self,catalog,target,proposal,self.native,
+                lambda event:self.persist('form-check:'+digest(request),event),queries)
+        return check(request,catalog,probe=probe)
+
     def prepare(self, identity, nodes=None):
         if self.prepare_route:
             route=self.prepare_route(identity,nodes)
@@ -95,12 +103,8 @@ class Factory:
     def target_path(self, intake):
         catalog=self.graph.intake_catalog()
         def associated(path):
-            path=self.attach_native_ancestors(path)
-            owners={n.get('owner') for n in path['nodes'] if n.get('owner')}
-            present={n['id'] for n in path['nodes']}
-            additions=[n for n in catalog['nodes'] if n['kind']=='MODEL' and n['id'] not in present
-                       and (n.get('owner') in owners or n.get('properties',{}).get('asset_id') in owners)]
-            return {**path,'nodes':[*path['nodes'],*additions]}
+            # Workspace/definition ownership is not a report-to-model binding.
+            return self.attach_native_ancestors(path)
         if intake.get('table') or intake.get('measure'):
             return associated(self.graph.path_to_source(intake.get('table') or intake['measure']))
         if intake.get('visual'):return associated(self.graph.path_to_source(intake['visual']))
@@ -110,6 +114,11 @@ class Factory:
         choices=Catalog(catalog)
         pages=[{'id':intake['page']}] if intake.get('page') else choices.pages(intake['report'])
         visuals=[v for page in pages for v in choices.visuals(intake['report'],page['id'])]
+        ranked=choices.ranked(intake.get('description',''),'VISUAL',within={v['id'] for v in visuals})
+        named_visuals={v['id'] for v in ranked if v['confidence'] in ('NAMED','NORMALIZED')}
+        if named_visuals:visuals=[v for v in visuals if v['id'] in named_visuals]
+        # A report-only question is not authority to prepare every model/table.
+        # Keep a bounded shortlist; truncation is explicit and forbids uniqueness.
         measures={m['id'] for visual in visuals for m in visual.get('measures',[])}
         named=[r for r in choices.ranked(intake.get('description',''),'MEASURE',within=measures) if r['confidence']=='NAMED']
         if len(named)==1:
@@ -150,6 +159,8 @@ class Factory:
         choices=Catalog(catalog)
         pages=[{'id':intake['page']}] if intake.get('page') else choices.pages(intake['report'])
         visuals=[v for page in pages for v in choices.visuals(intake['report'],page['id'])]
+        if named_visuals:visuals=[v for v in visuals if v['id'] in named_visuals]
+        candidate_total=len(visuals);visuals=visuals[:3]
         nodes={n['id']:deepcopy(n) for n in catalog['nodes'] if n['id'] in {intake['report'],*[p['id'] for p in pages]}}
         edges={};stops=[];unavailable={};truncated=False
         for visual in visuals:
@@ -162,7 +173,8 @@ class Factory:
             if edge['source'] in nodes and edge['target'] in nodes:edges[edge.get('id') or digest(edge)]=edge
         return associated({'nodes':list(nodes.values()),'edges':list(edges.values()),'stops':stops,
                 'unavailable_owners':unavailable,'truncated':truncated,
-                'target_selection':'Report/page resolved; visual remains optional. Candidate measures are not a selected replacement visual.'})
+                'candidate_count':candidate_total,'candidate_paths_exhaustive':candidate_total<=3,
+                'target_selection':'Report/page resolved; visual remains optional; at most three candidate paths. No replacement visual is selected; incomplete checks cannot establish uniqueness.'})
 
     def resolve_path(self,path):
         path=self.attach_native_ancestors(deepcopy(path))
@@ -238,7 +250,8 @@ class Factory:
         context['engineer_replies']=FactLedger(self.state).engineer_replies_for_path(case['estate'],sorted(nodes),scope)
         _safe(canonical(context).encode())
         save=lambda event:self.persist(case['id'],event)
-        initial_queries=deepcopy(self.intake_queries(case))
+        initial_queries=deepcopy([*self.intake_queries(case),*case.get('intake_queries',[])])
+        if case.get('form_candidate_checks'):context['form_candidate_checks']=deepcopy(case['form_candidate_checks'])
         if initial_queries:
             context['intake_candidate_query_evidence']=deepcopy(initial_queries)
             context['candidate_layer_labels']={q['layer']:self.routes[q['layer']]['label']for q in initial_queries if q['layer']in self.routes}

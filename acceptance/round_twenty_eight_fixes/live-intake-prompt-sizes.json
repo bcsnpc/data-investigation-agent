@@ -1,0 +1,23 @@
+{
+  "tokenizer": "o200k_base offline proxy",
+  "rows": [
+    {
+      "ticket": "HN-002",
+      "phase": "FIRST_INTAKE_REQUEST",
+      "original_characters": 125659,
+      "repair_characters": 25820,
+      "original_offline_tokens": 44809,
+      "repair_offline_tokens": 11008,
+      "notes": "Same offline tokenizer; normalized provider wire wrappers. Free model and original Opus differ; not a quality isolation experiment."
+    },
+    {
+      "ticket": "HN-008",
+      "phase": "FIRST_INTAKE_REQUEST",
+      "original_characters": 125745,
+      "repair_characters": 25906,
+      "original_offline_tokens": 44868,
+      "repair_offline_tokens": 11067,
+      "notes": "Same offline tokenizer; normalized provider wire wrappers. Free model and original Opus differ; not a quality isolation experiment."
+    }
+  ]
+}

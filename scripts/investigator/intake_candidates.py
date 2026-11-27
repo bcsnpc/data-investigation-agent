@@ -86,10 +86,8 @@ def enumerate_targets(catalog, *, text, proposal, explicit=None, limit=5, native
     else:
         reports = ([{'id': explicit['report']}] if explicit.get('report')
                    else catalog.report_matches(text))
-        if not reports and re.search(r'\d',text) and not(catalog.table_matches(text)or catalog.measure_matches(text)):
-            # A number without a resolved subject still gets bounded checks,
-            # not a bare intake refusal. Truncation forbids target selection.
-            reports=catalog.reports()
+        # A numeral alone does not authorize opening every report endpoint.
+        # No named candidate means one grounded intake question, not a scan.
         for report in reports:
             report_id = report['id']
             pages = catalog.pages(report_id)

@@ -362,6 +362,9 @@ class NativeCatalog:
         assets={a for a,nodes in self.nodes.items() if ids.intersection(nodes)}
         assets.update(n.get('provenance',{}).get('source_id') for n in path['nodes'] if n.get('provenance',{}).get('source_id') in self.assets)
         containers={self.assets[a]['parent_id'] for a in assets}
+        # Only the exact native containers reached by this path may contribute
+        # sibling scope definitions. A workspace owner is never a model binding.
+        containers.update(a for a in assets if self.assets[a]['kind'] in ('SemanticModel','Report','DataPipeline','Notebook'))
         definitions=[{'id':a['id'],'kind':a['kind'],'name':a['name'],'metadata':deepcopy(a['metadata']),
                       'content_hash':a['content_hash'],'provenance':a.get('provenance'),
                       **({'content_hash_basis':a['content_hash_basis']} if a.get('content_hash_basis') else {})}
@@ -377,18 +380,12 @@ class NativeCatalog:
         opened=set().union(*self.opened.values()) if self.opened else set()
         semantic_tables={self.assets[i]['name'] for i in opened if self.assets.get(i,{}).get('kind')=='SemanticTable'}
         definitions=[a for a in definitions if a['kind']!='SemanticTable' or a['id'] in opened]
-        for definition in definitions:
-            if definition['kind']!='DefinitionPart' or definition['name']!='model.bim' or not semantic_tables:continue
-            raw=definition['metadata'].get('content')
-            try:document=json.loads(raw)
-            except (ValueError,TypeError):continue
-            model=document.get('model')
-            if not isinstance(model,dict):continue
-            model['tables']=[t for t in model.get('tables',[]) if t['name'] in semantic_tables]
-            definition['metadata']['content']=json.dumps(document,ensure_ascii=False)
-            definition['projection']={'kind':'PATH_TABLES_WITH_RELATED_SCHEMA','tables':sorted(semantic_tables),
-                                      'original_content_hash':definition['content_hash'],
-                                      'original_retained_unchanged':True}
+        table_names_by_model=defaultdict(set)
+        for identity in opened:
+            table=self.assets.get(identity,{})
+            if table.get('kind')=='SemanticTable':table_names_by_model[table['parent_id']].add(table['name'])
+        definitions=[a for a in definitions if a['kind']!='SemanticRelationship' or
+                     {a['metadata'].get('fromTable'),a['metadata'].get('toTable')} <= table_names_by_model[self.assets[a['id']]['parent_id']]]
         text='\n'.join(str(a['metadata'].get('content','')) for a in definitions if a['kind']=='DefinitionPart')
         references=[{'id':a['id'],'kind':a['kind'],'name':a['name'],'metadata':deepcopy(a['metadata'])}
                     for a in self.assets.values() if a['kind'] in ('SQLEndpoint','Lakehouse','Warehouse','SourceConnection')

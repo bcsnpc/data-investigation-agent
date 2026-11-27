@@ -130,8 +130,20 @@ def command(argv):
     parser = argparse.ArgumentParser(description='Validate estate configuration without network or secrets')
     parser.add_argument('action', choices=('validate',))
     parser.add_argument('file', type=Path)
+    parser.add_argument('--discovery',type=Path,help='Offline native discovery/readability bundle (no secret values)')
+    parser.add_argument('--discovery-sha256',help='Expected immutable discovery-bundle SHA-256')
     args = parser.parse_args(argv)
-    try: result = dry_run(load(args.file))
+    try:
+        value=load(args.file);result=dry_run(value)
+        if args.discovery is None:
+            raise ValueError('DISCOVERY_INCOMPLETE: supply --discovery and --discovery-sha256; configuration shape alone is not readiness')
+        raw=args.discovery.read_bytes()
+        if not args.discovery_sha256 or hashlib.sha256(raw).hexdigest()!=args.discovery_sha256:
+            raise ValueError('DISCOVERY_BUNDLE_HASH_DIFFERS')
+        from .discovery_completeness import check
+        audit=check(json.loads(raw),value);result['discovery']=audit
+        if not audit['complete']:
+            print(json.dumps({'status':'DISCOVERY_INCOMPLETE','discovery':audit},indent=2));return 2
     except (ValueError, OSError) as error:
         # Schema validation can include untrusted values; do not print them.
         print(json.dumps({'status': 'INVALID', 'reason': str(error) if isinstance(error,ValueError) else 'configuration file could not be read'}))

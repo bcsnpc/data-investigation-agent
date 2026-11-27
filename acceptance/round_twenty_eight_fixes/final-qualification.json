@@ -1,0 +1,11 @@
+{
+  "workflow": 45938483031,
+  "url": "https://github.com/bcsnpc/data-investigation-agent/actions/runs/45938483031",
+  "source": "3ee682aee907093cf3f49452d8d9cf683aecd7a3",
+  "full_suite_passed": 6259,
+  "skipped": 54,
+  "image_shards_passed": 8,
+  "image_published": false,
+  "purpose": "Final offline readiness identity check; no prompt or investigation changes since qualified live image72f7",
+  "all_green": true
+}

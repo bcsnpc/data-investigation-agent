@@ -1,0 +1,46 @@
+{
+  "at_utc": "2026-11-27T04:13:21.101374+00:00",
+  "physical": {
+    "mode": "BUILD_PHASE",
+    "month_utc": "2026-11",
+    "used": {
+      "INVESTIGATION": 17701,
+      "SCAN": 2430,
+      "RESTORATION": 82
+    },
+    "limits": {
+      "SCAN": 2500,
+      "INVESTIGATION": 17905,
+      "RESTORATION": 95
+    },
+    "total": 20213,
+    "total_limit": 20500,
+    "historical_restoration_requests": 0,
+    "restoration_remaining": 13,
+    "warnings": [
+      "SCAN_MONTHLY_80_PERCENT",
+      "INVESTIGATION_MONTHLY_80_PERCENT",
+      "RESTORATION_MONTHLY_80_PERCENT",
+      "PHYSICAL_MONTHLY_80_PERCENT"
+    ]
+  },
+  "pending_reservations": [],
+  "disk": {
+    "C:/": {
+      "free_gib": 68.91
+    },
+    "D:/": {
+      "free_gib": 182.45
+    }
+  },
+  "anthropic_before_microdollars": 237326068,
+  "anthropic_after_microdollars": 237326068,
+  "restore_used_before": 82,
+  "restore_used_after": 82,
+  "r28_physical_requests": 244,
+  "r28_model_calls": 96,
+  "r28_model_cost_microdollars": 0,
+  "r28_grading_cost_microdollars": 3360152,
+  "openai_committed_microdollars": 202287096,
+  "openai_ceiling_microdollars": 202938628
+}

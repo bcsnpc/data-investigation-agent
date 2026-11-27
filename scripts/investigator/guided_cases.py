@@ -38,7 +38,14 @@ class Cases:
             if checked['status']!='READY':return checked
             resolved=checked
         else:
-            resolved=admit_or_question(body['intake'],catalog)
+            checker=getattr(type(self.engine_factory),'check_form_intake',None)
+            if callable(checker):candidate,checks,queries=self.engine_factory.check_form_intake(body['intake'],catalog)
+            else:
+                from .form_candidate_admission import check
+                candidate,checks,queries=check(body['intake'],catalog)
+            resolved=admit_or_question(candidate,catalog)
+            if checks:resolved['form_candidate_checks']=checks
+            if queries:resolved['intake_queries']=queries
             if resolved.get('status') == 'NEEDS_INPUT':
                 admission_error=resolved.get('reason',resolved['code'])
         identity='guided:'+digest([self.estate,body['request_key']]);fingerprint=digest([body['intake'],origin])
@@ -51,8 +58,12 @@ class Cases:
                'intake':resolved['prefilled'] if admission_error else resolved,
                'source':deepcopy(origin) if origin else {'kind':'FORM'},
                'status':'QUEUED','outcome':None,'created_at':datetime.now(timezone.utc).isoformat()}
+        if not origin:
+            value['form_candidate_checks']=deepcopy(resolved.get('form_candidate_checks',[]))
+            value['intake_queries']=deepcopy(resolved.get('intake_queries',[]))
         if admission_error:
             question=deepcopy(resolved['question'])
+            if resolved.get('form_candidate_checks'):question['checked_candidates']=deepcopy(resolved['form_candidate_checks'])
             choices=[choice for field in question['fields'] for choice in field['choices']]
             question.update(question=question['text'],choices=choices,reason=admission_error)
             outcome={'status':'NEEDS_INPUT','business':question['question'],'question':question,
