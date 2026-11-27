@@ -141,3 +141,5 @@ class Fixes(TestCase):
             bad=copy.deepcopy(bundle);bad.pop(field)
             self.assertFalse(completeness(bad,config)['complete'],field)
         bad=copy.deepcopy(bundle);bad['assets'].remove(bad['assets'][2]);self.assertFalse(completeness(bad,config)['complete'])
+        bad=copy.deepcopy(bundle);bad['model_readability']['model']['rls_route']['identity_reference']='another-reader'
+        self.assertFalse(completeness(bad,config)['complete'])

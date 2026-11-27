@@ -81,7 +81,9 @@ def check(bundle,configuration):
                 re.fullmatch('[a-f0-9]{64}',proof.get('capture_sha256',''))):
             gaps.append('model readability not proved: '+model['id'])
         rls=proof.get('rls_route',{})
-        if rls.get('status')!='VERIFIED' or rls.get('model_id')!=model['id'] or not rls.get('identity_reference'):
+        if (rls.get('status')!='VERIFIED' or rls.get('model_id')!=model['id']
+                or not rls.get('identity_reference')
+                or rls.get('identity_reference')!=proof.get('identity_reference')):
             gaps.append('RLS route not proved: '+model['id'])
     return {'status':'DISCOVERY_COMPLETE'if not gaps else'DISCOVERY_INCOMPLETE',
         'complete':not gaps,'assets':len(assets),'models':len(models),'model_tables':len(tables),
