@@ -39,7 +39,7 @@ class StepCostTests(unittest.TestCase):
         resolver.resolve('A different figure and a different date')
         systems = [c.kwargs['system']for c in model.complete.call_args_list]
         self.assertEqual(len(set(systems)),1)
-        self.assertIn('native_objects',systems[0])
+        self.assertIn('candidate_catalog',model.complete.call_args_list[0].kwargs['messages'][0]['content'])
         self.assertNotIn('First report concern',systems[0])
 
     def test_intake_is_a_separately_configurable_step(self):
