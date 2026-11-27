@@ -33,7 +33,7 @@ Attempted all 123 saved practice traces and all 18 saved, graded HealthNet trace
 | Replay failure | 24 | 22 |
 | No investigation case | 11 | 11 |
 
-**69 traces complete on both revisions; 65 keep their replay classification and four change.** The other 72 are not claimed as classification passes. Saved-response replay is not a fresh quality score or byte-exact tape replay. Missing saved reads, tool-phase divergence and pre-investigation holds are disclosed in the per-case report.
+**65 traces complete on both revisions without any saved-reply reuse: 61 keep their replay classification and four change.** Four additional complete pairs keep their classification but require the harness to repeat the identical saved formatting reply twice; they are reported separately, not strict replay proof. The other 72 are not claimed as classification passes. Saved-response replay is not a fresh quality score or byte-exact tape replay. Missing saved reads, tool-phase divergence and pre-investigation holds are disclosed in the per-case report.
 
 | Saved case | Baseline replay | Repair replay | New stop |
 | --- | --- | --- | --- |

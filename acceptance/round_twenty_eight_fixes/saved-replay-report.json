@@ -116,7 +116,8 @@
     "Saved model decisions are replayed, not regenerated. These results do not establish new-model answer quality.",
     "Incomplete replay boundaries, missing saved responses and pre-investigation holds are not classification passes.",
     "Token counts are an offline o200k_base comparative proxy, not Anthropic billed tokens.",
-    "On-demand evidence retrieval may add a call; some prompts increase. No universal reduction claim."
+    "On-demand evidence retrieval may add a call; some prompts increase. No universal reduction claim.",
+    "Four complete pairs need the harness to repeat an identical saved formatting response twice; disclose separately from the65 strict comparable traces. No response was generated."
   ],
   "rows": [
     {
@@ -134,7 +135,10 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-completion-advisory-form-v2-access-export-v2.json",
@@ -148,7 +152,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-completion-advisory-form-v2-stale-model-v1.json",
@@ -162,7 +169,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-completion-advisory-form-v2-stale-model-v2.json",
@@ -176,7 +186,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-completion-advisory-text-latency-900502-v1.json",
@@ -190,7 +203,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-completion-advisory-text-latency-900502-v2.json",
@@ -204,7 +220,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-completion-advisory-text-stale-total-v1.json",
@@ -218,7 +237,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-completion-advisory-text-stale-total-v2.json",
@@ -232,7 +254,10 @@
       "classification_change": false,
       "stop_code": "TOOL_OR_TIME_LIMIT",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-form-v2-application-baseline-v1.json",
@@ -246,7 +271,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-application-baseline-v2.json",
@@ -260,7 +288,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-form-v2-before-temporal-retention-v1.json",
@@ -276,7 +307,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-billing-invoices-v1.json",
@@ -292,7 +326,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-billing-invoices-v2.json",
@@ -306,7 +343,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-billing-mrr-v1.json",
@@ -323,7 +363,10 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-failed-application-load-v1.json",
@@ -339,7 +382,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-failed-billing-transform-v1.json",
@@ -353,7 +399,10 @@
       "classification_change": false,
       "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-form-v2-fixture-quantity-v1.json",
@@ -367,7 +416,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-latency-record-v1.json",
@@ -381,7 +433,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-other-collected-definition-v1.json",
@@ -395,7 +450,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-other-collected-definition-v2.json",
@@ -412,7 +470,10 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_definition"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-record-absent-everywhere-v1.json",
@@ -428,7 +489,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-record-repeated-gold-v2.json",
@@ -442,7 +506,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-screenshot-record-01-v1.json",
@@ -456,7 +523,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-screenshot-record-02-v1.json",
@@ -470,7 +540,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-screenshot-record-03-v1.json",
@@ -486,7 +559,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-screenshot-record-04-v1.json",
@@ -503,7 +579,10 @@
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding",
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-source-history-v1.json",
@@ -517,7 +596,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-form-v2-source-history-v2.json",
@@ -533,7 +615,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-waiting-application-load-v2.json",
@@ -549,7 +634,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-warehouse-scope-v1.json",
@@ -565,7 +653,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-form-v2-warehouse-scope-v2.json",
@@ -579,7 +670,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-plumbing-form-v2-before-temporal-retention-v1.json",
@@ -593,7 +687,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-plumbing-form-v2-record-absent-everywhere-v1.json",
@@ -610,7 +707,10 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-plumbing-text-older-export-movement-1-v1.json",
@@ -626,7 +726,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-plumbing-text-R17-08-v1.json",
@@ -644,7 +747,10 @@
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding",
         "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-plumbing-text-R17-09-v1.json",
@@ -658,7 +764,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-baseline-S01-v1.json",
@@ -672,7 +781,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-baseline-S02-v1.json",
@@ -689,7 +801,10 @@
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence",
         "SAVED_READ_NOT_AVAILABLE:get_definition"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-baseline-S03-v2.json",
@@ -706,7 +821,10 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-different-warehouse-v2.json",
@@ -720,7 +838,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-failed-billing-load-v1.json",
@@ -734,7 +855,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-history-source-900201-v1.json",
@@ -748,7 +872,10 @@
       "classification_change": true,
       "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev01-text-history-source-900201-v2.json",
@@ -762,7 +889,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-latency-900501-v2.json",
@@ -779,7 +909,10 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-older-export-movement-1-v1.json",
@@ -795,7 +928,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-older-export-movement-1-v2.json",
@@ -809,7 +945,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-01-v1.json",
@@ -825,7 +964,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:evaluate_delivery"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-02-v1.json",
@@ -839,7 +981,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-04-v1.json",
@@ -855,7 +1000,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-05-v1.json",
@@ -869,7 +1017,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-08-v1.json",
@@ -888,7 +1039,10 @@
         "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-09-v1.json",
@@ -904,7 +1058,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-10-v1.json",
@@ -920,7 +1077,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev01-text-R17-11-v1.json",
@@ -936,7 +1096,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 3,
+      "repair_saved_format_reply_reuses": 3,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-access-export-v1.json",
@@ -950,7 +1113,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-access-export-v2.json",
@@ -964,7 +1130,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-application-baseline-v1.json",
@@ -978,7 +1147,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-application-baseline-v2.json",
@@ -992,7 +1164,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-before-temporal-retention-v1.json",
@@ -1006,7 +1181,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-billing-invoices-v1.json",
@@ -1022,7 +1200,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-billing-invoices-v2.json",
@@ -1036,7 +1217,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-billing-mrr-v1.json",
@@ -1050,7 +1234,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-failed-application-load-v1.json",
@@ -1064,7 +1251,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-failed-billing-transform-v1.json",
@@ -1078,7 +1268,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-fixture-quantity-v1.json",
@@ -1092,7 +1285,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-latency-record-v1.json",
@@ -1106,7 +1302,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-other-collected-definition-v1.json",
@@ -1120,7 +1319,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-other-collected-definition-v2.json",
@@ -1136,7 +1338,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-record-absent-everywhere-v1.json",
@@ -1150,7 +1355,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-record-repeated-gold-v2.json",
@@ -1164,7 +1372,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-01-v1.json",
@@ -1178,7 +1389,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-02-v1.json",
@@ -1192,7 +1406,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-03-v1.json",
@@ -1206,7 +1423,10 @@
       "classification_change": false,
       "stop_code": "DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-04-v1.json",
@@ -1220,7 +1440,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-source-history-v2.json",
@@ -1234,7 +1457,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-stale-model-v1.json",
@@ -1248,7 +1474,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-stale-model-v2.json",
@@ -1262,7 +1491,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-waiting-application-load-v2.json",
@@ -1276,7 +1508,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-form-v2-warehouse-scope-v1.json",
@@ -1292,7 +1527,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-form-v2-warehouse-scope-v2.json",
@@ -1306,7 +1544,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-baseline-S01-v1.json",
@@ -1320,7 +1561,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-baseline-S02-v1.json",
@@ -1334,7 +1578,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-baseline-S03-v2.json",
@@ -1350,7 +1597,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-different-warehouse-v2.json",
@@ -1364,7 +1614,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-failed-billing-load-v1.json",
@@ -1378,7 +1631,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-history-source-900201-v1.json",
@@ -1392,7 +1648,10 @@
       "classification_change": true,
       "stop_code": "DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-history-source-900201-v2.json",
@@ -1406,7 +1665,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-latency-900501-v1.json",
@@ -1420,7 +1682,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-latency-900501-v2.json",
@@ -1434,7 +1699,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-latency-900502-v1.json",
@@ -1448,7 +1716,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-latency-900502-v2.json",
@@ -1462,7 +1733,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-older-export-movement-1-v2.json",
@@ -1476,7 +1750,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-R17-01-v1.json",
@@ -1490,7 +1767,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-R17-02-v1.json",
@@ -1504,7 +1784,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-R17-04-v1.json",
@@ -1520,7 +1803,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-R17-05-v1.json",
@@ -1534,7 +1820,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-R17-08-v1.json",
@@ -1550,7 +1839,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-R17-09-v1.json",
@@ -1564,7 +1856,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-R17-10-v1.json",
@@ -1580,7 +1875,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-R17-11-v1.json",
@@ -1594,7 +1892,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev02-advisory-text-stale-total-v1.json",
@@ -1610,7 +1911,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev02-advisory-text-stale-total-v2.json",
@@ -1624,7 +1928,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-application-baseline-v1.json",
@@ -1638,7 +1945,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-application-baseline-v2.json",
@@ -1652,7 +1962,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-billing-invoices-v2.json",
@@ -1666,7 +1979,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-billing-mrr-v1.json",
@@ -1680,7 +1996,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev03-slim-form-v2-fixture-quantity-v1.json",
@@ -1694,7 +2013,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-other-collected-definition-v2.json",
@@ -1710,7 +2032,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:run_sql"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev03-slim-form-v2-record-absent-everywhere-v1.json",
@@ -1724,7 +2049,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-record-repeated-gold-v2.json",
@@ -1738,7 +2066,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-01-v1.json",
@@ -1752,7 +2083,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-02-v1.json",
@@ -1766,7 +2100,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-03-v1.json",
@@ -1780,7 +2117,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-04-v1.json",
@@ -1794,7 +2134,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-form-v2-warehouse-scope-v1.json",
@@ -1810,7 +2153,10 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev03-slim-form-v2-warehouse-scope-v2.json",
@@ -1824,7 +2170,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev03-slim-text-older-export-movement-1-v2.json",
@@ -1838,7 +2187,10 @@
       "classification_change": false,
       "stop_code": "TOOL_OR_TIME_LIMIT",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-text-R17-01-v1.json",
@@ -1852,7 +2204,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-text-R17-02-v1.json",
@@ -1866,7 +2221,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-text-R17-04-v1.json",
@@ -1882,7 +2240,10 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "dev03-slim-text-R17-05-v1.json",
@@ -1896,7 +2257,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-text-R17-08-v1.json",
@@ -1910,7 +2274,10 @@
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "dev03-slim-text-R17-10-v1.json",
@@ -1928,7 +2295,10 @@
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery",
         "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice"
       ],
-      "form_intake": null
+      "form_intake": null,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "HN-001-result.json",
@@ -1948,7 +2318,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-002-result.json",
@@ -1968,7 +2341,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-003-result.json",
@@ -1988,7 +2364,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-004-result.json",
@@ -2008,7 +2387,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-005-result.json",
@@ -2028,7 +2410,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-007-result.json",
@@ -2048,7 +2433,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-008-result.json",
@@ -2070,7 +2458,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "HN-010-result.json",
@@ -2092,7 +2483,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "HN-011-result.json",
@@ -2112,7 +2506,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-012-result.json",
@@ -2132,7 +2529,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-013-result.json",
@@ -2152,7 +2552,10 @@
         "candidate_checks": 1,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "HN-014-result.json",
@@ -2172,7 +2575,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-015-result.json",
@@ -2192,7 +2598,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-023-result.json",
@@ -2212,7 +2621,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-024-result.json",
@@ -2232,7 +2644,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-025-result.json",
@@ -2252,7 +2667,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     },
     {
       "case": "HN-026-result.json",
@@ -2272,7 +2690,10 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": false
     },
     {
       "case": "HN-027-result.json",
@@ -2292,7 +2713,12 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      }
+      },
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
+      "strict_comparable": true
     }
-  ]
+  ],
+  "strict_comparable_without_reply_reuse": 65,
+  "complete_with_saved_format_reply_reuse": 4
 }
