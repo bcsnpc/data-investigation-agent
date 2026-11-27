@@ -1,7 +1,8 @@
 {
-  "version": "R28-saved-replay-comparison-v1",
+  "version": "R28-saved-replay-comparison-v2",
   "baseline_source": "ef9fde1769cba46d0be2d96f508ed1ad04c7c415",
-  "repair_source": "2ab99c8f35dca8fbff6fbd7f60a5751cc41aad63",
+  "repair_source": "72f7aacff4b22590c0b875c093f5f0b7b7736d22",
+  "preliminary_report_git_commit": "d6e22fce",
   "cases": 141,
   "practice_cases": 123,
   "healthnet_cases": 18,
@@ -15,27 +16,15 @@
     "REPLAY_INCOMPLETE": 34
   },
   "repair_counts": {
-    "REPLAY_INCOMPLETE": 39,
-    "REPLAY_FAILURE": 22,
+    "REPLAY_INCOMPLETE": 37,
+    "REPLAY_FAILURE": 24,
     "REPLAY_FINISHED": 69,
     "NO_INVESTIGATION_CASE": 11
   },
   "both_complete": 69,
+  "strict_comparable_without_reply_reuse": 65,
+  "complete_with_saved_format_reply_reuse": 4,
   "classification_changes": [
-    {
-      "case": "dev01-text-history-source-900201-v1.json",
-      "cohort": "practice",
-      "historical_classification": "ANSWERED",
-      "baseline_replay_status": "REPLAY_FINISHED",
-      "repair_replay_status": "REPLAY_FINISHED",
-      "comparable": true,
-      "baseline_replayed_classification": "ANSWERED",
-      "repair_replayed_classification": "UNRESOLVED",
-      "classification_change": true,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
-      "missing_saved_boundaries": [],
-      "form_intake": null
-    },
     {
       "case": "dev02-advisory-text-history-source-900201-v1.json",
       "cohort": "practice",
@@ -43,6 +32,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": true,
@@ -57,30 +49,13 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "BLOCKED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": true,
       "stop_code": "DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL",
-      "missing_saved_boundaries": [],
-      "form_intake": {
-        "status": "NEEDS_INPUT",
-        "reason": "anyOf",
-        "candidate_checks": 0,
-        "model_calls": 0,
-        "estate_reads": 0
-      }
-    },
-    {
-      "case": "HN-024-result.json",
-      "cohort": "healthnet",
-      "historical_classification": "ANSWERED",
-      "baseline_replay_status": "REPLAY_FINISHED",
-      "repair_replay_status": "REPLAY_FINISHED",
-      "comparable": true,
-      "baseline_replayed_classification": "ANSWERED",
-      "repair_replayed_classification": "UNRESOLVED",
-      "classification_change": true,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
       "missing_saved_boundaries": [],
       "form_intake": {
         "status": "NEEDS_INPUT",
@@ -93,31 +68,30 @@
   ],
   "prompt_counts": {
     "practice": {
-      "calls": 725,
-      "median_before_tokens": 36197,
-      "median_after_tokens": 28765,
-      "total_before_tokens": 28503361,
-      "total_after_tokens": 22779848,
-      "total_reduction_percent": 20.08,
-      "calls_increased": 173
+      "calls": 741,
+      "median_before_tokens": 36413,
+      "median_after_tokens": 29230,
+      "total_before_tokens": 29471325,
+      "total_after_tokens": 23658782,
+      "total_reduction_percent": 19.72,
+      "calls_increased": 177
     },
     "healthnet": {
-      "calls": 90,
+      "calls": 92,
       "median_before_tokens": 63610.5,
-      "median_after_tokens": 36153.5,
-      "total_before_tokens": 5869769,
-      "total_after_tokens": 3717373,
-      "total_reduction_percent": 36.67,
+      "median_after_tokens": 36412.5,
+      "total_before_tokens": 5972250,
+      "total_after_tokens": 3831747,
+      "total_reduction_percent": 35.84,
       "calls_increased": 2
     }
   },
   "tokenizer": "tiktoken0.12.0/o200k_base, offline comparative counts, not provider billing tokens",
   "limitations": [
-    "Saved model decisions are replayed, not regenerated. These results do not establish new-model answer quality.",
-    "Incomplete replay boundaries, missing saved responses and pre-investigation holds are not classification passes.",
-    "Token counts are an offline o200k_base comparative proxy, not Anthropic billed tokens.",
-    "On-demand evidence retrieval may add a call; some prompts increase. No universal reduction claim.",
-    "Four complete pairs need the harness to repeat an identical saved formatting response twice; disclose separately from the65 strict comparable traces. No response was generated."
+    "Saved model decisions are replayed, not regenerated; this is not a fresh quality grade.",
+    "Missing saved boundaries, responses and pre-investigation holds are not classification passes.",
+    "Four complete pairs need identical saved formatting replies repeated twice; reported separately from strict replay.",
+    "The offline o200k_base counts are comparative, not provider billing tokens. Some calls grow after evidence retrieval."
   ],
   "rows": [
     {
@@ -127,6 +101,9 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -135,10 +112,7 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-completion-advisory-form-v2-access-export-v2.json",
@@ -147,15 +121,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-completion-advisory-form-v2-stale-model-v1.json",
@@ -164,15 +138,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev01-completion-advisory-form-v2-stale-model-v2.json",
@@ -181,15 +155,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev01-completion-advisory-text-latency-900502-v1.json",
@@ -198,15 +172,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-completion-advisory-text-latency-900502-v2.json",
@@ -215,15 +189,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev01-completion-advisory-text-stale-total-v1.json",
@@ -232,15 +206,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-completion-advisory-text-stale-total-v2.json",
@@ -249,15 +223,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "UNRESOLVED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": false,
       "stop_code": "TOOL_OR_TIME_LIMIT",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-application-baseline-v1.json",
@@ -266,15 +240,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-application-baseline-v2.json",
@@ -283,15 +257,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-before-temporal-retention-v1.json",
@@ -300,6 +274,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -307,10 +284,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-billing-invoices-v1.json",
@@ -319,6 +293,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -326,10 +303,7 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-billing-invoices-v2.json",
@@ -338,15 +312,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-billing-mrr-v1.json",
@@ -355,6 +329,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -363,10 +340,7 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-failed-application-load-v1.json",
@@ -375,6 +349,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -382,10 +359,7 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-failed-billing-transform-v1.json",
@@ -394,15 +368,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "UNRESOLVED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "TOOL_OR_TIME_LIMIT",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-fixture-quantity-v1.json",
@@ -411,15 +385,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-latency-record-v1.json",
@@ -428,15 +402,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-other-collected-definition-v1.json",
@@ -445,15 +419,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-other-collected-definition-v2.json",
@@ -462,6 +436,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -470,10 +447,7 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_definition"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-record-absent-everywhere-v1.json",
@@ -482,6 +456,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -489,10 +466,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-record-repeated-gold-v2.json",
@@ -501,15 +475,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-screenshot-record-01-v1.json",
@@ -518,15 +492,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-screenshot-record-02-v1.json",
@@ -535,15 +509,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-screenshot-record-03-v1.json",
@@ -552,6 +526,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -559,10 +536,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-screenshot-record-04-v1.json",
@@ -571,6 +545,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -579,10 +556,7 @@
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding",
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-source-history-v1.json",
@@ -591,15 +565,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-source-history-v2.json",
@@ -608,6 +582,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -615,10 +592,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-waiting-application-load-v2.json",
@@ -627,6 +601,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -634,10 +611,7 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-warehouse-scope-v1.json",
@@ -646,6 +620,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -653,10 +630,7 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-form-v2-warehouse-scope-v2.json",
@@ -665,15 +639,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-plumbing-form-v2-before-temporal-retention-v1.json",
@@ -682,15 +656,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-plumbing-form-v2-record-absent-everywhere-v1.json",
@@ -699,18 +673,18 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "",
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-plumbing-text-older-export-movement-1-v1.json",
@@ -719,6 +693,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -726,10 +703,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-plumbing-text-R17-08-v1.json",
@@ -738,19 +712,19 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "DELIVERY_EVALUATOR_REJECTED_AFTER_TWO_RETRIES",
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding",
         "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-plumbing-text-R17-09-v1.json",
@@ -759,15 +733,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-baseline-S01-v1.json",
@@ -776,15 +750,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-baseline-S02-v1.json",
@@ -793,6 +767,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -801,10 +778,7 @@
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence",
         "SAVED_READ_NOT_AVAILABLE:get_definition"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-baseline-S03-v2.json",
@@ -813,6 +787,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -821,10 +798,7 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-different-warehouse-v2.json",
@@ -833,15 +807,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-failed-billing-load-v1.json",
@@ -850,15 +824,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-history-source-900201-v1.json",
@@ -867,15 +841,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
-      "baseline_replayed_classification": "ANSWERED",
-      "repair_replayed_classification": "UNRESOLVED",
-      "classification_change": true,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
-      "missing_saved_boundaries": [],
-      "form_intake": null,
+      "strict_comparable": true,
       "baseline_saved_format_reply_reuses": 0,
       "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "baseline_replayed_classification": "ANSWERED",
+      "repair_replayed_classification": "ANSWERED",
+      "classification_change": false,
+      "stop_code": "",
+      "missing_saved_boundaries": [],
+      "form_intake": null
     },
     {
       "case": "dev01-text-history-source-900201-v2.json",
@@ -884,15 +858,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-latency-900501-v2.json",
@@ -901,6 +875,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -909,10 +886,7 @@
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-older-export-movement-1-v1.json",
@@ -921,6 +895,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -928,10 +905,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-older-export-movement-1-v2.json",
@@ -940,15 +914,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-01-v1.json",
@@ -957,17 +931,17 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "TOOL_OR_TIME_LIMIT",
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:evaluate_delivery"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-02-v1.json",
@@ -976,15 +950,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-04-v1.json",
@@ -993,17 +967,17 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "TOOL_OR_TIME_LIMIT",
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-05-v1.json",
@@ -1012,15 +986,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-08-v1.json",
@@ -1029,20 +1003,20 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL",
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE",
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding",
         "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice",
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-09-v1.json",
@@ -1051,6 +1025,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1058,29 +1035,24 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-10-v1.json",
       "cohort": "practice",
-      "historical_classification": "UNRESOLVED",
+      "historical_classification": null,
       "baseline_replay_status": "REPLAY_FAILURE",
-      "repair_replay_status": "REPLAY_INCOMPLETE",
+      "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
-      "missing_saved_boundaries": [
-        "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice"
-      ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "stop_code": "",
+      "missing_saved_boundaries": null,
+      "form_intake": null
     },
     {
       "case": "dev01-text-R17-11-v1.json",
@@ -1089,6 +1061,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 3,
+      "repair_saved_format_reply_reuses": 3,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1096,10 +1071,7 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:get_evidence"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 3,
-      "repair_saved_format_reply_reuses": 3,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-access-export-v1.json",
@@ -1108,15 +1080,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-access-export-v2.json",
@@ -1125,15 +1097,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-application-baseline-v1.json",
@@ -1142,15 +1114,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-application-baseline-v2.json",
@@ -1159,15 +1131,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-before-temporal-retention-v1.json",
@@ -1176,15 +1148,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-billing-invoices-v1.json",
@@ -1193,6 +1165,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1200,10 +1175,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-billing-invoices-v2.json",
@@ -1212,15 +1184,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-billing-mrr-v1.json",
@@ -1229,15 +1201,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-failed-application-load-v1.json",
@@ -1246,15 +1218,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-failed-billing-transform-v1.json",
@@ -1263,15 +1235,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-fixture-quantity-v1.json",
@@ -1280,15 +1252,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-latency-record-v1.json",
@@ -1297,15 +1269,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-other-collected-definition-v1.json",
@@ -1314,15 +1286,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-other-collected-definition-v2.json",
@@ -1331,6 +1303,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1338,10 +1313,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-record-absent-everywhere-v1.json",
@@ -1350,15 +1322,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-record-repeated-gold-v2.json",
@@ -1367,15 +1339,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-01-v1.json",
@@ -1384,15 +1356,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-02-v1.json",
@@ -1401,15 +1373,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-03-v1.json",
@@ -1418,15 +1390,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "UNRESOLVED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": false,
       "stop_code": "DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-screenshot-record-04-v1.json",
@@ -1435,15 +1407,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 2,
+      "repair_saved_format_reply_reuses": 2,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 2,
-      "repair_saved_format_reply_reuses": 2,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-source-history-v2.json",
@@ -1452,15 +1424,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-stale-model-v1.json",
@@ -1469,15 +1441,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-stale-model-v2.json",
@@ -1486,15 +1458,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-waiting-application-load-v2.json",
@@ -1503,15 +1475,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-warehouse-scope-v1.json",
@@ -1520,6 +1492,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1527,10 +1502,7 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-form-v2-warehouse-scope-v2.json",
@@ -1539,15 +1511,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-baseline-S01-v1.json",
@@ -1556,15 +1528,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-baseline-S02-v1.json",
@@ -1573,15 +1545,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-baseline-S03-v2.json",
@@ -1590,6 +1562,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1597,10 +1572,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-different-warehouse-v2.json",
@@ -1609,15 +1581,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-failed-billing-load-v1.json",
@@ -1626,15 +1598,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-history-source-900201-v1.json",
@@ -1643,15 +1615,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": true,
       "stop_code": "DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-history-source-900201-v2.json",
@@ -1660,15 +1632,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-latency-900501-v1.json",
@@ -1677,15 +1649,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-latency-900501-v2.json",
@@ -1694,15 +1666,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-latency-900502-v1.json",
@@ -1711,15 +1683,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-latency-900502-v2.json",
@@ -1728,15 +1700,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-older-export-movement-1-v2.json",
@@ -1745,15 +1717,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-01-v1.json",
@@ -1762,15 +1734,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-02-v1.json",
@@ -1779,15 +1751,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-04-v1.json",
@@ -1796,6 +1768,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1803,10 +1778,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-05-v1.json",
@@ -1815,15 +1787,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-08-v1.json",
@@ -1832,6 +1804,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1839,10 +1814,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-09-v1.json",
@@ -1851,15 +1823,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-10-v1.json",
@@ -1868,17 +1840,17 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "",
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-R17-11-v1.json",
@@ -1887,15 +1859,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-stale-total-v1.json",
@@ -1904,6 +1876,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -1911,10 +1886,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev02-advisory-text-stale-total-v2.json",
@@ -1923,15 +1895,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-application-baseline-v1.json",
@@ -1940,15 +1912,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-application-baseline-v2.json",
@@ -1957,15 +1929,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-billing-invoices-v2.json",
@@ -1974,15 +1946,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-billing-mrr-v1.json",
@@ -1991,15 +1963,15 @@
       "baseline_replay_status": "REPLAY_FAILURE",
       "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-fixture-quantity-v1.json",
@@ -2008,34 +1980,32 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-other-collected-definition-v2.json",
       "cohort": "practice",
-      "historical_classification": "UNRESOLVED",
+      "historical_classification": null,
       "baseline_replay_status": "REPLAY_FAILURE",
-      "repair_replay_status": "REPLAY_INCOMPLETE",
+      "repair_replay_status": "REPLAY_FAILURE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_EVALUATOR_REJECTED",
-      "missing_saved_boundaries": [
-        "REPLAY_TOOL_PHASE_DIVERGENCE:run_sql"
-      ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "stop_code": "",
+      "missing_saved_boundaries": null,
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-record-absent-everywhere-v1.json",
@@ -2044,15 +2014,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-record-repeated-gold-v2.json",
@@ -2061,15 +2031,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-01-v1.json",
@@ -2078,15 +2048,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-02-v1.json",
@@ -2095,15 +2065,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-03-v1.json",
@@ -2112,15 +2082,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-screenshot-record-04-v1.json",
@@ -2129,15 +2099,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-warehouse-scope-v1.json",
@@ -2146,6 +2116,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -2153,10 +2126,7 @@
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev03-slim-form-v2-warehouse-scope-v2.json",
@@ -2165,15 +2135,15 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": null,
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev03-slim-text-older-export-movement-1-v2.json",
@@ -2182,15 +2152,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "UNRESOLVED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": false,
       "stop_code": "TOOL_OR_TIME_LIMIT",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-text-R17-01-v1.json",
@@ -2199,15 +2169,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-text-R17-02-v1.json",
@@ -2216,15 +2186,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-text-R17-04-v1.json",
@@ -2233,6 +2203,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -2240,10 +2213,7 @@
       "missing_saved_boundaries": [
         "SAVED_NATIVE_QUERY_NOT_AVAILABLE"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "dev03-slim-text-R17-05-v1.json",
@@ -2252,15 +2222,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-text-R17-08-v1.json",
@@ -2269,15 +2239,15 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
       "stop_code": "",
       "missing_saved_boundaries": [],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      "form_intake": null
     },
     {
       "case": "dev03-slim-text-R17-10-v1.json",
@@ -2286,19 +2256,19 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "stop_code": "",
       "missing_saved_boundaries": [
         "REPLAY_TOOL_PHASE_DIVERGENCE:submit_finding",
         "REPLAY_TOOL_PHASE_DIVERGENCE:repair_delivery",
         "REPLAY_TOOL_PHASE_DIVERGENCE:ask_user_choice"
       ],
-      "form_intake": null,
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      "form_intake": null
     },
     {
       "case": "HN-001-result.json",
@@ -2307,6 +2277,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2318,10 +2291,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-002-result.json",
@@ -2330,6 +2300,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "BLOCKED",
       "repair_replayed_classification": "UNRESOLVED",
       "classification_change": true,
@@ -2341,10 +2314,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-003-result.json",
@@ -2353,6 +2323,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2364,10 +2337,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-004-result.json",
@@ -2376,6 +2346,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2387,10 +2360,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-005-result.json",
@@ -2399,6 +2369,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2410,10 +2383,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-007-result.json",
@@ -2422,6 +2392,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2433,10 +2406,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-008-result.json",
@@ -2445,6 +2415,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -2458,10 +2431,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      }
     },
     {
       "case": "HN-010-result.json",
@@ -2470,6 +2440,9 @@
       "baseline_replay_status": "REPLAY_INCOMPLETE",
       "repair_replay_status": "REPLAY_INCOMPLETE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -2483,10 +2456,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      }
     },
     {
       "case": "HN-011-result.json",
@@ -2495,6 +2465,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2506,10 +2479,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-012-result.json",
@@ -2518,6 +2488,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2529,10 +2502,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-013-result.json",
@@ -2541,6 +2511,9 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -2552,10 +2525,7 @@
         "candidate_checks": 1,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      }
     },
     {
       "case": "HN-014-result.json",
@@ -2564,6 +2534,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2575,10 +2548,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-015-result.json",
@@ -2587,6 +2557,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2598,10 +2571,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-023-result.json",
@@ -2610,6 +2580,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2621,10 +2594,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-024-result.json",
@@ -2633,10 +2603,13 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
-      "repair_replayed_classification": "UNRESOLVED",
-      "classification_change": true,
-      "stop_code": "DELIVERY_REJECTED_WITHOUT_NEW_READS",
+      "repair_replayed_classification": "ANSWERED",
+      "classification_change": false,
+      "stop_code": "",
       "missing_saved_boundaries": [],
       "form_intake": {
         "status": "NEEDS_INPUT",
@@ -2644,10 +2617,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-025-result.json",
@@ -2656,6 +2626,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2667,10 +2640,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     },
     {
       "case": "HN-026-result.json",
@@ -2679,6 +2649,9 @@
       "baseline_replay_status": "NO_INVESTIGATION_CASE",
       "repair_replay_status": "NO_INVESTIGATION_CASE",
       "comparable": false,
+      "strict_comparable": false,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": null,
       "repair_replayed_classification": null,
       "classification_change": false,
@@ -2690,10 +2663,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": false
+      }
     },
     {
       "case": "HN-027-result.json",
@@ -2702,6 +2672,9 @@
       "baseline_replay_status": "REPLAY_FINISHED",
       "repair_replay_status": "REPLAY_FINISHED",
       "comparable": true,
+      "strict_comparable": true,
+      "baseline_saved_format_reply_reuses": 0,
+      "repair_saved_format_reply_reuses": 0,
       "baseline_replayed_classification": "ANSWERED",
       "repair_replayed_classification": "ANSWERED",
       "classification_change": false,
@@ -2713,12 +2686,7 @@
         "candidate_checks": 0,
         "model_calls": 0,
         "estate_reads": 0
-      },
-      "baseline_saved_format_reply_reuses": 0,
-      "repair_saved_format_reply_reuses": 0,
-      "strict_comparable": true
+      }
     }
-  ],
-  "strict_comparable_without_reply_reuse": 65,
-  "complete_with_saved_format_reply_reuse": 4
+  ]
 }

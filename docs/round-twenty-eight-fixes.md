@@ -13,7 +13,7 @@ Branch `round-twenty-eight-fixes` starts at PR #436 head `ef9fde1769cba46d0be2d9
 
 ## Qualified revision
 
-Source `2ab99c8f35dca8fbff6fbd7f60a5751cc41aad63`:
+Initial repair source `2ab99c8f35dca8fbff6fbd7f60a5751cc41aad63`:
 
 - Full repository: **6,257 passed, 54 skipped**.
 - Image shards: **8/8 passed**.
@@ -57,7 +57,9 @@ A delivered status does not imply a correct answer. HN-024 nevertheless triggere
 
 Revision `72f7aacf` separates exact rejected-draft repeats from revisions. Three identical failures stop; six total rejected submissions at one query frontier stop; two model-only repair calls remain the maximum; a no-tool response after rejection still stops immediately. Corrected submissions still pass every existing evidence, target, harmful-claim and read-only check. No answer is automatically promoted merely because it was previously graded correct.
 
-**HN-024's original saved decisions now replay to ANSWERED again**, with no generation or estate reads. Synthetic regressions prove that three different rejected drafts followed by a validated fourth draft deliver after a single native read, and that changing drafts cannot retry indefinitely. All 64 focused tests passed. The [audit JSON](../acceptance/round_twenty_eight_fixes/handoff-regression-audit.json) pins the original result and grade hashes. Full revised qualification and the all-trace replay are recorded below when complete.
+**HN-024's original saved decisions now replay to ANSWERED again**, with no generation or estate reads. Synthetic regressions prove that three different rejected drafts followed by a validated fourth draft deliver after a single native read, and that changing drafts cannot retry indefinitely. All 64 focused tests passed. The [audit JSON](../acceptance/round_twenty_eight_fixes/handoff-regression-audit.json) pins the original result and grade hashes. Revised qualification completed on `72f7aacff4b22590c0b875c093f5f0b7b7736d22`: **6,259 passed, 54 skipped, all eight image shards green**, [workflow](https://github.com/bcsnpc/data-investigation-agent/actions/runs/45935671953). New image: `ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f9c8fc524fd0e5f00b0855fc3caff2b2640c4aad90ed1a7c42c7fb5acee95457`.
+
+The complete 141-case attempt was repeated offline on this correction. **65 strict comparable traces: 63 unchanged, two changed.** Both HN-024 and practice dev01 history deliver again. The remaining changes are practice dev02 history (`ANSWERED ? UNRESOLVED`) and HN-002 (`BLOCKED ? UNRESOLVED`), both stopping after a rejected delivery receives a no-tool response. Neither original was graded fully correct. There are four additional complete comparisons with repeated saved formatting replies, and 72 non-comparable attempts (37 missing boundaries, 24 failures, 11 without investigation cases). The current JSON/CSV report reflects this final correction; the preliminary report remains in git history at `d6e22fce`.
 
 ## Offline prompt sizes
 
@@ -65,8 +67,8 @@ Measured every comparable saved investigation/evaluator request with local `tikt
 
 | Calls | Median before | Median after | Total input reduction | Calls that grew |
 | --- | ---: | ---: | ---: | ---: |
-| Practice, 725 | 36,197 | 28,765 | 20.08% | 173 |
-| HealthNet, 90 | 63,610.5 | 36,153.5 | 36.67% | 2 |
+| Practice, 741 | 36,413 | 29,230 | 19.72% | 177 |
+| HealthNet, 92 | 63,610.5 | 36,412.5 | 35.84% | 2 |
 
 The [per-call CSV](../acceptance/round_twenty_eight_fixes/prompt-sizes-per-call.csv) includes character and token counts. The [per-case replay report](../acceptance/round_twenty_eight_fixes/saved-replay-report.json) includes all attempted traces and limitations. No private model reasoning or expected answers is published.
 

@@ -22,6 +22,7 @@ for item in json.loads((r/'healthnet-saved-index.json').read_bytes()):indices.ap
 
 def packet(value):return canonical({k:value.get(k)for k in ('system','messages','tools')})
 for cohort,indexfile,index in indices:
+ if __import__('os').environ.get('DIA_R28_CASE_FILTER') and indexfile.name!=__import__('os').environ['DIA_R28_CASE_FILTER']:continue
  records=[]
  for ref in index['source_batches']:
   path=Path(ref['local_path'])if 'local_path'in ref else practice/'free-models/replay-inputs'/(ref['sha256']+'.json')
