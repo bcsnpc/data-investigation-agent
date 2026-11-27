@@ -1,0 +1,36 @@
+{
+  "ticket": "HN-024",
+  "scope": "SEPARATE_DEV_ONLY_REVISED_IMAGE_CHECK_NOT_PART_OF_EIGHT",
+  "engine_image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:f9c8fc524fd0e5f00b0855fc3caff2b2640c4aad90ed1a7c42c7fb5acee95457",
+  "execution": "job-dia-worker-gveejzx",
+  "capture_seal": "832adbd8ea1887f18a032f4a6adc3dbeafd7d4947d62092d1431524974430822",
+  "status": "UNRESOLVED",
+  "stop_code": "DELIVERY_REJECTION_NO_NEW_READS_OR_TOOL_CALL",
+  "physical_requests": 27,
+  "model_calls": 14,
+  "cost_microdollars": 0,
+  "grading": {
+    "status": "UNSENT_PROVIDER_BOUND",
+    "exact_reason": "DOCUMENTED_RATE_CONTEXT_BOUND_EXCEEDED",
+    "provider_token_count": 316381,
+    "reservation_margin_tokens": 4096,
+    "configured_context_pricing_bound": 272000,
+    "model_generation_requests": 0,
+    "grading_reservations": 0,
+    "reason": "The client checks this bound before reserve()/POSTresponses. No retry on another model, omitted evidence or cap increase.",
+    "packet_limit_characters": 4000000,
+    "original_packet_bytes": 1087109
+  },
+  "fully_correct": null,
+  "useful_handoff": null,
+  "harmful": null,
+  "original_eight_results_unchanged": true,
+  "capture_proof": {
+    "seal": "832adbd8ea1887f18a032f4a6adc3dbeafd7d4947d62092d1431524974430822",
+    "batches_verified": 411,
+    "model_generation_calls": 14,
+    "all_pinned_free": true,
+    "all_reported_costs_zero": true,
+    "no_anthropic": true
+  }
+}
