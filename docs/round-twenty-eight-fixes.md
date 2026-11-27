@@ -5,7 +5,7 @@ Branch `round-twenty-eight-fixes` starts at PR #436 head `ef9fde1769cba46d0be2d9
 ## Repairs
 
 1. **Smaller prompts, full retained evidence.** Setup follows exact native bindings rather than expanding every model with a common owner. Intake receives selected or ranked candidate names; investigation receives their paths and dependencies. Native definition bodies become hash-pinned evidence references; `get_evidence` retrieves the original body without an estate read. Unknown references remain intact. The stored catalog and case retain the complete original evidence.
-2. **Bounded delivery repair.** At most two delivery repair attempts are dispatched. Rejections at an unchanged query-evidence frontier are bounded. A no-tool response after rejection ends in an explicit unresolved handoff instead of another generation with the same evidence. Read-only checks, evidence IDs and target checks remain enforced.
+2. **Bounded delivery repair.** At most two delivery repair attempts are dispatched. Identical rejected drafts at one query frontier stop after three failures; at most six different rejected submissions are permitted there. Revised drafts can still pass the unchanged delivery validator without an unnecessary new data read. A no-tool response after rejection ends in an explicit unresolved handoff instead of another generation with the same evidence. Read-only checks, evidence IDs and target checks remain enforced.
 3. **Named setup targets.** No figure-only expansion across the estate. Explicit targets win; report/page fallback contains at most three paths and records whether discovery was exhaustive. It never silently picks one of truncated candidates.
 4. **Safe string functions.** SQL and DAX accept explicit safe string operations including `RIGHT`, `LEFT`, trimming, length and replacement. Arbitrary UDFs, external reads, execution, writes and DDL remain refused.
 5. **Check form candidates first.** User-facing names are checked in the selected native report/page before asking. Two or three tied visual candidates can receive bounded native value probes; resolution requires every probe to succeed and exactly one precision match. Probe evidence persists into investigation. Explicit parent/target conflicts remain questions. HN-013's saved form still conflicts with its selected page; its offline replay remains `NEEDS_INPUT / VISUAL_OUTSIDE_PAGE`. No ticket-specific override was added.
@@ -42,7 +42,22 @@ Attempted all 123 saved practice traces and all 18 saved, graded HealthNet trace
 | HN-002 | BLOCKED | UNRESOLVED | No new reads/tool call after rejection |
 | HN-024 | ANSWERED | UNRESOLVED | Target not a unique observed match; bounded rejection |
 
-These are stricter termination changes, not claimed new correct answers. All historical outputs remain intact.
+The table above is the **preliminary** `2ab99c8f` replay, not a final quality verdict. The owner requested an audit of all four changes before accepting them. All historical outputs and grades remain intact.
+
+### Original correctness and delivery audit
+
+| Case | Original saved status | Business output present | Original fully-correct grade |
+| --- | --- | --- | --- |
+| Practice dev01 history-source-900201 | ANSWERED | Yes | Primary no; reviewed no |
+| Practice dev02-advisory history-source-900201 | ANSWERED | Yes | Primary no; reviewed no |
+| HN-002 | BLOCKED | Yes, partial findings | Both graders no |
+| HN-024 | ANSWERED | Yes | Primary **yes**; secondary and reviewer no (useful handoff) |
+
+A delivered status does not imply a correct answer. HN-024 nevertheless triggered the owner's preservation condition because one grader marked it fully correct. The new same-query-frontier retry counter stopped after three **different** drafts, before the saved model's later corrected submission could deliver. This was caused by R28 fix 2, not catalog projection or a weakened validator.
+
+Revision `72f7aacf` separates exact rejected-draft repeats from revisions. Three identical failures stop; six total rejected submissions at one query frontier stop; two model-only repair calls remain the maximum; a no-tool response after rejection still stops immediately. Corrected submissions still pass every existing evidence, target, harmful-claim and read-only check. No answer is automatically promoted merely because it was previously graded correct.
+
+**HN-024's original saved decisions now replay to ANSWERED again**, with no generation or estate reads. Synthetic regressions prove that three different rejected drafts followed by a validated fourth draft deliver after a single native read, and that changing drafts cannot retry indefinitely. All 64 focused tests passed. The [audit JSON](../acceptance/round_twenty_eight_fixes/handoff-regression-audit.json) pins the original result and grade hashes. Full revised qualification and the all-trace replay are recorded below when complete.
 
 ## Offline prompt sizes
 
