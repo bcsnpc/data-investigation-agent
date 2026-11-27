@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-27T00:07:51.870141+00:00",
+  "as_of": "2026-11-27T00:34:34.220982+00:00",
   "test_complete": false,
   "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
   "catalog_version": "native-r3",
@@ -178,11 +178,36 @@
       "model_calls": 7,
       "engine_wall_seconds": 224.37895010299997,
       "stop": null,
-      "grades": {},
-      "reviewed_fully_correct": null,
-      "reviewed_harmful": null,
-      "useful_handoff": null,
-      "first_wrong_step": null
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": false,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": false,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong evidence",
+          "handoff_quality": 2,
+          "sha256": "e3abf7c3b494c32202be01355851d4b7ed403f8e1abd26375b0df3b51745cd11"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": false,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": false,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong evidence",
+          "handoff_quality": 2,
+          "sha256": "0b68899ec799db3d2b13ac62fc316ca8382f78df6d7486a20b9b57b91be094b2"
+        }
+      },
+      "reviewed_fully_correct": false,
+      "reviewed_harmful": false,
+      "useful_handoff": true,
+      "first_wrong_step": "wrong evidence"
     },
     {
       "ticket": "HN-010",
@@ -194,11 +219,36 @@
       "model_calls": 9,
       "engine_wall_seconds": 305.00231706700004,
       "stop": null,
-      "grades": {},
-      "reviewed_fully_correct": null,
-      "reviewed_harmful": null,
-      "useful_handoff": null,
-      "first_wrong_step": null
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 2,
+          "sha256": "bfd52d48c3aa02007146f31e3f2dcd89951034215bd8eb4bebe897baecca4fea"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 2,
+          "sha256": "0c1ee3e9a4056044e78cf686a2bdc453fb015e57a86faf77912904582354c2e3"
+        }
+      },
+      "reviewed_fully_correct": false,
+      "reviewed_harmful": false,
+      "useful_handoff": true,
+      "first_wrong_step": "wrong conclusion"
     },
     {
       "ticket": "HN-011",
@@ -226,6 +276,182 @@
       "model_calls": 4,
       "engine_wall_seconds": 175.322042463,
       "stop": null,
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "feb2bfeae9fc0263c4ffc31ad48003e0c53cc4b649cef1e2226ca22b930d5706"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "a51bae326bdfc2cf448cf5f70b4847662697064321988406fd33dbbc43f2c69e"
+        }
+      },
+      "reviewed_fully_correct": true,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "none"
+    },
+    {
+      "ticket": "HN-013",
+      "cohort": "static",
+      "status": "NEEDS_INPUT",
+      "capture_seal": "e1803be202ac770c9774acedbc289d8a3d4d10da0fea8074d9fc27699629956c",
+      "physical_requests": 0,
+      "cost_microdollars": 0,
+      "model_calls": null,
+      "engine_wall_seconds": 7.014317511999991,
+      "stop": "VISUAL_OUTSIDE_PAGE",
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": false,
+          "cause_match": false,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "sha256": "887d81cbaf17bfb36557762a402bde77d1b972190503fc7486620b18af086ef2"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": false,
+          "cause_match": false,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "target",
+          "handoff_quality": 0,
+          "sha256": "84085161d22904ef148c55d4065161f38bf9691dd9e45db65ddc7541a822db5f"
+        },
+        "reviewer": {
+          "model": "gpt-6.1-terra",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": false,
+          "cause_match": false,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "intake",
+          "handoff_quality": 0,
+          "sha256": "691b7800511ba96e2ce08a441c2616b9fd16986f8c25c6fe559c8fb0fe52df10"
+        }
+      },
+      "reviewed_fully_correct": false,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "intake"
+    },
+    {
+      "ticket": "HN-014",
+      "cohort": "static",
+      "status": "ANSWERED",
+      "capture_seal": "8cb66acf2cf0056da8963fe1d677edd7546dbf075fb73d8921a765747527e7cb",
+      "physical_requests": 39,
+      "cost_microdollars": 1304847,
+      "model_calls": 4,
+      "engine_wall_seconds": 304.273663715,
+      "stop": null,
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "0fa6a688f982500897f31374816d818fec1bed9db83cb1189e375e8f8c189dbd"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "fb9aed6fd1928adc805169b70e33a034f8512a45d9ad1c497848b472aba1c8de"
+        }
+      },
+      "reviewed_fully_correct": true,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "none"
+    },
+    {
+      "ticket": "HN-015",
+      "cohort": "static",
+      "status": "ANSWERED",
+      "capture_seal": "ec2c2f233656044a9964dffc7182b0b05b5d302a60ca7e065d6cd69eca25fe7a",
+      "physical_requests": 22,
+      "cost_microdollars": 664191,
+      "model_calls": 3,
+      "engine_wall_seconds": 137.88381862699998,
+      "stop": null,
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "dfc194e8ca3d716b16b648e83ee8e462fded65b1fe6d73d1bd4d6adc560b1d9e"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": true,
+          "verdict_match": true,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": false,
+          "failing_step": "none",
+          "handoff_quality": 2,
+          "sha256": "68fa5df714f6158ca5145f16188ec07719a1bb6bb753d4987c945fe2018db375"
+        }
+      },
+      "reviewed_fully_correct": true,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
+      "first_wrong_step": "none"
+    },
+    {
+      "ticket": "HN-023",
+      "cohort": "handoff",
+      "status": "ANSWERED",
+      "capture_seal": "7979dd36e12deb3dd5455f5ef93d78aa76d5458011bf202ddfa0529153ac26fd",
+      "physical_requests": 23,
+      "cost_microdollars": 771901,
+      "model_calls": 3,
+      "engine_wall_seconds": 131.80937021400314,
+      "stop": null,
       "grades": {},
       "reviewed_fully_correct": null,
       "reviewed_harmful": null,
@@ -233,10 +459,10 @@
       "first_wrong_step": null
     }
   ],
-  "completed_outcomes": 8,
-  "independently_graded": 4,
-  "fully_correct": 3,
-  "useful_handoff": 0,
+  "completed_outcomes": 12,
+  "independently_graded": 10,
+  "fully_correct": 6,
+  "useful_handoff": 2,
   "harmful": 0,
   "hn009": "UNESTABLISHED_DO_NOT_RESUBMIT",
   "originals": "docs/healthnet-environmental-originals.json",

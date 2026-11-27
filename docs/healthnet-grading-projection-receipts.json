@@ -1,0 +1,16 @@
+{
+  "as_of_utc": "2026-11-27T00:34:13.305348+00:00",
+  "receipts": [
+    {
+      "ticket": "HN-010",
+      "all_cited_procedures_retained": true,
+      "all_queries_and_results_unchanged": true,
+      "expectation_unchanged": true,
+      "omitted_count": 7,
+      "original_projection_sha256": "3d272eb7a11e9373f5d319adf91d0bbbb7120eec0b5fc790c9c5289519a6e700"
+    }
+  ],
+  "full_original_projections_private": true,
+  "engine_changes": false,
+  "grading_rules_changed": false
+}

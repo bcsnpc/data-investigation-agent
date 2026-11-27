@@ -7,3 +7,6 @@ Grading transport: oversized unsent packets try existing round25_grader_pool.fit
 HN-009: one more native execution-list GET still returned Microsoft.App BadGateway. No confirmed execution or absence; remains unresolved, no duplicate.
 
 The existing author/operator exposure disclosure remains: this session authored the reviewed set. Control preparation encountered pre-existing authoring-code snippets containing projected answer fields; these were not supplied to DIA or the independent graders. No sealed answers decrypted outside grading during this continuation and no engine/expectation changes.
+
+
+Grading-packet follow-up: HN-010 fitted at 23,888 characters after indexing uncited broad-path procedure bodies by native ID/hash. Every actual SQL/DAX query, result, refusal, delivered claim, cited procedure and sealed expectation stayed unchanged; the full original projection remains private. Both graders returned not fully correct and no harm. This is grading-input selection, not investigator catalog scoping; frozen engine/image/prompts are untouched. No earlier grade was replaced. HN-011 uses the same unsent-packet treatment if required.

@@ -1,0 +1,20 @@
+{
+  "owner_date": "2026-11-26",
+  "as_of_utc": "2026-11-27T00:34:34.030510+00:00",
+  "engine_source": "b7b3b2c9a562242ef39f422fc974f82c326c73f2",
+  "investigator_runtime_diff": [],
+  "sealed_files": [
+    {
+      "path": "tests/tickets/healthnet/tickets.json",
+      "sha256": "29480e4fd567c27a08f89f7a1aeb49407b3899bf81aa14f30164af2e254dcfbf",
+      "unchanged": true
+    },
+    {
+      "path": "tests/tickets/healthnet/expected-answers.enc.json",
+      "sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52",
+      "unchanged": true
+    }
+  ],
+  "no_injections_applied_yet": true,
+  "no_permission_changes": true
+}
