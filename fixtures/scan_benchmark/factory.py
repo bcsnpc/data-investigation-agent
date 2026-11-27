@@ -68,16 +68,17 @@ class Plan:
                 self.batches.append('INSERT INTO '+qualified(name)+' VALUES '+','.join(values[start:start+500])+';')
         return obj
 
-    def view(self,name,source,columns=None,layer='mart',expression=None):
+    def view(self,name,source,columns=None,layer='mart',expression=None,aliases=None):
         parent=next(o for o in self.objects if o['address']==source)
         columns=columns or [c['name']for c in parent['columns']]
-        chosen=[dict(c)for c in parent['columns']if c['name']in columns]
-        sql='CREATE VIEW '+qualified(name)+' AS SELECT '+','.join(map(quoted,columns))+' FROM '+qualified(source)+';'
+        aliases=aliases or {}
+        chosen=[dict(c,name=aliases.get(c['name'],c['name']))for c in parent['columns']if c['name']in columns]
+        sql='CREATE VIEW '+qualified(name)+' AS SELECT '+','.join(quoted(c)+(' AS '+quoted(aliases[c])if c in aliases else'')for c in columns)+' FROM '+qualified(source)+';'
         if expression:sql='CREATE VIEW '+qualified(name)+' AS '+expression+';'
         self.batches.append(sql)
         self.objects.append(dict(address=name,kind='view',columns=chosen,layer=layer,source_of_truth='derived',definition=sql))
         self.edges.append(dict(source=name,target=source,knowledge='parsed',relation='READS'))
-        for c in chosen:self.edges.append(dict(source=name+'.'+c['name'],target=source+'.'+c['name'],knowledge='parsed',relation='DERIVED_FROM'))
+        for original in columns:self.edges.append(dict(source=name+'.'+aliases.get(original,original),target=source+'.'+original,knowledge='parsed',relation='DERIVED_FROM'))
 
     def copy(self,name,source,layer='copy'):
         origin=next(o for o in self.objects if o['address']==source)
@@ -181,7 +182,8 @@ def domain_plan(spec, wwi_source=None):
             ('sap.VBAP',[text('VBELN'),integer('POSNR'),text('MATNR'),amount('NETWR'),text('WAERK')],spec['rows']),
             ('sap.BKPF',[text('BELNR'),text('BUKRS'),text('WAERS')],100),
             ('sap.BSEG',[text('BELNR'),integer('BUZEI'),amount('WRBTR'),text('WAERS')],300)]:p.table(name,cols,rows=count)
-        p.view('extract.SalesItems','sap.VBAP',layer='extract');p.view('stg.SalesItems','extract.SalesItems',layer='staging');p.view('mart.SalesItems','stg.SalesItems')
+        p.view('extract.SalesItems','sap.VBAP',layer='extract');p.view('stg.SalesItems','extract.SalesItems',layer='staging')
+        p.view('mart.SalesItems','stg.SalesItems',aliases={'VBELN':'SalesDocument','POSNR':'ItemNumber','MATNR':'Material','NETWR':'NetSalesAmount','WAERK':'CurrencyCode'})
         p.batches.append('UPDATE [sap].[BSEG] SET WRBTR=WRBTR+1 WHERE BUZEI<=3;')
         p.traps.extend([dict(id='sap.VBAK.ERDAT',kind='string_date',expected=['STRING_DATE','UNKNOWN_SEMANTICS'],reason='Actual SQL type is text; never claim native DATE.'),
                         dict(id='sap.VBAP.NETWR',kind='currency_pair',expected=['CURRENCY_REQUIRED','UNKNOWN_CURRENCY_SEMANTICS'],reason='Keep WAERK beside amount; do not invent currency conversion.'),

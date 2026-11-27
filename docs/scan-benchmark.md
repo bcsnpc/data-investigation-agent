@@ -47,3 +47,11 @@ scan or an evidence-backed discovery result.
 
 Later clean-install test: a second Azure account and Fabric capacity, requiring
 separate approval. Databricks estate E is outside this benchmark.
+
+## First native SQL result (Estate A, SQL scope only)
+
+On the same captured investigator metadata, schema scope repair changes objects from0/42 to42/42 and columns from0/451 to451/451. Generic static SQL analysis resolves17/17 parseable table/column edges with17/17 precision. Two build-time copy edges remain inferable-only and are NOT asserted as facts. There are89 remaining non-permission misses in this SQL-scope scorer, principally missing layer/authority/trap assertions; no overall PASS is claimed. Fabric definitions are published but not refreshed. Viewer definition reads return404 EntityNotFound on generic and typed paths while owner typed getDefinition succeeds, and refresh history returns403. No permission escalation or owner-metadata substitution. First harness TypeError was setup-only and is not scored as an engine defect; all15 native reads from the original plus repaired reader attempt remain charged, plus2 typed checks.
+
+A resource IDs: workspace9e1701f5-da55-4f01-b2a6-6f211a36043b, modelc75215a8-b869-4072-82a0-20b5c7c69fe3, reportd50d6e77-e390-4eac-b159-3d5373100c87. SQLsb_wholesale uses free offer, AutoPause at free limit and60minute inactivity pause. Model refresh/connection and full Fabric manifest remain work in progress.
+
+Source pin: Microsoft SQL samples26dc1258b431470f515775b8c98ae77e1d66e39a, MIT.37non-archive source table column shapes,1600seeded rows before copies and ETL. Adaptations: synthetic rows; original defaults/indexes/FKs/temporal generation omitted; computed sample columns materialized; no original load simulation. This is a small schema adaptation, not an untouched WWI install or a benchmark of every upstream procedure.

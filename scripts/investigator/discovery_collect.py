@@ -85,6 +85,10 @@ class Collector:
             # No partial definition or partial listing can imply complete membership.
             for identity in set(self.assets)-before: del self.assets[identity]
             self.coverage[scope] = {'status': 'UNAVAILABLE', 'error_type': type(exc).__name__}
+            from .adapters.metadata_error import MetadataUnavailable
+            if isinstance(exc,MetadataUnavailable):
+                self.coverage[scope]['http_status']=exc.http_status
+                if exc.provider_code:self.coverage[scope]['provider_code']=exc.provider_code
             return None
 
     def run(self):
@@ -258,15 +262,15 @@ class Collector:
                 reader = self.sql_reader[connection_name] if isinstance(self.sql_reader, dict) else self.sql_reader
                 if 'sql_connections' in config and not isinstance(self.sql_reader, dict):
                     raise ValueError('Named SQL discovery requires connection-bound readers')
-                snapshot=reader(sql['server'],sql['database'],sql['visibility_schema'])
+                snapshot=reader(sql['server'],sql['database'],sql.get('visibility_schema','*'))
                 if (snapshot['server'].removeprefix('tcp:').split(',')[0].lower()!=sql['server'].lower()
                         or snapshot['database']!=sql['database']):raise ValueError('SQL catalog target differs')
-                snapshot=copy.deepcopy(snapshot)
-                # The old reader enumerates all visible objects: constrain the projection.
-                snapshot['objects']=[o for o in snapshot['objects'] if o['schema_name']==sql['visibility_schema']]
+                from .adapters.sql_catalog_scope import project
+                snapshot,schemas=project(snapshot,sql.get('visibility_schema'))
                 collect_sql(self,snapshot)
-                self.asset(sqlroot+'/schema/'+quote(sql['visibility_schema'],safe=''),'SqlSchema',
-                           sql['visibility_schema'],'Azure SQL sys catalog',{'name':sql['visibility_schema']},sqlroot)
+                for schema in schemas:
+                    self.asset(sqlroot+'/schema/'+quote(schema,safe=''),'SqlSchema',
+                               schema,'Azure SQL sys catalog',{'name':schema},sqlroot)
                 return bool(snapshot['permissions'] and snapshot['permissions'][0]['can_view_definition'])
             complete=self.attempt(sqlroot+'/catalog',sql_catalog)
             if complete is False:

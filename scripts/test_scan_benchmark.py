@@ -10,8 +10,13 @@ ROOT=Path(__file__).resolve().parents[1]
 if not(ROOT/'fixtures/scan_benchmark').exists():
     raise unittest.SkipTest('Owner fixture factory is checkout-only, excluded from worker image')
 sys.path.insert(0,str(ROOT))
+sys.path.insert(0,str(ROOT/'scripts'))
 from fixtures.scan_benchmark.factory import build,domain_plan,quoted
 from fixtures.scan_benchmark.score import score
+from investigator.adapters.sql_catalog_scope import project
+from metadata_connectors import FabricMetadataConnector
+from investigator.adapters.metadata_error import MetadataUnavailable
+from investigator.adapters.sql_catalog_lineage import extract
 
 
 class FactoryTests(unittest.TestCase):
@@ -77,6 +82,77 @@ class ScoreTests(unittest.TestCase):
         o['uncertain_objects']=['s.t'];self.assertEqual('PASS',score(t,o)['status'])
         o['edges']=[dict(source='s.t',target='s.other',relation='COPY_OF',knowledge='declared')]
         self.assertTrue(any(g['kind']=='LINEAGE_FALSE_POSITIVE'for g in score(t,o)['non_permission_misses']))
+
+
+class CatalogScopeTests(unittest.TestCase):
+    def snapshot(self):
+        return dict(objects=[dict(object_id=1,schema_name='alpha'),dict(object_id=2,schema_name='beta')],
+            columns=[dict(object_id=1),dict(object_id=2)],definitions=[dict(object_id=1),dict(object_id=2)],
+            keys=[],checks=[],foreign_keys=[])
+
+    def test_connection_only_scope_keeps_every_visible_schema(self):
+        for requested in(None,'*'):
+            with self.subTest(requested=requested):
+                raw=self.snapshot();r,schemas=project(raw,requested)
+                self.assertEqual(['alpha','beta'],schemas);self.assertEqual(2,len(r['objects']))
+                self.assertEqual(2,len(r['columns']));self.assertEqual(2,len(raw['columns']))
+
+    def test_explicit_legacy_scope_stays_narrow(self):
+        raw=self.snapshot();r,schemas=project(raw,'alpha')
+        self.assertEqual(['alpha'],schemas);self.assertEqual([dict(object_id=1)],r['columns'])
+        self.assertEqual(2,len(raw['objects']))
+
+    def test_empty_authorized_schema_is_retained_without_inventing_objects(self):
+        r,schemas=project(self.snapshot(),'empty')
+        self.assertEqual(['empty'],schemas);self.assertEqual([],r['objects']);self.assertEqual([],r['definitions'])
+
+
+class DefinitionRouteTests(unittest.TestCase):
+    def test_native_404_uses_typed_route_without_escalation(self):
+        calls=[]
+        def transport(endpoint,method='get'):
+            calls.append((endpoint,method))
+            if '/items/'in endpoint:raise MetadataUnavailable(404)
+            return {'status_code':200,'text':{'definition':{'parts':[]}}}
+        reader=FabricMetadataConnector('workspace',transport,None)
+        self.assertEqual({},reader.get_definition({'id':'model','type':'SemanticModel'}))
+        self.assertEqual([('workspaces/workspace/items/model/getDefinition?format=TMSL','post'),
+                          ('workspaces/workspace/semanticModels/model/getDefinition?format=TMSL','post')],calls)
+
+    def test_no_retry_or_permission_fallback_on_403_or_429(self):
+        for code in(403,429):
+            calls=[]
+            def transport(endpoint,method='get'):
+                calls.append(endpoint);raise MetadataUnavailable(code)
+            with self.assertRaises(MetadataUnavailable):FabricMetadataConnector('workspace',transport,None).get_definition({'id':'model','type':'SemanticModel'})
+            self.assertEqual(1,len(calls))
+
+
+class SqlLineageTests(unittest.TestCase):
+    def assets(self,text):
+        return [dict(id='source',kind='SqlObject',name='raw.T',parent='database',meta={}),
+            dict(id='view',kind='SqlObject',name='mart.V',parent='database',meta={'definitions':[{'definition':text}]}),
+            dict(id='scol',kind='SqlColumn',name='value',parent='source',meta={}),
+            dict(id='vcol',kind='SqlColumn',name='value',parent='view',meta={})]
+
+    def test_view_and_column_edges_use_exact_database_and_schema(self):
+        result=extract(self.assets('CREATE VIEW mart.V AS SELECT value FROM raw.T'))
+        self.assertEqual({('source','view','data'),('scol','vcol','data')},
+            {(e['source'],e['target'],e['kind'])for e in result['edges']})
+        self.assertEqual([],result['gaps'])
+
+    def test_similar_name_and_missing_schema_are_not_bindings(self):
+        for reference in('other.T','T','another_database.raw.T'):
+            r=extract(self.assets('CREATE VIEW mart.V AS SELECT value FROM '+reference))
+            self.assertEqual([],r['edges']);self.assertTrue(r['gaps'])
+
+    def test_string_literal_never_becomes_lineage(self):
+        r=extract(self.assets("CREATE VIEW mart.V AS SELECT 'raw.T' AS value"))
+        self.assertEqual([],r['edges'])
+
+    def test_dynamic_procedure_is_explicitly_incomplete(self):
+        r=extract(self.assets("CREATE PROCEDURE mart.V AS BEGIN EXEC sp_executesql N'SELECT value FROM raw.T'; END"))
+        self.assertEqual([],r['edges']);self.assertTrue(r['gaps'])
 
 
 if __name__=='__main__':unittest.main()

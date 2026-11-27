@@ -8,7 +8,7 @@ BASE='https://developer.microsoft.com/json-schemas/fabric/item/report/'
 TARGETS={
     'A':('dw.LoadedOrderLine','Quantity','Units'),
     'B':('mart.V_PRM_X4','WRITTEN_PRM','Written Premium'),
-    'C':('mart.SalesItems','NETWR','Net Sales'),
+    'C':('mart.SalesItems','NetSalesAmount','Net Sales'),
     'D':('mart.Enrolments',None,'Enrolments'),
 }
 
