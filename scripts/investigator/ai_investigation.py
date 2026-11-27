@@ -669,7 +669,7 @@ that detailed timeline undecided rather than inventing a source-history cause.
                         result={'rejected_tool':name,'reason':message,'error_type':type(error).__name__}
                         self.evidence(result);is_error=True
                         if name in ('submit_finding','ask_user_choice'):
-                            self.record_delivery_rejection(message)
+                            self.record_delivery_rejection(message,draft=args)
                     self.state['pending']=None
                     results.append({'type':'tool_result','tool_use_id':call['id'],
                                     'content':canonical(result),'is_error':is_error})
@@ -691,13 +691,23 @@ that detailed timeline undecided rather than inventing a source-history cause.
             'business':'The checked evidence did not establish the requested conclusion. The findings, calculation and remaining checks follow.',
             'stop':reason}
 
-    def record_delivery_rejection(self,reason):
-        """Bound retries at a fixed evidence frontier, including malformed repair."""
+    def record_delivery_rejection(self,reason,*,draft=None):
+        """Bound repeats without cutting off a genuinely revised valid draft.
+
+        A corrected target or citation can repair delivery without another
+        native query. Count identical failed drafts separately from revisions;
+        both the total submission and model-only repair bounds still apply.
+        """
         frontier=digest([q['id'] for q in self.queries.records])
         prior=self.state.get('delivery_rejection_frontier')
-        count=self.state.get('delivery_rejections',0)+1 if prior==frontier else 1
-        self.state.update(delivery_rejection_frontier=frontier,delivery_rejections=count)
+        attempts=self.state.get('delivery_rejection_attempts',0)+1 if prior==frontier else 1
+        failures=self.state.get('delivery_rejected_drafts',{}) if prior==frontier else {}
+        key=digest(draft)
+        count=failures.get(key,0)+1;failures[key]=count
+        self.state.update(delivery_rejection_frontier=frontier,delivery_rejections=count,
+                          delivery_rejection_attempts=attempts,delivery_rejected_drafts=failures)
         if count>=3:self.stop_delivery_loop('DELIVERY_REJECTED_WITHOUT_NEW_READS: '+reason)
+        elif attempts>=6:self.stop_delivery_loop('DELIVERY_REVISION_LIMIT_WITHOUT_NEW_READS: '+reason)
 
     def closing_action_reserved(self):
         # The seven-action cascade stage hands off to another model; it is

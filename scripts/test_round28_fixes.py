@@ -76,6 +76,25 @@ class Fixes(TestCase):
         self.assertEqual(v.state['delivery_rejections'],1)
         v.state['delivery_repair_attempts']=2
         with self.assertRaisesRegex(ValueError,'REPAIR_ATTEMPTS_EXHAUSTED'):v.repair_delivery({},'bad',kind='soft')
+    def test_corrected_delivery_after_three_different_rejections_still_delivers(self):
+        from test_round23_reasoning import LoopTests,tool
+        fixture=LoopTests()
+        validator=Mock(side_effect=[ValueError('TARGET_NOT_A_UNIQUE_OBSERVED_MATCH')]*3+
+                       [{'business':'The checked total is 7.'}])
+        loop=fixture.assemble([],validator=validator)
+        def draft(number):
+            return tool('submit_finding',{'verdict':'as designed','cause':'Revised supported draft '+str(number),
+                'numbers':[7],'checked':['gold'],'evidence_ids':[loop.queries.records[0]['id']]},'draft-'+str(number))
+        responses=[tool('run_sql',{'layer':'gold','query':'SELECT SUM(quantity) AS total FROM dbo.Items','purpose':'recreate'})]
+        responses.extend(range(4))
+        fixture.model.complete.side_effect=lambda **kw: draft(responses.pop(0)) if isinstance(responses[0],int) else responses.pop(0)
+        result=loop.run()
+        self.assertEqual(result['status'],'ANSWERED');self.assertEqual(result['model_calls'],5)
+        fixture.execute.assert_called_once();self.assertEqual(validator.call_count,4)
+    def test_different_drafts_cannot_retry_forever_at_one_evidence_frontier(self):
+        v=object.__new__(Investigator);v.state={};v.queries=SimpleNamespace(records=[{'id':'q1'}])
+        for n in range(6):v.record_delivery_rejection('unsupported',draft={'cause':str(n)})
+        self.assertEqual(v.state['outcome']['stop'].split(':')[0],'DELIVERY_REVISION_LIMIT_WITHOUT_NEW_READS')
     def test_no_tool_turn_after_rejection_stops_with_checked_handoff(self):
         from test_round23_reasoning import LoopTests,tool
         fixture=LoopTests();v=fixture.assemble([tool('submit_finding',{'verdict':'not found','cause':'unchecked','numbers':[],'checked':[],'evidence_ids':['missing']}),{'content':[{'type':'text','text':'still thinking'}]}])
