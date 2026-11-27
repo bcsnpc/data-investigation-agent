@@ -28,6 +28,14 @@
       "packet_sha256": "b7b7987ca622e31f57b5e94dbc928a5aeb053e6fcc03172d78e79716cad9dd4e",
       "sealed_sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52"
     },
-    "HN-011_complete_case_exactly_matches_capture": true
+    "HN-011_complete_case_exactly_matches_capture": true,
+    "HN-005": {
+      "evidence_compaction": false,
+      "original_projection_sha256": "8f8863c553b86bc710c000e8f3be4ad593b63c8e716a805fd8f9a583e3b114da",
+      "packet_bytes": 485989,
+      "packet_limit_characters": 1000000,
+      "packet_sha256": "8f8863c553b86bc710c000e8f3be4ad593b63c8e716a805fd8f9a583e3b114da",
+      "sealed_sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52"
+    }
   }
 }

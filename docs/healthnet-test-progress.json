@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-11-27T01:13:58.822816+00:00",
+  "as_of": "2026-11-27T01:21:32.593562+00:00",
   "test_complete": false,
   "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
   "catalog_version": "native-r3",
@@ -166,6 +166,59 @@
       "reviewed_fully_correct": false,
       "reviewed_harmful": false,
       "useful_handoff": true,
+      "first_wrong_step": "wrong conclusion"
+    },
+    {
+      "ticket": "HN-005",
+      "cohort": "static",
+      "status": "ANSWERED",
+      "capture_seal": "2b7d7f3033457dbd5691c9ad6d301db7cf5def0b2cc9df9e84afa61ac4d112dd",
+      "physical_requests": 29,
+      "cost_microdollars": 752261,
+      "model_calls": 3,
+      "engine_wall_seconds": 204.237348748,
+      "stop": null,
+      "grades": {
+        "primary": {
+          "model": "gpt-6.1-sol",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": true,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "sha256": "54aa657639464b9bd9c3ab37d765795b3ec87c298278eca0caf8573835b0e1c0"
+        },
+        "secondary": {
+          "model": "gpt-6-astra",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "sha256": "3b4bd09c4de29e5b5000687a3b3f65f6cc9e870695d90a24ee82fbe3b80371fe"
+        },
+        "reviewer": {
+          "model": "gpt-6.1-terra",
+          "fully_correct": false,
+          "verdict_match": false,
+          "layer_match": true,
+          "cause_match": true,
+          "harmful": false,
+          "partial": true,
+          "failing_step": "wrong conclusion",
+          "handoff_quality": 1,
+          "sha256": "80c3ff04b4365edf46898a3376982ca897b9caa82211da97419143b264225c01"
+        }
+      },
+      "reviewed_fully_correct": false,
+      "reviewed_harmful": false,
+      "useful_handoff": false,
       "first_wrong_step": "wrong conclusion"
     },
     {
@@ -750,8 +803,8 @@
       "first_wrong_step": "none"
     }
   ],
-  "completed_outcomes": 17,
-  "independently_graded": 17,
+  "completed_outcomes": 18,
+  "independently_graded": 18,
   "fully_correct": 9,
   "useful_handoff": 5,
   "harmful": 0,
