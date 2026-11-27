@@ -1,0 +1,25 @@
+{
+  "status": "DRAFT_DISABLED",
+  "estate_id": "healthnet",
+  "config_sha256": "e3eac74949ae4a142429e232c1f6aa29fa1cc5e32fc692a22f86bb1742b66772",
+  "layers": [
+    "source",
+    "bronze",
+    "silver",
+    "gold",
+    "model",
+    "report"
+  ],
+  "connectors": [
+    "clinical",
+    "billing",
+    "analytics"
+  ],
+  "network_calls": 0,
+  "secret_resolution": "NOT_ATTEMPTED",
+  "execution_enabled": false,
+  "observed_at_utc": "2026-11-26T18:57:22.978925+00:00",
+  "command": "dia estate validate config/estates/healthnet.json",
+  "source": "docs/healthnet-status.md; recorded metadata only",
+  "ticket_or_expectation_contents_opened": false
+}

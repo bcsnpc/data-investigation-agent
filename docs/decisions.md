@@ -830,3 +830,83 @@ Owner chose: "Wait until Dec 1; continue offline." Do not enable paid continuati
 ## R28 offline repair preparation, owner direction 2026-11-26
 
 Owner approved offline-only coverage, source-comparison, delivery, evaluator-cache and smoke-column repairs on PR435. Original confirmation source6731ead4/imagea0e47731 stays frozen and goes first for the four outstanding cases after SQL renewal. No estate/model call, role/secret/ceiling change, merge or tag. See docs/r28-offline-ready.md.
+
+
+## HealthNet owner-authored test set APPROVED_SEALED, 2026-11-26
+
+Owner confirmed reviewer approval with the final HN-005 neutral payment-app wording,
+HN-020 removal of the record-number clue, and dollar-spacing corrections. All 27
+expected answers are unchanged from revision 2, verified by decryption and comparison.
+The owner-authored set was reviewed and sealed before any DIA run. Final hashes:
+
+- tests/tickets/healthnet/tickets.json: `29480e4fd567c27a08f89f7a1aeb49407b3899bf81aa14f30164af2e254dcfbf`.
+- tests/tickets/healthnet/expected-answers.enc.json: `60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52`.
+
+The existing pinned Key Vault key was reused in memory only, with a fresh nonce
+and authenticated final ticket hash. Both the active plaintext review packet and
+its superseded revision-1 copy were deleted after seal verification.
+All 833 engine/runtime files and 69 prompt-bearing files match the original freeze.
+The engine freeze rule remains unchanged. Author/operator exposure must be disclosed
+and independent grading used: owner-authored does not mean operator-blind. No DIA
+or model runs, access grants, injections, engine changes, merge or tag were performed.
+
+
+## HealthNet smoke plumbing, owner-approved 2026-11-26
+
+The estate config schema previously accepted only DRAFT/CONFIGURED. Add SMOKE_ONLY
+and READY_SEALED_TEST as disabled-for-ticket states, validated offline; both refuse
+enabled=true and engine_manifest execution. This is config plumbing only, authorized
+by healthnet-access-and-smoke.md. No prompts, intake, investigation or answer rules
+change. New tests prove both states remain offline and cannot admit tickets.
+Full suite, all eight image shards and the 123 saved classifications are required.
+Owner additionally approved only row counts per mapped SQL table and one main
+measure total per model, compared with saved owner-baseline receipts, no tickets
+or model calls. Sealed HealthNet inputs/expectations will not be opened.
+
+HealthNet smoke plumbing: the guarded SQL worker rejected SELECT 1 after the gateway
+correctly returned an empty business-object set. Permit only a literal SELECT 1
+(with optional simple alias) without object guards; gateway, identity and database
+read-only permission checks still run. Other zero-object reads and all writes
+remain refused. Regression tests cover successful connectivity and a write-capable
+identity refusal. No intake, investigation, prompt or answer behavior changes.
+
+
+HealthNet access/smoke, owner-approved2026-11-26 (?8): existing investigator only; both HealthNet source databases db_datareader + VIEW DEFINITION, workspace Viewer, three semantic models Read+Build. Initial clinical-only restrictive DENY INSERT attempts did not clear effective flags; no write was attempted. Subsequent owner decision prohibits further SQL permission changes until source audit/approval. Audit found no ordinary grant/role/ownership/admin source for temporal-history INSERT reports; source remains unestablished. Owner-approved current-table FOR SYSTEM_TIME ALL path measured five histories without guard/permission changes; ordinary payer_plan_history has no temporal parent and stays unrun.
+
+HealthNet RLS option A, owner-approved2026-11-26 (?8): new Fabric-tenant HealthNet-only security group dia-healthnet-investigator (18442d42-4646-44cf-9041-5aeaef202cff), sole existing investigator SP439ceb25-d200-4f02-95cf-4b1318faca62; new Investigator/read/no-filter role on each of Operations, Revenue, Productivity, sole role member that group. No other group, model role/filter or workspace permission changed. Before/after native definitions and independent readback match except the new roles; native XMLA main totals3/3 match baseline, REST401 retained separately. No Contributor. Every removal step is in docs/healthnet-access.md.
+
+HealthNet smoke plumbing only,2026-11-26: b80e790e qualifies generic sealed-connectivity config states and guarded literal SELECT1; no further engine changes for HealthNet. Existing fixed-identity credentials used in memory through supported local token/connection seams; no new credential, secret logging, prompt/intake/reasoning changes, ticket run or sealed-content read. Full6230PASS/53skip, all8image shards;123saved replay classifications unchanged including original37 nonfinished/no-investigation cases. Final disabled READY_SEALED_TEST config is not a claim of complete native metadata or a working REST route.
+
+HealthNet smoke plumbing qualification,2026-11-26: final disabled HealthNet config exposed a stale test assertion for DRAFT_DISABLED/exactly2connections. Test-only correction verifies allnonexecutablestates, disabledconnectors, admissionrefusal and bothapplicationroots while retaining the single-connection practice fixture; no runtime/prompt or sealed expectation change. Focused37PASS/21subtests; sourcef49d761d full6230PASS/53skip, all8imageshardsSUCCESS in workflow45897562482. Engine/prompts unchanged from already replay-checked b80e790e;123classifications unchanged. No image publication/deployment/merge/tag.
+
+
+### Owner-approved HealthNet DAX transport, 2026-11-26
+The ticket engine NativeQueries -> run_native_diagnostic.execute used REST executeQueries; the earlier successful XMLA smoke helper was not the ticket path. Owner requested a connector-only XMLA selection for HealthNet. Add optional fabric.dax_transport with exact workspace/model bindings and native ADOMD library; default remains REST. The same reader, token-principal checks, read-only gateway XMLA_EVALUATE authorization and result contract apply, without owner fallback, impersonation or new estate permissions. Synthetic practice-fixture connector tests justify this generic transport exception to the HealthNet freeze; no reasoning, prompt, ticket or expectation changes. Proof through the actual NativeQueries port returned [ok]=1 on HealthNet Operations, one INVESTIGATION request, zero ticket/AI calls. Laptop uses the existing approved app credential at the token-provider seam, not the cloud managed identity. Native execution currently requires Windows PowerShell plus the configured ADOMD client; no cloud deployment or Linux-native XMLA proof is claimed. HealthNet ticket admission remains disabled. Qualification/replay details: docs/healthnet-engine-dax.md.
+
+
+Owner extension 2026-11-26: prove the same fixed trivial HealthNet DAX read inside the Linux Azure worker image, no ticket/AI call. Add Microsoft ADOMD 19.117.0 net8 client and .NET8 runtime to the code-only image; use a fixed read-only stdin helper through the same engine executor/gateway. No new identity, permission, estate setting or persistent scheduled-job image change. Synthetic connector tests plus native image self-test justify this transport-only freeze exception. Qualify full suite/eight shards, publish immutable image, then use an execution-only override on existing job-dia-worker and the existing managed identity. The fixed diagnostic publishes a small safe receipt to the existing platform captures container; shared physical admission remains required.
+
+
+HealthNet native proof control-plane decision,2026-11-26: ARM job execution listing returned BadGateway repeatedly through CLI and direct2024-03-01 API before any launch. Existing job readback works. Do not invent an empty-execution claim. The owner-approved independent one-query proof does not require exclusive estate/ledger ownership: authoritative one-request reservation, fixed read-only query, unique start marker/no POST retry and per-execution status remain enforced. Continue with that bounded execution; record listing unavailable rather than blocking on a non-safety inventory check. No permission or limit change.
+
+
+HealthNet Linux proof completed, 2026-11-26
+Qualified image 8018ca9a (source b7b3b2c9) ran as job-dia-worker-p3vbys2 and Succeeded. The real engine NativeQueries XMLA port returned ok=1 in 14.971 seconds; total Azure execution was 46 seconds. Authentication used the existing worker managed identity and investigator federation. Full suite: 6,239 passed, 54 skipped; eight shards passed; 123 replay classifications unchanged. The persistent job template, configuration and identity are unchanged. The Windows and Linux proof reservations are SETTLED, zero open. No ticket, AI call, estate data, permission or model change. app.payer_plan_history remains unqueried: it is an ordinary table without a temporal parent; the reader role is present and DML flags are 0. No history guard or permission was changed.
+
+
+HealthNet owner clarification, 2026-11-26: ordinary payer_plan_history is not covered by the no-direct-system-history rule. One bounded default NativeQueries SOURCE_SQL count on the qualified Linux Azure image returned14 and read_only_verified true; unchanged database/object guard, no permission change. READY_SEALED_TEST retained, obsolete smoke-partial name corrected; tickets remain disabled and sealed. Ten prepaid physical slots settled, conservatively charged10; no new model spend. See docs/healthnet-final-readiness.md.
+
+
+2026-11-26 HealthNet sealed test owner GO: immutable qualified image8018ca9a/sourceb7b3b2c9, no engine/prompt/rule changes. Account reserve raised3->8USD and combined effective ceiling reduced5USD to250.108251, usage210.774854 unchanged, preserving owner cash3+R27confirmation5; no credit increase. Owner clarified HN004-006 are serial Part1 definition controls with admission/hashrestore/baseline recheck, never overlapping affected model/mart. Two initial container attempts failed before Python (exec argument list too long), no engine/AI/SQL; owner approved one replacement each only after no-ticket startup and hash-identical file transport proof. No extra permission or identity, no merge/tag.
+
+HealthNet deployment reconciliation, 2026-11-26: frozen image unchanged. The approved HN-001/002 replacements failed before AI or native reads because the HealthNet usage_policy installation row was absent. Standard import_usage installed an empty per-installation policy, with identical shared monthly counters and caps before/after. It adds no request or cash allowance. Both failed attempts stay scored as undelivered; no further replacement. Sol and Astra independently agree zero credit and no harm. All later inputs keep the exact file transport proven by owner-requested no-ticket startup.
+
+Owner correction, 2026-11-26 (supersedes prior no-replacement/scored-failure entry): HN-001/002 usage-policy failures are UNSCORED ENVIRONMENTAL, not DIA answers. Partial captures show no AI calls, no unpaired model requests and failure at Meter construction before native reads. Owner approves one replacement each on the unchanged frozen image after installation. Original attempts and excluded grading records remain intact; they do not enter the test denominator. HN004-006 control preparation may access only their injection fields; after testing, split those plans from answers so future controls never decrypt answers.
+
+Owner-approved HealthNet catalog repair, 2026-11-26: backfill all three models and both source databases from native column/dependency/connection metadata only; verify every referenced column and model-table source binding before new admissions. Frozen engine, prompts, guards, permissions and image unchanged. HN003/007 and HN008 if same failure are UNSCORED ENVIRONMENTAL, originals and grades retained, one replacement each after completeness. Resolve HN009 by execution ID, never duplicate. Then resume pairs of two. No sealed answers outside independent grading; only HN004-006 injection fields may be accessed for controls; split plans after test.
+
+
+Owner direction, 2026-11-26: retain the frozen HealthNet engine/image for the whole test; do NOT apply proposed catalog projection/scoping or no-tool-loop fixes during this test. Record both as top R28 fixes with docs/healthnet-opus-cost-audit.md/json as evidence. Resume planned two-ticket baseline pairs, forecasting each pair before admission against headroom already net of protected8USD (3reserve+5R27). Stop before an unfunded pair and leave remaining tickets for confirmedDec1balance. Grade saved outcomes with existing OpenAI funding/expiry. HN009 remains UNESTABLISHED, never duplicate unless native execution is resolved and owner authorizes any replacement. No new permission, cap, engine, prompt, rule, expectation or image change.
+
+
+Owner approval, 2026-11-26 (execution UTC 2026-11-27): HealthNet grading packets may use up to **1,000,000 serialized characters**, increased from 24,000, in the local grading process only. The worker/engine/image remains frozen. New unsent grades include the complete saved case, every query/result, all rows, retained definitions and triage, without sampling, dropping procedure bodies or evidence compaction. HN-011's complete packet is 541,828 UTF-8 bytes. Primary Sol, secondary Astra and Terra disagreement review, rubric, output limits and financial guards are unchanged. Completed grades are not rerun. Local boundary tests accept a 500,000-character evidence body, reject over-limit/invalid protocol or malformed tasks, and verify the engine source hash is unchanged.

@@ -4619,3 +4619,27 @@ Occurrences: estate config: 932, identity/secrets: 83, infrastructure: 267, test
 | tests/fixtures/round24-route-sources/scripts/investigator/adapters/ai_native_catalog.py:283 | Lakehouse, Warehouse |
 | tests/fixtures/round24-route-sources/scripts/investigator/adapters/ai_native_catalog.py:289 | Lakehouse, Warehouse |
 | tests/fixtures/round24-route-sources/scripts/investigator/adapters/ai_native_catalog.py:365 | Lakehouse, Warehouse |
+
+
+## Round 28A ? narrowed owner scope, 2026-11-26
+
+The checked-in index contains **4,594** historical line hits (the incoming prompt
+quoted 4,282). Its generic vocabulary also matches platform concepts and variable
+names; these are not 4,594 hard-coded estate values. The index is preserved.
+
+| Historical group | Indexed before | Indexed after | Treatment |
+| --- | ---: | ---: | --- |
+| Estate config | 932 | 932 | Existing bindings are now loadable through `estate-config/1`; no index rows rewritten. |
+| Identity/secrets | 83 | 83 | References only; no secret, identity or permission changes. |
+| Infrastructure | 267 | 267 | Runner/deployment cleanup explicitly skipped. |
+| Test-only | 3,312 | 3,312 | Test fixture cleanup explicitly skipped. |
+
+A separate concrete-literal scan covers all `scripts/investigator` Python files
+plus top-level cloud/run/metadata/serve runtime entry points and `dia.py`. Known
+practice account/domain, SQL host/database, vault, workspace and investigator-ID
+hits: **0 before / 0 after**. The existing engine had already removed these
+concrete literals; this round adds a ratchet and a validated public configuration,
+not a claim to have removed the generic audit hits. Current job names remain in
+runner adapters, outside the narrowed cleanup scope. No tests or historical audit
+allowances were loosened. See `test_round28_configuration.py`,
+`round-twenty-eight-a-baseline.json` and `estate-config.md`.

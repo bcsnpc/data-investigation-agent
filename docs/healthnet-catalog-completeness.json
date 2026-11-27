@@ -1,0 +1,63 @@
+{
+  "native_insert_producers": 19,
+  "native_copy_bindings": 32,
+  "upstream_lineage_gaps": [],
+  "status": "COMPLETE",
+  "checks": [
+    {
+      "scope": "hn_clinical",
+      "tables": 23,
+      "columns": 265,
+      "native_metadata_sha256": "927a5bd6e97cbf0e52fb5854ab04347e2ab6bb2b5f104227f7129e0f7ee8bee5"
+    },
+    {
+      "scope": "hn_billing",
+      "tables": 14,
+      "columns": 161,
+      "native_metadata_sha256": "3dce1e737833596ae70ad5644c0bc4226f3b5eb368979c56e839f9320bc8dfaf"
+    },
+    {
+      "scope": "hn_raw",
+      "tables": 33,
+      "columns": 344,
+      "native_metadata_sha256": "de73630b1b4fbe5bd819a09f2c339b0419bc3965e011b0034f02a21cfe93692c"
+    },
+    {
+      "scope": "hn_dw",
+      "tables": 25,
+      "columns": 306,
+      "native_metadata_sha256": "e99e611e067443466206c65ce6c990fd1c4e7d9335ab26732f588aa083786607"
+    },
+    {
+      "model": "operations",
+      "tables": 8,
+      "columns": 97,
+      "dependency_rows": 89,
+      "referenced_columns_checked": 81
+    },
+    {
+      "model": "revenue",
+      "tables": 11,
+      "columns": 136,
+      "dependency_rows": 139,
+      "referenced_columns_checked": 135
+    },
+    {
+      "model": "productivity",
+      "tables": 9,
+      "columns": 110,
+      "dependency_rows": 142,
+      "referenced_columns_checked": 117
+    }
+  ],
+  "visual_references_checked": 65,
+  "model_table_bindings": 28,
+  "gaps": [],
+  "assets": 1828,
+  "nodes": 2576,
+  "edges": 3271,
+  "engine_changes": 0,
+  "guard_changes": 0,
+  "native_metadata_only": true,
+  "observed_at": "2026-11-26T23:29:49.943605+00:00"
+}

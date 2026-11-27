@@ -1,0 +1,150 @@
+{
+  "version": "estate-config/1",
+  "id": "example-hospital",
+  "name": "Hospital example ? draft only",
+  "enabled": false,
+  "status": "DRAFT",
+  "references": {
+    "tenant": "PLACEHOLDER-tenant",
+    "subscription": "PLACEHOLDER-subscription",
+    "resource_group": "PLACEHOLDER-resource_group"
+  },
+  "connectors": [
+    {
+      "id": "source",
+      "kind": "azure-sql",
+      "enabled": false,
+      "identity": "draft-reader",
+      "adapter": "draft-adapter",
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-source-discovery"
+      ]
+    },
+    {
+      "id": "analytics",
+      "kind": "fabric",
+      "enabled": false,
+      "identity": "draft-reader",
+      "adapter": "draft-adapter",
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-analytics-discovery"
+      ]
+    }
+  ],
+  "layers": {
+    "source": {
+      "connectors": [
+        "source"
+      ],
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-source-object"
+      ]
+    },
+    "bronze": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-bronze-object"
+      ]
+    },
+    "silver": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-silver-object"
+      ]
+    },
+    "gold": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-gold-object"
+      ]
+    },
+    "model": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-model-object"
+      ]
+    },
+    "report": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [],
+      "discovery": [
+        "PLACEHOLDER-report-object"
+      ]
+    }
+  },
+  "source_of_truth": "source",
+  "deepest_reachable": "source",
+  "identities": {
+    "draft-reader": {
+      "kind": "managed-identity",
+      "reference": "PLACEHOLDER-reader",
+      "tenant": "PLACEHOLDER-tenant",
+      "secret_refs": []
+    }
+  },
+  "secrets": {
+    "vault": "placeholder-vault",
+    "names": [
+      "placeholder-model-key",
+      "dia-api-token"
+    ]
+  },
+  "model": {
+    "provider": "anthropic",
+    "model": "claude-opus-5-5",
+    "secret_ref": "placeholder-model-key",
+    "limits": {
+      "requests_per_ticket": 100,
+      "requests_per_day": 100000,
+      "microdollars_per_ticket": 3000000,
+      "microdollars_per_day": 150000000,
+      "microdollars_per_month": 150000000
+    }
+  },
+  "limits": {
+    "requests_per_ticket": 100,
+    "requests_per_day": 100000,
+    "microdollars_per_ticket": 3000000,
+    "microdollars_per_day": 150000000,
+    "microdollars_per_month": 150000000
+  },
+  "optional_sources": {
+    "catalog": {
+      "enabled": false,
+      "adapter": "not-installed"
+    },
+    "ontology": {
+      "enabled": false,
+      "adapter": "not-installed"
+    },
+    "glossary": {
+      "enabled": false,
+      "adapter": "not-installed"
+    }
+  },
+  "deployment": {
+    "jobs": {
+      "worker": "draft-worker",
+      "graph": "draft-graph",
+      "collectors": "draft-collectors"
+    }
+  },
+  "installation": null
+}

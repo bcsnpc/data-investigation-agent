@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-26T22:33:13.970960+00:00",
+  "owner_authorized": true,
+  "config_commit": "58c34d3142fc9a49ad7b35683cefd5325359a44a",
+  "engine_source": "b7b3b2c9a562242ef39f422fc974f82c326c73f2",
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
+  "qualification": {
+    "source": "b7b3b2c9a562242ef39f422fc974f82c326c73f2",
+    "workflow": 45901279787,
+    "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
+    "full": {
+      "tests": 6293,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 54,
+      "passed": 6239
+    },
+    "shards": 8,
+    "status": "SUCCESS"
+  },
+  "engine_prompt_rule_changes_forbidden": true,
+  "context": "HealthNet-only native catalog, no practice cases, expectations or authoring receipts supplied to investigator",
+  "protected_anthropic_microdollars": 8000000,
+  "part1_concurrency": 2,
+  "part1_minimum_vcore_seconds": 20000,
+  "part2_minimum_vcore_seconds": 40000,
+  "no_repeat": true
+}

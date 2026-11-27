@@ -65,6 +65,9 @@ def demo(manifest_path, case_path, port, live=False):
 def main(argv=None):
     import sys
     argv=list(sys.argv[1:] if argv is None else argv)
+    if argv and argv[0]=='estate':
+        from investigator.estate_config import command
+        return command(argv[1:])
     if argv and argv[0]=='enrichment':
         from enrich_estate import main as enrichment_main
         return enrichment_main(argv[1:])

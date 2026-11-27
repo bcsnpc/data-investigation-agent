@@ -28,9 +28,11 @@ class SourceReadTimeout(TimeoutError):
 
 
 def read_once(config, request):
+    from investigator.adapters.sql_connections import for_request
+    config = for_request(config, request)
     payload = {'server': config['sql']['server'], 'database': config['sql']['database'],
                'query': request.get('query',''), 'parameters': request.get('parameters',[])}
-    managed = config['sql']['auth'].get('mode') in ('managed_identity','federated_reader')
+    managed = config['sql']['auth'].get('mode') in ('managed_identity','federated_reader','key_vault_user_cache')
     if managed:
         from investigator.adapters.vault_user_cache import credential
         payload['authentication'] = credential(config['sql']['auth'])

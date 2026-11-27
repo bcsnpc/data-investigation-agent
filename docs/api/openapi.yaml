@@ -1,0 +1,77 @@
+openapi: 3.0.3
+info:
+  title: DIA local replay API
+  version: 0.28a
+servers:
+  - url: http://127.0.0.1:8765
+security:
+  - bearerAuth: []
+paths:
+  /v1/health:
+    get:
+      summary: Authenticated replay health
+      responses:
+        '200': {description: 'Healthy; mode REPLAY, live_enabled false'}
+        '401': {description: Authentication required}
+  /v1/investigations:
+    post:
+      summary: Submit an exact installed saved ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/Ticket'}
+      responses:
+        '202':
+          description: Saved replay case admitted
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [case_id, status_url]
+                properties:
+                  case_id: {type: string}
+                  status_url: {type: string}
+        '400': {description: Invalid request or no exact saved replay}
+        '401': {description: Authentication required}
+        '403': {description: Requester or estate not authorized}
+  /v1/investigations/{id}:
+    parameters:
+      - {$ref: '#/components/parameters/CaseId'}
+    get:
+      summary: Get requester-scoped case status
+      responses:
+        '200': {description: 'case_id, status, mode, result_url'}
+        '401': {description: Authentication required}
+        '404': {description: Case absent or not authorized}
+  /v1/investigations/{id}/result:
+    parameters:
+      - {$ref: '#/components/parameters/CaseId'}
+    get:
+      summary: Get the saved delivery without rewriting it
+      responses:
+        '200': {description: Saved verdict, explanation, evidence summary and handoff}
+        '401': {description: Authentication required}
+        '404': {description: Case absent or not authorized}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer}
+  parameters:
+    CaseId:
+      name: id
+      in: path
+      required: true
+      schema: {type: string, pattern: '^[0-9a-f]{32}$'}
+  schemas:
+    Ticket:
+      type: object
+      additionalProperties: false
+      required: [text, estate_id, requester]
+      properties:
+        text: {type: string, minLength: 1, maxLength: 100000}
+        estate_id: {type: string, minLength: 1, maxLength: 500}
+        requester: {type: string, minLength: 1, maxLength: 500}
+        report: {type: string, minLength: 1, maxLength: 500}
+        page: {type: string, minLength: 1, maxLength: 500}
+        visual: {type: string, minLength: 1, maxLength: 500}
+        screenshot: {type: string, format: byte, maxLength: 1000000, description: Base64 PNG or JPEG}

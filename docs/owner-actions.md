@@ -1032,3 +1032,29 @@ The earlier paid-SQL decision request is RESOLVED as WAIT; no paid SQL action is
 ## December 1 funding and original confirmation first
 
 OpenAI grading credit expires Nov29; valid December grading funding/top-up is needed. Owner must confirm the exact Dec1 Anthropic balance. SQL billing decision is already WAIT: restore downstream and verify original hashes/model7661 after free renewal, then finish/grade the four outstanding original-image confirmation cases BEFORE the repaired-image SuperVL proof, one Opus failure-only attempt, and any funded calibration. Keep3USD reserve; v5 stays sealed.
+
+
+## Round 28A (2026-11-26), offline narrowed scope
+
+- **Approve API ingress on Azure** before any public deployment; no ingress or Azure resource was created. A named API authentication secret also needs provisioning before deployment; the local tests used memory-only keys.
+- Dec 1: execute the R27 restoration/last-four/frozen-image gate plan first. R28A is a separate draft and must not merge before R27 is merged/tagged.
+- Existing R27 funding actions remain: confirm Dec 1 Anthropic balance and December grading funding (OpenAI credit expires Nov 29). No live/model work was admitted by R28A.
+
+
+## HealthNet access/smoke follow-up ? 2026-11-26
+
+- **No automatic permission changes pending.** HealthNet-only RLS group option A was applied; gateway XMLA main totals3/3 match baseline under the actual investigator; Viewer unchanged. The same principal still gets REST ExecuteQueries401. Before any actual sealed test, decide whether generic native XMLA query transport should be integrated/selected using practice-fixture evidence. No Contributor or broader workspace role will be granted without a separate explicit owner decision. All current grants and exact revokes are in docs/healthnet-access.md.
+- Temporal INSERT-report source remains unestablished despite a complete accessible-database role/grant/ownership audit and three ineffective earlier clinical DENYs. Owner-approved current-table temporal reads now provide five historical-version counts with the unchanged guard, so no additional DENY/REVOKE experiment is needed. Direct history-object reads remain refused. For direct access, investigate the native permission-report discrepancy first; don't silently whitelist it.
+- hn_billing.app.payer_plan_history is NON_TEMPORAL_TABLE with no native temporal parent. Its deferred direct count stays unrun under the owner's temporal-only steer; no guessed FOR SYSTEM_TIME route was sent. A separate owner decision can permit its ordinary guarded count if required.
+- Ordersops metadata audit remains unavailable with SQL42119, November free allowance exhausted. Keep the existing owner decision to wait for Dec1; do not enable paid continuation. Historical scope db_datareader+VIEW DEFINITION is not current verification.
+- Investigator definition/refresh-history APIs still require write permission on the platform; no such grant was added. Before a sealed test, resolve the read-only metadata supply/declared bindings using an approved path. Reports/pages, SQL objects and native aggregates are available; metadata remains partial. Do not feed test expectations or owner authoring answers into intake.
+
+
+HealthNet XMLA connector follow-up, 2026-11-26: the owner-authorized transport selection is now implemented in the native HealthNet bundle and one trivial DAX read passed through the actual engine port on Windows. The earlier pending XMLA integration decision is resolved for that runtime. Linux cloud XMLA dependencies/deployment are not proved; do not claim cloud HealthNet readiness from the Windows read. No ticket admission or additional grant was taken. See docs/healthnet-engine-dax.md.
+
+
+Resolved, 2026-11-26: HealthNet XMLA Linux runtime
+The actual Azure worker proof passed and Succeeded on image 8018ca9a (source b7b3b2c9). Readback confirms no persistent job change. No owner action is needed for the connector proof. app.payer_plan_history data readability remains unproved under the existing no-direct-history instruction: it is an ordinary table with no FOR SYSTEM_TIME parent, not a demonstrated permission denial. No direct read or grant was taken. See docs/healthnet-engine-dax.md.
+
+
+HealthNet continuation, owner date2026-11-26 / UTC2026-11-27: no permission or credit change requested now. HN-006 and HN-016?022 remain unadmitted because the monthly restoration allowance has13 requests while the next bounded restore needs17. Resume after the Dec1 ledger reset and confirmed Anthropic balance; preserve the$3 reserve plus$5 R27 protection. OpenAI grading credit expires Nov29, so December grading needs valid renewed funding. HN-009 must first be confirmed or ruled out by native execution evidence; never submit a duplicate. Before HN-006, correct/qualify the owner-only write client's Fabric TDS routing (the working .NET client can be reused), recheck native baseline hashes and model total, and fund its full restore. Do not change the frozen investigator. Part2 still requires both SQL allowances above40,000 and fresh injection admission. No defect or setting remains applied.

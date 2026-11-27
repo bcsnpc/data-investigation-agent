@@ -237,8 +237,9 @@ class Collector:
                 references.update(declared_source_connections(
                     part.get('metadata',{}).get('path'), part['metadata']['content']))
             self.attempt(part['id']+'/connection_reference',refs)
-        if 'sql' in config:
-            sql=config['sql']; sqlroot='sql://'+sql['server']+'/'+sql['database']
+        from .adapters.sql_connections import entries
+        for connection_name, sql in entries(config).items():
+            sqlroot='sql://'+sql['server']+'/'+sql['database']
             for cid in sorted(references):
                 def connection(cid=cid):
                     body=self.call('connections/'+cid)['text']
@@ -246,14 +247,18 @@ class Collector:
                     details=body.get('connectionDetails',{})
                     path=details.get('path','').split(';')
                     if (details.get('type')!='SQL' or len(path)!=2
-                            or path[0].casefold()!=sql['server'].casefold() or path[1]!=sql['database']):
+                            or not any(path[0].casefold()==c['server'].casefold() and path[1]==c['database'] for c in entries(config).values())):
                         raise ValueError('Declared connection leaves approved source scope')
+                    if root+'/connection/'+cid in self.assets: return
                     self.asset(root+'/connection/'+cid,'SourceConnection',cid,'connections/'+cid,
                         {'id':cid,'connectionDetails':{'type':details['type'],'path':details['path']}},root)
                 self.attempt(root+'/connection/'+cid,connection)
             def sql_catalog():
                 self.charge()
-                snapshot=self.sql_reader(sql['server'],sql['database'],sql['visibility_schema'])
+                reader = self.sql_reader[connection_name] if isinstance(self.sql_reader, dict) else self.sql_reader
+                if 'sql_connections' in config and not isinstance(self.sql_reader, dict):
+                    raise ValueError('Named SQL discovery requires connection-bound readers')
+                snapshot=reader(sql['server'],sql['database'],sql['visibility_schema'])
                 if (snapshot['server'].removeprefix('tcp:').split(',')[0].lower()!=sql['server'].lower()
                         or snapshot['database']!=sql['database']):raise ValueError('SQL catalog target differs')
                 snapshot=copy.deepcopy(snapshot)

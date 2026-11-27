@@ -25,7 +25,7 @@ BOOL={'type':'boolean'}
 def enum(values):return {'type':'string','enum':list(values)}
 def array(items):return {'type':'array','items':items,'maxItems':512}
 def integer(low,high):return {'type':'integer','minimum':low,'maximum':high}
-REFERENCE=obj({'adapter':STRING,'address':STRING,'reader':STRING})
+REFERENCE=obj({'adapter':STRING,'address':STRING,'reader':STRING,'connection':STRING}, optional=('connection',))
 SCOPE=obj({'resource':STRING,'rights':array(enum(('READ','BUILD','CATALOG','QUERY')))})
 RESOURCE=obj({'id':STRING,'asset_id':STRING,'reach':REFERENCE})
 NORMALIZATION={'oneOf':[
@@ -219,7 +219,11 @@ def load(path):
     # The only configuration read. Credential references name secrets, not
     # other configuration files; no environment/default file participates.
     from .provider_tape_contract import parse
-    return validate(parse(Path(path).read_text(encoding='utf-8-sig')))
+    value=parse(Path(path).read_text(encoding='utf-8-sig'))
+    if isinstance(value,dict) and value.get('version')=='estate-config/1':
+        from .estate_config import engine_manifest
+        return engine_manifest(value)
+    return validate(value)
 
 
 def policy(manifest):

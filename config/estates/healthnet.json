@@ -1,0 +1,427 @@
+{
+  "version": "estate-config/1",
+  "id": "healthnet",
+  "name": "HealthNet Analytics - ready for sealed tests",
+  "enabled": false,
+  "status": "READY_SEALED_TEST",
+  "references": {
+    "tenant": "dff91047-ebc2-4657-8dbe-5af328d57780",
+    "subscription": "d5dd7d65-1b61-4025-b9f1-5f7b2f8d1ef9",
+    "resource_group": "rg-investigator-dev"
+  },
+  "connectors": [
+    {
+      "id": "clinical",
+      "kind": "azure-sql",
+      "enabled": false,
+      "identity": "source-reader",
+      "adapter": "native-bundle",
+      "objects": [
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/18099105",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1653580929",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/98099390",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1557580587",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/210099789",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/162099618",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/2021582240",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/642101328",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1525580473",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/498100815",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/322100188",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/386100416",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/690101499",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1861581670",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1893581784",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/594101157",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1957582012",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1829581556",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/258099960",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1717581157",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1765581328",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/450100644",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1605580758"
+      ],
+      "discovery": [
+        "Native metadata discovery under the approved read identity only"
+      ],
+      "connection": "clinical"
+    },
+    {
+      "id": "billing",
+      "kind": "azure-sql",
+      "enabled": false,
+      "identity": "source-reader",
+      "adapter": "native-bundle",
+      "objects": [
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1669580986",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/2101582525",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/2099048",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1717581157",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/82099333",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1781581385",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/130099504",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1829581556",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1525580473",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1557580587",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1605580758",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/2005582183",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1893581784",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1941581955"
+      ],
+      "discovery": [
+        "Native metadata discovery under the approved read identity only"
+      ],
+      "connection": "billing"
+    },
+    {
+      "id": "analytics",
+      "kind": "fabric",
+      "enabled": false,
+      "identity": "analytics-reader",
+      "adapter": "PLACEHOLDER-native-bundle",
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0d5289e1-3133-4ddb-87bc-77e287b54935",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/ef705467-9870-481c-b977-aad877b83c30",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/85e662ed-c4e6-41fb-9e43-be0c5a6aeeae",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/da276dc2-b133-40a9-8da4-fde9f9980545",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/d47bb5e2-608f-4294-85cd-8fb0ade7a5d4",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/48b38369-2aac-427c-9c4b-a184fb464808"
+      ],
+      "discovery": [
+        "Native metadata discovery under the approved read identity only"
+      ]
+    },
+    {
+      "id": "raw",
+      "kind": "fabric-sql",
+      "enabled": false,
+      "identity": "analytics-reader",
+      "adapter": "native-bundle",
+      "connection": "raw",
+      "objects": [
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/226099846",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/882102183",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/898102240",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/802101898",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/786101841",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/818101955",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/162099618",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/210099789",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/274100017",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/866102126",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/834102012",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/850102069",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/930102354",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/258099960",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/946102411",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/146099561",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/978102525",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/962102468",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/914102297",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/130099504",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1058102810",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1010102639",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1026102696",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/306100131",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/322100188",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/338100245",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/290100074",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/994102582",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/242099903",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/194099732",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1042102753",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/178099675",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/770101784"
+      ],
+      "discovery": [
+        "Native SQL catalog on the exact named connection"
+      ]
+    },
+    {
+      "id": "warehouse",
+      "kind": "fabric-sql",
+      "enabled": false,
+      "identity": "analytics-reader",
+      "adapter": "native-bundle",
+      "connection": "warehouse",
+      "objects": [
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/178099675",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/514100872",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/482100758",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/610101214",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/642101328",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/546100986",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/578101100",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/146099561",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/130099504",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/930102354",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/962102468",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/1026102696",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/802101898",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/834102012",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/738101670",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/706101556",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/770101784",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/898102240",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/994102582",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/1058102810",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/866102126",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/466100701",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/450100644",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/162099618",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_dw/object/674101442"
+      ],
+      "discovery": [
+        "Native SQL catalog on the exact named connection"
+      ]
+    }
+  ],
+  "layers": {
+    "source": {
+      "connectors": [
+        "clinical",
+        "billing"
+      ],
+      "objects": [
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/18099105",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1653580929",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/98099390",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1557580587",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/210099789",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/162099618",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/2021582240",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/642101328",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1525580473",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/498100815",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/322100188",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/386100416",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/690101499",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1861581670",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1893581784",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/594101157",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1957582012",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1829581556",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/258099960",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1717581157",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1765581328",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/450100644",
+        "sql://sql-orderops-9696025.database.windows.net/hn_clinical/object/1605580758",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1669580986",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/2101582525",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/2099048",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1717581157",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/82099333",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1781581385",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/130099504",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1829581556",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1525580473",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1557580587",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1605580758",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/2005582183",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1893581784",
+        "sql://sql-orderops-9696025.database.windows.net/hn_billing/object/1941581955"
+      ],
+      "connections": [
+        "clinical",
+        "billing"
+      ],
+      "discovery": [
+        "Resolve exact native source objects from the HealthNet-only catalog"
+      ]
+    },
+    "bronze": {
+      "connectors": [
+        "raw"
+      ],
+      "objects": [
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/226099846",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/882102183",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/898102240",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/802101898",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/786101841",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/818101955",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/162099618",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/210099789",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/274100017",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/866102126",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/834102012",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/850102069",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/930102354",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/258099960",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/946102411",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/146099561",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/978102525",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/962102468",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/914102297",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/130099504",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1058102810",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1010102639",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1026102696",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/306100131",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/322100188",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/338100245",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/290100074",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/994102582",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/242099903",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/194099732",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/1042102753",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/178099675",
+        "sql://i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com/hn_raw/object/770101784"
+      ],
+      "discovery": [
+        "Resolve exact native bronze objects from the HealthNet-only catalog"
+      ],
+      "connections": [
+        "raw"
+      ]
+    },
+    "silver": {
+      "connectors": [
+        "analytics",
+        "warehouse"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/ef705467-9870-481c-b977-aad877b83c30"
+      ],
+      "discovery": [
+        "Physical hn_dw container verified. Exact per-table producer/layer bindings remain undiscovered under read-only definition permissions; do not infer them from names."
+      ],
+      "connections": [
+        "warehouse"
+      ]
+    },
+    "gold": {
+      "connectors": [
+        "analytics",
+        "warehouse"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/ef705467-9870-481c-b977-aad877b83c30"
+      ],
+      "discovery": [
+        "Physical hn_dw container verified. Exact per-table producer/layer bindings remain undiscovered under read-only definition permissions; do not infer them from names."
+      ],
+      "connections": [
+        "warehouse"
+      ]
+    },
+    "model": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/df6e3f67-deb6-4cb8-b15a-353176931679",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/0ef2b1a3-c6b7-4623-b962-39fe12c84d06",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/85e662ed-c4e6-41fb-9e43-be0c5a6aeeae"
+      ],
+      "discovery": [
+        "Resolve exact native model objects from the HealthNet-only catalog"
+      ]
+    },
+    "report": {
+      "connectors": [
+        "analytics"
+      ],
+      "objects": [
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/da276dc2-b133-40a9-8da4-fde9f9980545",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/d47bb5e2-608f-4294-85cd-8fb0ade7a5d4",
+        "fabric://d237966c-b0b6-4123-bc89-e69643f4bf1f/48b38369-2aac-427c-9c4b-a184fb464808"
+      ],
+      "discovery": [
+        "Resolve exact native report objects from the HealthNet-only catalog"
+      ]
+    }
+  },
+  "source_of_truth": "source",
+  "deepest_reachable": "source",
+  "identities": {
+    "source-reader": {
+      "kind": "service-principal",
+      "reference": "dia-investigator-round19",
+      "tenant": "aeb4d0a9-e637-4a7e-8efc-63cf0c3827df",
+      "secret_refs": []
+    },
+    "analytics-reader": {
+      "kind": "service-principal",
+      "reference": "dia-investigator-round19",
+      "tenant": "dff91047-ebc2-4657-8dbe-5af328d57780",
+      "secret_refs": []
+    }
+  },
+  "secrets": {
+    "vault": "kv-dia-d5dd7d65",
+    "names": [
+      "investigator-fixed-connection-20261021",
+      "anthropic-api-key"
+    ]
+  },
+  "model": {
+    "provider": "anthropic",
+    "model": "claude-opus-5-5",
+    "secret_ref": "anthropic-api-key",
+    "limits": {
+      "requests_per_ticket": 1,
+      "requests_per_day": 1,
+      "microdollars_per_ticket": 1,
+      "microdollars_per_day": 1,
+      "microdollars_per_month": 1
+    }
+  },
+  "limits": {
+    "requests_per_ticket": 1,
+    "requests_per_day": 1,
+    "microdollars_per_ticket": 1,
+    "microdollars_per_day": 1,
+    "microdollars_per_month": 1
+  },
+  "optional_sources": {
+    "catalog": {
+      "enabled": false,
+      "adapter": "not-installed"
+    },
+    "ontology": {
+      "enabled": false,
+      "adapter": "not-installed"
+    },
+    "glossary": {
+      "enabled": false,
+      "adapter": "not-installed"
+    }
+  },
+  "deployment": {
+    "jobs": {
+      "worker": "healthnet-draft-worker",
+      "graph": "healthnet-draft-graph",
+      "collectors": "healthnet-draft-collectors"
+    }
+  },
+  "installation": null,
+  "connections": {
+    "clinical": {
+      "server": "sql-orderops-9696025.database.windows.net",
+      "database": "hn_clinical",
+      "identity": "source-reader",
+      "secret_refs": []
+    },
+    "billing": {
+      "server": "sql-orderops-9696025.database.windows.net",
+      "database": "hn_billing",
+      "identity": "source-reader",
+      "secret_refs": []
+    },
+    "raw": {
+      "server": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+      "database": "hn_raw",
+      "identity": "analytics-reader",
+      "secret_refs": []
+    },
+    "warehouse": {
+      "server": "i4iptx6c5nlundn6llzsrvlxqa-nsldpuvwwarudpej42leh5f7d4.datawarehouse.fabric.microsoft.com",
+      "database": "hn_dw",
+      "identity": "analytics-reader",
+      "secret_refs": []
+    }
+  }
+}

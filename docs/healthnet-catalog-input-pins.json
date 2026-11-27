@@ -1,0 +1,16 @@
+{
+  "input_archive": {
+    "sha256": "6932f1ec623839db0d2aac52da72161da0546d70975c5528a4be9164e5967fe3",
+    "url": "https://diaplatformd5dd7d65.blob.core.windows.net/captures/healthnet-test/inputs/healthnet-inputs-r3.zip",
+    "stored": {
+      "md5": "yta+hEDi1Y6wUfxlA2Bctw==",
+      "sha256": "6932f1ec623839db0d2aac52da72161da0546d70975c5528a4be9164e5967fe3",
+      "size": 4052761
+    },
+    "downloaded": false
+  },
+  "image": "ghcr.io/bcsnpc/data-investigation-agent/offline-worker@sha256:8018ca9a08c8fdb0527525514cdbe7e0b683723abbc0f326dd4b9c79b235a3e9",
+  "catalog_sha256": "b0c61366044cbd970f253992edc58b8e0029ee5cced3fcf3559b4bf92a0fb55d",
+  "graph_sha256": "e6a3f0d81e27d796ee4e9b21434cbe26a589108fc063355492a7c62cf046ec46",
+  "engine_and_prompts_unchanged": true
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "ticket": "HN-003",
+    "classification": "UNSCORED_ENVIRONMENTAL",
+    "original_status": "ANSWERED",
+    "capture_seal": "27ef7afdb889c17c3adf020a007f6b764315dfdb5b741c7b2095769dc731a439",
+    "original_result_sha256": "c8dd3af4e8e7c0584717f6c2bea4439c1f1c6cc5cd3b21bad5372ac92be1a5ab",
+    "grades": {
+      "primary": {
+        "model": "gpt-6.1-sol",
+        "fully_correct": false,
+        "harmful": false,
+        "handoff_quality": 2,
+        "sha256": "69c1a493ed82253c6de3d22c74e896c034aaeb55521c34aa7b98888f8aa43001"
+      },
+      "secondary": {
+        "model": "gpt-6-astra",
+        "fully_correct": false,
+        "harmful": false,
+        "handoff_quality": 2,
+        "sha256": "2aae3a7a8b265cc58e9a9b3f2a23d65bdfd165a3ecd94edc226fcdcb89947821"
+      }
+    },
+    "replacement": "APPROVED_PENDING",
+    "reason": "Incomplete native scoped catalog; no refund or expectation change"
+  },
+  {
+    "ticket": "HN-007",
+    "classification": "UNSCORED_ENVIRONMENTAL",
+    "original_status": "ANSWERED",
+    "capture_seal": "f58acbdc88424db25ba2afeea432d623137063a88aea6bfacfdde28a0eb30555",
+    "original_result_sha256": "2736f6876d24c0d055bf7578af839c46b5850ece187fdadcbbf61acea302d719",
+    "grades": {
+      "primary": {
+        "model": "gpt-6.1-sol",
+        "fully_correct": false,
+        "harmful": false,
+        "handoff_quality": 2,
+        "sha256": "fe37b599b78ee6cec9a8e053d10856d82e3ca6f198c7da7f2eff4cac1fc15630"
+      },
+      "secondary": {
+        "model": "gpt-6-astra",
+        "fully_correct": false,
+        "harmful": false,
+        "handoff_quality": 2,
+        "sha256": "574254e0b9324b3f7fd8a8b6cf5a0cf6610b5de413f397dafe0f7f9a6697cd3a"
+      }
+    },
+    "replacement": "APPROVED_PENDING",
+    "reason": "Incomplete native scoped catalog; no refund or expectation change"
+  },
+  {
+    "ticket": "HN-008",
+    "classification": "UNSCORED_ENVIRONMENTAL",
+    "original_status": "UNRESOLVED",
+    "capture_seal": "206e4c74a53256d6c629f9ca60963dfa90afe4cb45b51f3687e2118d61d92f87",
+    "original_result_sha256": "aaa2d4b3f199bee915048dff84ad6a07f7b9403cd3a448517870b66bd05b89be",
+    "grades": {},
+    "replacement": "APPROVED_PENDING",
+    "reason": "Incomplete native scoped catalog; no refund or expectation change"
+  }
+]

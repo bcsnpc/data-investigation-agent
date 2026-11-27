@@ -1,0 +1,41 @@
+{
+  "as_of_utc": "2026-11-27T00:34:13.305348+00:00",
+  "receipts": [
+    {
+      "ticket": "HN-010",
+      "all_cited_procedures_retained": true,
+      "all_queries_and_results_unchanged": true,
+      "expectation_unchanged": true,
+      "omitted_count": 7,
+      "original_projection_sha256": "3d272eb7a11e9373f5d319adf91d0bbbb7120eec0b5fc790c9c5289519a6e700"
+    }
+  ],
+  "full_original_projections_private": true,
+  "engine_changes": false,
+  "grading_rules_changed": false,
+  "grading_only_limit_change": {
+    "owner_date": "2026-11-26",
+    "new_limit_characters": 1000000,
+    "scope": "Local grading harness only",
+    "complete_saved_case_for_new_unsent_grades": true,
+    "no_compaction": true,
+    "completed_prior_grades_unchanged": true,
+    "HN-011": {
+      "evidence_compaction": false,
+      "original_projection_sha256": "b7b7987ca622e31f57b5e94dbc928a5aeb053e6fcc03172d78e79716cad9dd4e",
+      "packet_bytes": 541828,
+      "packet_limit_characters": 1000000,
+      "packet_sha256": "b7b7987ca622e31f57b5e94dbc928a5aeb053e6fcc03172d78e79716cad9dd4e",
+      "sealed_sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52"
+    },
+    "HN-011_complete_case_exactly_matches_capture": true,
+    "HN-005": {
+      "evidence_compaction": false,
+      "original_projection_sha256": "8f8863c553b86bc710c000e8f3be4ad593b63c8e716a805fd8f9a583e3b114da",
+      "packet_bytes": 485989,
+      "packet_limit_characters": 1000000,
+      "packet_sha256": "8f8863c553b86bc710c000e8f3be4ad593b63c8e716a805fd8f9a583e3b114da",
+      "sealed_sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52"
+    }
+  }
+}

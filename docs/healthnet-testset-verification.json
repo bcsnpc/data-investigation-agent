@@ -1,0 +1,55 @@
+{
+  "revision": 3,
+  "observed_at_utc": "2026-11-26T19:55:33.258490+00:00",
+  "baseline_commit": "9fb0190b11a5e2a83579de4ed5bdb58c5ac73300",
+  "engine_files_unchanged": 833,
+  "prompt_bearing_files_unchanged": 69,
+  "counts": {
+    "total": 27,
+    "static": 15,
+    "static_deviation_defined_only": 3,
+    "fault_defined_only": 7,
+    "business_or_unanswerable": 3,
+    "screenshot": 2,
+    "forms": 13,
+    "free_text": 12,
+    "vague_free_text": 7
+  },
+  "expected_original_records_unchanged": 19,
+  "expected_records_changed_with_reviewer_authority": 6,
+  "r27_operational_verdict_alignment_verified": true,
+  "screenshot_provenance": "Native Power BI PDF exports rasterized unmodified; inspected real report numbers, not reconstructed charts.",
+  "screenshot_inputs_committed": false,
+  "key_secret": "healthnet-answers-key",
+  "existing_key_version_reused": true,
+  "encrypted_roundtrip_verified": true,
+  "staged_bytes_checked_separately": true,
+  "review_status": "APPROVED_SEALED",
+  "operator_exposure": "Owner-authored; author sees answers; not operator-blind.",
+  "injections_applied": 0,
+  "dia_runs": 0,
+  "model_calls": 0,
+  "permissions_changed": false,
+  "tenant_settings_changed": false,
+  "expected_records_unchanged_from_revision_2": 27,
+  "final_files": [
+    {
+      "path": "tests/tickets/healthnet/tickets.json",
+      "sha256": "29480e4fd567c27a08f89f7a1aeb49407b3899bf81aa14f30164af2e254dcfbf",
+      "bytes": 12066,
+      "committed": false
+    },
+    {
+      "path": "tests/tickets/healthnet/expected-answers.enc.json",
+      "sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52",
+      "bytes": 1017805,
+      "committed": true
+    }
+  ],
+  "approval_date": "2026-11-26",
+  "review_packet_deletion": "VERIFIED_ABSENT_AFTER_SEAL",
+  "deleted_review_packets": [
+    ".local/healthnet-review-packet.md",
+    ".local/healthnet-authoring/revision-1/healthnet-review-packet.md"
+  ]
+}

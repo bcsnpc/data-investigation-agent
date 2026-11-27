@@ -1,0 +1,755 @@
+{
+  "as_of_utc": "2026-11-27T00:07:57.024547+00:00",
+  "admissions_paused": true,
+  "no_engine_changes": true,
+  "current_attempts": [
+    {
+      "ticket": "HN-001",
+      "status": "ANSWERED",
+      "cost_microdollars": 1527289,
+      "billed_calls": 6
+    },
+    {
+      "ticket": "HN-002",
+      "status": "BLOCKED",
+      "cost_microdollars": 3091234,
+      "billed_calls": 19
+    },
+    {
+      "ticket": "HN-003",
+      "status": "ANSWERED",
+      "cost_microdollars": 674285,
+      "billed_calls": 3
+    },
+    {
+      "ticket": "HN-007",
+      "status": "ANSWERED",
+      "cost_microdollars": 1405502,
+      "billed_calls": 7
+    },
+    {
+      "ticket": "HN-008",
+      "status": "ANSWERED",
+      "cost_microdollars": 1142894,
+      "billed_calls": 9
+    },
+    {
+      "ticket": "HN-010",
+      "status": "ANSWERED",
+      "cost_microdollars": 2251753,
+      "billed_calls": 12
+    },
+    {
+      "ticket": "HN-011",
+      "status": "ANSWERED",
+      "cost_microdollars": 914345,
+      "billed_calls": 5
+    },
+    {
+      "ticket": "HN-012",
+      "status": "ANSWERED",
+      "cost_microdollars": 1318072,
+      "billed_calls": 7
+    }
+  ],
+  "environmental_originals": [
+    {
+      "ticket": "HN-001",
+      "classification": "UNSCORED_ENVIRONMENTAL",
+      "cost_microdollars": 0,
+      "file": "HN-001-usage-policy-result.json"
+    },
+    {
+      "ticket": "HN-002",
+      "classification": "UNSCORED_ENVIRONMENTAL",
+      "cost_microdollars": 0,
+      "file": "HN-002-usage-policy-result.json"
+    },
+    {
+      "ticket": "HN-003",
+      "classification": "UNSCORED_ENVIRONMENTAL",
+      "cost_microdollars": 1359384,
+      "file": "HN-003-catalog-original-result.json"
+    },
+    {
+      "ticket": "HN-007",
+      "classification": "UNSCORED_ENVIRONMENTAL",
+      "cost_microdollars": 666453,
+      "file": "HN-007-catalog-original-result.json"
+    },
+    {
+      "ticket": "HN-008",
+      "classification": "UNSCORED_ENVIRONMENTAL",
+      "cost_microdollars": 2028076,
+      "file": "HN-008-catalog-original-result.json"
+    }
+  ],
+  "hn002_calls": [
+    {
+      "call": 1,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:4",
+      "request_sha256": "aa97ad215902ce0fa6160d48c2e70c6498602ea6b551ec6325a7c79c5c1e1347",
+      "request_characters": 125740,
+      "request_utf8_bytes": 125740,
+      "system_text_characters": 94990,
+      "tool_names": [
+        "lookup_intake_catalog",
+        "resolve_intake"
+      ],
+      "stop_reason": "tool_use",
+      "tool_calls": [
+        "resolve_intake"
+      ],
+      "step": "INTAKE",
+      "usage": {
+        "cache_write_tokens": 59955,
+        "cached_input_tokens": 0,
+        "input_tokens": 62061,
+        "output_tokens": 1236
+      },
+      "cost_microdollars": 332919
+    },
+    {
+      "call": 2,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:10",
+      "request_sha256": "46e681c993ce64dd5c55ba1cef01e50a71ca54ce5b8518f2b839c7a0a24ea31f",
+      "request_characters": 130734,
+      "request_utf8_bytes": 130734,
+      "system_text_characters": 94990,
+      "tool_names": [
+        "lookup_intake_catalog",
+        "resolve_intake"
+      ],
+      "stop_reason": "tool_use",
+      "tool_calls": [
+        "resolve_intake"
+      ],
+      "step": "INTAKE",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 59955,
+        "input_tokens": 63360,
+        "output_tokens": 408
+      },
+      "cost_microdollars": 33771
+    },
+    {
+      "call": 3,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:51",
+      "request_sha256": "560b55b46a40e0600a5b97b414239fc283358947c4190d1ce5dd0c3ca65adad9",
+      "request_characters": 292083,
+      "request_utf8_bytes": 292083,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "tool_use",
+      "tool_calls": [
+        "get_target_candidates",
+        "run_dax",
+        "run_dax",
+        "run_sql",
+        "run_sql",
+        "run_sql"
+      ],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 124596,
+        "cached_input_tokens": 0,
+        "input_tokens": 126351,
+        "output_tokens": 1100
+      },
+      "cost_microdollars": 652000
+    },
+    {
+      "call": 4,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:72",
+      "request_sha256": "78151a0ec9e74bc0dd7571410e27560830988c502f3b904779426ad788118fd0",
+      "request_characters": 305561,
+      "request_utf8_bytes": 305565,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "tool_use",
+      "tool_calls": [
+        "run_sql"
+      ],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 131891,
+        "output_tokens": 515
+      },
+      "cost_microdollars": 64400
+    },
+    {
+      "call": 5,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:83",
+      "request_sha256": "478e30f05bb48e43fd81f7bf4590e95112471d15403167fa8c9a74bcd00031e5",
+      "request_characters": 311101,
+      "request_utf8_bytes": 311105,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "tool_use",
+      "tool_calls": [
+        "submit_finding"
+      ],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 134110,
+        "output_tokens": 1695
+      },
+      "cost_microdollars": 96876
+    },
+    {
+      "call": 6,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:88",
+      "request_sha256": "a4cd88d4921459c15192f338de52fe8e50659e93b60506bf71b2dca72fdc7caa",
+      "request_characters": 326500,
+      "request_utf8_bytes": 326504,
+      "system_text_characters": 274,
+      "tool_names": [
+        "repair_delivery"
+      ],
+      "stop_reason": "tool_use",
+      "tool_calls": [
+        "repair_delivery"
+      ],
+      "step": "EVALUATOR",
+      "usage": {
+        "cache_write_tokens": 1472,
+        "cached_input_tokens": 0,
+        "input_tokens": 130679,
+        "output_tokens": 2264
+      },
+      "cost_microdollars": 569468
+    },
+    {
+      "call": 7,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:93",
+      "request_sha256": "da9e09a81f1da7d706b7703505131bea41bfc155a5e3e41810bdd5b0d1a821b8",
+      "request_characters": 317436,
+      "request_utf8_bytes": 317440,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "tool_use",
+      "tool_calls": [
+        "submit_finding"
+      ],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 136173,
+        "output_tokens": 1547
+      },
+      "cost_microdollars": 102168
+    },
+    {
+      "call": 8,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:98",
+      "request_sha256": "9e739e50c4c0414065a63d1616203a8899400cb73fe213093a0ed685c1bdb6d2",
+      "request_characters": 323418,
+      "request_utf8_bytes": 323422,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 138076,
+        "output_tokens": 755
+      },
+      "cost_microdollars": 93940
+    },
+    {
+      "call": 9,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:103",
+      "request_sha256": "054e8dbd26aa5c75794e3941a72a85a08707ff3b0c62ef61b873c2ea681218f2",
+      "request_characters": 324338,
+      "request_utf8_bytes": 324342,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 138394,
+        "output_tokens": 842
+      },
+      "cost_microdollars": 96952
+    },
+    {
+      "call": 10,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:108",
+      "request_sha256": "3e7ca5541f64a67f0364d195adfeb7d07e5647644f924ceaaeca2af1953a6526",
+      "request_characters": 325270,
+      "request_utf8_bytes": 325274,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 138716,
+        "output_tokens": 912
+      },
+      "cost_microdollars": 99640
+    },
+    {
+      "call": 11,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:113",
+      "request_sha256": "d4da50f7dbdae07ebdfdd84a45ce5244ca1817a2d5d7e65282d75075c91c0a96",
+      "request_characters": 326214,
+      "request_utf8_bytes": 326218,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 139042,
+        "output_tokens": 944
+      },
+      "cost_microdollars": 101584
+    },
+    {
+      "call": 12,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:118",
+      "request_sha256": "21c78021e08175b0a51c9635d859a36c6bec7cfbc1f63fda30aed718dbaefbbb",
+      "request_characters": 327170,
+      "request_utf8_bytes": 327174,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 139372,
+        "output_tokens": 838
+      },
+      "cost_microdollars": 100784
+    },
+    {
+      "call": 13,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:123",
+      "request_sha256": "37d181b272ad891a5d23ff4a1a571758b15dff2f4f2b52a0ab0f962b83d8581d",
+      "request_characters": 328138,
+      "request_utf8_bytes": 328142,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 139706,
+        "output_tokens": 939
+      },
+      "cost_microdollars": 104140
+    },
+    {
+      "call": 14,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:128",
+      "request_sha256": "e1f7debdc3cb63d272f8f0c2a87c8307c3de8785ae2d190dbb664883ec59da78",
+      "request_characters": 329118,
+      "request_utf8_bytes": 329122,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 140044,
+        "output_tokens": 889
+      },
+      "cost_microdollars": 104492
+    },
+    {
+      "call": 15,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:133",
+      "request_sha256": "4812a577a0ea818fead691bd6f947c57ec0a12e5f2a69509cbc6e87a29537413",
+      "request_characters": 330110,
+      "request_utf8_bytes": 330114,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 140386,
+        "output_tokens": 932
+      },
+      "cost_microdollars": 106720
+    },
+    {
+      "call": 16,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:138",
+      "request_sha256": "895e2498fb8b7a38fe674eec69a15cb32d1383352b34f542e880275f9c4a5133",
+      "request_characters": 331114,
+      "request_utf8_bytes": 331118,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 140732,
+        "output_tokens": 844
+      },
+      "cost_microdollars": 106344
+    },
+    {
+      "call": 17,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:143",
+      "request_sha256": "027dc40fdb3c8e006e508b4c1dd601d7771a10823fe04acb7707263892cd7108",
+      "request_characters": 332130,
+      "request_utf8_bytes": 332134,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 141082,
+        "output_tokens": 783
+      },
+      "cost_microdollars": 106524
+    },
+    {
+      "call": 18,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:148",
+      "request_sha256": "d34dab228fa056c89e91b2a2be31946cd77212205f9b2bab02bae9f5f9549535",
+      "request_characters": 333158,
+      "request_utf8_bytes": 333162,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 141436,
+        "output_tokens": 816
+      },
+      "cost_microdollars": 108600
+    },
+    {
+      "call": 19,
+      "audit_id": "audit:96db0673-3fc1-47b6-8a08-45b06e63ab8b:153",
+      "request_sha256": "1e6fd8c2071aec4756104b54baeb1c836a8d5699693a5fc8c941419acd1da06c",
+      "request_characters": 334198,
+      "request_utf8_bytes": 334202,
+      "system_text_characters": 251283,
+      "tool_names": [
+        "ask_user_choice",
+        "check_target_candidates",
+        "contribution_analysis",
+        "get_definition",
+        "get_evidence",
+        "get_job_runs",
+        "get_lineage",
+        "get_refresh_history",
+        "get_security_definitions",
+        "get_target_candidates",
+        "list_candidates",
+        "record_trace",
+        "row_layer_diff",
+        "run_dax",
+        "run_sql",
+        "submit_finding"
+      ],
+      "stop_reason": "end_turn",
+      "tool_calls": [],
+      "step": "INVESTIGATOR",
+      "usage": {
+        "cache_write_tokens": 0,
+        "cached_input_tokens": 124596,
+        "input_tokens": 141794,
+        "output_tokens": 810
+      },
+      "cost_microdollars": 109912
+    }
+  ],
+  "headroom_after_8usd_protection_microdollars": 22601526,
+  "remaining_unadmitted": 18,
+  "hn009_uncertain_no_resubmit": true,
+  "mean_cost_microdollars": 1540671.75,
+  "projected_18_microdollars": 27732091.5,
+  "projected_shortfall_microdollars": 5130565.5
+}

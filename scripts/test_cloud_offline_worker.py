@@ -13,6 +13,7 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertIn('mkdir /results /work /inputs',dockerfile)
         self.assertIn('chown dia:dia /results /work /inputs',dockerfile)
         self.assertIn('USER 10001:10001',dockerfile)
+        self.assertIn('COPY infra/xmla-reader/ /app/infra/xmla-reader/',dockerfile)
 
     def test_public_build_context_excludes_private_and_untyped_material(self):
         for name in ['.local/tape.json', 'acceptance/answer.json', 'scripts/reader-secret.txt',
@@ -34,6 +35,9 @@ class CloudOfflineWorkerTests(unittest.TestCase):
         self.assertTrue(admitted('apps/investigator-workspace/essentials.js'))
         self.assertFalse(admitted('apps/investigator-workspace/credentials.json'))
         self.assertFalse(admitted('apps/investigator-workspace/.local/private.js'))
+        self.assertTrue(admitted('infra/xmla-reader/Program.cs'))
+        self.assertTrue(admitted('infra/xmla-reader/Dia.XmlaReader.csproj'))
+        self.assertFalse(admitted('infra/xmla-reader/private.json'))
 
     def test_eight_shards_cover_each_entry_once(self):
         entries = list(range(63))

@@ -161,6 +161,10 @@ def toolbox(layers,read_tools,intake=None,*,conclusion_contract=False):
 class Investigator:
     def __init__(self,*,queries,model,read_tools,validate_finding=None,validate_question=None,
                  checkpoint,case_id,context,triage,clock=monotonic,tool_limit=15,deadline_seconds=900,initial_tools_used=0,evaluator_model=None):
+        from .estate_config import configured
+        self.estate_configuration=configured()
+        if self.estate_configuration is not None and not self.estate_configuration['enabled']:
+            raise ValueError('ESTATE_DISABLED')
         if type(tool_limit) is not int or not 1<=tool_limit<=15:raise ValueError('TOOL_LIMIT')
         if type(initial_tools_used)is not int or not 0<=initial_tools_used<tool_limit:raise ValueError('INITIAL_TOOL_COUNT')
         self.initial_tools_used=initial_tools_used

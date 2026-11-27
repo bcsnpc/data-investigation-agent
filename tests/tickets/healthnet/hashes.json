@@ -1,0 +1,62 @@
+{
+  "version": "healthnet-testset-seal/1",
+  "revision": 3,
+  "created_at_utc": "2026-11-26T19:55:33.258490+00:00",
+  "review_status": "APPROVED_SEALED",
+  "engine_commit": "9fb0190b11a5e2a83579de4ed5bdb58c5ac73300",
+  "files": [
+    {
+      "path": "tests/tickets/healthnet/tickets.json",
+      "sha256": "29480e4fd567c27a08f89f7a1aeb49407b3899bf81aa14f30164af2e254dcfbf",
+      "bytes": 12066,
+      "committed": false
+    },
+    {
+      "path": "tests/tickets/healthnet/expected-answers.enc.json",
+      "sha256": "60812b96949df8f9a0ac9e246279f5a0778da04d088e791aa3c6053288f92a52",
+      "bytes": 1017805,
+      "committed": true
+    }
+  ],
+  "attachments": [
+    {
+      "path": "tests/tickets/healthnet/screens/hn-026-revenue-baseline.png",
+      "sha256": "3d590a4b1814b372562bb05ca15494f1f8a231f37468b3642f1af97684ccee9e",
+      "bytes": 469927,
+      "committed": false
+    },
+    {
+      "path": "tests/tickets/healthnet/screens/hn-027-productivity-baseline.png",
+      "sha256": "d46ccb8a1327a8e7d324477dce69a7826cf56b9dfcee11317936f33758887869",
+      "bytes": 596346,
+      "committed": false
+    }
+  ],
+  "counts": {
+    "total": 27,
+    "static": 15,
+    "static_deviation_defined_only": 3,
+    "fault_defined_only": 7,
+    "business_or_unanswerable": 3,
+    "screenshot": 2,
+    "forms": 13,
+    "free_text": 12,
+    "vague_free_text": 7
+  },
+  "supersedes": {
+    "revision": 2,
+    "commit": "3ed79434157ce4fcddf8019aecadd17c1b55ead1",
+    "tickets_sha256": "963338bf68093d451b118d516c4b05b748b8ec08e3714e57b59d9a85c9a506bc",
+    "encrypted_answers_sha256": "fd850945e439d15f821905be2456fa72bc330ba7ce3267cbafe5233d572f0407"
+  },
+  "key_secret_name": "healthnet-answers-key",
+  "existing_key_version_reused": true,
+  "key_value_written_to_disk": false,
+  "encryption_roundtrip_verified": true,
+  "injections_applied": 0,
+  "dia_runs": 0,
+  "model_calls": 0,
+  "approved_date": "2026-11-26",
+  "approval_source": "Owner confirmation of reviewer approval and final three edits",
+  "expected_answers_unchanged": 27
+}

@@ -1,0 +1,88 @@
+[
+  {
+    "ticket": "HN-003",
+    "path_nodes": 20,
+    "truncated": false,
+    "path_sql_routes": [
+      {
+        "id": "native:c527de234b22a665f21c",
+        "database": "hn_clinical"
+      },
+      {
+        "id": "native:a4068522482ef6e8b929",
+        "database": "hn_raw"
+      },
+      {
+        "id": "native:970a2ee3db4caefad99d",
+        "database": "hn_dw"
+      }
+    ],
+    "queries": [
+      {
+        "query": "query:cefabc298ac1faa6cdb7fdcbc286a975a302f21a7e48d8a5907be47dcf84cce5:1",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 69
+      },
+      {
+        "query": "query:30d69fdbf557fc9f6ba423d41de5f3abf06961d0c08e87b3babf6d79182c8182:2",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 69
+      },
+      {
+        "query": "query:03e85a38c1b93de1a95fcb4fe20713e3cc2aab25b574eb090e8adfeeddf2004b:4",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 69
+      },
+      {
+        "query": "query:f7784457006e46d41412d8263aacd7f3c96f430e0b62e07c1bb061e2eb19c633:6",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 69
+      },
+      {
+        "query": "query:03e85a38c1b93de1a95fcb4fe20713e3cc2aab25b574eb090e8adfeeddf2004b:7",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 69
+      }
+    ]
+  },
+  {
+    "ticket": "HN-007",
+    "path_nodes": 20,
+    "truncated": false,
+    "path_sql_routes": [
+      {
+        "id": "native:c527de234b22a665f21c",
+        "database": "hn_clinical"
+      },
+      {
+        "id": "native:31b178cc9e33b978f571",
+        "database": "hn_billing"
+      },
+      {
+        "id": "native:a4068522482ef6e8b929",
+        "database": "hn_raw"
+      },
+      {
+        "id": "native:970a2ee3db4caefad99d",
+        "database": "hn_dw"
+      }
+    ],
+    "queries": [
+      {
+        "query": "query:a86eac2c0ead18f8ef507404f31a6948d49649bff4b5afd3beff81f9b5b7df74:2",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 55
+      },
+      {
+        "query": "query:1d6e39b704d0d0f5436f62f056ef633a6b1e5c6666b08621f7d883c4c4d5c3fd:3",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 55
+      },
+      {
+        "query": "query:25eec6c0a27444f152bf3dbc1442fc1931f6d99989977663fc542cb05fe1c384:4",
+        "status": "ADMITTED_WITH_SCOPED_NATIVE_METADATA",
+        "objects": 55
+      }
+    ]
+  }
+]

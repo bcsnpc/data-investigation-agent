@@ -49,6 +49,18 @@ class Tests(unittest.TestCase):
         self.connect=Mock(return_value=self.connection)
         return worker.execute(self.payload,connect=self.connect,tokens=self.tokens,**kwargs)
 
+    def test_constant_connectivity_read_keeps_identity_and_database_guards(self):
+        self.payload.update(query='SELECT 1 AS value', read_only_objects=[])
+        result = self.run_worker(Cursor(rows=[(1,)]))
+        self.assertEqual(result['rows'], [{'value': '1'}])
+        self.assertIn(worker.DB_GUARD, [q for q, _ in self.cursor.calls])
+        with self.assertRaises(worker.ReadOnlyGuardRefused):
+            self.run_worker(Cursor(permission=1))
+        for query in ('SELECT value FROM dbo.synthetic', 'SELECT 1; UPDATE dbo.synthetic SET value=1', 'SELECT 1 INTO dbo.synthetic'):
+            self.payload['query'] = query
+            with self.assertRaisesRegex(ValueError, 'object guards required'):
+                self.run_worker()
+
     def test_four_physical_requests_guards_and_memory_only_token(self):
         sink=io.StringIO()
         result=self.run_worker(protocol=worker.Protocol(True,io.StringIO('ALLOW\n'*4),sink))

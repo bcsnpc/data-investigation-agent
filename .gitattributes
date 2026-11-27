@@ -27,3 +27,7 @@ docs/runs/round-twenty-two-failure-controls.json text eol=crlf
 docs/runs/round-twenty-two-context-native.json text eol=crlf
 docs/runs/round-twenty-two-temporal-before-after.json text eol=crlf
 tests/fixtures/round24-route-sources/** -text
+
+# Preserve sealed HealthNet artifact bytes on Windows checkouts.
+tests/tickets/healthnet/expected-answers.enc.json -text
+tests/tickets/healthnet/hashes.json text eol=lf

@@ -13,6 +13,13 @@ from .onboarding import fields, digest, encoded, Conflict
 
 
 def snapshot(store, model, config):
+    if 'sql_connections' in config:
+        from .adapters.sql_connections import entries, for_asset, root
+        objects, columns = {}, {}
+        for connection in entries(config).values():
+            found, fields = snapshot(store, model, for_asset(config, root(connection)))
+            objects.update(found); columns.update(fields)
+        return objects, columns
     from .adapters.native_scope import required_workspace
     if not model['enabled'] or model['workspace'] != required_workspace(config):
         raise Conflict('Model disabled or connection workspace differs')
@@ -65,6 +72,8 @@ def build(store, plan, config):
            [k for k in ('freshness_policy_id','comparison_mapping_id') if k in plan])
     if 'freshness_policy_id' in plan and plan['operation'] != 'watermark_age_microseconds':
         raise ValueError('Freshness policy requires watermark operation')
+    from .adapters.sql_connections import for_asset
+    config = for_asset(config, plan['object_id'])
     model = store.get(plan['model_id'])
     if type(plan['revision']) is not int or model['revision'] != plan['revision'] or model['context_id'] != plan['context_id']:
         raise Conflict('Stale source plan')

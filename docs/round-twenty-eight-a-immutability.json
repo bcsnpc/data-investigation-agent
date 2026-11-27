@@ -1,0 +1,9 @@
+{
+  "observed_at_utc": "2026-11-26T18:25:25.055555+00:00",
+  "tested_source": "3c37d9c7227eda143751cbe8ed21c1856a7c6a7a",
+  "frozen_confirmation_members": 248,
+  "matched": 248,
+  "changed": 0,
+  "checkpoint_members_sha256": "43c9d7cf1004485c5c344213c337eeb636ddfc4b33bed96149158a324c9923b9",
+  "r27_head_unchanged": true
+}
