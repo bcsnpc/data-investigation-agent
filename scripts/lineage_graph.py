@@ -66,6 +66,11 @@ class Graph:
 
 def build(assets,supplement):
     graph=Graph(assets)
+    from investigator.adapters.sql_catalog_lineage import extract as sql_lineage
+    native_sql=sql_lineage(assets)
+    for edge in native_sql['edges']:
+        graph.edge(edge['source'],edge['target'],edge['kind'],edge['evidence'],edge['detail'])
+    graph.gaps.extend(native_sql['gaps'])
     for mapping in supplement.get('snapshot_mappings',[]):
         source=graph.find('SqlObject',mapping['sql_table'],mapping['sql_parent'])
         target=graph.table_path(mapping['destination'])

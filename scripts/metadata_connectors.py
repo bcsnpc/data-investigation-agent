@@ -41,7 +41,17 @@ class FabricMetadataConnector:
 
     def get_definition(self, asset):
         suffix = '?format=TMSL' if asset['type'] == 'SemanticModel' else ''
-        return definition(f"workspaces/{self.workspace}/items/{asset['id']}/getDefinition" + suffix, self.transport)
+        try:
+            return definition(f"workspaces/{self.workspace}/items/{asset['id']}/getDefinition" + suffix, self.transport)
+        except Exception as error:
+            # Some Fabric deployments expose definition reads on the typed item
+            # route only. Retry only a native 404, with the same identity/item.
+            # Permission failures and other service errors must remain visible.
+            from investigator.adapters.metadata_error import MetadataUnavailable
+            route={'SemanticModel':'semanticModels','Report':'reports','Notebook':'notebooks',
+                   'DataPipeline':'dataPipelines','CopyJob':'copyJobs'}.get(asset['type'])
+            if not isinstance(error,MetadataUnavailable)or error.http_status!=404 or route is None:raise
+            return definition(f"workspaces/{self.workspace}/{route}/{asset['id']}/getDefinition"+suffix,self.transport)
 
     def get_refresh_history(self, asset):
         return pages(f"workspaces/{self.workspace}/items/{asset['id']}/jobs/instances", self.transport)

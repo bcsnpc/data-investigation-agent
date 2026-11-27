@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "estates": [
+    {"id":"A","slug":"wholesale","domain":"Wholesale","source":"WideWorldImporters","database":"sb_wholesale","workspace":"Scan Benchmark A Wholesale","naming":"modern","rows":720,"traps":["stale_copies","schema_drift","unknown_status"],"permissions":"read_only"},
+    {"id":"B","slug":"insurance","domain":"Property and casualty insurance","source":"Fully generated synthetic policies, endorsements, coverages, premiums, claims, reserves and payments; no downloaded data","database":"sb_insurance","workspace":"Scan Benchmark B Insurance","naming":"legacy_uppercase","rows":960,"traps":["backup_copies","summary_grain","dynamic_sql"],"permissions":"read_only"},
+    {"id":"C","slug":"erp","domain":"ERP","source":"Independent synthetic SAP-style extract; no SALT data","database":"sb_erp","workspace":"Scan Benchmark C ERP","naming":"coded","rows":840,"traps":["coded_names","string_date","currency_pair","overwrite"],"permissions":"read_only"},
+    {"id":"D","slug":"education","domain":"Education","source":"Independent synthetic data","database":"sb_education","workspace":"Scan Benchmark D Education","naming":"mixed","rows":600,"traps":["hidden_schema","rls","ols","history_denied","orphan"],"permissions":"deliberately_incomplete"}
+  ]
+}

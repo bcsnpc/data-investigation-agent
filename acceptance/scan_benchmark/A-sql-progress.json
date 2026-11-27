@@ -1,0 +1,3460 @@
+{
+  "baseline-reader-fixed": {
+    "estate": "A",
+    "status": "SCAN_DEFECTS",
+    "objects": {
+      "found": 0,
+      "total": 42,
+      "percent": 0.0
+    },
+    "columns": {
+      "found": 0,
+      "total": 451,
+      "percent": 0.0
+    },
+    "lineage": {
+      "declared": {
+        "expected": 0,
+        "reported": 0,
+        "correct": 0,
+        "precision": null,
+        "recall": null
+      },
+      "parsed": {
+        "expected": 17,
+        "reported": 0,
+        "correct": 0,
+        "precision": null,
+        "recall": 0.0
+      },
+      "inferable_only": {
+        "expected": 2,
+        "reported": 0,
+        "correct": 0,
+        "precision": null,
+        "recall": 0.0
+      }
+    },
+    "layers": {
+      "correct": 0,
+      "total": 42,
+      "percent": 0.0
+    },
+    "source_of_truth": {
+      "correct": 0,
+      "total": 41
+    },
+    "traps": [
+      {
+        "id": "Sales.OrderLines_Snapshot",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      },
+      {
+        "id": "Sales.Orders_Backup",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      },
+      {
+        "id": "Sales.OrderLines.ExternalChannel",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      },
+      {
+        "id": "Sales.OrderLines.StatusCode",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      }
+    ],
+    "permission_gaps": [],
+    "non_permission_misses": [
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.Cities"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.Countries"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.DeliveryMethods"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.Logs"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.PaymentMethods"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.People"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.StateProvinces"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.SystemParameters"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Application.TransactionTypes"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "DataLoadSimulation.AreaCode"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "DataLoadSimulation.FicticiousNamePool"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "DataLoadSimulation.SeasonVariation"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Purchasing.PurchaseOrderLines"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Purchasing.PurchaseOrders"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Purchasing.SupplierCategories"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Purchasing.SupplierTransactions"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Purchasing.Suppliers"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.BuyingGroups"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.CustomerCategories"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.CustomerTransactions"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.Customers"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.InvoiceLines"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.Invoices"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.OrderLines"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.OrderLines_Snapshot"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.Orders"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.Orders_Backup"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Sales.SpecialDeals"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.ColdRoomTemperatures"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.Colors"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.PackageTypes"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.StockGroups"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.StockItemHoldings"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.StockItemStockGroups"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.StockItemTransactions"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.StockItems"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "Warehouse.VehicleTemperatures"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "dbo.SampleVersion"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "dw.FactOrderLine"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "dw.LoadedOrderLine"
+      },
+      {
+        "kind": "OBJECT_MISSING",
+        "object": "etl.LoadOrderLine"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "CityID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "CityName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "LatestRecordedPopulation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "Location"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "StateProvinceID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Cities",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "Border"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "Continent"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "CountryID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "CountryName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "CountryType"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "FormalName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "IsoAlpha3Code"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "IsoNumericCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "LatestRecordedPopulation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "Region"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "Subregion"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Countries",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.DeliveryMethods",
+        "column": "DeliveryMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.DeliveryMethods",
+        "column": "DeliveryMethodName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.DeliveryMethods",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.DeliveryMethods",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.DeliveryMethods",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Logs",
+        "column": "EventTime"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Logs",
+        "column": "Level"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Logs",
+        "column": "LogEvent"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.Logs",
+        "column": "Message"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.PaymentMethods",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.PaymentMethods",
+        "column": "PaymentMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.PaymentMethods",
+        "column": "PaymentMethodName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.PaymentMethods",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.PaymentMethods",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "CustomFields"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "EmailAddress"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "FaxNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "FullName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "HashedPassword"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "IsEmployee"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "IsExternalLogonProvider"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "IsPermittedToLogon"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "IsSalesperson"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "IsSystemUser"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "LogonName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "OtherLanguages"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "PersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "PhoneNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "Photo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "PreferredName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "SearchName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "UserPreferences"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.People",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "Border"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "CountryID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "LatestRecordedPopulation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "SalesTerritory"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "StateProvinceCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "StateProvinceID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "StateProvinceName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.StateProvinces",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "ApplicationSettings"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "DeliveryAddressLine1"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "DeliveryAddressLine2"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "DeliveryCityID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "DeliveryLocation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "DeliveryPostalCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "PostalAddressLine1"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "PostalAddressLine2"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "PostalCityID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "PostalPostalCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.SystemParameters",
+        "column": "SystemParameterID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.TransactionTypes",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.TransactionTypes",
+        "column": "TransactionTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.TransactionTypes",
+        "column": "TransactionTypeName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.TransactionTypes",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Application.TransactionTypes",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.AreaCode",
+        "column": "AreaCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.AreaCode",
+        "column": "StateProvinceCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp",
+        "column": "ColdRoomSensorNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp",
+        "column": "ColdRoomTemperatureID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp",
+        "column": "RecordedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp",
+        "column": "Temperature"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.FicticiousNamePool",
+        "column": "FullName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.FicticiousNamePool",
+        "column": "LastName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.FicticiousNamePool",
+        "column": "PreferredName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.FicticiousNamePool",
+        "column": "ToEmail"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.SeasonVariation",
+        "column": "Season"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.SeasonVariation",
+        "column": "SeasonalVariation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.SeasonVariation",
+        "column": "Year"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "DataLoadSimulation.SeasonVariation",
+        "column": "YearlyVariation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "Description"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "ExpectedUnitPricePerOuter"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "IsOrderLineFinalized"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "LastReceiptDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "OrderedOuters"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "PackageTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "PurchaseOrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "PurchaseOrderLineID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "ReceivedOuters"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrderLines",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "Comments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "ContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "DeliveryMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "ExpectedDeliveryDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "InternalComments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "IsOrderFinalized"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "OrderDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "PurchaseOrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "SupplierID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.PurchaseOrders",
+        "column": "SupplierReference"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierCategories",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierCategories",
+        "column": "SupplierCategoryID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierCategories",
+        "column": "SupplierCategoryName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierCategories",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierCategories",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "AmountExcludingTax"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "FinalizationDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "IsFinalized"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "OutstandingBalance"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "PaymentMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "PurchaseOrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "SupplierID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "SupplierInvoiceNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "SupplierTransactionID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "TaxAmount"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "TransactionAmount"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "TransactionDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.SupplierTransactions",
+        "column": "TransactionTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "AlternateContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "BankAccountBranch"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "BankAccountCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "BankAccountName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "BankAccountNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "BankInternationalCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "DeliveryAddressLine1"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "DeliveryAddressLine2"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "DeliveryCityID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "DeliveryLocation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "DeliveryMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "DeliveryPostalCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "FaxNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "InternalComments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "PaymentDays"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "PhoneNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "PostalAddressLine1"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "PostalAddressLine2"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "PostalCityID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "PostalPostalCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "PrimaryContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "SupplierCategoryID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "SupplierID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "SupplierName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "SupplierReference"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Purchasing.Suppliers",
+        "column": "WebsiteURL"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.BuyingGroups",
+        "column": "BuyingGroupID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.BuyingGroups",
+        "column": "BuyingGroupName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.BuyingGroups",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.BuyingGroups",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.BuyingGroups",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerCategories",
+        "column": "CustomerCategoryID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerCategories",
+        "column": "CustomerCategoryName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerCategories",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerCategories",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerCategories",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "AmountExcludingTax"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "CustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "CustomerTransactionID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "FinalizationDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "InvoiceID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "IsFinalized"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "OutstandingBalance"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "PaymentMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "TaxAmount"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "TransactionAmount"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "TransactionDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.CustomerTransactions",
+        "column": "TransactionTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "AccountOpenedDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "AlternateContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "BillToCustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "BuyingGroupID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "CreditLimit"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "CustomerCategoryID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "CustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "CustomerName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "DeliveryAddressLine1"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "DeliveryAddressLine2"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "DeliveryCityID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "DeliveryLocation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "DeliveryMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "DeliveryPostalCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "DeliveryRun"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "FaxNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "IsOnCreditHold"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "IsStatementSent"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "PaymentDays"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "PhoneNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "PostalAddressLine1"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "PostalAddressLine2"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "PostalCityID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "PostalPostalCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "PrimaryContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "RunPosition"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "StandardDiscountPercentage"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Customers",
+        "column": "WebsiteURL"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "Description"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "ExtendedPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "InvoiceID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "InvoiceLineID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "LineProfit"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "PackageTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "Quantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "TaxAmount"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "TaxRate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.InvoiceLines",
+        "column": "UnitPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "AccountsPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "BillToCustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "Comments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "ConfirmedDeliveryTime"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "ConfirmedReceivedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "ContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "CreditNoteReason"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "CustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "CustomerPurchaseOrderNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "DeliveryInstructions"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "DeliveryMethodID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "DeliveryRun"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "InternalComments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "InvoiceDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "InvoiceID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "IsCreditNote"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "OrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "PackedByPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "ReturnedDeliveryData"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "RunPosition"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "SalespersonPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "TotalChillerItems"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Invoices",
+        "column": "TotalDryItems"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "Description"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "ExternalChannel"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "OrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "OrderLineID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "PackageTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "PickedQuantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "PickingCompletedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "Quantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "StatusCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "TaxRate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines",
+        "column": "UnitPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "Description"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "OrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "OrderLineID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "PackageTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "PickedQuantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "PickingCompletedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "Quantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "StatusCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "TaxRate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.OrderLines_Snapshot",
+        "column": "UnitPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "BackorderOrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "Comments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "ContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "CustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "CustomerPurchaseOrderNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "DeliveryInstructions"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "ExpectedDeliveryDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "InternalComments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "IsUndersupplyBackordered"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "OrderDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "OrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "PickedByPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "PickingCompletedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders",
+        "column": "SalespersonPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "BackorderOrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "Comments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "ContactPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "CustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "CustomerPurchaseOrderNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "DeliveryInstructions"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "ExpectedDeliveryDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "InternalComments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "IsUndersupplyBackordered"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "OrderDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "OrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "PickedByPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "PickingCompletedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.Orders_Backup",
+        "column": "SalespersonPersonID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "BuyingGroupID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "CustomerCategoryID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "CustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "DealDescription"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "DiscountAmount"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "DiscountPercentage"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "EndDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "SpecialDealID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "StartDate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "StockGroupID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Sales.SpecialDeals",
+        "column": "UnitPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.ColdRoomTemperatures",
+        "column": "ColdRoomSensorNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.ColdRoomTemperatures",
+        "column": "ColdRoomTemperatureID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.ColdRoomTemperatures",
+        "column": "RecordedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.ColdRoomTemperatures",
+        "column": "Temperature"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.ColdRoomTemperatures",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.ColdRoomTemperatures",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.Colors",
+        "column": "ColorID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.Colors",
+        "column": "ColorName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.Colors",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.Colors",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.Colors",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.PackageTypes",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.PackageTypes",
+        "column": "PackageTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.PackageTypes",
+        "column": "PackageTypeName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.PackageTypes",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.PackageTypes",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockGroups",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockGroups",
+        "column": "StockGroupID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockGroups",
+        "column": "StockGroupName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockGroups",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockGroups",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "BinLocation"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "LastCostPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "LastStocktakeQuantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "QuantityOnHand"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "ReorderLevel"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemHoldings",
+        "column": "TargetStockLevel"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemStockGroups",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemStockGroups",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemStockGroups",
+        "column": "StockGroupID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemStockGroups",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemStockGroups",
+        "column": "StockItemStockGroupID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "CustomerID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "InvoiceID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "PurchaseOrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "Quantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "StockItemTransactionID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "SupplierID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "TransactionOccurredWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItemTransactions",
+        "column": "TransactionTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "Barcode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "Brand"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "ColorID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "CustomFields"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "InternalComments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "IsChillerStock"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "LeadTimeDays"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "MarketingComments"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "OuterPackageID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "Photo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "QuantityPerOuter"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "RecommendedRetailPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "SearchDetails"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "Size"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "StockItemName"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "SupplierID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "Tags"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "TaxRate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "TypicalWeightPerUnit"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "UnitPackageID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "UnitPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "ValidFrom"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.StockItems",
+        "column": "ValidTo"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "ChillerSensorNumber"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "CompressedSensorData"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "FullSensorData"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "IsCompressed"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "RecordedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "Temperature"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "VehicleRegistration"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "Warehouse.VehicleTemperatures",
+        "column": "VehicleTemperatureID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dbo.SampleVersion",
+        "column": "MajorSampleVersion"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dbo.SampleVersion",
+        "column": "MinSQLServerBuild"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dbo.SampleVersion",
+        "column": "MinorSampleVersion"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dbo.SampleVersion",
+        "column": "RowCount"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "Description"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "ExternalChannel"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "OrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "OrderLineID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "PackageTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "PickedQuantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "PickingCompletedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "Quantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "StatusCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "TaxRate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.FactOrderLine",
+        "column": "UnitPrice"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "Description"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "ExternalChannel"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "LastEditedBy"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "LastEditedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "OrderID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "OrderLineID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "PackageTypeID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "PickedQuantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "PickingCompletedWhen"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "Quantity"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "StatusCode"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "StockItemID"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "TaxRate"
+      },
+      {
+        "kind": "COLUMN_MISSING",
+        "object": "dw.LoadedOrderLine",
+        "column": "UnitPrice"
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine",
+          "Sales.OrderLines",
+          "READS",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.Description",
+          "Sales.OrderLines.Description",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.ExternalChannel",
+          "Sales.OrderLines.ExternalChannel",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.LastEditedBy",
+          "Sales.OrderLines.LastEditedBy",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.LastEditedWhen",
+          "Sales.OrderLines.LastEditedWhen",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.OrderID",
+          "Sales.OrderLines.OrderID",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.OrderLineID",
+          "Sales.OrderLines.OrderLineID",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.PackageTypeID",
+          "Sales.OrderLines.PackageTypeID",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.PickedQuantity",
+          "Sales.OrderLines.PickedQuantity",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.PickingCompletedWhen",
+          "Sales.OrderLines.PickingCompletedWhen",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.Quantity",
+          "Sales.OrderLines.Quantity",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.StatusCode",
+          "Sales.OrderLines.StatusCode",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.StockItemID",
+          "Sales.OrderLines.StockItemID",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.TaxRate",
+          "Sales.OrderLines.TaxRate",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "dw.FactOrderLine.UnitPrice",
+          "Sales.OrderLines.UnitPrice",
+          "DERIVED_FROM",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "etl.LoadOrderLine",
+          "Sales.OrderLines",
+          "READS",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "etl.LoadOrderLine",
+          "dw.LoadedOrderLine",
+          "WRITES",
+          "parsed"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "Sales.OrderLines_Snapshot",
+          "Sales.OrderLines",
+          "COPY_OF",
+          "inferable_only"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "Sales.Orders_Backup",
+          "Sales.Orders",
+          "COPY_OF",
+          "inferable_only"
+        ]
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.Cities"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.Cities"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.Countries"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.Countries"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.DeliveryMethods"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.DeliveryMethods"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.Logs"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.Logs"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.PaymentMethods"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.PaymentMethods"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.People"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.People"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.StateProvinces"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.StateProvinces"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.SystemParameters"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.SystemParameters"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.TransactionTypes"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.TransactionTypes"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.AreaCode"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.AreaCode"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.FicticiousNamePool"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.FicticiousNamePool"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.SeasonVariation"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.SeasonVariation"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "dbo.SampleVersion"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "dbo.SampleVersion"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.PurchaseOrderLines"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.PurchaseOrderLines"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.PurchaseOrders"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.PurchaseOrders"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.SupplierCategories"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.SupplierCategories"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.Suppliers"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.Suppliers"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.SupplierTransactions"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.SupplierTransactions"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.BuyingGroups"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.BuyingGroups"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.CustomerCategories"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.CustomerCategories"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Customers"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Customers"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.CustomerTransactions"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.CustomerTransactions"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.InvoiceLines"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.InvoiceLines"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Invoices"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Invoices"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.OrderLines"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.OrderLines"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Orders"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Orders"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.SpecialDeals"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.SpecialDeals"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.ColdRoomTemperatures"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.ColdRoomTemperatures"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.Colors"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.Colors"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.PackageTypes"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.PackageTypes"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockGroups"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockGroups"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItemHoldings"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItemHoldings"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItems"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItems"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItemStockGroups"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItemStockGroups"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItemTransactions"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItemTransactions"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.VehicleTemperatures"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.VehicleTemperatures"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.OrderLines_Snapshot"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.OrderLines_Snapshot"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Orders_Backup"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Orders_Backup"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "dw.FactOrderLine"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "dw.FactOrderLine"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "dw.LoadedOrderLine"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "dw.LoadedOrderLine"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "etl.LoadOrderLine"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.OrderLines_Snapshot",
+        "observed": "MISSING"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.Orders_Backup",
+        "observed": "MISSING"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.OrderLines.ExternalChannel",
+        "observed": "MISSING"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.OrderLines.StatusCode",
+        "observed": "MISSING"
+      }
+    ]
+  },
+  "fixed": {
+    "estate": "A",
+    "status": "SCAN_DEFECTS",
+    "objects": {
+      "found": 42,
+      "total": 42,
+      "percent": 100.0
+    },
+    "columns": {
+      "found": 451,
+      "total": 451,
+      "percent": 100.0
+    },
+    "lineage": {
+      "declared": {
+        "expected": 0,
+        "reported": 0,
+        "correct": 0,
+        "precision": null,
+        "recall": null
+      },
+      "parsed": {
+        "expected": 17,
+        "reported": 17,
+        "correct": 17,
+        "precision": 100.0,
+        "recall": 100.0
+      },
+      "inferable_only": {
+        "expected": 2,
+        "reported": 0,
+        "correct": 0,
+        "precision": null,
+        "recall": 0.0
+      }
+    },
+    "layers": {
+      "correct": 0,
+      "total": 42,
+      "percent": 0.0
+    },
+    "source_of_truth": {
+      "correct": 0,
+      "total": 41
+    },
+    "traps": [
+      {
+        "id": "Sales.OrderLines_Snapshot",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      },
+      {
+        "id": "Sales.Orders_Backup",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      },
+      {
+        "id": "Sales.OrderLines.ExternalChannel",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      },
+      {
+        "id": "Sales.OrderLines.StatusCode",
+        "status": "WRONG_OR_MISSING",
+        "observed": "MISSING"
+      }
+    ],
+    "permission_gaps": [],
+    "non_permission_misses": [
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "Sales.OrderLines_Snapshot",
+          "Sales.OrderLines",
+          "COPY_OF",
+          "inferable_only"
+        ]
+      },
+      {
+        "kind": "LINEAGE_MISSING",
+        "edge": [
+          "Sales.Orders_Backup",
+          "Sales.Orders",
+          "COPY_OF",
+          "inferable_only"
+        ]
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.Cities"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.Cities"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.Countries"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.Countries"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.DeliveryMethods"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.DeliveryMethods"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.Logs"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.Logs"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.PaymentMethods"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.PaymentMethods"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.People"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.People"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.StateProvinces"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.StateProvinces"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.SystemParameters"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.SystemParameters"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Application.TransactionTypes"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Application.TransactionTypes"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.AreaCode"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.AreaCode"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.ColdRoomTemperatures_temp"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.FicticiousNamePool"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.FicticiousNamePool"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "DataLoadSimulation.SeasonVariation"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "DataLoadSimulation.SeasonVariation"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "dbo.SampleVersion"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "dbo.SampleVersion"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.PurchaseOrderLines"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.PurchaseOrderLines"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.PurchaseOrders"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.PurchaseOrders"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.SupplierCategories"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.SupplierCategories"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.Suppliers"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.Suppliers"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Purchasing.SupplierTransactions"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Purchasing.SupplierTransactions"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.BuyingGroups"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.BuyingGroups"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.CustomerCategories"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.CustomerCategories"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Customers"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Customers"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.CustomerTransactions"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.CustomerTransactions"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.InvoiceLines"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.InvoiceLines"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Invoices"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Invoices"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.OrderLines"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.OrderLines"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Orders"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Orders"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.SpecialDeals"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.SpecialDeals"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.ColdRoomTemperatures"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.ColdRoomTemperatures"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.Colors"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.Colors"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.PackageTypes"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.PackageTypes"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockGroups"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockGroups"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItemHoldings"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItemHoldings"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItems"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItems"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItemStockGroups"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItemStockGroups"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.StockItemTransactions"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.StockItemTransactions"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Warehouse.VehicleTemperatures"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Warehouse.VehicleTemperatures"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.OrderLines_Snapshot"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.OrderLines_Snapshot"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "Sales.Orders_Backup"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "Sales.Orders_Backup"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "dw.FactOrderLine"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "dw.FactOrderLine"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "dw.LoadedOrderLine"
+      },
+      {
+        "kind": "AUTHORITY_UNRESOLVED",
+        "object": "dw.LoadedOrderLine"
+      },
+      {
+        "kind": "LAYER_WRONG_OR_UNKNOWN",
+        "object": "etl.LoadOrderLine"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.OrderLines_Snapshot",
+        "observed": "MISSING"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.Orders_Backup",
+        "observed": "MISSING"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.OrderLines.ExternalChannel",
+        "observed": "MISSING"
+      },
+      {
+        "kind": "TRAP_UNHANDLED",
+        "object": "Sales.OrderLines.StatusCode",
+        "observed": "MISSING"
+      }
+    ]
+  }
+}
