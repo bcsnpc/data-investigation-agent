@@ -19,3 +19,6 @@ HN-004 control setup (no ticket submitted): the initial XMLA JSON DDL shape was 
 
 
 Baseline checkpoint (16 saved, HN-009 excluded as unresolved): {"handoff": {"fully_correct": 1, "harmful": 0, "reviewed": 3, "saved": 3, "useful_handoff": 2}, "screenshot": {"fully_correct": 1, "harmful": 0, "reviewed": 2, "saved": 2, "useful_handoff": 0}, "static": {"fully_correct": 6, "harmful": 0, "reviewed": 10, "saved": 11, "useful_handoff": 2}}. These are interim, reviewed-denominator counts, not a completed 27-ticket score. HN-026 exhausted its unchanged 40-request allowance in initialization, before an AI call or investigation query; it is retained as the actual budget-bound outcome, not replaced as an environmental failure.
+
+
+Owner-control publication preserves the full native catalog. The HN-004 snapshot has 804 CAS definitions: 799 exactly match immutable SHA-256 objects already uploaded and verified in the baseline publication; five are new. Subsequent control publication reuses those exact objects rather than uploading/verifying them again. This changes only local publication work, never model-facing scope, content or the frozen image.
