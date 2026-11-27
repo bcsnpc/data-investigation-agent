@@ -1,0 +1,73 @@
+{
+  "cases": [
+    {
+      "ticket": "HN-001",
+      "seal": "430325a1a3d4e0ed7caaa3fc708e7efb4a43a05341972fab1e6e0f6c875542ce",
+      "batches_verified": 140,
+      "model_requests": 9,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    },
+    {
+      "ticket": "HN-002",
+      "seal": "7e845665edfd16443c54cdf9cec1bb1a7df9899f15dc7a9f2b8215d8c9bc2b29",
+      "batches_verified": 364,
+      "model_requests": 15,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    },
+    {
+      "ticket": "HN-003",
+      "seal": "089f340594bd10318d242e7bb7239550791e694405df17ff3bee3583e8d6074d",
+      "batches_verified": 138,
+      "model_requests": 7,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    },
+    {
+      "ticket": "HN-008",
+      "seal": "16e5add4d7a75365f9bd4dc43ba63622dae4db4ed214bdf834ab72885a731077",
+      "batches_verified": 338,
+      "model_requests": 15,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    },
+    {
+      "ticket": "HN-011",
+      "seal": "a70b38ce247ee8b9fd788d3421eff28e37859958aafb265f6e0e09baa7df4d30",
+      "batches_verified": 160,
+      "model_requests": 9,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    },
+    {
+      "ticket": "HN-013",
+      "seal": "d4f415e03ab580b55202dcb96de136ee4fd3167d926d878bfc59b542050f0b43",
+      "batches_verified": 1,
+      "model_requests": 0,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    },
+    {
+      "ticket": "HN-024",
+      "seal": "0ddce8bfdaa230c14a94ecbb5b939d361de9352b5c4a61c6463fe9a3fec757e0",
+      "batches_verified": 273,
+      "model_requests": 13,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    },
+    {
+      "ticket": "HN-026",
+      "seal": "7a76ea9a3fb47542e9a0da98f614bfd52154f9299c5430f594c07c71b28b072c",
+      "batches_verified": 173,
+      "model_requests": 14,
+      "all_pinned_free": true,
+      "all_reported_costs_zero": true
+    }
+  ],
+  "model_calls": 82,
+  "all_anthropic_calls": 0,
+  "network_generation_for_this_audit": 0,
+  "cache_read_ratio": 0.7641472214897714,
+  "physical_or_model_results_changed": false
+}

@@ -26,16 +26,18 @@ The persistent Azure worker template and frozen official test image were not upd
 
 Attempted all 123 saved practice traces and all 18 saved, graded HealthNet traces with network connects forbidden. No new model decisions or query results were generated. Both PR #436 head and the repair source used the same replay harness.
 
-| Replay result | PR #436 head | Repair |
+| Replay result | PR #436 head | Final repair |
 | --- | ---: | ---: |
 | Complete | 72 | 69 |
-| Missing saved boundary | 34 | 39 |
-| Replay failure | 24 | 22 |
+| Missing saved boundary | 34 | 37 |
+| Replay failure | 24 | 24 |
 | No investigation case | 11 | 11 |
 
-**65 traces complete on both revisions without any saved-reply reuse: 61 keep their replay classification and four change.** Four additional complete pairs keep their classification but require the harness to repeat the identical saved formatting reply twice; they are reported separately, not strict replay proof. The other 72 are not claimed as classification passes. Saved-response replay is not a fresh quality score or byte-exact tape replay. Missing saved reads, tool-phase divergence and pre-investigation holds are disclosed in the per-case report.
+**65 traces complete on both revisions without any saved-reply reuse: 63 keep their replay classification and two change.** Four additional complete pairs keep their classification but require the harness to repeat the identical saved formatting reply twice; they are reported separately, not strict replay proof. The other 72 are not claimed as classification passes. Saved-response replay is not a fresh quality score or byte-exact tape replay. Missing saved reads, tool-phase divergence and pre-investigation holds are disclosed in the per-case report.
 
-| Saved case | Baseline replay | Repair replay | New stop |
+### Preliminary changes before the owner correctness audit
+
+| Saved case | Baseline replay | Initial repair replay | Initial stop |
 | --- | --- | --- | --- |
 | Practice dev01 history-source-900201 | ANSWERED | UNRESOLVED | Delivery rejection without new reads |
 | Practice dev02-advisory history-source-900201 | ANSWERED | UNRESOLVED | No new reads/tool call after rejection |
@@ -70,6 +72,8 @@ Measured every comparable saved investigation/evaluator request with local `tikt
 | Practice, 741 | 36,413 | 29,230 | 19.72% | 177 |
 | HealthNet, 92 | 63,610.5 | 36,412.5 | 35.84% | 2 |
 
+The captured first intake request also shrank substantially: HN-002 **44,809 ? 11,008** offline tokens (125,659 ? 25,820 characters), and HN-008 **44,868 ? 11,067** (125,745 ? 25,906 characters). Both sides use the same offline tokenizer after normalizing provider wire wrappers; these are not mixed-provider billing-token comparisons. The [intake packet counts](../acceptance/round_twenty_eight_fixes/live-intake-prompt-sizes.json) preserve the measurement.
+
 The [per-call CSV](../acceptance/round_twenty_eight_fixes/prompt-sizes-per-call.csv) includes character and token counts. The [per-case replay report](../acceptance/round_twenty_eight_fixes/saved-replay-report.json) includes all attempted traces and limitations. No private model reasoning or expected answers is published.
 
 ## Free-model development check
@@ -78,4 +82,21 @@ Selected only already-run-and-graded baseline tickets: HN-001, HN-002, HN-003, H
 
 Before each pair: disk floors, recorded discovery completeness, shared budget headroom and both SQL free allowances are checked. The forecast is at most 320 physical requests, with the existing 40-request per-case cap. There is no restoration request or allowance increase. OpenRouter's no-generation key/model checks returned 200; the reported free allocation is 1,000 calls/day, with the existing 20 requests/minute queue and concurrency two.
 
-Live results and development grades will be appended after capture recovery.
+**Eight initial DEV outcomes: 0/8 fully correct, 0 useful handoffs (handoff quality 2), 0 harmful, from one independent Sol grader.** These are not reviewed official HealthNet scores. Seven runs returned UNRESOLVED; HN-013 returned NEEDS_INPUT. They used **217 physical requests**, **82 model calls**, and **$0 generation cost**. Full-evidence grading cost **$3.360152**, including two same-model completions of an omitted `verdict_match` field; every other original grader judgment was retained. No operator-supplied grade or expectation change was made.
+
+| Ticket | Outcome | Fully correct | Useful handoff | Harmful | Grader's first wrong step | Physical requests |
+| --- | --- | --- | --- | --- | --- | ---: |
+| HN-001 | UNRESOLVED | No | No | No | Query validation | 36 |
+| HN-002 | UNRESOLVED | No | No | No | Target | 40 |
+| HN-003 | UNRESOLVED | No | No | No | Wrong conclusion | 24 |
+| HN-008 | UNRESOLVED | No | No | No | Wrong conclusion | 32 |
+| HN-011 | UNRESOLVED | No | No | No | Wrong conclusion | 31 |
+| HN-013 | NEEDS_INPUT | No | No | No | Target | 0 |
+| HN-024 | UNRESOLVED | No | No | No | Intake | 25 |
+| HN-026 | UNRESOLVED | No | No | No | Query validation | 29 |
+
+The [development results](../acceptance/round_twenty_eight_fixes/free-dev-results.json) pin each capture seal, execution/image, model and step costs. These measurements **do not demonstrate answer-quality improvement**. SuperVL left evidence-supported explanations unfinished, constructed rejected multi-statement queries and misidentified some targets. Smaller prompts and a bounded failure path do not solve those reasoning failures. HN-013's conflicting explicit form parents remain a legitimate code limitation; its sealed expectation stays unchanged.
+
+HN-026 reached investigation on the revised image: two candidate paths, five admitted layers, four queries, 14 model calls, 29 physical requests; route/schema preparation took 71.0 seconds. It no longer exhausts a 40-endpoint fallback before reaching the model. It still failed to complete the answer.
+
+Image disclosure: Five initial cases used source `2ab99c8f`; HN-013 and HN-024 also began on that qualified image after a local UTF-16 CI-log parsing error left the prior-image queue active. Their originals are retained. HN-026 uses qualified source `72f7aacf`, and one separate revised-image HN-024 development comparison will follow. There is no substitution in the official frozen test.
